@@ -36,7 +36,7 @@ A task is done when
 |---|---|---|:---:|
 | 0 | Concept and plan | Concept, implementation plan, development environment plan | ✅ |
 | 1 | Project skeleton and environment | Empty mod loads on Fabric and NeoForge 1.21.1, CI and VM are ready | ✅ |
-| 2 | The c0de dimension | Players can enter the dimension with its greenbar paper floor |  |
+| 2 | The c0de dimension | Players can enter the dimension with its greenbar paper floor | ✅ |
 | 3 | Interpreter I: syntax and values | `core` parses programs and evaluates expressions |  |
 | 4 | Interpreter II: execution | `core` runs complete programs step by step, including functions, loops and errors |  |
 | 5 | Libraries in `core` | Built-in functions, c0de/math, c0de/strings (incl. FORMAT, JSON, YAML), c0de/time |  |
@@ -80,12 +80,12 @@ A task is done when
 
 | Task | Description | Done |
 |---|---|:---:|
-| 2.1 | Dimension type and dimension (data pack in the mod resources): no mob spawning, no daylight cycle, no weather, cloudless sky, ambient light, bottom at y=-16, configurable height (`maxBuildHeight`). |  |
-| 2.2 | Blocks white, light green, black and cursor c0de bedrock: unbreakable, uncraftable, textures. |  |
-| 2.3 | Chunk generator for the floor: the sheet pattern from `floor_c0de.svg` for chunks with x ≥ 0 and z ≥ 0, black bedrock elsewhere, cursor rail at relative x=4. |  |
-| 2.4 | Entering and leaving the dimension: a provisional trigger block that can be right-clicked with a provisional wrench (both completed in sprints 8 and 9), arrival at the program's sheet or the first free sheet, storing the return position, leaving by right-clicking black c0de bedrock with an empty hand. |  |
-| 2.5 | Sheet geometry helpers: absolute ↔ relative coordinates, sheet index, line, code layer y=-3, valid code area x=5..28. Unit tests. |  |
-| 2.6 | GameTests: floor pattern, unbreakability, no mob spawning. |  |
+| 2.1 | Dimension type and dimension (data pack in the mod resources): no mob spawning, no daylight cycle, no weather, cloudless sky, ambient light, bottom at y=-16, configurable height (`maxBuildHeight`). | ✅ |
+| 2.2 | Blocks white, light green, black and cursor c0de bedrock: unbreakable, uncraftable, textures. | ✅ |
+| 2.3 | Chunk generator for the floor: the sheet pattern from `floor_c0de.svg` for chunks with x ≥ 0 and z ≥ 0, black bedrock elsewhere, cursor rail at relative x=4. | ✅ |
+| 2.4 | Entering and leaving the dimension: a provisional trigger block that can be right-clicked with a provisional wrench (both completed in sprints 8 and 9), arrival at the program's sheet or the first free sheet, storing the return position, leaving by right-clicking black c0de bedrock with an empty hand. | ✅ |
+| 2.5 | Sheet geometry helpers: absolute ↔ relative coordinates, sheet index, line, code layer y=-3, valid code area x=5..28. Unit tests. | ✅ |
+| 2.6 | GameTests: floor pattern, unbreakability, no mob spawning. | ✅ |
 
 ## Sprint 3: Interpreter I – syntax and values (`core`)
 
