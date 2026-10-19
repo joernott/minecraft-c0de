@@ -49,6 +49,7 @@ dependencies {
         "fabric-lifecycle-events-v1",
         "fabric-resource-loader-v0",
         "fabric-gametest-api-v1",
+        "fabric-rendering-v1",
     )
     // Players install the complete Fabric API, which fabric.mod.json requires. Development runs need it too.
     modLocalRuntime("net.fabricmc.fabric-api:fabric-api:${sc.properties.get<String>("deps.fabric_api")}")

@@ -1,0 +1,10 @@
+{
+  "type": "c0de:c0de",
+  "generator": {
+    "type": "c0de:greenbar",
+    "biome_source": {
+      "type": "minecraft:fixed",
+      "biome": "c0de:greenbar"
+    }
+  }
+}

@@ -16,7 +16,7 @@ The c0de dimension has the following properties:
     - black c0de bedrock (texture similar to black concrete, color #000000)
     - cursor c0de bedrock (texture similar to gray concrete with a single rail in its middle, always running in z direction)
   - the code layer at y=-3, directly on top of the floor
-  - a configurable maximum build height between y=15 and y=2031 (default y=255). Minecraft requires the bottom and the height of a dimension to be multiples of 16, so the dimension starts at y=-16 and the maximum build height MUST be a value of 16·k−1. The maximum build height limits the number of processes that can run for one program at the same time (PIDs 0 up to the maximum build height, 256 by default).
+  - a configurable maximum build height between y=15 and y=2031 (default y=255). Minecraft requires the bottom and the height of a dimension to be multiples of 16, so the dimension starts at y=-16 and the maximum build height MUST be a value of 16·k−1. The maximum build height limits the number of processes that can run for one program at the same time (PIDs 0 up to the maximum build height, 256 by default). It is set with `maxBuildHeight` in the [configuration file](13-running-programs.md#configuration-file); the mod generates the dimension type from it in a built-in data pack (`c0de:settings`).
 
 ## Terrain generation
 

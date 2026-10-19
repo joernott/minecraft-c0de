@@ -12,6 +12,9 @@ authors = "${authors}"
 description = "${description}"
 displayURL = "${sources}"
 
+[[mixins]]
+config = "c0de.mixins.json"
+
 [[dependencies.${id}]]
 modId = "minecraft"
 type = "required"

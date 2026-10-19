@@ -1,0 +1,10 @@
+{
+  "itemGroup.c0de": "c0de",
+  "block.c0de.white_c0de_bedrock": "Weißes c0de-Grundgestein",
+  "block.c0de.light_green_c0de_bedrock": "Hellgrünes c0de-Grundgestein",
+  "block.c0de.black_c0de_bedrock": "Schwarzes c0de-Grundgestein",
+  "block.c0de.cursor_c0de_bedrock": "Cursor-c0de-Grundgestein",
+  "block.c0de.trigger_block": "Auslöserblock",
+  "item.c0de.wrench": "Schraubenschlüssel",
+  "message.c0de.no_dimension": "Die c0de-Dimension existiert in dieser Welt nicht."
+}

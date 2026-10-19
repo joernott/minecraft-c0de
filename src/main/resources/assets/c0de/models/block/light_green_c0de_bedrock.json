@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "c0de:block/light_green_c0de_bedrock"
+  }
+}

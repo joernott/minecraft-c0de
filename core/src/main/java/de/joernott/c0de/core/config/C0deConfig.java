@@ -28,7 +28,8 @@ public final class C0deConfig {
             15,
             2031,
             "Highest usable y coordinate of the c0de dimension (15 to 2031, a multiple of 16 minus 1).",
-            "It limits the number of processes per program. Changes apply after a restart.");
+            "It limits the number of processes per program. Changes apply after a restart.",
+            "Lowering it in an existing world removes all blocks above the new height from the c0de dimension.");
 
     /** Number of slots of the stack of a cursor. */
     public static final IntSetting STACK_SIZE = new IntSetting(

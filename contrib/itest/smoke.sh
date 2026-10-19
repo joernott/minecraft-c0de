@@ -27,6 +27,13 @@ logs() {
     "${COMPOSE[@]}" logs --no-log-prefix "$1" 2>&1 || true
 }
 
+# Runs a command on a server and prints its answer
+rcon() {
+    local service="$1"
+    shift
+    "${COMPOSE[@]}" exec -T "$service" rcon-cli "$@" 2>&1 || true
+}
+
 # Writes the log lines about loading mods as annotations, so the cause of a failure is visible
 # without access to the job log
 diagnose() {
@@ -97,12 +104,40 @@ for i in "${!services[@]}"; do
         status=1
     fi
 
-    if grep -q "players online" <<<"$("${COMPOSE[@]}" exec -T "$service" rcon-cli list 2>&1 || true)"; then
+    if grep -q "players online" <<<"$(rcon "$service" list)"; then
         echo "RCON responds"
     else
         echo "::error title=Smoke test::$service does not respond to RCON"
         status=1
     fi
+
+    if grep -q "c0de:settings" <<<"$(rcon "$service" datapack list enabled)"; then
+        echo "settings pack enabled"
+    else
+        echo "::error title=Smoke test::The data pack c0de:settings is not enabled on $service"
+        status=1
+    fi
+
+    # The floor of the c0de dimension: the chunk at the origin is loaded with a ticket first
+    rcon "$service" "execute in c0de:c0de run forceload add -16 -16 15 15" >/dev/null
+    floor_ok=1
+    for check in "0 -4 0 c0de:black_c0de_bedrock" "1 -4 0 c0de:white_c0de_bedrock" \
+        "1 -4 1 c0de:light_green_c0de_bedrock" "4 -4 7 c0de:cursor_c0de_bedrock" "-5 -4 -5 c0de:black_c0de_bedrock"; do
+        passed=0
+        for attempt in 1 2 3 4 5 6 7 8 9 10; do
+            if grep -q "Test passed" <<<"$(rcon "$service" "execute in c0de:c0de if block $check")"; then
+                passed=1
+                break
+            fi
+            sleep 1
+        done
+        if [ $passed = 0 ]; then
+            echo "::error title=Smoke test::The floor of the c0de dimension on $service is not c0de:${check##*c0de:} at ${check% c0de:*}"
+            floor_ok=0
+            status=1
+        fi
+    done
+    [ $floor_ok = 1 ] && echo "c0de dimension floor ok"
 
     errors="$(grep -E "ERROR\].*c0de|Exception.*c0de" <<<"$log" || true)"
     if [ -n "$errors" ]; then

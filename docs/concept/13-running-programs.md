@@ -156,7 +156,7 @@ The settings of the mod are stored in the file `config/c0de.properties` of the s
 
 | Setting | Default | Description |
 |---|---|---|
-| `maxBuildHeight` | 255 | Highest usable y coordinate of the c0de dimension (15 to 2031, a multiple of 16 minus 1). It limits the number of processes per program. |
+| `maxBuildHeight` | 255 | Highest usable y coordinate of the c0de dimension (15 to 2031, a multiple of 16 minus 1). It limits the number of processes per program. Changes apply after a restart; lowering the value in an existing world removes all blocks above the new height from the c0de dimension. |
 | `stackSize` | 2048 | Number of slots of the stack of a cursor (2048 to 1048576). |
 | `sayRadius` | 64 | Radius in blocks for messages of SAY without a player name (1 to 1024). |
 | `allowInventoryChanges` | false | See [Owner and permissions](12-lib-minecraft.md#owner-and-permissions). |

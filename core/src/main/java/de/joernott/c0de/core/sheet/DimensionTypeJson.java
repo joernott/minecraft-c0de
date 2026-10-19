@@ -1,0 +1,53 @@
+package de.joernott.c0de.core.sheet;
+
+/**
+ * The dimension type of the c0de dimension as JSON for a data pack
+ * ({@code data/c0de/dimension_type/c0de.json}). It is generated, because its height depends on the
+ * configuration.
+ */
+public final class DimensionTypeJson {
+    /** Path of the file in a data pack. */
+    public static final String PATH = "data/c0de/dimension_type/c0de.json";
+
+    private DimensionTypeJson() {}
+
+    /**
+     * The dimension type for a maximum build height. The dimension starts at y=-16; Minecraft requires the
+     * bottom and the height to be multiples of 16, so the maximum build height must be 16·k−1.
+     */
+    public static String create(int maxBuildHeight) {
+        int height = height(maxBuildHeight);
+        return """
+                {
+                  "ultrawarm": false,
+                  "natural": false,
+                  "coordinate_scale": 1.0,
+                  "has_skylight": false,
+                  "has_ceiling": false,
+                  "ambient_light": 0.5,
+                  "fixed_time": 6000,
+                  "monster_spawn_light_level": 0,
+                  "monster_spawn_block_light_limit": 0,
+                  "piglin_safe": false,
+                  "bed_works": true,
+                  "respawn_anchor_works": false,
+                  "has_raids": false,
+                  "min_y": %d,
+                  "height": %d,
+                  "logical_height": %d,
+                  "infiniburn": "#minecraft:infiniburn_overworld",
+                  "effects": "c0de:c0de"
+                }
+                """.formatted(SheetGeometry.MIN_Y, height, height);
+    }
+
+    /** Height of the dimension from y=-16 up to and including the maximum build height. */
+    public static int height(int maxBuildHeight) {
+        int height = maxBuildHeight - SheetGeometry.MIN_Y + 1;
+        if (height <= 0 || height % 16 != 0) {
+            throw new IllegalArgumentException(
+                    "The maximum build height must be 16·k−1 and at least 15: " + maxBuildHeight);
+        }
+        return height;
+    }
+}

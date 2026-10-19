@@ -1,0 +1,10 @@
+{
+  "itemGroup.c0de": "c0de",
+  "block.c0de.white_c0de_bedrock": "White c0de Bedrock",
+  "block.c0de.light_green_c0de_bedrock": "Light Green c0de Bedrock",
+  "block.c0de.black_c0de_bedrock": "Black c0de Bedrock",
+  "block.c0de.cursor_c0de_bedrock": "Cursor c0de Bedrock",
+  "block.c0de.trigger_block": "Trigger Block",
+  "item.c0de.wrench": "Wrench",
+  "message.c0de.no_dimension": "The c0de dimension doesn't exist in this world."
+}

@@ -85,7 +85,7 @@ tasks {
 
         filesMatching("META-INF/neoforge.mods.toml") { expand(props) }
 
-        exclude("fabric.mod.json")
+        exclude("fabric.mod.json", "c0de-fabric.mixins.json")
     }
 
     named("createMinecraftArtifacts") {

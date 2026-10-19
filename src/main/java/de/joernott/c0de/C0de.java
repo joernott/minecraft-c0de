@@ -1,8 +1,13 @@
 package de.joernott.c0de;
 
+import de.joernott.c0de.content.C0deBlocks;
+import de.joernott.c0de.content.C0deItems;
 import de.joernott.c0de.core.config.C0deConfig;
+import de.joernott.c0de.dimension.C0deDimension;
+import de.joernott.c0de.dimension.SettingsPack;
 import de.joernott.c0de.platform.Platform;
 import java.io.IOException;
+import net.minecraft.resources.ResourceLocation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,11 +26,20 @@ public final class C0de {
     public static void init() {
         LOGGER.info("c0de {} for Minecraft {} on {}", VERSION, MINECRAFT, Platform.INSTANCE.loaderName());
         config = loadConfig();
+        Platform.INSTANCE.addServerDataPackSource(SettingsPack.source());
+        C0deBlocks.register();
+        C0deItems.register();
+        C0deDimension.register();
     }
 
     /** The configuration of the mod. */
     public static C0deConfig config() {
         return config;
+    }
+
+    /** An identifier in the namespace of the mod. */
+    public static ResourceLocation id(String path) {
+        return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
     }
 
     private static C0deConfig loadConfig() {

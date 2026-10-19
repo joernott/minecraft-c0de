@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "c0de:block/cursor_c0de_bedrock_top",
+    "bottom": "c0de:block/cursor_c0de_bedrock_side",
+    "side": "c0de:block/cursor_c0de_bedrock_side"
+  }
+}
