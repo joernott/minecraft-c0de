@@ -1,0 +1,53 @@
+# Dedicated test servers with the c0de mod, one per Stonecutter node.
+# The mod jars are copied to contrib/docker/mods/<node>/ by contrib/itest/smoke.sh.
+# See https://docker-minecraft-server.readthedocs.io/ and docs/development_environment.md.
+#
+#   docker compose -f contrib/docker/compose.yaml up -d
+#   docker compose -f contrib/docker/compose.yaml exec c0de-1.21.1-fabric rcon-cli list
+#   docker compose -f contrib/docker/compose.yaml down -v     # also removes the worlds
+
+x-server: &server
+  image: itzg/minecraft-server:java21
+  environment: &environment
+    EULA: "TRUE"
+    VERSION: "1.21.1"
+    # Development clients connect without a Microsoft account check; only use in the local network
+    ONLINE_MODE: "FALSE"
+    MEMORY: "2G"
+    MOTD: "c0de test server"
+    ENABLE_RCON: "TRUE"
+    RCON_PASSWORD: "c0de"
+    # The mods directory is the only source of mods; removes jars of earlier runs
+    REMOVE_OLD_MODS: "TRUE"
+  tty: true
+  stdin_open: true
+
+services:
+  c0de-1.21.1-fabric:
+    <<: *server
+    environment:
+      <<: *environment
+      TYPE: FABRIC
+      FABRIC_LOADER_VERSION: "0.19.5"
+      MODRINTH_PROJECTS: "fabric-api:0.116.17+1.21.1"
+    ports:
+      - "25565:25565"
+    volumes:
+      - ./mods/1.21.1-fabric:/mods:ro
+      - fabric-1.21.1:/data
+
+  c0de-1.21.1-neoforge:
+    <<: *server
+    environment:
+      <<: *environment
+      TYPE: NEOFORGE
+      NEOFORGE_VERSION: "21.1.264"
+    ports:
+      - "25566:25565"
+    volumes:
+      - ./mods/1.21.1-neoforge:/mods:ro
+      - neoforge-1.21.1:/data
+
+volumes:
+  fabric-1.21.1:
+  neoforge-1.21.1:
