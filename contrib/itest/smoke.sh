@@ -21,19 +21,25 @@ fail() {
     exit 1
 }
 
+# The log of a service. It is always read completely before it is searched: with pipefail,
+# `logs | grep -q` fails when grep exits at the first match and the log command gets SIGPIPE.
+logs() {
+    "${COMPOSE[@]}" logs --no-log-prefix "$1" 2>&1 || true
+}
+
 # Writes the log lines about loading mods as annotations, so the cause of a failure is visible
 # without access to the job log
 diagnose() {
-    "${COMPOSE[@]}" logs --no-log-prefix "$1" 2>&1 \
-        | grep -iE "c0de|fabric-api|modrinth|loading [0-9]+ mods|incompatible|mods/|error" | head -15 \
-        | while IFS= read -r line; do echo "::notice title=$1 log::$(cut -c1-400 <<<"$line")"; done
+    local log
+    log="$(logs "$1")"
+    grep -iE "c0de|fabric-api|modrinth|loading [0-9]+ mods|incompatible|mods/|error" <<<"$log" | head -15 \
+        | while IFS= read -r line; do echo "::notice title=$1 log::$(cut -c1-400 <<<"$line")"; done || true
 }
 
 services=()
 for node in "${NODES[@]}"; do
-    jars=(versions/"$node"/build/libs/c0de-*.jar)
     jar=""
-    for candidate in "${jars[@]}"; do
+    for candidate in versions/"$node"/build/libs/c0de-*.jar; do
         [[ "$candidate" == *-sources.jar ]] || jar="$candidate"
     done
     [ -n "$jar" ] && [ -f "$jar" ] || fail "No mod jar for $node in versions/$node/build/libs. Run ./gradlew build first."
@@ -57,20 +63,17 @@ status=0
 for i in "${!services[@]}"; do
     service="${services[$i]}"
     node="${NODES[$i]}"
-    loader="${node#*-}"
     echo "==> $service"
 
     deadline=$((SECONDS + TIMEOUT_SECONDS))
-    until "${COMPOSE[@]}" logs "$service" 2>/dev/null | grep -q 'Done ([0-9.]*s)! For help'; do
+    until grep -q 'Done ([0-9.]*s)! For help' <<<"$(logs "$service")"; do
         if [ $SECONDS -ge $deadline ]; then
-            "${COMPOSE[@]}" logs --tail 50 "$service" || true
             echo "::error title=Smoke test::$service did not start within $TIMEOUT_SECONDS seconds"
             diagnose "$service"
             status=1
             continue 2
         fi
-        if ! "${COMPOSE[@]}" ps --status running --services | grep -qx "$service"; then
-            "${COMPOSE[@]}" logs --tail 50 "$service" || true
+        if ! grep -qx "$service" <<<"$("${COMPOSE[@]}" ps --status running --services)"; then
             echo "::error title=Smoke test::$service stopped during startup"
             diagnose "$service"
             status=1
@@ -80,11 +83,13 @@ for i in "${!services[@]}"; do
     done
     echo "started"
 
-    expected="c0de [0-9.]* for Minecraft [0-9.]* on ${loader^}"
-    if [ "$loader" = neoforge ]; then
-        expected="c0de [0-9.]* for Minecraft [0-9.]* on NeoForge"
-    fi
-    if "${COMPOSE[@]}" logs "$service" | grep -q "$expected"; then
+    case "${node#*-}" in
+        fabric) loader=Fabric ;;
+        neoforge) loader=NeoForge ;;
+        *) fail "Unknown loader in node $node" ;;
+    esac
+    log="$(logs "$service")"
+    if grep -q "c0de [0-9.]* for Minecraft [0-9.]* on $loader" <<<"$log"; then
         echo "mod loaded"
     else
         echo "::error title=Smoke test::The c0de mod was not loaded on $service"
@@ -92,15 +97,16 @@ for i in "${!services[@]}"; do
         status=1
     fi
 
-    if "${COMPOSE[@]}" exec -T "$service" rcon-cli list | grep -q "players online"; then
+    if grep -q "players online" <<<"$("${COMPOSE[@]}" exec -T "$service" rcon-cli list 2>&1 || true)"; then
         echo "RCON responds"
     else
         echo "::error title=Smoke test::$service does not respond to RCON"
         status=1
     fi
 
-    if "${COMPOSE[@]}" logs "$service" | grep -E "ERROR\].*c0de|Exception.*c0de" >/dev/null; then
-        "${COMPOSE[@]}" logs "$service" | grep -E "ERROR\].*c0de|Exception.*c0de" | head -5
+    errors="$(grep -E "ERROR\].*c0de|Exception.*c0de" <<<"$log" || true)"
+    if [ -n "$errors" ]; then
+        head -5 <<<"$errors"
         echo "::error title=Smoke test::$service logged errors of the c0de mod"
         status=1
     fi
