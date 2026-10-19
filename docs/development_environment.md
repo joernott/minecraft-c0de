@@ -138,7 +138,17 @@ All workflows use `actions/setup-java` (Temurin) and `gradle/actions/setup-gradl
 ## Setup steps
 
 1. ~~Increase the VM disk~~ (done: 128 GB).
-2. Add the VirtualBox shared folder `minecraft-c0de` (auto-mount, mount point `/home/doener/minecraft-c0de`).
-3. Run `contrib/setup_dev_vm.sh` on the VM.
+2. ~~Add the VirtualBox shared folder `minecraft-c0de`~~ (done, mounted at `/home/doener/minecraft-c0de`).
+3. ~~Run `contrib/setup_dev_vm.sh` on the VM~~ (done on 2026-10-19; run it again after changes of the script).
 4. Install IntelliJ IDEA Community with the Minecraft Development plugin on Windows (optional, if VS Code is not enough).
 5. Create the c0de project on Modrinth, create a personal access token with the scope to upload versions and store it as GitHub secret `MODRINTH_TOKEN` (only needed before the first release, sprint 11).
+
+## Running the tests on the VM
+
+```sh
+cd ~/src/minecraft-c0de
+git fetch && git checkout <branch> && git pull
+./gradlew build                      # build, unit tests
+./gradlew :1.21.1-fabric:runGametest :1.21.1-neoforge:runGameTestServer
+contrib/itest/smoke.sh               # dedicated servers in Docker
+```
