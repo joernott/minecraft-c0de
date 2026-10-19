@@ -21,6 +21,14 @@ fail() {
     exit 1
 }
 
+# Writes the log lines about loading mods as annotations, so the cause of a failure is visible
+# without access to the job log
+diagnose() {
+    "${COMPOSE[@]}" logs --no-log-prefix "$1" 2>&1 \
+        | grep -iE "c0de|fabric-api|modrinth|loading [0-9]+ mods|incompatible|mods/|error" | head -15 \
+        | while IFS= read -r line; do echo "::notice title=$1 log::$(cut -c1-400 <<<"$line")"; done
+}
+
 services=()
 for node in "${NODES[@]}"; do
     jars=(versions/"$node"/build/libs/c0de-*.jar)
@@ -57,12 +65,14 @@ for i in "${!services[@]}"; do
         if [ $SECONDS -ge $deadline ]; then
             "${COMPOSE[@]}" logs --tail 50 "$service" || true
             echo "::error title=Smoke test::$service did not start within $TIMEOUT_SECONDS seconds"
+            diagnose "$service"
             status=1
             continue 2
         fi
         if ! "${COMPOSE[@]}" ps --status running --services | grep -qx "$service"; then
             "${COMPOSE[@]}" logs --tail 50 "$service" || true
             echo "::error title=Smoke test::$service stopped during startup"
+            diagnose "$service"
             status=1
             continue 2
         fi
@@ -78,6 +88,7 @@ for i in "${!services[@]}"; do
         echo "mod loaded"
     else
         echo "::error title=Smoke test::The c0de mod was not loaded on $service"
+        diagnose "$service"
         status=1
     fi
 
