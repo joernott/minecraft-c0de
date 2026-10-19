@@ -116,3 +116,12 @@ please mark completed tasks in the implementation plan with a checkmark. If you 
 ## 2026-10-19 – Start sprint 1
 
 please create a sprint-1 brnch and start implementing sprint 1
+
+## 2026-10-19 – Merge sprint 1
+
+please fast forward main to sprint 1 and push it.
+I have run gl auth login
+
+## 2026-10-19 – Start sprint 2
+
+please continue with sprint 2
