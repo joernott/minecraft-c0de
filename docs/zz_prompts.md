@@ -49,3 +49,43 @@ Here my answers:
 
 1. That should be unrestricted
 2: The radius should be configurable
+
+## 2026-10-19 – COMMENT, TAG, libraries, JSON/YAML and splitting the concept
+
+I have installed python on this machine, so you can use it if it makes your work easier.
+I want to implement the following changes:
+
+I want to introduce a new keyword COMMENT. A comment should be placeable at the end of a line. It has a property "text" that a user can edit by right clicking the comment and editing it in a dialog. When a cursor encounters a comment, it MUST stop parsing the line, allowing a user to "comment out" code. Eight comment blocks can be crafted from a glass block surrounded by NOOP locks.
+
+I also want to introduce Golang style tags that can be put behnd struct field by introducing a TAG keyword. A tag has two properties:
+- The language, e.g. json or yaml
+- A name that substitutes the key name.
+A Tag can also be added to a variable declaration to allow extracting a single value from a json or yaml structure into that variable. Eight tags can be crafted by urrounding a brown wool with eight NOOP blocks.
+
+The third change, I want to introduce is moving all mathematical functions to a library c0de/math, all string functions except LEN to the library c0de/strings and all time/date relted functions to c0de/time
+
+There should be four new functions in the c0de/strings library: to_json, to_yaml, from_json, from_yaml that convert variable content to a json or yaml string and vice versa. These should make use of tags. If the annotatio of a simple type or string variable has a name a.b, a mathcing structure is created when using to_yaml or to_json. When using from_yaml or from_json, only the content of exactly that field is extracted into the variable.
+
+As the document has gotten very long, please split it into multiple documents, focusing on one topic each.
+
+## 2026-10-19 – NOOP lines, array paths in tags, FROM_JSON/FROM_YAML
+
+Answering your questions:
+1. NOOP lines should be empty
+2. Yes
+
+FROM_YAML and FROM_JSON should have two parameters, the source which must be a string and the destination which is a previouly created variable. That variable already has a type. If the variable has annotations, those shall be used to translate the names. If the function encounters elements in the json or yaml that do not exist in the target, those are ignored. If types don't match, a TYPE_MISMATCH error is raised. I don't want to introduce something like map{string]interface{} or a data type VARIANT.
+
+## 2026-10-19 – TIME data type, time functions, PI and FORMAT
+
+Please add a new data type TIME that contains a unix timestamp.
+
+Add a function NOW to the time library that delivers the UNIX timestamp into a variable of that type.. Also add the function SECOND that delivers the seconds passed in the current minute as integer, MINUTE that delivers the current MINUTE in the hour, HOUR that delivers the current hour in a day (24h format), as well as DAY, MONTH and YEAR. The function WEEKDAY delivers a number between 1 and 7 where 1 is Monday and the function WEEK delivers the week of the year, both following ISO-8601-Standard
+
+Add PI as a constant of type FLOAT to the math library
+Also add a string function FORMAT, that has two parameters, a Variable to be converted and a format string based on the printf format string. This replaces DATE, TIME
+
+## 2026-10-19 – Time zone and TIME precision
+
+1. The functions should use the servers time zone
+2. Use milliseconds

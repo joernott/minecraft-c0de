@@ -141,4 +141,81 @@ Additional instructions:
 | 1 | Should FIND_ENTITIES be restricted? | Unrestricted. | Removed from the `allowTeleporting` group, which now only contains TELEPORT. Players are included in the results. |
 | 2 | SAY radius configurable? | Yes. | Configuration key `sayRadius`, default 64 blocks. |
 
+## 7. COMMENT, TAG, libraries and document split (2026-10-19)
+
+The concept was split into one document per topic. [concept.md](concept.md) now contains the abstract, the introduction, the requirement keywords, the glossary and a list of the documents in [concept/](concept/). Section names referenced in this review can be found there.
+
+### COMMENT
+
+- Placed at the end of a line. The cursor ignores the COMMENT block and everything after it, which comments out the rest of the line.
+- **Decision:** a line that *starts* with a COMMENT block is a comment line and is skipped like a NOOP line. It does not count as a statement, so a code block with only comment lines is still empty.
+- **Decision:** a COMMENT inside an unfinished expression (before `;`) lets the expression continue on the next continuation line.
+- **Decision on looks:** a glass block with a yellow note showing `//` on its sides. The text is shown above the block when a player looks at it, and is edited in a multi-line dialog.
+- **YAML:** the object of the line gets `comment` (the text) and `disabled` (the blocks after the comment, as text). Comment lines get the keyword `COMMENT`.
+
+### TAG
+
+- A TAG has a `language` (`json` or `yaml`) and a `name`. At most one tag per language in a line.
+- **Struct elements**: the name replaces the key. **Decision:** the name `-` skips the element, as in Go. Element tags must not contain dots.
+- **Variables and constants**: the name is a dot-separated path (`server.port`). **Decision:** tags are also allowed on CONSTANT, but they are only used for writing (TO_JSON/TO_YAML), as constants can't be a result target. **Decision:** a path can only address object/mapping keys, not array elements.
+- **Decision on looks:** brown (#AA7744) or dark brown (#553311) with a price tag labeled with the language.
+- In text examples, a TAG is written as `TAG(json: "name")`.
+
+### Libraries
+
+- **Built-in** (no include needed): LEN, HAS_KEY, REMOVE, INSERT, CLEAR, SWAP, RAISE.
+- **c0de/math**: all numeric functions (ABS … RANDOMIZE, including DIV and TO_FLOAT).
+- **c0de/strings**: all string and character functions except LEN, including the conversions STR, VAL, HEX, OCT, ASC, CHR. Also the new functions TO_JSON, TO_YAML, FROM_JSON and FROM_YAML.
+- **c0de/time**: TIMER, DATE, TIME and SLEEP. **Decision:** TICKS stays in `c0de/minecraft`, because it is the Minecraft game time.
+
+### TO_JSON, TO_YAML, FROM_JSON, FROM_YAML
+
+- **Decision:** the names are written in capitals like all other c0de functions.
+- **Decision on how tags reach the function:** parameters are passed by value, so a value alone carries no tags. When a PARAMETER expression is a single LABEL without index, the cursor passes the variable's tags along with the value.
+- **FROM_JSON/FROM_YAML** have a parameter `template`: the result has the template's type, the template's variable tag selects the path, and the template's values are the defaults for missing or `null` elements. Unknown keys are ignored. A missing path raises UNKNOWN_KEY, a malformed document raises INVALID_ARGUMENT.
+- TO_JSON has an optional `indent` (0 = single line). Hash keys are sorted, struct elements keep their declaration order.
+
+## 8. Answered questions and changes, sixth round (2026-10-19)
+
+| # | Question | Answer | Implemented in the concept as |
+|---|---|---|---|
+| 1 | NOOP lines with content? | NOOP lines must be empty. | A NOOP line must not contain any other block, not even a COMMENT. Otherwise the cursor crashes with SYNTAX_ERROR_PLACEMENT. The `content` property of NOOP objects in YAML was removed. |
+| 2 | Arrays in tag paths? | Yes. | A path key consisting only of digits addresses an array index (`servers.0.port`). **Decision:** when reading, it falls back to an object key if the value at that position is an object. When writing, it creates an array and fills earlier elements with `null`. |
+
+**FROM_JSON / FROM_YAML** (as requested):
+  - The parameters are now `source` (STRING) and `destination` (a previously declared variable). There is no `template` parameter and no result anymore.
+  - `destination` is the only by-reference parameter in c0de. It must be a single label without index that refers to a variable (not a constant or loop variable), otherwise SYNTAX_ERROR_CALL.
+  - The variable's tags select the path and its struct elements' tags translate the keys. Unknown keys are ignored, and type mismatches raise TYPE_MISMATCH.
+  - The documentation now says explicitly that there is no dynamic type: the document must fit the declared type.
+  - **Decision:** struct elements missing in the document (or `null`) keep their current value, arrays and hashes are replaced completely, and the variable stays unchanged if an error is raised.
+
+## 9. TIME, time functions, PI and FORMAT (2026-10-19)
+
+As requested:
+  - New simple data type TIME (Unix timestamp).
+  - `c0de/time`: NOW, SECOND, MINUTE, HOUR, DAY, MONTH, YEAR, WEEKDAY (ISO 8601, 1 = Monday) and WEEK (ISO 8601).
+  - Constant `c0de/math/PI`.
+  - `c0de/strings/FORMAT(value, format)` based on printf. DATE and TIME were removed; the name TIME is now the type keyword anyway.
+
+Decisions made:
+  - **TIME** holds whole seconds as a signed 64 bit integer, with a default of 0 (1970-01-01 00:00:00 UTC).
+    - Its text representation (⊕, STR, JSON, YAML) is ISO 8601 in UTC, e.g. `2026-10-19T12:05:09Z`.
+    - Literals are entered in ISO 8601; without an offset, the server's time zone applies.
+    - Block: TYPE_TIME with a clock, crafted from a type base and a clock.
+  - **Arithmetic**: `TIME ± INTEGER` (seconds) results in TIME, and `TIME − TIME` in INTEGER seconds. TIME values compare chronologically.
+  - **SECOND … WEEK** take an optional parameter `time` (default: now), so they also work on stored TIME values. They use the server's time zone. TIMER and SLEEP stay in `c0de/time`.
+  - **FORMAT**:
+    - Flags `- 0 + space ,`, width and precision.
+    - Conversions `%d %x %X %o %f %e %g %c %b %s %% %n`.
+    - Time conversions follow Java's `%t…` (`%tY %tm %td %tH %tM %tS %tF %tT …`), plus `%tu` and `%tV` for the ISO weekday and week.
+    - All conversions refer to the single `value`. Month and day names are in English.
+  - **YAML**: TIME literals inside expressions are written as `@2026-10-19T12:05:09Z`.
+
+## 10. Answered questions (2026-10-19)
+
+| # | Question | Answer | Implemented in the concept as |
+|---|---|---|---|
+| 1 | Time zone | The server's time zone. | Unchanged. The time library now states explicitly that all functions and FORMAT always use the server's time zone. |
+| 2 | Precision of TIME | Milliseconds. | TIME holds milliseconds since 1970-01-01 UTC. `TIME ± INTEGER` and `TIME − TIME` now work in milliseconds. The text representation includes milliseconds (`2026-10-19T12:05:09.250Z`); in literals they are optional. JSON/YAML read integer numbers as milliseconds. **Added:** the function MILLISECOND and the FORMAT conversions `%tL` (milliseconds) and `%tQ` (timestamp in milliseconds); `%ts` stays in seconds. |
+
 There are currently no open questions.
