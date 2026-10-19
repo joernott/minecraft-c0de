@@ -34,7 +34,7 @@ Minecraft 26.1 and newer are no longer obfuscated, and Fabric has stopped mainta
 | 1.21.1 – 1.21.11 | 21 |
 | 26.1 and newer | 25 |
 
-The build uses Gradle toolchains. Gradle downloads missing JDKs automatically (foojay resolver), so each node is compiled with the right Java version. The Gradle daemon itself runs on Java 21 or newer; NeoForge for 26.x needs Gradle 9.1 or newer.
+The build uses Gradle toolchains. Gradle downloads missing JDKs automatically (foojay resolver), so each node is compiled with the right Java version. The Gradle daemon itself runs on **Java 25**, because Fabric Loom 1.18 requires it; `gradle/gradle-daemon-jvm.properties` declares this, so Gradle starts the daemon with Java 25 (and downloads it if necessary) even if it is launched with an older Java. NeoForge for 26.x needs Gradle 9.1 or newer.
 
 ### Library versions
 
@@ -98,7 +98,7 @@ The doenerstag repository is shared with the VM via a VirtualBox shared folder. 
 
 The script `contrib/setup_dev_vm.sh` (task 1.8) defines the VM environment, like `contrib/setup_dev_pipeline.sh` does for doenerstag. A tool the tests need that the script doesn't install is a defect in the script. It
   1. installs Eclipse Temurin 21 and 25 from the Adoptium APT repository,
-  2. installs `jq`, `rsync`, `xvfb` (already present) and an RCON client (`mcrcon`),
+  2. installs `jq`, `rsync` and `xvfb` (RCON commands are sent with `rcon-cli`, which is part of the server image),
   3. creates `/home/doener/src/minecraft-c0de` and clones the repository,
   4. pulls the Docker image `itzg/minecraft-server` (Java 21 and Java 25 variants),
   5. installs HeadlessMC for headless client tests,
@@ -108,13 +108,14 @@ The script `contrib/setup_dev_vm.sh` (task 1.8) defines the VM environment, like
 
 `contrib/docker/compose.yaml` (task 1.9) starts one dedicated server per loader and Minecraft version with the image [`itzg/minecraft-server`](https://docker-minecraft-server.readthedocs.io/):
 
-| Service | Loader | Port | RCON port |
-|---|---|---|---|
-| `c0de-1.21.1-fabric` | Fabric (with Fabric API) | 25565 | 25575 |
-| `c0de-1.21.1-neoforge` | NeoForge | 25566 | 25576 |
+| Service | Loader | Port |
+|---|---|---|
+| `c0de-1.21.1-fabric` | Fabric (with Fabric API) | 25565 |
+| `c0de-1.21.1-neoforge` | NeoForge | 25566 |
 
   - `EULA=TRUE`, `TYPE=FABRIC` or `TYPE=NEOFORGE`, `VERSION=1.21.1`, loader versions pinned like in the build.
-  - The mod jar is mounted from the shared folder or the native clone into `/mods`.
+  - `contrib/itest/smoke.sh` copies the built mod jars to `contrib/docker/mods/<node>/`, which is mounted into `/mods`, and starts the servers.
+  - RCON is only used inside the containers: `docker compose -f contrib/docker/compose.yaml exec c0de-1.21.1-fabric rcon-cli <command>`.
   - `ONLINE_MODE=false`, so development clients from Windows can connect without a Microsoft account check; the ports are only reachable in the local network.
   - Server data is stored in volumes that the integration tests can reset.
 

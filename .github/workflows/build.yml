@@ -21,7 +21,10 @@ jobs:
       - uses: actions/setup-java@v6
         with:
           distribution: temurin
-          java-version: 21
+          # 21 for the toolchain of the 1.21.x nodes, 25 for the Gradle daemon (Loom needs Java 25)
+          java-version: |
+            21
+            25
       - uses: gradle/actions/setup-gradle@v6
       - name: Whitespace
         run: scripts/check-whitespace.sh
@@ -42,7 +45,10 @@ jobs:
       - uses: actions/setup-java@v6
         with:
           distribution: temurin
-          java-version: 21
+          # 21 for the toolchain of the 1.21.x nodes, 25 for the Gradle daemon (Loom needs Java 25)
+          java-version: |
+            21
+            25
       - uses: gradle/actions/setup-gradle@v6
       - name: Unit tests of core
         run: ./gradlew :core:test --console=plain
@@ -67,7 +73,10 @@ jobs:
       - uses: actions/setup-java@v6
         with:
           distribution: temurin
-          java-version: 21
+          # 21 for the toolchain of the 1.21.x nodes, 25 for the Gradle daemon (Loom needs Java 25)
+          java-version: |
+            21
+            25
       - uses: gradle/actions/setup-gradle@v6
       - name: Build
         run: ./gradlew :${{ matrix.node }}:build --console=plain
