@@ -1,8 +1,12 @@
 // The c0de interpreter: plain Java without any dependency on Minecraft or a mod loader.
 // The mod nodes compile these sources directly (see build.fabric.gradle.kts and build.neoforge.gradle.kts),
 // this project exists to test them in isolation.
+//
+// Formatting of the other files (mod sources with Stonecutter comments, build scripts) is checked by
+// scripts/check-whitespace.sh, because Spotless only accepts files within its project directory.
 plugins {
     `java-library`
+    id("com.diffplug.spotless") version "8.10.4"
 }
 
 repositories {
@@ -24,4 +28,16 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
+}
+
+// Formatting: `./gradlew spotlessCheck` (part of `check`) and `./gradlew spotlessApply`
+spotless {
+    // The interpreter is formatted completely
+    java {
+        target("src/**/*.java")
+        palantirJavaFormat()
+        removeUnusedImports()
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
 }

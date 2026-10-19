@@ -59,9 +59,7 @@ public final class C0deConfig {
             "Allow players without operator rights to use SPAWN_ITEM and SPAWN_ENTITY of c0de/minecraft.");
 
     public static final BooleanSetting ALLOW_TELEPORTING = new BooleanSetting(
-            "allowTeleporting",
-            false,
-            "Allow players without operator rights to use TELEPORT of c0de/minecraft.");
+            "allowTeleporting", false, "Allow players without operator rights to use TELEPORT of c0de/minecraft.");
 
     /** All settings in the order they are written to the file. */
     public static final List<Setting<?>> SETTINGS = List.of(

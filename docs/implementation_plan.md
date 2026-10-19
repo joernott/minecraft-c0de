@@ -68,7 +68,7 @@ A task is done when
 | 1.3 | Create the module `core` (plain Java 21, JUnit 5, no Minecraft dependency) and include it in the mod jar of both loaders. | ✅ |
 | 1.4 | Create the platform abstraction for loader-specific functionality and the mod entry points of both loaders. Registration, networking and events are added to the abstraction when the first content needs them (sprint 2). | ✅ |
 | 1.5 | Configuration file with all settings of the concept (`maxBuildHeight`, `stackSize`, `sayRadius`, `allowInventoryChanges`, `allowBlockChanges`, `allowSpawning`, `allowTeleporting`), loaded on both loaders. | ✅ |
-| 1.6 | Code quality: Spotless (formatting), `.editorconfig`, `.gitattributes` (line endings), README with build instructions. |  |
+| 1.6 | Code quality: Spotless (formatting of `core`), `scripts/check-whitespace.sh` (whitespace of all other files, as Spotless only accepts files within its project and a Java formatter would move Stonecutter comments), `.editorconfig`, `.gitattributes` (line endings), README with build instructions. | ✅ |
 | 1.7 | GitHub Actions workflow `build.yml` (matrix over nodes, Windows job for `core`), Renovate or Dependabot for dependency updates. |  |
 | 1.8 | `contrib/setup_dev_vm.sh`: provision the VM as described in the development environment plan, and run it on the VM. |  |
 | 1.9 | `contrib/docker/compose.yaml` with the test servers for both loaders; workflow `integration.yml` with a first smoke test (server starts, mod is loaded, checked via RCON and the log). |  |
