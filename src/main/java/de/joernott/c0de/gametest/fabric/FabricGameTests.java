@@ -1,0 +1,16 @@
+package de.joernott.c0de.gametest.fabric;
+
+//? if fabric {
+import de.joernott.c0de.gametest.SmokeTests;
+import net.fabricmc.fabric.api.gametest.v1.FabricGameTest;
+import net.minecraft.gametest.framework.GameTest;
+import net.minecraft.gametest.framework.GameTestHelper;
+
+/** Registers the GameTests with Fabric (entry point {@code fabric-gametest}). */
+public class FabricGameTests implements FabricGameTest {
+    @GameTest(template = SmokeTests.EMPTY_STRUCTURE)
+    public void modIsInitialized(GameTestHelper helper) {
+        SmokeTests.modIsInitialized(helper);
+    }
+}
+//?}

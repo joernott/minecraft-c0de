@@ -63,11 +63,11 @@ A task is done when
 
 | Task | Description | Done |
 |---|---|:---:|
-| 1.1 | Evaluate the Stonecutter templates ([multicutter](https://github.com/pajicadvance/multicutter), [stonecutter-template-multiloader](https://github.com/stonecutter-versioning/stonecutter-template-multiloader)): both must build 1.21.1 for Fabric and NeoForge on Windows and Linux. Adopt the better one and keep only the 1.21.1 nodes active. |  |
-| 1.2 | Set up the Gradle build: Stonecutter nodes `1.21.1-fabric` and `1.21.1-neoforge`, Mojang mappings with Parchment, Java 21 toolchain, mod metadata (`fabric.mod.json`, `neoforge.mods.toml`), mod ID `c0de`, group ID and base package `de.joernott.c0de`, license `BSD-3-Clause`, version from Git tags. |  |
-| 1.3 | Create the module `core` (plain Java 21, JUnit 5, no Minecraft dependency) and include it in the mod jar of both loaders. |  |
-| 1.4 | Create the platform abstraction for loader-specific functionality (registration, networking, configuration, events) and the mod entry points of both loaders. |  |
-| 1.5 | Configuration file with all settings of the concept (`maxBuildHeight`, `stackSize`, `sayRadius`, `allowInventoryChanges`, `allowBlockChanges`, `allowSpawning`, `allowTeleporting`), loaded on both loaders. |  |
+| 1.1 | Evaluate the Stonecutter templates ([multicutter](https://github.com/pajicadvance/multicutter), [stonecutter-template-multiloader](https://github.com/stonecutter-versioning/stonecutter-template-multiloader)): both must build 1.21.1 for Fabric and NeoForge on Windows and Linux. Adopt the better one and keep only the 1.21.1 nodes active. | ✅ |
+| 1.2 | Set up the Gradle build: Stonecutter nodes `1.21.1-fabric` and `1.21.1-neoforge`, Mojang mappings with Parchment, Java 21 toolchain, mod metadata (`fabric.mod.json`, `neoforge.mods.toml`), mod ID `c0de`, group ID and base package `de.joernott.c0de`, license `BSD-3-Clause`, version from Git tags. | ✅ |
+| 1.3 | Create the module `core` (plain Java 21, JUnit 5, no Minecraft dependency) and include it in the mod jar of both loaders. | ✅ |
+| 1.4 | Create the platform abstraction for loader-specific functionality and the mod entry points of both loaders. Registration, networking and events are added to the abstraction when the first content needs them (sprint 2). | ✅ |
+| 1.5 | Configuration file with all settings of the concept (`maxBuildHeight`, `stackSize`, `sayRadius`, `allowInventoryChanges`, `allowBlockChanges`, `allowSpawning`, `allowTeleporting`), loaded on both loaders. | ✅ |
 | 1.6 | Code quality: Spotless (formatting), `.editorconfig`, `.gitattributes` (line endings), README with build instructions. |  |
 | 1.7 | GitHub Actions workflow `build.yml` (matrix over nodes, Windows job for `core`), Renovate or Dependabot for dependency updates. |  |
 | 1.8 | `contrib/setup_dev_vm.sh`: provision the VM as described in the development environment plan, and run it on the VM. |  |

@@ -1,0 +1,29 @@
+# Mod properties and dependency versions per node.
+# See https://stonecutter.kikugie.dev/wiki/config/properties#centralized-properties
+mod.id = "c0de"
+mod.name = "c0de"
+mod.group = "de.joernott.c0de"
+mod.version = "0.1.0"
+mod.description = "A primitive programming language you write by placing blocks in a dimension of greenbar paper."
+mod.authors = "Jörn Ott"
+mod.license = "BSD-3-Clause"
+mod.sources_url = "https://github.com/joernott/minecraft-c0de"
+mod.issues_url = "https://github.com/joernott/minecraft-c0de/issues"
+
+deps.fabric_loader = "0.19.5"
+loomx.loom_version = "1.18-SNAPSHOT"
+
+["1.21.1"]
+# Releases the mod is marked compatible with on Modrinth
+mod.mc_releases = ["1.21.1"]
+deps.parchment = "2024.11.17"
+
+[fabric."1.21.1"]
+# Compatibility range in fabric.mod.json
+mod.mc_compat = "~1.21.1"
+deps.fabric_api = "0.116.17+1.21.1"
+
+[neoforge."1.21.1"]
+# Compatibility range in neoforge.mods.toml
+mod.mc_compat = "[1.21.1, 1.21.2)"
+deps.neo_loader = "21.1.264"

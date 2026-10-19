@@ -1,0 +1,110 @@
+plugins {
+    id("net.neoforged.moddev") version "2.0.148"
+    id("neoforge-mutex")
+}
+
+version = "${property("mod.version")}+${sc.current.version}"
+base.archivesName = "${property("mod.id") as String}-neoforge"
+
+val requiredJava = when {
+    sc.current.parsed >= "26.1" -> JavaVersion.VERSION_25
+    else -> JavaVersion.VERSION_21
+}
+
+val modId = property("mod.id") as String
+
+// The interpreter is compiled into every node
+sourceSets.main {
+    java.srcDir(rootProject.file("core/src/main/java"))
+}
+
+neoForge {
+    version = property("deps.neo_loader") as String
+
+    sc.properties.getOrNull<String>("deps.parchment")?.let {
+        parchment {
+            minecraftVersion = sc.current.version
+            mappingsVersion = it
+        }
+    }
+
+    mods {
+        register(modId) {
+            sourceSet(sourceSets.main.get())
+        }
+    }
+
+    runs {
+        register("client") {
+            gameDirectory = rootProject.file("run/neoforge")
+            client()
+        }
+
+        register("server") {
+            gameDirectory = rootProject.file("run/neoforge")
+            server()
+        }
+
+        register("gameTestServer") {
+            type = "gameTestServer"
+            gameDirectory = file("build/gametest")
+            systemProperty("neoforge.enabledGameTestNamespaces", modId)
+        }
+    }
+}
+
+java {
+    withSourcesJar()
+    targetCompatibility = requiredJava
+    sourceCompatibility = requiredJava
+
+    toolchain {
+        vendor = JvmVendorSpec.ADOPTIUM
+        languageVersion = JavaLanguageVersion.of(requiredJava.majorVersion)
+    }
+}
+
+tasks {
+    processResources {
+        fun MutableMap<String, String>.register(key: String, value: String) {
+            inputs.property(key, value)
+            set(key, value)
+        }
+
+        val props = buildMap {
+            register("id", sc.properties["mod.id"])
+            register("name", sc.properties["mod.name"])
+            register("version", sc.properties["mod.version"])
+            register("description", sc.properties["mod.description"])
+            register("authors", sc.properties["mod.authors"])
+            register("license", sc.properties["mod.license"])
+            register("sources", sc.properties["mod.sources_url"])
+            register("issues", sc.properties["mod.issues_url"])
+            register("minecraft", sc.properties["mod.mc_compat"])
+        }
+
+        filesMatching("META-INF/neoforge.mods.toml") { expand(props) }
+
+        exclude("fabric.mod.json")
+    }
+
+    named("createMinecraftArtifacts") {
+        dependsOn("stonecutterGenerate")
+    }
+
+    // Includes the license file in the built mod
+    withType<Jar> {
+        val id = project.property("mod.id") as String
+        inputs.property("mod_id", id)
+        from(rootProject.file("LICENSE")) { rename { "${it}_$id" } }
+    }
+
+    register<Copy>("buildAndCollect") {
+        group = "build"
+        description = "Builds mod jars and copies results to `build/libs/{mod version}/`"
+
+        inputs.property("version", project.property("mod.version"))
+        from(jar.flatMap { it.archiveFile }, named<Jar>("sourcesJar").flatMap { it.archiveFile })
+        into(rootProject.layout.buildDirectory.file("libs/${project.property("mod.version")}"))
+    }
+}

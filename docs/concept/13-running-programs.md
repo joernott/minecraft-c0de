@@ -149,3 +149,17 @@ A non-camouflaged debug trigger block looks like a transparent block with copper
 ### PID block
 
 A PID block is an almost black block (color #222222). Its northern and southern faces show its own y coordinate (the PID) in green (color #55FF55), its eastern and western faces show the dimension and coordinates of the trigger block that started the process. This block can't be crafted and can't be destroyed by any entity.
+
+## Configuration file
+
+The settings of the mod are stored in the file `config/c0de.properties` of the server (or of the client for single player worlds). The file is created with the default values and a description of every setting when it doesn't exist. Invalid values are reported in the log and replaced by their default values.
+
+| Setting | Default | Description |
+|---|---|---|
+| `maxBuildHeight` | 255 | Highest usable y coordinate of the c0de dimension (15 to 2031, a multiple of 16 minus 1). It limits the number of processes per program. |
+| `stackSize` | 2048 | Number of slots of the stack of a cursor (2048 to 1048576). |
+| `sayRadius` | 64 | Radius in blocks for messages of SAY without a player name (1 to 1024). |
+| `allowInventoryChanges` | false | See [Owner and permissions](12-lib-minecraft.md#owner-and-permissions). |
+| `allowBlockChanges` | false | See [Owner and permissions](12-lib-minecraft.md#owner-and-permissions). |
+| `allowSpawning` | false | See [Owner and permissions](12-lib-minecraft.md#owner-and-permissions). |
+| `allowTeleporting` | false | See [Owner and permissions](12-lib-minecraft.md#owner-and-permissions). |

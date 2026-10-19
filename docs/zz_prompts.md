@@ -112,3 +112,7 @@ The disk size of the VM has been increased
 ## 2026-10-19 – Marking completed tasks
 
 please mark completed tasks in the implementation plan with a checkmark. If you discover that an additional task is needed to complete one task in a sprint, add it as a next level number, e.g. an additional task for 0.1 becomes 0.1.1
+
+## 2026-10-19 – Start sprint 1
+
+please create a sprint-1 brnch and start implementing sprint 1
