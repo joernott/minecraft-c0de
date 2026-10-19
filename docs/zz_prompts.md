@@ -89,3 +89,26 @@ Also add a string function FORMAT, that has two parameters, a Variable to be con
 
 1. The functions should use the servers time zone
 2. Use milliseconds
+
+## 2026-10-19 – Implementation plan and development environment
+
+Please design an implementation plan grouped into sprints and tasks.
+
+Also write up a plan for setting up a development environment. The goal is to develop a mod that supports both neoforge and fabric. Initial development should happen in Minecraft 1.21.1 and later support all newer releases.
+
+I have pushed the repository to github, so we can use github actions.
+
+There is a development VM I have been using for the doenerstag application. It has docker installed and should have enough resoures to install whatever might be needed for testing. You can log in as user doener with your ssh key and use passwordless sudo.
+
+## 2026-10-19 – Answers to the open questions of the implementation plan
+
+1. A player can enter the dimension by right clicking a trigger block with a wrench. He can exit the dimension by right clicking a black floor block in the c0de dimension.
+2. Make that de.joernott.c0de
+3. Let's stick to BSD 3 clause
+4. Initially Modrinth. I already have an account there, linked to the github account and use the modrinth loader.
+
+The disk size of the VM has been increased
+
+## 2026-10-19 – Marking completed tasks
+
+please mark completed tasks in the implementation plan with a checkmark. If you discover that an additional task is needed to complete one task in a sprint, add it as a next level number, e.g. an additional task for 0.1 becomes 0.1.1

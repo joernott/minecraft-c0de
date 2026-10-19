@@ -46,7 +46,7 @@ A text marker is crafted shapelessly from a feather and yellow dye.
 
 ## Wrench
 
-Every decent tech mod needs a wrench. This is the c0de wrench. It is used to move marked code: the user left-clicks a marked area and then right-clicks a line outside that area. This moves the marked lines in front of (north of) that line.
+Every decent tech mod needs a wrench. This is the c0de wrench. Right-clicking a trigger block with the wrench [teleports the player into the c0de dimension](01-dimension.md#entering-and-leaving-the-dimension). On a sheet, the wrench is used to move marked code: the user left-clicks a marked area and then right-clicks a line outside that area. This moves the marked lines in front of (north of) that line.
 
 ### Crafting
 

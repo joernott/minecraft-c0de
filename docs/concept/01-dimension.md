@@ -29,3 +29,15 @@ Chunks with positive x and z coordinates form a 2 chunk wide pattern:
 ![floor_c0de](../images/floor_c0de.svg)
 
 This creates endless sheets of greenbar paper next to each other. Each sheet is 2 chunks wide in x direction and endless (up to the maximum z coordinate) in z direction. The relative x coordinate 4 of every sheet is made of cursor c0de bedrock and forms the cursor rail. Code is placed between x=5 and x=28.
+
+## Entering and leaving the dimension
+
+A player enters the c0de dimension by right-clicking a [trigger block](13-running-programs.md#trigger-blocks) (of any kind) with a [wrench](14-items-and-tools.md#wrench). The player is teleported
+  - to the sheet of the program the trigger block is configured with, or
+  - to the first sheet that does not contain a program yet, if the trigger block is not configured or its program no longer exists.
+
+The player arrives on the black floor directly north of the sheet, at the relative x coordinate 5 and z=-2, standing on the floor (y=-3) and facing south, so that the PROGRAM line is right in front of them. This also works with trigger blocks in the c0de dimension itself, to jump from one program to another.
+
+When a player enters the dimension from another dimension, the dimension, position and viewing direction are stored with the player.
+
+A player leaves the dimension by right-clicking a black c0de bedrock block of the floor with an empty hand. (With a block in the hand, right-clicking places the block as usual, e.g. a trigger block in the black area.) The player is teleported back to the stored position. If there is none, e.g. because the player got into the dimension with a command, the player is teleported to their respawn point or, if they have none, to the spawn point of the overworld.

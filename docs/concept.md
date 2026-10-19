@@ -81,3 +81,9 @@ The concept is split into the following documents:
 
   - [YAML format](concept/17-yaml-format.md)
   - [Block reference](concept/18-block-reference.md)
+
+**Project**
+
+  - [Implementation plan](implementation_plan.md)
+  - [Development environment](development_environment.md)
+  - [Concept review](concept_review.md)
