@@ -43,7 +43,7 @@ Versions of Minecraft, Fabric Loader, Fabric API, NeoForge, Parchment and the Gr
   - NeoForge: <https://projects.neoforged.net/neoforged/neoforge>
   - Parchment: <https://parchmentmc.org/docs/getting-started>
 
-Renovate or Dependabot proposes updates as pull requests (task 1.7).
+Dependabot proposes updates of the GitHub Actions and the Gradle plugins as pull requests (task 1.7). It doesn't understand `stonecutter.properties.toml`, so the versions of Minecraft, the loaders, Fabric API and Parchment are updated manually from the sources above, at the latest at the start of every sprint.
 
 ### Third-party libraries
 
