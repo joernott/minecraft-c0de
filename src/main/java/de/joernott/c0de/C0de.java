@@ -2,10 +2,15 @@ package de.joernott.c0de;
 
 import de.joernott.c0de.content.C0deBlockEntities;
 import de.joernott.c0de.content.C0deBlocks;
+import de.joernott.c0de.content.C0deEntities;
+import de.joernott.c0de.content.C0deMenus;
 import de.joernott.c0de.content.C0deItems;
 import de.joernott.c0de.core.config.C0deConfig;
 import de.joernott.c0de.core.library.standard.StandardLibraries;
 import de.joernott.c0de.dialog.DialogService;
+import de.joernott.c0de.dialog.SheetProtection;
+import de.joernott.c0de.dialog.TriggerService;
+import de.joernott.c0de.process.ProcessManager;
 import de.joernott.c0de.dimension.C0deDimension;
 import de.joernott.c0de.dimension.SettingsPack;
 import de.joernott.c0de.platform.Platform;
@@ -35,8 +40,13 @@ public final class C0de {
         C0deBlocks.register();
         C0deBlockEntities.register();
         C0deItems.register();
+        C0deEntities.register();
+        C0deMenus.register();
         DialogService.register();
+        TriggerService.register();
         SheetValidation.register();
+        ProcessManager.register();
+        SheetProtection.register();
         C0deDimension.register();
     }
 

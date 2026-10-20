@@ -67,9 +67,9 @@ def cursor_top() -> Image:
     return image
 
 
-def trigger_block() -> Image:
-    """Provisional trigger block: glass with copper corners and a golden ball in its center."""
-    image = [[rgb(0xD6E8EE) for _ in range(16)] for _ in range(16)]
+def trigger_frame() -> Image:
+    """A transparent block with a glass edge and copper corners."""
+    image = [[CLEAR for _ in range(16)] for _ in range(16)]
     for i in range(16):
         for edge in (0, 15):
             image[i][edge] = rgb(0xA0B8C0)
@@ -78,14 +78,60 @@ def trigger_block() -> Image:
         for y in range(4):
             for x in range(4):
                 image[cy + y][cx + x] = rgb(0xC15A36 if (x + y) % 3 else 0xE77C56)
+    return image
+
+
+def ball(image: Image, light: int, dark: int, rim: int) -> None:
     for y in range(16):
         for x in range(16):
             dx, dy = x - 7.5, y - 7.5
             distance = dx * dx + dy * dy
             if distance <= 9:
-                image[y][x] = rgb(0xFDF55F if dx + dy < -1 else 0xE9B115)
+                image[y][x] = rgb(light if dx + dy < -1 else dark)
             elif distance <= 12.5:
-                image[y][x] = rgb(0xB26411)
+                image[y][x] = rgb(rim)
+
+
+def trigger_block() -> Image:
+    """Trigger block: a transparent block with copper corners and a golden ball in its center."""
+    image = trigger_frame()
+    ball(image, 0xFDF55F, 0xE9B115, 0xB26411)
+    return image
+
+
+def debug_trigger_block() -> Image:
+    """Debug trigger block: like the trigger block, with a red ball."""
+    image = trigger_frame()
+    ball(image, 0xFF6060, 0xC81E1E, 0x781010)
+    return image
+
+
+def timer_block() -> Image:
+    """Timer block: like the trigger block, with a clock."""
+    image = trigger_frame()
+    icon(image, "clock")
+    return image
+
+
+def pid_block() -> Image:
+    """The PID block: almost black; its PID is drawn by the renderer."""
+    return concrete(0x222222, "pid", 2)
+
+
+def cursor_item() -> Image:
+    """The look of cursor entities: a green arrow pointing down to the line it processes."""
+    image = blank()
+    mask(image, [
+        "...gggg...",
+        "...gggg...",
+        "...gggg...",
+        "...gggg...",
+        "gggggggggg",
+        ".gggggggg.",
+        "..gggggg..",
+        "...gggg...",
+        "....gg....",
+    ], {"g": 0x55FF55}, 3, 3)
     return image
 
 
@@ -491,6 +537,54 @@ def code_block_textures(blocks: Path) -> None:
     write_png(TEXTURES / "item" / "structural_base.png", base_item(0x55FF55, None))
 
 
+def card(border: int | None) -> Image:
+    """A punch card: cream with light gray markings and the upper right corner cut off, optionally framed."""
+    image = blank()
+    for y in range(2, 14):
+        for x in range(1, 15):
+            if x - y > 10:
+                continue  # the cut corner
+            image[y][x] = rgb(0xFFFEE9)
+    for y in (5, 8, 11):
+        for x in range(3, 12, 2):
+            image[y][x] = rgb(0xCCCCCC)
+    if border is not None:
+        for y in range(2, 14):
+            for x in range(1, 15):
+                if image[y][x] == CLEAR:
+                    continue
+                edge = x in (1, 14) or y in (2, 13) or x - y == 10 or (x - y == 9 and image[y][x + 1] == CLEAR)
+                if edge:
+                    image[y][x] = rgb(border)
+    return image
+
+
+# Type items and the icons of their type blocks
+TYPE_ITEM_ICONS = [
+    ("BOOLEAN", "torch", None),
+    ("INTEGER", "heap", 0xF0D040),
+    ("FLOAT", "heap", 0xF09030),
+    ("CHAR", "plank", None),
+    ("STRING", "string", None),
+    ("ARRAY", "barrel", None),
+    ("HASH", "chest", None),
+    ("STRUCT", "scaffolding", None),
+    ("TIME", "clock", None),
+    ("ERROR", "campfire", None),
+]
+
+
+def item_textures() -> None:
+    items = TEXTURES / "item"
+    write_png(items / "data_item.png", card(None))
+    write_png(items / "variable_item.png", card(0x5555FF))
+    write_png(items / "constant_item.png", card(0xFF55FF))
+    for type_name, name, color in TYPE_ITEM_ICONS:
+        image = card(0xCC2222)
+        icon(image, name, color)
+        write_png(items / ("type_" + type_name.lower() + "_item.png"), image)
+
+
 def main() -> None:
     blocks = TEXTURES / "block"
     write_png(blocks / "white_c0de_bedrock.png", concrete(0xF5F7F3, "white"))
@@ -499,8 +593,13 @@ def main() -> None:
     write_png(blocks / "cursor_c0de_bedrock_top.png", cursor_top())
     write_png(blocks / "cursor_c0de_bedrock_side.png", concrete(0x7D7D73, "cursor_side"))
     write_png(blocks / "trigger_block.png", trigger_block())
+    write_png(blocks / "timer_block.png", timer_block())
+    write_png(blocks / "debug_trigger_block.png", debug_trigger_block())
+    write_png(blocks / "pid_block.png", pid_block())
+    write_png(TEXTURES / "item" / "cursor.png", cursor_item())
     write_png(TEXTURES / "item" / "wrench.png", wrench())
     code_block_textures(blocks)
+    item_textures()
 
 
 if __name__ == "__main__":

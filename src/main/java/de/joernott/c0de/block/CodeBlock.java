@@ -3,6 +3,7 @@ package de.joernott.c0de.block;
 import de.joernott.c0de.content.CodeBlockType;
 import de.joernott.c0de.core.edit.PlacementRules;
 import de.joernott.c0de.core.sheet.SheetGeometry;
+import de.joernott.c0de.dialog.SheetProtection;
 import de.joernott.c0de.sheet.LevelSheet;
 import de.joernott.c0de.sheet.SheetValidation;
 import java.util.Optional;
@@ -42,6 +43,13 @@ public class CodeBlock extends Block {
         BlockPos pos = context.getClickedPos();
         if (state == null || !LevelSheet.isOnSheet(level, pos)) {
             return state;
+        }
+        Optional<Component> running = SheetProtection.reason(level, pos);
+        if (running.isPresent()) {
+            if (context.getPlayer() != null) {
+                context.getPlayer().displayClientMessage(running.get(), true);
+            }
+            return null;
         }
         int x = SheetGeometry.relativeX(pos.getX());
         Optional<String> problem = PlacementRules.checkArea(x, pos.getY())

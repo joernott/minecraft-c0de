@@ -2,5 +2,6 @@
   "parent": "minecraft:block/cube_all",
   "textures": {
     "all": "c0de:block/trigger_block"
-  }
+  },
+  "render_type": "minecraft:cutout"
 }

@@ -3,6 +3,7 @@ package de.joernott.c0de.content;
 import de.joernott.c0de.block.BlackBedrockBlock;
 import de.joernott.c0de.block.CodeBlock;
 import de.joernott.c0de.block.CommentBlock;
+import de.joernott.c0de.block.PidBlock;
 import de.joernott.c0de.block.PropertyBlock;
 import de.joernott.c0de.block.TriggerBlock;
 import de.joernott.c0de.block.ValidatedCodeBlock;
@@ -30,8 +31,10 @@ public final class C0deBlocks {
     public static Supplier<Block> BLACK_C0DE_BEDROCK;
     public static Supplier<Block> CURSOR_C0DE_BEDROCK;
 
-    /** Provisional trigger block: only used to enter the c0de dimension until sprint 8. */
     public static Supplier<Block> TRIGGER_BLOCK;
+    public static Supplier<Block> TIMER_BLOCK;
+    public static Supplier<Block> DEBUG_TRIGGER_BLOCK;
+    public static Supplier<Block> PID_BLOCK;
 
     /** The language blocks. */
     public static final Map<CodeBlockType, Supplier<Block>> CODE_BLOCKS = new EnumMap<>(CodeBlockType.class);
@@ -44,11 +47,11 @@ public final class C0deBlocks {
                 register("light_green_c0de_bedrock", () -> new Block(bedrock(MapColor.COLOR_LIGHT_GREEN)));
         BLACK_C0DE_BEDROCK = register("black_c0de_bedrock", () -> new BlackBedrockBlock(bedrock(MapColor.COLOR_BLACK)));
         CURSOR_C0DE_BEDROCK = register("cursor_c0de_bedrock", () -> new Block(bedrock(MapColor.COLOR_GRAY)));
-        TRIGGER_BLOCK = register("trigger_block", () -> new TriggerBlock(BlockBehaviour.Properties.of()
-                .mapColor(MapColor.COLOR_ORANGE)
-                .strength(3.0F, 6.0F)
-                .sound(SoundType.COPPER)
-                .requiresCorrectToolForDrops()));
+        TRIGGER_BLOCK = register("trigger_block", () -> new TriggerBlock(trigger(), TriggerBlock.Kind.TRIGGER));
+        TIMER_BLOCK = register("timer_block", () -> new TriggerBlock(trigger(), TriggerBlock.Kind.TIMER));
+        DEBUG_TRIGGER_BLOCK =
+                register("debug_trigger_block", () -> new TriggerBlock(trigger(), TriggerBlock.Kind.DEBUG));
+        PID_BLOCK = register("pid_block", () -> new PidBlock(bedrock(MapColor.COLOR_BLACK)));
         for (CodeBlockType type : CodeBlockType.values()) {
             CODE_BLOCKS.put(type, register(type.id(), () -> codeBlock(type)));
         }
@@ -60,9 +63,11 @@ public final class C0deBlocks {
     }
 
     private static Block codeBlock(CodeBlockType type) {
+        // Code can't be moved by pistons or destroyed by explosions, so running programs stay unchanged
         BlockBehaviour.Properties properties = BlockBehaviour.Properties.of()
                 .mapColor(MapColor.COLOR_LIGHT_GRAY)
-                .strength(0.6F)
+                .strength(0.6F, 3600000.0F)
+                .pushReaction(PushReaction.BLOCK)
                 .sound(type == CodeBlockType.NOOP ? SoundType.METAL : SoundType.STONE);
         if (type.isTransparent()) {
             properties = properties
@@ -80,6 +85,19 @@ public final class C0deBlocks {
             case TAG -> new PropertyBlock(properties, type, TagBlockEntity::new);
             default -> type.isValidated() ? new ValidatedCodeBlock(properties, type) : new CodeBlock(properties, type);
         };
+    }
+
+    /** Properties of the trigger blocks: transparent copper and glass. */
+    private static BlockBehaviour.Properties trigger() {
+        return BlockBehaviour.Properties.of()
+                .mapColor(MapColor.COLOR_ORANGE)
+                .strength(3.0F, 6.0F)
+                .sound(SoundType.COPPER)
+                .noOcclusion()
+                .isRedstoneConductor((state, level, pos) -> false)
+                .isSuffocating((state, level, pos) -> false)
+                .isViewBlocking((state, level, pos) -> false)
+                .requiresCorrectToolForDrops();
     }
 
     /** The block of the floor of the c0de dimension. */

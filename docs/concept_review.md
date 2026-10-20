@@ -288,3 +288,15 @@ Questions the concept didn't answer, and one contradiction:
 - **Floor items** (task 2.2.1): the floor blocks have items, so creative players can pick them with the middle mouse button and repair a floor they broke. They are not craftable.
 - **ASSIGN sides** (task 6.7.2): the triangle points to positive x on the north, south, top and bottom sides. The east side shows a dot (the arrow points at the viewer), the west side a cross (the arrow points away).
 - **LABEL lists** (task 7.5) come from the program: callable functions (built-in, included, declared before or the current function), the parameters and results of the called function, struct types and the variables and constants in scope, innermost first. c0de/minecraft is not listed until it exists (sprint 10).
+
+## 16. Decisions made while implementing sprint 8 (2026-10-20)
+
+- **Items**: variable and constant items store their name, type (in the text form of type blocks, e.g. `ARRAY INTEGER` or `STRUCT point`) and value (as JSON) as custom data. The kind of type comes from crafting; the subtype or struct name is added in the dialog. Values of simple types and STRING are entered like the values of LITERAL blocks, other values as JSON. Struct values are only checked when they are passed to a program, because struct types are only known there. Tags of items are not supported yet. Empty variable items created by a process have no type.
+- **Inputs**: an item is passed to the parameter with its name, and its type must be exactly the type of the parameter; otherwise the process doesn't start. All items are taken out of the input inventory when the process starts and come back to the output inventory when it ends: results as variable items, unused items unchanged.
+- **Status**: the dialog of a trigger block also shows why it couldn't start a process (e.g. a missing input), and its owner.
+- **Removing a trigger block** stops its process without results and drops all items.
+- **Loaded chunks**: the chunks of the program, the PID block and the trigger block are kept loaded with tickets while a process runs.
+- **Protection**: players can't break or place blocks on a sheet with running processes; the dialogs of its blocks open read-only. Language blocks can never be moved by pistons or destroyed by explosions, so the protection doesn't depend on events of other mods. Commands like `/setblock` are not prevented.
+- **Camouflage**: trigger blocks are transparent; a camouflaged trigger block is drawn as the block in its camouflage slot.
+- **Debug trigger blocks** can be configured, but processes are started with the debugging tool in sprint 9.
+- **Persistence**: processes are stored with the c0de dimension (`data/c0de_processes.dat`) as cursor snapshots. The cursor entity is not saved; it is created again when a process is restored after a restart.

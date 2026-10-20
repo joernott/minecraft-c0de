@@ -1,0 +1,19 @@
+package de.joernott.c0de.content;
+
+import de.joernott.c0de.menu.TriggerMenu;
+import de.joernott.c0de.platform.Platform;
+import java.util.function.Supplier;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.inventory.MenuType;
+
+/** The menu types of the mod. */
+public final class C0deMenus {
+    public static Supplier<MenuType<TriggerMenu>> TRIGGER;
+
+    private C0deMenus() {}
+
+    public static void register() {
+        TRIGGER = Platform.INSTANCE.register(
+                BuiltInRegistries.MENU, "trigger", () -> Platform.INSTANCE.menuType(TriggerMenu::new));
+    }
+}

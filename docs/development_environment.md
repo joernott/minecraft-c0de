@@ -126,6 +126,8 @@ The script `contrib/setup_dev_vm.sh` (task 1.8) defines the VM environment, like
   - **RCON scenario tests** (`contrib/itest/`) run against the Docker servers. They cover what GameTests can't easily reach: server restarts with running processes, configuration files, permissions of non-operator players and long-running timers.
   - **Headless client tests** start the client with HeadlessMC under `xvfb-run`, join a test server and check that the client starts without errors and that the mod's screens and models load. For versions whose Fabric API offers client GameTests, those replace HeadlessMC.
 
+The smoke test (`contrib/itest/smoke.sh`) also runs a process scenario (`contrib/itest/process_scenario.sh`): it builds a program on sheet 0 with `setblock` commands, starts it with a trigger block (redstone) and a timer block, and restarts the server while a third process runs, which must continue afterwards.
+
 ## GitHub Actions
 
 | Workflow | Trigger | Content |

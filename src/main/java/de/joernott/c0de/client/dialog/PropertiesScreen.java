@@ -90,9 +90,14 @@ public abstract class PropertiesScreen extends Screen {
     /** Sends the properties to the server and closes the dialog. */
     protected void save() {
         if (!readOnly && problem().isEmpty()) {
-            Platform.INSTANCE.sendToServer(new SavePropertiesPayload(payload.pos(), properties()));
+            Platform.INSTANCE.sendToServer(savePayload());
             onClose();
         }
+    }
+
+    /** The payload that saves the properties. */
+    protected net.minecraft.network.protocol.common.custom.CustomPacketPayload savePayload() {
+        return new SavePropertiesPayload(payload.pos(), properties());
     }
 
     @Override

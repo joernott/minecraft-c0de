@@ -53,6 +53,8 @@ dependencies {
         "fabric-networking-api-v1",
         "fabric-object-builder-api-v1",
         "fabric-blockrenderlayer-v1",
+        "fabric-screen-handler-api-v1",
+        "fabric-events-interaction-v0",
     )
     // Used by core (TO_YAML, FROM_YAML, FROM_JSON), embedded in the mod jar
     include(implementation("org.snakeyaml:snakeyaml-engine:3.2")!!)
@@ -63,6 +65,7 @@ dependencies {
 
 loom {
     fabricModJsonPath = rootProject.file("src/main/resources/fabric.mod.json")
+    accessWidenerPath = rootProject.file("src/main/resources/c0de.accesswidener")
 
     decompilerOptions.named("vineflower") {
         options.put("mark-corresponding-synthetics", "1") // Adds names to lambdas - useful for mixins

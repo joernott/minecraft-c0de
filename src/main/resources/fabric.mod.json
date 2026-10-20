@@ -24,6 +24,7 @@
       "de.joernott.c0de.gametest.fabric.FabricGameTests"
     ]
   },
+  "accessWidener": "c0de.accesswidener",
   "mixins": [
     "c0de.mixins.json",
     "c0de-fabric.mixins.json"

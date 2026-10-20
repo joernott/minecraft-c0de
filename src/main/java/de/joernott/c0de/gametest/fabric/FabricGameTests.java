@@ -3,6 +3,7 @@ package de.joernott.c0de.gametest.fabric;
 //? if fabric {
 import de.joernott.c0de.gametest.CodeBlockTests;
 import de.joernott.c0de.gametest.DimensionTests;
+import de.joernott.c0de.gametest.ProcessTests;
 import de.joernott.c0de.gametest.SmokeTests;
 import de.joernott.c0de.gametest.ValidationTests;
 import net.fabricmc.fabric.api.gametest.v1.FabricGameTest;
@@ -94,6 +95,36 @@ public class FabricGameTests implements FabricGameTest {
     @GameTest(template = SmokeTests.EMPTY_STRUCTURE)
     public void existingProgramsAreRegisteredWhenTheirChunksLoad(GameTestHelper helper) {
         ValidationTests.existingProgramsAreRegisteredWhenTheirChunksLoad(helper);
+    }
+
+    @GameTest(template = SmokeTests.EMPTY_STRUCTURE)
+    public void crashedProcessesReturnTheirInputs(GameTestHelper helper) {
+        ProcessTests.crashedProcessesReturnTheirInputs(helper);
+    }
+
+    @GameTest(template = SmokeTests.EMPTY_STRUCTURE)
+    public void processesReturnTheirResults(GameTestHelper helper) {
+        ProcessTests.processesReturnTheirResults(helper);
+    }
+
+    @GameTest(template = SmokeTests.EMPTY_STRUCTURE)
+    public void missingInputsPreventTheStart(GameTestHelper helper) {
+        ProcessTests.missingInputsPreventTheStart(helper);
+    }
+
+    @GameTest(template = SmokeTests.EMPTY_STRUCTURE)
+    public void removingTheTriggerStopsTheProcess(GameTestHelper helper) {
+        ProcessTests.removingTheTriggerStopsTheProcess(helper);
+    }
+
+    @GameTest(template = SmokeTests.EMPTY_STRUCTURE)
+    public void cursorsSurviveSavingAsNbt(GameTestHelper helper) {
+        ProcessTests.cursorsSurviveSavingAsNbt(helper);
+    }
+
+    @GameTest(template = SmokeTests.EMPTY_STRUCTURE)
+    public void valueItemsAreEdited(GameTestHelper helper) {
+        ProcessTests.valueItemsAreEdited(helper);
     }
 }
 //?}

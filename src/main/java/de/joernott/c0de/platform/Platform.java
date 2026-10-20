@@ -3,15 +3,24 @@ package de.joernott.c0de.platform;
 import de.joernott.c0de.C0de;
 import de.joernott.c0de.network.ClientReceivers;
 import java.nio.file.Path;
+import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -73,6 +82,30 @@ public sealed interface Platform {
 
     /** Calls the listener when a chunk of a server level has been loaded. */
     void onChunkLoad(BiConsumer<net.minecraft.server.level.ServerLevel, net.minecraft.world.level.ChunkPos> listener);
+
+    /** Creates a menu type whose menus get data from the server when they are opened. */
+    <T extends AbstractContainerMenu> MenuType<T> menuType(MenuFactory<T> factory);
+
+    /** Opens a menu for a player and sends the data the menu needs. */
+    void openMenu(ServerPlayer player, MenuProvider provider, CompoundTag data);
+
+    /**
+     * Calls the check before a player breaks or places a block. If it returns a reason, the action is cancelled
+     * and the player gets the reason.
+     */
+    void onBlockChange(BlockChangeCheck check);
+
+    /** Creates the menus of a menu type on the client and the server. */
+    @FunctionalInterface
+    interface MenuFactory<T extends AbstractContainerMenu> {
+        T create(int id, Inventory inventory, CompoundTag data);
+    }
+
+    /** A check of a block that a player is going to break or replace. */
+    @FunctionalInterface
+    interface BlockChangeCheck {
+        Optional<Component> check(Player player, Level level, BlockPos pos);
+    }
 
     /** Sends a payload to a player. */
     void sendToPlayer(ServerPlayer player, CustomPacketPayload payload);
@@ -159,6 +192,58 @@ public sealed interface Platform {
                 BiConsumer<net.minecraft.server.level.ServerLevel, net.minecraft.world.level.ChunkPos> listener) {
             net.fabricmc.fabric.api.event.lifecycle.v1.ServerChunkEvents.CHUNK_LOAD.register(
                     (level, chunk) -> listener.accept(level, chunk.getPos()));
+        }
+
+        @Override
+        public <T extends AbstractContainerMenu> MenuType<T> menuType(MenuFactory<T> factory) {
+            return new net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType<>(
+                    factory::create, net.minecraft.network.codec.ByteBufCodecs.COMPOUND_TAG);
+        }
+
+        @Override
+        public void openMenu(ServerPlayer player, MenuProvider provider, CompoundTag data) {
+            player.openMenu(new net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory<CompoundTag>() {
+                @Override
+                public CompoundTag getScreenOpeningData(ServerPlayer target) {
+                    return data;
+                }
+
+                @Override
+                public Component getDisplayName() {
+                    return provider.getDisplayName();
+                }
+
+                @Override
+                public AbstractContainerMenu createMenu(int id, Inventory inventory, Player target) {
+                    return provider.createMenu(id, inventory, target);
+                }
+            });
+        }
+
+        @Override
+        public void onBlockChange(BlockChangeCheck check) {
+            net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents.BEFORE.register(
+                    (level, player, pos, state, blockEntity) -> {
+                        Optional<Component> reason = check.check(player, level, pos);
+                        reason.ifPresent(message -> player.displayClientMessage(message, true));
+                        return reason.isEmpty();
+                    });
+            net.fabricmc.fabric.api.event.player.UseBlockCallback.EVENT.register((player, level, hand, hit) -> {
+                // Placing a block replaces the clicked block or the block in front of the clicked side
+                if (!(player.getItemInHand(hand).getItem() instanceof net.minecraft.world.item.BlockItem)) {
+                    return net.minecraft.world.InteractionResult.PASS;
+                }
+                for (BlockPos pos : java.util.List.of(hit.getBlockPos(), hit.getBlockPos().relative(hit.getDirection()))) {
+                    Optional<Component> reason = check.check(player, level, pos);
+                    if (reason.isPresent()) {
+                        if (!level.isClientSide()) {
+                            player.displayClientMessage(reason.get(), true);
+                        }
+                        return net.minecraft.world.InteractionResult.FAIL;
+                    }
+                }
+                return net.minecraft.world.InteractionResult.PASS;
+            });
         }
 
         @Override
@@ -262,6 +347,39 @@ public sealed interface Platform {
                     net.neoforged.neoforge.event.level.ChunkEvent.Load.class, event -> {
                         if (event.getLevel() instanceof net.minecraft.server.level.ServerLevel level) {
                             listener.accept(level, event.getChunk().getPos());
+                        }
+                    });
+        }
+
+        @Override
+        public <T extends AbstractContainerMenu> MenuType<T> menuType(MenuFactory<T> factory) {
+            return net.neoforged.neoforge.common.extensions.IMenuTypeExtension.create(
+                    (id, inventory, buffer) -> factory.create(id, inventory, buffer.readNbt()));
+        }
+
+        @Override
+        public void openMenu(ServerPlayer player, MenuProvider provider, CompoundTag data) {
+            player.openMenu(provider, buffer -> buffer.writeNbt(data));
+        }
+
+        @Override
+        public void onBlockChange(BlockChangeCheck check) {
+            net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
+                    net.neoforged.neoforge.event.level.BlockEvent.BreakEvent.class, event -> {
+                        if (event.getLevel() instanceof Level level) {
+                            check.check(event.getPlayer(), level, event.getPos()).ifPresent(message -> {
+                                event.getPlayer().displayClientMessage(message, true);
+                                event.setCanceled(true);
+                            });
+                        }
+                    });
+            net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
+                    net.neoforged.neoforge.event.level.BlockEvent.EntityPlaceEvent.class, event -> {
+                        if (event.getEntity() instanceof Player player && event.getLevel() instanceof Level level) {
+                            check.check(player, level, event.getPos()).ifPresent(message -> {
+                                player.displayClientMessage(message, true);
+                                event.setCanceled(true);
+                            });
                         }
                     });
         }

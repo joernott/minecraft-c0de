@@ -96,7 +96,7 @@ public class PropertiesRenderer implements BlockEntityRenderer<PropertiesBlockEn
     }
 
     /** The rotation that turns the south side of a block into the given side. */
-    private static Quaternionf rotation(Direction side) {
+    static Quaternionf rotation(Direction side) {
         return switch (side) {
             case SOUTH -> Axis.YP.rotationDegrees(0);
             case NORTH -> Axis.YP.rotationDegrees(180);

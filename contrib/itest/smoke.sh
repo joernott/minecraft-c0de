@@ -43,6 +43,9 @@ diagnose() {
         | while IFS= read -r line; do echo "::notice title=$1 log::$(cut -c1-400 <<<"$line")"; done || true
 }
 
+# shellcheck source=contrib/itest/process_scenario.sh
+source "$(dirname "$0")/process_scenario.sh"
+
 services=()
 for node in "${NODES[@]}"; do
     jar=""
@@ -146,6 +149,12 @@ for i in "${!services[@]}"; do
     done
     [ $floor_ok = 1 ] && echo "c0de dimension floor ok"
 
+    if ! process_scenario "$service"; then
+        diagnose "$service"
+        status=1
+    fi
+
+    log="$(logs "$service")"
     errors="$(grep -E "ERROR\].*c0de|Exception.*c0de" <<<"$log" || true)"
     if [ -n "$errors" ]; then
         head -5 <<<"$errors"

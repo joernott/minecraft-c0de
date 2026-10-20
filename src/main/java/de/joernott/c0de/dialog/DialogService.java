@@ -2,14 +2,19 @@ package de.joernott.c0de.dialog;
 
 import de.joernott.c0de.C0de;
 import de.joernott.c0de.blockentity.PropertiesBlockEntity;
+import de.joernott.c0de.core.edit.ItemRules;
+import de.joernott.c0de.item.ValueItem;
 import de.joernott.c0de.network.OpenDialogPayload;
+import de.joernott.c0de.network.SaveItemPayload;
 import de.joernott.c0de.network.SavePropertiesPayload;
 import de.joernott.c0de.platform.Platform;
 import java.util.Optional;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.ItemStack;
 
 /** The server side of the dialogs of blocks with properties. */
 public final class DialogService {
@@ -26,6 +31,37 @@ public final class DialogService {
                 SavePropertiesPayload.CODEC,
                 (payload, player) -> save(player, payload.pos(), payload).ifPresent(problem -> player.displayClientMessage(
                         Component.translatable("message.c0de.not_saved", problem), true)));
+        Platform.INSTANCE.registerServerbound(
+                SaveItemPayload.TYPE,
+                SaveItemPayload.CODEC,
+                (payload, player) -> saveItem(player, payload.properties()).ifPresent(problem -> player.displayClientMessage(
+                        Component.translatable("message.c0de.not_saved", problem), true)));
+    }
+
+    /** Opens the dialog of the variable or constant item in the main hand of a player. */
+    public static void openItem(ServerPlayer player) {
+        ItemStack stack = player.getMainHandItem();
+        if (!(stack.getItem() instanceof ValueItem item)) {
+            return;
+        }
+        ValueItem.Contents contents = ValueItem.Contents.of(stack);
+        CompoundTag data = new CompoundTag();
+        data.putString("name", contents.name());
+        data.putString("type", contents.type());
+        data.putString("value", ItemRules.display(contents.type(), contents.value()));
+        data.putBoolean("constant", item.isConstant());
+        Platform.INSTANCE.sendToPlayer(
+                player, new OpenDialogPayload(player.blockPosition(), "value_item", item.isReadOnly(stack), data));
+    }
+
+    /** Changes the properties of the variable or constant item in the main hand of a player. */
+    public static Optional<String> saveItem(ServerPlayer player, CompoundTag properties) {
+        ItemStack stack = player.getMainHandItem();
+        if (!(stack.getItem() instanceof ValueItem item)) {
+            return Optional.of("There is no variable or constant item in the main hand");
+        }
+        return item.apply(
+                stack, properties.getString("name"), properties.getString("type"), properties.getString("value"));
     }
 
     /** Opens the dialog of the block at the position for a player. */

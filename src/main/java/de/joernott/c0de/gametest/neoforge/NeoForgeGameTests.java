@@ -4,6 +4,7 @@ package de.joernott.c0de.gametest.neoforge;
 /*import de.joernott.c0de.C0de;
 import de.joernott.c0de.gametest.CodeBlockTests;
 import de.joernott.c0de.gametest.DimensionTests;
+import de.joernott.c0de.gametest.ProcessTests;
 import de.joernott.c0de.gametest.SmokeTests;
 import de.joernott.c0de.gametest.ValidationTests;
 import net.minecraft.gametest.framework.GameTest;
@@ -98,6 +99,36 @@ public class NeoForgeGameTests {
     @GameTest(template = "empty")
     public static void existingProgramsAreRegisteredWhenTheirChunksLoad(GameTestHelper helper) {
         ValidationTests.existingProgramsAreRegisteredWhenTheirChunksLoad(helper);
+    }
+
+    @GameTest(template = "empty")
+    public static void crashedProcessesReturnTheirInputs(GameTestHelper helper) {
+        ProcessTests.crashedProcessesReturnTheirInputs(helper);
+    }
+
+    @GameTest(template = "empty")
+    public static void processesReturnTheirResults(GameTestHelper helper) {
+        ProcessTests.processesReturnTheirResults(helper);
+    }
+
+    @GameTest(template = "empty")
+    public static void missingInputsPreventTheStart(GameTestHelper helper) {
+        ProcessTests.missingInputsPreventTheStart(helper);
+    }
+
+    @GameTest(template = "empty")
+    public static void removingTheTriggerStopsTheProcess(GameTestHelper helper) {
+        ProcessTests.removingTheTriggerStopsTheProcess(helper);
+    }
+
+    @GameTest(template = "empty")
+    public static void cursorsSurviveSavingAsNbt(GameTestHelper helper) {
+        ProcessTests.cursorsSurviveSavingAsNbt(helper);
+    }
+
+    @GameTest(template = "empty")
+    public static void valueItemsAreEdited(GameTestHelper helper) {
+        ProcessTests.valueItemsAreEdited(helper);
     }
 }
 *///?}

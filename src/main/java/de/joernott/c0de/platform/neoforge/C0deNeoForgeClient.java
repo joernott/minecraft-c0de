@@ -3,7 +3,11 @@ package de.joernott.c0de.platform.neoforge;
 //? if neoforge {
 /*import de.joernott.c0de.client.C0deClient;
 import de.joernott.c0de.client.C0deDimensionEffects;
+import de.joernott.c0de.client.ProcessRenderers;
 import de.joernott.c0de.client.PropertiesRenderer;
+import de.joernott.c0de.client.TriggerScreen;
+import de.joernott.c0de.content.C0deEntities;
+import de.joernott.c0de.content.C0deMenus;
 import de.joernott.c0de.content.C0deBlockEntities;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
@@ -18,9 +22,14 @@ public final class C0deNeoForgeClient {
         C0deClient.init();
         modEventBus.addListener(RegisterDimensionSpecialEffectsEvent.class,
                 event -> event.register(C0deDimensionEffects.ID, new C0deDimensionEffects()));
-        modEventBus.addListener(EntityRenderersEvent.RegisterRenderers.class,
-                event -> C0deBlockEntities.all().forEach(
-                        type -> event.registerBlockEntityRenderer(type, PropertiesRenderer::new)));
+        modEventBus.addListener(EntityRenderersEvent.RegisterRenderers.class, event -> {
+            C0deBlockEntities.all().forEach(type -> event.registerBlockEntityRenderer(type, PropertiesRenderer::new));
+            event.registerBlockEntityRenderer(C0deBlockEntities.TRIGGER.get(), ProcessRenderers.Camouflage::new);
+            event.registerBlockEntityRenderer(C0deBlockEntities.PID.get(), ProcessRenderers.Pid::new);
+            event.registerEntityRenderer(C0deEntities.CURSOR.get(), ProcessRenderers.Cursor::new);
+        });
+        modEventBus.addListener(net.neoforged.neoforge.client.event.RegisterMenuScreensEvent.class,
+                event -> event.register(C0deMenus.TRIGGER.get(), TriggerScreen::new));
     }
 }
 *///?}

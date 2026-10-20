@@ -84,6 +84,11 @@ public final class LevelSheet {
                 && level.isLoaded(codePos(sheet, SheetGeometry.CODE_MAX_X, z));
     }
 
+    /** The position of the PID block of a process: on the cursor rail next to the PROGRAM line. */
+    public static BlockPos pidPos(int sheet, int pid) {
+        return new BlockPos(SheetGeometry.absoluteX(sheet, SheetGeometry.CURSOR_X), pid, 0);
+    }
+
     /** The position of a block of the code layer of a sheet. */
     public static BlockPos codePos(int sheet, int relativeX, int z) {
         return new BlockPos(SheetGeometry.absoluteX(sheet, relativeX), SheetGeometry.CODE_Y, z);

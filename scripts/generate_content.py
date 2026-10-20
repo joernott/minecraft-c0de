@@ -55,6 +55,13 @@ BLOCKS = [
     ("REPEAT", True, False, "REPEAT Block", "REPEAT-Block"),
 ]
 
+# Trigger blocks: (ID, center ingredient, count, English name, German name)
+TRIGGERS = [
+    ("trigger_block", "gold_ingot", 8, "Trigger Block", "Auslöserblock"),
+    ("timer_block", "clock", 8, "Timer Block", "Zeitgeberblock"),
+    ("debug_trigger_block", "redstone_block", 1, "Debug Trigger Block", "Debug-Auslöserblock"),
+]
+
 # The floor of the c0de dimension; their block states and block models are written by hand
 FLOOR_BLOCKS = ["white_c0de_bedrock", "light_green_c0de_bedrock", "black_c0de_bedrock", "cursor_c0de_bedrock"]
 
@@ -62,7 +69,28 @@ FLOOR_BLOCKS = ["white_c0de_bedrock", "light_green_c0de_bedrock", "black_c0de_be
 ITEMS = [
     ("type_base", "Type Base", "Typbasis"),
     ("structural_base", "Structural Base", "Strukturbasis"),
+    ("data_item", "Data Item", "Datenkarte"),
+    ("variable_item", "Variable", "Variable"),
+    ("constant_item", "Constant", "Konstante"),
 ]
+
+# Type items: (type, ingredient(s) of the type block)
+TYPE_ITEMS = [
+    ("BOOLEAN", "redstone_torch"),
+    ("INTEGER", "sand"),
+    ("FLOAT", "red_sand"),
+    ("CHAR", "oak_planks"),
+    ("STRING", "string"),
+    ("ARRAY", "barrel"),
+    ("HASH", ["chest", "trapped_chest"]),
+    ("STRUCT", "scaffolding"),
+    ("TIME", "clock"),
+    ("ERROR", "campfire"),
+]
+
+
+def type_item(type_name: str) -> str:
+    return "type_" + type_name.lower() + "_item"
 
 
 def block_id(name: str) -> str:
@@ -156,6 +184,17 @@ def recipes() -> dict[str, dict]:
         "call_block": shapeless([noop, mc("smooth_stone")], c0de("CALL")),
         "structural_base": around(mc("green_wool"), structural),
     }
+    for trigger, center, count, _, _ in TRIGGERS:
+        r[trigger] = shaped(
+            ["ABA", "BCB", "ABA"], {"A": mc("copper_ingot"), "B": mc("glass"), "C": mc(center)}, c0de(trigger), count)
+    r["data_item"] = shapeless([mc("paper"), mc("white_dye"), mc("yellow_dye")], c0de("data_item"), 4)
+    for type_name, ingredient_ in TYPE_ITEMS:
+        source = [mc(i) for i in ingredient_] if isinstance(ingredient_, list) else mc(ingredient_)
+        r[type_item(type_name)] = shapeless([c0de("data_item"), mc("red_dye"), source], c0de(type_item(type_name)))
+        for kind, dye in (("variable_item", "light_blue_dye"), ("constant_item", "pink_dye")):
+            recipe = shapeless([c0de("data_item"), c0de(type_item(type_name)), mc(dye)], c0de(kind), 2)
+            recipe["result"]["components"] = {"minecraft:custom_data": {"type": type_name}}
+            r[kind + "_" + type_name.lower()] = recipe
     for block, seed, partner in [
         ("IF", "wheat_seeds", "ELSE"),
         ("ELSE", "wheat", "IF"),
@@ -176,11 +215,32 @@ MESSAGES = [
     ("block.c0de.light_green_c0de_bedrock", "Light Green c0de Bedrock", "Hellgrünes c0de-Grundgestein"),
     ("block.c0de.black_c0de_bedrock", "Black c0de Bedrock", "Schwarzes c0de-Grundgestein"),
     ("block.c0de.cursor_c0de_bedrock", "Cursor c0de Bedrock", "Cursor-c0de-Grundgestein"),
-    ("block.c0de.trigger_block", "Trigger Block", "Auslöserblock"),
+    ("block.c0de.pid_block", "PID Block", "PID-Block"),
+    ("entity.c0de.cursor", "Cursor", "Cursor"),
+    ("item.c0de.cursor", "Cursor", "Cursor"),
+    ("message.c0de.protected", "The program %s is running (PID %s), its sheet can't be changed",
+     "Das Programm %s läuft (PID %s), sein Blatt kann nicht geändert werden"),
+    ("dialog.c0de.trigger.input", "Input", "Eingabe"),
+    ("dialog.c0de.trigger.output", "Output", "Ausgabe"),
+    ("dialog.c0de.trigger.program", "Program", "Programm"),
+    ("dialog.c0de.trigger.function", "Function", "Funktion"),
+    ("dialog.c0de.trigger.interval", "Interval in ticks", "Intervall in Ticks"),
+    ("dialog.c0de.trigger.camouflage", "Camouflage", "Tarnung"),
+    ("dialog.c0de.trigger.pid", "Running, PID %s", "Läuft, PID %s"),
+    ("dialog.c0de.trigger.exit_code", "Exit code %s", "Exit-Code %s"),
+    ("dialog.c0de.trigger.error_at", "in %s, line %s", "in %s, Zeile %s"),
+    ("dialog.c0de.trigger.owner", "Owner: %s", "Besitzer: %s"),
     ("item.c0de.wrench", "Wrench", "Schraubenschlüssel"),
     ("message.c0de.no_dimension", "The c0de dimension doesn't exist in this world.",
      "Die c0de-Dimension existiert in dieser Welt nicht."),
     ("message.c0de.not_saved", "Not saved: %s", "Nicht gespeichert: %s"),
+    ("item.c0de.variable_item.named", "Variable %s", "Variable %s"),
+    ("item.c0de.constant_item.named", "Constant %s", "Konstante %s"),
+    ("item.c0de.value_item.type", "Type: %s", "Typ: %s"),
+    ("item.c0de.value_item.value", "Value: %s", "Wert: %s"),
+    ("dialog.c0de.item.name", "Name", "Name"),
+    ("dialog.c0de.item.type", "Type, e.g. ARRAY INTEGER or STRUCT point", "Typ, z. B. ARRAY INTEGER oder STRUCT point"),
+    ("dialog.c0de.item.value", "Value (JSON for ARRAY, HASH, STRUCT, ERROR)", "Wert (JSON für ARRAY, HASH, STRUCT, ERROR)"),
     ("message.c0de.not_placed", "Can't be placed here: %s", "Kann hier nicht platziert werden: %s"),
     ("dialog.c0de.ok", "Save", "Speichern"),
     ("dialog.c0de.read_only", " (read only)", " (schreibgeschützt)"),
@@ -292,10 +352,34 @@ def block_files(name: str, validated: bool, transparent: bool) -> None:
 def main() -> None:
     for name, validated, transparent, _, _ in BLOCKS:
         block_files(name, validated, transparent)
+    for trigger, _, _, _, _ in TRIGGERS:
+        write(ASSETS / "models" / "block" / (trigger + ".json"), {
+            "parent": "minecraft:block/cube_all",
+            "textures": {"all": "c0de:block/" + trigger},
+            "render_type": "minecraft:cutout",
+        })
+        write(ASSETS / "blockstates" / (trigger + ".json"), {"variants": {"": {"model": "c0de:block/" + trigger}}})
+        write(ASSETS / "models" / "item" / (trigger + ".json"), {"parent": "c0de:block/" + trigger})
+        write(DATA / "loot_table" / "blocks" / (trigger + ".json"), {
+            "type": "minecraft:block",
+            "pools": [{
+                "rolls": 1,
+                "entries": [{"type": "minecraft:item", "name": "c0de:" + trigger}],
+                "conditions": [{"condition": "minecraft:survives_explosion"}],
+            }],
+        })
+    write(RESOURCES / "data" / "minecraft" / "tags" / "block" / "mineable" / "pickaxe.json",
+          {"values": ["c0de:" + trigger for trigger, _, _, _, _ in TRIGGERS]})
+    write(ASSETS / "models" / "block" / "pid_block.json",
+          {"parent": "minecraft:block/cube_all", "textures": {"all": "c0de:block/pid_block"}})
+    write(ASSETS / "blockstates" / "pid_block.json", {"variants": {"": {"model": "c0de:block/pid_block"}}})
+    write(ASSETS / "models" / "item" / "cursor.json",
+          {"parent": "minecraft:item/generated", "textures": {"layer0": "c0de:item/cursor"}})
+
     # Items of the floor blocks, so that creative players can pick them to repair the floor
     for floor in FLOOR_BLOCKS:
         write(ASSETS / "models" / "item" / (floor + ".json"), {"parent": "c0de:block/" + floor})
-    for item, _, _ in ITEMS:
+    for item in [i for i, _, _ in ITEMS] + [type_item(t) for t, _ in TYPE_ITEMS]:
         write(ASSETS / "models" / "item" / (item + ".json"),
               {"parent": "minecraft:item/generated", "textures": {"layer0": "c0de:item/" + item}})
     for name, recipe in recipes().items():
@@ -307,6 +391,11 @@ def main() -> None:
             entries["block.c0de." + block_id(name)] = english if column == 1 else german
         for item, english, german in ITEMS:
             entries["item.c0de." + item] = english if column == 1 else german
+        for trigger, _, _, english, german in TRIGGERS:
+            entries["block.c0de." + trigger] = english if column == 1 else german
+        for type_name, _ in TYPE_ITEMS:
+            entries["item.c0de." + type_item(type_name)] = (
+                type_name + (" Type Item" if column == 1 else "-Typkarte"))
         for operator, english, german in OPERATORS:
             entries["dialog.c0de.operator." + operator.lower()] = english if column == 1 else german
         write(ASSETS / "lang" / (language + ".json"), entries)
