@@ -1,0 +1,56 @@
+// Chapter 06: functions, parameters, results, RETURN, CALL and recursion
+entry: main
+inputs: n=10
+expect exit: 0
+expect total: 55
+expect greeting: "Hello, c0de!"
+expect code: 1000
+---
+PROGRAM functions
+NOOP
+NOOP
+FUNCTION sum
+    PARAMETER n INTEGER
+    RESULT result INTEGER
+BEGIN
+    IF n = 0 ;
+    BEGIN
+        RETURN
+    END IF
+    CALL sum
+        PARAMETER n n - 1 ;
+        RESULT result result
+    ASSIGN result result + n ;
+END FUNCTION
+NOOP
+FUNCTION greet
+    PARAMETER name STRING "World"
+    PARAMETER mark CHAR '!'
+    RESULT result STRING
+BEGIN
+    ASSIGN result "Hello, " ⊕ name ⊕ mark ;
+END FUNCTION
+NOOP
+FUNCTION fail
+BEGIN
+    VARIABLE e ERROR
+    ASSIGN e.code 1000 ;
+    RETURN e
+END FUNCTION
+NOOP
+FUNCTION main
+    PARAMETER n INTEGER 3
+    RESULT total INTEGER
+    RESULT greeting STRING
+    RESULT code INTEGER
+BEGIN
+    CALL sum
+        PARAMETER n n ;
+        RESULT result total
+    CALL greet
+        PARAMETER name "c0de" ;
+        RESULT result greeting
+    VARIABLE problem ERROR
+    CALL fail problem
+    ASSIGN code problem.code ;
+END FUNCTION

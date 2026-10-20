@@ -235,3 +235,14 @@ Questions the concept didn't answer, and one contradiction:
 - **`.name` on a hash** is read as the key `"name"` (`inventory.diamond` is the same as `inventory["diamond"]`).
 - **Syntax errors in element lines** (struct elements, PARAMETER lines, END lines) are reported with the z coordinate of that line, not of the statement's first line.
 - **A missing END** is detected when a line at or left of the BEGIN's x coordinate follows that is not the matching END. Taking "the first END at the same x coordinate" literally would match the END of the next function when a function's END is missing.
+
+## 12. Decisions made while implementing sprint 4 (2026-10-20)
+
+- **Steps**: NOOP lines, comment lines, continuation lines and the content lines of declarations don't take a step of their own. A STRUCT/VARIABLE/CONSTANT statement with its code block and a FUNCTION statement with its PARAMETER and RESULT lines take one step. Every other statement and every END line takes one step. Waiting with SLEEP takes one step per tick.
+- **Error labels** always receive the returned error, with code 0 if there was none, so a program can check `problem.code = 0` after every call.
+- **Propagated errors** keep the `context` and `line` of the place where they occurred first.
+- **Raised errors in the entry function** crash the process with that error and exit code 15. EXIT keeps the current values of the results of the entry function, even if EXIT is called in a nested function.
+- **Functions** must be declared in a line before the CALL statement, except for recursive calls of the current function. Mutual recursion is therefore not possible.
+- **FOR loops**: start, end and increment must be numbers. With an INTEGER loop variable, FLOAT values raise TYPE_MISMATCH.
+- **Persistence**: a running cursor is stored as a tree of plain data (maps, lists, strings, numbers, booleans, without null values) that refers to statements by their lines. The mod stores it as NBT (sprint 8). The random number generator of a process (SplitMix64) is part of the stored state, so a process continues the same sequence of random numbers after a restart.
+- **Interface to the mod**: libraries are Java objects (types, constants, native functions). A native function gets its arguments, the tags of single-label arguments, the variables of by-reference parameters and the process (random numbers, clock, time zone, access to the mod). It returns results, an error or a number of steps to wait.

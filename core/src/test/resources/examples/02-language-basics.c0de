@@ -1,0 +1,21 @@
+// Chapter 02: lines, NOOP lines, comments and names
+entry: main
+expect exit: 0
+expect result: "lowercase names like result and time are valid"
+expect count: 3
+---
+PROGRAM basics
+NOOP
+// A comment line is skipped completely
+NOOP
+FUNCTION main
+    RESULT result STRING
+    RESULT count INTEGER
+BEGIN
+    VARIABLE time INTEGER 1 // a comment at the end of a line
+    ASSIGN count time ; COMMENT("the rest of this line is disabled") + 100 ;
+    ASSIGN count count
+        + 2 ;
+    NOOP
+    ASSIGN result "lowercase names like result and time are valid" ;
+END FUNCTION

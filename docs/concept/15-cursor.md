@@ -14,7 +14,7 @@ There are two kinds of cursors: a regular cursor and a debug cursor. The regular
 
 When a cursor arrives on a new line, it reads all blocks of the line (and of its continuation lines) and processes them. It is not allowed to move on before the processing is complete.
 
-Usually, the cursor moves to the line directly after the statement it has processed. Some statements make it jump: when the cursor skips a function or a code block, follows a CALL or returns from a function, or when a loop is repeated, it moves directly to the target line in one step.
+Usually, the cursor moves to the line directly after the statement it has processed. NOOP lines, comment lines, continuation lines and the content lines of declarations (struct elements, initializers, PARAMETER and RESULT lines) are not processed on their own: the cursor moves over them in the same step. A STRUCT, VARIABLE or CONSTANT statement with its code block and a FUNCTION statement with its PARAMETER and RESULT lines are processed in one step. Some statements make the cursor jump: when the cursor skips a function or a code block, follows a CALL or returns from a function, or when a loop is repeated, it moves directly to the target line in one step.
 
 ## Properties
 
@@ -50,8 +50,8 @@ Errors are either *raised* or make the cursor *crash*.
 A **crash** ends the process immediately (see [Ending a process](13-running-programs.md#ending-a-process)). The cursor state is set to CRASHED. All syntax errors and the errors marked with "crash" in the [error code table](16-error-codes.md) cause a crash.
 
 A **raised** error ends the current function as if a RETURN statement with that error had been executed. The `context` of the error is the name of the current function and its `line` is the z coordinate of the line in which it was raised. The error is passed to the caller:
-  - If the CALL statement has an error label, the error is stored in that variable and the caller continues normally.
-  - Otherwise, the error is raised again in the caller.
+  - If the CALL statement has an error label, the error is stored in that variable and the caller continues normally. The error label always receives the error returned by the function, which has the code 0 if there was no error.
+  - Otherwise, the error is raised again in the caller. It keeps its `context` and `line`, so they always describe where the error occurred first.
   - If the error is raised in the entry function, the cursor crashes with that error.
 
 A function raises a user-defined error by assigning a code of 1000 or higher to a variable of type ERROR and returning it with RETURN.

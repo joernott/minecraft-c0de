@@ -1,0 +1,59 @@
+// Chapter 04: data types, variables, constants, literals, initializers and tags
+entry: main
+expect exit: 0
+expect text: "true|0|0.0| |1970-01-01T00:00:00.000Z||[]|{}"
+expect point: "{x: 3, y: 0}"
+expect grid: "[[1, 2], [3]]"
+expect stock: "{diamond: 3, gold: 10}"
+expect limited: "abc"
+expect moment: @2026-10-19T12:05:09.250Z
+---
+PROGRAM data
+NOOP
+STRUCT point
+BEGIN
+    x INTEGER TAG(json: "px")
+    y INTEGER
+END STRUCT
+CONSTANT ORIGIN STRUCT point
+BEGIN
+    x 3
+END CONSTANT
+NOOP
+FUNCTION main
+    RESULT text STRING
+    RESULT point STRING
+    RESULT grid STRING
+    RESULT stock STRING
+    RESULT limited STRING 3
+    RESULT moment TIME
+BEGIN
+    VARIABLE b BOOLEAN TRUE
+    VARIABLE i INTEGER
+    VARIABLE f FLOAT
+    VARIABLE c CHAR
+    VARIABLE t TIME
+    VARIABLE s STRING
+    VARIABLE a ARRAY INTEGER
+    VARIABLE h HASH INTEGER
+    ASSIGN text b ⊕ "|" ⊕ i ⊕ "|" ⊕ f ⊕ "|" ⊕ c ⊕ "|" ⊕ t ⊕ "|" ⊕ s ⊕ "|" ⊕ a ⊕ "|" ⊕ h ;
+    ASSIGN point "" ⊕ ORIGIN ;
+    VARIABLE g ARRAY ARRAY INTEGER
+    BEGIN
+        BEGIN
+            1 2
+        END
+        BEGIN
+            3
+        END
+    END VARIABLE
+    ASSIGN grid "" ⊕ g ;
+    VARIABLE st HASH INTEGER
+    BEGIN
+        gold 10
+    END VARIABLE
+    ASSIGN st["diamond"] 3 ;
+    ASSIGN stock "" ⊕ st ;
+    ASSIGN limited "abc" ;
+    ASSIGN moment @2026-10-19T12:05:09.250Z ;
+END FUNCTION

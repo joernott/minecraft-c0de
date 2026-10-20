@@ -129,3 +129,7 @@ please continue with sprint 2
 ## 2026-10-20 – Merge sprint 2, start sprint 3
 
 The light level is fine, the sky is empty and blue and the floor texture looks right. Please merge sprint-2 into main and start with sprint 3
+
+## 2026-10-20 – Merge sprint 3, start sprint 4
+
+yes, blease fast forward main to sprint-3 and start sprint 4

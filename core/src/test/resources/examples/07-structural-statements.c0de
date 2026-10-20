@@ -1,0 +1,57 @@
+// Chapter 07: IF/ELSE, FOR, EACH, WHILE, REPEAT and BREAK
+entry: main
+expect exit: 0
+expect primes: "2 3 5 7 11 13 17 19 "
+expect keys: "a=1 b=2 "
+expect countdown: "3 2 1 "
+expect repeats: 1
+---
+PROGRAM structural
+NOOP
+NOOP
+FUNCTION main
+    RESULT primes STRING
+    RESULT keys STRING
+    RESULT countdown STRING
+    RESULT repeats INTEGER
+BEGIN
+    FOR candidate INTEGER 2 ; 20 ;
+    BEGIN
+        VARIABLE prime BOOLEAN TRUE
+        FOR divisor INTEGER 2 ; candidate - 1 ;
+        BEGIN
+            IF candidate \ divisor = 0 ;
+            BEGIN
+                ASSIGN prime FALSE ;
+                BREAK
+            END IF
+        END FOR
+        IF prime ;
+        BEGIN
+            ASSIGN primes primes ⊕ candidate ⊕ " " ;
+        END
+        ELSE
+        BEGIN
+            NOOP
+        END IF
+    END FOR
+    VARIABLE h HASH INTEGER
+    BEGIN
+        b 2
+        a 1
+    END VARIABLE
+    EACH key h
+    BEGIN
+        ASSIGN keys keys ⊕ key ⊕ "=" ⊕ h[key] ⊕ " " ;
+    END EACH
+    VARIABLE n INTEGER 3
+    WHILE n > 0 ;
+    BEGIN
+        ASSIGN countdown countdown ⊕ n ⊕ " " ;
+        ASSIGN n n - 1 ;
+    END WHILE
+    REPEAT
+    BEGIN
+        ASSIGN repeats repeats + 1 ;
+    END REPEAT n > 0 ;
+END FUNCTION

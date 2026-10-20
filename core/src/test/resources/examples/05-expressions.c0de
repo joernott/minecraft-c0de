@@ -1,0 +1,38 @@
+// Chapter 05: expressions, operators and assignments with index
+entry: main
+expect exit: 0
+expect arithmetic: 23
+expect power: -4
+expect float: 2.5
+expect logic: TRUE
+expect bits: 11
+expect text: "a1b"
+expect values: "[10, 20, 30]"
+expect millis: 1500
+---
+PROGRAM expressions
+NOOP
+NOOP
+FUNCTION main
+    RESULT arithmetic INTEGER
+    RESULT power INTEGER
+    RESULT float FLOAT
+    RESULT logic BOOLEAN
+    RESULT bits INTEGER
+    RESULT text STRING
+    RESULT values STRING
+    RESULT millis INTEGER
+BEGIN
+    ASSIGN arithmetic 1 + 2 * ( 3 + 3 ) \ 10 * 2 + 10 ;
+    ASSIGN power - 2 ^ 2 ;
+    ASSIGN float 5 / 2 ;
+    ASSIGN logic 1 < 2 AND NOT FALSE OR 1 / 0 > 0 ;
+    ASSIGN bits ( 8 | 3 ) & ¬ 0 ;
+    ASSIGN text 'a' ⊕ 1 ⊕ "b" ;
+    VARIABLE list ARRAY INTEGER
+    ASSIGN list[0] 10 ;
+    ASSIGN list[1] 20 ;
+    ASSIGN list[2] list[0] + list[1] ;
+    ASSIGN values "" ⊕ list ;
+    ASSIGN millis ( @1970-01-01T00:00:01.500Z + 0 ) - @1970-01-01T00:00:00Z ;
+END FUNCTION

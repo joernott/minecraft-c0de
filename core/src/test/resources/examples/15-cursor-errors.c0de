@@ -1,0 +1,22 @@
+// Chapter 15: a raised error that is not caught crashes the entry function
+entry: main
+expect crash: DIVISION_BY_ZERO line 9
+---
+PROGRAM errors
+NOOP
+NOOP
+FUNCTION divide
+    PARAMETER a INTEGER
+    PARAMETER b INTEGER
+    RESULT result INTEGER
+BEGIN
+    VARIABLE quotient FLOAT
+    ASSIGN quotient a / b ;
+END FUNCTION
+NOOP
+FUNCTION main
+BEGIN
+    CALL divide
+        PARAMETER a 1 ;
+        PARAMETER b 0 ;
+END FUNCTION

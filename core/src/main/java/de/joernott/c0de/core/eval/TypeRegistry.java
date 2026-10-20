@@ -17,6 +17,19 @@ public final class TypeRegistry {
         return Optional.ofNullable(structs.get(name));
     }
 
+    /** All struct types by the name they were added with, in the order they were added. */
+    public Map<String, StructDefinition> all() {
+        return java.util.Collections.unmodifiableMap(structs);
+    }
+
+    /** The name a struct type was added with, e.g. {@code c0de/minecraft/POSITION}. */
+    public Optional<String> nameOf(StructDefinition definition) {
+        return structs.entrySet().stream()
+                .filter(entry -> entry.getValue().equals(definition))
+                .map(Map.Entry::getKey)
+                .findFirst();
+    }
+
     /** Adds a struct type. Library types are added with their qualified names, e.g. c0de/minecraft/POSITION. */
     public void add(String name, StructDefinition definition) {
         structs.put(name, definition);

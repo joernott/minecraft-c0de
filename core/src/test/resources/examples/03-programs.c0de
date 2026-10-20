@@ -1,0 +1,27 @@
+// Chapter 03: INCLUDE, scopes and EXIT
+entry: main
+expect exit: 3
+expect value: 84
+expect inner: 2
+---
+PROGRAM programs
+NOOP
+    INCLUDE test/lib
+CONSTANT BASE INTEGER 42
+NOOP
+FUNCTION main
+    RESULT value INTEGER
+    RESULT inner INTEGER
+BEGIN
+    CALL test/lib/DOUBLE
+        PARAMETER value BASE ;
+        RESULT result value
+    IF TRUE ;
+    BEGIN
+        VARIABLE local INTEGER 2
+        ASSIGN inner local ;
+    END IF
+    VARIABLE local INTEGER 5
+    EXIT 3 ;
+    ASSIGN value 0 ;
+END FUNCTION
