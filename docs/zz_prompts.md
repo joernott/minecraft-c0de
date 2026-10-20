@@ -168,3 +168,14 @@ I could place an ASSIGN block on the same level as the begin above, it should be
 The name of a result did not appear in the list of names when placing a label next to assign. However some error constants were available. It should not be possible to assign a value to those
 
 Also, parameters to a function should be available when placing labels.
+
+The function looks like this:
+FUNCTION T7
+ PARAMETER In STRING LITERAL "Hello World"
+ RESULT Out
+BEGIN
+ ASSIGN Out In OPERATOR ⊕ LITERAL "!" CHAR
+END
+
+When placing the END block it did not brighten. I forgot to place a STRING as last element for the Input
+What other mistake did I make?
