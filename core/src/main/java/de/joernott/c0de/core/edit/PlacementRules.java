@@ -14,6 +14,19 @@ public final class PlacementRules {
     private PlacementRules() {}
 
     /**
+     * Checks whether a language block may be placed at a position of a sheet: only in the code area (x=5 to
+     * x=28) of the code layer directly above the floor.
+     *
+     * @param x the x coordinate relative to the sheet
+     * @return the reason if no language block may be placed there
+     */
+    public static Optional<String> checkArea(int x, int y) {
+        return y == SheetGeometry.CODE_Y && x >= SheetGeometry.CODE_MIN_X && x <= SheetGeometry.CODE_MAX_X
+                ? Optional.empty()
+                : Optional.of("On a sheet, c0de blocks can only be placed on the floor between x=5 and x=28");
+    }
+
+    /**
      * Checks whether a block may be placed at a position of the code layer of a sheet.
      *
      * @return the reason if the block must not be placed there

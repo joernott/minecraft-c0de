@@ -90,5 +90,10 @@ public class FabricGameTests implements FabricGameTest {
     public void labelDialogsListTheNamesOfTheProgram(GameTestHelper helper) {
         ValidationTests.labelDialogsListTheNamesOfTheProgram(helper);
     }
+
+    @GameTest(template = SmokeTests.EMPTY_STRUCTURE)
+    public void existingProgramsAreRegisteredWhenTheirChunksLoad(GameTestHelper helper) {
+        ValidationTests.existingProgramsAreRegisteredWhenTheirChunksLoad(helper);
+    }
 }
 //?}

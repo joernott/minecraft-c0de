@@ -94,5 +94,10 @@ public class NeoForgeGameTests {
     public static void labelDialogsListTheNamesOfTheProgram(GameTestHelper helper) {
         ValidationTests.labelDialogsListTheNamesOfTheProgram(helper);
     }
+
+    @GameTest(template = "empty")
+    public static void existingProgramsAreRegisteredWhenTheirChunksLoad(GameTestHelper helper) {
+        ValidationTests.existingProgramsAreRegisteredWhenTheirChunksLoad(helper);
+    }
 }
 *///?}

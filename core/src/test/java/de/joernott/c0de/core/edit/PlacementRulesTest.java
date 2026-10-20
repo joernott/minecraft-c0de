@@ -65,4 +65,14 @@ class PlacementRulesTest {
         assertFalse(allowed(Keyword.RESULT, 6, 2));
         assertFalse(allowed(Keyword.PARAMETER, 7, 5));
     }
+
+    @Test
+    void onlyTheCodeAreaOfTheCodeLayer() {
+        assertTrue(PlacementRules.checkArea(5, -3).isEmpty());
+        assertTrue(PlacementRules.checkArea(28, -3).isEmpty());
+        assertFalse(PlacementRules.checkArea(3, -3).isEmpty());
+        assertFalse(PlacementRules.checkArea(4, -3).isEmpty());
+        assertFalse(PlacementRules.checkArea(29, -3).isEmpty());
+        assertFalse(PlacementRules.checkArea(6, -2).isEmpty());
+    }
 }

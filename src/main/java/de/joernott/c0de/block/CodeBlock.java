@@ -40,14 +40,12 @@ public class CodeBlock extends Block {
         BlockState state = super.getStateForPlacement(context);
         Level level = context.getLevel();
         BlockPos pos = context.getClickedPos();
-        if (state == null
-                || pos.getY() != SheetGeometry.CODE_Y
-                || !LevelSheet.isOnSheet(level, pos)
-                || !SheetGeometry.isInCodeArea(pos.getX(), pos.getZ())) {
+        if (state == null || !LevelSheet.isOnSheet(level, pos)) {
             return state;
         }
-        Optional<String> problem = PlacementRules.check(
-                LevelSheet.view(level, pos), type.placed(), SheetGeometry.relativeX(pos.getX()), pos.getZ());
+        int x = SheetGeometry.relativeX(pos.getX());
+        Optional<String> problem = PlacementRules.checkArea(x, pos.getY())
+                .or(() -> PlacementRules.check(LevelSheet.view(level, pos), type.placed(), x, pos.getZ()));
         if (problem.isEmpty()) {
             return state;
         }

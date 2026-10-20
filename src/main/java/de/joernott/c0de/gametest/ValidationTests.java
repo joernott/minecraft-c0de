@@ -145,6 +145,9 @@ public final class ValidationTests {
             helper.assertTrue(
                     placement(level, player, CodeBlockType.LABEL, sheet.pos(6, 1)) == null,
                     "A LABEL can be placed in a NOOP line");
+            helper.assertTrue(
+                    placement(level, player, CodeBlockType.PARAMETER, sheet.pos(5, 2).west(2)) == null,
+                    "A PARAMETER can be placed at x=3");
         } finally {
             sheet.clear();
             SheetValidation.validate(level, 505);
@@ -193,5 +196,27 @@ public final class ValidationTests {
             SheetValidation.validate(level, 506);
         }
         helper.succeed();
+    }
+
+    /** A program from before the registry existed is registered when the chunk of its PROGRAM line loads. */
+    public static void existingProgramsAreRegisteredWhenTheirChunksLoad(GameTestHelper helper) {
+        ServerLevel level = c0de(helper);
+        SheetBuilder sheet = new SheetBuilder(level, 507).place("PROGRAM veteran\nNOOP\n");
+        ProgramRegistry registry = ProgramRegistry.get(level);
+        helper.runAfterDelay(2, () -> {
+            // Forgets the program, as if it was written by an older version of the mod
+            registry.update(507, null, List.of());
+            SheetValidation.chunkLoaded(level, new net.minecraft.world.level.ChunkPos(sheet.pos(5, 0)));
+            helper.runAfterDelay(2, () -> {
+                try {
+                    helper.assertTrue(
+                            registry.sheetOf("veteran").orElse(-1) == 507, "The program was not registered");
+                } finally {
+                    sheet.clear();
+                    SheetValidation.validate(level, 507);
+                }
+                helper.succeed();
+            });
+        });
     }
 }

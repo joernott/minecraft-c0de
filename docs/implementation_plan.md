@@ -157,8 +157,10 @@ A task is done when
 | 7.2 | Static validation in `core`: checks a program without running it and reports the state of every block (valid, invalid, reason). Reuses the rules of sprints 3 and 4. | ✅ |
 | 7.3 | Incremental validation: when a block on a sheet is placed or removed, the affected statements are validated again and the `valid` block states are updated. | ✅ |
 | 7.4 | Placement rules that are checked when a block is placed (e.g. FUNCTION only at x=5 after a NOOP line, END not directly after BEGIN, NOOP lines stay empty). | ✅ |
+| 7.4.1 | On a sheet, c0de blocks can only be placed in the code area of the code layer (x=5 to x=28). | ✅ |
 | 7.5 | LABEL dialogs with live data: programs, libraries, functions, parameters, variables in scope, struct types. | ✅ |
 | 7.6 | Program registry: unique program names per dimension, list of programs and their functions for the trigger dialogs. | ✅ |
+| 7.6.1 | Sheets are validated when the chunk of their PROGRAM line is loaded, so that existing programs are registered. | ✅ |
 
 ## Sprint 8: Processes
 

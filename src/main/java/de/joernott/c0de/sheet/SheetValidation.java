@@ -11,14 +11,15 @@ import de.joernott.c0de.core.validation.Validator;
 import de.joernott.c0de.dimension.C0deDimension;
 import de.joernott.c0de.library.ModLibraries;
 import de.joernott.c0de.platform.Platform;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.OptionalInt;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -31,14 +32,29 @@ import net.minecraft.world.level.block.state.BlockState;
  * result differs.
  */
 public final class SheetValidation {
-    /** The sheets that changed in this tick. Only used on the server thread. */
-    private static final Set<Integer> CHANGED = new LinkedHashSet<>();
+    /** The sheets to validate at the end of the tick. Chunks may be loaded outside of the server thread. */
+    private static final Set<Integer> CHANGED = ConcurrentHashMap.newKeySet();
 
     private SheetValidation() {}
 
     /** Registers the validation at the end of every server tick. Called once when the mod is initialized. */
     public static void register() {
         Platform.INSTANCE.onServerTickEnd(SheetValidation::tick);
+        Platform.INSTANCE.onChunkLoad(SheetValidation::chunkLoaded);
+    }
+
+    /**
+     * Validates the sheets whose PROGRAM line is in a loaded chunk. This registers programs that were written
+     * before they could be validated (e.g. in older versions of the mod), and keeps the block states up to
+     * date if the rules changed.
+     */
+    public static void chunkLoaded(ServerLevel level, ChunkPos chunk) {
+        if (chunk.z != 0 || chunk.getMinBlockX() < 0 || !level.dimension().equals(C0deDimension.LEVEL)) {
+            return;
+        }
+        for (int x = chunk.getMinBlockX(); x <= chunk.getMaxBlockX(); x += SheetGeometry.SHEET_WIDTH / 2) {
+            CHANGED.add(SheetGeometry.sheetIndex(x, 0));
+        }
     }
 
     /** Notes that a block on the code layer of a sheet has changed. */

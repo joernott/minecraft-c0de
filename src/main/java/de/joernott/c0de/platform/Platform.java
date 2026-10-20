@@ -71,6 +71,9 @@ public sealed interface Platform {
     /** Calls the listener at the end of every server tick. */
     void onServerTickEnd(java.util.function.Consumer<net.minecraft.server.MinecraftServer> listener);
 
+    /** Calls the listener when a chunk of a server level has been loaded. */
+    void onChunkLoad(BiConsumer<net.minecraft.server.level.ServerLevel, net.minecraft.world.level.ChunkPos> listener);
+
     /** Sends a payload to a player. */
     void sendToPlayer(ServerPlayer player, CustomPacketPayload payload);
 
@@ -149,6 +152,13 @@ public sealed interface Platform {
         @Override
         public void onServerTickEnd(java.util.function.Consumer<net.minecraft.server.MinecraftServer> listener) {
             net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents.END_SERVER_TICK.register(listener::accept);
+        }
+
+        @Override
+        public void onChunkLoad(
+                BiConsumer<net.minecraft.server.level.ServerLevel, net.minecraft.world.level.ChunkPos> listener) {
+            net.fabricmc.fabric.api.event.lifecycle.v1.ServerChunkEvents.CHUNK_LOAD.register(
+                    (level, chunk) -> listener.accept(level, chunk.getPos()));
         }
 
         @Override
@@ -243,6 +253,17 @@ public sealed interface Platform {
             net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
                     net.neoforged.neoforge.event.tick.ServerTickEvent.Post.class,
                     event -> listener.accept(event.getServer()));
+        }
+
+        @Override
+        public void onChunkLoad(
+                BiConsumer<net.minecraft.server.level.ServerLevel, net.minecraft.world.level.ChunkPos> listener) {
+            net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
+                    net.neoforged.neoforge.event.level.ChunkEvent.Load.class, event -> {
+                        if (event.getLevel() instanceof net.minecraft.server.level.ServerLevel level) {
+                            listener.accept(level, event.getChunk().getPos());
+                        }
+                    });
         }
 
         @Override

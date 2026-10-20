@@ -156,3 +156,9 @@ I have run the above tests: Here are my findings:
 ## 2026-10-20 – Finish sprint 6, start sprint 7
 
 Both are fine now, go ahead, finish sprint 6 and continue with sprint 7
+
+## 2026-10-20 – In-game check of sprint 7
+
+Findings: A program existing from a previous run has not been considered, when creating another one in the second sheet with the same name. However, creating a program with the same name in the third sheet failed as expected.
+
+Placing a parameter block in the same line as the function was blocked. However, I could place it a x=2, x=3

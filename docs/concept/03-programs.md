@@ -20,9 +20,10 @@ The cursor processes the program from top to bottom until the entry function end
 
 While a player writes a program, the game checks it after every change, without running it: the syntax as described in the [cursor chapter](15-cursor.md) and the names (unknown or duplicate variables, constants, functions, libraries and struct types, changed constants and calls with unknown or missing parameters or results). Every block of a line with a problem shows its invalid color; the reason is shown by the [debugging tool](14-items-and-tools.md#debugging-tool). If a statement is so broken that its following lines can't be assigned to it (e.g. a BEGIN without END), all of them are invalid. Lines after the empty line that ends the program don't belong to it and are invalid as well. Types of expressions and values are only checked when the program runs.
 
-Program names are unique in the c0de dimension. If a second sheet uses a name that is already used, its PROGRAM line is invalid.
+Program names are unique in the c0de dimension. If a second sheet uses a name that is already used, its PROGRAM line is invalid. A sheet is also validated when the chunk of its PROGRAM line is loaded, so programs written with older versions of the mod are registered as soon as a player comes near them; the program that was registered first keeps its name.
 
-Some mistakes are prevented when a block is placed on the code layer of a sheet, and the player gets the reason:
+Some mistakes are prevented when a block is placed on a sheet, and the player gets the reason:
+  - On a sheet, c0de blocks can only be placed on the floor (the code layer) between x=5 and x=28.
   - A NOOP line can't contain other blocks, and a NOOP block can only be placed in an empty line.
   - A FUNCTION line starts at x=5 directly after a NOOP line (FUNCTION can also be placed after END).
   - END can't be placed directly below its BEGIN, because a code block can't be empty.
