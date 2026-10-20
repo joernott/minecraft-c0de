@@ -190,3 +190,7 @@ I've added the Type after the LITERAL for PARAMETER In. RESULT Out already had a
 The program on sheet 2 lit up now. On sheet1, I fixed the program, too and it lit up. I thested the new placement restrictions and they look OK.
 
 Other Findings: I accidentally broke a floor block. Middle clicking it, did not allow me to get it to repair the floor. In creative mode, this should be possible (like with bedrock), as it is possible to break the floor. Also, the triangle on the assign block should always point to positive x on all sides.
+
+## 2026-10-20 – Finish sprint 7, start sprint 8
+
+The texture is right and I was able to fix the hole in the ground. You can mark the sprint as done and proceed as usual

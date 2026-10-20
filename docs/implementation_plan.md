@@ -41,7 +41,7 @@ A task is done when
 | 4 | Interpreter II: execution | `core` runs complete programs step by step, including functions, loops and errors | ✅ |
 | 5 | Libraries in `core` | Built-in functions, c0de/math, c0de/strings (incl. FORMAT, JSON, YAML), c0de/time | ✅ |
 | 6 | Language blocks I | All language blocks exist, with dialogs and recipes | ✅ |
-| 7 | Language blocks II: validation | Blocks show whether their statements are valid |  |
+| 7 | Language blocks II: validation | Blocks show whether their statements are valid | ✅ |
 | 8 | Processes | Trigger, timer, PID block and cursor run programs in the world |  |
 | 9 | Debugging and tools | Debug cursor, debugging tool, marker, wrench, hammer |  |
 | 10 | c0de/minecraft and c0de disk | Programs interact with the world; programs are imported and exported as YAML |  |
@@ -146,7 +146,7 @@ A task is done when
 | 6.6 | Type blocks: TYPE_BOOLEAN … TYPE_ERROR, including TYPE_TIME. | ✅ |
 | 6.7 | Textures and models for all blocks with a valid and an invalid variant (block state `valid`); language files `en_us` and `de_de`. | ✅ |
 | 6.7.1 | The text on the sides of blocks is shaded like the sides themselves, so that it looks the same on the top and on the sides. | ✅ |
-| 6.7.2 | The triangle of ASSIGN points to positive x on all sides (dot on the east side, cross on the west side). |  |
+| 6.7.2 | The triangle of ASSIGN points to positive x on all sides (dot on the east side, cross on the west side). | ✅ |
 | 6.8 | Data generation for models, block states, recipes, loot tables and tags, shared by both loaders. | ✅ |
 
 ## Sprint 7: Language blocks II – validation
