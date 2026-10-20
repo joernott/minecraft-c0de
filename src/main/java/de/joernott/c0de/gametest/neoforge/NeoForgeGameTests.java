@@ -2,6 +2,7 @@ package de.joernott.c0de.gametest.neoforge;
 
 //? if neoforge {
 /*import de.joernott.c0de.C0de;
+import de.joernott.c0de.gametest.CodeBlockTests;
 import de.joernott.c0de.gametest.DimensionTests;
 import de.joernott.c0de.gametest.SmokeTests;
 import net.minecraft.gametest.framework.GameTest;
@@ -41,6 +42,31 @@ public class NeoForgeGameTests {
     @GameTest(template = "empty")
     public static void playerEntersAndLeavesTheDimension(GameTestHelper helper) {
         DimensionTests.playerEntersAndLeavesTheDimension(helper);
+    }
+
+    @GameTest(template = "empty")
+    public static void allBlocksHaveItemsLootTablesAndRecipes(GameTestHelper helper) {
+        CodeBlockTests.allBlocksHaveItemsLootTablesAndRecipes(helper);
+    }
+
+    @GameTest(template = "empty")
+    public static void literalPropertiesAreCheckedSavedAndSynchronized(GameTestHelper helper) {
+        CodeBlockTests.literalPropertiesAreCheckedSavedAndSynchronized(helper);
+    }
+
+    @GameTest(template = "empty")
+    public static void operatorAndTagProperties(GameTestHelper helper) {
+        CodeBlockTests.operatorAndTagProperties(helper);
+    }
+
+    @GameTest(template = "empty")
+    public static void blocksFarAwayCantBeChanged(GameTestHelper helper) {
+        CodeBlockTests.blocksFarAwayCantBeChanged(helper);
+    }
+
+    @GameTest(template = "empty")
+    public static void labelsAndTagsUseTheirPositionOnTheSheet(GameTestHelper helper) {
+        CodeBlockTests.labelsAndTagsUseTheirPositionOnTheSheet(helper);
     }
 }
 *///?}

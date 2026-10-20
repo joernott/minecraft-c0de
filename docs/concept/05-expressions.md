@@ -36,7 +36,7 @@ Applying an operator to operands of the wrong type raises a TYPE_MISMATCH error.
 
 ### Minecraft block
 
-All operators, the parentheses and the end-of-expression symbol (`;`) are represented by a single OPERATOR block. Its symbol is chosen in a dialog that opens when the block is right-clicked with an empty hand. The dialog shows a dropdown with all operator symbols, `(`, `)` and `;`. A newly crafted OPERATOR block has no symbol yet.
+All operators, the parentheses and the end-of-expression symbol (`;`) are represented by a single OPERATOR block. Its symbol is chosen in a dialog that opens when the block is right-clicked with an empty hand. The dialog shows a button for every operator symbol, `(`, `)` and `;`; clicking a button saves the symbol and closes the dialog. A newly crafted OPERATOR block has no symbol yet.
 
 An OPERATOR block in a valid expression is red (color #FF5555) and has a white circle on all sides that contains its symbol in dark red (color #AA0000). If the expression is incomplete or the block has no symbol yet, the block is dark red (color #AA0000).
 

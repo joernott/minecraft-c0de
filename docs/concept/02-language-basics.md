@@ -152,6 +152,8 @@ Right-clicking a LABEL block with an empty hand opens a dialog. Its layout depen
   - next to a STRUCT type block, a dropdown list of the known struct types is shown
   - in all other places (expressions, ASSIGN, RETURN, the error label of a CALL, the iterable of an EACH), a dropdown list of the variables and constants in scope is shown, together with an editor for the index
 
+The lists are shown below the input field: clicking an entry copies it into the field, and typing filters the list. A name that is not in the list can still be entered. The index is entered as text in the notation of the examples, e.g. `[i][2]`, `["diamond"]` or `.code`. When the dialog is saved, the kind and parent of the label are determined again from its position.
+
 The input field shows the current name, which can be edited. If the name is valid, the OK button (a green check mark) can be clicked. If it is invalid, the button is disabled. Pressing Escape or clicking outside of the dialog closes it without making changes.
 
 #### Crafting

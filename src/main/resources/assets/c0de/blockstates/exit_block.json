@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "valid=true": {
+      "model": "c0de:block/exit_block_valid"
+    },
+    "valid=false": {
+      "model": "c0de:block/exit_block_invalid"
+    }
+  }
+}

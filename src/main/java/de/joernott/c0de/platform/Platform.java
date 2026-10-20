@@ -1,9 +1,21 @@
 package de.joernott.c0de.platform;
 
 import de.joernott.c0de.C0de;
+import de.joernott.c0de.network.ClientReceivers;
 import java.nio.file.Path;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
 import java.util.function.Supplier;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
 
 /**
  * Access to the functionality of the mod loader. All loader-specific code outside of the entry points
@@ -35,6 +47,32 @@ public sealed interface Platform {
 
     /** Adds a source of data packs to the pack repository of every server. */
     void addServerDataPackSource(net.minecraft.server.packs.repository.RepositorySource source);
+
+    /**
+     * Registers a payload that clients send to the server. The handler runs on the server thread with the
+     * player who sent it.
+     */
+    <T extends CustomPacketPayload> void registerServerbound(
+            CustomPacketPayload.Type<T> type,
+            StreamCodec<? super RegistryFriendlyByteBuf, T> codec,
+            BiConsumer<T, ServerPlayer> handler);
+
+    /**
+     * Registers a payload that the server sends to clients. On the client, it is passed on the client thread
+     * to the receiver registered in {@link ClientReceivers}.
+     */
+    <T extends CustomPacketPayload> void registerClientbound(
+            CustomPacketPayload.Type<T> type, StreamCodec<? super RegistryFriendlyByteBuf, T> codec);
+
+    /** Creates the type of a block entity of some blocks. */
+    <T extends BlockEntity> BlockEntityType<T> blockEntityType(
+            BiFunction<BlockPos, BlockState, T> factory, Block... blocks);
+
+    /** Sends a payload to a player. */
+    void sendToPlayer(ServerPlayer player, CustomPacketPayload payload);
+
+    /** Sends a payload to the server. Only called on the client. */
+    void sendToServer(CustomPacketPayload payload);
 
     //? if fabric {
     final class FabricPlatform implements Platform {
@@ -73,6 +111,46 @@ public sealed interface Platform {
         @Override
         public void addServerDataPackSource(net.minecraft.server.packs.repository.RepositorySource source) {
             SERVER_DATA_SOURCES.add(source);
+        }
+
+        /** The clientbound payload types, whose receivers the client entry point registers. */
+        public static final java.util.List<CustomPacketPayload.Type<?>> CLIENTBOUND =
+                new java.util.concurrent.CopyOnWriteArrayList<>();
+
+        @Override
+        public <T extends CustomPacketPayload> void registerServerbound(
+                CustomPacketPayload.Type<T> type,
+                StreamCodec<? super RegistryFriendlyByteBuf, T> codec,
+                BiConsumer<T, ServerPlayer> handler) {
+            net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry.playC2S().register(type, codec);
+            net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking.registerGlobalReceiver(
+                    type, (payload, context) -> handler.accept(payload, context.player()));
+        }
+
+        @Override
+        public <T extends CustomPacketPayload> void registerClientbound(
+                CustomPacketPayload.Type<T> type, StreamCodec<? super RegistryFriendlyByteBuf, T> codec) {
+            net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry.playS2C().register(type, codec);
+            CLIENTBOUND.add(type);
+        }
+
+        @Override
+        public <T extends BlockEntity> BlockEntityType<T> blockEntityType(
+                BiFunction<BlockPos, BlockState, T> factory, Block... blocks) {
+            // The factory interface of the vanilla builder is not accessible on Fabric
+            return net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder.create(
+                            factory::apply, blocks)
+                    .build();
+        }
+
+        @Override
+        public void sendToPlayer(ServerPlayer player, CustomPacketPayload payload) {
+            net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking.send(player, payload);
+        }
+
+        @Override
+        public void sendToServer(CustomPacketPayload payload) {
+            net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking.send(payload);
         }
     }
     //?} elif neoforge {
@@ -126,6 +204,40 @@ public sealed interface Platform {
                     event.addRepositorySource(source);
                 }
             });
+        }
+
+        @Override
+        public <T extends CustomPacketPayload> void registerServerbound(
+                CustomPacketPayload.Type<T> type,
+                StreamCodec<? super RegistryFriendlyByteBuf, T> codec,
+                BiConsumer<T, ServerPlayer> handler) {
+            modEventBus.addListener(net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent.class,
+                    event -> event.registrar("1").playToServer(
+                            type, codec, (payload, context) -> handler.accept(payload, (ServerPlayer) context.player())));
+        }
+
+        @Override
+        public <T extends CustomPacketPayload> void registerClientbound(
+                CustomPacketPayload.Type<T> type, StreamCodec<? super RegistryFriendlyByteBuf, T> codec) {
+            modEventBus.addListener(net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent.class,
+                    event -> event.registrar("1").playToClient(
+                            type, codec, (payload, context) -> ClientReceivers.dispatch(payload)));
+        }
+
+        @Override
+        public <T extends BlockEntity> BlockEntityType<T> blockEntityType(
+                BiFunction<BlockPos, BlockState, T> factory, Block... blocks) {
+            return BlockEntityType.Builder.of(factory::apply, blocks).build(null);
+        }
+
+        @Override
+        public void sendToPlayer(ServerPlayer player, CustomPacketPayload payload) {
+            net.neoforged.neoforge.network.PacketDistributor.sendToPlayer(player, payload);
+        }
+
+        @Override
+        public void sendToServer(CustomPacketPayload payload) {
+            net.neoforged.neoforge.network.PacketDistributor.sendToServer(payload);
         }
     }
     *///?}

@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "ingredients": [
+    {
+      "item": "c0de:while_block"
+    }
+  ],
+  "result": {
+    "id": "c0de:repeat_block",
+    "count": 1
+  }
+}

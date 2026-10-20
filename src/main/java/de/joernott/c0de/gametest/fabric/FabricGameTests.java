@@ -1,6 +1,7 @@
 package de.joernott.c0de.gametest.fabric;
 
 //? if fabric {
+import de.joernott.c0de.gametest.CodeBlockTests;
 import de.joernott.c0de.gametest.DimensionTests;
 import de.joernott.c0de.gametest.SmokeTests;
 import net.fabricmc.fabric.api.gametest.v1.FabricGameTest;
@@ -37,6 +38,31 @@ public class FabricGameTests implements FabricGameTest {
     @GameTest(template = SmokeTests.EMPTY_STRUCTURE)
     public void playerEntersAndLeavesTheDimension(GameTestHelper helper) {
         DimensionTests.playerEntersAndLeavesTheDimension(helper);
+    }
+
+    @GameTest(template = SmokeTests.EMPTY_STRUCTURE)
+    public void allBlocksHaveItemsLootTablesAndRecipes(GameTestHelper helper) {
+        CodeBlockTests.allBlocksHaveItemsLootTablesAndRecipes(helper);
+    }
+
+    @GameTest(template = SmokeTests.EMPTY_STRUCTURE)
+    public void literalPropertiesAreCheckedSavedAndSynchronized(GameTestHelper helper) {
+        CodeBlockTests.literalPropertiesAreCheckedSavedAndSynchronized(helper);
+    }
+
+    @GameTest(template = SmokeTests.EMPTY_STRUCTURE)
+    public void operatorAndTagProperties(GameTestHelper helper) {
+        CodeBlockTests.operatorAndTagProperties(helper);
+    }
+
+    @GameTest(template = SmokeTests.EMPTY_STRUCTURE)
+    public void blocksFarAwayCantBeChanged(GameTestHelper helper) {
+        CodeBlockTests.blocksFarAwayCantBeChanged(helper);
+    }
+
+    @GameTest(template = SmokeTests.EMPTY_STRUCTURE)
+    public void labelsAndTagsUseTheirPositionOnTheSheet(GameTestHelper helper) {
+        CodeBlockTests.labelsAndTagsUseTheirPositionOnTheSheet(helper);
     }
 }
 //?}

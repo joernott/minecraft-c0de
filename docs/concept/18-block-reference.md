@@ -2,6 +2,8 @@
 
 [c0de concept](../concept.md) › Block reference
 
+The block IDs are the names in lowercase with the suffix `_block`, e.g. `c0de:noop_block`, `c0de:type_boolean_block` or `c0de:operator_block`. Blocks with a valid and an invalid color have the block state `valid`. Right-clicking a block with an item in the main hand uses the item (e.g. places a block next to it); only an empty hand opens the dialog of a block.
+
 | Block | Valid color | Invalid color | Symbol | Recipe |
 |---|---|---|---|---|
 | NOOP | transparent | – | metal corners, wooden edges | 4 iron ingots + 4 sticks → 64 |

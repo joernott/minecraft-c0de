@@ -50,6 +50,9 @@ dependencies {
         "fabric-resource-loader-v0",
         "fabric-gametest-api-v1",
         "fabric-rendering-v1",
+        "fabric-networking-api-v1",
+        "fabric-object-builder-api-v1",
+        "fabric-blockrenderlayer-v1",
     )
     // Used by core (TO_YAML, FROM_YAML, FROM_JSON), embedded in the mod jar
     include(implementation("org.snakeyaml:snakeyaml-engine:3.2")!!)

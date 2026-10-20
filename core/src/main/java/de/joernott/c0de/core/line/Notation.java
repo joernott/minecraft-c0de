@@ -218,36 +218,7 @@ public final class Notation {
         if (!name.lookingAt()) {
             throw new IllegalArgumentException("Not a block: " + token);
         }
-        List<IndexEntry> index = new ArrayList<>();
-        int i = name.end();
-        while (i < token.length()) {
-            if (token.charAt(i) == '.') {
-                Matcher element = NAME.matcher(token).region(i + 1, token.length());
-                if (!element.lookingAt()) {
-                    throw new IllegalArgumentException("Missing element name: " + token);
-                }
-                index.add(new IndexEntry.Element(element.group()));
-                i = element.end();
-            } else if (token.charAt(i) == '[') {
-                int close = token.charAt(i + 1) == '"' ? closingQuote(token, i + 1) + 1 : token.indexOf(']', i);
-                if (close < 0 || close >= token.length() || token.charAt(close) != ']') {
-                    throw new IllegalArgumentException("Missing ] in " + token);
-                }
-                String entry = token.substring(i + 1, close);
-                if (entry.startsWith("\"")) {
-                    index.add(
-                            new IndexEntry.Literal(new StringValue(unescape(entry.substring(1, entry.length() - 1)))));
-                } else if (INTEGER.matcher(entry).matches()) {
-                    index.add(new IndexEntry.Literal(new IntegerValue(Long.parseLong(entry))));
-                } else {
-                    index.add(new IndexEntry.Variable(entry));
-                }
-                i = close + 1;
-            } else {
-                throw new IllegalArgumentException("Not a block: " + token);
-            }
-        }
-        return new LabelBlock(name.group(), index);
+        return new LabelBlock(name.group(), IndexText.parse(token.substring(name.end())));
     }
 
     private static String unescape(String text) {
@@ -295,7 +266,7 @@ public final class Notation {
     private static String format(Block block) {
         return switch (block) {
             case KeywordBlock keyword -> keyword.keyword().name();
-            case LabelBlock label -> label.name() == null ? "LABEL" : label.name() + formatIndex(label.index());
+            case LabelBlock label -> label.name() == null ? "LABEL" : label.name() + IndexText.format(label.index());
             case LiteralBlock literal -> literal.value() == null ? "LITERAL" : formatLiteral(literal.value());
             case OperatorBlock operator ->
                 operator.operator() == null ? "OPERATOR" : operator.operator().symbol();
@@ -304,20 +275,6 @@ public final class Notation {
                 "TAG(" + (tag.language() == null ? "" : tag.language()) + ": \""
                         + escape(tag.name() == null ? "" : tag.name()) + "\")";
         };
-    }
-
-    private static String formatIndex(List<IndexEntry> index) {
-        StringBuilder text = new StringBuilder();
-        for (IndexEntry entry : index) {
-            switch (entry) {
-                case IndexEntry.Element element -> text.append('.').append(element.name());
-                case IndexEntry.Variable variable ->
-                    text.append('[').append(variable.name()).append(']');
-                case IndexEntry.Literal literal ->
-                    text.append('[').append(formatLiteral(literal.value())).append(']');
-            }
-        }
-        return text.toString();
     }
 
     /** A literal value in the notation. */

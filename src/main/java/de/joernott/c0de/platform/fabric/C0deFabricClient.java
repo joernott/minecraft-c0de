@@ -1,15 +1,48 @@
 package de.joernott.c0de.platform.fabric;
 
 //? if fabric {
+import de.joernott.c0de.blockentity.PropertiesBlockEntity;
+import de.joernott.c0de.client.C0deClient;
 import de.joernott.c0de.client.C0deDimensionEffects;
+import de.joernott.c0de.client.PropertiesRenderer;
+import de.joernott.c0de.content.C0deBlockEntities;
+import de.joernott.c0de.content.C0deBlocks;
+import de.joernott.c0de.content.CodeBlockType;
+import de.joernott.c0de.network.ClientReceivers;
+import de.joernott.c0de.platform.Platform;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.DimensionRenderingRegistry;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 
 /** Client entry point for Fabric. */
 public class C0deFabricClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         DimensionRenderingRegistry.registerDimensionEffects(C0deDimensionEffects.ID, new C0deDimensionEffects());
+        C0deClient.init();
+        Platform.FabricPlatform.CLIENTBOUND.forEach(C0deFabricClient::receive);
+        for (CodeBlockType type : CodeBlockType.values()) {
+            if (type.isTransparent()) {
+                BlockRenderLayerMap.INSTANCE.putBlock(C0deBlocks.get(type), RenderType.cutout());
+            }
+        }
+        // The vanilla registration method is private in 1.21.1
+        C0deBlockEntities.all().forEach(C0deFabricClient::renderer);
+    }
+
+    private static <E extends PropertiesBlockEntity> void renderer(BlockEntityType<E> type) {
+        BlockEntityRendererProvider<PropertiesBlockEntity> provider = PropertiesRenderer::new;
+        BlockEntityRendererRegistry.register(type, provider);
+    }
+
+    private static <T extends CustomPacketPayload> void receive(CustomPacketPayload.Type<T> type) {
+        ClientPlayNetworking.registerGlobalReceiver(type, (payload, context) -> ClientReceivers.dispatch(payload));
     }
 }
 //?}

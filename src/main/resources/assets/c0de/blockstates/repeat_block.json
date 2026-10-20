@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "valid=true": {
+      "model": "c0de:block/repeat_block_valid"
+    },
+    "valid=false": {
+      "model": "c0de:block/repeat_block_invalid"
+    }
+  }
+}

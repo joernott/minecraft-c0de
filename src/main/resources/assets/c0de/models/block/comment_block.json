@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "c0de:block/comment_block"
+  },
+  "render_type": "minecraft:cutout"
+}

@@ -28,6 +28,15 @@ jobs:
       - uses: gradle/actions/setup-gradle@v6
       - name: Whitespace
         run: scripts/check-whitespace.sh
+      # Textures are not compared, because PNG compression may differ between zlib versions
+      - name: Generated JSON files are up to date
+        run: |
+          python3 scripts/generate_content.py
+          if [ -n "$(git status --porcelain -- src/main/resources)" ]; then
+            git status --short -- src/main/resources
+            echo "::error title=Generated files::Run scripts/generate_content.py and commit the result"
+            exit 1
+          fi
       - name: Formatting and unit tests of core
         run: ./gradlew :core:check --console=plain
       - name: Report failed unit tests

@@ -1,9 +1,11 @@
 package de.joernott.c0de;
 
+import de.joernott.c0de.content.C0deBlockEntities;
 import de.joernott.c0de.content.C0deBlocks;
 import de.joernott.c0de.content.C0deItems;
 import de.joernott.c0de.core.config.C0deConfig;
 import de.joernott.c0de.core.library.standard.StandardLibraries;
+import de.joernott.c0de.dialog.DialogService;
 import de.joernott.c0de.dimension.C0deDimension;
 import de.joernott.c0de.dimension.SettingsPack;
 import de.joernott.c0de.platform.Platform;
@@ -30,7 +32,9 @@ public final class C0de {
         checkLibraries();
         Platform.INSTANCE.addServerDataPackSource(SettingsPack.source());
         C0deBlocks.register();
+        C0deBlockEntities.register();
         C0deItems.register();
+        DialogService.register();
         C0deDimension.register();
     }
 

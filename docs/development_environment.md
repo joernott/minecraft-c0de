@@ -47,7 +47,7 @@ Dependabot proposes updates of the GitHub Actions and the Gradle plugins as pull
 
 ### Third-party libraries
 
-Minecraft already ships Gson, which is used for JSON. YAML (for TO_YAML/FROM_YAML and the c0de disk) needs SnakeYAML Engine (YAML 1.2). It is embedded in the mod jar with the jar-in-jar mechanisms of both loaders (`include` in Loom, `jarJar` in ModDevGradle), so players don't need to install anything else.
+YAML (for TO_YAML/FROM_YAML and the c0de disk) needs SnakeYAML Engine (YAML 1.2), which also parses JSON (see concept review §13). It is embedded in the mod jar with the jar-in-jar mechanisms of both loaders (`include` in Loom, `jarJar` in ModDevGradle), so players don't need to install anything else.
 
 ## Windows workstation
 
@@ -59,7 +59,7 @@ Minecraft already ships Gson, which is used for JSON. YAML (for TO_YAML/FROM_YAM
 | Git, GitHub CLI (`gh`) | For the repository and for checking CI results |
 | IntelliJ IDEA Community + plugin "Minecraft Development" | Recommended IDE: understands Mixins, access wideners, mod metadata and Stonecutter run configurations |
 | Visual Studio Code + "Extension Pack for Java" + "Gradle for Java" | Possible alternative. Mixin support is weaker; runs are started as Gradle tasks |
-| Python 3 | Already installed; used for the documentation scripts |
+| Python 3 | Already installed (`py` on Windows); used for the documentation scripts and the generators of the resources |
 
 ### Daily work
 
@@ -67,6 +67,7 @@ Minecraft already ships Gson, which is used for JSON. YAML (for TO_YAML/FROM_YAM
   - `./gradlew build` builds and tests all active nodes.
   - Stonecutter selects the *active* node (e.g. `1.21.1-fabric`), whose sources are shown in the IDE. `./gradlew "Set active project to 1.21.1-neoforge"` switches it.
   - `runClient` and `runServer` of each node start Minecraft with the mod in development mode. Two client instances (one per loader) can be connected to the test servers on the VM.
+  - `py scripts/generate_content.py` writes the block states, models, loot tables, recipes and language files of the language blocks, and `py scripts/generate_textures.py` writes the placeholder textures. Both loaders use the same generated files. After adding a block to `CodeBlockType`, add it to both scripts and commit the generated files; CI fails if the JSON files are not up to date.
   - To test a built jar like a player, add it to a Fabric or NeoForge 1.21.1 profile in the Modrinth App ("Add content" → from file). This also shows how the mod behaves together with other mods from Modrinth.
 
 ## Development VM

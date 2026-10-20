@@ -116,6 +116,359 @@ def wrench() -> Image:
     return image
 
 
+CLEAR: Pixel = (0, 0, 0, 0)
+WHITE = 0xFFFFFF
+
+# 5x7 glyphs for the symbols on the blocks
+GLYPHS = {
+    "?": [".###.", "#...#", "....#", "...#.", "..#..", ".....", "..#.."],
+    "¿": ["..#..", ".....", "..#..", ".#...", "#....", "#...#", ".###."],
+    "ƒ": ["...##", "..#..", ".####", "..#..", "..#..", "..#..", "##..."],
+    "#": [".#.#.", ".#.#.", "#####", ".#.#.", "#####", ".#.#.", ".#.#."],
+}
+
+
+def blank() -> Image:
+    return [[CLEAR for _ in range(16)] for _ in range(16)]
+
+
+def framed(color: int, seed: str) -> Image:
+    """A flat color with a slight noise and a darker border."""
+    image = concrete(color, seed, 3)
+    for i in range(16):
+        for edge in (0, 15):
+            image[i][edge] = shade(image[i][edge], -40)
+            image[edge][i] = shade(image[edge][i], -40)
+    return image
+
+
+def paint(image: Image, inside, color: int) -> None:
+    """Sets the pixels whose centers (relative to the center of the texture) satisfy the predicate."""
+    for y in range(16):
+        for x in range(16):
+            if inside(x - 7.5, y - 7.5):
+                image[y][x] = rgb(color)
+
+
+def glyph(image: Image, char: str, color: int, left: int = 5, top: int = 4) -> None:
+    for y, row in enumerate(GLYPHS[char]):
+        for x, c in enumerate(row):
+            if c == "#":
+                image[top + y][left + x] = rgb(color)
+
+
+def mask(image: Image, rows: list[str], palette: dict[str, int], left: int, top: int) -> None:
+    """Draws a picture given as rows of characters; '.' is left unchanged."""
+    for y, row in enumerate(rows):
+        for x, c in enumerate(row):
+            if c != ".":
+                image[top + y][left + x] = rgb(palette[c])
+
+
+def square(dx: float, dy: float) -> bool:
+    return abs(dx) <= 4.5 and abs(dy) <= 4.5
+
+
+def diamond(dx: float, dy: float) -> bool:
+    return abs(dx) + abs(dy) <= 6
+
+
+def circle(dx: float, dy: float) -> bool:
+    return dx * dx + dy * dy <= 30
+
+
+def octagon(dx: float, dy: float) -> bool:
+    return abs(dx) <= 6 and abs(dy) <= 6 and abs(dx) + abs(dy) <= 9
+
+
+def ring(dx: float, dy: float) -> bool:
+    """A circular arrow: a ring with a gap on the right."""
+    return 16 <= dx * dx + dy * dy <= 36 and not (dx > 0 and -2 < dy < 1)
+
+
+def noop() -> Image:
+    """Transparent, with metal corners and wooden edges between them."""
+    image = blank()
+    for i in range(16):
+        for edge in (0, 15):
+            image[i][edge] = rgb(0x8F6A3A)
+            image[edge][i] = rgb(0x8F6A3A)
+    for cx in (0, 13):
+        for cy in (0, 13):
+            for y in range(3):
+                for x in range(3):
+                    image[cy + y][cx + x] = rgb(0xD8D8D8 if (x + y) % 2 else 0xA8A8A8)
+    return image
+
+
+def comment() -> Image:
+    """Glass with a yellow sticky note that shows //."""
+    image = blank()
+    for i in range(16):
+        for edge in (0, 15):
+            image[i][edge] = rgb(0xD6E8EE)
+            image[edge][i] = rgb(0xD6E8EE)
+    for y in range(4, 12):
+        for x in range(4, 12):
+            image[y][x] = rgb(0xFFF176)
+    for x, y in ((6, 10), (6, 9), (7, 8), (7, 7), (8, 6), (8, 5), (8, 10), (8, 9), (9, 8), (9, 7), (10, 6), (10, 5)):
+        image[y][x] = rgb(0x555555)
+    return image
+
+
+ICONS: dict[str, tuple[list[str], dict[str, int]]] = {
+    "book": ([
+        ".bbbbbbbb.",
+        ".bwwwwwwb.",
+        ".bwbbbbwb.",
+        ".bwwwwwwb.",
+        ".bwbbbbwb.",
+        ".bwwwwwwb.",
+        ".bbbbbbbb.",
+        ".bwwwwwww.",
+    ], {"b": 0x6B3A1E, "w": 0xF0E6C8}),
+    "map": ([
+        "wwwwwwwwww",
+        "wggwwbbwww",
+        "wgggwbbbww",
+        "wwggwwbbww",
+        "wwwwrwwwww",
+        "wbbwwwggww",
+        "wbbbwgggww",
+        "wwwwwwwwww",
+    ], {"w": 0xE8DDB5, "g": 0x6FA35A, "b": 0x4A7CC2, "r": 0xC03030}),
+    "door": ([
+        "dddddd.",
+        "dwdwwd.",
+        "dwdwwd.",
+        "dddddd.",
+        "dlllld.",
+        "dllllde",
+        "dlllld.",
+        "dlllld.",
+        "dddddd.",
+    ], {"d": 0x8C8C8C, "w": 0xE0E8F0, "l": 0xC8C8C8, "e": 0x505050}),
+    "spruce_door": ([
+        "dddddd.",
+        "dllldd.",
+        "dllldd.",
+        "dddddd.",
+        "dlllld.",
+        "dllllde",
+        "dlllld.",
+        "dddddd.",
+    ], {"d": 0x5A3D1E, "l": 0x7A5430, "e": 0xC8C8C8}),
+    "stick": ([
+        "........ss",
+        ".......ss.",
+        "......ss..",
+        "..........",
+        "....ss....",
+        "...ss.....",
+        "..ss......",
+        ".ss.......",
+    ], {"s": 0x8F6A3A}),
+    "hopper": ([
+        "gggggggggg",
+        "gddddddddg",
+        ".gddddddg.",
+        "..gddddg..",
+        "...gddg...",
+        "....gg....",
+        "....gg....",
+    ], {"g": 0x4A4A4A, "d": 0x2A2A2A}),
+    "phone": ([
+        ".kk....kk.",
+        "kkkkkkkkkk",
+        "kk......kk",
+        "..........",
+        "...kkkk...",
+        "..kkwwkk..",
+        ".kkkkkkkk.",
+        ".kkkkkkkk.",
+    ], {"k": 0x202020, "w": 0xDDDDDD}),
+    "torch": ([
+        ".rr.",
+        "rrrr",
+        ".rr.",
+        ".ss.",
+        ".ss.",
+        ".ss.",
+        ".ss.",
+    ], {"r": 0xE02020, "s": 0x8F6A3A}),
+    "heap": ([
+        "...hh...",
+        "..hhhh..",
+        ".hhhhhh.",
+        "hhhhhhhh",
+    ], {"h": 0}),
+    "plank": ([
+        "pppppppp",
+        "qqqqqqqq",
+        "pppppppp",
+        "qqqqqqqq",
+        "pppppppp",
+    ], {"p": 0xB8945F, "q": 0x9C7A48}),
+    "string": ([
+        "s.......",
+        ".s....s.",
+        "..s..s.s",
+        "...ss...",
+    ], {"s": 0x505050}),
+    "barrel": ([
+        ".bbbbbb.",
+        "bwwwwwwb",
+        "bbbbbbbb",
+        "bwwwwwwb",
+        "bbbbbbbb",
+        ".bbbbbb.",
+    ], {"b": 0x5A3D1E, "w": 0x8F6A3A}),
+    "chest": ([
+        "cccccccc",
+        "cwwwwwwc",
+        "cccgcccc",
+        "cwwgwwwc",
+        "cwwwwwwc",
+        "cccccccc",
+    ], {"c": 0x5A3D1E, "w": 0xA77A3C, "g": 0xE0C040}),
+    "scaffolding": ([
+        "yyyyyyyy",
+        "yy....yy",
+        "y.y..y.y",
+        "y..yy..y",
+        "y.y..y.y",
+        "yyyyyyyy",
+    ], {"y": 0xC8A050}),
+    "clock": ([
+        "..gggg..",
+        ".gwwwwg.",
+        "gwwkwwwg",
+        "gwwkwwwg",
+        "gwwkkkwg",
+        ".gwwwwg.",
+        "..gggg..",
+    ], {"g": 0xE0C040, "w": 0xF8F0D0, "k": 0x202020}),
+    "campfire": ([
+        "...oo...",
+        "..oyyo..",
+        "..oyyo..",
+        ".llllll.",
+        "llllllll",
+        ".llllll.",
+    ], {"o": 0xF08020, "y": 0xFFE060, "l": 0x6B4A2B}),
+    "tag": ([
+        "..wwwwwwww",
+        ".wwwwwwwww",
+        "wwkwwwwwww",
+        ".wwwwwwwww",
+        "..wwwwwwww",
+    ], {"w": 0xFFFFFF, "k": 0x553311}),
+}
+
+
+def icon(image: Image, name: str, color: int | None = None) -> None:
+    """Draws an icon in the center of the texture, optionally in a single color."""
+    rows, palette = ICONS[name]
+    if color is not None:
+        palette = {k: color for k in palette}
+    mask(image, rows, palette, (16 - len(rows[0])) // 2, (16 - len(rows)) // 2)
+
+
+def upside_down(image: Image) -> None:
+    image.reverse()
+
+
+def trapezoid(wide_at_bottom: bool):
+    def inside(dx: float, dy: float) -> bool:
+        grow = dy + 3 if wide_at_bottom else 3 - dy
+        return -3 <= dy <= 3 and abs(dx) <= 2 + grow * 0.5
+    return inside
+
+
+def triangle(dx: float, dy: float) -> bool:
+    """A triangle pointing to the left."""
+    return -4 <= dx <= 4 and abs(dy) <= (dx + 4) * 0.6
+
+
+def frame(dx: float, dy: float) -> bool:
+    return square(dx, dy) and not (abs(dx) <= 3.5 and abs(dy) <= 3.5)
+
+
+def small_square(dx: float, dy: float) -> bool:
+    return abs(dx) <= 2 and abs(dy) <= 2
+
+
+# (block ID, valid color, invalid color, function that draws the symbol)
+CODE_BLOCKS = [
+    ("label_block", 0xFFFFFF, 0xAAAAAA, lambda i: None),
+    ("literal_block", 0xCCCCCC, 0xAAAAAA, lambda i: None),
+    ("operator_block", 0xFF5555, 0xAA0000, lambda i: paint(i, circle, WHITE)),
+    ("tag_block", 0xAA7744, 0x553311, lambda i: icon(i, "tag")),
+    ("program_block", 0x555555, 0x000000, lambda i: icon(i, "book")),
+    ("include_block", 0x555555, 0x000000, lambda i: icon(i, "map")),
+    ("exit_block", 0x555555, 0x000000, lambda i: icon(i, "door")),
+    ("begin_block", 0xFFFF55, 0xFFAA00, lambda i: paint(i, trapezoid(True), WHITE)),
+    ("end_block", 0xFFFF55, 0xFFAA00, lambda i: paint(i, trapezoid(False), WHITE)),
+    ("break_block", 0xFFFF55, 0xFFAA00, lambda i: icon(i, "stick")),
+    ("variable_block", 0x5555FF, 0x0000AA, lambda i: paint(i, square, WHITE)),
+    ("constant_block", 0x5555FF, 0x0000AA, lambda i: paint(i, diamond, WHITE)),
+    ("assign_block", 0x55FFFF, 0x00AAAA, lambda i: paint(i, triangle, WHITE)),
+    ("function_block", 0xAAAAAA, 0x555555, lambda i: (paint(i, circle, WHITE), glyph(i, "ƒ", 0x202020))),
+    ("parameter_block", 0xFF55FF, 0xAA00AA, lambda i: icon(i, "hopper")),
+    ("result_block", 0xFF55FF, 0xAA00AA, lambda i: (upside_down(i), icon(i, "hopper"), upside_down(i))),
+    ("return_block", 0xFF55FF, 0xAA00AA, lambda i: icon(i, "spruce_door")),
+    ("call_block", 0xAAAAAA, 0x555555, lambda i: icon(i, "phone")),
+    ("if_block", 0x55FF55, 0x00AA00, lambda i: (paint(i, diamond, WHITE), glyph(i, "?", 0x00AA00, 5, 5))),
+    ("else_block", 0x55FF55, 0x00AA00, lambda i: (paint(i, diamond, WHITE), glyph(i, "¿", 0x00AA00, 5, 4))),
+    ("for_block", 0x55FF55, 0x00AA00, lambda i: (paint(i, ring, WHITE), glyph(i, "#", WHITE, 5, 5))),
+    ("each_block", 0x55FF55, 0x00AA00, lambda i: (paint(i, ring, WHITE), paint(i, small_square, 0x8A8A8A))),
+    ("while_block", 0x55FF55, 0x00AA00, lambda i: (paint(i, ring, WHITE), glyph(i, "?", WHITE, 5, 5))),
+    ("repeat_block", 0x55FF55, 0x00AA00, lambda i: (paint(i, frame, WHITE), glyph(i, "?", WHITE, 5, 5))),
+]
+
+# (block ID, icon, color of the icon, or None for its own colors)
+TYPE_BLOCKS = [
+    ("type_boolean_block", "torch", None),
+    ("type_integer_block", "heap", 0xF0D040),
+    ("type_float_block", "heap", 0xF09030),
+    ("type_char_block", "plank", None),
+    ("type_string_block", "string", None),
+    ("type_array_block", "barrel", None),
+    ("type_hash_block", "chest", None),
+    ("type_struct_block", "scaffolding", None),
+    ("type_time_block", "clock", None),
+    ("type_error_block", "campfire", None),
+]
+
+
+def base_item(color: int, symbol: str | None) -> Image:
+    """A small cube in the color of the blocks it is used for."""
+    image = blank()
+    for y in range(2, 14):
+        for x in range(2, 14):
+            image[y][x] = rgb(color) if 2 < x < 13 and 2 < y < 13 else shade(rgb(color), -50)
+    if symbol:
+        glyph(image, symbol, 0x000000, 5, 4)
+    return image
+
+
+def code_block_textures(blocks: Path) -> None:
+    write_png(blocks / "noop_block.png", noop())
+    write_png(blocks / "comment_block.png", comment())
+    for block, valid, invalid, draw in CODE_BLOCKS:
+        for suffix, color in (("_valid", valid), ("_invalid", invalid)):
+            image = framed(color, block + suffix)
+            draw(image)
+            write_png(blocks / (block + suffix + ".png"), image)
+    for block, name, color in TYPE_BLOCKS:
+        image = framed(0xCC2222, block)
+        paint(image, octagon, WHITE)
+        icon(image, name, color)
+        write_png(blocks / (block + ".png"), image)
+    write_png(TEXTURES / "item" / "type_base.png", base_item(0xCC2222, "?"))
+    write_png(TEXTURES / "item" / "structural_base.png", base_item(0x55FF55, None))
+
+
 def main() -> None:
     blocks = TEXTURES / "block"
     write_png(blocks / "white_c0de_bedrock.png", concrete(0xF5F7F3, "white"))
@@ -125,6 +478,7 @@ def main() -> None:
     write_png(blocks / "cursor_c0de_bedrock_side.png", concrete(0x7D7D73, "cursor_side"))
     write_png(blocks / "trigger_block.png", trigger_block())
     write_png(TEXTURES / "item" / "wrench.png", wrench())
+    code_block_textures(blocks)
 
 
 if __name__ == "__main__":

@@ -1,5 +1,6 @@
 package de.joernott.c0de.core.library;
 
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -20,6 +21,11 @@ public final class LibraryRegistry {
     /** The library with this name. */
     public Optional<Library> find(String name) {
         return Optional.ofNullable(libraries.get(name));
+    }
+
+    /** All libraries, including the built-in functions, in the order they were added. */
+    public Collection<Library> all() {
+        return libraries.values();
     }
 
     /** The built-in functions, or an empty library if none are registered. */

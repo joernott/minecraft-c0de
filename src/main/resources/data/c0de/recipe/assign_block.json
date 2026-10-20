@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "pattern": [
+    "AAA",
+    "ABA",
+    "AAA"
+  ],
+  "key": {
+    "A": {
+      "item": "c0de:noop_block"
+    },
+    "B": {
+      "item": "minecraft:cyan_wool"
+    }
+  },
+  "result": {
+    "id": "c0de:assign_block",
+    "count": 8
+  }
+}

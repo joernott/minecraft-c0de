@@ -1,9 +1,19 @@
 package de.joernott.c0de.content;
 
 import de.joernott.c0de.block.BlackBedrockBlock;
+import de.joernott.c0de.block.CodeBlock;
+import de.joernott.c0de.block.CommentBlock;
+import de.joernott.c0de.block.PropertyBlock;
 import de.joernott.c0de.block.TriggerBlock;
+import de.joernott.c0de.block.ValidatedCodeBlock;
+import de.joernott.c0de.blockentity.LabelBlockEntity;
+import de.joernott.c0de.blockentity.LiteralBlockEntity;
+import de.joernott.c0de.blockentity.OperatorBlockEntity;
+import de.joernott.c0de.blockentity.TagBlockEntity;
 import de.joernott.c0de.core.sheet.FloorBlock;
 import de.joernott.c0de.platform.Platform;
+import java.util.EnumMap;
+import java.util.Map;
 import java.util.function.Supplier;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.Block;
@@ -23,6 +33,9 @@ public final class C0deBlocks {
     /** Provisional trigger block: only used to enter the c0de dimension until sprint 8. */
     public static Supplier<Block> TRIGGER_BLOCK;
 
+    /** The language blocks. */
+    public static final Map<CodeBlockType, Supplier<Block>> CODE_BLOCKS = new EnumMap<>(CodeBlockType.class);
+
     private C0deBlocks() {}
 
     public static void register() {
@@ -36,6 +49,37 @@ public final class C0deBlocks {
                 .strength(3.0F, 6.0F)
                 .sound(SoundType.COPPER)
                 .requiresCorrectToolForDrops()));
+        for (CodeBlockType type : CodeBlockType.values()) {
+            CODE_BLOCKS.put(type, register(type.id(), () -> codeBlock(type)));
+        }
+    }
+
+    /** The language block of a type. */
+    public static Block get(CodeBlockType type) {
+        return CODE_BLOCKS.get(type).get();
+    }
+
+    private static Block codeBlock(CodeBlockType type) {
+        BlockBehaviour.Properties properties = BlockBehaviour.Properties.of()
+                .mapColor(MapColor.COLOR_LIGHT_GRAY)
+                .strength(0.6F)
+                .sound(type == CodeBlockType.NOOP ? SoundType.METAL : SoundType.STONE);
+        if (type.isTransparent()) {
+            properties = properties
+                    .noOcclusion()
+                    .isValidSpawn((state, level, pos, entityType) -> false)
+                    .isRedstoneConductor((state, level, pos) -> false)
+                    .isSuffocating((state, level, pos) -> false)
+                    .isViewBlocking((state, level, pos) -> false);
+        }
+        return switch (type) {
+            case COMMENT -> new CommentBlock(properties);
+            case LABEL -> new PropertyBlock(properties, type, LabelBlockEntity::new);
+            case LITERAL -> new PropertyBlock(properties, type, LiteralBlockEntity::new);
+            case OPERATOR -> new PropertyBlock(properties, type, OperatorBlockEntity::new);
+            case TAG -> new PropertyBlock(properties, type, TagBlockEntity::new);
+            default -> type.isValidated() ? new ValidatedCodeBlock(properties, type) : new CodeBlock(properties, type);
+        };
     }
 
     /** The block of the floor of the c0de dimension. */
