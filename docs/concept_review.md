@@ -219,3 +219,19 @@ Decisions made:
 | 2 | Precision of TIME | Milliseconds. | TIME holds milliseconds since 1970-01-01 UTC. `TIME ± INTEGER` and `TIME − TIME` now work in milliseconds. The text representation includes milliseconds (`2026-10-19T12:05:09.250Z`); in literals they are optional. JSON/YAML read integer numbers as milliseconds. **Added:** the function MILLISECOND and the FORMAT conversions `%tL` (milliseconds) and `%tQ` (timestamp in milliseconds); `%ts` stays in seconds. |
 
 There are currently no open questions.
+
+## 11. Decisions made while implementing sprint 3 (2026-10-20)
+
+Questions the concept didn't answer, and one contradiction:
+
+- **Keywords are reserved only in capital letters** (correction). The first review had added "names are compared to keywords case-insensitively". That contradicts the libraries: single results are named `result` (RESULT is a keyword), and parameters are named `char`, `time`, `array` and `hash`. Now only the capitalized spelling is reserved: `RESULT` is not a valid name, `result` is.
+- **Exponentiation**: INTEGER ^ INTEGER is an INTEGER if the exponent is not negative, otherwise a FLOAT (`2 ^ -3` is `0.125`).
+- **Modulus**: the result has the sign of the dividend (`-7 \ 2` is `-1`), as in Java and most BASIC dialects.
+- **AND / OR** only evaluate the right operand when needed (short-circuit evaluation), so conditions like `x ≠ 0 AND 10 / x > 1` are safe.
+- **CHAR and STRING** can be compared with each other (`'a' = "a"`); texts are ordered by Unicode code points.
+- **Shift counts** use only their lowest 6 bits, as in Java.
+- **Text representation** (⊕, STR): `true`/`false`, Java's FLOAT format (`2.5`, `1.0E20`), ISO 8601 for TIME, `[1, 2]` for arrays, `{key: value}` for hashes and structs.
+- **Initializers** accept INTEGER literals for FLOAT elements and CHAR literals for STRING elements, like ASSIGN.
+- **`.name` on a hash** is read as the key `"name"` (`inventory.diamond` is the same as `inventory["diamond"]`).
+- **Syntax errors in element lines** (struct elements, PARAMETER lines, END lines) are reported with the z coordinate of that line, not of the statement's first line.
+- **A missing END** is detected when a line at or left of the BEGIN's x coordinate follows that is not the matching END. Taking "the first END at the same x coordinate" literally would match the END of the next function when a function's END is missing.

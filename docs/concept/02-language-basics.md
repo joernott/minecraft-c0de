@@ -114,7 +114,7 @@ Eight COMMENT blocks can be crafted from a glass block surrounded by eight NOOP 
 Labels name programs, libraries, types, variables, constants, functions, parameters, results and struct elements, and they refer to those things later on. A valid name follows these rules:
   - It consists of one or more of the letters a-z and A-Z, the digits 0-9 and the underscore (_).
   - It MUST start with a letter.
-  - It MUST NOT be a keyword. Names are compared to keywords case-insensitively.
+  - It MUST NOT be a keyword. Keywords are written in capital letters, and only the capitalized spelling is reserved: `RESULT` is not a valid name, `result` and `Result` are.
   - It MUST be unique when it is defined.
 
 Library names and qualified names of library elements are the only exception: they consist of several valid names separated by slashes, e.g. `c0de/net` or `c0de/net/send`.

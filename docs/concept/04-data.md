@@ -167,7 +167,7 @@ It can be crafted shapelessly from a type base and three bones. It can also be c
 ### Initializing complex values
 
 To initialize an ARRAY, HASH or STRUCT, the line directly after the VARIABLE or CONSTANT line contains a BEGIN block at the same x coordinate as the VARIABLE or CONSTANT block. The initializer ends with `END VARIABLE` or `END CONSTANT`. Its content lines are indented by one block:
-  - **Array**: Each line contains one or more LITERALs. They are read from left to right and from top to bottom and appended to the array. Each literal MUST have the subtype of the array.
+  - **Array**: Each line contains one or more LITERALs. They are read from left to right and from top to bottom and appended to the array. Each literal MUST have the subtype of the array. As in ASSIGN statements, an INTEGER literal MAY be used for a FLOAT and a CHAR literal for a STRING.
   - **Hash**: Each line contains exactly one LABEL with the key of an element, directly followed by a LITERAL with the value of that element. The literal MUST have the subtype of the hash.
   - **Struct**: Each line contains exactly one LABEL with the name of an element declared in the struct type, directly followed by a LITERAL of the type of that element. Elements that are not listed keep their default values.
 

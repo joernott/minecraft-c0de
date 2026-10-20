@@ -125,3 +125,7 @@ I have run gl auth login
 ## 2026-10-19 – Start sprint 2
 
 please continue with sprint 2
+
+## 2026-10-20 – Merge sprint 2, start sprint 3
+
+The light level is fine, the sky is empty and blue and the floor texture looks right. Please merge sprint-2 into main and start with sprint 3

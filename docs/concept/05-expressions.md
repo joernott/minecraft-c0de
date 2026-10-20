@@ -23,12 +23,12 @@ Function calls are not part of expressions. A function is always called with a [
 
 ### Type rules
 
-  - Arithmetic operators accept INTEGER and FLOAT operands. If one operand is a FLOAT, the result is a FLOAT. Division (/) always returns a FLOAT. Modulus (`\`) requires INTEGER operands.
+  - Arithmetic operators accept INTEGER and FLOAT operands. If one operand is a FLOAT, the result is a FLOAT. Division (/) always returns a FLOAT. Exponentiation (^) of two INTEGERs returns an INTEGER if the exponent is not negative, otherwise a FLOAT. Modulus (`\`) requires INTEGER operands; the result has the sign of the dividend (`-7 \ 2` is `-1`).
   - TIME values: an INTEGER number of milliseconds can be added to or subtracted from a TIME value (`TIME + INTEGER`, `INTEGER + TIME`, `TIME - INTEGER`), which results in a TIME. Subtracting two TIME values (`TIME - TIME`) results in the difference in milliseconds as INTEGER. No other arithmetic operator accepts TIME operands.
-  - Comparison operators require operands of the same type. INTEGER and FLOAT can be compared with each other. CHAR and STRING values are compared lexicographically, TIME values chronologically. Only = and ≠ can be used with BOOLEAN, ARRAY, HASH, STRUCT and ERROR operands.
-  - Logical operators require BOOLEAN operands and return a BOOLEAN.
-  - Bitwise operators require INTEGER operands and return an INTEGER.
-  - The concatenation operator (⊕) converts both operands to their text representation and returns a STRING.
+  - Comparison operators require operands of the same type. INTEGER and FLOAT can be compared with each other, and so can CHAR and STRING. CHAR and STRING values are compared lexicographically by their Unicode code points (`"Z" < "a"`), TIME values chronologically. Only = and ≠ can be used with BOOLEAN, ARRAY, HASH, STRUCT and ERROR operands.
+  - Logical operators require BOOLEAN operands and return a BOOLEAN. AND and OR only evaluate their right operand if the left one doesn't decide the result already, so `x ≠ 0 AND 10 / x > 1` doesn't raise DIVISION_BY_ZERO.
+  - Bitwise operators require INTEGER operands and return an INTEGER. Only the lowest 6 bits of the shift count are used (as in Java), so shifting by 64 is the same as shifting by 0.
+  - The concatenation operator (⊕) converts both operands to their text representation and returns a STRING. The text representation of a BOOLEAN is `true` or `false`, of a FLOAT for example `2.5` or `1.0E20`, of a TIME the ISO 8601 format, of an ARRAY `[1, 2, 3]` and of a HASH or STRUCT `{key: value, key: value}`.
 
 Applying an operator to operands of the wrong type raises a TYPE_MISMATCH error.
 
