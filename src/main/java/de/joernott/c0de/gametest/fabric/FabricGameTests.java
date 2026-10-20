@@ -4,6 +4,7 @@ package de.joernott.c0de.gametest.fabric;
 import de.joernott.c0de.gametest.CodeBlockTests;
 import de.joernott.c0de.gametest.DimensionTests;
 import de.joernott.c0de.gametest.SmokeTests;
+import de.joernott.c0de.gametest.ValidationTests;
 import net.fabricmc.fabric.api.gametest.v1.FabricGameTest;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
@@ -63,6 +64,31 @@ public class FabricGameTests implements FabricGameTest {
     @GameTest(template = SmokeTests.EMPTY_STRUCTURE)
     public void labelsAndTagsUseTheirPositionOnTheSheet(GameTestHelper helper) {
         CodeBlockTests.labelsAndTagsUseTheirPositionOnTheSheet(helper);
+    }
+
+    @GameTest(template = SmokeTests.EMPTY_STRUCTURE)
+    public void programsAreValidatedAndRegistered(GameTestHelper helper) {
+        ValidationTests.programsAreValidatedAndRegistered(helper);
+    }
+
+    @GameTest(template = SmokeTests.EMPTY_STRUCTURE)
+    public void changesAreValidatedAtTheEndOfTheTick(GameTestHelper helper) {
+        ValidationTests.changesAreValidatedAtTheEndOfTheTick(helper);
+    }
+
+    @GameTest(template = SmokeTests.EMPTY_STRUCTURE)
+    public void programNamesAreUnique(GameTestHelper helper) {
+        ValidationTests.programNamesAreUnique(helper);
+    }
+
+    @GameTest(template = SmokeTests.EMPTY_STRUCTURE)
+    public void placementRulesPreventMistakes(GameTestHelper helper) {
+        ValidationTests.placementRulesPreventMistakes(helper);
+    }
+
+    @GameTest(template = SmokeTests.EMPTY_STRUCTURE)
+    public void labelDialogsListTheNamesOfTheProgram(GameTestHelper helper) {
+        ValidationTests.labelDialogsListTheNamesOfTheProgram(helper);
     }
 }
 //?}

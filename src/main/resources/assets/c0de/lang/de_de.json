@@ -8,6 +8,7 @@
   "item.c0de.wrench": "Schraubenschlüssel",
   "message.c0de.no_dimension": "Die c0de-Dimension existiert in dieser Welt nicht.",
   "message.c0de.not_saved": "Nicht gespeichert: %s",
+  "message.c0de.not_placed": "Kann hier nicht platziert werden: %s",
   "dialog.c0de.ok": "Speichern",
   "dialog.c0de.read_only": " (schreibgeschützt)",
   "dialog.c0de.label": "Label",

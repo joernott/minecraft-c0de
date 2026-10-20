@@ -100,7 +100,7 @@ public class LabelBlockEntity extends PropertiesBlockEntity {
         data.putString("index", index);
         data.putString("mode", context.mode().name());
         ListTag options = new ListTag();
-        for (String option : DialogOptions.forLabel(context.mode())) {
+        for (String option : DialogOptions.forLabel(context.mode(), level, worldPosition)) {
             options.add(StringTag.valueOf(option));
         }
         data.put("options", options);

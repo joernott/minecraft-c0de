@@ -9,6 +9,7 @@ import de.joernott.c0de.dialog.DialogService;
 import de.joernott.c0de.dimension.C0deDimension;
 import de.joernott.c0de.dimension.SettingsPack;
 import de.joernott.c0de.platform.Platform;
+import de.joernott.c0de.sheet.SheetValidation;
 import java.io.IOException;
 import net.minecraft.resources.ResourceLocation;
 import org.slf4j.Logger;
@@ -35,6 +36,7 @@ public final class C0de {
         C0deBlockEntities.register();
         C0deItems.register();
         DialogService.register();
+        SheetValidation.register();
         C0deDimension.register();
     }
 

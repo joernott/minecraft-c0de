@@ -15,8 +15,16 @@ public sealed interface Statement {
     /** z coordinate of the first line of the statement. */
     int line();
 
-    /** A statement with a syntax error. The cursor crashes with the error when it reaches the line. */
-    record Invalid(int line, C0deException error) implements Statement {}
+    /**
+     * A statement with a syntax error. The cursor crashes with the error when it reaches the line.
+     *
+     * @param endLine z coordinate of the last line the parser skipped because of the error
+     */
+    record Invalid(int line, C0deException error, int endLine) implements Statement {
+        public Invalid(int line, C0deException error) {
+            this(line, error, line);
+        }
+    }
 
     record Include(int line, String library) implements Statement {}
 

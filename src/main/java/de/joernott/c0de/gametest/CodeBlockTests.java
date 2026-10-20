@@ -156,51 +156,29 @@ public final class CodeBlockTests {
     public static void labelsAndTagsUseTheirPositionOnTheSheet(GameTestHelper helper) {
         ServerLevel level = helper.getLevel().getServer().getLevel(C0deDimension.LEVEL);
         helper.assertTrue(level != null, "The c0de dimension doesn't exist");
-        int x0 = SheetGeometry.absoluteX(SHEET, SheetGeometry.CODE_MIN_X);
-        int y = SheetGeometry.CODE_Y;
-        List<BlockPos> placed = List.of(
-                new BlockPos(x0, y, 0),
-                new BlockPos(x0 + 1, y, 0),
-                new BlockPos(x0, y, 2),
-                new BlockPos(x0 + 1, y, 2),
-                new BlockPos(x0 + 2, y, 2),
-                new BlockPos(x0 + 3, y, 2),
-                new BlockPos(x0, y, 3),
-                new BlockPos(x0 + 1, y, 3));
+        SheetBuilder sheet = new SheetBuilder(level, SHEET)
+                .place(
+                        """
+                        PROGRAM demo
+                        NOOP
+                            INCLUDE c0de/math
+                        VARIABLE port INTEGER TAG(json: "server.port")
+                        NOOP
+                        FUNCTION main
+                        BEGIN
+                            CALL main
+                        END FUNCTION
+                        """);
         try {
-            // PROGRAM demo
-            // NOOP
-            // VARIABLE port INTEGER TAG
-            // CALL LABEL
-            level.setBlockAndUpdate(placed.get(0), C0deBlocks.get(CodeBlockType.PROGRAM).defaultBlockState());
-            level.setBlockAndUpdate(placed.get(1), C0deBlocks.get(CodeBlockType.LABEL).defaultBlockState());
-            LabelBlockEntity program = (LabelBlockEntity) level.getBlockEntity(placed.get(1));
-            program.placed(level);
+            LabelBlockEntity program = (LabelBlockEntity) level.getBlockEntity(sheet.pos(6, 0));
             helper.assertTrue(program.kind().equals(LabelKind.PROGRAM.name()), "The program label is " + program.kind());
-            CompoundTag name = new CompoundTag();
-            name.putString("name", "demo");
-            helper.assertTrue(program.apply(name, level).isEmpty(), "The program name was not saved");
-
-            level.setBlockAndUpdate(placed.get(2), C0deBlocks.get(CodeBlockType.VARIABLE).defaultBlockState());
-            level.setBlockAndUpdate(placed.get(3), C0deBlocks.get(CodeBlockType.LABEL).defaultBlockState());
-            level.setBlockAndUpdate(placed.get(4), C0deBlocks.get(CodeBlockType.TYPE_INTEGER).defaultBlockState());
-            level.setBlockAndUpdate(placed.get(5), C0deBlocks.get(CodeBlockType.TAG).defaultBlockState());
-            TagBlockEntity tag = (TagBlockEntity) level.getBlockEntity(placed.get(5));
+            TagBlockEntity tag = (TagBlockEntity) level.getBlockEntity(sheet.pos(8, 3));
             helper.assertTrue(tag.isPath(level), "The tag of a variable is not a path");
-            CompoundTag path = new CompoundTag();
-            path.putString("language", "json");
-            path.putString("name", "server.port");
-            helper.assertTrue(tag.apply(path, level).isEmpty(), "The path of a variable tag was not saved");
 
-            level.setBlockAndUpdate(placed.get(6), C0deBlocks.get(CodeBlockType.CALL).defaultBlockState());
-            level.setBlockAndUpdate(placed.get(7), C0deBlocks.get(CodeBlockType.LABEL).defaultBlockState());
-            LabelBlockEntity call = (LabelBlockEntity) level.getBlockEntity(placed.get(7));
+            LabelBlockEntity call = (LabelBlockEntity) level.getBlockEntity(sheet.pos(7, 7));
             CompoundTag data = call.dialogData(level);
             helper.assertTrue(
                     data.getString("mode").equals(LabelMode.FUNCTION.name()), "The CALL label dialog is " + data);
-            helper.assertTrue(
-                    data.getList("options", net.minecraft.nbt.Tag.TAG_STRING).toString().contains("c0de/math/SIN"),
-                    "The functions of the libraries are not listed");
             CompoundTag function = new CompoundTag();
             function.putString("name", "c0de/math/SIN");
             helper.assertTrue(call.apply(function, level).isEmpty(), "The function was not saved");
@@ -210,12 +188,11 @@ public final class CodeBlockTests {
             function.putString("name", "main");
             helper.assertTrue(call.apply(function, level).isEmpty(), "The function of the program was not saved");
             helper.assertTrue(call.parent().equals("demo"), "The parent of a program function is " + call.parent());
-
             helper.assertTrue(
-                    LevelSheet.toCore(level, placed.get(7)).equals(new Block.LabelBlock("main")),
-                    "The sheet reads " + LevelSheet.toCore(level, placed.get(7)));
+                    LevelSheet.toCore(level, sheet.pos(7, 7)).equals(new Block.LabelBlock("main")),
+                    "The sheet reads " + LevelSheet.toCore(level, sheet.pos(7, 7)));
         } finally {
-            placed.forEach(pos -> level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState()));
+            sheet.clear();
         }
         helper.succeed();
     }

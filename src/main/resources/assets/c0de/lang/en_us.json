@@ -8,6 +8,7 @@
   "item.c0de.wrench": "Wrench",
   "message.c0de.no_dimension": "The c0de dimension doesn't exist in this world.",
   "message.c0de.not_saved": "Not saved: %s",
+  "message.c0de.not_placed": "Can't be placed here: %s",
   "dialog.c0de.ok": "Save",
   "dialog.c0de.read_only": " (read only)",
   "dialog.c0de.label": "Label",

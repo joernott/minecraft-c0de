@@ -141,8 +141,8 @@ public final class ProgramParser {
                 declarations |= !(statement instanceof Statement.Include);
                 statements.add(statement);
             } catch (C0deException e) {
-                statements.add(new Statement.Invalid(row.z(), e.inLine(row.z())));
                 skipRest(start, row);
+                statements.add(new Statement.Invalid(row.z(), e.inLine(row.z()), lastSkipped()));
             }
         }
         return new Program(name, statements, end);
@@ -242,6 +242,11 @@ public final class ProgramParser {
         }
     }
 
+    /** z coordinate of the last line that was processed. */
+    private int lastSkipped() {
+        return rows.get(position - 1).z();
+    }
+
     private void skipToEnd(int x) {
         while (current() != null) {
             Row row = current();
@@ -317,8 +322,8 @@ public final class ProgramParser {
                 }
                 statements.add(parseStatement(row, context));
             } catch (C0deException e) {
-                statements.add(new Statement.Invalid(row.z(), e.inLine(row.z())));
                 skipRest(start, row);
+                statements.add(new Statement.Invalid(row.z(), e.inLine(row.z()), lastSkipped()));
             }
         }
     }

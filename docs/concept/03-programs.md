@@ -16,6 +16,18 @@ A program has the following layout:
 
 The cursor processes the program from top to bottom until the entry function ends. As a consequence, global variables and constants declared after the entry function are never initialized, and functions declared after the entry function can't be called from it. This is intended: everything a function uses MUST be declared before it.
 
+### Validation while writing
+
+While a player writes a program, the game checks it after every change, without running it: the syntax as described in the [cursor chapter](15-cursor.md) and the names (unknown or duplicate variables, constants, functions, libraries and struct types, changed constants and calls with unknown or missing parameters or results). Every block of a line with a problem shows its invalid color; the reason is shown by the [debugging tool](14-items-and-tools.md#debugging-tool). If a statement is so broken that its following lines can't be assigned to it (e.g. a BEGIN without END), all of them are invalid. Lines after the empty line that ends the program don't belong to it and are invalid as well. Types of expressions and values are only checked when the program runs.
+
+Program names are unique in the c0de dimension. If a second sheet uses a name that is already used, its PROGRAM line is invalid.
+
+Some mistakes are prevented when a block is placed on the code layer of a sheet, and the player gets the reason:
+  - A NOOP line can't contain other blocks, and a NOOP block can only be placed in an empty line.
+  - A FUNCTION line starts at x=5 directly after a NOOP line (FUNCTION can also be placed after END).
+  - END can't be placed directly below its BEGIN, because a code block can't be empty.
+  - PARAMETER and RESULT lines directly follow their FUNCTION or CALL line, indented by one block, or another PARAMETER line; RESULT lines may also follow RESULT lines.
+
 Executable statements (ASSIGN, CALL, IF, FOR, …) are only allowed inside functions. A process always runs one function of the program, the *entry function*, which is selected in the trigger block.
 
 ### Program statement

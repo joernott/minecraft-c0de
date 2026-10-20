@@ -178,6 +178,7 @@ MESSAGES = [
     ("message.c0de.no_dimension", "The c0de dimension doesn't exist in this world.",
      "Die c0de-Dimension existiert in dieser Welt nicht."),
     ("message.c0de.not_saved", "Not saved: %s", "Nicht gespeichert: %s"),
+    ("message.c0de.not_placed", "Can't be placed here: %s", "Kann hier nicht platziert werden: %s"),
     ("dialog.c0de.ok", "Save", "Speichern"),
     ("dialog.c0de.read_only", " (read only)", " (schreibgeschützt)"),
     ("dialog.c0de.label", "Label", "Label"),

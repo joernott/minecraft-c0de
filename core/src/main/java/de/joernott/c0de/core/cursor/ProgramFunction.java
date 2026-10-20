@@ -12,11 +12,12 @@ import java.util.List;
 import java.util.Optional;
 
 /** A function of the program with the resolved types of its parameters and results. */
-record ProgramFunction(Statement.FunctionDeclaration declaration, List<Parameter> parameters, List<Result> results)
+public record ProgramFunction(
+        Statement.FunctionDeclaration declaration, List<Parameter> parameters, List<Result> results)
         implements Cursor.FunctionEntry {
-    record Parameter(String name, Type type, Value defaultValue, int line) {}
+    public record Parameter(String name, Type type, Value defaultValue, int line) {}
 
-    record Result(String name, Type type, int line) {}
+    public record Result(String name, Type type, int line) {}
 
     /**
      * Resolves the types of a function declaration.
@@ -24,7 +25,7 @@ record ProgramFunction(Statement.FunctionDeclaration declaration, List<Parameter
      * @throws C0deException (crash) UNKNOWN_STRUCT_ENTITY for unknown struct types,
      *     SYNTAX_ERROR_TYPE_MISMATCH for default values of the wrong type
      */
-    static ProgramFunction resolve(Statement.FunctionDeclaration declaration, TypeRegistry types) {
+    public static ProgramFunction resolve(Statement.FunctionDeclaration declaration, TypeRegistry types) {
         List<Parameter> parameters = new ArrayList<>();
         for (Statement.FunctionDeclaration.Parameter parameter : declaration.parameters()) {
             Type type = located(parameter.line(), () -> types.resolve(parameter.type()));

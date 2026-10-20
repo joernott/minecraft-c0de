@@ -1,5 +1,6 @@
 package de.joernott.c0de.content;
 
+import de.joernott.c0de.core.line.Block;
 import de.joernott.c0de.core.line.Keyword;
 import java.util.Locale;
 
@@ -77,6 +78,18 @@ public enum CodeBlockType {
     /** True if the block has the block state {@code valid}, which selects its valid or invalid color. */
     public boolean isValidated() {
         return validated;
+    }
+
+    /** The block in the line model of {@code core} as it is placed, before its properties are set. */
+    public Block placed() {
+        return switch (this) {
+            case LABEL -> new Block.LabelBlock(null);
+            case LITERAL -> new Block.LiteralBlock(null);
+            case OPERATOR -> new Block.OperatorBlock(null);
+            case COMMENT -> new Block.CommentBlock("");
+            case TAG -> new Block.TagBlock(null, null);
+            default -> new Block.KeywordBlock(keyword);
+        };
     }
 
     private enum Shape {

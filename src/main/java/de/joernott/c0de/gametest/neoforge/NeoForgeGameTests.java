@@ -5,6 +5,7 @@ package de.joernott.c0de.gametest.neoforge;
 import de.joernott.c0de.gametest.CodeBlockTests;
 import de.joernott.c0de.gametest.DimensionTests;
 import de.joernott.c0de.gametest.SmokeTests;
+import de.joernott.c0de.gametest.ValidationTests;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.neoforged.neoforge.gametest.GameTestHolder;
@@ -67,6 +68,31 @@ public class NeoForgeGameTests {
     @GameTest(template = "empty")
     public static void labelsAndTagsUseTheirPositionOnTheSheet(GameTestHelper helper) {
         CodeBlockTests.labelsAndTagsUseTheirPositionOnTheSheet(helper);
+    }
+
+    @GameTest(template = "empty")
+    public static void programsAreValidatedAndRegistered(GameTestHelper helper) {
+        ValidationTests.programsAreValidatedAndRegistered(helper);
+    }
+
+    @GameTest(template = "empty")
+    public static void changesAreValidatedAtTheEndOfTheTick(GameTestHelper helper) {
+        ValidationTests.changesAreValidatedAtTheEndOfTheTick(helper);
+    }
+
+    @GameTest(template = "empty")
+    public static void programNamesAreUnique(GameTestHelper helper) {
+        ValidationTests.programNamesAreUnique(helper);
+    }
+
+    @GameTest(template = "empty")
+    public static void placementRulesPreventMistakes(GameTestHelper helper) {
+        ValidationTests.placementRulesPreventMistakes(helper);
+    }
+
+    @GameTest(template = "empty")
+    public static void labelDialogsListTheNamesOfTheProgram(GameTestHelper helper) {
+        ValidationTests.labelDialogsListTheNamesOfTheProgram(helper);
     }
 }
 *///?}

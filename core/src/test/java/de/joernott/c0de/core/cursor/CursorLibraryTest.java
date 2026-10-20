@@ -27,14 +27,14 @@ import java.util.TreeMap;
 import org.junit.jupiter.api.Test;
 
 /** Native functions, libraries and the interface to the mod (tasks 4.4 and 4.7). */
-class CursorLibraryTest {
+public class CursorLibraryTest {
     static final StructDefinition POINT = new StructDefinition(
             "POINT",
             List.of(
                     new StructDefinition.Element("x", Type.Simple.INTEGER, Map.of()),
                     new StructDefinition.Element("y", Type.Simple.INTEGER, Map.of())));
 
-    static final Library TEST = new Library() {
+    public static final Library TEST = new Library() {
         @Override
         public String name() {
             return "test/lib";

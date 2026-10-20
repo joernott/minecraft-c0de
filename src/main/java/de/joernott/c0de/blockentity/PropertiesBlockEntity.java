@@ -1,6 +1,7 @@
 package de.joernott.c0de.blockentity;
 
 import de.joernott.c0de.core.line.Block;
+import de.joernott.c0de.sheet.SheetValidation;
 import java.time.ZoneId;
 import java.util.Optional;
 import net.minecraft.core.BlockPos;
@@ -69,6 +70,7 @@ public abstract class PropertiesBlockEntity extends BlockEntity {
     protected void changed() {
         setChanged();
         if (level != null) {
+            SheetValidation.changed(level, worldPosition);
             level.sendBlockUpdated(
                     worldPosition,
                     getBlockState(),

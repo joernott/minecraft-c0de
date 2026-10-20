@@ -68,6 +68,9 @@ public sealed interface Platform {
     <T extends BlockEntity> BlockEntityType<T> blockEntityType(
             BiFunction<BlockPos, BlockState, T> factory, Block... blocks);
 
+    /** Calls the listener at the end of every server tick. */
+    void onServerTickEnd(java.util.function.Consumer<net.minecraft.server.MinecraftServer> listener);
+
     /** Sends a payload to a player. */
     void sendToPlayer(ServerPlayer player, CustomPacketPayload payload);
 
@@ -141,6 +144,11 @@ public sealed interface Platform {
             return net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder.create(
                             factory::apply, blocks)
                     .build();
+        }
+
+        @Override
+        public void onServerTickEnd(java.util.function.Consumer<net.minecraft.server.MinecraftServer> listener) {
+            net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents.END_SERVER_TICK.register(listener::accept);
         }
 
         @Override
@@ -228,6 +236,13 @@ public sealed interface Platform {
         public <T extends BlockEntity> BlockEntityType<T> blockEntityType(
                 BiFunction<BlockPos, BlockState, T> factory, Block... blocks) {
             return BlockEntityType.Builder.of(factory::apply, blocks).build(null);
+        }
+
+        @Override
+        public void onServerTickEnd(java.util.function.Consumer<net.minecraft.server.MinecraftServer> listener) {
+            net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
+                    net.neoforged.neoforge.event.tick.ServerTickEvent.Post.class,
+                    event -> listener.accept(event.getServer()));
         }
 
         @Override
