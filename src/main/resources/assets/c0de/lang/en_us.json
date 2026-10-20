@@ -19,6 +19,7 @@
   "dialog.c0de.label.call_result": "Result",
   "dialog.c0de.label.struct_type": "Struct type",
   "dialog.c0de.label.reference": "Variable or constant",
+  "dialog.c0de.label.target": "Variable",
   "dialog.c0de.label.index": "Index, e.g. [i][2], [\"key\"] or .element",
   "dialog.c0de.literal": "Literal",
   "dialog.c0de.literal.type": "Type",

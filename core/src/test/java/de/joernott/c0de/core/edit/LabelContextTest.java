@@ -87,12 +87,12 @@ class LabelContextTest {
 
     @Test
     void labelsInExpressionsAndAfterOtherLabelsAreReferences() {
-        assertContext(LabelKind.REFERENCE, LabelMode.REFERENCE, null, context("total", 1));
+        assertContext(LabelKind.REFERENCE, LabelMode.TARGET, null, context("total", 1));
         assertContext(LabelKind.REFERENCE, LabelMode.REFERENCE, null, context("count", 1));
         assertContext(LabelKind.REFERENCE, LabelMode.REFERENCE, null, context("p", 1));
-        assertContext(LabelKind.REFERENCE, LabelMode.REFERENCE, null, context("problem"));
+        assertContext(LabelKind.REFERENCE, LabelMode.TARGET, null, context("problem"));
         assertContext(LabelKind.REFERENCE, LabelMode.REFERENCE, null, context("count", 2));
-        assertContext(LabelKind.REFERENCE, LabelMode.REFERENCE, null, context("total", 2));
+        assertContext(LabelKind.REFERENCE, LabelMode.TARGET, null, context("total", 2));
         assertContext(LabelKind.REFERENCE, LabelMode.REFERENCE, null, context("list"));
     }
 

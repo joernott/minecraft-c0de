@@ -14,6 +14,7 @@ import de.joernott.c0de.core.line.Keyword;
  */
 public record LabelContext(LabelKind kind, LabelMode mode, String parent) {
     private static final LabelContext REFERENCE = new LabelContext(LabelKind.REFERENCE, LabelMode.REFERENCE, null);
+    private static final LabelContext TARGET = new LabelContext(LabelKind.REFERENCE, LabelMode.TARGET, null);
 
     /** The context of a label at the position x, z of a sheet. */
     public static LabelContext of(SheetView sheet, int x, int z) {
@@ -22,8 +23,14 @@ public record LabelContext(LabelKind kind, LabelMode mode, String parent) {
             // The label starts a content line of a struct declaration or an initializer
             return new LabelContext(LabelKind.ELEMENT, LabelMode.NEW_NAME, null);
         }
+        if (before instanceof Block.LabelBlock
+                && sheet.at(x - 2, z) instanceof Block.KeywordBlock(Keyword owner)
+                && (owner == Keyword.CALL || owner == Keyword.RESULT)) {
+            // The error label of a CALL, or the variable receiving a result
+            return TARGET;
+        }
         if (!(before instanceof Block.KeywordBlock(Keyword keyword))) {
-            // In an expression, or the second label of a CALL, EACH or CALL RESULT line
+            // In an expression, or the iterable of an EACH
             return REFERENCE;
         }
         boolean keywordStartsLine = sheet.at(x - 2, z) == null;
@@ -44,6 +51,7 @@ public record LabelContext(LabelKind kind, LabelMode mode, String parent) {
                         sheet.programName());
             case CALL -> new LabelContext(LabelKind.FUNCTION, LabelMode.FUNCTION, sheet.programName());
             case PARAMETER, RESULT -> parameterOrResult(sheet, x, z, keyword);
+            case ASSIGN -> TARGET;
             default -> REFERENCE;
         };
     }

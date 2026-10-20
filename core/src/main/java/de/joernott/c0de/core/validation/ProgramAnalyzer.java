@@ -49,8 +49,13 @@ final class ProgramAnalyzer {
             List<String> results,
             Set<String> byReference) {}
 
-    /** The names that are visible in a line. */
-    record Context(List<Symbol> symbols, Map<String, Signature> functions, List<String> structTypes) {}
+    /**
+     * The names that are visible in a line.
+     *
+     * @param inFunction true if the line is in the code of a function that could be parsed
+     */
+    record Context(
+            List<Symbol> symbols, Map<String, Signature> functions, List<String> structTypes, boolean inFunction) {}
 
     private final Program program;
     private final LibraryRegistry libraries;
@@ -472,7 +477,7 @@ final class ProgramAnalyzer {
             }
         });
         return new Context(
-                List.copyOf(visible.values()), callable, List.copyOf(types.all().keySet()));
+                List.copyOf(visible.values()), callable, List.copyOf(types.all().keySet()), currentFunction != null);
     }
 
     static int endLine(Statement statement) {

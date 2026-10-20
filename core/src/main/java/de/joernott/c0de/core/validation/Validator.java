@@ -42,7 +42,17 @@ public final class Validator {
         ProgramAnalyzer analyzer = new ProgramAnalyzer(program, libraries, z);
         analyzer.analyze();
         ProgramAnalyzer.Context context = analyzer.context();
+        List<Symbol> symbols = new ArrayList<>(context.symbols());
         List<Validation.Function> functions = new ArrayList<>();
+        if (!context.inFunction()) {
+            // A function that can't be parsed yet, e.g. because its END is missing: its names come from its lines
+            LineScope.at(sheet, z).ifPresent(function -> {
+                symbols.addAll(function.symbols());
+                if (function.name() != null && !context.functions().containsKey(function.name())) {
+                    functions.add(new Validation.Function(function.name(), -1, List.of(), List.of(), List.of()));
+                }
+            });
+        }
         context.functions()
                 .values()
                 .forEach(signature -> functions.add(new Validation.Function(
@@ -51,7 +61,7 @@ public final class Validator {
                         signature.parameters(),
                         signature.mandatory(),
                         signature.results())));
-        return new Visible(context.symbols(), functions, context.structTypes());
+        return new Visible(symbols, functions, context.structTypes());
     }
 
     private static List<Validation.Function> functions(Program program) {

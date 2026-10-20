@@ -189,6 +189,7 @@ MESSAGES = [
     ("dialog.c0de.label.call_result", "Result", "Ergebnis"),
     ("dialog.c0de.label.struct_type", "Struct type", "Struct-Typ"),
     ("dialog.c0de.label.reference", "Variable or constant", "Variable oder Konstante"),
+    ("dialog.c0de.label.target", "Variable", "Variable"),
     ("dialog.c0de.label.index", "Index, e.g. [i][2], [\"key\"] or .element",
      "Index, z. B. [i][2], [\"key\"] oder .element"),
     ("dialog.c0de.literal", "Literal", "Literal"),

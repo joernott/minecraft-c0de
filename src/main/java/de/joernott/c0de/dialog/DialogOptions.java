@@ -55,10 +55,13 @@ public final class DialogOptions {
                                 mode == LabelMode.CALL_PARAMETER ? function.parameters() : function.results())
                         .orElse(List.of());
             case STRUCT_TYPE -> visible.structTypes();
-            case REFERENCE -> {
-                // The innermost names first, the built-in constants last
-                List<String> names = new ArrayList<>(
-                        visible.symbols().stream().map(Symbol::name).toList());
+            case REFERENCE, TARGET -> {
+                // The innermost names first, the built-in constants last; targets only list what can be changed
+                List<String> names = new ArrayList<>(visible.symbols().stream()
+                        .filter(symbol -> mode == LabelMode.REFERENCE || symbol.isWritable())
+                        .map(Symbol::name)
+                        .distinct()
+                        .toList());
                 java.util.Collections.reverse(names);
                 yield names;
             }

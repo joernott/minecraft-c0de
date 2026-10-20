@@ -150,7 +150,8 @@ Right-clicking a LABEL block with an empty hand opens a dialog. Its layout depen
   - next to a CALL block, a dropdown list of the available functions (built-in, from included libraries and from the program) is shown
   - next to a PARAMETER or RESULT block in a CALL statement, a dropdown list of the parameters or results of the called function is shown
   - next to a STRUCT type block, a dropdown list of the known struct types is shown
-  - in all other places (expressions, ASSIGN, RETURN, the error label of a CALL, the iterable of an EACH), a dropdown list of the variables and constants in scope is shown, together with an editor for the index
+  - next to an ASSIGN block, as the variable receiving a result in a CALL RESULT line and as the error label of a CALL, a dropdown list of the variables in scope that can be changed (no constants or loop variables) is shown, together with an editor for the index
+  - in all other places (expressions, RETURN, the iterable of an EACH), a dropdown list of the variables and constants in scope is shown, together with an editor for the index
 
 The lists are shown below the input field: clicking an entry copies it into the field, and typing filters the list. A name that is not in the list can still be entered. The index is entered as text in the notation of the examples, e.g. `[i][2]`, `["diamond"]` or `.code`. When the dialog is saved, the kind and parent of the label are determined again from its position.
 

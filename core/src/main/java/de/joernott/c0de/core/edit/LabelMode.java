@@ -15,10 +15,15 @@ public enum LabelMode {
     /** A list of the known struct types (after a STRUCT type block). */
     STRUCT_TYPE,
     /** A list of the variables and constants in scope, with an editor for the index. */
-    REFERENCE;
+    REFERENCE,
+    /**
+     * A list of the variables in scope that can be changed, with an editor for the index: the target of
+     * ASSIGN, the variable receiving a result of a CALL and the error label of a CALL.
+     */
+    TARGET;
 
     /** True if the label can have an index in this position. */
     public boolean allowsIndex() {
-        return this == REFERENCE;
+        return this == REFERENCE || this == TARGET;
     }
 }

@@ -27,6 +27,7 @@ Some mistakes are prevented when a block is placed on a sheet, and the player ge
   - A NOOP line can't contain other blocks, and a NOOP block can only be placed in an empty line.
   - A FUNCTION line starts at x=5 directly after a NOOP line (FUNCTION can also be placed after END).
   - END can't be placed directly below its BEGIN, because a code block can't be empty.
+  - A keyword that starts a line is indented correctly compared with the keyword line directly above it: one block further right below a BEGIN line, one block further left below PARAMETER, RESULT and INCLUDE lines, and at the same x below all other lines. END and ELSE may be further left to close code blocks. Lines below empty lines, comment lines and content lines are not checked, so a program can still be written in any order.
   - PARAMETER and RESULT lines directly follow their FUNCTION or CALL line, indented by one block, or another PARAMETER line; RESULT lines may also follow RESULT lines.
 
 Executable statements (ASSIGN, CALL, IF, FOR, …) are only allowed inside functions. A process always runs one function of the program, the *entry function*, which is selected in the trigger block.

@@ -201,4 +201,33 @@ class ValidatorTest {
                 .toList();
         assertFalse(global.contains("origin"), "a declaration doesn't see itself");
     }
+
+    /** While a function is written, its END is missing, but its names are listed anyway. */
+    @Test
+    void namesOfAFunctionWithoutEnd() {
+        String program = """
+                PROGRAM demo
+                NOOP
+                FUNCTION main
+                    PARAMETER count INTEGER
+                    RESULT total INTEGER
+                BEGIN
+                    VARIABLE local INTEGER
+                    FOR i INTEGER 1 ; count ;
+                    BEGIN
+                        VARIABLE inner INTEGER
+                    END FOR
+                    ASSIGN
+                """;
+        Validator.Visible visible = Validator.visibleAt(Notation.parse(program), LIBRARIES, 11);
+        List<String> names = visible.symbols().stream().map(Symbol::name).toList();
+        assertTrue(names.containsAll(List.of("count", "total", "local")), names::toString);
+        assertFalse(names.contains("i") || names.contains("inner"), names::toString);
+        assertTrue(visible.function("main").isPresent(), "recursion");
+        Symbol total = visible.symbols().stream()
+                .filter(symbol -> symbol.name().equals("total"))
+                .findFirst()
+                .orElseThrow();
+        assertTrue(total.isWritable());
+    }
 }

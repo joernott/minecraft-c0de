@@ -52,7 +52,8 @@ class PlacementRulesTest {
     @Test
     void codeBlocksAreNotEmpty() {
         assertFalse(allowed(Keyword.END, 5, 8));
-        assertTrue(allowed(Keyword.END, 6, 8));
+        // END belongs at the x of its BEGIN
+        assertFalse(allowed(Keyword.END, 6, 8));
     }
 
     @Test
@@ -74,5 +75,44 @@ class PlacementRulesTest {
         assertFalse(PlacementRules.checkArea(4, -3).isEmpty());
         assertFalse(PlacementRules.checkArea(29, -3).isEmpty());
         assertFalse(PlacementRules.checkArea(6, -2).isEmpty());
+    }
+
+    @Test
+    void statementsAreIndentedInCodeBlocks() {
+        SheetView sheet = SheetView.of(Notation.parse("""
+                PROGRAM demo
+                NOOP
+                    INCLUDE c0de/math
+
+                NOOP
+                FUNCTION main
+                BEGIN
+
+                """));
+        Block assign = new Block.KeywordBlock(Keyword.ASSIGN);
+        // Below BEGIN: indented by one block
+        assertTrue(PlacementRules.check(sheet, assign, 6, 7).isEmpty());
+        assertFalse(PlacementRules.check(sheet, assign, 5, 7).isEmpty());
+        assertFalse(PlacementRules.check(sheet, assign, 7, 7).isEmpty());
+        // Below INCLUDE: one block further left
+        assertTrue(PlacementRules.check(sheet, new Block.KeywordBlock(Keyword.VARIABLE), 5, 3)
+                .isEmpty());
+        assertFalse(PlacementRules.check(sheet, new Block.KeywordBlock(Keyword.VARIABLE), 6, 3)
+                .isEmpty());
+
+        SheetView body = SheetView.of(Notation.parse("""
+                PROGRAM demo
+                NOOP
+                FUNCTION main
+                BEGIN
+                    ASSIGN
+
+                """));
+        assertTrue(PlacementRules.check(body, new Block.KeywordBlock(Keyword.END), 5, 5)
+                .isEmpty());
+        assertFalse(PlacementRules.check(body, new Block.KeywordBlock(Keyword.END), 6, 5)
+                .isEmpty());
+        assertTrue(PlacementRules.check(body, assign, 6, 5).isEmpty());
+        assertFalse(PlacementRules.check(body, assign, 5, 5).isEmpty());
     }
 }

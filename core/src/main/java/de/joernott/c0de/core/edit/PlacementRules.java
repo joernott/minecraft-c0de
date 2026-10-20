@@ -56,7 +56,45 @@ public final class PlacementRules {
         if (keyword == Keyword.PARAMETER || keyword == Keyword.RESULT) {
             return parameterOrResult(sheet, keyword, x, z, startsLine);
         }
+        if (keyword != null && startsLine && keyword != Keyword.NOOP && keyword != Keyword.INCLUDE) {
+            return indentation(sheet, keyword, x, z);
+        }
         return Optional.empty();
+    }
+
+    /**
+     * Checks the indentation of a keyword that starts a line, compared with the keyword line directly above it.
+     * After a BEGIN line, statements are indented by one block. After PARAMETER, RESULT and INCLUDE lines,
+     * the next statement is one block further left; after all other statements, it has the same indentation.
+     * END may be further left to close code blocks, ELSE too. Lines below empty lines, comment lines and the
+     * content lines of expressions and initializers are not checked, so programs can be written in any order.
+     */
+    private static Optional<String> indentation(SheetView sheet, Keyword keyword, int x, int z) {
+        if (z == 0 || keyword == Keyword.FUNCTION) {
+            return Optional.empty();
+        }
+        int above = sheet.lineStart(z - 1);
+        if (above < 0 || !(sheet.at(above, z - 1) instanceof Block.KeywordBlock(Keyword previous))) {
+            return Optional.empty();
+        }
+        int expected = switch (previous) {
+            case BEGIN -> above + 1;
+            case PARAMETER, RESULT, INCLUDE -> above - 1;
+            default -> above;
+        };
+        boolean valid = switch (keyword) {
+            case END -> x < expected;
+            case ELSE -> x <= expected;
+            // BEGIN follows its statement, or the PARAMETER and RESULT lines of a FUNCTION
+            default -> x == expected;
+        };
+        return valid
+                ? Optional.empty()
+                : Optional.of(
+                        keyword == Keyword.END || keyword == Keyword.ELSE
+                                ? keyword + " must be placed further left, at the x of the BEGIN it belongs to"
+                                : "This line must start at x=" + expected + " (statements in a code block are indented"
+                                        + " by one block relative to BEGIN)");
     }
 
     /**

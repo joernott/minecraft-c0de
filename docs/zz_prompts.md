@@ -162,3 +162,9 @@ Both are fine now, go ahead, finish sprint 6 and continue with sprint 7
 Findings: A program existing from a previous run has not been considered, when creating another one in the second sheet with the same name. However, creating a program with the same name in the third sheet failed as expected.
 
 Placing a parameter block in the same line as the function was blocked. However, I could place it a x=2, x=3
+
+I could place an ASSIGN block on the same level as the begin above, it should be indented. I could also place it more to the left
+
+The name of a result did not appear in the list of names when placing a label next to assign. However some error constants were available. It should not be possible to assign a value to those
+
+Also, parameters to a function should be available when placing labels.
