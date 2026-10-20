@@ -59,6 +59,12 @@ public final class CodeBlockTests {
                     block.defaultBlockState().hasProperty(ValidatedCodeBlock.VALID) == type.isValidated(),
                     id + " has the wrong block states");
         }
+        for (String floor : List.of(
+                "white_c0de_bedrock", "light_green_c0de_bedrock", "black_c0de_bedrock", "cursor_c0de_bedrock")) {
+            helper.assertTrue(
+                    BuiltInRegistries.ITEM.get(C0de.id(floor)) instanceof net.minecraft.world.item.BlockItem,
+                    floor + " has no item for picking it in creative mode");
+        }
         for (String item : List.of("type_base", "structural_base")) {
             helper.assertTrue(server.getRecipeManager().byKey(C0de.id(item)).isPresent(), item + " has no recipe");
         }

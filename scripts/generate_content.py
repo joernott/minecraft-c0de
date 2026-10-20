@@ -55,6 +55,9 @@ BLOCKS = [
     ("REPEAT", True, False, "REPEAT Block", "REPEAT-Block"),
 ]
 
+# The floor of the c0de dimension; their block states and block models are written by hand
+FLOOR_BLOCKS = ["white_c0de_bedrock", "light_green_c0de_bedrock", "black_c0de_bedrock", "cursor_c0de_bedrock"]
+
 # (item ID, English name, German name)
 ITEMS = [
     ("type_base", "Type Base", "Typbasis"),
@@ -240,6 +243,23 @@ def write(path: Path, content: dict) -> None:
     path.write_text(json.dumps(content, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
 
 
+# Blocks with a texture per side. The texture of the north side is mirrored compared with the south side, so
+# the triangle of ASSIGN points to positive x on all sides; the sides facing along x show a dot (east, the arrow
+# points at the viewer) and a cross (west, the arrow points away).
+SIDES = {
+    "ASSIGN": {"north": "left", "south": "right", "up": "right", "down": "right", "east": "dot", "west": "cross"},
+}
+
+
+def block_model(bid: str, suffix: str, sides: dict | None) -> dict:
+    texture = "c0de:block/" + bid + suffix
+    if sides is None:
+        return {"parent": "minecraft:block/cube_all", "textures": {"all": texture}}
+    textures = {side: texture + "_" + name for side, name in sides.items()}
+    textures["particle"] = textures["north"]
+    return {"parent": "minecraft:block/cube", "textures": textures}
+
+
 def block_files(name: str, validated: bool, transparent: bool) -> None:
     bid = block_id(name)
     if validated:
@@ -247,8 +267,7 @@ def block_files(name: str, validated: bool, transparent: bool) -> None:
         for valid in ("true", "false"):
             suffix = "_valid" if valid == "true" else "_invalid"
             variants["valid=" + valid] = {"model": "c0de:block/" + bid + suffix}
-            write(ASSETS / "models" / "block" / (bid + suffix + ".json"),
-                  {"parent": "minecraft:block/cube_all", "textures": {"all": "c0de:block/" + bid + suffix}})
+            write(ASSETS / "models" / "block" / (bid + suffix + ".json"), block_model(bid, suffix, SIDES.get(name)))
         write(ASSETS / "blockstates" / (bid + ".json"), {"variants": variants})
         item_parent = "c0de:block/" + bid + "_valid"
     else:
@@ -273,6 +292,9 @@ def block_files(name: str, validated: bool, transparent: bool) -> None:
 def main() -> None:
     for name, validated, transparent, _, _ in BLOCKS:
         block_files(name, validated, transparent)
+    # Items of the floor blocks, so that creative players can pick them to repair the floor
+    for floor in FLOOR_BLOCKS:
+        write(ASSETS / "models" / "item" / (floor + ".json"), {"parent": "c0de:block/" + floor})
     for item, _, _ in ITEMS:
         write(ASSETS / "models" / "item" / (item + ".json"),
               {"parent": "minecraft:item/generated", "textures": {"layer0": "c0de:item/" + item}})

@@ -30,7 +30,7 @@ The block IDs are the names in lowercase with the suffix `_block`, e.g. `c0de:no
 | LITERAL | light gray #CCCCCC | gray #AAAAAA | value | 8 NOOP around white wool → 8 |
 | TAG | brown #AA7744 | dark brown #553311 | price tag with language | 8 NOOP around brown wool → 8 |
 | OPERATOR (all operators, ( ) and ;) | red #FF5555 | dark red #AA0000 | symbol chosen in a dialog | 8 NOOP around red wool → 8 |
-| ASSIGN | aqua #55FFFF | dark aqua #00AAAA | triangle | 8 NOOP around cyan wool → 8 |
+| ASSIGN | aqua #55FFFF | dark aqua #00AAAA | triangle pointing to positive x; a dot on the east side and a cross on the west side | 8 NOOP around cyan wool → 8 |
 | FUNCTION | light gray #AAAAAA | dark gray #555555 | ƒ | NOOP + stone |
 | PARAMETER | light purple #FF55FF | dark purple #AA00AA | hopper | 8 NOOP around hopper → 8; RESULT |
 | RESULT | light purple #FF55FF | dark purple #AA00AA | upward hopper | PARAMETER |

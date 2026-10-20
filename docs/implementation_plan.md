@@ -82,6 +82,7 @@ A task is done when
 |---|---|:---:|
 | 2.1 | Dimension type and dimension (data pack in the mod resources): no mob spawning, no daylight cycle, no weather, cloudless sky, ambient light, bottom at y=-16, configurable height (`maxBuildHeight`). | ✅ |
 | 2.2 | Blocks white, light green, black and cursor c0de bedrock: unbreakable, uncraftable, textures. | ✅ |
+| 2.2.1 | Items for the floor blocks, so that creative players can repair a broken floor. | ✅ |
 | 2.3 | Chunk generator for the floor: the sheet pattern from `floor_c0de.svg` for chunks with x ≥ 0 and z ≥ 0, black bedrock elsewhere, cursor rail at relative x=4. | ✅ |
 | 2.4 | Entering and leaving the dimension: a provisional trigger block that can be right-clicked with a provisional wrench (both completed in sprints 8 and 9), arrival at the program's sheet or the first free sheet, storing the return position, leaving by right-clicking black c0de bedrock with an empty hand. | ✅ |
 | 2.5 | Sheet geometry helpers: absolute ↔ relative coordinates, sheet index, line, code layer y=-3, valid code area x=5..28. Unit tests. | ✅ |
@@ -145,6 +146,7 @@ A task is done when
 | 6.6 | Type blocks: TYPE_BOOLEAN … TYPE_ERROR, including TYPE_TIME. | ✅ |
 | 6.7 | Textures and models for all blocks with a valid and an invalid variant (block state `valid`); language files `en_us` and `de_de`. | ✅ |
 | 6.7.1 | The text on the sides of blocks is shaded like the sides themselves, so that it looks the same on the top and on the sides. | ✅ |
+| 6.7.2 | The triangle of ASSIGN points to positive x on all sides (dot on the east side, cross on the west side). |  |
 | 6.8 | Data generation for models, block states, recipes, loot tables and tags, shared by both loaders. | ✅ |
 
 ## Sprint 7: Language blocks II – validation

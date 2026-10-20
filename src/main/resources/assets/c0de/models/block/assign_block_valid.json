@@ -1,6 +1,12 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "minecraft:block/cube",
   "textures": {
-    "all": "c0de:block/assign_block_valid"
+    "north": "c0de:block/assign_block_valid_left",
+    "south": "c0de:block/assign_block_valid_right",
+    "up": "c0de:block/assign_block_valid_right",
+    "down": "c0de:block/assign_block_valid_right",
+    "east": "c0de:block/assign_block_valid_dot",
+    "west": "c0de:block/assign_block_valid_cross",
+    "particle": "c0de:block/assign_block_valid_left"
   }
 }

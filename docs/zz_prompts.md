@@ -179,3 +179,14 @@ END
 
 When placing the END block it did not brighten. I forgot to place a STRING as last element for the Input
 What other mistake did I make?
+
+## 2026-10-20 – Function T7 still invalid
+
+Sorry, I placed the STRING after Out, I just forgot to type it
+I've added the Type after the LITERAL for PARAMETER In. RESULT Out already had a type, I just forgot to type it. I also added the Semicolon to the ASSIGN  line and the FUNCTION to the END line. The function did not light up though
+
+## 2026-10-20 – Findings after fixing the programs
+
+The program on sheet 2 lit up now. On sheet1, I fixed the program, too and it lit up. I thested the new placement restrictions and they look OK.
+
+Other Findings: I accidentally broke a floor block. Middle clicking it, did not allow me to get it to repair the floor. In creative mode, this should be possible (like with bedrock), as it is possible to break the floor. Also, the triangle on the assign block should always point to positive x on all sides.

@@ -390,6 +390,24 @@ def triangle(dx: float, dy: float) -> bool:
     return -4 <= dx <= 4 and abs(dy) <= (dx + 4) * 0.6
 
 
+def triangle_right(dx: float, dy: float) -> bool:
+    return triangle(-dx, dy)
+
+
+def dot(dx: float, dy: float) -> bool:
+    """The tip of an arrow pointing at the viewer."""
+    return dx * dx + dy * dy <= 9
+
+
+def cross(dx: float, dy: float) -> bool:
+    """The tail of an arrow pointing away from the viewer."""
+    return abs(dx) <= 4.5 and abs(dy) <= 4.5 and (abs(dx - dy) <= 0.8 or abs(dx + dy) <= 0.8)
+
+
+# The sides of the ASSIGN block: its triangle points to positive x on every side (see generate_content.py)
+ASSIGN_SIDES = {"left": triangle, "right": triangle_right, "dot": dot, "cross": cross}
+
+
 def frame(dx: float, dy: float) -> bool:
     return square(dx, dy) and not (abs(dx) <= 3.5 and abs(dy) <= 3.5)
 
@@ -412,7 +430,6 @@ CODE_BLOCKS = [
     ("break_block", 0xFFFF55, 0xFFAA00, lambda i: icon(i, "stick")),
     ("variable_block", 0x5555FF, 0x0000AA, lambda i: paint(i, square, WHITE)),
     ("constant_block", 0x5555FF, 0x0000AA, lambda i: paint(i, diamond, WHITE)),
-    ("assign_block", 0x55FFFF, 0x00AAAA, lambda i: paint(i, triangle, WHITE)),
     ("function_block", 0xAAAAAA, 0x555555, lambda i: (paint(i, circle, WHITE), glyph(i, "ƒ", 0x202020))),
     ("parameter_block", 0xFF55FF, 0xAA00AA, lambda i: icon(i, "hopper")),
     ("result_block", 0xFF55FF, 0xAA00AA, lambda i: (upside_down(i), icon(i, "hopper"), upside_down(i))),
@@ -460,6 +477,11 @@ def code_block_textures(blocks: Path) -> None:
             image = framed(color, block + suffix)
             draw(image)
             write_png(blocks / (block + suffix + ".png"), image)
+    for side, shape in ASSIGN_SIDES.items():
+        for suffix, color in (("_valid", 0x55FFFF), ("_invalid", 0x00AAAA)):
+            image = framed(color, "assign_block" + suffix)
+            paint(image, shape, WHITE)
+            write_png(blocks / ("assign_block" + suffix + "_" + side + ".png"), image)
     for block, name, color in TYPE_BLOCKS:
         image = framed(0xCC2222, block)
         paint(image, octagon, WHITE)
