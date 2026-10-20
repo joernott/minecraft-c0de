@@ -174,12 +174,12 @@ A task is done when
 |---|---|:---:|
 | 8.1 | Data item, type items, variable and constant items with their properties and edit dialog. |  |
 | 8.2 | Trigger block, timer block and debug trigger block: configuration dialog, owner, input and output inventory, camouflage slot, preconditions for starting a process; placement rules in the c0de dimension (negative area only). |  |
-| 8.3 | Process start: PID allocation, PID block, cursor entity, transfer of the input items. |  |
-| 8.4 | Process scheduler: one step per tick and cursor, chunk tickets for running sheets, SLEEP. |  |
-| 8.5 | Process end: results to the output inventory, exit code, error, comparator output, automatic transfer to an adjacent inventory, removal of cursor and PID block. |  |
-| 8.6 | Protection of running programs: no changes to sheets with running processes by players, pistons, explosions, fluids or other mods; read-only dialogs; message to the player. |  |
-| 8.7 | Persistence: running processes survive saving and restarting the server (serialized cursor state). |  |
-| 8.8 | GameTests and RCON scenario tests for complete programs started by redstone and timers. |  |
+| 8.3 | Process start: PID allocation, PID block, cursor entity, transfer of the input items. | ✅ |
+| 8.4 | Process scheduler: one step per tick and cursor, chunk tickets for running sheets, SLEEP. | ✅ |
+| 8.5 | Process end: results to the output inventory, exit code, error, comparator output, automatic transfer to an adjacent inventory, removal of cursor and PID block. | ✅ |
+| 8.6 | Protection of running programs: no changes to sheets with running processes by players, pistons, explosions, fluids or other mods; read-only dialogs; message to the player. | ✅ |
+| 8.7 | Persistence: running processes survive saving and restarting the server (serialized cursor state). | ✅ |
+| 8.8 | GameTests and RCON scenario tests for complete programs started by redstone and timers. | ✅ |
 
 ## Sprint 9: Debugging and tools
 
