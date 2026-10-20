@@ -1,0 +1,53 @@
+// Chapter 10: the library c0de/strings, FORMAT, JSON and tags
+entry: main
+expect middle: "😀c"
+expect position: 2
+expect formatted: "[  42]"
+expect json: "{\"server\":{\"port\":25565}}"
+expect name: "Alex"
+expect level: 3
+---
+PROGRAM strings
+NOOP
+    INCLUDE c0de/strings
+STRUCT player
+BEGIN
+    playerName STRING TAG(json: "name")
+    level INTEGER
+END STRUCT
+NOOP
+FUNCTION main
+    RESULT middle STRING
+    RESULT position INTEGER
+    RESULT formatted STRING
+    RESULT json STRING
+    RESULT name STRING
+    RESULT level INTEGER
+BEGIN
+    CALL c0de/strings/MID
+        PARAMETER text "a😀cde" ;
+        PARAMETER start 1 ;
+        PARAMETER length 2 ;
+        RESULT result middle
+    CALL c0de/strings/INSTR
+        PARAMETER text "a😀bcbc" ;
+        PARAMETER search "bc" ;
+        RESULT result position
+    CALL c0de/strings/FORMAT
+        PARAMETER value 42 ;
+        PARAMETER format "[%4d]" ;
+        RESULT result formatted
+    VARIABLE port INTEGER 25565 TAG(json: "server.port")
+    CALL c0de/strings/TO_JSON
+        PARAMETER value port ;
+        RESULT result json
+    VARIABLE p STRUCT player
+    BEGIN
+        level 3
+    END VARIABLE
+    CALL c0de/strings/FROM_JSON
+        PARAMETER source "{\"name\": \"Alex\", \"extra\": 1}" ;
+        PARAMETER destination p ;
+    ASSIGN name p.playerName ;
+    ASSIGN level p.level ;
+END FUNCTION

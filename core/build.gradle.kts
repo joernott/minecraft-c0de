@@ -21,6 +21,10 @@ java {
 }
 
 dependencies {
+    // YAML 1.2 (TO_YAML, FROM_YAML) and JSON parsing (YAML 1.2 is a superset of JSON).
+    // The mod nodes embed it with jar-in-jar.
+    implementation("org.snakeyaml:snakeyaml-engine:3.2")
+
     testImplementation(platform("org.junit:junit-bom:5.13.4"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")

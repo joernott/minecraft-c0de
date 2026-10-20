@@ -3,6 +3,7 @@ package de.joernott.c0de;
 import de.joernott.c0de.content.C0deBlocks;
 import de.joernott.c0de.content.C0deItems;
 import de.joernott.c0de.core.config.C0deConfig;
+import de.joernott.c0de.core.library.standard.StandardLibraries;
 import de.joernott.c0de.dimension.C0deDimension;
 import de.joernott.c0de.dimension.SettingsPack;
 import de.joernott.c0de.platform.Platform;
@@ -26,6 +27,7 @@ public final class C0de {
     public static void init() {
         LOGGER.info("c0de {} for Minecraft {} on {}", VERSION, MINECRAFT, Platform.INSTANCE.loaderName());
         config = loadConfig();
+        checkLibraries();
         Platform.INSTANCE.addServerDataPackSource(SettingsPack.source());
         C0deBlocks.register();
         C0deItems.register();
@@ -40,6 +42,14 @@ public final class C0de {
     /** An identifier in the namespace of the mod. */
     public static ResourceLocation id(String path) {
         return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
+    }
+
+    private static void checkLibraries() {
+        try {
+            LOGGER.info("c0de data formats available: {}", StandardLibraries.selfTest().replace('\n', ' '));
+        } catch (LinkageError | RuntimeException e) {
+            LOGGER.error("The c0de data formats JSON and YAML are not available", e);
+        }
     }
 
     private static C0deConfig loadConfig() {

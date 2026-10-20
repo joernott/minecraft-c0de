@@ -8,22 +8,22 @@ The library `c0de/strings` contains all string and character functions except LE
 
 | Function | Parameters | Results | Description | AmigaBASIC |
 |---|---|---|---|---|
-| LEFT | text STRING, length INTEGER | result STRING | The first `length` characters of `text`. | LEFT$ |
-| RIGHT | text STRING, length INTEGER | result STRING | The last `length` characters of `text`. | RIGHT$ |
-| MID | text STRING, start INTEGER, length INTEGER (default: rest of the text) | result STRING | `length` characters of `text`, beginning at position `start`. | MID$ function |
+| LEFT | text STRING, length INTEGER | result STRING | The first `length` characters of `text`, or the whole text if it is shorter. | LEFT$ |
+| RIGHT | text STRING, length INTEGER | result STRING | The last `length` characters of `text`, or the whole text if it is shorter. | RIGHT$ |
+| MID | text STRING, start INTEGER, length INTEGER (default: rest of the text) | result STRING | `length` characters of `text`, beginning at position `start`. Returns fewer characters at the end of the text and an empty string if `start` is behind the end. | MID$ function |
 | REPLACE | text STRING, start INTEGER, insert STRING | result STRING | Overwrites the characters of `text` beginning at position `start` with `insert`. The length of `text` does not change; characters of `insert` that would extend it are dropped. | MID$ statement |
 | INSTR | text STRING, search STRING, start INTEGER (default 0) | result INTEGER | Position of the first occurrence of `search` in `text`, searching from position `start`. -1 if it is not found. | INSTR |
 | UCASE | text STRING | result STRING | `text` with all lowercase letters converted to uppercase. | UCASE$ |
 | LCASE | text STRING | result STRING | `text` with all uppercase letters converted to lowercase. | – |
-| SPACE | count INTEGER | result STRING | A string of `count` spaces. | SPACE$ |
-| FILL | count INTEGER, char CHAR | result STRING | A string of `count` copies of `char`. | STRING$ |
+| SPACE | count INTEGER | result STRING | A string of `count` spaces. `count` MUST be between 0 and 1,000,000. | SPACE$ |
+| FILL | count INTEGER, char CHAR | result STRING | A string of `count` copies of `char`. `count` MUST be between 0 and 1,000,000. | STRING$ |
 | ASC | char CHAR | result INTEGER | The Unicode code point of `char`. | ASC |
 | CHR | code INTEGER | result CHAR | The character with the Unicode code point `code`. | CHR$ |
 | STR | value BOOLEAN\|INTEGER\|FLOAT\|CHAR\|TIME | result STRING | Text representation of `value`, the same as used by the ⊕ operator. | STR$ |
 | FORMAT | value BOOLEAN\|INTEGER\|FLOAT\|CHAR\|STRING\|TIME, format STRING | result STRING | Formats `value` according to the format string `format`, see [FORMAT](#format). | DATE$, TIME$, PRINT USING |
 | VAL | text STRING | value FLOAT, isInteger BOOLEAN | Converts a text to a number. `isInteger` is true if the text contains an integer number, which can be converted with FIX without loss. Raises INVALID_ARGUMENT if the text is not a number. | VAL |
-| HEX | value INTEGER | result STRING | Hexadecimal representation of `value`. | HEX$ |
-| OCT | value INTEGER | result STRING | Octal representation of `value`. | OCT$ |
+| HEX | value INTEGER | result STRING | Hexadecimal representation of `value` in uppercase letters. Negative values are shown in two's complement, e.g. `FFFFFFFFFFFFFFFF` for -1. | HEX$ |
+| OCT | value INTEGER | result STRING | Octal representation of `value`. Negative values are shown in two's complement. | OCT$ |
 
 ## FORMAT
 
@@ -42,7 +42,7 @@ FORMAT converts a value to text according to a format string that is based on th
 | `%o` | INTEGER | octal number |
 | `%f` | INTEGER, FLOAT | decimal number with decimal places (default 6) |
 | `%e` | INTEGER, FLOAT | number in scientific notation, e.g. `1.234560e+03` |
-| `%g` | INTEGER, FLOAT | `%f` or `%e`, whichever is shorter |
+| `%g` | INTEGER, FLOAT | `%f` or `%e`, whichever is shorter. The flag `0` is ignored. |
 | `%c` | CHAR | the character |
 | `%b` | BOOLEAN | `true` or `false` |
 | `%s` | any | the text representation, the same as used by the ⊕ operator |
@@ -96,12 +96,12 @@ A conversion that does not fit the type of `value` raises TYPE_MISMATCH, an inva
 
 | Function | Parameters | Results | Description |
 |---|---|---|---|
-| TO_JSON | value (any type), indent INTEGER (default 0) | result STRING | Converts `value` to a JSON document. With `indent` 0, the document is written in a single line; otherwise, nested elements are indented by `indent` spaces. |
+| TO_JSON | value (any type), indent INTEGER (default 0) | result STRING | Converts `value` to a JSON document. With `indent` 0, the document is written in a single line; otherwise, nested elements are indented by `indent` spaces. `indent` MUST be between 0 and 16. |
 | TO_YAML | value (any type) | result STRING | Converts `value` to a YAML document in block style with an indentation of two spaces. |
 | FROM_JSON | source STRING, destination (variable) | – | Reads the JSON document `source` into the variable `destination`. |
 | FROM_YAML | source STRING, destination (variable) | – | Reads the YAML document `source` into the variable `destination`. |
 
-JSON documents follow RFC 8259, YAML documents follow YAML 1.2. FROM_YAML only reads the first document of a YAML stream.
+JSON documents follow RFC 8259, YAML documents follow YAML 1.2. FROM_YAML only reads the first document of a YAML stream. Since every JSON document is a YAML 1.2 document, FROM_JSON uses the same parser and also accepts some documents that are not strict JSON, e.g. with comments.
 
 ### Converting values
 
@@ -113,7 +113,7 @@ c0de has no dynamic data type (like `map[string]interface{}` in Go or a VARIANT 
 | INTEGER | integer number. A number with decimal places can't be read into an INTEGER. |
 | FLOAT | number. Integer numbers can be read into a FLOAT. Infinite values and NaN can't be written (INVALID_ARGUMENT). |
 | CHAR | string with exactly one character |
-| TIME | string in the ISO 8601 format in UTC with milliseconds, e.g. `2026-10-19T12:05:09.250Z`. When reading, any ISO 8601 date and time with an offset (milliseconds optional) and integer numbers (as Unix timestamp in milliseconds) are accepted. |
+| TIME | string in the ISO 8601 format in UTC with milliseconds, e.g. `2026-10-19T12:05:09.250Z`. When reading, any ISO 8601 date and time (milliseconds optional; without an offset, UTC is assumed) and integer numbers (as Unix timestamp in milliseconds) are accepted. |
 | STRING | string |
 | ARRAY | array (JSON) / sequence (YAML). All elements MUST fit the subtype of the array. |
 | HASH | object (JSON) / mapping (YAML). The keys of the hash are the keys of the object; they are written in ascending lexicographic order. All values MUST fit the subtype of the hash. |

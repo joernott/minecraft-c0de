@@ -246,3 +246,15 @@ Questions the concept didn't answer, and one contradiction:
 - **FOR loops**: start, end and increment must be numbers. With an INTEGER loop variable, FLOAT values raise TYPE_MISMATCH.
 - **Persistence**: a running cursor is stored as a tree of plain data (maps, lists, strings, numbers, booleans, without null values) that refers to statements by their lines. The mod stores it as NBT (sprint 8). The random number generator of a process (SplitMix64) is part of the stored state, so a process continues the same sequence of random numbers after a restart.
 - **Interface to the mod**: libraries are Java objects (types, constants, native functions). A native function gets its arguments, the tags of single-label arguments, the variables of by-reference parameters and the process (random numbers, clock, time zone, access to the mod). It returns results, an error or a number of steps to wait.
+
+## 13. Decisions made while implementing sprint 5 (2026-10-20)
+
+- **JSON without Gson**: the plan named Gson for JSON. JSON is written by a small writer of our own, and FROM_JSON parses with SnakeYAML Engine, because every JSON document is a YAML 1.2 document. This keeps a single embedded library (SnakeYAML Engine 3.2, jar-in-jar on both loaders). The parser is lenient: it also accepts some documents that are not strict JSON.
+- **Number parameters**: parameters of type FLOAT also accept INTEGER values (e.g. `SQR 9`, `ROUND 3`).
+- **Substrings**: LEFT and RIGHT with a length beyond the text return the whole text; MID with a start behind the end returns an empty string. Negative lengths and positions raise INVALID_ARGUMENT.
+- **HEX and OCT**: HEX uses uppercase letters; negative values are shown in two's complement.
+- **Limits**: SPACE and FILL create at most 1,000,000 characters; the indentation of TO_JSON is 0 to 16.
+- **YAML output**: TIME values are written as unquoted ISO 8601 timestamps (`joined: 2026-10-19T12:05:09.250Z`). When reading, a time without an offset is UTC.
+- **`%g`** ignores the flag `0`.
+- **RAISE** returns the error as an error of the calling function: its `context` is the function that called RAISE, not RAISE itself.
+- **Start-up check**: the mod converts a small JSON document to YAML at start-up and logs the result, so a missing embedded library shows up in the server log (and fails the smoke test).

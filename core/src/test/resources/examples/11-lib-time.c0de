@@ -1,0 +1,34 @@
+// Chapter 11: the library c0de/time (the tests run with a fixed clock: 2026-10-19T12:05:09.250Z, UTC)
+entry: main
+expect now: "2026-10-19 12:05:09"
+expect week: 43
+expect weekday: 1
+expect later: @2026-10-19T12:05:10.250Z
+---
+PROGRAM time
+NOOP
+    INCLUDE c0de/strings
+    INCLUDE c0de/time
+NOOP
+FUNCTION main
+    RESULT now STRING
+    RESULT week INTEGER
+    RESULT weekday INTEGER
+    RESULT later TIME
+BEGIN
+    VARIABLE t TIME
+    CALL c0de/time/NOW
+        RESULT result t
+    CALL c0de/strings/FORMAT
+        PARAMETER value t ;
+        PARAMETER format "%tF %tT" ;
+        RESULT result now
+    CALL c0de/time/WEEK
+        RESULT result week
+    CALL c0de/time/WEEKDAY
+        PARAMETER time t ;
+        RESULT result weekday
+    ASSIGN later t + 1000 ;
+    CALL c0de/time/SLEEP
+        PARAMETER ticks 2 ;
+END FUNCTION

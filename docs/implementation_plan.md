@@ -126,7 +126,7 @@ A task is done when
 | 5.2 | c0de/math: all functions, PI, per-process random number generator. |  |
 | 5.3 | c0de/strings: string and character functions, STR, VAL, HEX, OCT. |  |
 | 5.4 | FORMAT: printf conversions, flags, width, precision, `%t…` conversions, server time zone. |  |
-| 5.5 | TO_JSON and FROM_JSON with Gson: conversion table, struct tags, variable tags with paths (incl. array indexes), defaults for missing elements, atomic writes. |  |
+| 5.5 | TO_JSON and FROM_JSON (own JSON writer, parsed with SnakeYAML Engine, see concept review §13): conversion table, struct tags, variable tags with paths (incl. array indexes), defaults for missing elements, atomic writes. |  |
 | 5.6 | TO_YAML and FROM_YAML with SnakeYAML Engine (embedded via jar-in-jar), same rules as JSON. |  |
 | 5.7 | c0de/time: NOW, MILLISECOND … YEAR, WEEKDAY, WEEK (ISO 8601), TIMER, SLEEP. |  |
 

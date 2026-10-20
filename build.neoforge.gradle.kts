@@ -13,6 +13,20 @@ val requiredJava = when {
 
 val modId = property("mod.id") as String
 
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Used by core (TO_YAML, FROM_YAML, FROM_JSON), embedded in the mod jar
+    implementation("org.snakeyaml:snakeyaml-engine:3.2")
+    jarJar("org.snakeyaml:snakeyaml-engine:[3.2,4.0)") {
+        version {
+            prefer("3.2")
+        }
+    }
+}
+
 // The interpreter is compiled into every node
 sourceSets.main {
     java.srcDir(rootProject.file("core/src/main/java"))
@@ -51,6 +65,12 @@ neoForge {
             systemProperty("neoforge.enabledGameTestNamespaces", modId)
         }
     }
+}
+
+// Created by ModDevGradle once the NeoForge version is set: libraries for development runs, which are not
+// mods (the jar-in-jar library is only unpacked in production)
+dependencies {
+    "additionalRuntimeClasspath"("org.snakeyaml:snakeyaml-engine:3.2")
 }
 
 java {

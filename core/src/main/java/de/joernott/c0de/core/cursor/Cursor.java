@@ -702,7 +702,8 @@ public final class Cursor {
         line = next == null ? program.endLine() : next;
         StructValue returned = okError();
         if (result.errorCode() != 0) {
-            returned = errorValue(result.errorCode(), result.errorMessage(), entry.name(), call.line());
+            String context = result.callerContext() ? currentFunction() : entry.name();
+            returned = errorValue(result.errorCode(), result.errorMessage(), context, call.line());
         }
         deliver(call, result.results(), returned);
         waitSteps = result.waitSteps();

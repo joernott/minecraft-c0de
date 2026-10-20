@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import de.joernott.c0de.core.error.ErrorCode;
+import de.joernott.c0de.core.library.standard.StandardLibraries;
 import de.joernott.c0de.core.line.Block;
 import de.joernott.c0de.core.line.Notation;
 import de.joernott.c0de.core.program.Program;
@@ -92,7 +93,11 @@ class ExamplesTest {
             }
         }
         Program program = ProgramParser.parse(Notation.parse(text.substring(separator + 5)));
-        Cursor cursor = new Cursor(program, entry, inputs, CursorTestSupport.settings(CursorLibraryTest.libraries()));
+        Cursor cursor = new Cursor(
+                program,
+                entry,
+                inputs,
+                CursorTestSupport.settings(StandardLibraries.registry().add(CursorLibraryTest.TEST)));
         cursor.run(1_000_000);
         assertTrue(cursor.ended(), name + " didn't end");
         if (crash != null) {

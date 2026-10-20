@@ -1,0 +1,81 @@
+// Chapter 08: built-in functions, available without INCLUDE
+entry: main
+expect length: 3
+expect has: TRUE
+expect removed: "[1, 3]"
+expect inserted: "[0, 1, 2, 3]"
+expect cleared: 0
+expect a: 2
+expect b: 1
+expect code: 1001
+expect message: "too big"
+expect context: "check"
+---
+PROGRAM builtins
+NOOP
+NOOP
+FUNCTION check
+BEGIN
+    CALL RAISE
+        PARAMETER code 1001 ;
+        PARAMETER message "too big" ;
+END FUNCTION
+NOOP
+FUNCTION main
+    RESULT length INTEGER
+    RESULT has BOOLEAN
+    RESULT removed STRING
+    RESULT inserted STRING
+    RESULT cleared INTEGER
+    RESULT a INTEGER
+    RESULT b INTEGER
+    RESULT code INTEGER
+    RESULT message STRING
+    RESULT context STRING
+BEGIN
+    VARIABLE list ARRAY INTEGER
+    BEGIN
+        1 2 3
+    END VARIABLE
+    VARIABLE stock HASH INTEGER
+    BEGIN
+        gold 1
+    END VARIABLE
+    CALL LEN
+        PARAMETER value list ;
+        RESULT result length
+    CALL HAS_KEY
+        PARAMETER hash stock ;
+        PARAMETER key "gold" ;
+        RESULT result has
+    VARIABLE shorter ARRAY INTEGER
+    CALL REMOVE
+        PARAMETER container list ;
+        PARAMETER index 1 ;
+        RESULT result shorter
+    ASSIGN removed "" ⊕ shorter ;
+    CALL INSERT
+        PARAMETER array list ;
+        PARAMETER index 0 ;
+        PARAMETER value 0 ;
+        RESULT result list
+    ASSIGN inserted "" ⊕ list ;
+    CALL CLEAR
+        PARAMETER container stock ;
+        RESULT result stock
+    CALL LEN
+        PARAMETER value stock ;
+        RESULT result cleared
+    ASSIGN a 1 ;
+    ASSIGN b 2 ;
+    CALL SWAP
+        PARAMETER a a ;
+        PARAMETER b b ;
+        RESULT a a
+        RESULT b b
+    VARIABLE problem ERROR
+    CALL check problem
+    ASSIGN code problem.code ;
+    ASSIGN message problem.message ;
+    ASSIGN context problem.context ;
+END FUNCTION

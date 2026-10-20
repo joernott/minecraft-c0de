@@ -103,6 +103,13 @@ for i in "${!services[@]}"; do
         diagnose "$service"
         status=1
     fi
+    if grep -q "c0de data formats available" <<<"$log"; then
+        echo "JSON and YAML available"
+    else
+        echo "::error title=Smoke test::The embedded YAML library is missing on $service"
+        diagnose "$service"
+        status=1
+    fi
 
     if grep -q "players online" <<<"$(rcon "$service" list)"; then
         echo "RCON responds"

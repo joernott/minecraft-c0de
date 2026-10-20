@@ -51,6 +51,9 @@ dependencies {
         "fabric-gametest-api-v1",
         "fabric-rendering-v1",
     )
+    // Used by core (TO_YAML, FROM_YAML, FROM_JSON), embedded in the mod jar
+    include(implementation("org.snakeyaml:snakeyaml-engine:3.2")!!)
+
     // Players install the complete Fabric API, which fabric.mod.json requires. Development runs need it too.
     modLocalRuntime("net.fabricmc.fabric-api:fabric-api:${sc.properties.get<String>("deps.fabric_api")}")
 }
