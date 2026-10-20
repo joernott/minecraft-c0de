@@ -37,7 +37,7 @@ A task is done when
 | 0 | Concept and plan | Concept, implementation plan, development environment plan | ✅ |
 | 1 | Project skeleton and environment | Empty mod loads on Fabric and NeoForge 1.21.1, CI and VM are ready | ✅ |
 | 2 | The c0de dimension | Players can enter the dimension with its greenbar paper floor | ✅ |
-| 3 | Interpreter I: syntax and values | `core` parses programs and evaluates expressions |  |
+| 3 | Interpreter I: syntax and values | `core` parses programs and evaluates expressions | ✅ |
 | 4 | Interpreter II: execution | `core` runs complete programs step by step, including functions, loops and errors |  |
 | 5 | Libraries in `core` | Built-in functions, c0de/math, c0de/strings (incl. FORMAT, JSON, YAML), c0de/time |  |
 | 6 | Language blocks I | All language blocks exist, with dialogs and recipes |  |
@@ -93,13 +93,13 @@ A task is done when
 
 | Task | Description | Done |
 |---|---|:---:|
-| 3.1 | Line model: a program is a list of lines, each line a list of block tokens with x coordinate and properties (keyword, label name/index/kind, literal type/value, operator symbol, comment text, tag language/name). A text notation for tests (like the examples in the concept), so that test programs can be written as text. |  |
-| 3.2 | Type system: BOOLEAN, INTEGER, FLOAT, CHAR, TIME, STRING (with length limit), ARRAY, HASH, STRUCT, ERROR; default values; text representation; copy semantics. |  |
-| 3.3 | Line reading: COMMENT handling, NOOP rules, indentation checks, placement rules, matching BEGIN/END (all SYNTAX_ERROR_* cases of the cursor chapter). |  |
-| 3.4 | Expressions: shunting-yard with all operators and their precedence, parentheses up to depth 8, `;`, continuation lines, type rules (incl. TIME arithmetic), runtime errors (DIVISION_BY_ZERO, NUMERIC_OVERFLOW, TYPE_MISMATCH). |  |
-| 3.5 | Labels with index: name resolution, index evaluation for arrays, hashes, structs, strings (read and write access). |  |
-| 3.6 | Declarations: STRUCT with tags, VARIABLE, CONSTANT, literals, initializers of complex values (nested up to depth 8). |  |
-| 3.7 | Error codes as enum with numbers, names and the built-in constants. |  |
+| 3.1 | Line model: a program is a list of lines, each line a list of block tokens with x coordinate and properties (keyword, label name/index/kind, literal type/value, operator symbol, comment text, tag language/name). A text notation for tests (like the examples in the concept), so that test programs can be written as text. | ✅ |
+| 3.2 | Type system: BOOLEAN, INTEGER, FLOAT, CHAR, TIME, STRING (with length limit), ARRAY, HASH, STRUCT, ERROR; default values; text representation; copy semantics. | ✅ |
+| 3.3 | Line reading: COMMENT handling, NOOP rules, indentation checks, placement rules, matching BEGIN/END (all SYNTAX_ERROR_* cases of the cursor chapter). | ✅ |
+| 3.4 | Expressions: shunting-yard with all operators and their precedence, parentheses up to depth 8, `;`, continuation lines, type rules (incl. TIME arithmetic), runtime errors (DIVISION_BY_ZERO, NUMERIC_OVERFLOW, TYPE_MISMATCH). | ✅ |
+| 3.5 | Labels with index: name resolution, index evaluation for arrays, hashes, structs, strings (read and write access). | ✅ |
+| 3.6 | Declarations: STRUCT with tags, VARIABLE, CONSTANT, literals, initializers of complex values (nested up to depth 8). | ✅ |
+| 3.7 | Error codes as enum with numbers, names and the built-in constants. | ✅ |
 
 ## Sprint 4: Interpreter II – execution (`core`)
 
