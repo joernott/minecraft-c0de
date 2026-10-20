@@ -38,7 +38,7 @@ A task is done when
 | 1 | Project skeleton and environment | Empty mod loads on Fabric and NeoForge 1.21.1, CI and VM are ready | ✅ |
 | 2 | The c0de dimension | Players can enter the dimension with its greenbar paper floor | ✅ |
 | 3 | Interpreter I: syntax and values | `core` parses programs and evaluates expressions | ✅ |
-| 4 | Interpreter II: execution | `core` runs complete programs step by step, including functions, loops and errors |  |
+| 4 | Interpreter II: execution | `core` runs complete programs step by step, including functions, loops and errors | ✅ |
 | 5 | Libraries in `core` | Built-in functions, c0de/math, c0de/strings (incl. FORMAT, JSON, YAML), c0de/time |  |
 | 6 | Language blocks I | All language blocks exist, with dialogs and recipes |  |
 | 7 | Language blocks II: validation | Blocks show whether their statements are valid |  |
@@ -107,14 +107,14 @@ A task is done when
 
 | Task | Description | Done |
 |---|---|:---:|
-| 4.1 | Cursor state machine: current line, state (RUNNING, PAUSED, CRASHED), one step per line, jumps. The state can be serialized, so that processes survive a server restart (needed in sprint 8). |  |
-| 4.2 | Stack with configurable size: variable and constant items, function items, block markers, STACK_OVERFLOW, lexical name resolution. |  |
-| 4.3 | Program header: PROGRAM, INCLUDE (library registry), global declarations, entry function, empty line. |  |
-| 4.4 | Functions: FUNCTION, PARAMETER, RESULT, RETURN, CALL with named parameters and results, recursion, by-reference parameters for FROM_JSON/FROM_YAML, tag passing. |  |
-| 4.5 | Control flow: BEGIN/END, IF/ELSE, FOR, EACH, WHILE, REPEAT, BREAK, EXIT. |  |
-| 4.6 | Error handling: crash vs. raise, propagation through call frames, error labels of CALL, exit codes (incl. 15 for crashes). |  |
-| 4.7 | Interface between `core` and the mod: input and output values of the entry function (variable and constant items), library functions implemented outside of `core` (c0de/minecraft), SLEEP as "wait n steps". |  |
-| 4.8 | Test suite with complete example programs (one per chapter of the concept). |  |
+| 4.1 | Cursor state machine: current line, state (RUNNING, PAUSED, CRASHED), one step per line, jumps. The state can be serialized, so that processes survive a server restart (needed in sprint 8). | ✅ |
+| 4.2 | Stack with configurable size: variable and constant items, function items, block markers, STACK_OVERFLOW, lexical name resolution. | ✅ |
+| 4.3 | Program header: PROGRAM, INCLUDE (library registry), global declarations, entry function, empty line. | ✅ |
+| 4.4 | Functions: FUNCTION, PARAMETER, RESULT, RETURN, CALL with named parameters and results, recursion, by-reference parameters for FROM_JSON/FROM_YAML, tag passing. | ✅ |
+| 4.5 | Control flow: BEGIN/END, IF/ELSE, FOR, EACH, WHILE, REPEAT, BREAK, EXIT. | ✅ |
+| 4.6 | Error handling: crash vs. raise, propagation through call frames, error labels of CALL, exit codes (incl. 15 for crashes). | ✅ |
+| 4.7 | Interface between `core` and the mod: input and output values of the entry function (variable and constant items), library functions implemented outside of `core` (c0de/minecraft), SLEEP as "wait n steps". | ✅ |
+| 4.8 | Test suite with complete example programs (one per chapter of the concept). | ✅ |
 
 ## Sprint 5: Libraries in `core`
 
