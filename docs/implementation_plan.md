@@ -39,7 +39,7 @@ A task is done when
 | 2 | The c0de dimension | Players can enter the dimension with its greenbar paper floor | ✅ |
 | 3 | Interpreter I: syntax and values | `core` parses programs and evaluates expressions | ✅ |
 | 4 | Interpreter II: execution | `core` runs complete programs step by step, including functions, loops and errors | ✅ |
-| 5 | Libraries in `core` | Built-in functions, c0de/math, c0de/strings (incl. FORMAT, JSON, YAML), c0de/time |  |
+| 5 | Libraries in `core` | Built-in functions, c0de/math, c0de/strings (incl. FORMAT, JSON, YAML), c0de/time | ✅ |
 | 6 | Language blocks I | All language blocks exist, with dialogs and recipes |  |
 | 7 | Language blocks II: validation | Blocks show whether their statements are valid |  |
 | 8 | Processes | Trigger, timer, PID block and cursor run programs in the world |  |
@@ -122,13 +122,13 @@ A task is done when
 
 | Task | Description | Done |
 |---|---|:---:|
-| 5.1 | Built-in functions: LEN, HAS_KEY, REMOVE, INSERT, CLEAR, SWAP, RAISE. |  |
-| 5.2 | c0de/math: all functions, PI, per-process random number generator. |  |
-| 5.3 | c0de/strings: string and character functions, STR, VAL, HEX, OCT. |  |
-| 5.4 | FORMAT: printf conversions, flags, width, precision, `%t…` conversions, server time zone. |  |
-| 5.5 | TO_JSON and FROM_JSON (own JSON writer, parsed with SnakeYAML Engine, see concept review §13): conversion table, struct tags, variable tags with paths (incl. array indexes), defaults for missing elements, atomic writes. |  |
-| 5.6 | TO_YAML and FROM_YAML with SnakeYAML Engine (embedded via jar-in-jar), same rules as JSON. |  |
-| 5.7 | c0de/time: NOW, MILLISECOND … YEAR, WEEKDAY, WEEK (ISO 8601), TIMER, SLEEP. |  |
+| 5.1 | Built-in functions: LEN, HAS_KEY, REMOVE, INSERT, CLEAR, SWAP, RAISE. | ✅ |
+| 5.2 | c0de/math: all functions, PI, per-process random number generator. | ✅ |
+| 5.3 | c0de/strings: string and character functions, STR, VAL, HEX, OCT. | ✅ |
+| 5.4 | FORMAT: printf conversions, flags, width, precision, `%t…` conversions, server time zone. | ✅ |
+| 5.5 | TO_JSON and FROM_JSON (own JSON writer, parsed with SnakeYAML Engine, see concept review §13): conversion table, struct tags, variable tags with paths (incl. array indexes), defaults for missing elements, atomic writes. | ✅ |
+| 5.6 | TO_YAML and FROM_YAML with SnakeYAML Engine (embedded via jar-in-jar), same rules as JSON. | ✅ |
+| 5.7 | c0de/time: NOW, MILLISECOND … YEAR, WEEKDAY, WEEK (ISO 8601), TIMER, SLEEP. | ✅ |
 
 ## Sprint 6: Language blocks I
 
