@@ -138,11 +138,13 @@ A task is done when
 |---|---|:---:|
 | 6.1 | Base blocks and items: NOOP, type base, structural base. All recipes of the concept as data-generated JSON. | ✅ |
 | 6.2 | Block entities for properties and their synchronization to clients (label, literal, operator, comment, tag). | ✅ |
-| 6.3 | Dialog framework (client screen + network packets for both loaders), read-only mode for protected sheets. |  |
+| 6.3 | Dialog framework (client screen + network packets for both loaders), read-only mode for protected sheets. | ✅ |
 | 6.4 | Blocks with dialogs: LABEL (incl. the context-dependent dropdowns, filled with static data for now), LITERAL, OPERATOR, COMMENT (text shown above the block), TAG. |  |
+| 6.4.1 | The text of a COMMENT is drawn without depth test, like the names of entities, so that it is not partly hidden. |  |
 | 6.5 | Keyword blocks: PROGRAM, INCLUDE, EXIT, BEGIN, END, BREAK, VARIABLE, CONSTANT, ASSIGN, FUNCTION, PARAMETER, RESULT, RETURN, CALL, IF, ELSE, FOR, EACH, WHILE, REPEAT. | ✅ |
 | 6.6 | Type blocks: TYPE_BOOLEAN … TYPE_ERROR, including TYPE_TIME. | ✅ |
 | 6.7 | Textures and models for all blocks with a valid and an invalid variant (block state `valid`); language files `en_us` and `de_de`. |  |
+| 6.7.1 | The text on the sides of blocks is shaded like the sides themselves, so that it looks the same on the top and on the sides. |  |
 | 6.8 | Data generation for models, block states, recipes, loot tables and tags, shared by both loaders. | ✅ |
 
 ## Sprint 7: Language blocks II – validation

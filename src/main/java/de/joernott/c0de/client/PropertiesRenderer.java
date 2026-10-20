@@ -64,6 +64,8 @@ public class PropertiesRenderer implements BlockEntityRenderer<PropertiesBlockEn
         float scale = Math.min(MAX_SCALE, MAX_TEXT_SIZE / Math.max(width, font.lineHeight));
         for (Direction side : Direction.values()) {
             int sideLight = LevelRenderer.getLightColor(entity.getLevel(), entity.getBlockPos().relative(side));
+            // Shaded like the side of the block, which is darker on the sides than on the top
+            int sideColor = shade(color, entity.getLevel().getShade(side, true));
             pose.pushPose();
             pose.translate(0.5F, 0.5F, 0.5F);
             pose.mulPose(rotation(side));
@@ -74,7 +76,7 @@ public class PropertiesRenderer implements BlockEntityRenderer<PropertiesBlockEn
                     text,
                     -width / 2,
                     -font.lineHeight / 2.0F + 0.5F,
-                    color,
+                    sideColor,
                     false,
                     pose.last().pose(),
                     buffers,
@@ -83,6 +85,14 @@ public class PropertiesRenderer implements BlockEntityRenderer<PropertiesBlockEn
                     sideLight);
             pose.popPose();
         }
+    }
+
+    /** A color with its red, green and blue components multiplied by a factor. */
+    private static int shade(int argb, float factor) {
+        int r = (int) (((argb >> 16) & 0xFF) * factor);
+        int g = (int) (((argb >> 8) & 0xFF) * factor);
+        int b = (int) ((argb & 0xFF) * factor);
+        return (argb & 0xFF000000) | (r << 16) | (g << 8) | b;
     }
 
     /** The rotation that turns the south side of a block into the given side. */
@@ -126,7 +136,8 @@ public class PropertiesRenderer implements BlockEntityRenderer<PropertiesBlockEn
                     false,
                     pose.last().pose(),
                     buffers,
-                    Font.DisplayMode.NORMAL,
+                    // Like the names of entities, without depth test: it is only shown while looking at the block
+                    Font.DisplayMode.SEE_THROUGH,
                     background,
                     LightTexture.FULL_BRIGHT);
         }

@@ -143,3 +143,12 @@ Please go ahead as suggested
 yes, please continue
 
 please retry
+
+## 2026-10-20 – In-game check of sprint 6
+
+I have run the above tests: Here are my findings:
+1: Yes, they're fine
+2: Yes, they appear correctly
+3: The comment appears above the block but depending on the cursor position on the block, parts of it disappear, as if there is something in front of them, that is blocking the sight but is invisible at the same time. I have taken 2 Screenshots of it: 2026-10-20_21.26.57.png and 2026-10-20_21.27.01.png
+4. Yes, the are
+5. Yes, they do. BUT on the operator block I placed, the + sign on top seems to be dark, while the ones on the sides are bright. I have  taken the Screenshot 2026-10-21_21.30.19.png to show that
