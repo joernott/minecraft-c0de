@@ -152,3 +152,7 @@ I have run the above tests: Here are my findings:
 3: The comment appears above the block but depending on the cursor position on the block, parts of it disappear, as if there is something in front of them, that is blocking the sight but is invisible at the same time. I have taken 2 Screenshots of it: 2026-10-20_21.26.57.png and 2026-10-20_21.27.01.png
 4. Yes, the are
 5. Yes, they do. BUT on the operator block I placed, the + sign on top seems to be dark, while the ones on the sides are bright. I have  taken the Screenshot 2026-10-21_21.30.19.png to show that
+
+## 2026-10-20 – Finish sprint 6, start sprint 7
+
+Both are fine now, go ahead, finish sprint 6 and continue with sprint 7
