@@ -6,7 +6,6 @@
   "block.c0de.cursor_c0de_bedrock": "Cursor c0de Bedrock",
   "block.c0de.pid_block": "PID Block",
   "entity.c0de.cursor": "Cursor",
-  "item.c0de.cursor": "Cursor",
   "message.c0de.protected": "The program %s is running (PID %s), its sheet can't be changed",
   "dialog.c0de.trigger.input": "Input",
   "dialog.c0de.trigger.output": "Output",

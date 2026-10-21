@@ -2,6 +2,8 @@ package de.joernott.c0de.entity;
 
 import java.util.UUID;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -14,6 +16,10 @@ import net.minecraft.world.level.Level;
  * entity. It is not saved with the chunk; the process manager creates it again when the process is restored.
  */
 public class CursorEntity extends Entity {
+    /** True for debug cursors, which are drawn in red instead of green. */
+    private static final EntityDataAccessor<Boolean> DEBUG =
+            SynchedEntityData.defineId(CursorEntity.class, EntityDataSerializers.BOOLEAN);
+
     private UUID process;
 
     public CursorEntity(EntityType<? extends CursorEntity> type, Level level) {
@@ -31,9 +37,17 @@ public class CursorEntity extends Entity {
         process = id;
     }
 
+    public boolean isDebug() {
+        return entityData.get(DEBUG);
+    }
+
+    public void setDebug(boolean debug) {
+        entityData.set(DEBUG, debug);
+    }
+
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
-        // No synchronized data
+        builder.define(DEBUG, false);
     }
 
     @Override

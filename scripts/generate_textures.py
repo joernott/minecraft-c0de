@@ -118,23 +118,6 @@ def pid_block() -> Image:
     return concrete(0x222222, "pid", 2)
 
 
-def cursor_item() -> Image:
-    """The look of cursor entities: a green arrow pointing down to the line it processes."""
-    image = blank()
-    mask(image, [
-        "...gggg...",
-        "...gggg...",
-        "...gggg...",
-        "...gggg...",
-        "gggggggggg",
-        ".gggggggg.",
-        "..gggggg..",
-        "...gggg...",
-        "....gg....",
-    ], {"g": 0x55FF55}, 3, 3)
-    return image
-
-
 def wrench() -> Image:
     """Provisional wrench: an iron open-end wrench with a red handle, drawn diagonally."""
     clear = (0, 0, 0, 0)
@@ -596,7 +579,6 @@ def main() -> None:
     write_png(blocks / "timer_block.png", timer_block())
     write_png(blocks / "debug_trigger_block.png", debug_trigger_block())
     write_png(blocks / "pid_block.png", pid_block())
-    write_png(TEXTURES / "item" / "cursor.png", cursor_item())
     write_png(TEXTURES / "item" / "wrench.png", wrench())
     code_block_textures(blocks)
     item_textures()

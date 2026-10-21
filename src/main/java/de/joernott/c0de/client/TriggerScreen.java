@@ -80,6 +80,7 @@ public class TriggerScreen extends AbstractContainerScreen<TriggerMenu> {
         save = addRenderableWidget(Button.builder(Component.literal("✔").withStyle(ChatFormatting.GREEN), button -> {
                     Platform.INSTANCE.sendToServer(
                             new TriggerConfigPayload(menu.pos(), program, function, intervalValue()));
+                    onClose();
                 })
                 .bounds(leftPos + imageWidth - 26, topPos + 110, 20, 20)
                 .build());

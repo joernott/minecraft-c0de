@@ -6,7 +6,6 @@
   "block.c0de.cursor_c0de_bedrock": "Cursor-c0de-Grundgestein",
   "block.c0de.pid_block": "PID-Block",
   "entity.c0de.cursor": "Cursor",
-  "item.c0de.cursor": "Cursor",
   "message.c0de.protected": "Das Programm %s läuft (PID %s), sein Blatt kann nicht geändert werden",
   "dialog.c0de.trigger.input": "Eingabe",
   "dialog.c0de.trigger.output": "Ausgabe",

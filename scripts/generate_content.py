@@ -217,7 +217,6 @@ MESSAGES = [
     ("block.c0de.cursor_c0de_bedrock", "Cursor c0de Bedrock", "Cursor-c0de-Grundgestein"),
     ("block.c0de.pid_block", "PID Block", "PID-Block"),
     ("entity.c0de.cursor", "Cursor", "Cursor"),
-    ("item.c0de.cursor", "Cursor", "Cursor"),
     ("message.c0de.protected", "The program %s is running (PID %s), its sheet can't be changed",
      "Das Programm %s läuft (PID %s), sein Blatt kann nicht geändert werden"),
     ("dialog.c0de.trigger.input", "Input", "Eingabe"),
@@ -373,8 +372,6 @@ def main() -> None:
     write(ASSETS / "models" / "block" / "pid_block.json",
           {"parent": "minecraft:block/cube_all", "textures": {"all": "c0de:block/pid_block"}})
     write(ASSETS / "blockstates" / "pid_block.json", {"variants": {"": {"model": "c0de:block/pid_block"}}})
-    write(ASSETS / "models" / "item" / "cursor.json",
-          {"parent": "minecraft:item/generated", "textures": {"layer0": "c0de:item/cursor"}})
 
     # Items of the floor blocks, so that creative players can pick them to repair the floor
     for floor in FLOOR_BLOCKS:

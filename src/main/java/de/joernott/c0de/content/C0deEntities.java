@@ -16,7 +16,7 @@ public final class C0deEntities {
     public static void register() {
         CURSOR = Platform.INSTANCE.register(BuiltInRegistries.ENTITY_TYPE, "cursor", () -> EntityType.Builder.<
                         CursorEntity>of(CursorEntity::new, MobCategory.MISC)
-                .sized(0.5F, 0.5F)
+                .sized(0.8F, 0.4F)
                 .noSave()
                 .fireImmune()
                 .clientTrackingRange(10)

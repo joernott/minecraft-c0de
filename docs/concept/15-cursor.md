@@ -4,6 +4,8 @@
 
 The cursor is an entity that is created when a process starts. It is placed directly after the PID block it belongs to (x=4, y=PID, z=1 relative to the sheet).
 
+A cursor looks like a flat cuboid that slowly pulses between dark green (#00AA00) and lime (#55FF55). A debug cursor pulses between dark red (#AA0000) and red (#FF5555).
+
 ## Movement
 
 There are two kinds of cursors: a regular cursor and a debug cursor. The regular cursor moves automatically, the debug cursor is controlled by a player with a debugging tool.

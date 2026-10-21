@@ -194,3 +194,17 @@ Other Findings: I accidentally broke a floor block. Middle clicking it, did not 
 ## 2026-10-20 – Finish sprint 7, start sprint 8
 
 The texture is right and I was able to fix the hole in the ground. You can mark the sprint as done and proceed as usual
+
+## 2026-10-21 – In-game check of sprint 8
+
+1:Yes
+2: cursor appears and moves down the sheet. A PID block appears and has the PID on its north and south side and the references on the east and west side.
+Findings:
+- Clicking on the green checkmark of the Trigger Dialog did not close the Dialog.
+3: I get the message
+4: Yes
+5: Yes
+
+Instead of a spinning arrow, the cursor should be a cuboid that is slowly pulsing between dark green and lime. A debug cursor should pulse between dark red and red
+
+Please note, I have installed the mods Jade and EMI to help me crafting and identifying blocks. Please tell me if that interferes with anything.

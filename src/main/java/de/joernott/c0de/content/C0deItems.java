@@ -19,9 +19,6 @@ public final class C0deItems {
     public static Supplier<Item> TRIGGER_BLOCK;
     public static Supplier<Item> TIMER_BLOCK;
     public static Supplier<Item> DEBUG_TRIGGER_BLOCK;
-
-    /** The look of cursor entities; not available in the game. */
-    public static Supplier<Item> CURSOR;
     public static Supplier<Item> WRENCH;
     public static Supplier<Item> TYPE_BASE;
     public static Supplier<Item> DATA_ITEM;
@@ -52,7 +49,6 @@ public final class C0deItems {
                 register("timer_block", () -> new BlockItem(C0deBlocks.TIMER_BLOCK.get(), new Item.Properties()));
         DEBUG_TRIGGER_BLOCK = register(
                 "debug_trigger_block", () -> new BlockItem(C0deBlocks.DEBUG_TRIGGER_BLOCK.get(), new Item.Properties()));
-        CURSOR = register("cursor", () -> new Item(new Item.Properties()));
         WRENCH = register("wrench", () -> new WrenchItem(new Item.Properties().stacksTo(1)));
         // The floor can be broken in creative mode, so creative players need the blocks to repair it
         // The suppliers of the blocks can't be called before the blocks are registered, so the names are listed
