@@ -230,3 +230,7 @@ The look of the cursor is fine now, sou you can finish Sprint 8 and continue wit
 - Right clicking the cursor worked as well, I can see the stack
 2. Marking lines work and the overlay is visible and runs from x=5 to x=28
 3. Moving lines worked but I could not unselect the marked lines and I could not mark new lines
+
+## 2026-10-21 – Marks after moving lines
+
+I still can't unselect the selected lines. I also can't select new lines

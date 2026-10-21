@@ -54,8 +54,8 @@ public final class ToolActions {
     /** The game time of the last action of every player on the server. Only used on the server thread. */
     private static final Map<UUID, Long> LAST_ACTIONS = new HashMap<>();
 
-    /** The game time of the last action sent by this client. */
-    private static long lastSent = Long.MIN_VALUE;
+    /** The game time of the last action sent by this client, or null before the first one. */
+    private static Long lastSent;
 
     /** The marked areas selected with the wrench, by player. Only used on the server thread. */
     private static final Map<UUID, Selection> SELECTIONS = new HashMap<>();
@@ -92,7 +92,7 @@ public final class ToolActions {
     /** Sends a tool action from the client, unless the last one was sent within the cooldown. */
     private static void send(Level level, ToolPayload payload) {
         long now = level.getGameTime();
-        if (now - lastSent >= COOLDOWN_TICKS || now < lastSent) {
+        if (cooldownOver(now, lastSent)) {
             lastSent = now;
             Platform.INSTANCE.sendToServer(payload);
         }
@@ -112,12 +112,24 @@ public final class ToolActions {
         player.displayClientMessage(Component.translatable(key, arguments), true);
     }
 
+    /**
+     * True if a tool may act again: there was no action yet, the last one is at least {@link #COOLDOWN_TICKS}
+     * ago, or the game time went back (another world).
+     */
+    public static boolean cooldownOver(long now, Long last) {
+        return last == null || now < last || now - last >= COOLDOWN_TICKS;
+    }
+
+    /** Forgets the last action of a player, for tests that click faster than the cooldown. */
+    public static void resetCooldown(ServerPlayer player) {
+        LAST_ACTIONS.remove(player.getUUID());
+    }
+
     /** Executes a left click on the server. */
     public static void handle(ToolPayload payload, ServerPlayer player) {
         ServerLevel level = player.serverLevel();
         long now = level.getGameTime();
-        Long last = LAST_ACTIONS.get(player.getUUID());
-        if (last != null && now - last < COOLDOWN_TICKS && now >= last) {
+        if (!cooldownOver(now, LAST_ACTIONS.get(player.getUUID()))) {
             return;
         }
         LAST_ACTIONS.put(player.getUUID(), now);

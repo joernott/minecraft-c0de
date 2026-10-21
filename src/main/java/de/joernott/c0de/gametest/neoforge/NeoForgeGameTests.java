@@ -146,5 +146,15 @@ public class NeoForgeGameTests {
     public static void onlyC0deBlocksAreInspected(GameTestHelper helper) {
         ToolTests.onlyC0deBlocksAreInspected(helper);
     }
+
+    @GameTest(template = "empty")
+    public static void toolsWorkAfterMovingLines(GameTestHelper helper) {
+        ToolTests.toolsWorkAfterMovingLines(helper);
+    }
+
+    @GameTest(template = "empty")
+    public static void toolCooldown(GameTestHelper helper) {
+        ToolTests.toolCooldown(helper);
+    }
 }
 *///?}

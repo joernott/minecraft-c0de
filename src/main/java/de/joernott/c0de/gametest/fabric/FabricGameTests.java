@@ -142,5 +142,15 @@ public class FabricGameTests implements FabricGameTest {
     public void onlyC0deBlocksAreInspected(GameTestHelper helper) {
         ToolTests.onlyC0deBlocksAreInspected(helper);
     }
+
+    @GameTest(template = SmokeTests.EMPTY_STRUCTURE)
+    public void toolsWorkAfterMovingLines(GameTestHelper helper) {
+        ToolTests.toolsWorkAfterMovingLines(helper);
+    }
+
+    @GameTest(template = SmokeTests.EMPTY_STRUCTURE)
+    public void toolCooldown(GameTestHelper helper) {
+        ToolTests.toolCooldown(helper);
+    }
 }
 //?}

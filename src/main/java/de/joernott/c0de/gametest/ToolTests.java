@@ -144,4 +144,58 @@ public final class ToolTests {
                 !Inspector.inspectBlock(player, helper.absolutePos(BlockPos.ZERO)), "Dirt can be inspected");
         helper.succeed();
     }
+
+    /** The tools as a player uses them: mark, select with the wrench, move, then mark and unmark again. */
+    public static void toolsWorkAfterMovingLines(GameTestHelper helper) {
+        ServerLevel level = c0de(helper);
+        SheetBuilder sheet = new SheetBuilder(level, 522);
+        for (int z = 0; z < 6; z++) {
+            sheet.place(new de.joernott.c0de.core.line.Block.KeywordBlock(de.joernott.c0de.core.line.Keyword.ASSIGN), 5, z);
+            sheet.place(new de.joernott.c0de.core.line.Block.LabelBlock("l" + z), 6, z);
+        }
+        ServerPlayer player = helper.makeMockServerPlayerInLevel();
+        BlockPos stand = sheet.pos(6, 3).above();
+        player.teleportTo(level, stand.getX() + 0.5, stand.getY(), stand.getZ() + 0.5, 0, 0);
+        try {
+            player.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND, new ItemStack(C0deItems.MARKER.get()));
+            click(helper, player, sheet.pos(6, 3));
+            click(helper, player, sheet.pos(6, 4));
+            helper.assertTrue(SheetMarks.isMarked(level, 522, 3) && SheetMarks.isMarked(level, 522, 4), "Not marked");
+            player.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND, new ItemStack(C0deItems.WRENCH.get()));
+            click(helper, player, sheet.pos(6, 4));
+            helper.assertTrue(de.joernott.c0de.tool.ToolActions.wrenchTarget(player, sheet.pos(6, 1)), "Not moved");
+            helper.assertTrue(SheetMarks.isMarked(level, 522, 1), "The mark didn't move");
+            player.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND, new ItemStack(C0deItems.MARKER.get()));
+            click(helper, player, sheet.pos(6, 1));
+            helper.assertTrue(!SheetMarks.isMarked(level, 522, 1), "The moved mark can't be removed");
+            click(helper, player, sheet.pos(6, 5));
+            helper.assertTrue(SheetMarks.isMarked(level, 522, 5), "A new line can't be marked");
+        } finally {
+            for (int z = 0; z < 6; z++) {
+                level.setBlockAndUpdate(sheet.pos(5, z), Blocks.AIR.defaultBlockState());
+                level.setBlockAndUpdate(sheet.pos(6, z), Blocks.AIR.defaultBlockState());
+                if (SheetMarks.isMarked(level, 522, z)) {
+                    SheetMarks.toggle(level, 522, z);
+                }
+            }
+        }
+        helper.succeed();
+    }
+
+    /** The cooldown of the tools lets the first click through and blocks repeats within 6 ticks. */
+    public static void toolCooldown(GameTestHelper helper) {
+        helper.assertTrue(de.joernott.c0de.tool.ToolActions.cooldownOver(0, null), "The first click is blocked");
+        helper.assertTrue(
+                de.joernott.c0de.tool.ToolActions.cooldownOver(123456789L, null), "The first click is blocked");
+        helper.assertTrue(!de.joernott.c0de.tool.ToolActions.cooldownOver(105, 100L), "A repeat is not blocked");
+        helper.assertTrue(de.joernott.c0de.tool.ToolActions.cooldownOver(106, 100L), "A later click is blocked");
+        helper.assertTrue(de.joernott.c0de.tool.ToolActions.cooldownOver(5, 100L), "A click in another world is blocked");
+        helper.succeed();
+    }
+
+    /** A left click of a tool, as the client sends it, with the cooldown of the tools in between. */
+    private static void click(GameTestHelper helper, ServerPlayer player, BlockPos pos) {
+        de.joernott.c0de.tool.ToolActions.resetCooldown(player);
+        de.joernott.c0de.tool.ToolActions.handle(new de.joernott.c0de.network.ToolPayload(pos, -1), player);
+    }
 }
