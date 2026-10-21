@@ -481,22 +481,6 @@ final class ProgramAnalyzer {
     }
 
     static int endLine(Statement statement) {
-        return switch (statement) {
-            case Statement.Invalid invalid -> invalid.endLine();
-            case Statement.Include include -> include.line();
-            case Statement.StructDeclaration struct -> struct.endLine();
-            case Statement.Declaration declaration -> declaration.endLine();
-            case Statement.FunctionDeclaration function -> function.body().endLine();
-            case Statement.Assign assign -> assign.endLine();
-            case Statement.Call call -> call.endLine();
-            case Statement.If condition -> condition.endLine();
-            case Statement.For loop -> loop.body().endLine();
-            case Statement.Each loop -> loop.body().endLine();
-            case Statement.While loop -> loop.body().endLine();
-            case Statement.Repeat loop -> loop.body().endLine();
-            case Statement.Break breakStatement -> breakStatement.line();
-            case Statement.Return returnStatement -> returnStatement.line();
-            case Statement.Exit exit -> exit.line();
-        };
+        return de.joernott.c0de.core.program.Statements.endLine(statement);
     }
 }
