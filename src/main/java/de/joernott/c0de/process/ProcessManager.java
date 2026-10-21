@@ -30,6 +30,7 @@ import de.joernott.c0de.dimension.C0deDimension;
 import de.joernott.c0de.entity.CursorEntity;
 import de.joernott.c0de.item.ValueItem;
 import de.joernott.c0de.library.ModLibraries;
+import de.joernott.c0de.library.ProcessHost;
 import de.joernott.c0de.platform.Platform;
 import de.joernott.c0de.sheet.LevelSheet;
 import de.joernott.c0de.sheet.ProgramRegistry;
@@ -199,7 +200,9 @@ public class ProcessManager extends SavedData {
 
         // All preconditions are met
         UUID id = UUID.randomUUID();
-        CursorSettings settings = settings(server, c0de.getRandom().nextLong());
+        ProcessHost host = new ProcessHost(
+                server, triggerLevel.dimension(), trigger.getBlockPos(), trigger.owner(), trigger.program(), pid);
+        CursorSettings settings = settings(c0de.getRandom().nextLong(), host);
         Cursor cursor = new Cursor(program, trigger.function(), inputs, settings);
         if (debug) {
             // A debug cursor starts paused (docs/concept/15-cursor.md)
@@ -244,13 +247,14 @@ public class ProcessManager extends SavedData {
         return Optional.empty();
     }
 
-    private static CursorSettings settings(MinecraftServer server, long seed) {
+    /** The settings of a cursor; the host gives c0de/minecraft access to the world. */
+    private static CursorSettings settings(long seed, ProcessHost host) {
         return new CursorSettings(
                 C0de.config().get(C0deConfig.STACK_SIZE),
                 ModLibraries.registry(),
                 Clock.systemUTC(),
                 ZoneId.systemDefault(),
-                null,
+                host,
                 seed);
     }
 
@@ -313,9 +317,17 @@ public class ProcessManager extends SavedData {
         return Optional.empty();
     }
 
-    /** The struct types declared in the program, for the values of parameters. */
+    /** The struct types of the included libraries and of the program, for the values of parameters. */
     private static TypeRegistry structTypes(Program program) {
         TypeRegistry types = new TypeRegistry();
+        for (Statement statement : program.statements()) {
+            if (statement instanceof Statement.Include include) {
+                ModLibraries.registry()
+                        .find(include.library())
+                        .ifPresent(library -> library.types()
+                                .forEach((name, definition) -> types.add(library.name() + "/" + name, definition)));
+            }
+        }
         for (Statement statement : program.statements()) {
             if (statement instanceof Statement.StructDeclaration struct && types.find(struct.name()).isEmpty()) {
                 try {
@@ -347,23 +359,23 @@ public class ProcessManager extends SavedData {
     private static Sheet load(ServerLevel c0de, int sheet, List<ChunkPos> chunks) {
         int chunkX = SheetGeometry.absoluteX(sheet, 0) >> 4;
         List<Line> lines = new ArrayList<>();
-        for (int chunkZ = 0; ; chunkZ++) {
-            for (int dx = 0; dx < 2; dx++) {
-                ChunkPos chunk = new ChunkPos(chunkX + dx, chunkZ);
-                c0de.getChunkSource().addRegionTicket(TICKET, chunk, 0, chunk);
-                c0de.getChunk(chunk.x, chunk.z);
-                chunks.add(chunk);
-            }
-            List<Line> group = LevelSheet.readGroup(c0de, sheet, chunkZ * 16).orElse(List.of());
-            for (Line line : group) {
-                if (line.z() < chunkZ * 16 + 16) {
-                    lines.add(line);
+        // Line by line, so that the chunks are loaded when the program reaches them
+        for (int z = 0; z < LevelSheet.MAX_LINES; z++) {
+            if (z % 16 == 0) {
+                for (int dx = 0; dx < 2; dx++) {
+                    ChunkPos chunk = new ChunkPos(chunkX + dx, z >> 4);
+                    c0de.getChunkSource().addRegionTicket(TICKET, chunk, 0, chunk);
+                    c0de.getChunk(chunk.x, chunk.z);
+                    chunks.add(chunk);
                 }
             }
-            if (group.size() < 16 || lines.size() >= LevelSheet.MAX_LINES) {
-                return new Sheet(lines);
+            Line line = LevelSheet.readLine(c0de, sheet, z);
+            if (line.isEmpty()) {
+                break;
             }
+            lines.add(line);
         }
+        return new Sheet(lines);
     }
 
     private static void release(ServerLevel level, List<ChunkPos> chunks) {
@@ -639,11 +651,19 @@ public class ProcessManager extends SavedData {
                 Program program = ProgramParser.parse(load(c0de, sheet, chunks));
                 String function = tag.getString("function");
                 Statement.FunctionDeclaration declaration = function(program, function);
-                Map<String, Object> data = (Map<String, Object>) SnapshotNbt.fromNbt(tag.get("cursor"));
-                Cursor cursor = CursorSnapshot.restore(data, program, settings(server, 0));
                 ResourceKey<Level> triggerLevel = ResourceKey.create(
                         Registries.DIMENSION, ResourceLocation.parse(tag.getString("triggerLevel")));
                 BlockPos triggerPos = BlockPos.of(tag.getLong("triggerPos"));
+                ProcessHost host = new ProcessHost(
+                        server,
+                        triggerLevel,
+                        triggerPos,
+                        tag.hasUUID("owner") ? tag.getUUID("owner") : null,
+                        tag.getString("program"),
+                        tag.getInt("pid"));
+                Map<String, Object> data = (Map<String, Object>) SnapshotNbt.fromNbt(tag.get("cursor"));
+                // The random number generator continues from the snapshot, so the seed doesn't matter here
+                Cursor cursor = CursorSnapshot.restore(data, program, settings(0, host));
                 ServerLevel trigger = server.getLevel(triggerLevel);
                 if (trigger != null) {
                     ChunkPos chunk = new ChunkPos(triggerPos);

@@ -35,6 +35,8 @@ class PropertyRulesTest {
         assertTrue(validLabel(LabelMode.FUNCTION, "c0de/math/SIN", ""));
         assertTrue(validLabel(LabelMode.FUNCTION, "main", ""));
         assertTrue(validLabel(LabelMode.REFERENCE, "c0de/math/PI", ""));
+        assertTrue(validLabel(LabelMode.STRUCT_TYPE, "c0de/minecraft/POSITION", ""));
+        assertTrue(validLabel(LabelMode.STRUCT_TYPE, "point", ""));
     }
 
     @Test

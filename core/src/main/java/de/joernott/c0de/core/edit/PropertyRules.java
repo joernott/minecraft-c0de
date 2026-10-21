@@ -42,7 +42,9 @@ public final class PropertyRules {
             return Optional.of("The name is too long");
         }
         boolean valid = switch (mode) {
-            case NEW_NAME, CALL_PARAMETER, CALL_RESULT, STRUCT_TYPE, TARGET -> Names.isValid(name);
+            case NEW_NAME, CALL_PARAMETER, CALL_RESULT, TARGET -> Names.isValid(name);
+            // Struct types of libraries have qualified names, e.g. c0de/minecraft/POSITION
+            case STRUCT_TYPE -> Names.isValidQualified(name);
             case LIBRARY -> Names.isValidLibrary(name);
             case FUNCTION, REFERENCE -> Names.isValidQualified(name);
         };

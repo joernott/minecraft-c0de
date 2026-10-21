@@ -4,6 +4,7 @@ package de.joernott.c0de.gametest.neoforge;
 /*import de.joernott.c0de.C0de;
 import de.joernott.c0de.gametest.CodeBlockTests;
 import de.joernott.c0de.gametest.DimensionTests;
+import de.joernott.c0de.gametest.LibraryTests;
 import de.joernott.c0de.gametest.ProcessTests;
 import de.joernott.c0de.gametest.SmokeTests;
 import de.joernott.c0de.gametest.ToolTests;
@@ -155,6 +156,11 @@ public class NeoForgeGameTests {
     @GameTest(template = "empty")
     public static void toolCooldown(GameTestHelper helper) {
         ToolTests.toolCooldown(helper);
+    }
+
+    @GameTest(template = "empty")
+    public static void programsSwitchLevers(GameTestHelper helper) {
+        LibraryTests.programsSwitchLevers(helper);
     }
 }
 *///?}

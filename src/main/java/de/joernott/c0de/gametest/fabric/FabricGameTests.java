@@ -3,6 +3,7 @@ package de.joernott.c0de.gametest.fabric;
 //? if fabric {
 import de.joernott.c0de.gametest.CodeBlockTests;
 import de.joernott.c0de.gametest.DimensionTests;
+import de.joernott.c0de.gametest.LibraryTests;
 import de.joernott.c0de.gametest.ProcessTests;
 import de.joernott.c0de.gametest.SmokeTests;
 import de.joernott.c0de.gametest.ToolTests;
@@ -151,6 +152,11 @@ public class FabricGameTests implements FabricGameTest {
     @GameTest(template = SmokeTests.EMPTY_STRUCTURE)
     public void toolCooldown(GameTestHelper helper) {
         ToolTests.toolCooldown(helper);
+    }
+
+    @GameTest(template = SmokeTests.EMPTY_STRUCTURE)
+    public void programsSwitchLevers(GameTestHelper helper) {
+        LibraryTests.programsSwitchLevers(helper);
     }
 }
 //?}

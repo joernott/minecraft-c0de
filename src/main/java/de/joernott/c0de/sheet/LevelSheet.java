@@ -94,7 +94,8 @@ public final class LevelSheet {
         return new BlockPos(SheetGeometry.absoluteX(sheet, relativeX), SheetGeometry.CODE_Y, z);
     }
 
-    private static Line readLine(Level level, int sheet, int z) {
+    /** Reads one line of a sheet; its chunks must be loaded. */
+    public static Line readLine(Level level, int sheet, int z) {
         List<Line.Cell> cells = new ArrayList<>();
         for (int x = SheetGeometry.CODE_MIN_X; x <= SheetGeometry.CODE_MAX_X; x++) {
             Block block = toCore(level, codePos(sheet, x, z));
