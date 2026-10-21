@@ -204,13 +204,13 @@ A task is done when
 
 | Task | Description | Done |
 |---|---|:---:|
-| 10.1 | Library infrastructure in the mod: library types (POSITION, ITEM_STACK, ENTITY), owner and permission checks, CHUNK_NOT_LOADED, PERMISSION_DENIED. |  |
-| 10.2 | Unrestricted functions: TICKS, BEEP, SOUND, SAY, GET_BLOCK, GET_INVENTORY, levers, buttons, pressure plates, doors/trapdoors/fence gates, FIND_ENTITIES. |  |
-| 10.3 | Restricted functions: MOVE_ITEMS, DELETE_ITEMS, PLACE_BLOCK, REMOVE_BLOCK, SPAWN_ITEM, SPAWN_ENTITY, TELEPORT; changes are made as the owner, so protection mods apply. |  |
-| 10.4 | YAML export of a sheet (`core`: line model → YAML; mod: sheet → line model). |  |
-| 10.5 | YAML import: layout algorithm in `core` (indentation, BEGIN/END, continuation lines), placement in the world, consumption of blocks in survival mode. |  |
-| 10.6 | c0de disk item with its dialogs. |  |
-| 10.7 | Round-trip tests: every example program of the test suite survives export and import unchanged. |  |
+| 10.1 | Library infrastructure in the mod: library types (POSITION, ITEM_STACK, ENTITY), owner and permission checks, CHUNK_NOT_LOADED, PERMISSION_DENIED. | ✅ |
+| 10.2 | Unrestricted functions: TICKS, BEEP, SOUND, SAY, GET_BLOCK, GET_INVENTORY, levers, buttons, pressure plates, doors/trapdoors/fence gates, FIND_ENTITIES. | ✅ |
+| 10.3 | Restricted functions: MOVE_ITEMS, DELETE_ITEMS, PLACE_BLOCK, REMOVE_BLOCK, SPAWN_ITEM, SPAWN_ENTITY, TELEPORT; changes are made as the owner, so protection mods apply (not yet: changes are made directly, see concept 12). | ✅ |
+| 10.4 | YAML export of a sheet (`core`: line model → YAML; mod: sheet → line model). | ✅ |
+| 10.5 | YAML import: layout algorithm in `core` (indentation, BEGIN/END, continuation lines), placement in the world, consumption of blocks in survival mode. | ✅ |
+| 10.6 | c0de disk item with its dialogs. | ✅ |
+| 10.7 | Round-trip tests: every example program of the test suite survives export and import unchanged. | ✅ |
 
 ## Sprint 11: Release 1.0 for Minecraft 1.21.1
 

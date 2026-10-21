@@ -19,6 +19,7 @@ public final class DialogScreens {
                     case "tag" -> new TagScreen(payload);
                     case "value_item" -> new ValueItemScreen(payload);
                     case "inspect" -> new InspectScreen(payload);
+                    case "disk_overwrite", "disk_import" -> new DiskScreen(payload);
                     default -> null;
                 };
         if (screen == null) {

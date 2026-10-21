@@ -2,26 +2,17 @@ package de.joernott.c0de.gametest;
 
 import de.joernott.c0de.blockentity.PropertiesBlockEntity;
 import de.joernott.c0de.content.C0deBlocks;
-import de.joernott.c0de.content.CodeBlockType;
 import de.joernott.c0de.core.line.Block;
-import de.joernott.c0de.core.line.IndexText;
 import de.joernott.c0de.core.line.Line;
 import de.joernott.c0de.core.line.Notation;
 import de.joernott.c0de.core.sheet.SheetGeometry;
-import de.joernott.c0de.core.value.BooleanValue;
-import de.joernott.c0de.core.value.CharValue;
-import de.joernott.c0de.core.value.FloatValue;
-import de.joernott.c0de.core.value.IntegerValue;
-import de.joernott.c0de.core.value.StringValue;
-import de.joernott.c0de.core.value.TimeValue;
-import de.joernott.c0de.core.value.Value;
 import de.joernott.c0de.sheet.LevelSheet;
+import de.joernott.c0de.sheet.SheetWriter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.TicketType;
 import net.minecraft.world.level.ChunkPos;
@@ -66,9 +57,9 @@ final class SheetBuilder {
     /** Places one block and sets its properties. */
     BlockPos place(Block block, int x, int z) {
         BlockPos pos = pos(x, z);
-        level.setBlockAndUpdate(pos, C0deBlocks.get(type(block)).defaultBlockState());
+        level.setBlockAndUpdate(pos, C0deBlocks.get(SheetWriter.type(block)).defaultBlockState());
         placed.add(pos);
-        properties(block).ifPresent(properties -> {
+        SheetWriter.properties(block).ifPresent(properties -> {
             PropertiesBlockEntity entity = (PropertiesBlockEntity) level.getBlockEntity(pos);
             Optional<String> problem = entity.apply(properties, level);
             if (problem.isPresent()) {
@@ -82,64 +73,21 @@ final class SheetBuilder {
         return LevelSheet.codePos(sheet, x, z);
     }
 
+    /** Removes all blocks of the first lines of the sheet, also those that were not placed by this builder. */
+    void clearLines(int lines) {
+        for (int z = 0; z < lines; z++) {
+            for (int x = SheetGeometry.CODE_MIN_X; x <= SheetGeometry.CODE_MAX_X; x++) {
+                if (!level.getBlockState(pos(x, z)).isAir()) {
+                    level.setBlockAndUpdate(pos(x, z), Blocks.AIR.defaultBlockState());
+                }
+            }
+        }
+        placed.clear();
+    }
+
     /** Removes all placed blocks. */
     void clear() {
         placed.forEach(pos -> level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState()));
         placed.clear();
-    }
-
-    private static CodeBlockType type(Block block) {
-        return switch (block) {
-            case Block.KeywordBlock keyword -> {
-                for (CodeBlockType type : CodeBlockType.values()) {
-                    if (type.keyword() == keyword.keyword()) {
-                        yield type;
-                    }
-                }
-                throw new IllegalArgumentException("No block for " + keyword);
-            }
-            case Block.LabelBlock label -> CodeBlockType.LABEL;
-            case Block.LiteralBlock literal -> CodeBlockType.LITERAL;
-            case Block.OperatorBlock operator -> CodeBlockType.OPERATOR;
-            case Block.CommentBlock comment -> CodeBlockType.COMMENT;
-            case Block.TagBlock tag -> CodeBlockType.TAG;
-        };
-    }
-
-    private static Optional<CompoundTag> properties(Block block) {
-        CompoundTag tag = new CompoundTag();
-        switch (block) {
-            case Block.KeywordBlock keyword -> {
-                return Optional.empty();
-            }
-            case Block.LabelBlock label -> {
-                tag.putString("name", label.name());
-                tag.putString("index", IndexText.format(label.index()));
-            }
-            case Block.LiteralBlock literal -> {
-                Value value = literal.value();
-                tag.putString("type", literalType(value));
-                tag.putString("value", value.text());
-            }
-            case Block.OperatorBlock operator -> tag.putString("operator", operator.operator().name());
-            case Block.CommentBlock comment -> tag.putString("text", comment.text());
-            case Block.TagBlock tagBlock -> {
-                tag.putString("language", tagBlock.language());
-                tag.putString("name", tagBlock.name());
-            }
-        }
-        return Optional.of(tag);
-    }
-
-    private static String literalType(Value value) {
-        return switch (value) {
-            case BooleanValue b -> "BOOLEAN";
-            case IntegerValue i -> "INTEGER";
-            case FloatValue f -> "FLOAT";
-            case CharValue c -> "CHAR";
-            case StringValue string -> "STRING";
-            case TimeValue time -> "TIME";
-            default -> throw new IllegalArgumentException("A literal can't be " + value);
-        };
     }
 }

@@ -1,6 +1,7 @@
 package de.joernott.c0de.content;
 
 import de.joernott.c0de.item.DebugToolItem;
+import de.joernott.c0de.item.DiskItem;
 import de.joernott.c0de.item.ToolItem;
 import de.joernott.c0de.item.ValueItem;
 import de.joernott.c0de.item.WrenchItem;
@@ -25,6 +26,7 @@ public final class C0deItems {
     public static Supplier<Item> DEBUG_TOOL;
     public static Supplier<Item> MARKER;
     public static Supplier<Item> HAMMER;
+    public static Supplier<Item> DISK;
     public static Supplier<Item> TYPE_BASE;
     public static Supplier<Item> DATA_ITEM;
     public static Supplier<Item> VARIABLE_ITEM;
@@ -58,6 +60,7 @@ public final class C0deItems {
         DEBUG_TOOL = register("debug_tool", () -> new DebugToolItem(new Item.Properties().stacksTo(1)));
         MARKER = register("marker", () -> new ToolItem(new Item.Properties().stacksTo(1)));
         HAMMER = register("hammer", () -> new ToolItem(new Item.Properties().stacksTo(1)));
+        DISK = register("c0de_disk", () -> new DiskItem(new Item.Properties().stacksTo(1)));
         // The floor can be broken in creative mode, so creative players need the blocks to repair it
         // The suppliers of the blocks can't be called before the blocks are registered, so the names are listed
         java.util.Map<String, Supplier<Block>> floor = new java.util.LinkedHashMap<>();
@@ -95,6 +98,7 @@ public final class C0deItems {
                     output.accept(DEBUG_TOOL.get());
                     output.accept(MARKER.get());
                     output.accept(HAMMER.get());
+                    output.accept(DISK.get());
                     output.accept(TYPE_BASE.get());
                     output.accept(STRUCTURAL_BASE.get());
                     CODE_BLOCKS.values().forEach(item -> output.accept(item.get()));

@@ -58,6 +58,7 @@ Expressions (`expression`, `from`, `to`, `step`) are written as a single string 
   - Operators use their symbols (`+`, `≠`, `⊕`, …) or names (`NOT`, `AND`, `OR`, `XOR`).
   - Literals are written as `TRUE`, `FALSE`, `42`, `3.14`, `'a'` (CHAR), `"text"` (STRING) or `@2026-10-19T12:05:09.250Z` (TIME).
   - Labels are written as their names with index, e.g. `values[i]` or `position.x`.
+  - Parentheses are only written where the precedence of the operators requires them, e.g. `(a + b) * c` but `a + b * c`. Parentheses that were placed on the sheet without being needed are not kept.
 
 Labels with an index (`name` of ASSIGN, `target`, `iterable`) use the same notation.
 

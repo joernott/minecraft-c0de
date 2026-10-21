@@ -13,6 +13,7 @@ import de.joernott.c0de.dialog.TriggerService;
 import de.joernott.c0de.process.ProcessManager;
 import de.joernott.c0de.tool.ToolActions;
 import de.joernott.c0de.dimension.C0deDimension;
+import de.joernott.c0de.disk.DiskService;
 import de.joernott.c0de.dimension.SettingsPack;
 import de.joernott.c0de.platform.Platform;
 import de.joernott.c0de.sheet.SheetValidation;
@@ -46,6 +47,7 @@ public final class C0de {
         DialogService.register();
         TriggerService.register();
         ToolActions.register();
+        DiskService.register();
         SheetValidation.register();
         ProcessManager.register();
         SheetProtection.register();

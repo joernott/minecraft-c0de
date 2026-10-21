@@ -609,6 +609,22 @@ def hammer() -> Image:
     return image
 
 
+def disk() -> Image:
+    """A black floppy disk with a metal shutter and a white label."""
+    image = blank()
+    for y in range(1, 15):
+        for x in range(1, 15):
+            image[y][x] = rgb(0x202020 if (x + y) % 5 else 0x2C2C2C)
+    image[1][14] = (0, 0, 0, 0)
+    for y in range(1, 6):
+        for x in range(4, 12):
+            image[y][x] = rgb(0xB8B8B8 if x != 9 else 0x606060)
+    for y in range(8, 14):
+        for x in range(3, 13):
+            image[y][x] = rgb(0xF0F0F0 if y != 10 else 0x3A9A3A)
+    return image
+
+
 def main() -> None:
     blocks = TEXTURES / "block"
     write_png(blocks / "white_c0de_bedrock.png", concrete(0xF5F7F3, "white"))
@@ -626,6 +642,7 @@ def main() -> None:
     write_png(TEXTURES / "item" / "debug_tool.png", debug_tool())
     write_png(TEXTURES / "item" / "marker.png", marker())
     write_png(TEXTURES / "item" / "hammer.png", hammer())
+    write_png(TEXTURES / "item" / "c0de_disk.png", disk())
 
 
 if __name__ == "__main__":

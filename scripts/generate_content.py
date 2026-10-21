@@ -75,6 +75,7 @@ ITEMS = [
     ("debug_tool", "Debugging Tool", "Debugging-Werkzeug"),
     ("marker", "Text Marker", "Textmarker"),
     ("hammer", "Hammer", "Hammer"),
+    ("c0de_disk", "c0de Disk", "c0de-Diskette"),
 ]
 
 # Type items: (type, ingredient(s) of the type block)
@@ -195,6 +196,7 @@ def recipes() -> dict[str, dict]:
     r["marker"] = shapeless([mc("feather"), mc("yellow_dye")], c0de("marker"))
     r["hammer"] = shaped(
         ["AAA", " A ", " B "], {"A": mc("iron_ingot"), "B": mc("red_wool")}, c0de("hammer"))
+    r["c0de_disk"] = shapeless([c0de("data_item"), mc("iron_ingot"), mc("black_dye")], c0de("c0de_disk"))
     r["data_item"] = shapeless([mc("paper"), mc("white_dye"), mc("yellow_dye")], c0de("data_item"), 4)
     for type_name, ingredient_ in TYPE_ITEMS:
         source = [mc(i) for i in ingredient_] if isinstance(ingredient_, list) else mc(ingredient_)
@@ -238,6 +240,13 @@ MESSAGES = [
     ("message.c0de.deleted", "Lines %s to %s deleted", "Zeilen %s bis %s gelöscht"),
     ("message.c0de.protected", "The program %s is running (PID %s), its sheet can't be changed",
      "Das Programm %s läuft (PID %s), sein Blatt kann nicht geändert werden"),
+    ("message.c0de.exported", "Program %s saved to the disk", "Programm %s auf der Diskette gespeichert"),
+    ("message.c0de.imported", "Program %s loaded from the disk", "Programm %s von der Diskette geladen"),
+    ("dialog.c0de.disk.import", "Load a program", "Programm laden"),
+    ("dialog.c0de.disk.overwrite", "Save the program", "Programm speichern"),
+    ("dialog.c0de.disk.exists", "The file of %s exists. Overwrite it?", "Die Datei von %s existiert. Überschreiben?"),
+    ("dialog.c0de.disk.confirm", "Overwrite", "Überschreiben"),
+    ("dialog.c0de.disk.empty", "There are no saved programs", "Es gibt keine gespeicherten Programme"),
     ("dialog.c0de.trigger.input", "Input", "Eingabe"),
     ("dialog.c0de.trigger.output", "Output", "Ausgabe"),
     ("dialog.c0de.trigger.program", "Program", "Programm"),

@@ -41,6 +41,8 @@ Calling a restricted function without the permission raises PERMISSION_DENIED. I
   - functions never load chunks: accessing a position in a chunk that is not loaded raises CHUNK_NOT_LOADED,
   - changes SHOULD be made as the owner, so that spawn protection and protection mods apply to them.
 
+Note: the current implementation makes the changes directly in the level, not as the owner. Spawn protection and protection mods are therefore not consulted; the permissions above are the only restriction.
+
 ## Functions
 
 | Function | Parameters | Results | Description | AmigaBASIC |
