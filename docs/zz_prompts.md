@@ -208,3 +208,7 @@ Findings:
 Instead of a spinning arrow, the cursor should be a cuboid that is slowly pulsing between dark green and lime. A debug cursor should pulse between dark red and red
 
 Please note, I have installed the mods Jade and EMI to help me crafting and identifying blocks. Please tell me if that interferes with anything.
+
+## 2026-10-21 – Cursor shape
+
+The dialog now closes properly. The cursor pulses correctly but looks like a half slab. It should be an upright cuboid, the height about 100% of a block, the width about 75% of the block and it should be centered in the middle of the block.

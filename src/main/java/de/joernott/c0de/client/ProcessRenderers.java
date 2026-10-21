@@ -35,8 +35,10 @@ public final class ProcessRenderers {
         /** Ticks of one pulse, from the dark to the bright color and back. */
         private static final float PULSE_TICKS = 40.0F;
 
-        private static final float HALF_WIDTH = 0.4F;
-        private static final float HEIGHT = 0.4F;
+        /** An upright cuboid, 3/4 of a block wide and one block high, in the middle of the block. */
+        private static final float HALF_WIDTH = 0.375F;
+
+        private static final float HEIGHT = 1.0F;
 
         public Cursor(EntityRendererProvider.Context context) {
             super(context);

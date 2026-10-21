@@ -173,10 +173,10 @@ A task is done when
 | Task | Description | Done |
 |---|---|:---:|
 | 8.1 | Data item, type items, variable and constant items with their properties and edit dialog. | ✅ |
-| 8.2 | Trigger block, timer block and debug trigger block: configuration dialog, owner, input and output inventory, camouflage slot, preconditions for starting a process; placement rules in the c0de dimension (negative area only). |  |
-| 8.2.1 | The dialog of a trigger block closes when the configuration is saved. |  |
+| 8.2 | Trigger block, timer block and debug trigger block: configuration dialog, owner, input and output inventory, camouflage slot, preconditions for starting a process; placement rules in the c0de dimension (negative area only). | ✅ |
+| 8.2.1 | The dialog of a trigger block closes when the configuration is saved. | ✅ |
 | 8.3 | Process start: PID allocation, PID block, cursor entity, transfer of the input items. | ✅ |
-| 8.3.1 | The cursor is a cuboid pulsing between dark green and lime (debug cursors: dark red and red). |  |
+| 8.3.1 | The cursor is an upright cuboid (one block high, 3/4 block wide) pulsing between dark green and lime (debug cursors: dark red and red). |  |
 | 8.4 | Process scheduler: one step per tick and cursor, chunk tickets for running sheets, SLEEP. | ✅ |
 | 8.5 | Process end: results to the output inventory, exit code, error, comparator output, automatic transfer to an adjacent inventory, removal of cursor and PID block. | ✅ |
 | 8.6 | Protection of running programs: no changes to sheets with running processes by players, pistons, explosions, fluids or other mods; read-only dialogs; message to the player. | ✅ |
