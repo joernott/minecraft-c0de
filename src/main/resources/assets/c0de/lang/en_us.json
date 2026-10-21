@@ -10,7 +10,7 @@
   "message.c0de.debug": "Debug cursor: %s",
   "message.c0de.debug_started": "Debug process started, PID %s",
   "message.c0de.not_started": "Not started: %s",
-  "message.c0de.not_marked": "This line is not marked",
+  "message.c0de.not_marked": "This line is not marked, nothing is selected",
   "message.c0de.selected": "Lines %s to %s selected; right-click the line in front of which they are moved",
   "message.c0de.no_selection": "Select marked lines with a left click first",
   "message.c0de.move_inside": "The lines can't be moved there",

@@ -220,3 +220,13 @@ Please let it spawn at z=1, that is one of the reasons, there is a NOOP at z=1, 
 ## 2026-10-21 – Finish sprint 8, start sprint 9
 
 The look of the cursor is fine now, sou you can finish Sprint 8 and continue with Sprint 9
+
+## 2026-10-21 – In-game check of sprint 9
+
+1:
+- Yes, labels are readable, the dialog for the PID block is readable
+- Left clicking the trigger block with the debug tool spawned the cursor and it is pulsing red
+- Left clicking the cursor and shift-left clicking it with the debug tool worked
+- Right clicking the cursor worked as well, I can see the stack
+2. Marking lines work and the overlay is visible and runs from x=5 to x=28
+3. Moving lines worked but I could not unselect the marked lines and I could not mark new lines

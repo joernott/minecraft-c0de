@@ -10,7 +10,7 @@
   "message.c0de.debug": "Debug-Cursor: %s",
   "message.c0de.debug_started": "Debug-Prozess gestartet, PID %s",
   "message.c0de.not_started": "Nicht gestartet: %s",
-  "message.c0de.not_marked": "Diese Zeile ist nicht markiert",
+  "message.c0de.not_marked": "Diese Zeile ist nicht markiert, nichts ist ausgewählt",
   "message.c0de.selected": "Zeilen %s bis %s ausgewählt; Rechtsklick auf die Zeile, vor die sie verschoben werden",
   "message.c0de.no_selection": "Wähle zuerst markierte Zeilen mit einem Linksklick aus",
   "message.c0de.move_inside": "Die Zeilen können nicht dorthin verschoben werden",

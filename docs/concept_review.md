@@ -304,6 +304,7 @@ Questions the concept didn't answer, and one contradiction:
 ## 17. Decisions made while implementing sprint 9 (2026-10-21)
 
 - **Left clicks of tools**: the debugging tool, text marker, wrench and hammer never break blocks. Their left clicks are sent to the server as a payload of their own, because a cancelled left click doesn't reach the server on NeoForge.
+- **Cooldown**: a tool acts at most every 6 ticks, because the client repeats a left click every tick while the attack button is held. A left click with the wrench on an unmarked line cancels the selection.
 - **Debug cursors**: a debug trigger block starts its process when it is attacked with the debugging tool. The process starts paused; attacking the cursor moves it by one line, attacking it while sneaking switches between PAUSED and RUNNING. The player gets the new state and line as a message.
 - **Inspecting**: right-clicking a c0de block with the debugging tool shows its properties and the validation result of its line (valid, the error code and message, or not part of the program). Right-clicking a cursor shows the program, PID, line, state, current function, trigger block and the stack, top first.
 - **Marks** are entities that stand in the middle of the code area of their lines. They are saved with the chunks and shown to all players without extra synchronization. Marking is allowed while processes run, because it doesn't change the program.

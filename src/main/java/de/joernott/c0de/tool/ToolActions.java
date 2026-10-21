@@ -45,6 +45,18 @@ public final class ToolActions {
     /** Extra distance to the interaction range of a player, as for dialogs. */
     private static final double REACH_TOLERANCE = 2.0;
 
+    /**
+     * Ticks between two actions of a tool. While the attack button is held, the client tries to start breaking
+     * the block again every tick, which would repeat the action (e.g. toggle a mark several times).
+     */
+    private static final int COOLDOWN_TICKS = 6;
+
+    /** The game time of the last action of every player on the server. Only used on the server thread. */
+    private static final Map<UUID, Long> LAST_ACTIONS = new HashMap<>();
+
+    /** The game time of the last action sent by this client. */
+    private static long lastSent = Long.MIN_VALUE;
+
     /** The marked areas selected with the wrench, by player. Only used on the server thread. */
     private static final Map<UUID, Selection> SELECTIONS = new HashMap<>();
 
@@ -72,9 +84,18 @@ public final class ToolActions {
             return false;
         }
         if (level.isClientSide()) {
-            Platform.INSTANCE.sendToServer(new ToolPayload(pos, -1));
+            send(level, new ToolPayload(pos, -1));
         }
         return true;
+    }
+
+    /** Sends a tool action from the client, unless the last one was sent within the cooldown. */
+    private static void send(Level level, ToolPayload payload) {
+        long now = level.getGameTime();
+        if (now - lastSent >= COOLDOWN_TICKS || now < lastSent) {
+            lastSent = now;
+            Platform.INSTANCE.sendToServer(payload);
+        }
     }
 
     private static boolean attackEntity(Player player, Level level, Entity entity) {
@@ -82,7 +103,7 @@ public final class ToolActions {
             return false;
         }
         if (level.isClientSide()) {
-            Platform.INSTANCE.sendToServer(new ToolPayload(entity.blockPosition(), entity.getId()));
+            send(level, new ToolPayload(entity.blockPosition(), entity.getId()));
         }
         return true;
     }
@@ -94,6 +115,12 @@ public final class ToolActions {
     /** Executes a left click on the server. */
     public static void handle(ToolPayload payload, ServerPlayer player) {
         ServerLevel level = player.serverLevel();
+        long now = level.getGameTime();
+        Long last = LAST_ACTIONS.get(player.getUUID());
+        if (last != null && now - last < COOLDOWN_TICKS && now >= last) {
+            return;
+        }
+        LAST_ACTIONS.put(player.getUUID(), now);
         Item item = player.getMainHandItem().getItem();
         if (payload.entity() >= 0) {
             Entity entity = level.getEntity(payload.entity());
@@ -135,6 +162,8 @@ public final class ToolActions {
         } else if (item instanceof WrenchItem) {
             Optional<int[]> area = SheetMarks.area(level, sheet, z);
             if (area.isEmpty()) {
+                // A left click on an unmarked line cancels the selection
+                SELECTIONS.remove(player.getUUID());
                 message(player, "message.c0de.not_marked");
                 return;
             }
