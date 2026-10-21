@@ -255,3 +255,7 @@ It has the same issue again
 ## 2026-10-21 – Text under marks
 
 All four tests work as expected. However, I've noticed that the text on labels and literals disappears when a line is marked. It reappears, when the line is unmarked.
+
+## 2026-10-21 – Text under marks, second attempt
+
+I marked a line and it looks differently now, even better than before.But the tet on labels and literals still vanishes when a line is marked.

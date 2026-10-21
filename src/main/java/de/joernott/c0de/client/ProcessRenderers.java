@@ -126,9 +126,9 @@ public final class ProcessRenderers {
                 PoseStack pose,
                 MultiBufferSource buffers,
                 int light) {
-            // Without depth writing, so that the text on the blocks under the overlay stays visible; the overlay is
-            // added to the colors behind it
-            VertexConsumer quads = buffers.getBuffer(RenderType.lightning());
+            // The render type of the rays of the dying ender dragon: it doesn't write depth, so the text on the blocks
+            // under the overlay stays visible, and the overlay is added to the colors behind it
+            VertexConsumer quads = buffers.getBuffer(RenderType.dragonRays());
             Matrix4f matrix = pose.last().pose();
             float x0 = -HALF_WIDTH - INFLATE;
             float x1 = HALF_WIDTH + INFLATE;
@@ -147,14 +147,19 @@ public final class ProcessRenderers {
             side(quads, matrix, r, g, b, a, x1, y0, z0, x1, y1, z0, x1, y1, z1, x1, y0, z1);
         }
 
-        /** A side drawn in both directions; back faces are culled, so each side is drawn once. */
+        /**
+         * A side as two triangles, drawn in both directions; back faces are culled, so each side is drawn once.
+         *
+         * @param corners the four corners of the side, three coordinates each
+         */
         private static void side(
-                VertexConsumer quads, Matrix4f matrix, float r, float g, float b, float a, float... corners) {
-            for (int i = 0; i < corners.length; i += 3) {
-                quads.addVertex(matrix, corners[i], corners[i + 1], corners[i + 2]).setColor(r, g, b, a);
-            }
-            for (int i = corners.length - 3; i >= 0; i -= 3) {
-                quads.addVertex(matrix, corners[i], corners[i + 1], corners[i + 2]).setColor(r, g, b, a);
+                VertexConsumer triangles, Matrix4f matrix, float r, float g, float b, float a, float... corners) {
+            for (int[] triangle : new int[][] {{0, 1, 2}, {0, 2, 3}, {2, 1, 0}, {3, 2, 0}}) {
+                for (int corner : triangle) {
+                    triangles
+                            .addVertex(matrix, corners[3 * corner], corners[3 * corner + 1], corners[3 * corner + 2])
+                            .setColor(r, g, b, a);
+                }
             }
         }
 
