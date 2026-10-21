@@ -43,7 +43,7 @@ A task is done when
 | 6 | Language blocks I | All language blocks exist, with dialogs and recipes | ✅ |
 | 7 | Language blocks II: validation | Blocks show whether their statements are valid | ✅ |
 | 8 | Processes | Trigger, timer, PID block and cursor run programs in the world | ✅ |
-| 9 | Debugging and tools | Debug cursor, debugging tool, marker, wrench, hammer |  |
+| 9 | Debugging and tools | Debug cursor, debugging tool, marker, wrench, hammer | ✅ |
 | 10 | c0de/minecraft and c0de disk | Programs interact with the world; programs are imported and exported as YAML |  |
 | 11 | Release 1.0 for 1.21.1 | Polished, documented and published mod |  |
 | 12 | Newer Minecraft versions | The mod is released for 1.21.x and 26.x |  |
@@ -191,7 +191,7 @@ A task is done when
 |---|---|:---:|
 | 9.1 | Debug cursor: PAUSED/RUNNING, single steps, started by the debug trigger block. | ✅ |
 | 9.2 | Debugging tool: controlling debug cursors, cursor dialog (properties and stack), read-only property dialog for every c0de block. | ✅ |
-| 9.3 | Marker: marking lines with an overlay (client rendering, synchronized marks). |  |
+| 9.3 | Marker: marking lines with an overlay (client rendering, synchronized marks). | ✅ |
 | 9.3.1 | Tool actions have a cooldown of 6 ticks, because holding the attack button repeats them. | ✅ |
 | 9.3.2 | Clicking the floor of a line works like clicking a block of the line (marker, wrench, hammer). | ✅ |
 | 9.4 | Wrench: moving marked lines. | ✅ |

@@ -259,3 +259,7 @@ All four tests work as expected. However, I've noticed that the text on labels a
 ## 2026-10-21 – Text under marks, second attempt
 
 I marked a line and it looks differently now, even better than before.But the tet on labels and literals still vanishes when a line is marked.
+
+## 2026-10-21 – Finish sprint 9, start sprint 10
+
+The text is now readable on marked lines. Please proceed with sprint 10
