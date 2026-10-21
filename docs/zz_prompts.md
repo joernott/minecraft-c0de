@@ -234,3 +234,14 @@ The look of the cursor is fine now, sou you can finish Sprint 8 and continue wit
 ## 2026-10-21 – Marks after moving lines
 
 I still can't unselect the selected lines. I also can't select new lines
+
+## 2026-10-21 – Floor clicks and a more intuitive wrench
+
+1: Yes
+2: Works
+3: Works
+4: Yes
+
+It should be possible to click on the floor of a line as well, not only on a piece of code in that line.That applies to both marking and selecting items.
+
+We should also introduce one change that mkes the wrench more intuitive. We should eliminate the need to click a marked area to select it but rather consider the marked lines as selected. Then, left clicking the target line with the wrench would move the selection there, shifting tht line and all lines after it south. Right clicking a target line would copy the code in the selection there, shifting that line and all lines after it south

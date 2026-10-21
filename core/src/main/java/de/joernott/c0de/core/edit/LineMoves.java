@@ -1,13 +1,16 @@
 package de.joernott.c0de.core.edit;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.SortedSet;
 
 /**
- * How lines move when the wrench moves marked lines or the hammer deletes lines
- * (docs/concept/14-items-and-tools.md). The result maps the z coordinate of every line that changes its place to
- * its new z coordinate; deleted lines map to -1.
+ * How lines move when the wrench moves or copies the marked lines or the hammer deletes lines
+ * (docs/concept/14-items-and-tools.md). The results map the z coordinate of every line that changes its place to
+ * its new z coordinate; deleted lines map to {@link #DELETED}.
  */
 public final class LineMoves {
     /** A deleted line in the result of {@link #delete}. */
@@ -16,32 +19,46 @@ public final class LineMoves {
     private LineMoves() {}
 
     /**
-     * Moves the lines {@code from} to {@code to} in front of (north of) the line {@code target}.
+     * Moves the marked lines in front of (north of) the line {@code target}, in their order. The marked lines
+     * don't need to be consecutive; the other lines keep their order and close the gaps.
      *
-     * @return the new places, or empty if the target is inside the moved lines or directly after them
+     * @return the new places (empty if nothing changes), or empty if the target is marked
      */
-    public static Optional<Map<Integer, Integer>> move(int from, int to, int target) {
-        if (from > to || from < 0 || (target >= from && target <= to + 1)) {
+    public static Optional<Map<Integer, Integer>> move(SortedSet<Integer> marked, int target) {
+        if (marked.isEmpty() || marked.contains(target)) {
             return Optional.empty();
         }
-        int count = to - from + 1;
+        int from = Math.min(marked.first(), target);
+        int to = Math.max(marked.last(), target - 1);
+        List<Integer> order = new ArrayList<>();
+        for (int z = from; z <= to; z++) {
+            if (!marked.contains(z)) {
+                order.add(z);
+            }
+        }
+        int index = order.indexOf(target);
+        order.addAll(index < 0 ? order.size() : index, marked);
         Map<Integer, Integer> moves = new LinkedHashMap<>();
-        if (target < from) {
-            for (int z = from; z <= to; z++) {
-                moves.put(z, target + z - from);
-            }
-            for (int z = target; z < from; z++) {
-                moves.put(z, z + count);
-            }
-        } else {
-            for (int z = from; z <= to; z++) {
-                moves.put(z, target - count + z - from);
-            }
-            for (int z = to + 1; z < target; z++) {
-                moves.put(z, z - count);
+        for (int i = 0; i < order.size(); i++) {
+            if (order.get(i) != from + i) {
+                moves.put(order.get(i), from + i);
             }
         }
         return Optional.of(moves);
+    }
+
+    /**
+     * Makes room for {@code count} lines in front of the line {@code target}: the lines from {@code target} to
+     * {@code end} (exclusive) move south.
+     *
+     * @return the new places
+     */
+    public static Map<Integer, Integer> insert(int target, int count, int end) {
+        Map<Integer, Integer> moves = new LinkedHashMap<>();
+        for (int z = end - 1; z >= target; z--) {
+            moves.put(z, z + count);
+        }
+        return moves;
     }
 
     /**

@@ -46,7 +46,9 @@ A text marker is crafted shapelessly from a feather and yellow dye.
 
 ## Wrench
 
-Every decent tech mod needs a wrench. This is the c0de wrench. Right-clicking a trigger block with the wrench [teleports the player into the c0de dimension](01-dimension.md#entering-and-leaving-the-dimension). On a sheet, the wrench is used to move marked code: the user left-clicks a marked area and then right-clicks a line outside that area. This moves the marked lines in front of (north of) that line. A marked area is a group of consecutive marked lines; the marks move with their lines.
+Every decent tech mod needs a wrench. This is the c0de wrench. Right-clicking a trigger block with the wrench [teleports the player into the c0de dimension](01-dimension.md#entering-and-leaving-the-dimension). On a sheet, the wrench moves and copies marked code. The marked lines of the sheet are the selection; they don't need to be consecutive. Left-clicking a line that is not marked moves the marked lines in front of (north of) that line, in their order; the other lines close the gaps. Right-clicking a line copies the marked lines in front of it; that line and all lines after it move south. In survival mode, the blocks of the copies are taken from the inventory of the player; if blocks are missing, nothing is copied and the player gets a list of the missing blocks. The marks move with their lines.
+
+Clicking the floor of a line works like clicking a block of the line, for the marker, the wrench and the hammer.
 
 ### Crafting
 

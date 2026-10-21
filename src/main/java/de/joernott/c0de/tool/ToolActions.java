@@ -37,7 +37,8 @@ import net.minecraft.world.level.Level;
  * <ul>
  *   <li>debugging tool: starts a debug process at a debug trigger block, controls debug cursors
  *   <li>text marker: marks a line or removes its mark
- *   <li>wrench: selects a marked area, which a right click on another line moves (see {@link #wrenchTarget})
+ *   <li>wrench: moves the marked lines in front of the clicked line (a right click copies them, see
+ *       {@link #wrench})
  *   <li>hammer: deletes a marked area or a single line; the following lines move up
  * </ul>
  */
@@ -57,13 +58,8 @@ public final class ToolActions {
     /** The game time of the last action sent by this client, or null before the first one. */
     private static Long lastSent;
 
-    /** The marked areas selected with the wrench, by player. Only used on the server thread. */
-    private static final Map<UUID, Selection> SELECTIONS = new HashMap<>();
 
     private ToolActions() {}
-
-    /** A marked area selected with the wrench. */
-    private record Selection(int sheet, int from, int to) {}
 
     /** Registers the handlers of left clicks. Called once when the mod is initialized. */
     public static void register() {
@@ -161,9 +157,7 @@ public final class ToolActions {
             }
             return;
         }
-        if (!LevelSheet.isOnSheet(level, pos)
-                || pos.getY() != SheetGeometry.CODE_Y
-                || !SheetGeometry.isInCodeArea(pos.getX(), pos.getZ())) {
+        if (!isOnLine(level, pos)) {
             return;
         }
         int sheet = LevelSheet.sheetOf(pos);
@@ -172,18 +166,17 @@ public final class ToolActions {
             // Marking doesn't change the program, so it is allowed while processes run
             SheetMarks.toggle(level, sheet, z);
         } else if (item instanceof WrenchItem) {
-            Optional<int[]> area = SheetMarks.area(level, sheet, z);
-            if (area.isEmpty()) {
-                // A left click on an unmarked line cancels the selection
-                SELECTIONS.remove(player.getUUID());
-                message(player, "message.c0de.not_marked");
-                return;
-            }
-            SELECTIONS.put(player.getUUID(), new Selection(sheet, area.get()[0], area.get()[1]));
-            message(player, "message.c0de.selected", area.get()[0], area.get()[1]);
+            wrench(player, pos, false);
         } else if (item == C0deItems.HAMMER.get()) {
             hammer(player, level, pos, sheet, z);
         }
+    }
+
+    /** True for the code layer and the floor of the code area of a sheet: clicking either selects the line. */
+    public static boolean isOnLine(Level level, BlockPos pos) {
+        return LevelSheet.isOnSheet(level, pos)
+                && (pos.getY() == SheetGeometry.CODE_Y || pos.getY() == SheetGeometry.FLOOR_Y)
+                && SheetGeometry.isInCodeArea(pos.getX(), pos.getZ());
     }
 
     private static boolean isProtected(ServerPlayer player, ServerLevel level, BlockPos pos) {
@@ -219,37 +212,44 @@ public final class ToolActions {
                 }
             });
         }
-        SELECTIONS.values().removeIf(selection -> selection.sheet() == sheet);
         message(player, "message.c0de.deleted", area[0], area[1]);
     }
 
     /**
-     * Moves the area selected with the wrench in front of the line that was right-clicked.
-     *
-     * @return true if the click was used
+     * Moves (left click) or copies (right click) the marked lines of the sheet in front of the clicked line. The
+     * clicked line and the lines after it move south.
      */
-    public static boolean wrenchTarget(ServerPlayer player, BlockPos pos) {
+    public static void wrench(ServerPlayer player, BlockPos pos, boolean copy) {
         ServerLevel level = player.serverLevel();
-        if (!LevelSheet.isOnSheet(level, pos) || !SheetGeometry.isInCodeArea(pos.getX(), pos.getZ())) {
-            return false;
-        }
-        Selection selection = SELECTIONS.get(player.getUUID());
         int sheet = LevelSheet.sheetOf(pos);
-        if (selection == null || selection.sheet() != sheet) {
-            message(player, "message.c0de.no_selection");
-            return true;
+        int target = pos.getZ();
+        java.util.SortedSet<Integer> marked = SheetMarks.marked(level, sheet);
+        if (marked.isEmpty()) {
+            message(player, "message.c0de.no_marks");
+            return;
+        }
+        if (marked.contains(target)) {
+            message(player, "message.c0de.target_marked");
+            return;
         }
         if (isProtected(player, level, pos)) {
-            return true;
+            return;
         }
-        Optional<Map<Integer, Integer>> moves = LineMoves.move(selection.from(), selection.to(), pos.getZ());
-        if (moves.isEmpty()) {
-            message(player, "message.c0de.move_inside");
-            return true;
+        if (copy) {
+            Map<Item, Integer> missing = SheetEditor.copy(level, sheet, marked, target, player);
+            if (!missing.isEmpty()) {
+                StringBuilder text = new StringBuilder();
+                missing.forEach((item, count) -> text.append(text.isEmpty() ? "" : ", ")
+                        .append(count)
+                        .append(" ")
+                        .append(item.getDescription().getString()));
+                message(player, "message.c0de.missing_blocks", text.toString());
+                return;
+            }
+            message(player, "message.c0de.copied", marked.size(), target);
+        } else {
+            SheetEditor.apply(level, sheet, LineMoves.move(marked, target).orElseThrow());
+            message(player, "message.c0de.moved", marked.size(), target);
         }
-        SheetEditor.apply(level, sheet, moves.get());
-        SELECTIONS.remove(player.getUUID());
-        message(player, "message.c0de.moved", selection.from(), selection.to(), pos.getZ());
-        return true;
     }
 }

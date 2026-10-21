@@ -100,7 +100,7 @@ public final class ToolTests {
             helper.assertTrue(area[0] == 3 && area[1] == 4, "The marked area is " + area[0] + " to " + area[1]);
 
             // Lines 3 and 4 in front of line 1
-            SheetEditor.apply(level, 521, LineMoves.move(3, 4, 1).orElseThrow());
+            SheetEditor.apply(level, 521, LineMoves.move(SheetMarks.marked(level, 521), 1).orElseThrow());
             List<Integer> order = List.of(
                     line(level, sheet, 0),
                     line(level, sheet, 1),
@@ -145,7 +145,7 @@ public final class ToolTests {
         helper.succeed();
     }
 
-    /** The tools as a player uses them: mark, select with the wrench, move, then mark and unmark again. */
+    /** The tools as a player uses them: mark, move with the wrench, unmark and mark again, copy. */
     public static void toolsWorkAfterMovingLines(GameTestHelper helper) {
         ServerLevel level = c0de(helper);
         SheetBuilder sheet = new SheetBuilder(level, 522);
@@ -158,20 +158,31 @@ public final class ToolTests {
         player.teleportTo(level, stand.getX() + 0.5, stand.getY(), stand.getZ() + 0.5, 0, 0);
         try {
             player.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND, new ItemStack(C0deItems.MARKER.get()));
+            // A block of the line and the floor of the line both mark it
             click(helper, player, sheet.pos(6, 3));
-            click(helper, player, sheet.pos(6, 4));
+            click(helper, player, sheet.pos(8, 4).below());
             helper.assertTrue(SheetMarks.isMarked(level, 522, 3) && SheetMarks.isMarked(level, 522, 4), "Not marked");
+            // A left click with the wrench moves the marked lines in front of the clicked line
             player.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND, new ItemStack(C0deItems.WRENCH.get()));
-            click(helper, player, sheet.pos(6, 4));
-            helper.assertTrue(de.joernott.c0de.tool.ToolActions.wrenchTarget(player, sheet.pos(6, 1)), "Not moved");
+            click(helper, player, sheet.pos(8, 1).below());
+            helper.assertTrue(line(level, sheet, 1) == 3 && line(level, sheet, 3) == 1, "Not moved");
             helper.assertTrue(SheetMarks.isMarked(level, 522, 1), "The mark didn't move");
             player.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND, new ItemStack(C0deItems.MARKER.get()));
             click(helper, player, sheet.pos(6, 1));
             helper.assertTrue(!SheetMarks.isMarked(level, 522, 1), "The moved mark can't be removed");
             click(helper, player, sheet.pos(6, 5));
             helper.assertTrue(SheetMarks.isMarked(level, 522, 5), "A new line can't be marked");
+
+            // A right click copies the marked lines (now 2 and 5) in front of line 0. The mock player of GameTests
+            // is always in creative mode, so the blocks are not taken from its inventory.
+            de.joernott.c0de.tool.ToolActions.wrench(player, sheet.pos(6, 0), true);
+            List<Integer> order = new java.util.ArrayList<>();
+            for (int z = 0; z < 8; z++) {
+                order.add(line(level, sheet, z));
+            }
+            helper.assertTrue(order.equals(List.of(4, 5, 0, 3, 4, 1, 2, 5)), "After copying, the lines are " + order);
         } finally {
-            for (int z = 0; z < 6; z++) {
+            for (int z = 0; z < 8; z++) {
                 level.setBlockAndUpdate(sheet.pos(5, z), Blocks.AIR.defaultBlockState());
                 level.setBlockAndUpdate(sheet.pos(6, z), Blocks.AIR.defaultBlockState());
                 if (SheetMarks.isMarked(level, 522, z)) {

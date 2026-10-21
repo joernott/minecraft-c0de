@@ -29,6 +29,15 @@ public final class SheetMarks {
         });
     }
 
+    /** All marked lines of a sheet (in loaded chunks), in ascending order. */
+    public static java.util.SortedSet<Integer> marked(ServerLevel level, int sheet) {
+        java.util.SortedSet<Integer> lines = new java.util.TreeSet<>();
+        for (MarkEntity mark : marks(level, sheet, 0, LevelSheet.MAX_LINES)) {
+            lines.add((int) Math.floor(mark.getZ()));
+        }
+        return lines;
+    }
+
     /** True if the line is marked. */
     public static boolean isMarked(ServerLevel level, int sheet, int z) {
         return !marks(level, sheet, z, z).isEmpty();
