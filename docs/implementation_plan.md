@@ -192,11 +192,11 @@ A task is done when
 | 9.1 | Debug cursor: PAUSED/RUNNING, single steps, started by the debug trigger block. | ✅ |
 | 9.2 | Debugging tool: controlling debug cursors, cursor dialog (properties and stack), read-only property dialog for every c0de block. | ✅ |
 | 9.3 | Marker: marking lines with an overlay (client rendering, synchronized marks). |  |
-| 9.3.1 | Tool actions have a cooldown of 6 ticks, because holding the attack button repeats them. |  |
-| 9.3.2 | Clicking the floor of a line works like clicking a block of the line (marker, wrench, hammer). |  |
-| 9.4 | Wrench: moving marked lines. |  |
-| 9.4.1 | The marked lines are the selection: a left click with the wrench moves them in front of the clicked line, a right click copies them there (blocks from the inventory in survival mode). |  |
-| 9.5 | Hammer: deleting lines or marked areas, moving the following lines up. |  |
+| 9.3.1 | Tool actions have a cooldown of 6 ticks, because holding the attack button repeats them. | ✅ |
+| 9.3.2 | Clicking the floor of a line works like clicking a block of the line (marker, wrench, hammer). | ✅ |
+| 9.4 | Wrench: moving marked lines. | ✅ |
+| 9.4.1 | The marked lines are the selection: a left click with the wrench moves them in front of the clicked line, a right click copies them there (blocks from the inventory in survival mode). | ✅ |
+| 9.5 | Hammer: deleting lines or marked areas, moving the following lines up. | ✅ |
 
 ## Sprint 10: c0de/minecraft and c0de disk
 
