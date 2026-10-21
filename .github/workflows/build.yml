@@ -90,9 +90,7 @@ jobs:
       - name: Build
         run: ./gradlew :${{ matrix.node }}:build --console=plain
       - name: GameTests
-        run: |
-          set -o pipefail
-          ./gradlew :${{ matrix.node }}:${{ matrix.gametest }} --console=plain 2>&1 | tee gametest.log
+        run: scripts/ci/run-gametests.sh :${{ matrix.node }}:${{ matrix.gametest }} gametest.log
       - name: Report failed GameTests
         if: failure()
         run: scripts/ci/report-gametest.sh gametest.log

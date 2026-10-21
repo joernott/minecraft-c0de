@@ -245,3 +245,9 @@ I still can't unselect the selected lines. I also can't select new lines
 It should be possible to click on the floor of a line as well, not only on a piece of code in that line.That applies to both marking and selecting items.
 
 We should also introduce one change that mkes the wrench more intuitive. We should eliminate the need to click a marked area to select it but rather consider the marked lines as selected. Then, left clicking the target line with the wrench would move the selection there, shifting tht line and all lines after it south. Right clicking a target line would copy the code in the selection there, shifting that line and all lines after it south
+
+The workflow got stuck:
+ [20:06:10] [Server thread/INFO] (Minecraft) test-mock-player left the game
+[20:06:10] [Server thread/INFO] (Minecraft) Saving worlds
+
+It has the same issue again
