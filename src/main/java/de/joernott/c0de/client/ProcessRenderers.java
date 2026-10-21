@@ -126,7 +126,9 @@ public final class ProcessRenderers {
                 PoseStack pose,
                 MultiBufferSource buffers,
                 int light) {
-            VertexConsumer quads = buffers.getBuffer(RenderType.debugQuads());
+            // Without depth writing, so that the text on the blocks under the overlay stays visible; the overlay is
+            // added to the colors behind it
+            VertexConsumer quads = buffers.getBuffer(RenderType.lightning());
             Matrix4f matrix = pose.last().pose();
             float x0 = -HALF_WIDTH - INFLATE;
             float x1 = HALF_WIDTH + INFLATE;
@@ -138,7 +140,6 @@ public final class ProcessRenderers {
             float g = 0.9F;
             float b = 0.2F;
             float a = 0.3F;
-            // The render type has no culling, so every side is drawn once
             side(quads, matrix, r, g, b, a, x0, y1, z0, x0, y1, z1, x1, y1, z1, x1, y1, z0);
             side(quads, matrix, r, g, b, a, x0, y0, z0, x0, y1, z0, x1, y1, z0, x1, y0, z0);
             side(quads, matrix, r, g, b, a, x0, y0, z1, x1, y0, z1, x1, y1, z1, x0, y1, z1);
@@ -146,9 +147,13 @@ public final class ProcessRenderers {
             side(quads, matrix, r, g, b, a, x1, y0, z0, x1, y1, z0, x1, y1, z1, x1, y0, z1);
         }
 
+        /** A side drawn in both directions; back faces are culled, so each side is drawn once. */
         private static void side(
                 VertexConsumer quads, Matrix4f matrix, float r, float g, float b, float a, float... corners) {
             for (int i = 0; i < corners.length; i += 3) {
+                quads.addVertex(matrix, corners[i], corners[i + 1], corners[i + 2]).setColor(r, g, b, a);
+            }
+            for (int i = corners.length - 3; i >= 0; i -= 3) {
                 quads.addVertex(matrix, corners[i], corners[i + 1], corners[i + 2]).setColor(r, g, b, a);
             }
         }
