@@ -212,3 +212,7 @@ Please note, I have installed the mods Jade and EMI to help me crafting and iden
 ## 2026-10-21 – Cursor shape
 
 The dialog now closes properly. The cursor pulses correctly but looks like a half slab. It should be an upright cuboid, the height about 100% of a block, the width about 75% of the block and it should be centered in the middle of the block.
+
+## 2026-10-21 – Cursor spawn position
+
+Please let it spawn at z=1, that is one of the reasons, there is a NOOP at z=1, as this means, the cursor only needs to process something when entering a new line. Not parsing a NOOP does not cause a problem.

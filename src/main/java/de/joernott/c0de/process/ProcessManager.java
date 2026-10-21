@@ -366,7 +366,8 @@ public class ProcessManager extends SavedData {
         CursorEntity entity = new CursorEntity(C0deEntities.CURSOR.get(), c0de);
         entity.setProcess(process);
         BlockPos start = LevelSheet.pidPos(sheet, pid);
-        entity.setPos(start.getX() + 0.5, pid, 0.5);
+        // The cursor starts in the NOOP line after the PROGRAM line (docs/concept/15-cursor.md)
+        entity.setPos(start.getX() + 0.5, pid, 1.5);
         c0de.addFreshEntity(entity);
         return entity.getUUID();
     }
