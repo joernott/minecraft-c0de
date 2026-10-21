@@ -42,7 +42,7 @@ A task is done when
 | 5 | Libraries in `core` | Built-in functions, c0de/math, c0de/strings (incl. FORMAT, JSON, YAML), c0de/time | ✅ |
 | 6 | Language blocks I | All language blocks exist, with dialogs and recipes | ✅ |
 | 7 | Language blocks II: validation | Blocks show whether their statements are valid | ✅ |
-| 8 | Processes | Trigger, timer, PID block and cursor run programs in the world |  |
+| 8 | Processes | Trigger, timer, PID block and cursor run programs in the world | ✅ |
 | 9 | Debugging and tools | Debug cursor, debugging tool, marker, wrench, hammer |  |
 | 10 | c0de/minecraft and c0de disk | Programs interact with the world; programs are imported and exported as YAML |  |
 | 11 | Release 1.0 for 1.21.1 | Polished, documented and published mod |  |
@@ -176,7 +176,7 @@ A task is done when
 | 8.2 | Trigger block, timer block and debug trigger block: configuration dialog, owner, input and output inventory, camouflage slot, preconditions for starting a process; placement rules in the c0de dimension (negative area only). | ✅ |
 | 8.2.1 | The dialog of a trigger block closes when the configuration is saved. | ✅ |
 | 8.3 | Process start: PID allocation, PID block, cursor entity, transfer of the input items. | ✅ |
-| 8.3.1 | The cursor is an upright cuboid (one block high, 3/4 block wide) pulsing between dark green and lime (debug cursors: dark red and red). |  |
+| 8.3.1 | The cursor is an upright cuboid (one block high, 3/4 block wide) pulsing between dark green and lime (debug cursors: dark red and red). | ✅ |
 | 8.4 | Process scheduler: one step per tick and cursor, chunk tickets for running sheets, SLEEP. | ✅ |
 | 8.5 | Process end: results to the output inventory, exit code, error, comparator output, automatic transfer to an adjacent inventory, removal of cursor and PID block. | ✅ |
 | 8.6 | Protection of running programs: no changes to sheets with running processes by players, pistons, explosions, fluids or other mods; read-only dialogs; message to the player. | ✅ |

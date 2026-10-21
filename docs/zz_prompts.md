@@ -216,3 +216,7 @@ The dialog now closes properly. The cursor pulses correctly but looks like a hal
 ## 2026-10-21 – Cursor spawn position
 
 Please let it spawn at z=1, that is one of the reasons, there is a NOOP at z=1, as this means, the cursor only needs to process something when entering a new line. Not parsing a NOOP does not cause a problem.
+
+## 2026-10-21 – Finish sprint 8, start sprint 9
+
+The look of the cursor is fine now, sou you can finish Sprint 8 and continue with Sprint 9
