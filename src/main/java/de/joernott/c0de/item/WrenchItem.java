@@ -36,7 +36,7 @@ public class WrenchItem extends Item {
             return InteractionResult.PASS;
         }
         if (context.getPlayer() instanceof ServerPlayer player) {
-            ToolActions.wrench(player, pos, true);
+            ToolActions.wrench(player, player.serverLevel(), pos, true);
         }
         return InteractionResult.SUCCESS;
     }

@@ -123,7 +123,15 @@ public final class ToolActions {
 
     /** Executes a left click on the server. */
     public static void handle(ToolPayload payload, ServerPlayer player) {
-        ServerLevel level = player.serverLevel();
+        perform(player, player.serverLevel(), payload, true);
+    }
+
+    /**
+     * Executes a left click in a level.
+     *
+     * @param checkReach false for tests, whose players can't stand on the sheets without loading many chunks
+     */
+    public static void perform(ServerPlayer player, ServerLevel level, ToolPayload payload, boolean checkReach) {
         long now = level.getGameTime();
         if (!cooldownOver(now, LAST_ACTIONS.get(player.getUUID()))) {
             return;
@@ -134,7 +142,7 @@ public final class ToolActions {
             Entity entity = level.getEntity(payload.entity());
             if (item instanceof DebugToolItem
                     && entity instanceof CursorEntity cursor
-                    && player.distanceTo(cursor) <= player.entityInteractionRange() + REACH_TOLERANCE) {
+                    && (!checkReach || player.distanceTo(cursor) <= player.entityInteractionRange() + REACH_TOLERANCE)) {
                 message(
                         player,
                         "message.c0de.debug",
@@ -143,7 +151,7 @@ public final class ToolActions {
             return;
         }
         BlockPos pos = payload.pos();
-        if (!level.isLoaded(pos) || !player.canInteractWithBlock(pos, REACH_TOLERANCE)) {
+        if (!level.isLoaded(pos) || (checkReach && !player.canInteractWithBlock(pos, REACH_TOLERANCE))) {
             return;
         }
         if (item instanceof DebugToolItem) {
@@ -166,7 +174,7 @@ public final class ToolActions {
             // Marking doesn't change the program, so it is allowed while processes run
             SheetMarks.toggle(level, sheet, z);
         } else if (item instanceof WrenchItem) {
-            wrench(player, pos, false);
+            wrench(player, level, pos, false);
         } else if (item == C0deItems.HAMMER.get()) {
             hammer(player, level, pos, sheet, z);
         }
@@ -219,8 +227,7 @@ public final class ToolActions {
      * Moves (left click) or copies (right click) the marked lines of the sheet in front of the clicked line. The
      * clicked line and the lines after it move south.
      */
-    public static void wrench(ServerPlayer player, BlockPos pos, boolean copy) {
-        ServerLevel level = player.serverLevel();
+    public static void wrench(ServerPlayer player, ServerLevel level, BlockPos pos, boolean copy) {
         int sheet = LevelSheet.sheetOf(pos);
         int target = pos.getZ();
         java.util.SortedSet<Integer> marked = SheetMarks.marked(level, sheet);

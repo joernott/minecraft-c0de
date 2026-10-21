@@ -153,9 +153,9 @@ public final class ToolTests {
             sheet.place(new de.joernott.c0de.core.line.Block.KeywordBlock(de.joernott.c0de.core.line.Keyword.ASSIGN), 5, z);
             sheet.place(new de.joernott.c0de.core.line.Block.LabelBlock("l" + z), 6, z);
         }
+        // The player stays in the test structure: standing on a sheet far out would load many chunks, which
+        // were still being generated when the server stopped and made it hang
         ServerPlayer player = helper.makeMockServerPlayerInLevel();
-        BlockPos stand = sheet.pos(6, 3).above();
-        player.teleportTo(level, stand.getX() + 0.5, stand.getY(), stand.getZ() + 0.5, 0, 0);
         try {
             player.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND, new ItemStack(C0deItems.MARKER.get()));
             // A block of the line and the floor of the line both mark it
@@ -175,7 +175,7 @@ public final class ToolTests {
 
             // A right click copies the marked lines (now 2 and 5) in front of line 0. The mock player of GameTests
             // is always in creative mode, so the blocks are not taken from its inventory.
-            de.joernott.c0de.tool.ToolActions.wrench(player, sheet.pos(6, 0), true);
+            de.joernott.c0de.tool.ToolActions.wrench(player, level, sheet.pos(6, 0), true);
             List<Integer> order = new java.util.ArrayList<>();
             for (int z = 0; z < 8; z++) {
                 order.add(line(level, sheet, z));
@@ -207,6 +207,7 @@ public final class ToolTests {
     /** A left click of a tool, as the client sends it, with the cooldown of the tools in between. */
     private static void click(GameTestHelper helper, ServerPlayer player, BlockPos pos) {
         de.joernott.c0de.tool.ToolActions.resetCooldown(player);
-        de.joernott.c0de.tool.ToolActions.handle(new de.joernott.c0de.network.ToolPayload(pos, -1), player);
+        de.joernott.c0de.tool.ToolActions.perform(
+                player, c0de(helper), new de.joernott.c0de.network.ToolPayload(pos, -1), false);
     }
 }
