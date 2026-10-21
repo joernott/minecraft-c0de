@@ -300,3 +300,11 @@ Questions the concept didn't answer, and one contradiction:
 - **Camouflage**: trigger blocks are transparent; a camouflaged trigger block is drawn as the block in its camouflage slot.
 - **Debug trigger blocks** can be configured, but processes are started with the debugging tool in sprint 9.
 - **Persistence**: processes are stored with the c0de dimension (`data/c0de_processes.dat`) as cursor snapshots. The cursor entity is not saved; it is created again when a process is restored after a restart.
+
+## 17. Decisions made while implementing sprint 9 (2026-10-21)
+
+- **Left clicks of tools**: the debugging tool, text marker, wrench and hammer never break blocks. Their left clicks are sent to the server as a payload of their own, because a cancelled left click doesn't reach the server on NeoForge.
+- **Debug cursors**: a debug trigger block starts its process when it is attacked with the debugging tool. The process starts paused; attacking the cursor moves it by one line, attacking it while sneaking switches between PAUSED and RUNNING. The player gets the new state and line as a message.
+- **Inspecting**: right-clicking a c0de block with the debugging tool shows its properties and the validation result of its line (valid, the error code and message, or not part of the program). Right-clicking a cursor shows the program, PID, line, state, current function, trigger block and the stack, top first.
+- **Marks** are entities that stand in the middle of the code area of their lines. They are saved with the chunks and shown to all players without extra synchronization. Marking is allowed while processes run, because it doesn't change the program.
+- **Moving and deleting**: only c0de blocks in the code area of the code layer are moved, with their properties. When lines are deleted, the following lines up to the next empty line move up. Both are refused on sheets with running processes.

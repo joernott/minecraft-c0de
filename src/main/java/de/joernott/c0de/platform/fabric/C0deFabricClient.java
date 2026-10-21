@@ -46,6 +46,8 @@ public class C0deFabricClient implements ClientModInitializer {
         BlockEntityRendererRegistry.register(C0deBlockEntities.PID.get(), ProcessRenderers.Pid::new);
         net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry.register(
                 C0deEntities.CURSOR.get(), ProcessRenderers.Cursor::new);
+        net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry.register(
+                C0deEntities.MARK.get(), ProcessRenderers.Mark::new);
         net.minecraft.client.gui.screens.MenuScreens.register(C0deMenus.TRIGGER.get(), TriggerScreen::new);
     }
 

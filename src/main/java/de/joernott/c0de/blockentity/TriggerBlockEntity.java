@@ -133,6 +133,11 @@ public class TriggerBlockEntity extends BlockEntity implements MenuProvider {
         return pid;
     }
 
+    /** The ID of the running process, or null. */
+    public UUID processId() {
+        return process;
+    }
+
     public boolean isRunning() {
         return process != null;
     }
@@ -216,10 +221,24 @@ public class TriggerBlockEntity extends BlockEntity implements MenuProvider {
 
     /** Starts a process, if all preconditions are met; otherwise the reason is stored as status. */
     public void start() {
+        start(false);
+    }
+
+    /**
+     * Starts a process with a debug cursor, which starts paused.
+     *
+     * @return the reason if the process didn't start
+     */
+    public Optional<String> startDebug() {
+        start(true);
+        return status.isEmpty() ? Optional.empty() : Optional.of(status);
+    }
+
+    private void start(boolean debug) {
         if (!(level instanceof ServerLevel serverLevel)) {
             return;
         }
-        Optional<String> problem = ProcessManager.get(serverLevel.getServer()).start(serverLevel, this);
+        Optional<String> problem = ProcessManager.get(serverLevel.getServer()).start(serverLevel, this, debug);
         status = problem.orElse("");
         changed();
     }

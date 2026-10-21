@@ -568,6 +568,47 @@ def item_textures() -> None:
         write_png(items / ("type_" + type_name.lower() + "_item.png"), image)
 
 
+def debug_tool() -> Image:
+    """A fly swatter: a wooden handle and a leather square at the top."""
+    image = blank()
+    for i in range(2, 10):
+        image[15 - i][i] = rgb(0x8F6A3A)
+        image[16 - i][i] = rgb(0x6B4A2B)
+    for y in range(1, 8):
+        for x in range(8, 15):
+            image[y][x] = rgb(0xA0602E if (x + y) % 3 else 0x7A4520)
+    return image
+
+
+def marker() -> Image:
+    """A yellow feather."""
+    image = blank()
+    for i in range(1, 14):
+        image[15 - i][i] = rgb(0xC8A000)
+    for i in range(4, 13):
+        for d in (1, 2, 3):
+            if 1 <= i - d and 15 - i - d >= 0:
+                image[15 - i - d + 1][i - d + 1] = rgb(0xFFE040 if d < 3 else 0xF0C820)
+            if i + d <= 15 and 15 - i + d <= 15:
+                image[15 - i + d - 1][i + d - 1] = rgb(0xFFE040 if d < 3 else 0xF0C820)
+    return image
+
+
+def hammer() -> Image:
+    """An iron hammer with a red handle."""
+    image = blank()
+    for i in range(1, 10):
+        image[15 - i][i] = rgb(0xB02E26)
+        image[16 - i][i] = rgb(0x6E1A16)
+    # The head lies across the end of the handle
+    for t in range(-4, 5):
+        for dx, dy in ((0, 0), (1, 0), (0, -1), (1, -1)):
+            x, y = 10 + t + dx, 5 + t + dy
+            if 0 <= x < 16 and 0 <= y < 16:
+                image[y][x] = rgb(0xD8D8D8 if dx == dy else 0x9C9C9C)
+    return image
+
+
 def main() -> None:
     blocks = TEXTURES / "block"
     write_png(blocks / "white_c0de_bedrock.png", concrete(0xF5F7F3, "white"))
@@ -582,6 +623,9 @@ def main() -> None:
     write_png(TEXTURES / "item" / "wrench.png", wrench())
     code_block_textures(blocks)
     item_textures()
+    write_png(TEXTURES / "item" / "debug_tool.png", debug_tool())
+    write_png(TEXTURES / "item" / "marker.png", marker())
+    write_png(TEXTURES / "item" / "hammer.png", hammer())
 
 
 if __name__ == "__main__":

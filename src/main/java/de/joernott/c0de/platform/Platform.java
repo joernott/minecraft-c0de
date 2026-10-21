@@ -95,6 +95,33 @@ public sealed interface Platform {
      */
     void onBlockChange(BlockChangeCheck check);
 
+    /**
+     * Calls the handler when a player starts to break a block (left click), on the client and the server. If it
+     * returns true, the action is handled and the block is not broken.
+     */
+    void onAttackBlock(AttackBlockHandler handler);
+
+    /**
+     * Calls the handler when a player attacks an entity (left click), on the client and the server. If it returns
+     * true, the attack is handled and doesn't hurt the entity.
+     */
+    void onAttackEntity(AttackEntityHandler handler);
+
+    /** Calls the listener when a player joins the server. */
+    void onPlayerJoin(java.util.function.Consumer<ServerPlayer> listener);
+
+    /** A handler of a player starting to break a block. */
+    @FunctionalInterface
+    interface AttackBlockHandler {
+        boolean handle(Player player, Level level, BlockPos pos);
+    }
+
+    /** A handler of a player attacking an entity. */
+    @FunctionalInterface
+    interface AttackEntityHandler {
+        boolean handle(Player player, Level level, net.minecraft.world.entity.Entity entity);
+    }
+
     /** Creates the menus of a menu type on the client and the server. */
     @FunctionalInterface
     interface MenuFactory<T extends AbstractContainerMenu> {
@@ -247,6 +274,28 @@ public sealed interface Platform {
         }
 
         @Override
+        public void onAttackBlock(AttackBlockHandler handler) {
+            net.fabricmc.fabric.api.event.player.AttackBlockCallback.EVENT.register(
+                    (player, level, hand, pos, direction) -> handler.handle(player, level, pos)
+                            ? net.minecraft.world.InteractionResult.SUCCESS
+                            : net.minecraft.world.InteractionResult.PASS);
+        }
+
+        @Override
+        public void onAttackEntity(AttackEntityHandler handler) {
+            net.fabricmc.fabric.api.event.player.AttackEntityCallback.EVENT.register(
+                    (player, level, hand, entity, hit) -> handler.handle(player, level, entity)
+                            ? net.minecraft.world.InteractionResult.SUCCESS
+                            : net.minecraft.world.InteractionResult.PASS);
+        }
+
+        @Override
+        public void onPlayerJoin(java.util.function.Consumer<ServerPlayer> listener) {
+            net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents.JOIN.register(
+                    (connection, sender, server) -> listener.accept(connection.getPlayer()));
+        }
+
+        @Override
         public void sendToPlayer(ServerPlayer player, CustomPacketPayload payload) {
             net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking.send(player, payload);
         }
@@ -380,6 +429,39 @@ public sealed interface Platform {
                                 player.displayClientMessage(message, true);
                                 event.setCanceled(true);
                             });
+                        }
+                    });
+        }
+
+        @Override
+        public void onAttackBlock(AttackBlockHandler handler) {
+            net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
+                    net.neoforged.neoforge.event.entity.player.PlayerInteractEvent.LeftClickBlock.class, event -> {
+                        if (event.getAction()
+                                        == net.neoforged.neoforge.event.entity.player.PlayerInteractEvent.LeftClickBlock
+                                                .Action.START
+                                && handler.handle(event.getEntity(), event.getLevel(), event.getPos())) {
+                            event.setCanceled(true);
+                        }
+                    });
+        }
+
+        @Override
+        public void onAttackEntity(AttackEntityHandler handler) {
+            net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
+                    net.neoforged.neoforge.event.entity.player.AttackEntityEvent.class, event -> {
+                        if (handler.handle(event.getEntity(), event.getEntity().level(), event.getTarget())) {
+                            event.setCanceled(true);
+                        }
+                    });
+        }
+
+        @Override
+        public void onPlayerJoin(java.util.function.Consumer<ServerPlayer> listener) {
+            net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
+                    net.neoforged.neoforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent.class, event -> {
+                        if (event.getEntity() instanceof ServerPlayer player) {
+                            listener.accept(player);
                         }
                     });
         }

@@ -92,7 +92,7 @@ public class TriggerBlock extends Block implements EntityBlock {
         };
     }
 
-    /** The wrench is used on the block; everything else opens the dialog. */
+    /** The wrench and the debugging tool are used on the block; everything else opens the dialog. */
     @Override
     protected ItemInteractionResult useItemOn(
             ItemStack stack,
@@ -102,7 +102,7 @@ public class TriggerBlock extends Block implements EntityBlock {
             Player player,
             InteractionHand hand,
             BlockHitResult hitResult) {
-        return stack.getItem() instanceof WrenchItem
+        return stack.getItem() instanceof WrenchItem || stack.getItem() instanceof de.joernott.c0de.item.DebugToolItem
                 ? ItemInteractionResult.SKIP_DEFAULT_BLOCK_INTERACTION
                 : ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
     }

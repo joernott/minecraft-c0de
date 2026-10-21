@@ -72,6 +72,9 @@ ITEMS = [
     ("data_item", "Data Item", "Datenkarte"),
     ("variable_item", "Variable", "Variable"),
     ("constant_item", "Constant", "Konstante"),
+    ("debug_tool", "Debugging Tool", "Debugging-Werkzeug"),
+    ("marker", "Text Marker", "Textmarker"),
+    ("hammer", "Hammer", "Hammer"),
 ]
 
 # Type items: (type, ingredient(s) of the type block)
@@ -187,6 +190,11 @@ def recipes() -> dict[str, dict]:
     for trigger, center, count, _, _ in TRIGGERS:
         r[trigger] = shaped(
             ["ABA", "BCB", "ABA"], {"A": mc("copper_ingot"), "B": mc("glass"), "C": mc(center)}, c0de(trigger), count)
+    r["debug_tool"] = shaped(
+        ["  A", " B ", "C  "], {"A": mc("leather"), "B": mc("stick"), "C": mc("red_wool")}, c0de("debug_tool"))
+    r["marker"] = shapeless([mc("feather"), mc("yellow_dye")], c0de("marker"))
+    r["hammer"] = shaped(
+        ["AAA", " A ", " B "], {"A": mc("iron_ingot"), "B": mc("red_wool")}, c0de("hammer"))
     r["data_item"] = shapeless([mc("paper"), mc("white_dye"), mc("yellow_dye")], c0de("data_item"), 4)
     for type_name, ingredient_ in TYPE_ITEMS:
         source = [mc(i) for i in ingredient_] if isinstance(ingredient_, list) else mc(ingredient_)
@@ -217,6 +225,18 @@ MESSAGES = [
     ("block.c0de.cursor_c0de_bedrock", "Cursor c0de Bedrock", "Cursor-c0de-Grundgestein"),
     ("block.c0de.pid_block", "PID Block", "PID-Block"),
     ("entity.c0de.cursor", "Cursor", "Cursor"),
+    ("entity.c0de.mark", "Mark", "Markierung"),
+    ("message.c0de.debug", "Debug cursor: %s", "Debug-Cursor: %s"),
+    ("message.c0de.debug_started", "Debug process started, PID %s", "Debug-Prozess gestartet, PID %s"),
+    ("message.c0de.not_started", "Not started: %s", "Nicht gestartet: %s"),
+    ("message.c0de.not_marked", "This line is not marked", "Diese Zeile ist nicht markiert"),
+    ("message.c0de.selected", "Lines %s to %s selected; right-click the line in front of which they are moved",
+     "Zeilen %s bis %s ausgewählt; Rechtsklick auf die Zeile, vor die sie verschoben werden"),
+    ("message.c0de.no_selection", "Select marked lines with a left click first",
+     "Wähle zuerst markierte Zeilen mit einem Linksklick aus"),
+    ("message.c0de.move_inside", "The lines can't be moved there", "Die Zeilen können nicht dorthin verschoben werden"),
+    ("message.c0de.moved", "Lines %s to %s moved in front of line %s", "Zeilen %s bis %s vor Zeile %s verschoben"),
+    ("message.c0de.deleted", "Lines %s to %s deleted", "Zeilen %s bis %s gelöscht"),
     ("message.c0de.protected", "The program %s is running (PID %s), its sheet can't be changed",
      "Das Programm %s läuft (PID %s), sein Blatt kann nicht geändert werden"),
     ("dialog.c0de.trigger.input", "Input", "Eingabe"),

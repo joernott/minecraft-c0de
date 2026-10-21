@@ -27,6 +27,7 @@ public final class C0deNeoForgeClient {
             event.registerBlockEntityRenderer(C0deBlockEntities.TRIGGER.get(), ProcessRenderers.Camouflage::new);
             event.registerBlockEntityRenderer(C0deBlockEntities.PID.get(), ProcessRenderers.Pid::new);
             event.registerEntityRenderer(C0deEntities.CURSOR.get(), ProcessRenderers.Cursor::new);
+            event.registerEntityRenderer(C0deEntities.MARK.get(), ProcessRenderers.Mark::new);
         });
         modEventBus.addListener(net.neoforged.neoforge.client.event.RegisterMenuScreensEvent.class,
                 event -> event.register(C0deMenus.TRIGGER.get(), TriggerScreen::new));

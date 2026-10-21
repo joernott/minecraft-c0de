@@ -1,13 +1,19 @@
 package de.joernott.c0de.entity;
 
+import de.joernott.c0de.item.DebugToolItem;
+import de.joernott.c0de.tool.Inspector;
 import java.util.UUID;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 
 /**
@@ -59,6 +65,18 @@ public class CursorEntity extends Entity {
     public boolean isPickable() {
         // The debugging tool interacts with cursors (sprint 9)
         return true;
+    }
+
+    /** Right-clicking a cursor with the debugging tool shows its properties and stack. */
+    @Override
+    public InteractionResult interact(Player player, InteractionHand hand) {
+        if (!(player.getItemInHand(hand).getItem() instanceof DebugToolItem)) {
+            return InteractionResult.PASS;
+        }
+        if (player instanceof ServerPlayer serverPlayer) {
+            Inspector.inspectCursor(serverPlayer, this);
+        }
+        return InteractionResult.sidedSuccess(level().isClientSide());
     }
 
     @Override

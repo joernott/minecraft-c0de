@@ -18,6 +18,7 @@ public final class DialogScreens {
                     case "comment" -> new CommentScreen(payload);
                     case "tag" -> new TagScreen(payload);
                     case "value_item" -> new ValueItemScreen(payload);
+                    case "inspect" -> new InspectScreen(payload);
                     default -> null;
                 };
         if (screen == null) {

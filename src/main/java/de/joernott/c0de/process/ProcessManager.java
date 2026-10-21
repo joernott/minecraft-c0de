@@ -9,7 +9,9 @@ import de.joernott.c0de.content.C0deItems;
 import de.joernott.c0de.core.config.C0deConfig;
 import de.joernott.c0de.core.cursor.Cursor;
 import de.joernott.c0de.core.cursor.CursorSettings;
+import de.joernott.c0de.core.cursor.CursorInspection;
 import de.joernott.c0de.core.cursor.CursorSnapshot;
+import de.joernott.c0de.core.cursor.CursorState;
 import de.joernott.c0de.core.edit.ItemRules;
 import de.joernott.c0de.core.error.C0deException;
 import de.joernott.c0de.core.eval.Declarations;
@@ -121,7 +123,8 @@ public class ProcessManager extends SavedData {
             List<String> parameterNames,
             int parameterItems,
             List<ChunkPos> chunks,
-            UUID entity) {}
+            UUID entity,
+            boolean debug) {}
 
     /** The processes running on a sheet, as program name and PIDs for messages. */
     public List<Integer> pids(int sheet) {
@@ -152,7 +155,7 @@ public class ProcessManager extends SavedData {
      *
      * @return the reason if the process can't be started
      */
-    public Optional<String> start(ServerLevel triggerLevel, TriggerBlockEntity trigger) {
+    public Optional<String> start(ServerLevel triggerLevel, TriggerBlockEntity trigger, boolean debug) {
         MinecraftServer server = triggerLevel.getServer();
         ServerLevel c0de = server.getLevel(C0deDimension.LEVEL);
         if (trigger.isRunning()) {
@@ -198,6 +201,10 @@ public class ProcessManager extends SavedData {
         UUID id = UUID.randomUUID();
         CursorSettings settings = settings(server, c0de.getRandom().nextLong());
         Cursor cursor = new Cursor(program, trigger.function(), inputs, settings);
+        if (debug) {
+            // A debug cursor starts paused (docs/concept/15-cursor.md)
+            cursor.pause();
+        }
         BlockPos pidPos = LevelSheet.pidPos(sheet.getAsInt(), pid);
         c0de.setBlockAndUpdate(pidPos, C0deBlocks.PID_BLOCK.get().defaultBlockState());
         if (c0de.getBlockEntity(pidPos) instanceof PidBlockEntity pidBlock) {
@@ -205,7 +212,7 @@ public class ProcessManager extends SavedData {
         }
         ChunkPos triggerChunk = new ChunkPos(trigger.getBlockPos());
         triggerLevel.getChunkSource().addRegionTicket(TICKET, triggerChunk, 0, triggerChunk);
-        UUID entity = spawnCursor(c0de, id, sheet.getAsInt(), pid);
+        UUID entity = spawnCursor(c0de, id, sheet.getAsInt(), pid, debug);
         List<ItemStack> taken = new ArrayList<>();
         for (int i = 0; i < trigger.input().getContainerSize(); i++) {
             ItemStack item = trigger.input().removeItemNoUpdate(i);
@@ -230,7 +237,8 @@ public class ProcessManager extends SavedData {
                         List.copyOf(inputs.keySet()),
                         inputs.size(),
                         chunks,
-                        entity));
+                        entity,
+                        debug));
         trigger.started(id, pid, taken);
         setDirty();
         return Optional.empty();
@@ -362,9 +370,10 @@ public class ProcessManager extends SavedData {
         chunks.forEach(chunk -> level.getChunkSource().removeRegionTicket(TICKET, chunk, 0, chunk));
     }
 
-    private static UUID spawnCursor(ServerLevel c0de, UUID process, int sheet, int pid) {
+    private static UUID spawnCursor(ServerLevel c0de, UUID process, int sheet, int pid, boolean debug) {
         CursorEntity entity = new CursorEntity(C0deEntities.CURSOR.get(), c0de);
         entity.setProcess(process);
+        entity.setDebug(debug);
         BlockPos start = LevelSheet.pidPos(sheet, pid);
         // The cursor starts in the NOOP line after the PROGRAM line (docs/concept/15-cursor.md)
         entity.setPos(start.getX() + 0.5, pid, 1.5);
@@ -393,15 +402,82 @@ public class ProcessManager extends SavedData {
                     continue;
                 }
             }
-            if (c0de.getEntity(process.entity()) instanceof CursorEntity entity) {
-                BlockPos pos = LevelSheet.pidPos(process.sheet(), process.pid());
-                entity.setPos(pos.getX() + 0.5, process.pid(), cursor.line() + 0.5);
-            }
-            if (cursor.ended()) {
-                end(server, process, cursor.exitCode(), cursor.error() != null);
-            }
+            moved(server, process);
         }
         setDirty();
+    }
+
+    /** Moves the cursor entity to the line of the cursor and ends the process if the cursor has ended. */
+    private void moved(MinecraftServer server, Process process) {
+        ServerLevel c0de = server.getLevel(C0deDimension.LEVEL);
+        Cursor cursor = process.cursor();
+        if (c0de.getEntity(process.entity()) instanceof CursorEntity entity) {
+            BlockPos pos = LevelSheet.pidPos(process.sheet(), process.pid());
+            entity.setPos(pos.getX() + 0.5, process.pid(), cursor.line() + 0.5);
+        }
+        if (cursor.ended()) {
+            end(server, process, cursor.exitCode(), cursor.error() != null);
+        }
+    }
+
+    /**
+     * Controls a debug cursor (docs/concept/15-cursor.md): switches it between PAUSED and RUNNING, or moves a
+     * paused cursor by one line.
+     *
+     * @return the new state of the cursor for the message to the player, or the reason why nothing happened
+     */
+    public String debug(MinecraftServer server, UUID id, boolean toggle) {
+        Process process = processes.get(id);
+        if (process == null) {
+            return "The process has ended";
+        }
+        if (!process.debug()) {
+            return "Only debug cursors can be controlled";
+        }
+        Cursor cursor = process.cursor();
+        if (toggle) {
+            if (cursor.state() == CursorState.PAUSED) {
+                cursor.resume();
+            } else {
+                cursor.pause();
+            }
+        } else if (cursor.state() == CursorState.PAUSED) {
+            try {
+                cursor.stepOnce();
+            } catch (RuntimeException e) {
+                C0de.LOGGER.error("Process {} of {} failed", process.pid(), process.program(), e);
+                end(server, process, Cursor.CRASH_EXIT_CODE, true);
+                return "CRASHED";
+            }
+            moved(server, process);
+        } else {
+            return "The cursor is running; pause it first";
+        }
+        setDirty();
+        return cursor.ended() ? "ENDED, exit code " + cursor.exitCode() : cursor.state() + ", line " + cursor.line();
+    }
+
+    /** The data of the cursor dialog of the debugging tool: properties and stack of the cursor. */
+    public Optional<CompoundTag> inspect(UUID id) {
+        Process process = processes.get(id);
+        if (process == null) {
+            return Optional.empty();
+        }
+        Cursor cursor = process.cursor();
+        CompoundTag data = new CompoundTag();
+        data.putString("program", process.program());
+        data.putString("entry", process.function());
+        data.putInt("pid", process.pid());
+        data.putInt("line", cursor.line());
+        data.putString("state", cursor.state().name());
+        data.putString("function", cursor.currentFunction());
+        data.putBoolean("debug", process.debug());
+        data.putString("trigger", process.triggerLevel().location() + " " + process.triggerPos().getX() + " "
+                + process.triggerPos().getY() + " " + process.triggerPos().getZ());
+        ListTag stack = new ListTag();
+        CursorInspection.stack(cursor).forEach(line -> stack.add(net.minecraft.nbt.StringTag.valueOf(line)));
+        data.put("stack", stack);
+        return Optional.of(data);
     }
 
     /** Ends a process: the results and other items go to the trigger block, the cursor and PID block are removed. */
@@ -535,6 +611,7 @@ public class ProcessManager extends SavedData {
         tag.putString("triggerLevel", process.triggerLevel().location().toString());
         tag.putLong("triggerPos", process.triggerPos().asLong());
         tag.putInt("parameterItems", process.parameterItems());
+        tag.putBoolean("debug", process.debug());
         ListTag names = new ListTag();
         process.parameterNames().forEach(name -> names.add(net.minecraft.nbt.StringTag.valueOf(name)));
         tag.put("parameterNames", names);
@@ -593,7 +670,8 @@ public class ProcessManager extends SavedData {
                                 parameterNames,
                                 tag.getInt("parameterItems"),
                                 chunks,
-                                spawnCursor(c0de, id, sheet, pid)));
+                                spawnCursor(c0de, id, sheet, pid, tag.getBoolean("debug")),
+                                tag.getBoolean("debug")));
             } catch (RuntimeException e) {
                 C0de.LOGGER.error("Can't restore the process {} of {}", tag.getInt("pid"), tag.getString("program"), e);
             }

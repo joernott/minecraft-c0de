@@ -46,7 +46,7 @@ A text marker is crafted shapelessly from a feather and yellow dye.
 
 ## Wrench
 
-Every decent tech mod needs a wrench. This is the c0de wrench. Right-clicking a trigger block with the wrench [teleports the player into the c0de dimension](01-dimension.md#entering-and-leaving-the-dimension). On a sheet, the wrench is used to move marked code: the user left-clicks a marked area and then right-clicks a line outside that area. This moves the marked lines in front of (north of) that line.
+Every decent tech mod needs a wrench. This is the c0de wrench. Right-clicking a trigger block with the wrench [teleports the player into the c0de dimension](01-dimension.md#entering-and-leaving-the-dimension). On a sheet, the wrench is used to move marked code: the user left-clicks a marked area and then right-clicks a line outside that area. This moves the marked lines in front of (north of) that line. A marked area is a group of consecutive marked lines; the marks move with their lines.
 
 ### Crafting
 
@@ -74,7 +74,7 @@ A wrench is crafted from red wool and three iron ingots:
 
 ## Hammer
 
-Every decent tech mod needs a hammer. This is the c0de hammer. It is used to delete a single line or marked code: the user left-clicks a marked area or a single line, which removes the marked area or the line. The following lines are moved up (north) automatically.
+Every decent tech mod needs a hammer. This is the c0de hammer. It is used to delete a single line or marked code: the user left-clicks a marked area or a single line, which removes the marked area or the line. The following lines up to the next empty line are moved up (north) automatically. In survival mode, the removed blocks go to the inventory of the player.
 
 The wrench and the hammer can't be used on a sheet while a process of its program is running (see [Protection of running programs](13-running-programs.md#protection-of-running-programs)).
 

@@ -6,6 +6,7 @@ import de.joernott.c0de.gametest.CodeBlockTests;
 import de.joernott.c0de.gametest.DimensionTests;
 import de.joernott.c0de.gametest.ProcessTests;
 import de.joernott.c0de.gametest.SmokeTests;
+import de.joernott.c0de.gametest.ToolTests;
 import de.joernott.c0de.gametest.ValidationTests;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
@@ -129,6 +130,21 @@ public class NeoForgeGameTests {
     @GameTest(template = "empty")
     public static void valueItemsAreEdited(GameTestHelper helper) {
         ProcessTests.valueItemsAreEdited(helper);
+    }
+
+    @GameTest(template = "empty")
+    public static void debugCursorsArePausedAndStepped(GameTestHelper helper) {
+        ToolTests.debugCursorsArePausedAndStepped(helper);
+    }
+
+    @GameTest(template = "empty")
+    public static void linesAreMarkedMovedAndDeleted(GameTestHelper helper) {
+        ToolTests.linesAreMarkedMovedAndDeleted(helper);
+    }
+
+    @GameTest(template = "empty")
+    public static void onlyC0deBlocksAreInspected(GameTestHelper helper) {
+        ToolTests.onlyC0deBlocksAreInspected(helper);
     }
 }
 *///?}

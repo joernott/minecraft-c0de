@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import de.joernott.c0de.blockentity.PidBlockEntity;
 import de.joernott.c0de.blockentity.TriggerBlockEntity;
 import de.joernott.c0de.entity.CursorEntity;
+import de.joernott.c0de.entity.MarkEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.renderer.LevelRenderer;
@@ -102,6 +103,74 @@ public final class ProcessRenderers {
 
         @Override
         public ResourceLocation getTextureLocation(CursorEntity entity) {
+            return InventoryMenu.BLOCK_ATLAS;
+        }
+    }
+
+    /** Shows a marked line as a translucent yellow overlay over the code area of the line. */
+    public static class Mark extends EntityRenderer<MarkEntity> {
+        /** Half of the width of the code area (x=5 to x=28). */
+        private static final float HALF_WIDTH = 12.0F;
+
+        private static final float INFLATE = 0.01F;
+
+        public Mark(EntityRendererProvider.Context context) {
+            super(context);
+        }
+
+        @Override
+        public void render(
+                MarkEntity entity,
+                float yaw,
+                float partialTick,
+                PoseStack pose,
+                MultiBufferSource buffers,
+                int light) {
+            VertexConsumer quads = buffers.getBuffer(RenderType.debugQuads());
+            Matrix4f matrix = pose.last().pose();
+            float x0 = -HALF_WIDTH - INFLATE;
+            float x1 = HALF_WIDTH + INFLATE;
+            float y0 = -INFLATE;
+            float y1 = 1.0F + INFLATE;
+            float z0 = -0.5F - INFLATE;
+            float z1 = 0.5F + INFLATE;
+            float r = 1.0F;
+            float g = 0.9F;
+            float b = 0.2F;
+            float a = 0.3F;
+            // The render type has no culling, so every side is drawn once
+            side(quads, matrix, r, g, b, a, x0, y1, z0, x0, y1, z1, x1, y1, z1, x1, y1, z0);
+            side(quads, matrix, r, g, b, a, x0, y0, z0, x0, y1, z0, x1, y1, z0, x1, y0, z0);
+            side(quads, matrix, r, g, b, a, x0, y0, z1, x1, y0, z1, x1, y1, z1, x0, y1, z1);
+            side(quads, matrix, r, g, b, a, x0, y0, z0, x0, y0, z1, x0, y1, z1, x0, y1, z0);
+            side(quads, matrix, r, g, b, a, x1, y0, z0, x1, y1, z0, x1, y1, z1, x1, y0, z1);
+        }
+
+        private static void side(
+                VertexConsumer quads, Matrix4f matrix, float r, float g, float b, float a, float... corners) {
+            for (int i = 0; i < corners.length; i += 3) {
+                quads.addVertex(matrix, corners[i], corners[i + 1], corners[i + 2]).setColor(r, g, b, a);
+            }
+        }
+
+        @Override
+        public boolean shouldRender(
+                MarkEntity entity,
+                net.minecraft.client.renderer.culling.Frustum frustum,
+                double cameraX,
+                double cameraY,
+                double cameraZ) {
+            return frustum.isVisible(new net.minecraft.world.phys.AABB(
+                    entity.getX() - HALF_WIDTH,
+                    entity.getY(),
+                    entity.getZ() - 0.5,
+                    entity.getX() + HALF_WIDTH,
+                    entity.getY() + 1,
+                    entity.getZ() + 0.5));
+        }
+
+        @Override
+        public ResourceLocation getTextureLocation(MarkEntity entity) {
             return InventoryMenu.BLOCK_ATLAS;
         }
     }
