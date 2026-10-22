@@ -16,7 +16,7 @@ A trigger block can't start a process if
   - no process ID is available for the program, i.e. all y coordinates between 0 and the maximum build height above the PID position of the program are occupied,
   - the input inventory does not contain an item for every parameter of the function that has no default value,
   - the function has more results than parameters and the input inventory does not contain enough empty variable items to make up the difference,
-  - there are items in its output inventory, or
+  - its output inventory has not enough empty slots for the items the process returns (one per result, and one empty variable item per parameter item without result), or
   - (timer block only) it receives a redstone signal. A redstone signal pauses a timer block.
 
 Each trigger block has an owner (the player who configured it last, see [Owner and permissions](12-lib-minecraft.md#owner-and-permissions)), a property that contains the PID while a process is running, two properties that specify the program and the function to run, and a property that contains the exit code and the error of the last process. A timer block also has a property specifying the interval between activations. The user can set these properties in a dialog that opens when the block is right-clicked. The dialog has the following elements:
@@ -48,7 +48,9 @@ The text marker can still be used, as it does not change the program. Players wh
 
 Data is passed into a process as variable and constant items in the input inventory of the trigger block. Each item is assigned to the parameter of the entry function whose name matches the name property of the item. Its type MUST match the type of the parameter.
 
-When a process ends normally, one initialized variable item per result of the entry function is moved from the stack of the cursor to the output inventory. If the function has fewer results than parameters, empty variable items are added to make up the difference, so the number of items going into and out of a process is the same. All other items of the input inventory are moved to the output inventory.
+When a process ends normally, one initialized variable item per result of the entry function is moved from the stack of the cursor to the output inventory. If the function has fewer results than parameters, empty variable items are added to make up the difference, so the number of items going into and out of a process is the same.
+
+When a process starts, it takes only the items it uses out of the input inventory: one item per parameter with an item, and one empty variable item per result without parameter item. All other items stay in the input inventory. Empty (e.g. uninitialized) variable items can therefore be stacked in the input inventory for several runs.
 
 If there is exactly one block with an inventory adjacent to the trigger block and that inventory has sufficient capacity, all items in the output inventory are transferred to it automatically.
 

@@ -37,6 +37,7 @@ import de.joernott.c0de.sheet.ProgramRegistry;
 import java.time.Clock;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -56,6 +57,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.TicketType;
 import net.minecraft.util.datafix.DataFixTypes;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
@@ -170,9 +172,6 @@ public class ProcessManager extends SavedData {
         if (sheet.isEmpty()) {
             return Optional.of("The program " + trigger.program() + " doesn't exist");
         }
-        if (!trigger.output().isEmpty()) {
-            return Optional.of("The output inventory is not empty");
-        }
         List<ChunkPos> chunks = new ArrayList<>();
         Program program = ProgramParser.parse(load(c0de, sheet.getAsInt(), chunks));
         Statement.FunctionDeclaration declaration = function(program, trigger.function());
@@ -191,6 +190,12 @@ public class ProcessManager extends SavedData {
         if (problem.isPresent()) {
             release(c0de, chunks);
             return problem;
+        }
+        // The process returns one item per result, and an empty variable item per parameter item without result
+        int returned = Math.max(declaration.results().size(), inputs.size());
+        if (freeSlots(trigger.output()) < returned) {
+            release(c0de, chunks);
+            return Optional.of("The output inventory has no space for " + returned + " items");
         }
         int pid = freePid(c0de, sheet.getAsInt());
         if (pid < 0) {
@@ -216,14 +221,7 @@ public class ProcessManager extends SavedData {
         ChunkPos triggerChunk = new ChunkPos(trigger.getBlockPos());
         triggerLevel.getChunkSource().addRegionTicket(TICKET, triggerChunk, 0, triggerChunk);
         UUID entity = spawnCursor(c0de, id, sheet.getAsInt(), pid, debug);
-        List<ItemStack> taken = new ArrayList<>();
-        for (int i = 0; i < trigger.input().getContainerSize(); i++) {
-            ItemStack item = trigger.input().removeItemNoUpdate(i);
-            if (!item.isEmpty()) {
-                taken.add(item);
-            }
-        }
-        trigger.input().setChanged();
+        List<ItemStack> taken = take(trigger.input(), inputs.keySet(), declaration.results().size() - inputs.size());
         processes.put(
                 id,
                 new Process(
@@ -245,6 +243,49 @@ public class ProcessManager extends SavedData {
         trigger.started(id, pid, taken);
         setDirty();
         return Optional.empty();
+    }
+
+    private static int freeSlots(Container container) {
+        int free = 0;
+        for (int i = 0; i < container.getContainerSize(); i++) {
+            if (container.getItem(i).isEmpty()) {
+                free++;
+            }
+        }
+        return free;
+    }
+
+    /**
+     * Takes the items a process uses out of the input inventory: one item per parameter with an item, and the empty
+     * variable items for the results without parameter item. All other items stay in the input inventory, so
+     * empty variable items can be stacked there for several runs.
+     */
+    private static List<ItemStack> take(Container input, Collection<String> parameters, int empty) {
+        List<ItemStack> taken = new ArrayList<>();
+        for (String name : parameters) {
+            for (int i = 0; i < input.getContainerSize(); i++) {
+                if (!input.getItem(i).isEmpty() && ValueItem.Contents.of(input.getItem(i)).name().equals(name)) {
+                    taken.add(input.removeItem(i, 1));
+                    break;
+                }
+            }
+        }
+        for (int i = 0; i < input.getContainerSize() && empty > 0; i++) {
+            ItemStack item = input.getItem(i);
+            if (isEmptyVariable(item)) {
+                ItemStack removed = input.removeItem(i, empty);
+                empty -= removed.getCount();
+                taken.add(removed);
+            }
+        }
+        input.setChanged();
+        return taken;
+    }
+
+    private static boolean isEmptyVariable(ItemStack item) {
+        return item.getItem() instanceof ValueItem value
+                && !value.isConstant()
+                && ValueItem.Contents.of(item).isEmpty();
     }
 
     /** The settings of a cursor; the host gives c0de/minecraft access to the world. */
@@ -280,7 +321,7 @@ public class ProcessManager extends SavedData {
         TypeRegistry types = structTypes(program);
         int empty = 0;
         for (ItemStack item : items) {
-            if (item.getItem() instanceof ValueItem value && !value.isConstant() && ValueItem.Contents.of(item).isEmpty()) {
+            if (isEmptyVariable(item)) {
                 empty += item.getCount();
             }
         }
@@ -538,7 +579,8 @@ public class ProcessManager extends SavedData {
 
     /**
      * The items a process returns: one variable item per result, empty variable items for parameters without a
-     * result, and all items that were not used.
+     * result, and the items that were held but not used (only processes saved before the input inventory kept
+     * unused items hold those).
      */
     private static List<ItemStack> outputs(Process process, List<ItemStack> held) {
         List<ItemStack> remaining = new ArrayList<>(copies(held));
@@ -555,11 +597,7 @@ public class ProcessManager extends SavedData {
         // Empty variable items make up for results that have no parameter item
         int emptyNeeded = Math.max(0, results.size() - process.parameterItems());
         for (ItemStack item : remaining) {
-            while (emptyNeeded > 0
-                    && !item.isEmpty()
-                    && item.getItem() instanceof ValueItem value
-                    && !value.isConstant()
-                    && ValueItem.Contents.of(item).isEmpty()) {
+            while (emptyNeeded > 0 && !item.isEmpty() && isEmptyVariable(item)) {
                 item.shrink(1);
                 emptyNeeded--;
             }

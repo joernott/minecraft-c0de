@@ -271,3 +271,12 @@ Tests 1 to 4 worked, I did not test #5 yet. Because I encountered  bug.
 If there are more results than parameters to a function, the function wants an uninitialized variable in it's inputs. Currently we don't have those, as they already have a type. It is not possible to remove the type from a variable item, because you can't click the button if it is missing.
 
 Please add an item "uninitialized variable" that can be crafted just with the data item and dye. Add a trashcan button in the dialog that erases all property content. Also allow the player to clean the three fields by themselves. Both actions result in an unitilaized variable item.
+
+## 2026-10-22 – Permissions, uninitialized inputs and output space
+
+Tests 1-3 are fine
+Test 4 failed: I placed a block and used REMOVE_BLOCK to break it. Then, I replaced the block, changed my game mode to survival before clicking the debug trigger with the debug tool. Then I shift clicked the cursor again and it broke the block again.
+
+I also noted, that all items from the input are transferred to the output of the trigger block. Only initialized variables should be moved and the number of uninitialized variables reduced by the needed amount. The rest of them should remain. Thus, one can stack them in the input.
+
+Another thing: Triggering a run should always work, if there is enough space in the output inventory. Only if it is full, a trigger should fail.

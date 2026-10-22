@@ -101,6 +101,61 @@ public final class ProcessTests {
         });
     }
 
+    /**
+     * A process takes only the items it uses: of a stack of uninitialized variable items, one per result without
+     * parameter. Other items stay in the input inventory. Items in the output inventory don't prevent the start
+     * as long as there is space for the results; a full output inventory does.
+     */
+    public static void processesTakeOnlyTheItemsTheyUse(GameTestHelper helper) {
+        ServerLevel level = c0de(helper);
+        SheetBuilder sheet = new SheetBuilder(level, 514).place("""
+                PROGRAM pairs
+                NOOP
+                FUNCTION pair
+                    RESULT first INTEGER
+                    RESULT second INTEGER
+                BEGIN
+                    ASSIGN first 1 ;
+                    ASSIGN second 2 ;
+                END FUNCTION
+                """);
+        SheetValidation.validate(level, 514);
+        helper.setBlock(BlockPos.ZERO, C0deBlocks.TRIGGER_BLOCK.get());
+        TriggerBlockEntity trigger = (TriggerBlockEntity) helper.getBlockEntity(BlockPos.ZERO);
+        trigger.configure(helper.makeMockServerPlayerInLevel(), "pairs", "pair", 20);
+        trigger.input().setItem(0, new ItemStack(C0deItems.VARIABLE_ITEM.get(), 5));
+        trigger.input().setItem(1, variable("spare", "INTEGER", "3"));
+        trigger.output().setItem(0, variable("old", "INTEGER", "4"));
+        trigger.start();
+        helper.assertTrue(trigger.isRunning(), "The process didn't start: " + trigger.status());
+        helper.assertTrue(trigger.input().getItem(0).getCount() == 3, "Uninitialized items left: "
+                + trigger.input().getItem(0).getCount());
+        helper.assertTrue(
+                ValueItem.Contents.of(trigger.input().getItem(1)).name().equals("spare"), "The spare item was taken");
+        helper.runAfterDelay(40, () -> {
+            try {
+                helper.assertTrue(!trigger.isRunning(), "The process is still running");
+                String names = "";
+                for (int i = 0; i < trigger.output().getContainerSize(); i++) {
+                    if (!trigger.output().getItem(i).isEmpty()) {
+                        names += ValueItem.Contents.of(trigger.output().getItem(i)).name() + " ";
+                    }
+                }
+                helper.assertTrue(names.equals("old first second "), "The output contains " + names);
+                for (int i = 0; i < trigger.output().getContainerSize(); i++) {
+                    trigger.output().setItem(i, variable("old" + i, "INTEGER", "4"));
+                }
+                trigger.start();
+                helper.assertTrue(!trigger.isRunning(), "The process started with a full output inventory");
+                helper.assertTrue(trigger.status().contains("no space"), "The status is " + trigger.status());
+            } finally {
+                sheet.clear();
+                SheetValidation.validate(level, 514);
+            }
+            helper.succeed();
+        });
+    }
+
     /** A process returns its results as variable items, and a comparator reads its exit code. */
     public static void processesReturnTheirResults(GameTestHelper helper) {
         ServerLevel level = c0de(helper);

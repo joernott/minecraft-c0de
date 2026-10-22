@@ -111,6 +111,11 @@ public class FabricGameTests implements FabricGameTest {
     }
 
     @GameTest(template = SmokeTests.EMPTY_STRUCTURE)
+    public void processesTakeOnlyTheItemsTheyUse(GameTestHelper helper) {
+        ProcessTests.processesTakeOnlyTheItemsTheyUse(helper);
+    }
+
+    @GameTest(template = SmokeTests.EMPTY_STRUCTURE)
     public void missingInputsPreventTheStart(GameTestHelper helper) {
         ProcessTests.missingInputsPreventTheStart(helper);
     }
