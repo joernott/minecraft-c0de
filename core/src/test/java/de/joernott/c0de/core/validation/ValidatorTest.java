@@ -49,11 +49,12 @@ class ValidatorTest {
         Validation validation = validate(program);
         StringBuilder states = new StringBuilder();
         for (int z = 0; z < validation.endLine(); z++) {
-            states.append(switch (validation.state(z)) {
-                case VALID -> 'V';
-                case INCOMPLETE -> 'I';
-                case INVALID -> 'X';
-            });
+            states.append(
+                    switch (validation.state(z)) {
+                        case VALID -> 'V';
+                        case INCOMPLETE -> 'I';
+                        case INVALID -> 'X';
+                    });
         }
         return states.toString();
     }

@@ -278,8 +278,7 @@ public final class ProgramParser {
         if (begin == null || !begin.startsWith(Keyword.BEGIN)) {
             if (begin == null) {
                 // The program ends before the code block: it is not written yet
-                throw C0deException.incomplete(
-                        sheet.size(), missingBegin, owner + " must be followed by a BEGIN line");
+                throw C0deException.incomplete(sheet.size(), missingBegin, owner + " must be followed by a BEGIN line");
             }
             throw C0deException.at(begin.z(), missingBegin, owner + " must be followed by a BEGIN line");
         }
