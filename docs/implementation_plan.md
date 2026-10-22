@@ -6,7 +6,7 @@ This plan implements the [c0de concept](concept.md) in sprints. Each sprint has 
 
   - **Interpreter first, in plain Java.** The module `core` contains the whole language without Minecraft: line model, parser, types, expressions, cursor, functions and the libraries c0de/math, c0de/strings and c0de/time. It is developed test-first with JUnit. The Minecraft modules only translate blocks into the line model, run cursors and provide c0de/minecraft.
   - **Both loaders from the first line of code.** Every sprint delivers Fabric and NeoForge. Loader-specific code is kept small and behind a platform interface.
-  - **One Minecraft version until 1.0, then the others.** Sprints 1–11 target 1.21.1 only. Mojang names are used from the start, so the port to newer versions (sprint 12) doesn't need a mapping migration.
+  - **One Minecraft version until the first release, then the others.** Sprints 1–11 target 1.21.1 only. Mojang names are used from the start, so the port to newer versions (sprint 12) doesn't need a mapping migration.
   - **Every sprint ends with a working mod.** CI is green for both loaders, and the result of the sprint can be shown in the game (from sprint 2 on).
 
 ## Branching and commits
@@ -45,7 +45,7 @@ A task is done when
 | 8 | Processes | Trigger, timer, PID block and cursor run programs in the world | ✅ |
 | 9 | Debugging and tools | Debug cursor, debugging tool, marker, wrench, hammer | ✅ |
 | 10 | c0de/minecraft and c0de disk | Programs interact with the world; programs are imported and exported as YAML | ✅ |
-| 11 | Release 1.0 for 1.21.1 | Polished, documented and published mod |  |
+| 11 | Release 0.1.0 for 1.21.1 | Polished, documented and published first alpha of the mod |  |
 | 12 | Newer Minecraft versions | The mod is released for 1.21.x and 26.x |  |
 
 ## Sprint 0: Concept and plan
@@ -215,18 +215,20 @@ A task is done when
 | 10.6.3 | Trigger blocks as containers for hoppers, pipes and cables (input from all sides, output to all sides; NeoForge item handler capability), so trigger blocks can be chained. | ✅ |
 | 10.7 | Round-trip tests: every example program of the test suite survives export and import unchanged. | ✅ |
 
-## Sprint 11: Release 1.0 for Minecraft 1.21.1
+## Sprint 11: Release 0.1.0 for Minecraft 1.21.1
 
-**Goal:** the mod is published for Fabric and NeoForge 1.21.1.
+**Goal:** the first alpha of the mod (version 0.1.0) is published for Fabric and NeoForge 1.21.1.
 
 | Task | Description | Done |
 |---|---|:---:|
 | 11.1 | Final textures and sounds, review of all block and item looks. |  |
-| 11.2 | Player documentation: a guide with examples (Markdown in the repository and the Modrinth page); optionally an in-game book. |  |
-| 11.3 | Performance tests: many processes at the same time, large programs, deep recursion; tuning of the scheduler. |  |
-| 11.4 | Multiplayer tests on the Docker servers with several clients (development clients and Modrinth App profiles), including non-operator players and permissions. |  |
-| 11.5 | Workflow `release.yml`, Modrinth project, changelog. |  |
-| 11.6 | Release 1.0.0. |  |
+| 11.2 | Block shapes: the PARAMETER block has the shape of a hopper (recolored), the RESULT block the same shape upside down; BEGIN and END are trapezoids. |  |
+| 11.3 | Line numbers: every line with content shows its number on the floor at x=2. The color shows the state of the line: a faint shade of the floor for NOOP and COMMENT lines, dark red for a wrong line, dark yellow for an incomplete statement (e.g. BEGIN without END, FUNCTION without code block), dark green for a correct line. |  |
+| 11.4 | Player documentation: a guide with examples (Markdown in the repository and the Modrinth page); optionally an in-game book. |  |
+| 11.5 | Performance tests: many processes at the same time, large programs, deep recursion; tuning of the scheduler. |  |
+| 11.6 | Multiplayer tests on the Docker servers with several clients (development clients and Modrinth App profiles), including non-operator players and permissions. |  |
+| 11.7 | Workflow `release.yml`, Modrinth project, changelog. |  |
+| 11.8 | Release 0.1.0 (first alpha). |  |
 
 ## Sprint 12: Newer Minecraft versions
 
