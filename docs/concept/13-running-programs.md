@@ -57,7 +57,9 @@ When a process starts, it takes out of the input inventory
 
 Empty items that are not needed stay in the input inventory. Empty (e.g. uninitialized) variable items can therefore be stacked in the input inventory for several runs.
 
-If there is exactly one block with an inventory adjacent to the trigger block and that inventory has sufficient capacity, all items in the output inventory are transferred to it automatically. An adjacent trigger block counts as a block with an inventory: the items go into its input inventory, so trigger blocks can be chained.
+If there is exactly one block with an inventory adjacent to the trigger block and that inventory has sufficient capacity, all items in the output inventory are transferred to it automatically. An adjacent trigger block counts as a block with an inventory: the items go into its input inventory. A hopper that points into the trigger block doesn't count, so items don't go round in circles.
+
+Hoppers, pipes and cables can access the inventories of a trigger block from all sides: they can put variable and constant items into the input inventory and take items out of the output inventory. A hopper above or beside a trigger block fills its input, a hopper below it empties its output. This way, chains of any length can be built, e.g. trigger block → hopper → trigger block → hopper → chest.
 
 ## Ending a process
 

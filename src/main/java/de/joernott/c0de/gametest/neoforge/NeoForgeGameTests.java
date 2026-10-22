@@ -125,6 +125,11 @@ public class NeoForgeGameTests {
     }
 
     @GameTest(template = "empty")
+    public static void hoppersChainTriggerBlocks(GameTestHelper helper) {
+        ProcessTests.hoppersChainTriggerBlocks(helper);
+    }
+
+    @GameTest(template = "empty")
     public static void missingInputsPreventTheStart(GameTestHelper helper) {
         ProcessTests.missingInputsPreventTheStart(helper);
     }

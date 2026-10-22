@@ -292,3 +292,7 @@ Before I start, please also move all initialized variables from the input to the
 2: I placed a second trigger behind my debug trigger. The output of the debug trigger was not fed into the only adjacent inventory (the next trigger). I repeated the test with two regular triggers but that didn't work either.
 4: I opened to lan, set the game mode to survival and cheats off. Then I placed a new trigger and configured it and that one could still break the block. 
 I changed game mode to survival in the chat, just to make sure and repeated the test and it broke the block again
+
+## 2026-10-22 – Hoppers and pipes for trigger blocks
+
+let's go with solution 1. Most of my modded worlds also include pipes and cables, so that should work in a more compact way.

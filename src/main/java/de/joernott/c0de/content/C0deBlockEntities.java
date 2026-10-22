@@ -44,6 +44,8 @@ public final class C0deBlockEntities {
                         C0deBlocks.TRIGGER_BLOCK.get(),
                         C0deBlocks.TIMER_BLOCK.get(),
                         C0deBlocks.DEBUG_TRIGGER_BLOCK.get()));
+        // Hoppers, pipes and cables fill the input and empty the output of trigger blocks
+        Platform.INSTANCE.exposeContainer(TRIGGER);
         PID = Platform.INSTANCE.register(
                 BuiltInRegistries.BLOCK_ENTITY_TYPE,
                 "pid",

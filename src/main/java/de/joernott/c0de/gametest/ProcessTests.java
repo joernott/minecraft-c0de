@@ -196,6 +196,55 @@ public final class ProcessTests {
         });
     }
 
+    /**
+     * A hopper below a trigger block empties its output and fills the input of the next trigger block. A chest next
+     * to the first trigger block makes the automatic transfer ambiguous, so only the hopper moves the items.
+     */
+    public static void hoppersChainTriggerBlocks(GameTestHelper helper) {
+        ServerLevel level = c0de(helper);
+        SheetBuilder sheet = new SheetBuilder(level, 516).place("""
+                PROGRAM hopping
+                NOOP
+                FUNCTION pair
+                    RESULT first INTEGER
+                BEGIN
+                    ASSIGN first 1 ;
+                END FUNCTION
+                """);
+        SheetValidation.validate(level, 516);
+        BlockPos firstPos = new BlockPos(0, 2, 0);
+        BlockPos secondPos = new BlockPos(1, 1, 0);
+        helper.setBlock(firstPos, C0deBlocks.TRIGGER_BLOCK.get());
+        helper.setBlock(new BlockPos(0, 2, 1), Blocks.CHEST);
+        helper.setBlock(new BlockPos(0, 1, 0), Blocks.HOPPER.defaultBlockState()
+                .setValue(net.minecraft.world.level.block.HopperBlock.FACING, net.minecraft.core.Direction.EAST));
+        helper.setBlock(secondPos, C0deBlocks.TRIGGER_BLOCK.get());
+        TriggerBlockEntity first = (TriggerBlockEntity) helper.getBlockEntity(firstPos);
+        TriggerBlockEntity second = (TriggerBlockEntity) helper.getBlockEntity(secondPos);
+        first.configure(helper.makeMockServerPlayerInLevel(), "hopping", "pair", 20);
+        first.input().setItem(0, new ItemStack(C0deItems.VARIABLE_ITEM.get()));
+        first.input().setItem(1, variable("spare", "INTEGER", "3"));
+        first.start();
+        helper.assertTrue(first.isRunning(), "The process didn't start: " + first.status());
+        helper.runAfterDelay(80, () -> {
+            try {
+                helper.assertTrue(!first.isRunning(), "The process is still running");
+                helper.assertTrue(first.output().isEmpty(), "The hopper didn't empty the output");
+                String names = "";
+                for (int i = 0; i < second.input().getContainerSize(); i++) {
+                    if (!second.input().getItem(i).isEmpty()) {
+                        names += ValueItem.Contents.of(second.input().getItem(i)).name() + " ";
+                    }
+                }
+                helper.assertTrue(names.equals("first spare "), "The next input contains " + names);
+            } finally {
+                sheet.clear();
+                SheetValidation.validate(level, 516);
+            }
+            helper.succeed();
+        });
+    }
+
     /** A process returns its results as variable items, and a comparator reads its exit code. */
     public static void processesReturnTheirResults(GameTestHelper helper) {
         ServerLevel level = c0de(helper);

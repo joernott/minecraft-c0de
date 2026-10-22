@@ -77,6 +77,13 @@ public sealed interface Platform {
     <T extends BlockEntity> BlockEntityType<T> blockEntityType(
             BiFunction<BlockPos, BlockState, T> factory, Block... blocks);
 
+    /**
+     * Makes the container of a block entity type available to pipes and cables of other mods. Fabric's transfer
+     * API finds containers by itself; NeoForge needs an item handler capability.
+     */
+    <T extends BlockEntity & net.minecraft.world.WorldlyContainer> void exposeContainer(
+            Supplier<BlockEntityType<T>> type);
+
     /** Calls the listener at the end of every server tick. */
     void onServerTickEnd(java.util.function.Consumer<net.minecraft.server.MinecraftServer> listener);
 
@@ -207,6 +214,12 @@ public sealed interface Platform {
             return net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder.create(
                             factory::apply, blocks)
                     .build();
+        }
+
+        @Override
+        public <T extends BlockEntity & net.minecraft.world.WorldlyContainer> void exposeContainer(
+                Supplier<BlockEntityType<T>> type) {
+            // The transfer API wraps block entities that are containers by itself
         }
 
         @Override
@@ -380,6 +393,19 @@ public sealed interface Platform {
         public <T extends BlockEntity> BlockEntityType<T> blockEntityType(
                 BiFunction<BlockPos, BlockState, T> factory, Block... blocks) {
             return BlockEntityType.Builder.of(factory::apply, blocks).build(null);
+        }
+
+        @Override
+        public <T extends BlockEntity & net.minecraft.world.WorldlyContainer> void exposeContainer(
+                Supplier<BlockEntityType<T>> type) {
+            modEventBus.addListener(
+                    net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent.class,
+                    event -> event.registerBlockEntity(
+                            net.neoforged.neoforge.capabilities.Capabilities.ItemHandler.BLOCK,
+                            type.get(),
+                            (entity, side) -> side == null
+                                    ? new net.neoforged.neoforge.items.wrapper.InvWrapper(entity)
+                                    : new net.neoforged.neoforge.items.wrapper.SidedInvWrapper(entity, side)));
         }
 
         @Override

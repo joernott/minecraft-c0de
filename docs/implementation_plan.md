@@ -212,6 +212,7 @@ A task is done when
 | 10.6 | c0de disk item with its dialogs. | ✅ |
 | 10.6.1 | Uninitialized variable and constant items (crafted from a data item and dye) as targets of results without a parameter; trash can button in the item dialog, saving empty fields makes an item uninitialized. | ✅ |
 | 10.6.2 | A process takes the items it uses from the input inventory and passes all other initialized items through to the output; unneeded empty variable items stay. It starts as long as the output inventory has space for its items. The output goes into an adjacent trigger block (chaining). | ✅ |
+| 10.6.3 | Trigger blocks as containers for hoppers, pipes and cables (input from all sides, output to all sides; NeoForge item handler capability), so trigger blocks can be chained. | ✅ |
 | 10.7 | Round-trip tests: every example program of the test suite survives export and import unchanged. | ✅ |
 
 ## Sprint 11: Release 1.0 for Minecraft 1.21.1

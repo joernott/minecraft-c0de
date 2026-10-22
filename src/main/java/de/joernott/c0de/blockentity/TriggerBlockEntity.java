@@ -4,6 +4,7 @@ import de.joernott.c0de.block.TriggerBlock;
 import de.joernott.c0de.content.C0deBlockEntities;
 import de.joernott.c0de.core.validation.Validation;
 import de.joernott.c0de.dimension.C0deDimension;
+import de.joernott.c0de.item.ValueItem;
 import de.joernott.c0de.menu.TriggerMenu;
 import de.joernott.c0de.platform.Platform;
 import de.joernott.c0de.process.ProcessManager;
@@ -29,21 +30,29 @@ import net.minecraft.world.Container;
 import net.minecraft.world.Containers;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.HopperBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.HopperBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
 /**
  * The configuration, inventories and state of a trigger block: owner, program, function, timer interval, the
  * running process, the exit code and error of the last process, the input and output inventories and the
  * camouflage slot.
+ *
+ * <p>For hoppers, pipes and cables, the block is a container of the input (slots 0 to 26) and output (slots 27 to
+ * 53) inventories on all sides: variable and constant items can only be put into the input, and items can only be
+ * taken out of the output. A hopper above or beside the block fills the input, a hopper below it empties the
+ * output, so trigger blocks can be chained.
  */
-public class TriggerBlockEntity extends BlockEntity implements MenuProvider {
+public class TriggerBlockEntity extends BlockEntity implements MenuProvider, WorldlyContainer {
     public static final int INVENTORY_SIZE = 27;
     public static final int MIN_INTERVAL = 1;
     public static final int MAX_INTERVAL = 72_000;
@@ -90,6 +99,75 @@ public class TriggerBlockEntity extends BlockEntity implements MenuProvider {
                 TriggerBlockEntity.this.setChanged();
             }
         };
+    }
+
+    // ------------------------------------------------------------------------- container for hoppers and pipes
+
+    private static final int[] SLOTS = java.util.stream.IntStream.range(0, 2 * INVENTORY_SIZE).toArray();
+
+    private SimpleContainer part(int slot) {
+        return slot < INVENTORY_SIZE ? input : output;
+    }
+
+    @Override
+    public int getContainerSize() {
+        return 2 * INVENTORY_SIZE;
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return input.isEmpty() && output.isEmpty();
+    }
+
+    @Override
+    public ItemStack getItem(int slot) {
+        return part(slot).getItem(slot % INVENTORY_SIZE);
+    }
+
+    @Override
+    public ItemStack removeItem(int slot, int amount) {
+        return part(slot).removeItem(slot % INVENTORY_SIZE, amount);
+    }
+
+    @Override
+    public ItemStack removeItemNoUpdate(int slot) {
+        return part(slot).removeItemNoUpdate(slot % INVENTORY_SIZE);
+    }
+
+    @Override
+    public void setItem(int slot, ItemStack stack) {
+        part(slot).setItem(slot % INVENTORY_SIZE, stack);
+    }
+
+    @Override
+    public boolean canPlaceItem(int slot, ItemStack stack) {
+        return slot < INVENTORY_SIZE && stack.getItem() instanceof ValueItem;
+    }
+
+    @Override
+    public boolean stillValid(Player player) {
+        return Container.stillValidBlockEntity(this, player);
+    }
+
+    @Override
+    public void clearContent() {
+        input.clearContent();
+        output.clearContent();
+    }
+
+    @Override
+    public int[] getSlotsForFace(Direction side) {
+        return SLOTS;
+    }
+
+    @Override
+    public boolean canPlaceItemThroughFace(int slot, ItemStack stack, Direction side) {
+        return canPlaceItem(slot, stack);
+    }
+
+    @Override
+    public boolean canTakeItemThroughFace(int slot, ItemStack stack, Direction side) {
+        return slot >= INVENTORY_SIZE;
     }
 
     public TriggerBlock.Kind kind() {
@@ -301,6 +379,11 @@ public class TriggerBlockEntity extends BlockEntity implements MenuProvider {
         Container target = null;
         for (Direction side : Direction.values()) {
             BlockEntity neighbor = level.getBlockEntity(worldPosition.relative(side));
+            if (neighbor instanceof HopperBlockEntity
+                    && neighbor.getBlockState().getValue(HopperBlock.FACING) == side.getOpposite()) {
+                // A hopper that fills this block is not a target, or the items would go round in circles
+                continue;
+            }
             // Trigger blocks can be chained: the output of one goes into the input of the next
             Container container = neighbor instanceof TriggerBlockEntity trigger
                     ? trigger.input()

@@ -121,6 +121,11 @@ public class FabricGameTests implements FabricGameTest {
     }
 
     @GameTest(template = SmokeTests.EMPTY_STRUCTURE)
+    public void hoppersChainTriggerBlocks(GameTestHelper helper) {
+        ProcessTests.hoppersChainTriggerBlocks(helper);
+    }
+
+    @GameTest(template = SmokeTests.EMPTY_STRUCTURE)
     public void missingInputsPreventTheStart(GameTestHelper helper) {
         ProcessTests.missingInputsPreventTheStart(helper);
     }
