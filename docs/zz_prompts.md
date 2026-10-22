@@ -300,3 +300,13 @@ let's go with solution 1. Most of my modded worlds also include pipes and cables
 ## 2026-10-22 – Sprint 10 checked
 
 All three tests worked fine now
+
+## 2026-10-22 – Finish sprint 10, start sprint 11
+
+Fast forward main but change the version to be released to 0.1.0 as this is the first alpha of the mod. 
+
+After 11.1, there should be another task: Different shapes of blocks. The PARAMETER block should actually take its model from an actual hopper buit it should be recolored. The RESULT block should use the same model but inverted. the begin and end shapes should become actual trapezoids.
+
+Also add another task below that: When a line has any content, show an overlay with the line number on the floor of the block at x=2. The line number should have a faint difference to the underlying blocks color for NOOPS and COMMENTS. For actual statements, it should be dark red if that line is incomplete or syntactically wrong, dark yellow if it is an incomlete statement like begin without an end, a function missing the code block etc. It should be dark green if that single line is syntactically correct (or in case of a multiline statement, the whole statement is correct)
+
+Complete 11.1 and these new 11.2 and 11.3 tasks, then let me have a look.
