@@ -14,10 +14,13 @@ import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 /** A language block of c0de: a keyword, type, NOOP or a block with properties. */
 public class CodeBlock extends Block {
@@ -62,6 +65,11 @@ public class CodeBlock extends Block {
                     .displayClientMessage(Component.translatable("message.c0de.not_placed", problem.get()), true);
         }
         return null;
+    }
+
+    @Override
+    protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        return CodeBlockShapes.of(type);
     }
 
     /** A new block on a sheet is validated with its program. */

@@ -344,6 +344,72 @@ SIDES = {
 }
 
 
+def element(start: list, end: list, faces: dict) -> dict:
+    """A cuboid of a block model. The UVs follow from the coordinates; faces on the block border are culled."""
+    border = {"down": start[1] == 0, "up": end[1] == 16, "north": start[2] == 0, "south": end[2] == 16,
+              "west": start[0] == 0, "east": end[0] == 16}
+    return {"from": start, "to": end, "faces": {
+        side: dict({"texture": texture}, **({"cullface": side} if border[side] else {}))
+        for side, texture in faces.items()}}
+
+
+def flipped(elements: list) -> list:
+    """The elements upside down: y is mirrored and the up and down faces swap."""
+    result = []
+    for e in elements:
+        faces = {("down" if s == "up" else "up" if s == "down" else s): f["texture"] for s, f in e["faces"].items()}
+        result.append(element([e["from"][0], 16 - e["to"][1], e["from"][2]], [e["to"][0], 16 - e["from"][1], e["to"][2]],
+                              faces))
+    return result
+
+
+SIDES_4 = ("north", "south", "west", "east")
+
+
+def hopper() -> list:
+    """A hopper: a bowl with a rim, a middle part and a spout, like the vanilla hopper."""
+    def walls(start, end, inner):
+        faces = {side: "#outside" for side in SIDES_4}
+        faces.update({"up": "#top", "down": "#outside", inner: "#inside"})
+        return element(start, end, faces)
+    return [
+        element([0, 10, 0], [16, 11, 16], dict({side: "#outside" for side in SIDES_4}, up="#inside", down="#outside")),
+        walls([0, 11, 0], [2, 16, 16], "east"),
+        walls([14, 11, 0], [16, 16, 16], "west"),
+        walls([2, 11, 0], [14, 16, 2], "south"),
+        walls([2, 11, 14], [14, 16, 16], "north"),
+        element([4, 4, 4], [12, 10, 12], dict({side: "#outside" for side in SIDES_4}, down="#outside")),
+        element([6, 0, 6], [10, 4, 10], dict({side: "#outside" for side in SIDES_4}, down="#outside")),
+    ]
+
+
+def steps() -> list:
+    """A trapezoid of four steps, wide at the bottom."""
+    result = []
+    for i in range(4):
+        inset = 3 * i // 2 if i % 2 == 0 else 1.5 * i
+        faces = dict({side: "#side" for side in SIDES_4}, up="#top", down="#top")
+        result.append(element([inset, 4 * i, inset], [16 - inset, 4 * i + 4, 16 - inset], faces))
+    return result
+
+
+# Blocks with a shape instead of a cube: (elements, texture prefix, texture names). The shapes in CodeBlockShapes
+# MUST match.
+SHAPES = {
+    "PARAMETER": (hopper(), "parameter_block", ("top", "outside", "inside")),
+    "RESULT": (flipped(hopper()), "parameter_block", ("top", "outside", "inside")),
+    "BEGIN": (steps(), "begin_block", ("top", "side")),
+    "END": (flipped(steps()), "begin_block", ("top", "side")),
+}
+
+
+def shaped_model(name: str, suffix: str) -> dict:
+    elements, prefix, names = SHAPES[name]
+    textures = {n: "c0de:block/" + prefix + suffix + "_" + n for n in names}
+    textures["particle"] = textures[names[1]]
+    return {"parent": "minecraft:block/block", "ambientocclusion": False, "textures": textures, "elements": elements}
+
+
 def block_model(bid: str, suffix: str, sides: dict | None) -> dict:
     texture = "c0de:block/" + bid + suffix
     if sides is None:
@@ -360,7 +426,8 @@ def block_files(name: str, validated: bool, transparent: bool) -> None:
         for valid in ("true", "false"):
             suffix = "_valid" if valid == "true" else "_invalid"
             variants["valid=" + valid] = {"model": "c0de:block/" + bid + suffix}
-            write(ASSETS / "models" / "block" / (bid + suffix + ".json"), block_model(bid, suffix, SIDES.get(name)))
+            model = shaped_model(name, suffix) if name in SHAPES else block_model(bid, suffix, SIDES.get(name))
+            write(ASSETS / "models" / "block" / (bid + suffix + ".json"), model)
         write(ASSETS / "blockstates" / (bid + ".json"), {"variants": variants})
         item_parent = "c0de:block/" + bid + "_valid"
     else:

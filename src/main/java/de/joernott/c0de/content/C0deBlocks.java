@@ -2,6 +2,7 @@ package de.joernott.c0de.content;
 
 import de.joernott.c0de.block.BlackBedrockBlock;
 import de.joernott.c0de.block.CodeBlock;
+import de.joernott.c0de.block.CodeBlockShapes;
 import de.joernott.c0de.block.CommentBlock;
 import de.joernott.c0de.block.PidBlock;
 import de.joernott.c0de.block.PropertyBlock;
@@ -76,6 +77,8 @@ public final class C0deBlocks {
                     .isRedstoneConductor((state, level, pos) -> false)
                     .isSuffocating((state, level, pos) -> false)
                     .isViewBlocking((state, level, pos) -> false);
+        } else if (CodeBlockShapes.isShaped(type)) {
+            properties = properties.noOcclusion();
         }
         return switch (type) {
             case COMMENT -> new CommentBlock(properties);

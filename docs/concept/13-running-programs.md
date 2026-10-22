@@ -70,10 +70,9 @@ A process ends when
   - the cursor crashes, or
   - the cursor reaches an empty line (which means the entry function was not found; the cursor crashes with UNKNOWN_FUNCTION).
 
-When a process ends, the exit code (0 if no EXIT statement was executed, 15 if the cursor crashed) and, if the cursor crashed, the error are stored in the trigger block. A comparator reading the trigger block outputs a signal strength equal to the exit code of the last process until the next process is started. If the cursor crashed, all items of the input inventory are moved to the output inventory unchanged and no result items are created. The cursor entity and the PID block are removed from the c0de dimension.
+When a process ends, the exit code (0 if no EXIT statement was executed, 15 if the cursor crashed) and, if the cursor crashed, the error are stored in the trigger block. A comparator reading the trigger block outputs a signal strength equal to the exit code of the last process until the next process is started. If the cursor crashed, all items the process took from the input inventory are moved to the output inventory unchanged and no result items are created. The cursor entity and the PID block are removed from the c0de dimension.
 
 When a process crashes, its trigger block plays a low note. Processes that end normally are silent, as timer blocks may end processes every few ticks.
-
 
 ## Minecraft blocks
 

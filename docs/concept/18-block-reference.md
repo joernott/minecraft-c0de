@@ -2,7 +2,7 @@
 
 [c0de concept](../concept.md) › Block reference
 
-The block IDs are the names in lowercase with the suffix `_block`, e.g. `c0de:noop_block`, `c0de:type_boolean_block` or `c0de:operator_block`. Blocks with a valid and an invalid color have the block state `valid`. Right-clicking a block with an item in the main hand uses the item (e.g. places a block next to it); only an empty hand opens the dialog of a block.
+The block IDs are the names in lowercase with the suffix `_block`, e.g. `c0de:noop_block`, `c0de:type_boolean_block` or `c0de:operator_block`. Blocks with a valid and an invalid color have the block state `valid`. Most blocks are cubes with a symbol; PARAMETER, RESULT, BEGIN and END have the shape of their symbol instead. Right-clicking a block with an item in the main hand uses the item (e.g. places a block next to it); only an empty hand opens the dialog of a block.
 
 | Block | Valid color | Invalid color | Symbol | Recipe |
 |---|---|---|---|---|
@@ -12,7 +12,7 @@ The block IDs are the names in lowercase with the suffix `_block`, e.g. `c0de:no
 | PROGRAM | dark gray #555555 | black #000000 | book | NOOP + book |
 | INCLUDE | dark gray #555555 | black #000000 | map | NOOP + empty map |
 | EXIT | dark gray #555555 | black #000000 | iron door | 8 NOOP around iron door → 8 |
-| BEGIN / END | yellow #FFFF55 | gold #FFAA00 | trapezoid | 8 NOOP around yellow wool → 8 BEGIN; BEGIN ↔ END |
+| BEGIN / END | yellow #FFFF55 | gold #FFAA00 | shape: trapezoid of four steps, BEGIN wide at the bottom, END wide at the top | 8 NOOP around yellow wool → 8 BEGIN; BEGIN ↔ END |
 | BREAK | yellow #FFFF55 | gold #FFAA00 | broken stick | NOOP + stick |
 | type base (item) | – | – | question mark | 8 NOOP around red carpet → 8 |
 | TYPE_BOOLEAN | red | – | redstone torch | type base + redstone torch |
@@ -32,8 +32,8 @@ The block IDs are the names in lowercase with the suffix `_block`, e.g. `c0de:no
 | OPERATOR (all operators, ( ) and ;) | red #FF5555 | dark red #AA0000 | symbol chosen in a dialog | 8 NOOP around red wool → 8 |
 | ASSIGN | aqua #55FFFF | dark aqua #00AAAA | triangle pointing to positive x; a dot on the east side and a cross on the west side | 8 NOOP around cyan wool → 8 |
 | FUNCTION | light gray #AAAAAA | dark gray #555555 | ƒ | NOOP + stone |
-| PARAMETER | light purple #FF55FF | dark purple #AA00AA | hopper | 8 NOOP around hopper → 8; RESULT |
-| RESULT | light purple #FF55FF | dark purple #AA00AA | upward hopper | PARAMETER |
+| PARAMETER | light purple #FF55FF | dark purple #AA00AA | shape: hopper | 8 NOOP around hopper → 8; RESULT |
+| RESULT | light purple #FF55FF | dark purple #AA00AA | shape: upside-down hopper | PARAMETER |
 | RETURN | light purple #FF55FF | dark purple #AA00AA | spruce door | 8 NOOP around spruce door → 8 |
 | CALL | light gray #AAAAAA | dark gray #555555 | 📞 | NOOP + smooth stone |
 | structural base (item) | – | – | – | 8 NOOP around green wool → 8 |

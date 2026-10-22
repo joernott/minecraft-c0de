@@ -454,14 +454,10 @@ CODE_BLOCKS = [
     ("program_block", 0x555555, 0x000000, lambda i: icon(i, "book")),
     ("include_block", 0x555555, 0x000000, lambda i: icon(i, "map")),
     ("exit_block", 0x555555, 0x000000, lambda i: icon(i, "door")),
-    ("begin_block", 0xFFFF55, 0xFFAA00, lambda i: paint(i, trapezoid(True), WHITE)),
-    ("end_block", 0xFFFF55, 0xFFAA00, lambda i: paint(i, trapezoid(False), WHITE)),
     ("break_block", 0xFFFF55, 0xFFAA00, lambda i: icon(i, "stick")),
     ("variable_block", 0x5555FF, 0x0000AA, lambda i: paint(i, square, WHITE)),
     ("constant_block", 0x5555FF, 0x0000AA, lambda i: paint(i, diamond, WHITE)),
     ("function_block", 0xAAAAAA, 0x555555, lambda i: (paint(i, circle, WHITE), glyph(i, "ƒ", 0x202020))),
-    ("parameter_block", 0xFF55FF, 0xAA00AA, lambda i: icon(i, "hopper")),
-    ("result_block", 0xFF55FF, 0xAA00AA, lambda i: (upside_down(i), icon(i, "hopper"), upside_down(i))),
     ("return_block", 0xFF55FF, 0xAA00AA, lambda i: icon(i, "spruce_door")),
     ("call_block", 0xAAAAAA, 0x555555, lambda i: icon(i, "phone")),
     ("if_block", 0x55FF55, 0x00AA00, lambda i: (paint(i, diamond, WHITE), glyph(i, "?", 0x00AA00, 5, 5))),
@@ -498,7 +494,50 @@ def base_item(color: int, symbol: str | None) -> Image:
     return image
 
 
+# Blocks with a shape instead of a symbol (see SHAPES in generate_content.py): (texture prefix, valid color,
+# invalid color). BEGIN and END share the step textures, PARAMETER and RESULT the hopper textures.
+SHAPED_BLOCKS = [("begin_block", 0xFFFF55, 0xFFAA00), ("parameter_block", 0xFF55FF, 0xAA00AA)]
+
+
+def darker(color: int, delta: int) -> int:
+    r, g, b, _ = shade(rgb(color), -delta)
+    return r << 16 | g << 8 | b
+
+
+def steps_side(color: int, seed: str) -> Image:
+    """The sides of a stepped trapezoid: every 4 pixels high step has a darker lower edge."""
+    image = concrete(color, seed, 3)
+    for y in (3, 7, 11, 15):
+        for x in range(16):
+            image[y][x] = shade(image[y][x], -45)
+    return image
+
+
+def hopper_top(color: int, seed: str) -> Image:
+    """The rim of a hopper: a light 2 pixels wide ring around the dark inside."""
+    image = concrete(darker(color, 70), seed, 3)
+    for y in range(16):
+        for x in range(16):
+            if x < 2 or x > 13 or y < 2 or y > 13:
+                image[y][x] = shade(rgb(color), 25 if (x + y) % 2 else 15)
+    return image
+
+
+def shaped_block_textures(blocks: Path) -> None:
+    for block, valid, invalid in SHAPED_BLOCKS:
+        for suffix, color in (("_valid", valid), ("_invalid", invalid)):
+            name = block + suffix
+            if block == "begin_block":
+                write_png(blocks / (name + "_side.png"), steps_side(color, name + "_side"))
+                write_png(blocks / (name + "_top.png"), concrete(color, name + "_top", 3))
+            else:
+                write_png(blocks / (name + "_outside.png"), framed(color, name + "_outside"))
+                write_png(blocks / (name + "_inside.png"), concrete(darker(color, 90), name + "_inside", 3))
+                write_png(blocks / (name + "_top.png"), hopper_top(color, name + "_top"))
+
+
 def code_block_textures(blocks: Path) -> None:
+    shaped_block_textures(blocks)
     write_png(blocks / "noop_block.png", noop())
     write_png(blocks / "comment_block.png", comment())
     for block, valid, invalid, draw in CODE_BLOCKS:
