@@ -78,6 +78,13 @@ public final class ValidationTests {
             helper.assertTrue(!validation.isValid(7), "The BEGIN line without END is valid");
             helper.assertTrue(!valid(level, sheet.pos(5, 7)), "The BEGIN block is shown as valid");
             helper.assertTrue(valid(level, sheet.pos(5, 0)), "The PROGRAM block is not valid any more");
+            // The line numbers show the function as incomplete (task 11.3)
+            helper.assertTrue(
+                    level.getBlockState(sheet.pos(5, 7)).getValue(ValidatedCodeBlock.INCOMPLETE),
+                    "The BEGIN block is not marked as incomplete");
+            helper.assertTrue(
+                    !level.getBlockState(sheet.pos(5, 0)).getValue(ValidatedCodeBlock.INCOMPLETE),
+                    "The PROGRAM block is marked as incomplete");
         } finally {
             sheet.clear();
             SheetValidation.validate(level, 501);

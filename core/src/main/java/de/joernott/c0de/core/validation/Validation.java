@@ -23,6 +23,28 @@ public record Validation(String programName, int endLine, Map<Integer, Problem> 
         return z >= 0 && z < endLine && !problems.containsKey(z);
     }
 
+    /** The state of a line, shown by the color of its line number. */
+    public enum LineState {
+        /** The line belongs to the program and has no problem. */
+        VALID,
+        /** The line is correct so far, but its statement is not finished or has a problem in another line. */
+        INCOMPLETE,
+        /** The line has a problem, or it is behind the end of the program. */
+        INVALID
+    }
+
+    /** The state of a line. */
+    public LineState state(int z) {
+        if (z < 0 || z >= endLine) {
+            return LineState.INVALID;
+        }
+        Problem problem = problems.get(z);
+        if (problem == null) {
+            return LineState.VALID;
+        }
+        return problem.incomplete() || problem.line() != z ? LineState.INCOMPLETE : LineState.INVALID;
+    }
+
     /** The problem of a line. */
     public Optional<Problem> problem(int z) {
         return Optional.ofNullable(problems.get(z));

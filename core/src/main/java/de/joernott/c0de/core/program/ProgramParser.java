@@ -276,8 +276,12 @@ public final class ProgramParser {
     private BlockAndEnd parseCodeBlock(int x, Context context, ErrorCode missingBegin, String owner) {
         Row begin = current();
         if (begin == null || !begin.startsWith(Keyword.BEGIN)) {
-            int z = begin == null ? sheet.size() : begin.z();
-            throw C0deException.at(z, missingBegin, owner + " must be followed by a BEGIN line");
+            if (begin == null) {
+                // The program ends before the code block: it is not written yet
+                throw C0deException.incomplete(
+                        sheet.size(), missingBegin, owner + " must be followed by a BEGIN line");
+            }
+            throw C0deException.at(begin.z(), missingBegin, owner + " must be followed by a BEGIN line");
         }
         if (begin.x() != x) {
             throw indentation(begin, x);
@@ -291,7 +295,7 @@ public final class ProgramParser {
         while (true) {
             Row row = current();
             if (row == null || (row.x() <= x && !(row.x() == x && row.startsWith(Keyword.END)))) {
-                throw C0deException.at(
+                throw C0deException.incomplete(
                         begin.z(), ErrorCode.SYNTAX_ERROR_BEGIN_WITHOUT_END, "The BEGIN line has no matching END line");
             }
             if (row.x() == x) {
@@ -401,7 +405,11 @@ public final class ProgramParser {
         String name = cells.name(error, "the name of the struct");
         cells.end(error);
         Row begin = current();
-        if (begin == null || !begin.isOnly(Keyword.BEGIN) || begin.x() != row.x()) {
+        if (begin == null) {
+            throw C0deException.incomplete(
+                    row.z(), error, "A STRUCT line must be followed by a BEGIN line at x=" + row.x());
+        }
+        if (!begin.isOnly(Keyword.BEGIN) || begin.x() != row.x()) {
             throw C0deException.at(row.z(), error, "A STRUCT line must be followed by a BEGIN line at x=" + row.x());
         }
         position++;
@@ -412,7 +420,7 @@ public final class ProgramParser {
             if (element == null
                     || element.x() < row.x()
                     || (element.x() == row.x() && !element.startsWith(Keyword.END))) {
-                throw C0deException.at(
+                throw C0deException.incomplete(
                         begin.z(), ErrorCode.SYNTAX_ERROR_BEGIN_WITHOUT_END, "The BEGIN line has no matching END line");
             }
             if (element.x() == row.x()) {
@@ -475,7 +483,10 @@ public final class ProgramParser {
             throw C0deException.at(row.z(), error, "A constant must be initialized with a literal");
         }
         if (constant && type.isComplex() && initializer == null) {
-            throw C0deException.at(row.z(), error, "A constant must be initialized with a code block");
+            String message = "A constant must be initialized with a code block";
+            throw next == null
+                    ? C0deException.incomplete(row.z(), error, message)
+                    : C0deException.at(row.z(), error, message);
         }
         return new Statement.Declaration(row.z(), constant, name, type, literal, tags, initializer);
     }
@@ -491,7 +502,7 @@ public final class ProgramParser {
         while (true) {
             Row row = current();
             if (row == null || row.x() < x || (row.x() == x && !row.startsWith(Keyword.END))) {
-                throw C0deException.at(
+                throw C0deException.incomplete(
                         begin.z(), ErrorCode.SYNTAX_ERROR_BEGIN_WITHOUT_END, "The BEGIN line has no matching END line");
             }
             if (row.x() == x) {

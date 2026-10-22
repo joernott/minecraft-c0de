@@ -441,7 +441,7 @@ final class ProgramAnalyzer {
     private void invalid(Statement.Invalid invalid) {
         C0deException error = invalid.error();
         int errorLine = error.line() == C0deException.NO_LINE ? invalid.line() : error.line();
-        Problem problem = new Problem(errorLine, error.code(), error.getMessage());
+        Problem problem = new Problem(errorLine, error.code(), error.getMessage(), error.isIncomplete());
         problems.putIfAbsent(errorLine, problem);
         for (int z = invalid.line(); z <= invalid.endLine(); z++) {
             problems.putIfAbsent(z, problem);

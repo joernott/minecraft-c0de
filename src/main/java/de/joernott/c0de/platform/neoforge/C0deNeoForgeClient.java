@@ -3,6 +3,7 @@ package de.joernott.c0de.platform.neoforge;
 //? if neoforge {
 /*import de.joernott.c0de.client.C0deClient;
 import de.joernott.c0de.client.C0deDimensionEffects;
+import de.joernott.c0de.client.LineNumbers;
 import de.joernott.c0de.client.ProcessRenderers;
 import de.joernott.c0de.client.PropertiesRenderer;
 import de.joernott.c0de.client.TriggerScreen;
@@ -31,6 +32,12 @@ public final class C0deNeoForgeClient {
         });
         modEventBus.addListener(net.neoforged.neoforge.client.event.RegisterMenuScreensEvent.class,
                 event -> event.register(C0deMenus.TRIGGER.get(), TriggerScreen::new));
+        net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
+                net.neoforged.neoforge.client.event.RenderLevelStageEvent.class, event -> {
+                    if (event.getStage() == net.neoforged.neoforge.client.event.RenderLevelStageEvent.Stage.AFTER_ENTITIES) {
+                        LineNumbers.render(event.getCamera());
+                    }
+                });
     }
 }
 *///?}

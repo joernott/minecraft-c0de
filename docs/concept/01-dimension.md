@@ -30,6 +30,16 @@ Chunks with positive x and z coordinates form a 2 chunk wide pattern:
 
 This creates endless sheets of greenbar paper next to each other. Each sheet is 2 chunks wide in x direction and endless (up to the maximum z coordinate) in z direction. The relative x coordinate 4 of every sheet is made of cursor c0de bedrock and forms the cursor rail. Code is placed between x=5 and x=28.
 
+### Line numbers
+
+Every line of a sheet that contains blocks shows its number (its z coordinate) on the floor at x=2. The color of the number shows the state of the line:
+  - a faint shade of the floor: a NOOP or COMMENT line,
+  - dark green: the line is correct; for a statement over several lines, the whole statement is correct,
+  - dark yellow: the line is correct so far, but its statement is not finished (e.g. a BEGIN line without END line, a FUNCTION without code block) or has a wrong line elsewhere,
+  - dark red: the line is wrong, or it is behind the end of the program.
+
+The state is stored in the block state `incomplete` of the language blocks, next to `valid`.
+
 ## Entering and leaving the dimension
 
 A player enters the c0de dimension by right-clicking a [trigger block](13-running-programs.md#trigger-blocks) (of any kind) with a [wrench](14-items-and-tools.md#wrench). The player is teleported

@@ -45,6 +45,42 @@ class ValidatorTest {
         }
     }
 
+    private static String states(String program) {
+        Validation validation = validate(program);
+        StringBuilder states = new StringBuilder();
+        for (int z = 0; z < validation.endLine(); z++) {
+            states.append(switch (validation.state(z)) {
+                case VALID -> 'V';
+                case INCOMPLETE -> 'I';
+                case INVALID -> 'X';
+            });
+        }
+        return states.toString();
+    }
+
+    /** Line numbers (task 11.3): V valid, I incomplete statement, X wrong line. */
+    @Test
+    void lineStates() {
+        String function = """
+                PROGRAM states
+                NOOP
+                FUNCTION run
+                    RESULT result INTEGER
+                BEGIN
+                    ASSIGN result 1 ;
+                END FUNCTION
+                """;
+        assertEquals("VVVVVVV", states(function));
+        // A BEGIN without END: the statement is not finished
+        assertEquals("VVIIII", states(function.replace("END FUNCTION\n", "")));
+        // A FUNCTION without code block at the end of the program
+        assertEquals("VVII", states(function.substring(0, function.indexOf("BEGIN"))));
+        // A wrong line in a function: the line is wrong, the other lines of the function are incomplete
+        assertEquals("VVIIIIX", states(function.replace("END FUNCTION", "END WHILE")));
+        // A wrong line on its own
+        assertEquals("VVVVVXV", states(function.replace("ASSIGN result 1 ;", "ASSIGN unknown 1 ;")));
+    }
+
     /** The examples crash only at runtime, if at all, so they are statically valid. */
     @ParameterizedTest
     @MethodSource("examples")

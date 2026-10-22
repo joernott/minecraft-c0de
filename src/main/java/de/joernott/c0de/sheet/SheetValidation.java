@@ -7,6 +7,7 @@ import de.joernott.c0de.core.line.Sheet;
 import de.joernott.c0de.core.sheet.SheetGeometry;
 import de.joernott.c0de.core.validation.Problem;
 import de.joernott.c0de.core.validation.Validation;
+import de.joernott.c0de.core.validation.Validation.LineState;
 import de.joernott.c0de.core.validation.Validator;
 import de.joernott.c0de.dimension.C0deDimension;
 import de.joernott.c0de.library.ModLibraries;
@@ -28,8 +29,8 @@ import net.minecraft.world.level.block.state.BlockState;
  * Validates the programs on the sheets while players write them. When a c0de block on a sheet is placed,
  * removed or changed, its sheet is validated again at the end of the server tick, so that many changes in one
  * tick (e.g. by a command) cause only one validation. The whole program is validated, because a change can
- * affect lines far away (e.g. a renamed variable). The {@code valid} block states are only changed where the
- * result differs.
+ * affect lines far away (e.g. a renamed variable). The {@code valid} and {@code incomplete} block states are only
+ * changed where the result differs.
  */
 public final class SheetValidation {
     /** The sheets to validate at the end of the tick. Chunks may be loaded outside of the server thread. */
@@ -106,19 +107,25 @@ public final class SheetValidation {
 
     private static void apply(ServerLevel level, int sheet, Validation validation) {
         for (int z = 0; z < validation.endLine(); z++) {
-            setLine(level, sheet, z, validation.isValid(z));
+            setLine(level, sheet, z, validation.state(z));
         }
         // The lines after the empty line that ends the program don't belong to it
         LevelSheet.readGroup(level, sheet, validation.endLine() + 1)
-                .ifPresent(lines -> lines.forEach(line -> setLine(level, sheet, line.z(), false)));
+                .ifPresent(lines -> lines.forEach(line -> setLine(level, sheet, line.z(), LineState.INVALID)));
     }
 
-    private static void setLine(ServerLevel level, int sheet, int z, boolean valid) {
+    private static void setLine(ServerLevel level, int sheet, int z, LineState lineState) {
+        boolean valid = lineState == LineState.VALID;
+        boolean incomplete = lineState == LineState.INCOMPLETE;
         for (int x = SheetGeometry.CODE_MIN_X; x <= SheetGeometry.CODE_MAX_X; x++) {
             BlockPos pos = LevelSheet.codePos(sheet, x, z);
             BlockState state = level.getBlockState(pos);
-            if (state.getBlock() instanceof ValidatedCodeBlock && state.getValue(ValidatedCodeBlock.VALID) != valid) {
-                level.setBlock(pos, state.setValue(ValidatedCodeBlock.VALID, valid), Block.UPDATE_CLIENTS);
+            if (state.getBlock() instanceof ValidatedCodeBlock
+                    && (state.getValue(ValidatedCodeBlock.VALID) != valid
+                            || state.getValue(ValidatedCodeBlock.INCOMPLETE) != incomplete)) {
+                BlockState changed = state.setValue(ValidatedCodeBlock.VALID, valid)
+                        .setValue(ValidatedCodeBlock.INCOMPLETE, incomplete);
+                level.setBlock(pos, changed, Block.UPDATE_CLIENTS);
             }
         }
     }
