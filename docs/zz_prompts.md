@@ -280,3 +280,7 @@ Test 4 failed: I placed a block and used REMOVE_BLOCK to break it. Then, I repla
 I also noted, that all items from the input are transferred to the output of the trigger block. Only initialized variables should be moved and the number of uninitialized variables reduced by the needed amount. The rest of them should remain. Thus, one can stack them in the input.
 
 Another thing: Triggering a run should always work, if there is enough space in the output inventory. Only if it is full, a trigger should fail.
+
+## 2026-10-22 – Pass initialized items through
+
+Before I start, please also move all initialized variables from the input to the output, even those that are not needed for the current program. This way, one can chain multiple triggers and feed the output of one into the second, where only some of it is needed and at the end of the chain, I can collect everything from all programs.

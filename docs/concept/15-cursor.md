@@ -170,7 +170,7 @@ If it is the entry function, the cursor
   2. pushes a block marker for the code block of the function.
   3. takes one variable or constant item for every parameter from the input inventory of the trigger block, matched by name, and pushes it onto the stack. Constant items are converted to variable items. If there is no item for a parameter that has no default value, the cursor crashes with FUNCTION_MISSING_INPUT. If an item has a different type than its parameter, the cursor crashes with TYPE_MISMATCH. Parameters with a default value and without a matching item are initialized with their default value.
   4. pushes one variable item, initialized with the default value of its type, for every result. If the function has more results than parameters, one empty variable item per missing item is consumed from the input inventory. If there are not enough empty variable items, the cursor crashes with FUNCTION_MISSING_INPUT.
-  5. leaves all other items in the input inventory.
+  5. passes all other initialized items through to the output inventory; empty items that are not needed stay in the input inventory.
   6. moves on to the first line of the code block.
 
 If the stack is full when pushing an item, the cursor crashes with STACK_OVERFLOW.

@@ -102,9 +102,9 @@ public final class ProcessTests {
     }
 
     /**
-     * A process takes only the items it uses: of a stack of uninitialized variable items, one per result without
-     * parameter. Other items stay in the input inventory. Items in the output inventory don't prevent the start
-     * as long as there is space for the results; a full output inventory does.
+     * Of a stack of uninitialized variable items, a process takes one per result without parameter; the rest stays
+     * in the input inventory. Initialized items that are not used are passed through to the output inventory.
+     * Items in the output inventory don't prevent the start as long as there is space; a full one does.
      */
     public static void processesTakeOnlyTheItemsTheyUse(GameTestHelper helper) {
         ServerLevel level = c0de(helper);
@@ -130,8 +130,7 @@ public final class ProcessTests {
         helper.assertTrue(trigger.isRunning(), "The process didn't start: " + trigger.status());
         helper.assertTrue(trigger.input().getItem(0).getCount() == 3, "Uninitialized items left: "
                 + trigger.input().getItem(0).getCount());
-        helper.assertTrue(
-                ValueItem.Contents.of(trigger.input().getItem(1)).name().equals("spare"), "The spare item was taken");
+        helper.assertTrue(trigger.input().getItem(1).isEmpty(), "The spare item was not passed through");
         helper.runAfterDelay(40, () -> {
             try {
                 helper.assertTrue(!trigger.isRunning(), "The process is still running");
@@ -141,7 +140,7 @@ public final class ProcessTests {
                         names += ValueItem.Contents.of(trigger.output().getItem(i)).name() + " ";
                     }
                 }
-                helper.assertTrue(names.equals("old first second "), "The output contains " + names);
+                helper.assertTrue(names.equals("old first second spare "), "The output contains " + names);
                 for (int i = 0; i < trigger.output().getContainerSize(); i++) {
                     trigger.output().setItem(i, variable("old" + i, "INTEGER", "4"));
                 }

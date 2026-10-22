@@ -58,6 +58,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.TicketType;
 import net.minecraft.util.datafix.DataFixTypes;
 import net.minecraft.world.Container;
+import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
@@ -191,8 +192,11 @@ public class ProcessManager extends SavedData {
             release(c0de, chunks);
             return problem;
         }
-        // The process returns one item per result, and an empty variable item per parameter item without result
-        int returned = Math.max(declaration.results().size(), inputs.size());
+        // The process returns one item per result, an empty variable item per parameter item without result, and
+        // the initialized items it passes through
+        int empty = declaration.results().size() - inputs.size();
+        int returned = Math.max(declaration.results().size(), inputs.size())
+                + passedThrough(trigger.input(), inputs.keySet(), empty);
         if (freeSlots(trigger.output()) < returned) {
             release(c0de, chunks);
             return Optional.of("The output inventory has no space for " + returned + " items");
@@ -221,7 +225,7 @@ public class ProcessManager extends SavedData {
         ChunkPos triggerChunk = new ChunkPos(trigger.getBlockPos());
         triggerLevel.getChunkSource().addRegionTicket(TICKET, triggerChunk, 0, triggerChunk);
         UUID entity = spawnCursor(c0de, id, sheet.getAsInt(), pid, debug);
-        List<ItemStack> taken = take(trigger.input(), inputs.keySet(), declaration.results().size() - inputs.size());
+        List<ItemStack> taken = take(trigger.input(), inputs.keySet(), empty);
         processes.put(
                 id,
                 new Process(
@@ -255,12 +259,46 @@ public class ProcessManager extends SavedData {
         return free;
     }
 
+    /** The number of stacks of initialized items that {@link #take} passes through to the output inventory. */
+    private static int passedThrough(Container input, Collection<String> parameters, int empty) {
+        SimpleContainer copy = new SimpleContainer(input.getContainerSize());
+        for (int i = 0; i < input.getContainerSize(); i++) {
+            copy.setItem(i, input.getItem(i).copy());
+        }
+        takeUsed(copy, parameters, empty);
+        int passed = 0;
+        for (int i = 0; i < copy.getContainerSize(); i++) {
+            if (isInitialized(copy.getItem(i))) {
+                passed++;
+            }
+        }
+        return passed;
+    }
+
     /**
-     * Takes the items a process uses out of the input inventory: one item per parameter with an item, and the empty
-     * variable items for the results without parameter item. All other items stay in the input inventory, so
-     * empty variable items can be stacked there for several runs.
+     * Takes the items of a process out of the input inventory: one item per parameter with an item, the empty
+     * variable items for the results without parameter item, and all other initialized items, which the process
+     * passes through to the output inventory, so trigger blocks can be chained. Empty items that are not needed
+     * stay in the input inventory, so they can be stacked there for several runs.
      */
     private static List<ItemStack> take(Container input, Collection<String> parameters, int empty) {
+        List<ItemStack> taken = takeUsed(input, parameters, empty);
+        // The used items come first, so the parameter names match them when the process ends
+        for (int i = 0; i < input.getContainerSize(); i++) {
+            if (isInitialized(input.getItem(i))) {
+                taken.add(input.removeItemNoUpdate(i));
+            }
+        }
+        input.setChanged();
+        return taken;
+    }
+
+    private static boolean isInitialized(ItemStack item) {
+        return item.getItem() instanceof ValueItem && !ValueItem.Contents.of(item).isEmpty();
+    }
+
+    /** Takes the parameter items and the empty variable items the results need. */
+    private static List<ItemStack> takeUsed(Container input, Collection<String> parameters, int empty) {
         List<ItemStack> taken = new ArrayList<>();
         for (String name : parameters) {
             for (int i = 0; i < input.getContainerSize(); i++) {
@@ -579,8 +617,7 @@ public class ProcessManager extends SavedData {
 
     /**
      * The items a process returns: one variable item per result, empty variable items for parameters without a
-     * result, and the items that were held but not used (only processes saved before the input inventory kept
-     * unused items hold those).
+     * result, and the initialized items that were passed through.
      */
     private static List<ItemStack> outputs(Process process, List<ItemStack> held) {
         List<ItemStack> remaining = new ArrayList<>(copies(held));
