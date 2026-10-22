@@ -296,3 +296,7 @@ I changed game mode to survival in the chat, just to make sure and repeated the 
 ## 2026-10-22 – Hoppers and pipes for trigger blocks
 
 let's go with solution 1. Most of my modded worlds also include pipes and cables, so that should work in a more compact way.
+
+## 2026-10-22 – Sprint 10 checked
+
+All three tests worked fine now

@@ -44,7 +44,7 @@ A task is done when
 | 7 | Language blocks II: validation | Blocks show whether their statements are valid | ✅ |
 | 8 | Processes | Trigger, timer, PID block and cursor run programs in the world | ✅ |
 | 9 | Debugging and tools | Debug cursor, debugging tool, marker, wrench, hammer | ✅ |
-| 10 | c0de/minecraft and c0de disk | Programs interact with the world; programs are imported and exported as YAML |  |
+| 10 | c0de/minecraft and c0de disk | Programs interact with the world; programs are imported and exported as YAML | ✅ |
 | 11 | Release 1.0 for 1.21.1 | Polished, documented and published mod |  |
 | 12 | Newer Minecraft versions | The mod is released for 1.21.x and 26.x |  |
 
