@@ -8,8 +8,8 @@ import de.joernott.c0de.content.C0deEntities;
 import de.joernott.c0de.content.C0deItems;
 import de.joernott.c0de.core.config.C0deConfig;
 import de.joernott.c0de.core.cursor.Cursor;
-import de.joernott.c0de.core.cursor.CursorSettings;
 import de.joernott.c0de.core.cursor.CursorInspection;
+import de.joernott.c0de.core.cursor.CursorSettings;
 import de.joernott.c0de.core.cursor.CursorSnapshot;
 import de.joernott.c0de.core.cursor.CursorState;
 import de.joernott.c0de.core.edit.ItemRules;
@@ -56,6 +56,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.TicketType;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.datafix.DataFixTypes;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
@@ -582,6 +584,11 @@ public class ProcessManager extends SavedData {
                     ? copies(trigger.held())
                     : outputs(process, trigger.held());
             trigger.finished(exitCode, error(process.cursor().error()), items);
+            if (exitCode == Cursor.CRASH_EXIT_CODE) {
+                // A crash is the only end with a sound; timers end processes too often for more
+                triggerLevel.playSound(
+                        null, process.triggerPos(), SoundEvents.NOTE_BLOCK_BASS.value(), SoundSource.BLOCKS, 1.0F, 0.5F);
+            }
         }
         remove(c0de, triggerLevel, process);
         setDirty();

@@ -25,6 +25,8 @@ import net.minecraft.nbt.StringTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.item.Item;
 
 /**
@@ -92,6 +94,7 @@ public final class DiskService {
                 return Optional.empty();
             }
             ProgramFiles.write(player.server, name, yaml);
+            level.playSound(null, pos, SoundEvents.BOOK_PAGE_TURN, SoundSource.BLOCKS, 1.0F, 1.0F);
             player.displayClientMessage(Component.translatable("message.c0de.exported", name), true);
             return Optional.empty();
         } catch (IOException e) {
@@ -172,6 +175,7 @@ public final class DiskService {
                     .clearOrCountMatchingItems(stack -> stack.is(item), count, player.inventoryMenu.getCraftSlots()));
         }
         SheetWriter.place(level, sheet, lines);
+        level.playSound(null, pos, SoundEvents.STONE_PLACE, SoundSource.BLOCKS, 1.0F, 0.8F);
         SheetValidation.validate(level, sheet);
         player.displayClientMessage(Component.translatable("message.c0de.imported", name), true);
         return Optional.empty();

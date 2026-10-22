@@ -25,6 +25,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -220,6 +222,7 @@ public final class ToolActions {
                 }
             });
         }
+        level.playSound(null, pos, SoundEvents.STONE_BREAK, SoundSource.BLOCKS, 0.8F, 0.8F);
         message(player, "message.c0de.deleted", area[0], area[1]);
     }
 
@@ -253,9 +256,11 @@ public final class ToolActions {
                 message(player, "message.c0de.missing_blocks", text.toString());
                 return;
             }
+            level.playSound(null, pos, SoundEvents.PISTON_EXTEND, SoundSource.BLOCKS, 0.5F, 1.2F);
             message(player, "message.c0de.copied", marked.size(), target);
         } else {
             SheetEditor.apply(level, sheet, LineMoves.move(marked, target).orElseThrow());
+            level.playSound(null, pos, SoundEvents.PISTON_CONTRACT, SoundSource.BLOCKS, 0.5F, 1.2F);
             message(player, "message.c0de.moved", marked.size(), target);
         }
     }

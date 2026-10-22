@@ -221,7 +221,7 @@ A task is done when
 
 | Task | Description | Done |
 |---|---|:---:|
-| 11.1 | Final textures and sounds, review of all block and item looks. |  |
+| 11.1 | Final textures and sounds, review of all block and item looks. | ✅ |
 | 11.2 | Block shapes: the PARAMETER block has the shape of a hopper (recolored), the RESULT block the same shape upside down; BEGIN and END are trapezoids. |  |
 | 11.3 | Line numbers: every line with content shows its number on the floor at x=2. The color shows the state of the line: a faint shade of the floor for NOOP and COMMENT lines, dark red for a wrong line, dark yellow for an incomplete statement (e.g. BEGIN without END, FUNCTION without code block), dark green for a correct line. |  |
 | 11.4 | Player documentation: a guide with examples (Markdown in the repository and the Modrinth page); optionally an in-game book. |  |

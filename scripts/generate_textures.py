@@ -517,7 +517,9 @@ def code_block_textures(blocks: Path) -> None:
         icon(image, name, color)
         write_png(blocks / (block + ".png"), image)
     write_png(TEXTURES / "item" / "type_base.png", base_item(0xCC2222, "?"))
-    write_png(TEXTURES / "item" / "structural_base.png", base_item(0x55FF55, None))
+    structural = base_item(0x55FF55, None)
+    paint(structural, trapezoid(True), WHITE)
+    write_png(TEXTURES / "item" / "structural_base.png", structural)
 
 
 def card(border: int | None) -> Image:
@@ -595,17 +597,19 @@ def marker() -> Image:
 
 
 def hammer() -> Image:
-    """An iron hammer with a red handle."""
+    """An iron hammer with a red handle: a heavy head across the upper end of the handle."""
     image = blank()
-    for i in range(1, 10):
+    for i in range(1, 11):
         image[15 - i][i] = rgb(0xB02E26)
         image[16 - i][i] = rgb(0x6E1A16)
-    # The head lies across the end of the handle
+    # The head is a block across the handle, from the upper left to the lower right
     for t in range(-4, 5):
-        for dx, dy in ((0, 0), (1, 0), (0, -1), (1, -1)):
-            x, y = 10 + t + dx, 5 + t + dy
-            if 0 <= x < 16 and 0 <= y < 16:
-                image[y][x] = rgb(0xD8D8D8 if dx == dy else 0x9C9C9C)
+        for d in range(0, 4):
+            for dx in (0, 1):
+                x, y = 9 + t + d + dx, 6 + t - d
+                if 0 <= x < 16 and 0 <= y < 16:
+                    edge = t in (-4, 4) or d in (0, 3)
+                    image[y][x] = rgb(0x8C8C8C if edge else 0xD0D0D0)
     return image
 
 
