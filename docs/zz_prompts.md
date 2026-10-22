@@ -263,3 +263,11 @@ I marked a line and it looks differently now, even better than before.But the te
 ## 2026-10-21 – Finish sprint 9, start sprint 10
 
 The text is now readable on marked lines. Please proceed with sprint 10
+
+## 2026-10-22 – Uninitialized variables
+
+Tests 1 to 4 worked, I did not test #5 yet. Because I encountered  bug.
+
+If there are more results than parameters to a function, the function wants an uninitialized variable in it's inputs. Currently we don't have those, as they already have a type. It is not possible to remove the type from a variable item, because you can't click the button if it is missing.
+
+Please add an item "uninitialized variable" that can be crafted just with the data item and dye. Add a trashcan button in the dialog that erases all property content. Also allow the player to clean the three fields by themselves. Both actions result in an unitilaized variable item.

@@ -56,7 +56,21 @@ public class ValueItem extends Item {
             return new Contents(tag.getString("name"), tag.getString("type"), tag.getString("value"));
         }
 
+        /** True for an item without name, type and value, crafted without a type item or cleared in its dialog. */
+        public boolean isUninitialized() {
+            return name.isEmpty() && type.isEmpty() && value.isEmpty();
+        }
+
+        /** Makes the item uninitialized. */
+        public static void clear(ItemStack stack) {
+            stack.remove(DataComponents.CUSTOM_DATA);
+        }
+
         public void writeTo(ItemStack stack) {
+            if (isUninitialized()) {
+                clear(stack);
+                return;
+            }
             CompoundTag tag = new CompoundTag();
             tag.putString("name", name);
             tag.putString("type", type);
@@ -91,6 +105,10 @@ public class ValueItem extends Item {
         if (isReadOnly(stack)) {
             return Optional.of("The value of a constant can't be changed");
         }
+        if (name.isBlank() && typeText.isBlank() && valueText.isEmpty()) {
+            Contents.clear(stack);
+            return Optional.empty();
+        }
         Contents old = Contents.of(stack);
         // The kind of type comes from crafting; only the subtype or struct name can be added
         String base = old.type().split(" ")[0];
@@ -109,6 +127,9 @@ public class ValueItem extends Item {
     @Override
     public Component getName(ItemStack stack) {
         Contents contents = Contents.of(stack);
+        if (contents.isUninitialized()) {
+            return Component.translatable(getDescriptionId() + ".uninitialized");
+        }
         return contents.name().isEmpty()
                 ? super.getName(stack)
                 : Component.translatable(getDescriptionId() + ".named", contents.name());

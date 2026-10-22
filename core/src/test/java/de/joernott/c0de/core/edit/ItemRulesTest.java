@@ -19,6 +19,8 @@ class ItemRulesTest {
         assertEquals("[1,2]", check("list", "ARRAY INTEGER", "[1, 2]").json());
         assertEquals("{\"x\": 1}", check("p", "STRUCT point", "{\"x\": 1}").json());
         assertEquals("", check("", "INTEGER", "").json(), "an empty item");
+        assertTrue(check("", "", "").problem().isEmpty(), "an uninitialized item");
+        assertTrue(check("", "  ", "").problem().isEmpty(), "an uninitialized item with spaces");
     }
 
     @Test

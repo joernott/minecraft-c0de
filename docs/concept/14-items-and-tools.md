@@ -154,9 +154,11 @@ A variable item has the following properties:
 
 A variable item is *empty* if it has no name and no value. Right-clicking with a variable item in the main hand opens a dialog in which its name and value can be edited.
 
+A variable item is *uninitialized* if it has no name, no type and no value. It is used as the target of a result that has no parameter at the same position: the result sets its name, type and value. The dialog has a trash can button that empties all fields; saving the dialog with all fields empty, whether they were emptied with the button or by hand, makes the item uninitialized.
+
 ### Crafting
 
-Two variable items can be crafted shapelessly from a data item, a type item and light blue dye.
+Two variable items can be crafted shapelessly from a data item, a type item and light blue dye. An uninitialized variable item is crafted shapelessly from a data item and light blue dye.
 
 ## Constant item
 
@@ -166,4 +168,4 @@ A constant item has the same properties as a variable item. Right-clicking with 
 
 ### Crafting
 
-Two constant items can be crafted shapelessly from a data item, a type item and pink dye.
+Two constant items can be crafted shapelessly from a data item, a type item and pink dye. An uninitialized constant item is crafted shapelessly from a data item and pink dye.

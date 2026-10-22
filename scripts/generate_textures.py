@@ -625,6 +625,21 @@ def disk() -> Image:
     return image
 
 
+def trash() -> Image:
+    """A grey trash can for the button that clears the fields of a dialog."""
+    image = blank()
+    for x in range(6, 10):
+        image[1][x] = rgb(0xC8C8C8)
+    for x in range(2, 14):
+        image[2][x] = rgb(0xC8C8C8)
+        image[3][x] = rgb(0x8C8C8C)
+    for y in range(4, 15):
+        for x in range(3, 13):
+            stripe = x in (5, 8, 11) and 5 <= y <= 13
+            image[y][x] = rgb(0x6E6E6E if stripe else 0xB4B4B4)
+    return image
+
+
 def main() -> None:
     blocks = TEXTURES / "block"
     write_png(blocks / "white_c0de_bedrock.png", concrete(0xF5F7F3, "white"))
@@ -643,6 +658,7 @@ def main() -> None:
     write_png(TEXTURES / "item" / "marker.png", marker())
     write_png(TEXTURES / "item" / "hammer.png", hammer())
     write_png(TEXTURES / "item" / "c0de_disk.png", disk())
+    write_png(TEXTURES / "gui" / "trash.png", trash())
 
 
 if __name__ == "__main__":

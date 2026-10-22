@@ -120,7 +120,7 @@ public abstract class PropertiesScreen extends Screen {
                     Component.literal(problem),
                     left + MARGIN,
                     top + panelHeight() - MARGIN - 18,
-                    WIDTH - 2 * MARGIN - 28,
+                    WIDTH - 2 * MARGIN - 52,
                     PROBLEM_COLOR));
         }
     }

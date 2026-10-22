@@ -1,5 +1,6 @@
 package de.joernott.c0de.client.dialog;
 
+import de.joernott.c0de.C0de;
 import de.joernott.c0de.core.edit.ItemRules;
 import de.joernott.c0de.core.edit.PropertyRules;
 import de.joernott.c0de.network.OpenDialogPayload;
@@ -7,19 +8,26 @@ import de.joernott.c0de.network.SaveItemPayload;
 import java.time.ZoneId;
 import java.util.Optional;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 
 /**
  * The dialog of a variable or constant item: its name, its type (the subtype or struct name can be added) and
- * its value, entered like the value of a LITERAL for simple types and STRING and as JSON otherwise.
+ * its value, entered like the value of a LITERAL for simple types and STRING and as JSON otherwise. The trash can
+ * button empties all fields; an item saved with empty fields is uninitialized.
  */
 public class ValueItemScreen extends PropertiesScreen {
     private EditBox name;
     private EditBox type;
     private EditBox value;
+    private Button trash;
+
+    private static final ResourceLocation TRASH = C0de.id("textures/gui/trash.png");
 
     public ValueItemScreen(OpenDialogPayload payload) {
         super(payload);
@@ -52,6 +60,20 @@ public class ValueItemScreen extends PropertiesScreen {
         type = field(1, "type", 200);
         value = field(2, "value", 10 * PropertyRules.MAX_TEXT_LENGTH);
         setInitialFocus(name);
+        if (!readOnly) {
+            trash = addRenderableWidget(Button.builder(Component.empty(), button -> clear())
+                    .bounds(left + WIDTH - MARGIN - 44, top + panelHeight() - MARGIN - 20, 20, 20)
+                    .tooltip(Tooltip.create(Component.translatable("dialog.c0de.item.clear")))
+                    .build());
+        }
+    }
+
+    /** Empties all fields, which makes the item uninitialized when it is saved. */
+    private void clear() {
+        name.setValue("");
+        type.setValue("");
+        value.setValue("");
+        setFocused(name);
     }
 
     @Override
@@ -60,6 +82,9 @@ public class ValueItemScreen extends PropertiesScreen {
         caption(graphics, Component.translatable("dialog.c0de.item.name"), name.getY());
         caption(graphics, Component.translatable("dialog.c0de.item.type"), type.getY());
         caption(graphics, Component.translatable("dialog.c0de.item.value"), value.getY());
+        if (trash != null) {
+            graphics.blit(TRASH, trash.getX() + 2, trash.getY() + 2, 0, 0, 16, 16, 16, 16);
+        }
     }
 
     @Override

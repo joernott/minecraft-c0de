@@ -31,13 +31,17 @@ public final class ItemRules {
     /**
      * Checks the properties entered in the dialog of an item.
      *
-     * @param name the name, empty for an empty item
+     * @param name the name, empty for an empty item; name, type and value all empty make an uninitialized item
      * @param type the type in its text form, e.g. {@code ARRAY INTEGER}
      * @param value the value as entered, empty for none
      */
     public static Result check(String name, String type, String value, ZoneId zone) {
         if (name.length() > PropertyRules.MAX_TEXT_LENGTH || value.length() > 10 * PropertyRules.MAX_TEXT_LENGTH) {
             return Result.problem("The name or value is too long");
+        }
+        if (name.isBlank() && type.isBlank() && value.isEmpty()) {
+            // An uninitialized item: a result target without type, e.g. for a result that has no parameter
+            return new Result("", Optional.empty());
         }
         if (name.isEmpty() && !value.isEmpty()) {
             return Result.problem("An item with a value needs a name");

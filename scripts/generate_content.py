@@ -198,6 +198,9 @@ def recipes() -> dict[str, dict]:
         ["AAA", " A ", " B "], {"A": mc("iron_ingot"), "B": mc("red_wool")}, c0de("hammer"))
     r["c0de_disk"] = shapeless([c0de("data_item"), mc("iron_ingot"), mc("black_dye")], c0de("c0de_disk"))
     r["data_item"] = shapeless([mc("paper"), mc("white_dye"), mc("yellow_dye")], c0de("data_item"), 4)
+    # Uninitialized items have no type: result targets for results without a parameter
+    r["variable_item_uninitialized"] = shapeless([c0de("data_item"), mc("light_blue_dye")], c0de("variable_item"))
+    r["constant_item_uninitialized"] = shapeless([c0de("data_item"), mc("pink_dye")], c0de("constant_item"))
     for type_name, ingredient_ in TYPE_ITEMS:
         source = [mc(i) for i in ingredient_] if isinstance(ingredient_, list) else mc(ingredient_)
         r[type_item(type_name)] = shapeless([c0de("data_item"), mc("red_dye"), source], c0de(type_item(type_name)))
@@ -263,6 +266,9 @@ MESSAGES = [
     ("message.c0de.not_saved", "Not saved: %s", "Nicht gespeichert: %s"),
     ("item.c0de.variable_item.named", "Variable %s", "Variable %s"),
     ("item.c0de.constant_item.named", "Constant %s", "Konstante %s"),
+    ("item.c0de.variable_item.uninitialized", "Uninitialized Variable", "Nicht initialisierte Variable"),
+    ("item.c0de.constant_item.uninitialized", "Uninitialized Constant", "Nicht initialisierte Konstante"),
+    ("dialog.c0de.item.clear", "Clear all fields", "Alle Felder leeren"),
     ("item.c0de.value_item.type", "Type: %s", "Typ: %s"),
     ("item.c0de.value_item.value", "Value: %s", "Wert: %s"),
     ("dialog.c0de.item.name", "Name", "Name"),
