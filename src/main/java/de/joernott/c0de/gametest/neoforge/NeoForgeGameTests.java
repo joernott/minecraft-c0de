@@ -120,6 +120,11 @@ public class NeoForgeGameTests {
     }
 
     @GameTest(template = "empty")
+    public static void triggerBlocksCanBeChained(GameTestHelper helper) {
+        ProcessTests.triggerBlocksCanBeChained(helper);
+    }
+
+    @GameTest(template = "empty")
     public static void missingInputsPreventTheStart(GameTestHelper helper) {
         ProcessTests.missingInputsPreventTheStart(helper);
     }

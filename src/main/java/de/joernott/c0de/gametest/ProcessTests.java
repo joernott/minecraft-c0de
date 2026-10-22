@@ -155,6 +155,47 @@ public final class ProcessTests {
         });
     }
 
+    /** The output of a trigger block goes into the input of an adjacent trigger block, its only neighbor. */
+    public static void triggerBlocksCanBeChained(GameTestHelper helper) {
+        ServerLevel level = c0de(helper);
+        SheetBuilder sheet = new SheetBuilder(level, 515).place("""
+                PROGRAM chained
+                NOOP
+                FUNCTION pair
+                    RESULT first INTEGER
+                BEGIN
+                    ASSIGN first 1 ;
+                END FUNCTION
+                """);
+        SheetValidation.validate(level, 515);
+        helper.setBlock(BlockPos.ZERO, C0deBlocks.TRIGGER_BLOCK.get());
+        helper.setBlock(new BlockPos(1, 0, 0), C0deBlocks.TRIGGER_BLOCK.get());
+        TriggerBlockEntity first = (TriggerBlockEntity) helper.getBlockEntity(BlockPos.ZERO);
+        TriggerBlockEntity second = (TriggerBlockEntity) helper.getBlockEntity(new BlockPos(1, 0, 0));
+        first.configure(helper.makeMockServerPlayerInLevel(), "chained", "pair", 20);
+        first.input().setItem(0, new ItemStack(C0deItems.VARIABLE_ITEM.get()));
+        first.input().setItem(1, variable("spare", "INTEGER", "3"));
+        first.start();
+        helper.assertTrue(first.isRunning(), "The process didn't start: " + first.status());
+        helper.runAfterDelay(40, () -> {
+            try {
+                helper.assertTrue(!first.isRunning(), "The process is still running");
+                helper.assertTrue(first.output().isEmpty(), "The output was not transferred");
+                String names = "";
+                for (int i = 0; i < second.input().getContainerSize(); i++) {
+                    if (!second.input().getItem(i).isEmpty()) {
+                        names += ValueItem.Contents.of(second.input().getItem(i)).name() + " ";
+                    }
+                }
+                helper.assertTrue(names.equals("first spare "), "The next input contains " + names);
+            } finally {
+                sheet.clear();
+                SheetValidation.validate(level, 515);
+            }
+            helper.succeed();
+        });
+    }
+
     /** A process returns its results as variable items, and a comparator reads its exit code. */
     public static void processesReturnTheirResults(GameTestHelper helper) {
         ServerLevel level = c0de(helper);

@@ -284,3 +284,11 @@ Another thing: Triggering a run should always work, if there is enough space in 
 ## 2026-10-22 – Pass initialized items through
 
 Before I start, please also move all initialized variables from the input to the output, even those that are not needed for the current program. This way, one can chain multiple triggers and feed the output of one into the second, where only some of it is needed and at the end of the chain, I can collect everything from all programs.
+
+## 2026-10-22 – Chained triggers and LAN permissions
+
+1: works as expected,
+3: worked as well
+2: I placed a second trigger behind my debug trigger. The output of the debug trigger was not fed into the only adjacent inventory (the next trigger). I repeated the test with two regular triggers but that didn't work either.
+4: I opened to lan, set the game mode to survival and cheats off. Then I placed a new trigger and configured it and that one could still break the block. 
+I changed game mode to survival in the chat, just to make sure and repeated the test and it broke the block again

@@ -116,6 +116,11 @@ public class FabricGameTests implements FabricGameTest {
     }
 
     @GameTest(template = SmokeTests.EMPTY_STRUCTURE)
+    public void triggerBlocksCanBeChained(GameTestHelper helper) {
+        ProcessTests.triggerBlocksCanBeChained(helper);
+    }
+
+    @GameTest(template = SmokeTests.EMPTY_STRUCTURE)
     public void missingInputsPreventTheStart(GameTestHelper helper) {
         ProcessTests.missingInputsPreventTheStart(helper);
     }

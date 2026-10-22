@@ -57,7 +57,7 @@ When a process starts, it takes out of the input inventory
 
 Empty items that are not needed stay in the input inventory. Empty (e.g. uninitialized) variable items can therefore be stacked in the input inventory for several runs.
 
-If there is exactly one block with an inventory adjacent to the trigger block and that inventory has sufficient capacity, all items in the output inventory are transferred to it automatically.
+If there is exactly one block with an inventory adjacent to the trigger block and that inventory has sufficient capacity, all items in the output inventory are transferred to it automatically. An adjacent trigger block counts as a block with an inventory: the items go into its input inventory, so trigger blocks can be chained.
 
 ## Ending a process
 

@@ -290,14 +290,22 @@ public class TriggerBlockEntity extends BlockEntity implements MenuProvider {
         updateComparator();
     }
 
-    /** Moves the output to the inventory of the only adjacent block with an inventory, if it fits completely. */
+    /**
+     * Moves the output to the inventory of the only adjacent block with an inventory, if it fits completely. An
+     * adjacent trigger block counts with its input inventory.
+     */
     private void transferOutput() {
         if (level == null || output.isEmpty()) {
             return;
         }
         Container target = null;
         for (Direction side : Direction.values()) {
-            if (level.getBlockEntity(worldPosition.relative(side)) instanceof Container container) {
+            BlockEntity neighbor = level.getBlockEntity(worldPosition.relative(side));
+            // Trigger blocks can be chained: the output of one goes into the input of the next
+            Container container = neighbor instanceof TriggerBlockEntity trigger
+                    ? trigger.input()
+                    : neighbor instanceof Container other ? other : null;
+            if (container != null) {
                 if (target != null) {
                     return;
                 }
