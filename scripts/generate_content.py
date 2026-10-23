@@ -383,24 +383,23 @@ def hopper() -> list:
     ]
 
 
-def steps() -> list:
-    """A trapezoid of four steps, wide at the bottom."""
-    result = []
-    for i in range(4):
-        inset = 3 * i // 2 if i % 2 == 0 else 1.5 * i
-        faces = dict({side: "#side" for side in SIDES_4}, up="#top", down="#top")
-        result.append(element([inset, 4 * i, inset], [16 - inset, 4 * i + 4, 16 - inset], faces))
-    return result
-
-
 # Blocks with a shape instead of a cube: (elements, texture prefix, texture names). The shapes in CodeBlockShapes
 # MUST match.
 SHAPES = {
     "PARAMETER": (hopper(), "parameter_block", ("top", "outside", "inside")),
     "RESULT": (flipped(hopper()), "parameter_block", ("top", "outside", "inside")),
-    "BEGIN": (steps(), "begin_block", ("top", "side")),
-    "END": (flipped(steps()), "begin_block", ("top", "side")),
 }
+
+# BEGIN and END are cubes in their JSON models; TrapezoidModel (client) moves the vertices into a trapezoid,
+# because JSON models can't have diagonal sides.
+TRAPEZOIDS = ("BEGIN", "END")
+
+
+def trapezoid_model(suffix: str) -> dict:
+    top = "c0de:block/begin_block" + suffix + "_top"
+    side = "c0de:block/begin_block" + suffix + "_side"
+    return {"parent": "minecraft:block/cube", "textures": {
+        "up": top, "down": top, "north": side, "south": side, "west": side, "east": side, "particle": side}}
 
 
 def shaped_model(name: str, suffix: str) -> dict:
@@ -426,7 +425,12 @@ def block_files(name: str, validated: bool, transparent: bool) -> None:
         for valid in ("true", "false"):
             suffix = "_valid" if valid == "true" else "_invalid"
             variants["valid=" + valid] = {"model": "c0de:block/" + bid + suffix}
-            model = shaped_model(name, suffix) if name in SHAPES else block_model(bid, suffix, SIDES.get(name))
+            if name in TRAPEZOIDS:
+                model = trapezoid_model(suffix)
+            elif name in SHAPES:
+                model = shaped_model(name, suffix)
+            else:
+                model = block_model(bid, suffix, SIDES.get(name))
             write(ASSETS / "models" / "block" / (bid + suffix + ".json"), model)
         write(ASSETS / "blockstates" / (bid + ".json"), {"variants": variants})
         item_parent = "c0de:block/" + bid + "_valid"

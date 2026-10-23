@@ -7,6 +7,7 @@ import de.joernott.c0de.client.C0deDimensionEffects;
 import de.joernott.c0de.client.LineNumbers;
 import de.joernott.c0de.client.ProcessRenderers;
 import de.joernott.c0de.client.PropertiesRenderer;
+import de.joernott.c0de.client.TrapezoidModel;
 import de.joernott.c0de.client.TriggerScreen;
 import de.joernott.c0de.content.C0deEntities;
 import de.joernott.c0de.content.C0deMenus;
@@ -50,6 +51,10 @@ public class C0deFabricClient implements ClientModInitializer {
         net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry.register(
                 C0deEntities.MARK.get(), ProcessRenderers.Mark::new);
         net.minecraft.client.gui.screens.MenuScreens.register(C0deMenus.TRIGGER.get(), TriggerScreen::new);
+        net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin.register(plugin -> plugin
+                .modifyModelAfterBake()
+                .register((model, context) ->
+                        context.topLevelId() == null ? model : TrapezoidModel.wrap(context.topLevelId(), model)));
         net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents.AFTER_ENTITIES.register(
                 context -> LineNumbers.render(context.camera()));
     }

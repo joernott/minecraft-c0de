@@ -310,3 +310,7 @@ After 11.1, there should be another task: Different shapes of blocks. The PARAME
 Also add another task below that: When a line has any content, show an overlay with the line number on the floor of the block at x=2. The line number should have a faint difference to the underlying blocks color for NOOPS and COMMENTS. For actual statements, it should be dark red if that line is incomplete or syntactically wrong, dark yellow if it is an incomlete statement like begin without an end, a function missing the code block etc. It should be dark green if that single line is syntactically correct (or in case of a multiline statement, the whole statement is correct)
 
 Complete 11.1 and these new 11.2 and 11.3 tasks, then let me have a look.
+
+## 2026-10-23 – Trapezoids with diagonals
+
+The tests were fine and provided the expected feedback. The trapezes for begin and end should be laying on their sides and ther should be actual diagonals not steps. The Create: copycats+ module provides slopes that are actually triangular and Create: Extra Copycats provides even more variants of shapes with diagonal lines. The latter has been designed with AI support. Please have a look at them to see if we can use that technique to create a trapezoid lying on its trapez side.

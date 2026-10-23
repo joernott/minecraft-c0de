@@ -504,15 +504,6 @@ def darker(color: int, delta: int) -> int:
     return r << 16 | g << 8 | b
 
 
-def steps_side(color: int, seed: str) -> Image:
-    """The sides of a stepped trapezoid: every 4 pixels high step has a darker lower edge."""
-    image = concrete(color, seed, 3)
-    for y in (3, 7, 11, 15):
-        for x in range(16):
-            image[y][x] = shade(image[y][x], -45)
-    return image
-
-
 def hopper_top(color: int, seed: str) -> Image:
     """The rim of a hopper: a light 2 pixels wide ring around the dark inside."""
     image = concrete(darker(color, 70), seed, 3)
@@ -528,7 +519,7 @@ def shaped_block_textures(blocks: Path) -> None:
         for suffix, color in (("_valid", valid), ("_invalid", invalid)):
             name = block + suffix
             if block == "begin_block":
-                write_png(blocks / (name + "_side.png"), steps_side(color, name + "_side"))
+                write_png(blocks / (name + "_side.png"), framed(color, name + "_side"))
                 write_png(blocks / (name + "_top.png"), concrete(color, name + "_top", 3))
             else:
                 write_png(blocks / (name + "_outside.png"), framed(color, name + "_outside"))

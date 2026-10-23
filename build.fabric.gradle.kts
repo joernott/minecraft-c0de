@@ -55,6 +55,7 @@ dependencies {
         "fabric-blockrenderlayer-v1",
         "fabric-screen-handler-api-v1",
         "fabric-events-interaction-v0",
+        "fabric-model-loading-api-v1",
     )
     // Used by core (TO_YAML, FROM_YAML, FROM_JSON), embedded in the mod jar
     include(implementation("org.snakeyaml:snakeyaml-engine:3.2")!!)

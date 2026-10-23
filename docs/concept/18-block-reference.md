@@ -12,7 +12,7 @@ The block IDs are the names in lowercase with the suffix `_block`, e.g. `c0de:no
 | PROGRAM | dark gray #555555 | black #000000 | book | NOOP + book |
 | INCLUDE | dark gray #555555 | black #000000 | map | NOOP + empty map |
 | EXIT | dark gray #555555 | black #000000 | iron door | 8 NOOP around iron door → 8 |
-| BEGIN / END | yellow #FFFF55 | gold #FFAA00 | shape: trapezoid of four steps, BEGIN wide at the bottom, END wide at the top | 8 NOOP around yellow wool → 8 BEGIN; BEGIN ↔ END |
+| BEGIN / END | yellow #FFFF55 | gold #FFAA00 | shape: seen from above a trapezoid with diagonal sides; BEGIN is wide towards its code block (south), END towards the code block above it (north) | 8 NOOP around yellow wool → 8 BEGIN; BEGIN ↔ END |
 | BREAK | yellow #FFFF55 | gold #FFAA00 | broken stick | NOOP + stick |
 | type base (item) | – | – | question mark | 8 NOOP around red carpet → 8 |
 | TYPE_BOOLEAN | red | – | redstone torch | type base + redstone torch |
