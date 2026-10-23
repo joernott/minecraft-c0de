@@ -51,10 +51,12 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.level.TicketType;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -548,6 +550,29 @@ public class ProcessManager extends SavedData {
         }
         setDirty();
         return cursor.ended() ? "ENDED, exit code " + cursor.exitCode() : cursor.state() + ", line " + cursor.line();
+    }
+
+    /**
+     * Aborts the process with a PID on a sheet: its cursor crashes with PROCESS_ABORTED, and the process ends like
+     * a crashed one, so the items it took go to the output inventory. Only the owner of the trigger block and
+     * operators may abort a process.
+     *
+     * @return the message for the player
+     */
+    public Component abort(MinecraftServer server, ServerPlayer player, int sheet, int pid) {
+        Process process = processes.values().stream()
+                .filter(p -> p.sheet() == sheet && p.pid() == pid)
+                .findFirst()
+                .orElse(null);
+        if (process == null) {
+            return Component.translatable("message.c0de.no_process", pid);
+        }
+        if (!player.getUUID().equals(process.owner()) && !player.hasPermissions(2)) {
+            return Component.translatable("message.c0de.not_owner", pid);
+        }
+        process.cursor().abort("Aborted by " + player.getGameProfile().getName());
+        end(server, process, Cursor.CRASH_EXIT_CODE, true);
+        return Component.translatable("message.c0de.aborted", process.program(), pid);
     }
 
     /** The data of the cursor dialog of the debugging tool: properties and stack of the cursor. */

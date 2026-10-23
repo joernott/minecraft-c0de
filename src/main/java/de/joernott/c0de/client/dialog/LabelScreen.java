@@ -8,24 +8,22 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 
 /**
- * The dialog of a LABEL. Its layout depends on the position of the label: an input field for the name, a list
- * of choices (libraries, functions, …) that fill the field when clicked, and an editor for the index of
- * references.
+ * The dialog of a LABEL. Its layout depends on the position of the label: an input field for the name, a
+ * scrollable list of choices (libraries, functions, …) filtered by the name, which fill the field when clicked,
+ * and an editor for the index of references.
  */
 public class LabelScreen extends PropertiesScreen {
-    private static final int CHOICE_ROWS = 6;
-    private static final int CHOICE_HEIGHT = 16;
+    private static final int CHOICE_ROWS = 10;
 
     private final LabelMode mode;
     private final List<String> options = new ArrayList<>();
-    private final List<Button> choices = new ArrayList<>();
+    private ChoiceList choices;
     private EditBox name;
     private EditBox index;
 
@@ -47,7 +45,7 @@ public class LabelScreen extends PropertiesScreen {
 
     @Override
     protected int contentHeight() {
-        return ROW + (hasChoices() ? CHOICE_ROWS * CHOICE_HEIGHT + 4 : 0) + (mode.allowsIndex() ? ROW + 4 : 0) + 8;
+        return ROW + (hasChoices() ? CHOICE_ROWS * ChoiceList.ROW + 6 : 0) + (mode.allowsIndex() ? ROW + 4 : 0) + 8;
     }
 
     @Override
@@ -58,22 +56,18 @@ public class LabelScreen extends PropertiesScreen {
         name.setValue(payload.data().getString("name"));
         name.setEditable(!readOnly);
         name.setResponder(text -> {
-            updateChoices();
+            if (choices != null) {
+                choices.filter(text);
+            }
             update();
         });
         setInitialFocus(name);
         y += ROW;
         if (hasChoices()) {
-            for (int i = 0; i < CHOICE_ROWS; i++) {
-                Button choice = addRenderableWidget(Button.builder(Component.empty(), button -> {
-                            name.setValue(button.getMessage().getString());
-                        })
-                        .bounds(left + MARGIN, y + i * CHOICE_HEIGHT, FIELD_WIDTH, CHOICE_HEIGHT)
-                        .build());
-                choices.add(choice);
-            }
-            y += CHOICE_ROWS * CHOICE_HEIGHT + 4;
-            updateChoices();
+            choices = addRenderableWidget(
+                    new ChoiceList(font, left + MARGIN, y, FIELD_WIDTH, CHOICE_ROWS, options, name::setValue));
+            choices.filter(name.getValue());
+            y += CHOICE_ROWS * ChoiceList.ROW + 6;
         }
         if (mode.allowsIndex()) {
             index = addRenderableWidget(new EditBox(font, left + MARGIN, y + 10, FIELD_WIDTH, 18, Component.empty()));
@@ -81,23 +75,6 @@ public class LabelScreen extends PropertiesScreen {
             index.setValue(payload.data().getString("index"));
             index.setEditable(!readOnly);
             index.setResponder(text -> update());
-        }
-    }
-
-    /** Shows the choices that contain the entered text. */
-    private void updateChoices() {
-        String filter = name.getValue().toLowerCase(Locale.ROOT);
-        List<String> matching = options.stream()
-                .filter(option -> option.toLowerCase(Locale.ROOT).contains(filter))
-                .toList();
-        if (matching.isEmpty() || (matching.size() == 1 && matching.get(0).equals(name.getValue()))) {
-            // An exact match needs no list; show all choices instead
-            matching = options;
-        }
-        for (int i = 0; i < choices.size(); i++) {
-            Button choice = choices.get(i);
-            choice.visible = i < matching.size();
-            choice.setMessage(Component.literal(i < matching.size() ? matching.get(i) : ""));
         }
     }
 

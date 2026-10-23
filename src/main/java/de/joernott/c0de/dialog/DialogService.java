@@ -4,13 +4,18 @@ import de.joernott.c0de.C0de;
 import de.joernott.c0de.blockentity.PropertiesBlockEntity;
 import de.joernott.c0de.core.edit.ItemRules;
 import de.joernott.c0de.item.ValueItem;
+import de.joernott.c0de.library.ModLibraries;
 import de.joernott.c0de.network.OpenDialogPayload;
 import de.joernott.c0de.network.SaveItemPayload;
 import de.joernott.c0de.network.SavePropertiesPayload;
 import de.joernott.c0de.platform.Platform;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.StringTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -50,6 +55,14 @@ public final class DialogService {
         data.putString("type", contents.type());
         data.putString("value", ItemRules.display(contents.type(), contents.value()));
         data.putBoolean("constant", item.isConstant());
+        List<String> structTypes = new ArrayList<>();
+        ModLibraries.registry()
+                .all()
+                .forEach(library -> library.types().keySet().forEach(type -> structTypes.add(library.name() + "/" + type)));
+        ListTag types = new ListTag();
+        ItemRules.typeChoices(contents.type().split(" ")[0], structTypes)
+                .forEach(type -> types.add(StringTag.valueOf(type)));
+        data.put("types", types);
         Platform.INSTANCE.sendToPlayer(
                 player, new OpenDialogPayload(player.blockPosition(), "value_item", item.isReadOnly(stack), data));
     }

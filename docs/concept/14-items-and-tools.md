@@ -6,6 +6,8 @@
 
 The debugging tool looks like a fly swatter with a wooden handle and a leather square at the top.
 
+Shift-right-clicking a PID block with the debugging tool aborts its process: the cursor crashes with PROCESS_ABORTED (206), and the process ends like a crashed one, so the items it took from the input inventory go to the output inventory. Only the owner of the trigger block and operators can abort a process.
+
 It is used to
   - start a process with a debug trigger block (by attacking the block),
   - control a debug cursor and inspect cursors (see [Movement](15-cursor.md#movement)),
@@ -156,7 +158,7 @@ A variable item has the following properties:
   - value
   - tags (optional, see [Tags](04-data.md#tags))
 
-A variable item is *empty* if it has no name and no value. Right-clicking with a variable item in the main hand opens a dialog in which its name and value can be edited.
+A variable item is *empty* if it has no name and no value. Right-clicking with a variable item in the main hand opens a dialog in which its name, type and value can be edited. While the type field has the focus, a dropdown list below it offers the types: the simple types, STRING, ERROR, the struct types of the libraries and arrays and hashes of them, filtered by the entered text. Struct types of a program can be typed. A variable item that was crafted with a type item keeps the kind of its type (e.g. ARRAY); only its subtype can be chosen.
 
 A variable item is *uninitialized* if it has no name, no type and no value. It is used as the target of a result that has no parameter at the same position: the result sets its name, type and value. The dialog has a trash can button that empties all fields; saving the dialog with all fields empty, whether they were emptied with the button or by hand, makes the item uninitialized.
 

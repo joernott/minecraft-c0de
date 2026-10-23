@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.ZoneOffset;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 
 /** The properties of variable and constant items (task 8.1). */
@@ -21,6 +22,21 @@ class ItemRulesTest {
         assertEquals("", check("", "INTEGER", "").json(), "an empty item");
         assertTrue(check("", "", "").problem().isEmpty(), "an uninitialized item");
         assertTrue(check("", "  ", "").problem().isEmpty(), "an uninitialized item with spaces");
+    }
+
+    @Test
+    void typeChoices() {
+        List<String> all = ItemRules.typeChoices("", List.of("c0de/minecraft/POSITION"));
+        assertTrue(all.containsAll(List.of(
+                "BOOLEAN",
+                "STRUCT c0de/minecraft/POSITION",
+                "ARRAY INTEGER",
+                "HASH STRING",
+                "ARRAY STRUCT c0de/minecraft/POSITION")));
+        // Every choice is a valid type
+        all.forEach(type -> assertTrue(check("x", type, "").problem().isEmpty(), type));
+        // A crafted item keeps its kind of type
+        assertTrue(ItemRules.typeChoices("ARRAY", List.of()).stream().allMatch(type -> type.startsWith("ARRAY ")));
     }
 
     @Test

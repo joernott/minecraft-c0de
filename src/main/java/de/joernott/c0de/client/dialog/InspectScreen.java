@@ -43,8 +43,7 @@ public class InspectScreen extends Screen {
     @Override
     public void renderBackground(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
         super.renderBackground(graphics, mouseX, mouseY, partialTick);
-        graphics.fill(left - 1, top - 1, left + WIDTH + 1, top + panelHeight + 1, 0xFF808080);
-        graphics.fill(left, top, left + WIDTH, top + panelHeight, 0xF0202020);
+        Panels.draw(graphics, left, top, WIDTH, panelHeight, 0xFF808080, 0xF0202020);
     }
 
     @Override

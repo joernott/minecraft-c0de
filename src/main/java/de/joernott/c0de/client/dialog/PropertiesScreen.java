@@ -103,8 +103,7 @@ public abstract class PropertiesScreen extends Screen {
     @Override
     public void renderBackground(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
         super.renderBackground(graphics, mouseX, mouseY, partialTick);
-        graphics.fill(left - 1, top - 1, left + WIDTH + 1, top + panelHeight() + 1, BORDER_COLOR);
-        graphics.fill(left, top, left + WIDTH, top + panelHeight(), PANEL_COLOR);
+        Panels.draw(graphics, left, top, WIDTH, panelHeight(), BORDER_COLOR, PANEL_COLOR);
     }
 
     @Override

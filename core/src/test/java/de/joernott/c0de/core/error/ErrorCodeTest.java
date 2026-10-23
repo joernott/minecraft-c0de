@@ -31,6 +31,8 @@ class ErrorCodeTest {
         assertEquals(ErrorCode.Handling.RAISE, ErrorCode.UNKNOWN_STRUCT_ENTITY.handling());
         assertEquals(303, ErrorCode.DIVISION_BY_ZERO.code());
         assertEquals(311, ErrorCode.PERMISSION_DENIED.code());
+        assertEquals(ErrorCode.Handling.CRASH, ErrorCode.PROCESS_ABORTED.handling());
+        assertEquals(206, ErrorCode.PROCESS_ABORTED.code());
     }
 
     @Test

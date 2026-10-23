@@ -235,6 +235,9 @@ A task is done when
 | 11.2.7 | The symbols of FOR, EACH, WHILE and REPEAT in lime; a thin circular arrow and a sharp # that don't touch. | ✅ |
 | 11.2.8 | PROGRAM in the gray of FUNCTION with a book on the top and INCLUDE with a bookshelf, as in invisible item frames; ASSIGN a triangle, IF and ELSE diamonds with lime symbols, COMMENT two extruded green slashes; the OPERATOR item shows the question mark; the BEGIN and END items are swapped. | ✅ |
 | 11.2.9 | INCLUDE lines start at x=5, like the other global statements. | ✅ |
+| 11.2.10 | Label dialog: a scrollable list of the choices, filtered by the entered name, instead of six buttons. | ✅ |
+| 11.2.11 | Item dialog: a dropdown list of the types below the type field; dialogs with slightly rounded corners. | ✅ |
+| 11.2.12 | Shift-right-clicking a PID block with the debugging tool aborts its process (PROCESS_ABORTED, 206). | ✅ |
 | 11.3 | Line numbers: every line with content shows its number on the floor at x=2. The color shows the state of the line: a faint shade of the floor for NOOP and COMMENT lines, dark red for a wrong line, dark yellow for an incomplete statement (e.g. BEGIN without END, FUNCTION without code block), dark green for a correct line. | ✅ |
 | 11.4 | Player documentation: a guide with examples (Markdown in the repository and the Modrinth page); optionally an in-game book. |  |
 | 11.5 | Performance tests: many processes at the same time, large programs, deep recursion; tuning of the scheduler. |  |

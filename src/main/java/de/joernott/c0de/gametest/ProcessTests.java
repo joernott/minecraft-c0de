@@ -16,6 +16,7 @@ import de.joernott.c0de.dialog.SheetProtection;
 import de.joernott.c0de.dimension.C0deDimension;
 import de.joernott.c0de.item.ValueItem;
 import de.joernott.c0de.library.ModLibraries;
+import de.joernott.c0de.process.ProcessManager;
 import de.joernott.c0de.process.SnapshotNbt;
 import de.joernott.c0de.sheet.LevelSheet;
 import de.joernott.c0de.sheet.SheetValidation;
@@ -242,6 +243,43 @@ public final class ProcessTests {
             } finally {
                 sheet.clear();
                 SheetValidation.validate(level, 516);
+            }
+            helper.succeed();
+        });
+    }
+
+    /** Shift-right-clicking the PID block with the debugging tool aborts the process (task 11.2.12). */
+    public static void processesCanBeAborted(GameTestHelper helper) {
+        ServerLevel level = c0de(helper);
+        SheetBuilder sheet = new SheetBuilder(level, 517)
+                .place(twice("aborting").replace("    ASSIGN result result / ( value - value ) ;\n", """
+                            WHILE TRUE ;
+                            BEGIN
+                                ASSIGN result result + 1 ;
+                            END WHILE
+                        """));
+        SheetValidation.validate(level, 517);
+        helper.setBlock(BlockPos.ZERO, C0deBlocks.TRIGGER_BLOCK.get());
+        TriggerBlockEntity trigger = (TriggerBlockEntity) helper.getBlockEntity(BlockPos.ZERO);
+        ServerPlayer owner = helper.makeMockServerPlayerInLevel();
+        trigger.configure(owner, "aborting", "twice", 20);
+        trigger.input().setItem(0, variable("value", "INTEGER", "1"));
+        trigger.start();
+        helper.assertTrue(trigger.isRunning(), "The process didn't start: " + trigger.status());
+        int pid = trigger.pid();
+        helper.runAfterDelay(5, () -> {
+            try {
+                ProcessManager.get(level.getServer()).abort(level.getServer(), owner, 517, pid);
+                helper.assertTrue(!trigger.isRunning(), "The process is still running");
+                helper.assertTrue(trigger.exitCode() == Cursor.CRASH_EXIT_CODE, "Exit code " + trigger.exitCode());
+                helper.assertTrue(
+                        trigger.error().getString("code").equals("206"), "The error is " + trigger.error());
+                helper.assertTrue(
+                        ValueItem.Contents.of(trigger.output().getItem(0)).name().equals("value"),
+                        "The input was not returned");
+            } finally {
+                sheet.clear();
+                SheetValidation.validate(level, 517);
             }
             helper.succeed();
         });

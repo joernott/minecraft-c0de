@@ -30,6 +30,7 @@ public enum ErrorCode {
     STACK_OVERFLOW(203, Handling.CRASH),
     FUNCTION_MISSING_INPUT(204, Handling.CRASH),
     INVALID_EXIT_CODE(205, Handling.CRASH),
+    PROCESS_ABORTED(206, Handling.CRASH),
     UNKNOWN_NAME(300, Handling.RAISE),
     UNKNOWN_STRUCT_ENTITY(301, Handling.RAISE),
     TYPE_MISMATCH(302, Handling.RAISE),

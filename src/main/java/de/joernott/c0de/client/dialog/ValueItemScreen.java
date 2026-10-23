@@ -6,19 +6,23 @@ import de.joernott.c0de.core.edit.PropertyRules;
 import de.joernott.c0de.network.OpenDialogPayload;
 import de.joernott.c0de.network.SaveItemPayload;
 import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 
 /**
  * The dialog of a variable or constant item: its name, its type (the subtype or struct name can be added) and
- * its value, entered like the value of a LITERAL for simple types and STRING and as JSON otherwise. The trash can
+ * its value, entered like the value of a LITERAL for simple types and STRING and as JSON otherwise. While the type
+ * field has the focus, a drop-down list below it offers the types, filtered by the entered text. The trash can
  * button empties all fields; an item saved with empty fields is uninitialized.
  */
 public class ValueItemScreen extends PropertiesScreen {
@@ -26,6 +30,8 @@ public class ValueItemScreen extends PropertiesScreen {
     private EditBox type;
     private EditBox value;
     private Button trash;
+    private ChoiceList types;
+    private static final int TYPE_ROWS = 6;
 
     private static final ResourceLocation TRASH = C0de.id("textures/gui/trash.png");
 
@@ -60,6 +66,19 @@ public class ValueItemScreen extends PropertiesScreen {
         type = field(1, "type", 200);
         value = field(2, "value", 10 * PropertyRules.MAX_TEXT_LENGTH);
         setInitialFocus(name);
+        List<String> choices = new ArrayList<>();
+        payload.data().getList("types", Tag.TAG_STRING).forEach(type -> choices.add(type.getAsString()));
+        // The drop-down list is drawn over the value field, so it is drawn and clicked separately
+        types = new ChoiceList(font, type.getX(), type.getY() + 19, FIELD_WIDTH, TYPE_ROWS, choices, choice -> {
+            type.setValue(choice);
+            setFocused(value);
+        });
+        types.visible = false;
+        type.setResponder(text -> {
+            types.filter(text);
+            update();
+        });
+        types.filter(type.getValue());
         if (!readOnly) {
             trash = addRenderableWidget(Button.builder(Component.empty(), button -> clear())
                     .bounds(left + WIDTH - MARGIN - 44, top + panelHeight() - MARGIN - 20, 20, 20)
@@ -76,9 +95,36 @@ public class ValueItemScreen extends PropertiesScreen {
         setFocused(name);
     }
 
+    private boolean showsTypes() {
+        return types != null && !readOnly && type.isFocused() && !payload.data().getList("types", Tag.TAG_STRING).isEmpty();
+    }
+
+    @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        if (showsTypes() && types.isMouseOver(mouseX, mouseY)) {
+            return types.mouseClicked(mouseX, mouseY, button);
+        }
+        return super.mouseClicked(mouseX, mouseY, button);
+    }
+
+    @Override
+    public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
+        if (showsTypes() && types.mouseScrolled(mouseX, mouseY, scrollX, scrollY)) {
+            return true;
+        }
+        return super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
+    }
+
     @Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
         super.render(graphics, mouseX, mouseY, partialTick);
+        types.visible = showsTypes();
+        if (types.visible) {
+            graphics.pose().pushPose();
+            graphics.pose().translate(0, 0, 200);
+            types.render(graphics, mouseX, mouseY, partialTick);
+            graphics.pose().popPose();
+        }
         caption(graphics, Component.translatable("dialog.c0de.item.name"), name.getY());
         caption(graphics, Component.translatable("dialog.c0de.item.type"), type.getY());
         caption(graphics, Component.translatable("dialog.c0de.item.value"), value.getY());

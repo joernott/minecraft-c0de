@@ -10,6 +10,9 @@ import de.joernott.c0de.core.value.Literals;
 import de.joernott.c0de.core.value.Type;
 import de.joernott.c0de.core.value.Value;
 import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -20,6 +23,30 @@ import java.util.Optional;
  */
 public final class ItemRules {
     private ItemRules() {}
+
+    /** The types without subtype that an item can have, and that are the subtypes of arrays and hashes. */
+    private static final List<String> ELEMENT_TYPES =
+            List.of("BOOLEAN", "INTEGER", "FLOAT", "CHAR", "STRING", "TIME", "ERROR");
+
+    /**
+     * The types that can be chosen in the dialog of an item: the simple types, STRING, ERROR and the struct types
+     * of the libraries, and arrays and hashes of them. The struct types of a program are only known in the
+     * program, so they can only be typed.
+     *
+     * @param base the kind of type that the item got when it was crafted (e.g. {@code ARRAY}), or empty for an
+     *     uninitialized item; only the types of this kind are returned
+     * @param structTypes the qualified names of the struct types of the libraries
+     */
+    public static List<String> typeChoices(String base, Collection<String> structTypes) {
+        List<String> elements = new ArrayList<>(ELEMENT_TYPES);
+        structTypes.stream().sorted().forEach(name -> elements.add("STRUCT " + name));
+        List<String> all = new ArrayList<>(elements);
+        elements.forEach(element -> all.add("ARRAY " + element));
+        elements.forEach(element -> all.add("HASH " + element));
+        return base.isEmpty()
+                ? all
+                : all.stream().filter(type -> type.split(" ")[0].equals(base)).toList();
+    }
 
     /** The result of checking the properties: the value as JSON to store, or a problem. */
     public record Result(String json, Optional<String> problem) {

@@ -144,7 +144,7 @@ When a LABEL is placed, the game initializes its kind and parent properties from
 
 #### Dialog
 
-Right-clicking a LABEL block with an empty hand opens a dialog. Its layout depends on the position of the block:
+Right-clicking a LABEL block with an empty hand opens a dialog. The dropdown lists below are scrollable lists under the input field for the name; they show the entries that contain the entered text, and clicking an entry puts it into the field. The layout depends on the position of the block:
   - next to a PROGRAM, STRUCT, VARIABLE, CONSTANT, FUNCTION, PARAMETER (in a FUNCTION statement), RESULT (in a FUNCTION statement), FOR or EACH block, or at the start of a struct or hash content line, an input field for a new name is shown
   - next to an INCLUDE block, a dropdown list of available libraries is shown
   - next to a CALL block, a dropdown list of the available functions (built-in, from included libraries and from the program) is shown

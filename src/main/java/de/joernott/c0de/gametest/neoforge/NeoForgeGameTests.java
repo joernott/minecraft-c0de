@@ -115,6 +115,11 @@ public class NeoForgeGameTests {
     }
 
     @GameTest(template = "empty")
+    public static void processesCanBeAborted(GameTestHelper helper) {
+        ProcessTests.processesCanBeAborted(helper);
+    }
+
+    @GameTest(template = "empty")
     public static void processesTakeOnlyTheItemsTheyUse(GameTestHelper helper) {
         ProcessTests.processesTakeOnlyTheItemsTheyUse(helper);
     }

@@ -779,6 +779,16 @@ public final class Cursor {
         }
     }
 
+    /**
+     * Ends a running cursor from outside, e.g. because a player aborted the process: it crashes with
+     * PROCESS_ABORTED in its current line.
+     */
+    public void abort(String message) {
+        if (!ended()) {
+            crash(C0deException.crash(ErrorCode.PROCESS_ABORTED, message));
+        }
+    }
+
     private void crash(C0deException e) {
         crashWith(errorValue(
                 e.code().code(),

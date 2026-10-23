@@ -26,6 +26,7 @@
 | 203 | STACK_OVERFLOW | crash | The stack of the cursor is full and a new item was pushed onto it. |
 | 204 | FUNCTION_MISSING_INPUT | crash | A function has been called and not all mandatory parameters have been provided, or the trigger block did not provide enough empty variable items for the results. |
 | 205 | INVALID_EXIT_CODE | crash | The value of an EXIT expression is not an INTEGER between 0 and 15. |
+| 206 | PROCESS_ABORTED | crash | A player aborted the process with the debugging tool (shift-right-click on its PID block). |
 | 300 | UNKNOWN_NAME | raise | A label refers to a variable or constant that is not in scope. |
 | 301 | UNKNOWN_STRUCT_ENTITY | raise | A declaration references a struct that has not been declared (yet), or an index references an element the struct does not have. Raised when it occurs at run time, crash when it occurs in a declaration. |
 | 302 | TYPE_MISMATCH | raise | A value does not have the type required at this place. |

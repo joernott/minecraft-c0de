@@ -2,6 +2,7 @@ package de.joernott.c0de.client;
 
 import de.joernott.c0de.block.TriggerBlock;
 import de.joernott.c0de.blockentity.TriggerBlockEntity;
+import de.joernott.c0de.client.dialog.Panels;
 import de.joernott.c0de.menu.TriggerMenu;
 import de.joernott.c0de.network.TriggerConfigPayload;
 import de.joernott.c0de.platform.Platform;
@@ -139,8 +140,7 @@ public class TriggerScreen extends AbstractContainerScreen<TriggerMenu> {
 
     @Override
     protected void renderBg(GuiGraphics graphics, float partialTick, int mouseX, int mouseY) {
-        graphics.fill(leftPos, topPos, leftPos + imageWidth, topPos + imageHeight, 0xFF555555);
-        graphics.fill(leftPos + 1, topPos + 1, leftPos + imageWidth - 1, topPos + imageHeight - 1, BACKGROUND);
+        Panels.draw(graphics, leftPos + 1, topPos + 1, imageWidth - 2, imageHeight - 2, 0xFF555555, BACKGROUND);
         for (Slot slot : menu.slots) {
             int x = leftPos + slot.x - 1;
             int y = topPos + slot.y - 1;
