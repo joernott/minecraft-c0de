@@ -119,6 +119,14 @@ public class ValueItemScreen extends PropertiesScreen {
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
         super.render(graphics, mouseX, mouseY, partialTick);
         types.visible = showsTypes();
+        if (!readOnly && !payload.data().getList("types", Tag.TAG_STRING).isEmpty()) {
+            // A small triangle at the end of the type field shows that it has a dropdown list
+            int right = type.getX() + type.getWidth() - 4;
+            int top = type.getY() + 7;
+            for (int row = 0; row < 3; row++) {
+                graphics.fill(right - 5 + row, top + row, right - row, top + row + 1, 0xFFA0A0A0);
+            }
+        }
         if (types.visible) {
             graphics.pose().pushPose();
             graphics.pose().translate(0, 0, 200);

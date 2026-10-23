@@ -119,6 +119,11 @@ public class NeoForgeGameTests {
         ProcessTests.processesCanBeAborted(helper);
     }
 
+    @GameTest(template = "empty", timeoutTicks = 800)
+    public static void longLoopsEnd(GameTestHelper helper) {
+        ProcessTests.longLoopsEnd(helper);
+    }
+
     @GameTest(template = "empty")
     public static void processesTakeOnlyTheItemsTheyUse(GameTestHelper helper) {
         ProcessTests.processesTakeOnlyTheItemsTheyUse(helper);

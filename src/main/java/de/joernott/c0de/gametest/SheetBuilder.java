@@ -31,12 +31,12 @@ final class SheetBuilder {
     private static final TicketType<ChunkPos> TICKET =
             TicketType.create("c0de_gametest", Comparator.comparingLong(ChunkPos::toLong), 200);
 
-    /** Loads the chunks of the first 32 lines of the sheet. */
+    /** Loads the chunks of the first 48 lines of the sheet. */
     SheetBuilder(ServerLevel level, int sheet) {
         this.level = level;
         this.sheet = sheet;
         int chunkX = SheetGeometry.absoluteX(sheet, 0) >> 4;
-        for (int chunkZ = 0; chunkZ < 2; chunkZ++) {
+        for (int chunkZ = 0; chunkZ < 3; chunkZ++) {
             for (ChunkPos chunk : List.of(new ChunkPos(chunkX, chunkZ), new ChunkPos(chunkX + 1, chunkZ))) {
                 level.getChunkSource().addRegionTicket(TICKET, chunk, 0, chunk);
                 level.getChunk(chunk.x, chunk.z);

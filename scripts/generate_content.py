@@ -365,7 +365,10 @@ def block_files(name: str, validated: bool, transparent: bool) -> None:
         keys = ("valid=true", "valid=false") if validated else ("",)
         write(ASSETS / "blockstates" / (bid + ".json"), {"variants": {key: {"model": model_ref} for key in keys}})
         item_parent = model_ref
-    write(ASSETS / "models" / "item" / (bid + ".json"), {"parent": item_parent})
+    # The symbols on the top are readable from the south; the inventory shows blocks from the north, so the items
+    # are turned by 180 degrees
+    write(ASSETS / "models" / "item" / (bid + ".json"), {"parent": item_parent, "display": {
+        "gui": {"rotation": [30, 45, 0], "translation": [0, 0, 0], "scale": [0.625, 0.625, 0.625]}}})
     write(DATA / "loot_table" / "blocks" / (bid + ".json"), {
         "type": "minecraft:block",
         "pools": [{

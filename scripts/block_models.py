@@ -241,7 +241,7 @@ def block_model(name: str, bid: str, transparent: bool) -> dict:
     if name == "CONSTANT":
         return shaped(barrel(), {n: texture("constant_block_" + n) for n in ("side", "top")})
     if name in ("BEGIN", "END"):
-        return slab(texture("begin_block"), texture("begin_block_side"))
+        return slab(texture(bid), texture("begin_block_side"))
     if name == "PROGRAM":
         # The book needs the cutout render type for its transparent pixels
         return slab(texture(bid), texture(bid + "_side"), True, "minecraft:item/book")

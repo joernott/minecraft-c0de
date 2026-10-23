@@ -115,6 +115,11 @@ public class FabricGameTests implements FabricGameTest {
         ProcessTests.processesCanBeAborted(helper);
     }
 
+    @GameTest(template = SmokeTests.EMPTY_STRUCTURE, timeoutTicks = 800)
+    public void longLoopsEnd(GameTestHelper helper) {
+        ProcessTests.longLoopsEnd(helper);
+    }
+
     @GameTest(template = SmokeTests.EMPTY_STRUCTURE)
     public void processesTakeOnlyTheItemsTheyUse(GameTestHelper helper) {
         ProcessTests.processesTakeOnlyTheItemsTheyUse(helper);

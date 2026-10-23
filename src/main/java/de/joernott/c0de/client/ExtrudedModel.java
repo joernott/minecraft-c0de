@@ -125,13 +125,12 @@ public final class ExtrudedModel implements BakedModel {
             return model;
         }
         double inset = CodeBlockShapes.TRAPEZOID_INSET;
-        double[][] narrowInNorth = {{inset, 0}, {0, 16}, {16, 16}, {16 - inset, 0}};
-        double[][] narrowInSouth = {{0, 0}, {inset, 16}, {16 - inset, 16}, {16, 0}};
-        // Items are seen from the other side in the inventory, so the trapezoids of the items are swapped
-        boolean item = id.variant().equals("inventory");
+        // The polygons MUST match the borders of the top textures (scripts/generate_textures.py, TOP_SHAPES)
         return switch (id.id().getPath()) {
-            case "begin_block" -> new ExtrudedModel(model, item ? narrowInSouth : narrowInNorth, false);
-            case "end_block" -> new ExtrudedModel(model, item ? narrowInNorth : narrowInSouth, false);
+            case "begin_block" ->
+                new ExtrudedModel(model, new double[][] {{inset, 0}, {0, 16}, {16, 16}, {16 - inset, 0}}, false);
+            case "end_block" ->
+                new ExtrudedModel(model, new double[][] {{0, 0}, {inset, 16}, {16 - inset, 16}, {16, 0}}, false);
             case "program_block" -> new ExtrudedModel(model, halfRound(), true);
             case "literal_block" -> new ExtrudedModel(model, octagon(), false);
             case "assign_block" -> new ExtrudedModel(model, new double[][] {{0, 0}, {0, 16}, {16, 8}}, false);

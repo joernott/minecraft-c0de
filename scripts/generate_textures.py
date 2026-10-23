@@ -570,6 +570,31 @@ def barrel_top(seed: str) -> Image:
     return image
 
 
+OCTAGON_CUT = 16 / (2 + 2 ** 0.5)
+
+# The shapes of the blocks that ExtrudedModel extrudes, seen from above: (x, z) in pixels -> inside. They MUST
+# match the polygons of ExtrudedModel; their tops get a border along the shape.
+TOP_SHAPES = {
+    "program_block": lambda x, z: x >= 8 or (x - 8) ** 2 + (z - 8) ** 2 <= 64,
+    "literal_block": lambda x, z: abs(x - 8) + abs(z - 8) <= 16 - OCTAGON_CUT,
+    "assign_block": lambda x, z: abs(z - 8) <= (16 - x) / 2,
+    "if_block": lambda x, z: abs(x - 8) + abs(z - 8) <= 8,
+    "else_block": lambda x, z: abs(x - 8) + abs(z - 8) <= 8,
+    "begin_block": lambda x, z: 4 * (1 - z / 16) <= x <= 16 - 4 * (1 - z / 16),
+    "end_block": lambda x, z: 4 * z / 16 <= x <= 16 - 4 * z / 16,
+}
+
+
+def shaped_top(image: Image, inside) -> None:
+    """Darkens the pixels at the edge of a shape: inside it, with a neighbor outside of it or of the texture."""
+    def contains(px: int, pz: int) -> bool:
+        return 0 <= px < 16 and 0 <= pz < 16 and inside(px + 0.5, pz + 0.5)
+    edge = [(x, z) for z in range(16) for x in range(16) if contains(x, z)
+            and not all(contains(x + dx, z + dz) for dx, dz in ((1, 0), (-1, 0), (0, 1), (0, -1)))]
+    for x, z in edge:
+        image[z][x] = shade(image[z][x], -40)
+
+
 def code_block_textures(blocks: Path) -> None:
     write_png(blocks / "noop_block.png", noop())
     write_png(blocks / "noop_block_side.png", noop_side())
@@ -577,15 +602,20 @@ def code_block_textures(blocks: Path) -> None:
     write_png(blocks / "comment_block.png", concrete(0x00AA00, "comment_block", 4))
     write_png(blocks / "comment_block_side.png", concrete(0x007700, "comment_block_side", 4))
     # ASSIGN (triangle), IF and ELSE (diamonds): their tops are cut along the sides, so they have no border
-    write_png(blocks / "assign_block.png", concrete(0x00AAAA, "assign_block", 3))
+    assign = concrete(0x00AAAA, "assign_block", 3)
+    shaped_top(assign, TOP_SHAPES["assign_block"])
+    write_png(blocks / "assign_block.png", assign)
     write_png(blocks / "assign_block_side.png", slab_side(0x00AAAA, "assign_block_side"))
     for block, char, top in (("if_block", "?", 5), ("else_block", "¿", 4)):
         image = concrete(0x00AA00, block, 3)
+        shaped_top(image, TOP_SHAPES[block])
         glyph(image, char, LIME, 5, top)
         write_png(blocks / (block + ".png"), image)
     write_png(blocks / "if_block_side.png", slab_side(0x00AA00, "if_block_side"))
     for block, color, draw in CODE_BLOCKS:
-        image = framed(color, block)
+        image = concrete(color, block, 3) if block in TOP_SHAPES else framed(color, block)
+        if block in TOP_SHAPES:
+            shaped_top(image, TOP_SHAPES[block])
         draw(image)
         write_png(blocks / (block + ".png"), image)
         write_png(blocks / (block + "_side.png"), slab_side(color, block + "_side"))
@@ -596,7 +626,10 @@ def code_block_textures(blocks: Path) -> None:
         write_png(blocks / (block + ".png"), image)
         write_png(blocks / (block + "_side.png"), slab_side(0xCC2222, block + "_side"))
     # BEGIN and END: the top is cut along the diagonals, so it has no border
-    write_png(blocks / "begin_block.png", concrete(0xFFAA00, "begin_block", 3))
+    for block in ("begin_block", "end_block"):
+        image = concrete(0xFFAA00, block, 3)
+        shaped_top(image, TOP_SHAPES[block])
+        write_png(blocks / (block + ".png"), image)
     write_png(blocks / "begin_block_side.png", slab_side(0xFFAA00, "begin_block_side"))
     # PARAMETER and RESULT: hoppers
     write_png(blocks / "parameter_block_outside.png", framed(0xAA00AA, "parameter_block_outside"))

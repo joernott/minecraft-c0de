@@ -285,6 +285,70 @@ public final class ProcessTests {
         });
     }
 
+    /**
+     * The program Sprint8Test2 of a player: a FOR loop with 101 sounds, then a WHILE loop that counts j up to 5.
+     * It ends after about 640 lines, one line per tick, most of them in the FOR loop.
+     */
+    public static void longLoopsEnd(GameTestHelper helper) {
+        ServerLevel level = c0de(helper);
+        SheetBuilder sheet = new SheetBuilder(level, 518).place("""
+                PROGRAM looping
+                NOOP
+                INCLUDE c0de/minecraft
+                NOOP
+                FUNCTION Test8
+                    PARAMETER In STRING
+                    RESULT Out STRING
+                BEGIN
+                    VARIABLE j INTEGER
+                    ASSIGN Out In ;
+                    FOR i INTEGER 0 ; 100 ; 1 ;
+                    BEGIN
+                        ASSIGN j i ;
+                        IF j \\ 2 = 0 ;
+                        BEGIN
+                            CALL c0de/minecraft/SOUND
+                                PARAMETER note 0 ;
+                                PARAMETER instrument "bass" ;
+                        END
+                        ELSE
+                        BEGIN
+                            CALL c0de/minecraft/SOUND
+                                PARAMETER note 12 ;
+                                PARAMETER instrument "bell" ;
+                        END IF
+                    END FOR
+                    ASSIGN j 0 ;
+                    VARIABLE a ARRAY STRING
+                    WHILE j <= 5 ;
+                    BEGIN
+                        ASSIGN a[j] In ;
+                        ASSIGN j j + 1 ;
+                    END WHILE
+                END FUNCTION
+                """);
+        SheetValidation.validate(level, 518);
+        helper.setBlock(BlockPos.ZERO, C0deBlocks.TRIGGER_BLOCK.get());
+        TriggerBlockEntity trigger = (TriggerBlockEntity) helper.getBlockEntity(BlockPos.ZERO);
+        trigger.configure(helper.makeMockServerPlayerInLevel(), "looping", "Test8", 20);
+        trigger.input().setItem(0, variable("In", "STRING", "x"));
+        trigger.start();
+        helper.assertTrue(trigger.isRunning(), "The process didn't start: " + trigger.status());
+        helper.runAfterDelay(700, () -> {
+            try {
+                helper.assertTrue(!trigger.isRunning(), "The process is still running after 700 ticks");
+                helper.assertTrue(
+                        trigger.exitCode() == 0, "Exit code " + trigger.exitCode() + ", error " + trigger.error());
+                ValueItem.Contents out = ValueItem.Contents.of(trigger.output().getItem(0));
+                helper.assertTrue(out.name().equals("Out") && out.value().equals("\"x\""), "The result is " + out);
+            } finally {
+                sheet.clear();
+                SheetValidation.validate(level, 518);
+            }
+            helper.succeed();
+        });
+    }
+
     /** A process returns its results as variable items, and a comparator reads its exit code. */
     public static void processesReturnTheirResults(GameTestHelper helper) {
         ServerLevel level = c0de(helper);

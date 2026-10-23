@@ -355,3 +355,14 @@ I have the following changes I'd like you to implement:
 - When initializing variables, the TYPE field should become a dropdown with all types available
 - Dialog corners should be slightly rounded
 - Shift-Right clicking a PID block with the debugging tool should abort a program.
+
+## 2026-10-23 – Dropdown hint, item orientation, PROGRAM border, WHILE loop bug
+
+All tests ran fine, Please put a small triangle at the end of the dropdown for the type selection to hint at it being a dropdown.
+Findings:
+- The border of the texture of the Program block does not fllow the curve but seems to be still a square.
+- The operator item looks like an upside down question mark and should be turned 180 degrees
+- The assign item as well
+- In the world "Testing", the function Test8 in the program "Sprint8Test2" contains a while loop: WHILE j <= 5 ;
+Outside the loop, the variable j is initialized as 0.
+Inside the loop, I have ASSIGN j j + 1; which I intended to increase j until it hits 5. That does not happen and I had to abort the program. Please investigate, why.

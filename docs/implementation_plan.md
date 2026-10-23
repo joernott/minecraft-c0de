@@ -238,6 +238,7 @@ A task is done when
 | 11.2.10 | Label dialog: a scrollable list of the choices, filtered by the entered name, instead of six buttons. | ✅ |
 | 11.2.11 | Item dialog: a dropdown list of the types below the type field; dialogs with slightly rounded corners. | ✅ |
 | 11.2.12 | Shift-right-clicking a PID block with the debugging tool aborts its process (PROCESS_ABORTED, 206). | ✅ |
+| 11.2.13 | A triangle marks the type field as a dropdown; the borders of the tops of PROGRAM, LITERAL, ASSIGN, IF, ELSE, BEGIN and END follow their shapes; the items of the language blocks are turned by 180 degrees in the inventory. | ✅ |
 | 11.3 | Line numbers: every line with content shows its number on the floor at x=2. The color shows the state of the line: a faint shade of the floor for NOOP and COMMENT lines, dark red for a wrong line, dark yellow for an incomplete statement (e.g. BEGIN without END, FUNCTION without code block), dark green for a correct line. | ✅ |
 | 11.4 | Player documentation: a guide with examples (Markdown in the repository and the Modrinth page); optionally an in-game book. |  |
 | 11.5 | Performance tests: many processes at the same time, large programs, deep recursion; tuning of the scheduler. |  |
