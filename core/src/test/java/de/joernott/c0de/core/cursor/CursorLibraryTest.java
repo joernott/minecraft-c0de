@@ -113,7 +113,7 @@ public class CursorLibraryTest {
 
     private static Map<String, Value> runMain(String body, String results) {
         return finished(run(
-                "    INCLUDE test/lib\nNOOP\nFUNCTION main\n" + results + "BEGIN\n" + body + "END FUNCTION\n",
+                "INCLUDE test/lib\nNOOP\nFUNCTION main\n" + results + "BEGIN\n" + body + "END FUNCTION\n",
                 "main",
                 Map.of(),
                 libraries()));
@@ -179,7 +179,7 @@ public class CursorLibraryTest {
     @Test
     void uncaughtErrorsOfNativeFunctionsCrashTheEntryFunction() {
         Cursor cursor = run(
-                "    INCLUDE test/lib\nNOOP\nFUNCTION main\nBEGIN\n    CALL test/lib/FAIL\nEND FUNCTION\n",
+                "INCLUDE test/lib\nNOOP\nFUNCTION main\nBEGIN\n    CALL test/lib/FAIL\nEND FUNCTION\n",
                 "main",
                 Map.of(),
                 libraries());
@@ -192,7 +192,7 @@ public class CursorLibraryTest {
     @Test
     void waitingTakesSteps() {
         Cursor cursor = CursorTestSupport.cursor(
-                "    INCLUDE test/lib\nNOOP\nFUNCTION main\nBEGIN\n    CALL test/lib/WAIT\n        PARAMETER steps 3 ;\nEND FUNCTION\n",
+                "INCLUDE test/lib\nNOOP\nFUNCTION main\nBEGIN\n    CALL test/lib/WAIT\n        PARAMETER steps 3 ;\nEND FUNCTION\n",
                 "main",
                 Map.of(),
                 libraries());
@@ -224,10 +224,7 @@ public class CursorLibraryTest {
     @Test
     void libraryErrors() {
         String function = "NOOP\nFUNCTION main\nBEGIN\n    NOOP\nEND FUNCTION\n";
-        crashed(
-                run("    INCLUDE test/unknown\n" + function, "main", Map.of(), libraries()),
-                ErrorCode.UNKNOWN_LIBRARY,
-                2);
+        crashed(run("INCLUDE test/unknown\n" + function, "main", Map.of(), libraries()), ErrorCode.UNKNOWN_LIBRARY, 2);
         Library broken = new Library() {
             @Override
             public String name() {
@@ -240,10 +237,10 @@ public class CursorLibraryTest {
             }
         };
         crashed(
-                run("    INCLUDE test/broken\n" + function, "main", Map.of(), new LibraryRegistry().add(broken)),
+                run("INCLUDE test/broken\n" + function, "main", Map.of(), new LibraryRegistry().add(broken)),
                 ErrorCode.BROKEN_LIBRARY,
                 2);
-        String call = "    INCLUDE test/lib\nNOOP\nFUNCTION main\nBEGIN\n%s\nEND FUNCTION\n";
+        String call = "INCLUDE test/lib\nNOOP\nFUNCTION main\nBEGIN\n%s\nEND FUNCTION\n";
         crashed(
                 run(call.formatted("    CALL test/lib/DOUBLE"), "main", Map.of(), libraries()),
                 ErrorCode.FUNCTION_MISSING_INPUT,

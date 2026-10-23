@@ -92,7 +92,7 @@ class NotationTest {
         String text = """
                 PROGRAM demo
                 NOOP
-                    INCLUDE c0de/strings
+                INCLUDE c0de/strings
                 VARIABLE s STRING 3 "a\\"b" TAG(json: "x.y")
 
                 VARIABLE c CHAR 'q' COMMENT("disabled") _ 1

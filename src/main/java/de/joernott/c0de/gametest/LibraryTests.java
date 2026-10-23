@@ -22,7 +22,7 @@ public final class LibraryTests {
             """
             PROGRAM worldtest
             NOOP
-                INCLUDE c0de/minecraft
+            INCLUDE c0de/minecraft
             NOOP
             FUNCTION run
                 PARAMETER lever STRUCT c0de/minecraft/POSITION

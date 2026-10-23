@@ -9,7 +9,7 @@ expect level: 3
 ---
 PROGRAM strings
 NOOP
-    INCLUDE c0de/strings
+INCLUDE c0de/strings
 STRUCT player
 BEGIN
     playerName STRING TAG(json: "name")

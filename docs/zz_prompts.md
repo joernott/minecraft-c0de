@@ -338,3 +338,20 @@ I would like to add a new functionality to the hammer: Right clicking a line or 
 The marker should get a right click functionality. It should remeber the last line that it was used on and whether this was marking or unmarking the line. If you then right click another line, all the lines between the last one and the line that was right clicked become either marked or unmarked, depending on what happened on the line that was left clicked.
 
 The model of the marker should be that of a Minecraft feather but colored yellow.
+
+## 2026-10-23 – Item-frame symbols, new shapes, dialogs and aborting processes
+
+Marker and hammer work perfectly.
+
+I have the following changes I'd like you to implement:
+- The program block should get the same texture as the function block. Put the image of a Minecraft book on it like it would look if it was placed in an invisible item frame.
+- In the inventory, the operator block looks like a +, but turns into a question mark, when placed. It should also look like a question mark in the inventory to avoid confusion.
+- The ASSIGN operator should become a triangle lying on its side and pointing to positive X
+- Remove the need for indenting INCLUDE statements. Variables, constants and functions are also placed on X=5. The symbol on the Include statement should look like a Minecraft bookshelf if it was placed in an invisible item frame.
+- The COMMENT should no longer be a block, just two green slashes that are almost fitting the x and z dimensions, extruded from the letters on the floor, similar to the operators. 
+- BEGIN and END in the inventory should be swapped
+- IF and ELSE should become dark green raute blocks lying on their sides with the question mark in lime on their top.
+- Having only buttons in the selection list for labels shows too few options. Please turn it into a scrollable list that is filtered by what is entered in the text box
+- When initializing variables, the TYPE field should become a dropdown with all types available
+- Dialog corners should be slightly rounded
+- Shift-Right clicking a PID block with the debugging tool should abort a program.

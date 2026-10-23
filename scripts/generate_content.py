@@ -353,7 +353,8 @@ def block_files(name: str, validated: bool, transparent: bool) -> None:
             write(ASSETS / "models" / "block" / (bid + "_" + symbol + ".json"), model)
             variants["operator=" + symbol] = {"model": model_ref + "_" + symbol}
         write(ASSETS / "blockstates" / (bid + ".json"), {"variants": variants})
-        item_parent = model_ref + "_add"
+        # The item shows the question mark of a placed OPERATOR without symbol
+        item_parent = model_ref + "_none"
     else:
         write(ASSETS / "models" / "block" / (bid + ".json"), block_models.block_model(name, bid, transparent))
         # The state of the line doesn't change the look of a block any more; the line numbers show it

@@ -51,7 +51,7 @@ final class YamlLayout {
         line(0, List.of("NOOP"));
         if (root.get("INCLUDE") instanceof List<?> includes) {
             for (Object include : includes) {
-                line(1, List.of("INCLUDE", name(include, "INCLUDE")));
+                line(0, List.of("INCLUDE", name(include, "INCLUDE")));
             }
         }
         List<?> code = list(root.get("code"));

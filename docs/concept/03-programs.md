@@ -27,7 +27,7 @@ Some mistakes are prevented when a block is placed on a sheet, and the player ge
   - A NOOP line can't contain other blocks, and a NOOP block can only be placed in an empty line.
   - A FUNCTION line starts at x=5 directly after a NOOP line (FUNCTION can also be placed after END).
   - END can't be placed directly below its BEGIN, because a code block can't be empty.
-  - A keyword that starts a line is indented correctly compared with the keyword line directly above it: one block further right below a BEGIN line, one block further left below PARAMETER, RESULT and INCLUDE lines, and at the same x below all other lines. END and ELSE may be further left to close code blocks. Lines below empty lines, comment lines and content lines are not checked, so a program can still be written in any order.
+  - A keyword that starts a line is indented correctly compared with the keyword line directly above it: one block further right below a BEGIN line, one block further left below PARAMETER and RESULT lines, and at the same x below all other lines. END and ELSE may be further left to close code blocks. Lines below empty lines, comment lines and content lines are not checked, so a program can still be written in any order.
   - PARAMETER and RESULT lines directly follow their FUNCTION or CALL line, indented by one block, or another PARAMETER line; RESULT lines may also follow RESULT lines.
 
 Executable statements (ASSIGN, CALL, IF, FOR, …) are only allowed inside functions. A process always runs one function of the program, the *entry function*, which is selected in the trigger block.
@@ -38,7 +38,7 @@ A PROGRAM statement consists of the PROGRAM keyword directly followed by a LABEL
 
 ### Include statement
 
-After the NOOP line, one or more INCLUDE statements MAY follow. An INCLUDE statement consists of the INCLUDE keyword directly followed by a LABEL specifying the library to include. A library name starts with the name of the mod that provides it, e.g. `c0de`, followed by a slash and the name of the library, e.g. `c0de/minecraft` or `c0de/net`. INCLUDE statements are always indented by one block relative to the PROGRAM statement (x=6). All INCLUDE statements MUST come before the first STRUCT, VARIABLE, CONSTANT or FUNCTION statement.
+After the NOOP line, one or more INCLUDE statements MAY follow. An INCLUDE statement consists of the INCLUDE keyword directly followed by a LABEL specifying the library to include. A library name starts with the name of the mod that provides it, e.g. `c0de`, followed by a slash and the name of the library, e.g. `c0de/minecraft` or `c0de/net`. INCLUDE statements start at x=5, like the PROGRAM statement and the other global statements (STRUCT, VARIABLE, CONSTANT and FUNCTION). All INCLUDE statements MUST come before the first STRUCT, VARIABLE, CONSTANT or FUNCTION statement.
 
 ### Exit statement
 
@@ -50,7 +50,7 @@ The exit code 15 is also used for processes that crashed. Program authors MAY us
 
 #### Program block
 
-A PROGRAM block is black (color #000000) and as high as a slab. Seen from above, it is round in the west and square in the east. The [line number](01-dimension.md#line-numbers) shows whether the statement is valid.
+A PROGRAM block is dark gray (color #555555), like the FUNCTION block, and as high as a slab. Seen from above, it is round in the west and square in the east. A Minecraft book lies on its top, as if it were in an invisible item frame. The [line number](01-dimension.md#line-numbers) shows whether the statement is valid.
 
 ##### Crafting
 
@@ -58,7 +58,7 @@ A PROGRAM block can be crafted shapelessly from a NOOP block and a book.
 
 #### Include block
 
-An INCLUDE block is a black slab (color #000000) with the picture of a map on its top. The [line number](01-dimension.md#line-numbers) shows whether the statement is valid.
+An INCLUDE block is a black slab (color #000000). A Minecraft bookshelf lies on its top, as if it were in an invisible item frame. The [line number](01-dimension.md#line-numbers) shows whether the statement is valid.
 
 ##### Crafting
 

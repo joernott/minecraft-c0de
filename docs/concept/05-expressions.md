@@ -38,7 +38,7 @@ Applying an operator to operands of the wrong type raises a TYPE_MISMATCH error.
 
 All operators, the parentheses and the end-of-expression symbol (`;`) are represented by a single OPERATOR block. Its symbol is chosen in a dialog that opens when the block is right-clicked with an empty hand. The dialog shows a button for every operator symbol, `(`, `)` and `;`; clicking a button saves the symbol and closes the dialog. A newly crafted OPERATOR block has no symbol yet.
 
-An OPERATOR block is its symbol in dark red (color #AA0000), lying on the floor and extruded 4 pixels high. Until a symbol is chosen, it is a question mark.
+An OPERATOR block is its symbol in dark red (color #AA0000), lying on the floor and extruded 4 pixels high. Until a symbol is chosen, it is a question mark; the item shows the question mark too.
 
 #### Crafting
 
@@ -141,7 +141,7 @@ Assigning to the index of an array that equals the length of the array appends a
 
 ### Minecraft block
 
-ASSIGN blocks are dark aqua slabs (color #00AAAA). Their top shows a white equilateral triangle with one corner pointing towards positive x.
+ASSIGN blocks are dark aqua (color #00AAAA) and as high as a slab. Seen from above, they are a triangle with one corner pointing towards positive x.
 
 #### Crafting
 

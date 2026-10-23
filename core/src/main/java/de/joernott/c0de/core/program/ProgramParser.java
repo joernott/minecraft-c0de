@@ -169,10 +169,10 @@ public final class ProgramParser {
             throw C0deException.at(
                     row.z(), ErrorCode.SYNTAX_ERROR_UNKNOWN_STATEMENT, "A line must start with a keyword");
         }
+        if (row.x() != GLOBAL_X) {
+            throw indentation(row, GLOBAL_X);
+        }
         if (keyword == Keyword.INCLUDE) {
-            if (row.x() != GLOBAL_X + 1) {
-                throw indentation(row, GLOBAL_X + 1);
-            }
             if (afterDeclarations) {
                 throw C0deException.at(
                         row.z(), ErrorCode.SYNTAX_ERROR_PLACEMENT, "INCLUDE lines must come before all declarations");
@@ -186,9 +186,6 @@ public final class ProgramParser {
             }
             cells.end(ErrorCode.SYNTAX_ERROR_PLACEMENT);
             return new Statement.Include(row.z(), library);
-        }
-        if (row.x() != GLOBAL_X) {
-            throw indentation(row, GLOBAL_X);
         }
         return switch (keyword) {
             case STRUCT -> parseStruct(row);

@@ -4,9 +4,11 @@ All language blocks are as high as a slab (8 pixels). Their colors don't change 
 line numbers on the floor show it. Most blocks are slabs with their symbol on the top. Some have a shape instead:
   - PARAMETER is a hopper and RESULT an upside-down hopper, both scaled to half their size,
   - VARIABLE is a chest and CONSTANT a barrel, scaled to the height of a slab,
-  - OPERATOR is the symbol of its operator, extruded from the floor (one model per symbol),
-  - BEGIN, END, PROGRAM and LITERAL are slabs in their JSON models; ExtrudedModel (client) gives them their
-    shapes (trapezoid, semicircle and octagon), because JSON models can't have diagonal or round sides.
+  - OPERATOR is the symbol of its operator and COMMENT two slashes, extruded from the floor,
+  - INCLUDE carries a bookshelf, as if it lay in an invisible item frame,
+  - BEGIN, END, PROGRAM, LITERAL, ASSIGN, IF and ELSE are slabs in their JSON models; ExtrudedModel (client) gives
+    them their shapes (trapezoid, semicircle, octagon, triangle and diamond), because JSON models can't have
+    diagonal or round sides. The bottom texture of PROGRAM is the book that ExtrudedModel lays on its top.
 The outline and collision shapes in CodeBlockShapes MUST match.
 """
 
@@ -170,6 +172,19 @@ GLYPHS = {
     "end_of_expression": [".......", "...##..", "...##..", ".......", "...##..", "...##..", "..##..."],
 }
 
+def slashes() -> list:
+    """The two slashes of a COMMENT: each 2 pixels wide, together almost as wide and deep as the block."""
+    rows = []
+    for r in range(14):
+        row = ["."] * 14
+        start = round(5 - r * 5 / 13)
+        for offset in (0, 7):
+            for c in (start + offset, start + offset + 1):
+                row[c] = "#"
+        rows.append("".join(row))
+    return rows
+
+
 # The height of the extruded operator symbols
 OPERATOR_HEIGHT = 4
 
@@ -196,8 +211,8 @@ def glyph_elements(glyph: list) -> list:
     return elements
 
 
-def slab(top: str, side: str, transparent: bool = False) -> dict:
-    model = {"parent": "minecraft:block/slab", "textures": {"bottom": top, "top": top, "side": side}}
+def slab(top: str, side: str, transparent: bool = False, bottom: str | None = None) -> dict:
+    model = {"parent": "minecraft:block/slab", "textures": {"bottom": bottom or top, "top": top, "side": side}}
     if transparent:
         # NeoForge reads the render type from the model; Fabric sets it in the client entry point
         model["render_type"] = "minecraft:cutout"
@@ -227,6 +242,21 @@ def block_model(name: str, bid: str, transparent: bool) -> dict:
         return shaped(barrel(), {n: texture("constant_block_" + n) for n in ("side", "top")})
     if name in ("BEGIN", "END"):
         return slab(texture("begin_block"), texture("begin_block_side"))
+    if name == "PROGRAM":
+        # The book needs the cutout render type for its transparent pixels
+        return slab(texture(bid), texture(bid + "_side"), True, "minecraft:item/book")
+    if name == "INCLUDE":
+        return shaped([
+            element([0, 0, 0], [16, SLAB, 16], dict({side: "#side" for side in SIDES_4}, up="#top", down="#top")),
+            # The bookshelf lies in an invisible item frame on the top
+            element([2, SLAB, 2], [14, SLAB + 1, 14], dict({side: "#planks" for side in SIDES_4}, up="#shelf"),
+                    {"up": FULL}),
+        ], {"side": texture(bid + "_side"), "top": texture(bid), "shelf": "minecraft:block/bookshelf",
+            "planks": "minecraft:block/oak_planks"})
+    if name == "COMMENT":
+        return shaped(glyph_elements(slashes()), {"top": texture("comment_block"), "side": texture("comment_block_side")})
+    if name in ("IF", "ELSE"):
+        return slab(texture(bid), texture("if_block_side"))
     return slab(texture(bid), texture(bid + "_side"), transparent)
 
 

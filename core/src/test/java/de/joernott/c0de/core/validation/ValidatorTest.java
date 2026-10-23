@@ -99,7 +99,7 @@ class ValidatorTest {
         Validation validation = validate("""
                 PROGRAM demo
                 NOOP
-                    INCLUDE c0de/math
+                INCLUDE c0de/math
                 VARIABLE total INTEGER
                 NOOP
                 FUNCTION twice
@@ -154,7 +154,7 @@ class ValidatorTest {
         Validation validation = validate("""
                 PROGRAM demo
                 NOOP
-                    INCLUDE c0de/nothing
+                INCLUDE c0de/nothing
                 CONSTANT limit INTEGER 10
                 VARIABLE limit INTEGER
                 NOOP
@@ -201,7 +201,7 @@ class ValidatorTest {
         String program = """
                 PROGRAM demo
                 NOOP
-                    INCLUDE c0de/math
+                INCLUDE c0de/math
                 STRUCT point
                 BEGIN
                     x INTEGER

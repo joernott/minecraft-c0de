@@ -55,9 +55,9 @@ There is no ELSE IF. Conditions are chained by nesting another IF statement in t
 
 ### Minecraft blocks
 
-The IF block is a dark green slab (color #00AA00). Its top shows a white diamond with a green question mark (?) in it.
+The IF block is dark green (color #00AA00) and as high as a slab; seen from above, it is a diamond. Its top shows a lime question mark (?).
 
-The ELSE block is a dark green slab (color #00AA00). Its top shows a white diamond with an inverted green question mark (¿) in it.
+The ELSE block is dark green (color #00AA00) and as high as a slab; seen from above, it is a diamond. Its top shows an inverted lime question mark (¿).
 
 #### Crafting
 

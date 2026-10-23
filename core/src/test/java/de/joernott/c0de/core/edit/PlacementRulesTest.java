@@ -82,7 +82,7 @@ class PlacementRulesTest {
         SheetView sheet = SheetView.of(Notation.parse("""
                 PROGRAM demo
                 NOOP
-                    INCLUDE c0de/math
+                INCLUDE c0de/math
 
                 NOOP
                 FUNCTION main
@@ -94,7 +94,7 @@ class PlacementRulesTest {
         assertTrue(PlacementRules.check(sheet, assign, 6, 7).isEmpty());
         assertFalse(PlacementRules.check(sheet, assign, 5, 7).isEmpty());
         assertFalse(PlacementRules.check(sheet, assign, 7, 7).isEmpty());
-        // Below INCLUDE: one block further left
+        // Below INCLUDE: at the same x
         assertTrue(PlacementRules.check(sheet, new Block.KeywordBlock(Keyword.VARIABLE), 5, 3)
                 .isEmpty());
         assertFalse(PlacementRules.check(sheet, new Block.KeywordBlock(Keyword.VARIABLE), 6, 3)

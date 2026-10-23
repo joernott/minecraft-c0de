@@ -6,7 +6,7 @@ expect inner: 2
 ---
 PROGRAM programs
 NOOP
-    INCLUDE test/lib
+INCLUDE test/lib
 CONSTANT BASE INTEGER 42
 NOOP
 FUNCTION main

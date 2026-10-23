@@ -3,6 +3,6 @@
   "textures": {
     "bottom": "c0de:block/else_block",
     "top": "c0de:block/else_block",
-    "side": "c0de:block/else_block_side"
+    "side": "c0de:block/if_block_side"
   }
 }

@@ -10,9 +10,9 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 /**
  * The outline and collision shapes of the language blocks. They MUST match the block models: all blocks are as
  * high as a slab; PARAMETER is a hopper and RESULT an upside-down hopper at half their size, VARIABLE (chest) and
- * CONSTANT (barrel) are half as wide as a block, OPERATOR is a flat symbol (scripts/block_models.py). BEGIN, END,
- * PROGRAM and LITERAL get their shapes from {@code ExtrudedModel} on the client; their diagonal and round sides
- * are approximated with slices.
+ * CONSTANT (barrel) are half as wide as a block, OPERATOR and COMMENT are flat symbols (scripts/block_models.py).
+ * BEGIN, END, PROGRAM, LITERAL, ASSIGN, IF and ELSE get their shapes from {@code ExtrudedModel} on the client;
+ * their diagonal and round sides are approximated with slices.
  */
 public final class CodeBlockShapes {
     /** The height of the language blocks in pixels. */
@@ -45,6 +45,11 @@ public final class CodeBlockShapes {
             z -> Math.max(0, OCTAGON_CUT - Math.min(z, 16 - z)),
             z -> 16 - Math.max(0, OCTAGON_CUT - Math.min(z, 16 - z)));
 
+    /** ASSIGN: a triangle pointing to positive x. */
+    private static final VoxelShape TRIANGLE = slices(z -> 0, z -> 16 - 2 * Math.abs(z - 8));
+    /** IF and ELSE: a diamond. */
+    private static final VoxelShape DIAMOND = slices(z -> Math.abs(z - 8), z -> 16 - Math.abs(z - 8));
+
     private CodeBlockShapes() {}
 
     /** A shape of slices 2 pixels deep, from west to east as given for the z coordinate in the middle of each. */
@@ -68,7 +73,9 @@ public final class CodeBlockShapes {
             case PROGRAM -> HALF_ROUND;
             case LITERAL -> OCTAGON;
             case VARIABLE, CONSTANT -> HALF_WIDTH;
-            case OPERATOR -> FLAT;
+            case OPERATOR, COMMENT -> FLAT;
+            case ASSIGN -> TRIANGLE;
+            case IF, ELSE -> DIAMOND;
             default -> SLAB;
         };
     }

@@ -198,10 +198,6 @@ def square(dx: float, dy: float) -> bool:
     return abs(dx) <= 4.5 and abs(dy) <= 4.5
 
 
-def diamond(dx: float, dy: float) -> bool:
-    return abs(dx) + abs(dy) <= 6
-
-
 def circle(dx: float, dy: float) -> bool:
     return dx * dx + dy * dy <= 30
 
@@ -250,27 +246,6 @@ def noop_side() -> Image:
     """The side of the NOOP slab: the frame in the lower half of the texture, which the slab model shows."""
     image = blank()
     frame_pixels(image, 8, WOOD, True)
-    return image
-
-
-def comment_side() -> Image:
-    image = blank()
-    frame_pixels(image, 8, 0xD6E8EE, False)
-    return image
-
-
-def comment() -> Image:
-    """Glass with a yellow sticky note that shows //."""
-    image = blank()
-    for i in range(16):
-        for edge in (0, 15):
-            image[i][edge] = rgb(0xD6E8EE)
-            image[edge][i] = rgb(0xD6E8EE)
-    for y in range(4, 12):
-        for x in range(4, 12):
-            image[y][x] = rgb(0xFFF176)
-    for x, y in ((6, 10), (6, 9), (7, 8), (7, 7), (8, 6), (8, 5), (8, 10), (8, 9), (9, 8), (9, 7), (10, 6), (10, 5)):
-        image[y][x] = rgb(0x555555)
     return image
 
 
@@ -443,15 +418,6 @@ def trapezoid(wide_at_bottom: bool):
     return inside
 
 
-def triangle(dx: float, dy: float) -> bool:
-    """A triangle pointing to the left."""
-    return -4 <= dx <= 4 and abs(dy) <= (dx + 4) * 0.6
-
-
-def triangle_right(dx: float, dy: float) -> bool:
-    return triangle(-dx, dy)
-
-
 def frame(dx: float, dy: float) -> bool:
     return square(dx, dy) and not (abs(dx) <= 3.5 and abs(dy) <= 3.5)
 
@@ -468,16 +434,14 @@ CODE_BLOCKS = [
     ("label_block", 0xAAAAAA, lambda i: None),
     ("literal_block", 0xAAAAAA, lambda i: None),
     ("tag_block", 0x553311, lambda i: icon(i, "tag")),
-    ("program_block", 0x000000, lambda i: None),
-    ("include_block", 0x000000, lambda i: icon(i, "map")),
+    ("program_block", 0x555555, lambda i: None),
+    ("include_block", 0x000000, lambda i: None),
     ("exit_block", 0x000000, lambda i: icon(i, "door")),
     ("break_block", 0xFFAA00, lambda i: icon(i, "stick")),
-    ("assign_block", 0x00AAAA, lambda i: paint(i, triangle_right, WHITE)),
+
     ("function_block", 0x555555, lambda i: (paint(i, circle, WHITE), glyph(i, "ƒ", 0x202020))),
     ("return_block", 0xAA00AA, lambda i: icon(i, "spruce_door")),
     ("call_block", 0x555555, lambda i: icon(i, "phone")),
-    ("if_block", 0x00AA00, lambda i: (paint(i, diamond, WHITE), glyph(i, "?", 0x00AA00, 5, 5))),
-    ("else_block", 0x00AA00, lambda i: (paint(i, diamond, WHITE), glyph(i, "¿", 0x00AA00, 5, 4))),
     ("for_block", 0x00AA00, lambda i: (paint(i, ring, LIME), glyph(i, "#", LIME, 5, 5))),
     ("each_block", 0x00AA00, lambda i: (paint(i, ring, LIME), paint(i, small_square, LIME))),
     ("while_block", 0x00AA00, lambda i: (paint(i, ring, LIME), glyph(i, "?", LIME, 5, 4))),
@@ -609,8 +573,17 @@ def barrel_top(seed: str) -> Image:
 def code_block_textures(blocks: Path) -> None:
     write_png(blocks / "noop_block.png", noop())
     write_png(blocks / "noop_block_side.png", noop_side())
-    write_png(blocks / "comment_block.png", comment())
-    write_png(blocks / "comment_block_side.png", comment_side())
+    # COMMENT: two green slashes
+    write_png(blocks / "comment_block.png", concrete(0x00AA00, "comment_block", 4))
+    write_png(blocks / "comment_block_side.png", concrete(0x007700, "comment_block_side", 4))
+    # ASSIGN (triangle), IF and ELSE (diamonds): their tops are cut along the sides, so they have no border
+    write_png(blocks / "assign_block.png", concrete(0x00AAAA, "assign_block", 3))
+    write_png(blocks / "assign_block_side.png", slab_side(0x00AAAA, "assign_block_side"))
+    for block, char, top in (("if_block", "?", 5), ("else_block", "¿", 4)):
+        image = concrete(0x00AA00, block, 3)
+        glyph(image, char, LIME, 5, top)
+        write_png(blocks / (block + ".png"), image)
+    write_png(blocks / "if_block_side.png", slab_side(0x00AA00, "if_block_side"))
     for block, color, draw in CODE_BLOCKS:
         image = framed(color, block)
         draw(image)

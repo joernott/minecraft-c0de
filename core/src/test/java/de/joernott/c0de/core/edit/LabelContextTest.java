@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 class LabelContextTest {
     private static final Sheet SHEET = Notation.parse("""
             PROGRAM demo
-                INCLUDE c0de/math
+            INCLUDE c0de/math
             STRUCT point
             BEGIN
                 x INTEGER TAG(json: "x")

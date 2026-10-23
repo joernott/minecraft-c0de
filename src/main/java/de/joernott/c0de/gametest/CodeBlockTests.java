@@ -167,7 +167,7 @@ public final class CodeBlockTests {
                         """
                         PROGRAM demo
                         NOOP
-                            INCLUDE c0de/math
+                        INCLUDE c0de/math
                         VARIABLE port INTEGER TAG(json: "server.port")
                         NOOP
                         FUNCTION main

@@ -57,7 +57,7 @@ class ProgramYamlTest {
         Sheet sheet = Notation.parse("""
                 PROGRAM doorbell
                 NOOP
-                    INCLUDE c0de/time
+                INCLUDE c0de/time
                 CONSTANT RINGS INTEGER 3 // number of beeps
                 NOOP
                 FUNCTION ring

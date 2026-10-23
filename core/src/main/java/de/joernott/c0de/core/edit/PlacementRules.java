@@ -56,7 +56,7 @@ public final class PlacementRules {
         if (keyword == Keyword.PARAMETER || keyword == Keyword.RESULT) {
             return parameterOrResult(sheet, keyword, x, z, startsLine);
         }
-        if (keyword != null && startsLine && keyword != Keyword.NOOP && keyword != Keyword.INCLUDE) {
+        if (keyword != null && startsLine && keyword != Keyword.NOOP) {
             return indentation(sheet, keyword, x, z);
         }
         return Optional.empty();
@@ -64,8 +64,8 @@ public final class PlacementRules {
 
     /**
      * Checks the indentation of a keyword that starts a line, compared with the keyword line directly above it.
-     * After a BEGIN line, statements are indented by one block. After PARAMETER, RESULT and INCLUDE lines,
-     * the next statement is one block further left; after all other statements, it has the same indentation.
+     * After a BEGIN line, statements are indented by one block. After PARAMETER and RESULT lines, the next
+     * statement is one block further left; after all other statements, it has the same indentation.
      * END may be further left to close code blocks, ELSE too. Lines below empty lines, comment lines and the
      * content lines of expressions and initializers are not checked, so programs can be written in any order.
      */
@@ -79,7 +79,7 @@ public final class PlacementRules {
         }
         int expected = switch (previous) {
             case BEGIN -> above + 1;
-            case PARAMETER, RESULT, INCLUDE -> above - 1;
+            case PARAMETER, RESULT -> above - 1;
             default -> above;
         };
         boolean valid = switch (keyword) {

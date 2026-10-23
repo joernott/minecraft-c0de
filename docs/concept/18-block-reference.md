@@ -9,10 +9,10 @@ The language blocks are as high as a slab. Most of them are slabs with their sym
 | Block | Color | Look | Recipe |
 |---|---|---|---|
 | NOOP | transparent | frame of wooden edges and metal corners, all one pixel wide | 4 iron ingots + 4 sticks → 64 |
-| COMMENT | glass | yellow note with `//` on the top | 8 NOOP around glass → 8 |
+| COMMENT | dark green #00AA00 | shape: two slashes lying on the floor, extruded 4 pixels high | 8 NOOP around glass → 8 |
 | LABEL | gray #AAAAAA | name on the top | NOOP + paper |
-| PROGRAM | black #000000 | shape: round in the west, square in the east | NOOP + book |
-| INCLUDE | black #000000 | map | NOOP + empty map |
+| PROGRAM | dark gray #555555 | shape: round in the west, square in the east; a book lies on the top, as in an invisible item frame | NOOP + book |
+| INCLUDE | black #000000 | a bookshelf lies on the top, as in an invisible item frame | NOOP + empty map |
 | EXIT | black #000000 | iron door | 8 NOOP around iron door → 8 |
 | BEGIN / END | gold #FFAA00 | shape: seen from above a trapezoid with diagonal sides; BEGIN is wide towards its code block (south), END towards the code block above it (north) | 8 NOOP around yellow wool → 8 BEGIN; BEGIN ↔ END |
 | BREAK | gold #FFAA00 | broken stick | NOOP + stick |
@@ -31,16 +31,16 @@ The language blocks are as high as a slab. Most of them are slabs with their sym
 | CONSTANT | blue | shape: a blue barrel, as high as a slab | type base + 3 bones; VARIABLE |
 | LITERAL | gray #AAAAAA | shape: octagon, value on the top | 8 NOOP around white wool → 8 |
 | TAG | dark brown #553311 | price tag, language on the top | 8 NOOP around brown wool → 8 |
-| OPERATOR (all operators, ( ) and ;) | dark red #AA0000 | shape: the symbol chosen in a dialog, lying on the floor and extruded 4 pixels high (a question mark until one is chosen) | 8 NOOP around red wool → 8 |
-| ASSIGN | dark aqua #00AAAA | triangle pointing to positive x | 8 NOOP around cyan wool → 8 |
+| OPERATOR (all operators, ( ) and ;) | dark red #AA0000 | shape: the symbol chosen in a dialog, lying on the floor and extruded 4 pixels high (a question mark until one is chosen, and as an item) | 8 NOOP around red wool → 8 |
+| ASSIGN | dark aqua #00AAAA | shape: a triangle pointing to positive x | 8 NOOP around cyan wool → 8 |
 | FUNCTION | dark gray #555555 | ƒ | NOOP + stone |
 | PARAMETER | dark purple #AA00AA | shape: hopper at half its size | 8 NOOP around hopper → 8; RESULT |
 | RESULT | dark purple #AA00AA | shape: upside-down hopper at half its size | PARAMETER |
 | RETURN | dark purple #AA00AA | spruce door | 8 NOOP around spruce door → 8 |
 | CALL | dark gray #555555 | 📞 | NOOP + smooth stone |
 | structural base (item) | – | trapezoid | 8 NOOP around green wool → 8 |
-| IF | dark green #00AA00 | ? | structural base + wheat seeds; ELSE |
-| ELSE | dark green #00AA00 | ¿ | structural base + wheat; IF |
+| IF | dark green #00AA00 | shape: a diamond with a lime ? on the top | structural base + wheat seeds; ELSE |
+| ELSE | dark green #00AA00 | shape: a diamond with a lime ¿ on the top | structural base + wheat; IF |
 | FOR | dark green #00AA00 | lime circular arrow, # | structural base + dirt; EACH |
 | EACH | dark green #00AA00 | lime circular arrow, square | structural base + cobblestone; FOR |
 | WHILE | dark green #00AA00 | lime circular arrow, ? | structural base + diorite; REPEAT |

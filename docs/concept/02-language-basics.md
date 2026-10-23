@@ -10,7 +10,7 @@ A statement MAY span several lines. Lines that belong to a statement but are not
 
 Indentation follows these rules:
   - Lines in the global scope (PROGRAM, STRUCT, FUNCTION and global VARIABLE and CONSTANT statements) have their keyword block at x=5.
-  - INCLUDE lines are indented by one block relative to the PROGRAM line (x=6).
+  - INCLUDE lines start at x=5, like the PROGRAM line and the other global statements.
   - A BEGIN line has the same indentation as the line of the statement that requires the code block.
   - All lines inside a code block are indented by one block relative to the BEGIN line, except for the matching END line, which has the same indentation as the BEGIN line.
   - Continuation lines (PARAMETER and RESULT lines of FUNCTION and CALL statements, additional lines of an expression) are indented by one block relative to the first line of their statement.
@@ -81,7 +81,7 @@ A COMMENT has one property:
 
 ### Minecraft block
 
-The COMMENT block looks like a glass slab with a small yellow sticky note on its top. The note shows `//`. When a player looks at a COMMENT block, its text is shown above the block, like the name of a named entity.
+The COMMENT block looks like two dark green slashes (`//`) lying on the floor, extruded 4 pixels high. The note shows `//`. When a player looks at a COMMENT block, its text is shown above the block, like the name of a named entity.
 
 Right-clicking a COMMENT block with an empty hand opens a dialog with a multi-line input field that shows the current text. Clicking the OK button (a green check mark) saves the text. Pressing Escape or clicking outside of the dialog closes it without making changes.
 

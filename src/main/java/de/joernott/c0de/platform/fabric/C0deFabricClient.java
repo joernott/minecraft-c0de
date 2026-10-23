@@ -35,7 +35,8 @@ public class C0deFabricClient implements ClientModInitializer {
         C0deClient.init();
         Platform.FabricPlatform.CLIENTBOUND.forEach(C0deFabricClient::receive);
         for (CodeBlockType type : CodeBlockType.values()) {
-            if (type.isTransparent()) {
+            // PROGRAM carries a book with transparent pixels
+            if (type.isTransparent() || type == CodeBlockType.PROGRAM) {
                 BlockRenderLayerMap.INSTANCE.putBlock(C0deBlocks.get(type), RenderType.cutout());
             }
         }

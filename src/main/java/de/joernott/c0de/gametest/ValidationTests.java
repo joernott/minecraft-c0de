@@ -31,7 +31,7 @@ public final class ValidationTests {
             """
             PROGRAM validation
             NOOP
-                INCLUDE c0de/math
+            INCLUDE c0de/math
             VARIABLE angle FLOAT 1.5
             NOOP
             FUNCTION main

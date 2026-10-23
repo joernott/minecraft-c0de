@@ -70,7 +70,7 @@ When the cursor reads a line, it stops at the first COMMENT block: the COMMENT b
 
 The cursor then checks the indentation of the line according to the rules in [Lines, statements and indentation](02-language-basics.md):
   - Lines beginning with PROGRAM, STRUCT or FUNCTION MUST have their keyword block at x=5. Global VARIABLE and CONSTANT lines (outside of functions) MUST also have their keyword block at x=5.
-  - INCLUDE lines MUST have their keyword block at x=6.
+  - INCLUDE lines MUST have their keyword block at x=5.
   - PARAMETER and RESULT blocks MUST have an x coordinate that is one greater than the x coordinate of the FUNCTION or CALL block they belong to.
   - BEGIN blocks MUST always be at the same x coordinate as the keyword block of the statement that requires them.
   - The keyword blocks of all lines between a BEGIN line and its matching END line MUST have an x coordinate that is one greater than the x coordinate of the BEGIN block, unless they are continuation lines or belong to a nested code block.

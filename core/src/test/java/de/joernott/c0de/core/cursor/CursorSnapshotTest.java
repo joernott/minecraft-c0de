@@ -19,7 +19,7 @@ import org.junit.jupiter.api.Test;
 /** Cursors are stored and restored after every step and continue exactly as without interruption. */
 class CursorSnapshotTest {
     private static final String PROGRAM = """
-                INCLUDE test/lib
+            INCLUDE test/lib
             STRUCT pair
             BEGIN
                 left INTEGER

@@ -38,7 +38,7 @@ class ProgramParserTest {
     @Test
     void parsesACompleteProgram() {
         Program program = parse(HEADER + """
-                    INCLUDE c0de/strings
+                INCLUDE c0de/strings
                 STRUCT point
                 BEGIN
                     x INTEGER TAG(json: "px")
@@ -185,7 +185,7 @@ class ProgramParserTest {
     @Test
     void indentation() {
         assertError(ErrorCode.SYNTAX_ERROR_INDENTATION, 2, HEADER + "    VARIABLE a INTEGER\n");
-        assertError(ErrorCode.SYNTAX_ERROR_INDENTATION, 2, HEADER + "INCLUDE c0de/strings\n");
+        assertError(ErrorCode.SYNTAX_ERROR_INDENTATION, 2, HEADER + "    INCLUDE c0de/strings\n");
         assertError(ErrorCode.SYNTAX_ERROR_INDENTATION, 6, HEADER + """
                 NOOP
                 FUNCTION f
@@ -205,7 +205,7 @@ class ProgramParserTest {
 
     @Test
     void placement() {
-        assertError(ErrorCode.SYNTAX_ERROR_PLACEMENT, 3, HEADER + "VARIABLE a INTEGER\n    INCLUDE c0de/strings\n");
+        assertError(ErrorCode.SYNTAX_ERROR_PLACEMENT, 3, HEADER + "VARIABLE a INTEGER\nINCLUDE c0de/strings\n");
         assertError(ErrorCode.SYNTAX_ERROR_PLACEMENT, 2, HEADER + "ASSIGN a 1 ;\n");
         assertError(ErrorCode.SYNTAX_ERROR_PLACEMENT, 2, HEADER + "NOOP 1\n");
         assertError(ErrorCode.SYNTAX_ERROR_PLACEMENT, 2, HEADER + "NOOP // comment after NOOP\n");
