@@ -1,0 +1,20 @@
+{
+  "name": "c0de/minecraft",
+  "icon": "c0de:include_block",
+  "category": "c0de:libraries",
+  "sortnum": 10,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "This library lets programs touch the world around the trigger block:"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)TICKS: the game time$(li)BEEP, SOUND: play notes like a note block$(li)SAY: write a message to the chat$(li)GET_BLOCK: read a block and its redstone power$(li)GET_INVENTORY: read the items in a chest or other container"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)GET_LEVER, SET_LEVER: read or flip levers$(li)GET_BUTTON, PRESS_BUTTON: read or press buttons$(li)GET_PRESSURE_PLATE: read pressure plates$(li)GET_OPEN, SET_OPEN: doors, trapdoors and fence gates$(li)FIND_ENTITIES: find mobs and items nearby"
+    }
+  ]
+}

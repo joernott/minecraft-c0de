@@ -1,0 +1,12 @@
+{
+  "name": "Trigger blocks",
+  "icon": "c0de:hammer",
+  "category": "c0de:tools",
+  "sortnum": 15,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "All three trigger blocks share one pattern: copper ingots in the corners, glass on the edges and one item in the center.$(br2)$(li)trigger block: gold ingot, gives 8$(li)timer block: clock, gives 8$(li)debug trigger block: redstone block, gives 1"
+    }
+  ]
+}

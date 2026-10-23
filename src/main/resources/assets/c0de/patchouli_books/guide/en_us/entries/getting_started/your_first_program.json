@@ -1,0 +1,16 @@
+{
+  "name": "Your first program",
+  "icon": "c0de:wrench",
+  "category": "c0de:getting_started",
+  "sortnum": 7,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Let's build a function that returns the number 42. Here is the whole program:"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)PROGRAM first$(br)NOOP$(br)NOOP$(br)FUNCTION answer$(br)  RESULT result INTEGER$(br)BEGIN$(br)  ASSIGN result 42 ;$(br)END FUNCTION$()"
+    }
+  ]
+}

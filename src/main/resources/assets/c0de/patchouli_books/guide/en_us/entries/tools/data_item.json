@@ -1,0 +1,12 @@
+{
+  "name": "Data item",
+  "icon": "c0de:hammer",
+  "category": "c0de:tools",
+  "sortnum": 5,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "The data item looks like a blank punch card. It is the base for all items that carry data.$(br2)Recipe: a paper, white dye and yellow dye, in any shape. You get four data items."
+    }
+  ]
+}

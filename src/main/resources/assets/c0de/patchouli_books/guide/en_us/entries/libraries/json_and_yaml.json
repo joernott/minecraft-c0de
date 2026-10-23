@@ -1,0 +1,12 @@
+{
+  "name": "JSON and YAML",
+  "icon": "c0de:include_block",
+  "category": "c0de:libraries",
+  "sortnum": 8,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "c0de/strings can also turn any value into JSON or YAML text with TO_JSON and TO_YAML. FROM_JSON and FROM_YAML read such text back into a variable.$(br2)TAG blocks at the end of a VARIABLE line or a struct element set the key names used in JSON or YAML."
+    }
+  ]
+}

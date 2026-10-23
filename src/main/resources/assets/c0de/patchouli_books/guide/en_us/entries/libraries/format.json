@@ -1,0 +1,20 @@
+{
+  "name": "FORMAT",
+  "icon": "c0de:include_block",
+  "category": "c0de:libraries",
+  "sortnum": 7,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "FORMAT turns a value into text with a format string. $(1)%d$() is a whole number, $(1)%f$() a decimal number and $(1)%s$() any value. A number between $(1)%$() and the letter sets the width."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)[%4d]$() turns 42 into $(1)[  42]$()$(li)$(1)%05d$() turns 42 into $(1)00042$()$(li)$(1)%.2f$() turns 3.14159 into $(1)3.14$()$(li)$(1)%,d$() turns 1234567 into $(1)1,234,567$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "For TIME values, $(1)%tF$() gives the date and $(1)%tT$() the time, like $(1)2026-10-19$() and $(1)14:05:09$(). Many more codes exist, such as $(1)%tA$() for the name of the weekday."
+    }
+  ]
+}

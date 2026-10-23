@@ -1,0 +1,16 @@
+{
+  "name": "Built-in functions",
+  "icon": "c0de:include_block",
+  "category": "c0de:libraries",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "These work without INCLUDE:"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)LEN: the length of a text, array or hash$(li)HAS_KEY: true if a hash has a key$(li)REMOVE: an array or hash without one element$(li)INSERT: an array with a new element at a position$(li)CLEAR: an empty array or hash$(li)SWAP: swaps two values$(li)RAISE: raises your own error, code 1000 or higher"
+    }
+  ]
+}

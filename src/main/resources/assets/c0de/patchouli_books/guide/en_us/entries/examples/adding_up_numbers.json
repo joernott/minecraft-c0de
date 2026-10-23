@@ -1,0 +1,24 @@
+{
+  "name": "Adding up numbers",
+  "icon": "c0de:function_block",
+  "category": "c0de:examples",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(1)PROGRAM adder$(br)NOOP$(br)NOOP$(br)FUNCTION sum$(br)  PARAMETER n INTEGER$(br)  RESULT result INTEGER$(br)BEGIN$(br)  IF n = 0 ;$(br)  BEGIN$(br)    RETURN$(br)  END IF$(br)  CALL sum$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)    PARAMETER n n - 1 ;$(br)    RESULT result result$(br)  ASSIGN result result + n ;$(br)END FUNCTION$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "This function adds all numbers from 1 to $(1)n$(). It calls itself with $(1)n - 1$() until $(1)n$() is 0, then adds $(1)n$() on the way back. For $(1)n$() = 10, the result is 55."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "To try it, put in an INTEGER variable item named $(1)n$(). Each call uses room on the cursor's stack, so very large numbers can crash it."
+    }
+  ]
+}

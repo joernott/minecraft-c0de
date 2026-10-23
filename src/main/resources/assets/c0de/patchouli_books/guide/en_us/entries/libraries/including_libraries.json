@@ -1,0 +1,20 @@
+{
+  "name": "Including libraries",
+  "icon": "c0de:include_block",
+  "category": "c0de:libraries",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "INCLUDE lines come right after the NOOP in line 1, before any other statement. They start at x=5, like the PROGRAM line."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)PROGRAM math$(br)NOOP$(br)INCLUDE c0de/math$(br)INCLUDE c0de/strings$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "The LABEL dialog next to an INCLUDE block lists all libraries you can choose from."
+    }
+  ]
+}

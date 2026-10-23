@@ -1,0 +1,16 @@
+{
+  "name": "Literals",
+  "icon": "c0de:program_block",
+  "category": "c0de:language",
+  "sortnum": 7,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "A LITERAL block holds a fixed value. In its dialog you pick the type and enter the value. The text notation writes them like this:"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)TRUE$() and $(1)FALSE$()$(li)$(1)42$() and $(1)-7$() for integers, $(1)3.14$() for floats$(li)$(1)'a'$() for a CHAR, $(1)\"Hello\"$() for a STRING$(li)$(1)@2026-10-19T12:05:09Z$() for a TIME"
+    }
+  ]
+}

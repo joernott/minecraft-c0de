@@ -374,3 +374,12 @@ Inside the loop, I have ASSIGN j j + 1; which I intended to increase j until it 
 3: Yes
 
 Please turn the loop blocks into cylinders.
+
+## 2026-10-23 – CALL symbol, player guide and Patchouli book
+
+1: No, the borders are good
+2: Yes, they're perfect
+
+Please replace the phone symbol in the call function with 📞 but just in black.
+
+Also implement 11.4. For that, add another subtask to support documentation in the patchouli format (https://vazkiimods.github.io/Patchouli/). If the mod is installed, the book should be craftable from a book and a noop block. Also, new players should be gifted the book on first join.

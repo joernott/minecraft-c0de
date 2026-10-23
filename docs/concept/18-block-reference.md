@@ -37,7 +37,7 @@ The language blocks are as high as a slab. Most of them are slabs with their sym
 | PARAMETER | dark purple #AA00AA | shape: hopper at half its size | 8 NOOP around hopper → 8; RESULT |
 | RESULT | dark purple #AA00AA | shape: upside-down hopper at half its size | PARAMETER |
 | RETURN | dark purple #AA00AA | spruce door | 8 NOOP around spruce door → 8 |
-| CALL | dark gray #555555 | 📞 | NOOP + smooth stone |
+| CALL | dark gray #555555 | white circle with a black telephone receiver (📞) | NOOP + smooth stone |
 | structural base (item) | – | trapezoid | 8 NOOP around green wool → 8 |
 | IF | dark green #00AA00 | shape: a diamond with a lime ? on the top | structural base + wheat seeds; ELSE |
 | ELSE | dark green #00AA00 | shape: a diamond with a lime ¿ on the top | structural base + wheat; IF |

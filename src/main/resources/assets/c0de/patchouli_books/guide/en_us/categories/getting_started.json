@@ -1,0 +1,6 @@
+{
+  "name": "Getting Started",
+  "description": "c0de is a small programming language inside Minecraft. You write programs by placing blocks, and you run them with trigger blocks. This chapter shows you around and walks you through your first program.",
+  "icon": "c0de:wrench",
+  "sortnum": 0
+}

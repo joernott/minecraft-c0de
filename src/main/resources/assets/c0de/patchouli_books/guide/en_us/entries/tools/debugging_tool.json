@@ -1,0 +1,24 @@
+{
+  "name": "Debugging tool",
+  "icon": "c0de:hammer",
+  "category": "c0de:tools",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "The debugging tool looks like a fly swatter. Right-click any c0de block with it to see all its properties. For a red line number, it tells you what is wrong."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Hit a debug trigger block with it to start a process with a red $(l)debug cursor$(). The debug cursor starts paused."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)Left-click the paused cursor: it moves one line.$(li)Shift-left-click the cursor: it runs on its own, or pauses again.$(li)Right-click any cursor: see its properties and its stack.$(li)Shift-right-click a PID block: abort the process."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Recipe: a red wool block bottom left, a stick in the middle and a leather top right."
+    }
+  ]
+}

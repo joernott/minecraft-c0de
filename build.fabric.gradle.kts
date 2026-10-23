@@ -14,6 +14,7 @@ val requiredJava: JavaVersion = when {
 
 repositories {
     maven("https://maven.parchmentmc.org") { name = "ParchmentMC" }
+    maven("https://maven.blamejared.com") { name = "BlameJared" }
 }
 
 // The interpreter is compiled into every node
@@ -62,6 +63,8 @@ dependencies {
 
     // Players install the complete Fabric API, which fabric.mod.json requires. Development runs need it too.
     modLocalRuntime("net.fabricmc.fabric-api:fabric-api:${sc.properties.get<String>("deps.fabric_api")}")
+    // Patchouli is optional: with it, the guide book of the mod can be crafted and read
+    modLocalRuntime("vazkii.patchouli:Patchouli:${sc.properties.get<String>("deps.patchouli")}-FABRIC")
 }
 
 loom {

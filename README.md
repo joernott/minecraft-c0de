@@ -4,10 +4,11 @@ c0de is a primitive programming language for Minecraft. Programs are written by 
 
 The mod supports Fabric and NeoForge. Development starts with Minecraft 1.21.1; newer versions follow.
 
-> **Status:** in development, nothing to play with yet. See the [implementation plan](docs/implementation_plan.md) for the progress.
+> **Status:** the first alpha (0.1.0) is in preparation. See the [implementation plan](docs/implementation_plan.md) for the progress.
 
 ## Documentation
 
+  - [Guide](docs/guide/01-getting-started.md): how to write and run programs, for players
   - [Concept](docs/concept.md): the language, the dimension, the blocks and how programs are run
   - [Implementation plan](docs/implementation_plan.md): sprints and tasks
   - [Development environment](docs/development_environment.md): tools, VM, CI

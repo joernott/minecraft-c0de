@@ -1,0 +1,16 @@
+{
+  "name": "Three trigger blocks",
+  "icon": "c0de:trigger_block",
+  "category": "c0de:running_programs",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(l)trigger block$(): starts a process when it gets a redstone pulse.$(li)$(l)timer block$(): starts a process again and again, at an interval you set.$(li)$(l)debug trigger block$(): starts a process when you hit it with the debugging tool."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Trigger blocks work in every dimension. In the c0de dimension, you can only place them on the black floor outside the sheets.$(br2)A redstone signal pauses a timer block. Use a lever to switch it off."
+    }
+  ]
+}

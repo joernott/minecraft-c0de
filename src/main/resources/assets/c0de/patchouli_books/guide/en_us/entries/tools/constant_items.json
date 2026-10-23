@@ -1,0 +1,12 @@
+{
+  "name": "Constant items",
+  "icon": "c0de:hammer",
+  "category": "c0de:tools",
+  "sortnum": 8,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "A constant item has a pink border. It works like a variable item, but once it has a value, it can't be changed.$(br2)Recipe: a data item, a type item and pink dye give two constant items. A data item and pink dye give an uninitialized constant item."
+    }
+  ]
+}

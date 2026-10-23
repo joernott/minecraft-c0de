@@ -1,0 +1,16 @@
+{
+  "name": "Hello with defaults",
+  "icon": "c0de:function_block",
+  "category": "c0de:examples",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(1)PROGRAM greeting$(br)NOOP$(br)NOOP$(br)FUNCTION greet$(br)  PARAMETER name STRING \"World\"$(br)  PARAMETER mark CHAR '!'$(br)  RESULT result STRING$(br)BEGIN$(br)  ASSIGN result \"Hello, \" ⊕ name ⊕ mark ;$(br)END FUNCTION$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "The function joins three parts into one text with $(1)⊕$(). Both parameters have default values, so a caller may leave them out. Called with the name \"c0de\", the result is \"Hello, c0de!\".$(br2)To try it, set the trigger block to $(1)greet$(). Put in a STRING variable item named $(1)name$() with your name as its value."
+    }
+  ]
+}

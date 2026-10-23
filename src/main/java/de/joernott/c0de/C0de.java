@@ -4,6 +4,7 @@ import de.joernott.c0de.content.C0deBlockEntities;
 import de.joernott.c0de.content.C0deBlocks;
 import de.joernott.c0de.content.C0deEntities;
 import de.joernott.c0de.content.C0deMenus;
+import de.joernott.c0de.content.GuideBook;
 import de.joernott.c0de.content.C0deItems;
 import de.joernott.c0de.core.config.C0deConfig;
 import de.joernott.c0de.core.library.standard.StandardLibraries;
@@ -52,6 +53,7 @@ public final class C0de {
         ProcessManager.register();
         SheetProtection.register();
         C0deDimension.register();
+        GuideBook.register();
     }
 
     /** The configuration of the mod. */

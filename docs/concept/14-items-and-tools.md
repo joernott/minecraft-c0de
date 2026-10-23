@@ -175,3 +175,7 @@ A constant item has the same properties as a variable item. Right-clicking with 
 ### Crafting
 
 Two constant items can be crafted shapelessly from a data item, a type item and pink dye. An uninitialized constant item is crafted shapelessly from a data item and pink dye.
+
+## Guide book
+
+If the mod [Patchouli](https://vazkiimods.github.io/Patchouli/) is installed, the c0de guide is available as an in-game book. It is generated from the player guide in the repository (`docs/guide`). Every player gets the book once, when they join a world with the mod for the first time. More books are crafted shapelessly from a book and a NOOP block. Without Patchouli, there is no book and no recipe.

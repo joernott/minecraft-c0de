@@ -1,0 +1,20 @@
+{
+  "name": "The trigger dialog",
+  "icon": "c0de:trigger_block",
+  "category": "c0de:running_programs",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Right-click a trigger block with an empty hand to open its dialog. It shows:"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)the PID of the running process$(li)the exit code of the last process, and its error if it crashed$(li)a list to pick the program$(li)a list to pick the function to run$(li)for timer blocks, the interval in ticks"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "The dialog also has an input inventory, an output inventory and a slot for camouflage. Put any block into that slot, and the trigger block takes on its look.$(br2)The program and function lists are locked while a process runs."
+    }
+  ]
+}

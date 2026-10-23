@@ -1,0 +1,24 @@
+{
+  "name": "Variables and constants",
+  "icon": "c0de:program_block",
+  "category": "c0de:language",
+  "sortnum": 5,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "A VARIABLE line has a name, a type and an optional start value. Without one, it holds the default: false, 0, 0.0, a space, an empty text or list.$(br2)A CONSTANT line looks the same, but it must have a value. You can't change it later."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)VARIABLE b BOOLEAN TRUE$(br)VARIABLE i INTEGER$(br)CONSTANT BASE INTEGER 42$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Lists, hashes and structs get their start values in a code block. Each line holds literals or a key and a value:"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)VARIABLE list ARRAY INTEGER$(br)BEGIN$(br)  1 2 3$(br)END VARIABLE$(br)VARIABLE stock HASH INTEGER$(br)BEGIN$(br)  gold 1$(br)END VARIABLE$()"
+    }
+  ]
+}

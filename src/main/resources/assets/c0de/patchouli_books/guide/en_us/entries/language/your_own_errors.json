@@ -1,0 +1,16 @@
+{
+  "name": "Your own errors",
+  "icon": "c0de:program_block",
+  "category": "c0de:language",
+  "sortnum": 21,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "You can raise your own errors. Their codes must be 1000 or higher. Set the code of an ERROR variable and return it, or use the built-in function RAISE."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)FUNCTION fail$(br)BEGIN$(br)  VARIABLE e ERROR$(br)  ASSIGN e.code 1000 ;$(br)  RETURN e$(br)END FUNCTION$()"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "name": "Math library",
+  "icon": "c0de:function_block",
+  "category": "c0de:examples",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(1)PROGRAM math$(br)NOOP$(br)INCLUDE c0de/math$(br)INCLUDE c0de/strings$(br)NOOP$(br)FUNCTION main$(br)  RESULT rounded INTEGER$(br)  RESULT quotient INTEGER$(br)  RESULT root FLOAT$(br)  RESULT circle STRING$(br)BEGIN$(br)  CALL c0de/math/ROUND$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)    PARAMETER value 12.5 ;$(br)    RESULT result rounded$(br)  CALL c0de/math/DIV$(br)    PARAMETER dividend -7 ;$(br)    PARAMETER divisor 2 ;$(br)    RESULT result quotient$(br)  CALL c0de/math/SQR$(br)    PARAMETER value 9 ;$(br)    RESULT result root$(br)  CALL c0de/strings/FORMAT$(br)    PARAMETER value c0de/math/PI ;$(br)    PARAMETER format \"%.2f\" ;$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)    RESULT result circle$(br)END FUNCTION$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "This program loads two libraries. ROUND turns 12.5 into 12, DIV divides -7 by 2 and gives -3, and SQR gives 3.0. FORMAT shows PI with two decimals: \"3.14\". The function has four results, so put in four uninitialized variable items."
+    }
+  ]
+}

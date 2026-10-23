@@ -1,0 +1,12 @@
+{
+  "name": "Guide book",
+  "icon": "c0de:hammer",
+  "category": "c0de:tools",
+  "sortnum": 16,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "If the mod Patchouli is installed, this guide is also a book in the game. You get it once, the first time you join a world with c0de.$(br2)To make another copy, craft a book and a NOOP block together, in any order."
+    }
+  ]
+}

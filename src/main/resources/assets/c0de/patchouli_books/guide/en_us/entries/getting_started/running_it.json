@@ -1,0 +1,16 @@
+{
+  "name": "Running it",
+  "icon": "c0de:wrench",
+  "category": "c0de:getting_started",
+  "sortnum": 11,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Give the trigger block a redstone pulse, for example with a button. The program runs on its sheet in the c0de dimension. While it runs, a PID block and a cursor sit on the cursor rail."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "When it is done, the output inventory holds a variable item. Take it out and right-click while holding it. The dialog shows the name $(1)result$(), the type INTEGER and the value 42.$(br2)Congratulations, you wrote your first c0de program!"
+    }
+  ]
+}

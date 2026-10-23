@@ -1,0 +1,16 @@
+{
+  "name": "Type blocks",
+  "icon": "c0de:hammer",
+  "category": "c0de:tools",
+  "sortnum": 12,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Type blocks are red slabs. Each is crafted from a type base and an item, in any shape:"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)BOOLEAN: redstone torch$(li)INTEGER: sand$(li)FLOAT: red sand$(li)CHAR: oak plank$(li)STRING: string$(li)ARRAY: barrel$(li)HASH: chest$(li)STRUCT: scaffolding$(li)TIME: clock$(li)ERROR: campfire$(br2)VARIABLE is a type base and a bone block. CONSTANT is a type base and three bones."
+    }
+  ]
+}

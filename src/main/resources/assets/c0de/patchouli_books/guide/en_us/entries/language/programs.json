@@ -1,0 +1,16 @@
+{
+  "name": "Programs",
+  "icon": "c0de:program_block",
+  "category": "c0de:language",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "A program starts at line 0 with a PROGRAM block and a LABEL with its name. The name must be unique in the whole c0de dimension. Line 1 must be a NOOP line."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "After that, INCLUDE lines may follow. They load libraries, like $(1)INCLUDE c0de/math$(). Then come struct types, global variables, constants and functions, in any order.$(br2)A name can only be used after it was defined. So put everything a function needs above it. The program ends at the first empty line."
+    }
+  ]
+}

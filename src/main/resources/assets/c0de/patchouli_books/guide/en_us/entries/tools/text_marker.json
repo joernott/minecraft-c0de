@@ -1,0 +1,20 @@
+{
+  "name": "Text marker",
+  "icon": "c0de:hammer",
+  "category": "c0de:tools",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "The text marker looks like a yellow feather. Left-click a line to mark it, left-click it again to remove the mark. Marked lines get a yellow overlay."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Right-click another line of the same sheet to mark everything from your last left-clicked line to this one. If the last left click removed a mark, the right click removes the marks instead.$(br2)Each right click is remembered too, so you can grow a selection step by step."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Recipe: a feather and yellow dye, in any shape."
+    }
+  ]
+}

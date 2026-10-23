@@ -1,0 +1,20 @@
+{
+  "name": "Eight around one",
+  "icon": "c0de:hammer",
+  "category": "c0de:tools",
+  "sortnum": 10,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Many blocks are crafted from eight NOOP blocks around one item. You get eight blocks:"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)COMMENT: glass$(li)LITERAL: white wool$(li)OPERATOR: red wool$(li)ASSIGN: cyan wool$(li)TAG: brown wool$(li)BEGIN: yellow wool$(li)EXIT: iron door$(li)PARAMETER: hopper$(li)RETURN: spruce door"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "The $(l)type base$() (red carpet) and the $(l)structural base$() (green wool) are made the same way. They are items for crafting other blocks."
+    }
+  ]
+}

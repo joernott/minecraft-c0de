@@ -1,0 +1,20 @@
+{
+  "name": "EXIT",
+  "icon": "c0de:program_block",
+  "category": "c0de:language",
+  "sortnum": 19,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "EXIT ends the whole process at once, no matter how deep the cursor is. It needs a number from 0 to 15: the $(l)exit code$(). A comparator next to the trigger block can read it."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)EXIT 3 ;$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Exit code 15 means the program crashed. You may use $(1)EXIT 15 ;$() for a fatal problem too."
+    }
+  ]
+}

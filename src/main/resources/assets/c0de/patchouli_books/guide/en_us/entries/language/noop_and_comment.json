@@ -1,0 +1,24 @@
+{
+  "name": "NOOP and COMMENT",
+  "icon": "c0de:program_block",
+  "category": "c0de:language",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "NOOP means \"no operation\". A NOOP line does nothing. Use it to separate parts of your program. A NOOP line may not hold any other block. Every FUNCTION needs a NOOP line right above it."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "A COMMENT block holds a note for humans. Put it at the end of a line. The cursor ignores it and every block after it. So a COMMENT in front of blocks switches them off.$(br2)A line that starts with a COMMENT block is a comment line. It is skipped like a NOOP line."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)// A comment line is skipped completely$(br)VARIABLE time INTEGER 1 // a comment at the end$(br)ASSIGN count time ; COMMENT(\"disabled\") + 100 ;$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "In the last line, $(1)COMMENT(\"disabled\")$() is a COMMENT block with the text \"disabled\". The $(1)+ 100 ;$() after it is switched off."
+    }
+  ]
+}

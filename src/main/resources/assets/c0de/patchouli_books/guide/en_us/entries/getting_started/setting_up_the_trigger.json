@@ -1,0 +1,12 @@
+{
+  "name": "Setting up the trigger",
+  "icon": "c0de:wrench",
+  "category": "c0de:getting_started",
+  "sortnum": 9,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Leave the dimension and go back to your trigger block. Right-click it with an empty hand to open its dialog.$(br2)Pick your program $(1)first$() in the program list. Then pick the function $(1)answer$() in the function list."
+    }
+  ]
+}

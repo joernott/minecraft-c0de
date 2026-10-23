@@ -1,0 +1,20 @@
+{
+  "name": "c0de disk",
+  "icon": "c0de:hammer",
+  "category": "c0de:tools",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "The c0de disk looks like an old floppy disk. It saves programs as YAML files and loads them again."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "To save, right-click the PROGRAM block with the disk. The file goes to the folder $(1)c0de/programs$() in the world folder of the server. Saving also works while the program runs."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "To load, right-click the floor at the start of an empty sheet (x=5, line 0). Pick a file from the list. The program is placed on the sheet. In survival mode, the blocks come from your inventory.$(br2)Recipe: a data item, an iron ingot and black dye, in any shape."
+    }
+  ]
+}

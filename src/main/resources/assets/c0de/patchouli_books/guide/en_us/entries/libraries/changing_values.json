@@ -1,0 +1,16 @@
+{
+  "name": "Changing values",
+  "icon": "c0de:include_block",
+  "category": "c0de:libraries",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Functions get copies of their parameters. A function that changes a text, list or hash gives back the changed copy as $(1)result$().$(br2)To change a variable, use it both as parameter and as result target:"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL INSERT$(br)  PARAMETER array list ;$(br)  PARAMETER index 0 ;$(br)  PARAMETER value 0 ;$(br)  RESULT result list$()"
+    }
+  ]
+}

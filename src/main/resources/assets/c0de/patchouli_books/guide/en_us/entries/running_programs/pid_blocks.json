@@ -1,0 +1,16 @@
+{
+  "name": "PID blocks",
+  "icon": "c0de:trigger_block",
+  "category": "c0de:running_programs",
+  "sortnum": 12,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Each process gets a number, its $(l)PID$(). When it starts, a dark PID block appears on the cursor rail at line 0. Its height is the PID: the first free spot counted up from y=0."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "The PID block shows the PID in green on its north and south faces. Its east and west faces show where the trigger block stands.$(br2)Several processes of one program can run at the same time, one per trigger block. Each has its own PID block and its own cursor. They don't share any variables."
+    }
+  ]
+}

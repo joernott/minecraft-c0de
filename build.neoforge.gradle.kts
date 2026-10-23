@@ -15,9 +15,12 @@ val modId = property("mod.id") as String
 
 repositories {
     mavenCentral()
+    maven("https://maven.blamejared.com") { name = "BlameJared" }
 }
 
 dependencies {
+    // Patchouli is optional: with it, the guide book of the mod can be crafted and read
+    runtimeOnly("vazkii.patchouli:Patchouli:${sc.properties.get<String>("deps.patchouli")}-NEOFORGE")
     // Used by core (TO_YAML, FROM_YAML, FROM_JSON), embedded in the mod jar
     implementation("org.snakeyaml:snakeyaml-engine:3.2")
     jarJar("org.snakeyaml:snakeyaml-engine:[3.2,4.0)") {

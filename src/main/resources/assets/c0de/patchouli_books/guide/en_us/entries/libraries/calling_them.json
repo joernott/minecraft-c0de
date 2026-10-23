@@ -1,0 +1,20 @@
+{
+  "name": "Calling them",
+  "icon": "c0de:include_block",
+  "category": "c0de:libraries",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "All these functions are called with CALL, like your own functions. Built-in functions use their plain name. Library functions use their full name, like $(1)c0de/strings/MID$()."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/strings/MID$(br)  PARAMETER text name ;$(br)  PARAMETER start 2 ;$(br)  PARAMETER length 3 ;$(br)  RESULT result part$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "A function with one result names it $(1)result$(). Positions in texts and lists start at 0."
+    }
+  ]
+}

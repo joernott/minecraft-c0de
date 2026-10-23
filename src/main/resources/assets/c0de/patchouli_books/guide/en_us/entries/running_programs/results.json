@@ -1,0 +1,16 @@
+{
+  "name": "Results",
+  "icon": "c0de:trigger_block",
+  "category": "c0de:running_programs",
+  "sortnum": 6,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "When a process ends normally, the output inventory gets one variable item per result of the entry function. Each item carries the name, type and value of its result."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "If the function has fewer results than parameters, you also get empty variable items back. So the number of items going in and out is the same."
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "name": "Type items",
+  "icon": "c0de:hammer",
+  "category": "c0de:tools",
+  "sortnum": 6,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "A type item looks like a data item with a red border. It stands for a data type and is used to craft variable and constant items of that type.$(br2)Recipe: a data item, red dye and the item of the type, in any shape:"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)BOOLEAN: redstone torch$(li)INTEGER: sand$(li)FLOAT: red sand$(li)CHAR: oak plank$(li)STRING: string$(li)ARRAY: barrel$(li)HASH: chest$(li)STRUCT: scaffolding$(li)TIME: clock$(li)ERROR: campfire"
+    }
+  ]
+}

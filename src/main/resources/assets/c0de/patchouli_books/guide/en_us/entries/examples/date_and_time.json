@@ -1,0 +1,24 @@
+{
+  "name": "Date and time",
+  "icon": "c0de:function_block",
+  "category": "c0de:examples",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(1)PROGRAM time$(br)NOOP$(br)INCLUDE c0de/strings$(br)INCLUDE c0de/time$(br)NOOP$(br)FUNCTION main$(br)  RESULT now STRING$(br)  RESULT week INTEGER$(br)  RESULT weekday INTEGER$(br)  RESULT later TIME$(br)BEGIN$(br)  VARIABLE t TIME$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)  CALL c0de/time/NOW$(br)    RESULT result t$(br)  CALL c0de/strings/FORMAT$(br)    PARAMETER value t ;$(br)    PARAMETER format \"%tF %tT\" ;$(br)    RESULT result now$(br)  CALL c0de/time/WEEK$(br)    RESULT result week$(br)  CALL c0de/time/WEEKDAY$(br)    PARAMETER time t ;$(br)    RESULT result weekday$(br)  ASSIGN later t + 1000 ;$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)  CALL c0de/time/SLEEP$(br)    PARAMETER ticks 2 ;$(br)END FUNCTION$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "NOW reads the clock, FORMAT turns it into text like \"2026-10-19 12:05:09\". WEEK and WEEKDAY give the week of the year and the day (1 is Monday). Adding 1000 to a TIME adds one second. SLEEP waits two game ticks before the end."
+    }
+  ]
+}

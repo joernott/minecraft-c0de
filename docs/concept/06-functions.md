@@ -108,7 +108,7 @@ Eight RETURN blocks can be crafted from a spruce door surrounded by eight NOOP b
 
 ### Call block
 
-The CALL block is a structural block. It is a dark gray slab (color #555555) whose top shows a white circle with the symbol 📞 (telephone) in it.
+The CALL block is a structural block. It is a dark gray slab (color #555555) whose top shows a white circle with a black telephone receiver (📞) in it.
 
 #### Crafting
 

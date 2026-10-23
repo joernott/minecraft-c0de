@@ -1,0 +1,20 @@
+{
+  "name": "Types",
+  "icon": "c0de:program_block",
+  "category": "c0de:language",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "A type block follows the name of a variable, constant, parameter or result. Simple types:$(br2)$(li)BOOLEAN: true or false$(li)INTEGER: whole numbers$(li)FLOAT: numbers with decimals$(li)CHAR: one character$(li)TIME: a point in time$(br2)Complex types:"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)STRING: text, optionally with a length limit$(li)ARRAY: a list, numbered from 0$(li)HASH: values stored under text keys$(li)STRUCT: your own type with named elements$(li)ERROR: an error with code, message, context and line"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "ARRAY and HASH are followed by the type of their content, like $(1)ARRAY INTEGER$(). A STRUCT type is followed by a LABEL with the struct name. Arrays and hashes grow and shrink by themselves."
+    }
+  ]
+}

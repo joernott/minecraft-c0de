@@ -1,0 +1,20 @@
+{
+  "name": "Wrench",
+  "icon": "c0de:hammer",
+  "category": "c0de:tools",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Right-click a trigger block with the wrench to enter the c0de dimension. You arrive in front of the program of that trigger block, or of the first free sheet."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "On a sheet, the wrench moves and copies lines you marked with the text marker. Left-click a line that is not marked: the marked lines move in front of it. The gaps close by themselves."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Right-click a line to copy the marked lines in front of it. That line and all lines after it move south. In survival mode, the copied blocks come from your inventory.$(br2)Recipe: three iron ingots in a V shape (top left, top right, middle) above a red wool block."
+    }
+  ]
+}

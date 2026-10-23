@@ -1,0 +1,16 @@
+{
+  "name": "Variable items",
+  "icon": "c0de:wrench",
+  "category": "c0de:getting_started",
+  "sortnum": 10,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Programs get and return data as $(l)variable items$(). Our function has one result and no parameters, so it needs one empty item to write its result into."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Craft an uninitialized variable item from a $(l)data item$() and $(l)light blue dye$(). Put it into the input inventory of the trigger block."
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "name": "The owner",
+  "icon": "c0de:trigger_block",
+  "category": "c0de:running_programs",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "The player who set up a trigger block last is its $(l)owner$(). Its programs act on behalf of this player. This matters for the c0de/minecraft library and for aborting processes."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "name": "c0de/strings",
+  "icon": "c0de:include_block",
+  "category": "c0de:libraries",
+  "sortnum": 6,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Text and characters:"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)LEFT, RIGHT, MID: parts of a text$(li)REPLACE: overwrite part of a text$(li)INSTR: find a text in a text, -1 if not found$(li)UCASE, LCASE: upper and lower case$(li)SPACE, FILL: a text of spaces or of one character$(li)ASC, CHR: characters and their code numbers$(br2)Conversions:"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)STR: any simple value as text$(li)FORMAT: a value as text in a format you choose$(li)VAL: a text as a number$(li)HEX, OCT: a number in hexadecimal or octal"
+    }
+  ]
+}

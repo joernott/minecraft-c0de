@@ -1,0 +1,16 @@
+{
+  "name": "When it won't start",
+  "icon": "c0de:trigger_block",
+  "category": "c0de:running_programs",
+  "sortnum": 7,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "A trigger block does not start a process if:"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)it has no program or function yet,$(li)its last process is still running,$(li)an item is missing for a parameter without default value,$(li)an uninitialized item is missing for a result,$(li)the output inventory has too few free slots."
+    }
+  ]
+}

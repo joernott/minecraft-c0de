@@ -1,0 +1,16 @@
+{
+  "name": "Sheets",
+  "icon": "c0de:wrench",
+  "category": "c0de:getting_started",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "The floor looks like old computer paper with green and white stripes. Each strip of paper is a $(l)sheet$(). A sheet is 32 blocks wide and runs south without end."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Every sheet holds at most one program. The black area outside the sheets belongs to nobody. You can place trigger blocks there to start your programs."
+    }
+  ]
+}

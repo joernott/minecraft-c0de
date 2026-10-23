@@ -1,0 +1,16 @@
+{
+  "name": "Protected programs",
+  "icon": "c0de:trigger_block",
+  "category": "c0de:running_programs",
+  "sortnum": 11,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "While a process runs, its sheet is locked. Nobody can place or break blocks on it, not even pistons or explosions. The wrench and the hammer don't work there."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Dialogs of blocks on the sheet open read-only. The text marker still works, because it changes nothing. If you try to change a locked sheet, you get a message naming the running processes."
+    }
+  ]
+}

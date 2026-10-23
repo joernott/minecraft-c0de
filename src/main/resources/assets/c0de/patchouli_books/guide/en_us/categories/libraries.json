@@ -1,0 +1,6 @@
+{
+  "name": "Libraries",
+  "description": "c0de comes with ready-made functions. A few are built in and always there. The others are grouped in libraries, which you load with an INCLUDE line.",
+  "icon": "c0de:include_block",
+  "sortnum": 4
+}

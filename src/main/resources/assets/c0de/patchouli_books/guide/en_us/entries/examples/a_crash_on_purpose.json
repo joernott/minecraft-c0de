@@ -1,0 +1,20 @@
+{
+  "name": "A crash on purpose",
+  "icon": "c0de:function_block",
+  "category": "c0de:examples",
+  "sortnum": 5,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(1)PROGRAM errors$(br)NOOP$(br)NOOP$(br)FUNCTION divide$(br)  PARAMETER a INTEGER$(br)  PARAMETER b INTEGER$(br)  RESULT result INTEGER$(br)BEGIN$(br)  VARIABLE quotient FLOAT$(br)  ASSIGN quotient a / b ;$(br)END FUNCTION$(br)NOOP$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)FUNCTION main$(br)BEGIN$(br)  CALL divide$(br)    PARAMETER a 1 ;$(br)    PARAMETER b 0 ;$(br)END FUNCTION$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Dividing by zero raises DIVISION_BY_ZERO in $(1)divide$(). The CALL in $(1)main$() has no ERROR variable to catch it, so the error moves up. In the entry function, it crashes the process. The trigger dialog shows the error and line 9, and a comparator reads 15."
+    }
+  ]
+}

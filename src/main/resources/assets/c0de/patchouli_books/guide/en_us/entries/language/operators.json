@@ -1,0 +1,16 @@
+{
+  "name": "Operators",
+  "icon": "c0de:program_block",
+  "category": "c0de:language",
+  "sortnum": 9,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(li)math: $(1)+$() $(1)-$() $(1)*$() $(1)/$() $(1)^$() (power) $(1)\\$() (remainder)$(li)compare: $(1)=$() $(1)≠$() $(1)<$() $(1)>$() $(1)≤$() $(1)≥$()$(li)logic: $(1)NOT$() $(1)AND$() $(1)OR$() $(1)XOR$()$(li)text: $(1)⊕$() joins two values into a text$(li)bits: $(1)&$() $(1)|$() $(1)⊻$() $(1)¬$() $(1)←$() $(1)→$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)=$() only compares. To store a value, use ASSIGN. $(1)⊕$() turns numbers and lists into text, so $(1)'a' ⊕ 1 ⊕ \"b\"$() gives $(1)\"a1b\"$()."
+    }
+  ]
+}

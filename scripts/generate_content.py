@@ -19,6 +19,7 @@ DATA = RESOURCES / "data" / "c0de"
 # The block models are in their own module next to this script
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import block_models  # noqa: E402
+import generate_book  # noqa: E402
 
 # (name of the CodeBlockType constant, validated, transparent, English name, German name)
 BLOCKS = [
@@ -380,6 +381,7 @@ def block_files(name: str, validated: bool, transparent: bool) -> None:
 
 
 def main() -> None:
+    generate_book.main()
     for name, validated, transparent, _, _ in BLOCKS:
         block_files(name, validated, transparent)
     for trigger, _, _, _, _ in TRIGGERS:

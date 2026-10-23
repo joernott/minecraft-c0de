@@ -241,7 +241,8 @@ A task is done when
 | 11.2.13 | A triangle marks the type field as a dropdown; the borders of the tops of PROGRAM, LITERAL, ASSIGN, IF, ELSE, BEGIN and END follow their shapes; the items of the language blocks are turned by 180 degrees in the inventory. | ✅ |
 | 11.2.14 | The borders of the shaped tops include the pixels cut by round and diagonal sides (two pixels wide there); the loop blocks FOR, EACH, WHILE and REPEAT are cylinders. | ✅ |
 | 11.3 | Line numbers: every line with content shows its number on the floor at x=2. The color shows the state of the line: a faint shade of the floor for NOOP and COMMENT lines, dark red for a wrong line, dark yellow for an incomplete statement (e.g. BEGIN without END, FUNCTION without code block), dark green for a correct line. | ✅ |
-| 11.4 | Player documentation: a guide with examples (Markdown in the repository and the Modrinth page); optionally an in-game book. |  |
+| 11.4 | Player documentation: a guide with examples (Markdown in the repository and the Modrinth page); optionally an in-game book. | ✅ |
+| 11.4.1 | In-game guide book for Patchouli, generated from the guide: craftable from a book and a NOOP block if Patchouli is installed; every player gets it on the first join. CALL shows a black telephone receiver. | ✅ |
 | 11.5 | Performance tests: many processes at the same time, large programs, deep recursion; tuning of the scheduler. |  |
 | 11.6 | Multiplayer tests on the Docker servers with several clients (development clients and Modrinth App profiles), including non-operator players and permissions. |  |
 | 11.7 | Workflow `release.yml`, Modrinth project, changelog. |  |

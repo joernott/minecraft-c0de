@@ -1,0 +1,20 @@
+{
+  "name": "Structs",
+  "icon": "c0de:program_block",
+  "category": "c0de:language",
+  "sortnum": 6,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "A STRUCT declares your own type. Each line in its code block is an element: a name and a type."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)STRUCT point$(br)BEGIN$(br)  x INTEGER$(br)  y INTEGER$(br)END STRUCT$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "A variable of this type is declared as $(1)VARIABLE p STRUCT point$(). Its elements are reached with an index, like $(1)p.x$()."
+    }
+  ]
+}

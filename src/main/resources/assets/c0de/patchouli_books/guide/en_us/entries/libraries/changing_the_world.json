@@ -1,0 +1,16 @@
+{
+  "name": "Changing the world",
+  "icon": "c0de:include_block",
+  "category": "c0de:libraries",
+  "sortnum": 11,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Some functions change the world more:$(br2)$(li)MOVE_ITEMS, DELETE_ITEMS: move or remove items in containers$(li)PLACE_BLOCK, REMOVE_BLOCK: place or break blocks$(li)SPAWN_ITEM, SPAWN_ENTITY: create items and mobs$(li)TELEPORT: move an entity"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Positions are given as a $(1)c0de/minecraft/POSITION$() struct with x, y, z and an optional dimension. Programs can never change the blocks on the sheets of the c0de dimension."
+    }
+  ]
+}

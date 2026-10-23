@@ -1,0 +1,16 @@
+{
+  "name": "Uninitialized items",
+  "icon": "c0de:trigger_block",
+  "category": "c0de:running_programs",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "An $(l)uninitialized$() variable item has no name, no type and no value. A process writes a result into it."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "You need one for each result that has no parameter item to take its place. A function with one result and no parameters needs one uninitialized item.$(br2)Spare uninitialized items stay in the input inventory. So you can stack several of them there for many runs."
+    }
+  ]
+}

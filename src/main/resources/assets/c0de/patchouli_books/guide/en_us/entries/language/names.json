@@ -1,0 +1,20 @@
+{
+  "name": "Names",
+  "icon": "c0de:program_block",
+  "category": "c0de:language",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "LABEL blocks hold names. A name uses the letters a-z and A-Z, the digits 0-9 and the underscore. It must start with a letter."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Keywords in capitals are reserved: $(1)RESULT$() is not a valid name, but $(1)result$() and $(1)Result$() are. Library names use slashes, like $(1)c0de/math/PI$()."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "A label can point into a value with an $(l)index$(), like $(1)list[0]$(), $(1)stock[\"gold\"]$() or $(1)problem.code$(). You enter the index as text in the LABEL dialog."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "name": "Line numbers",
+  "icon": "c0de:wrench",
+  "category": "c0de:getting_started",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "At x=2, the floor shows the number of every line that has blocks. Its color tells you how the line is doing:"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)faint: a NOOP or COMMENT line$(li)dark green: the line is correct$(li)dark yellow: correct so far, but the statement is not finished yet$(li)dark red: something is wrong"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Dark yellow is normal while you build. A BEGIN without its END shows dark yellow until you place the END. The debugging tool tells you what is wrong with a red line."
+    }
+  ]
+}

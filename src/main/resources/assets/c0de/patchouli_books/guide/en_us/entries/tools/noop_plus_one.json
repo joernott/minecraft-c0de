@@ -1,0 +1,12 @@
+{
+  "name": "NOOP plus one",
+  "icon": "c0de:hammer",
+  "category": "c0de:tools",
+  "sortnum": 11,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "These blocks are crafted from one NOOP block and one item, in any shape:$(br2)$(li)LABEL: paper$(li)PROGRAM: book$(li)INCLUDE: empty map$(li)FUNCTION: stone$(li)CALL: smooth stone$(li)BREAK: stick"
+    }
+  ]
+}

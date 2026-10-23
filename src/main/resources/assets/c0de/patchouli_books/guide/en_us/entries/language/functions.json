@@ -1,0 +1,24 @@
+{
+  "name": "Functions",
+  "icon": "c0de:program_block",
+  "category": "c0de:language",
+  "sortnum": 11,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "A FUNCTION line starts at x=5 with the function name. PARAMETER lines below it name the inputs, RESULT lines the outputs. Then follows the code block."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "A parameter may have a default value. A caller can leave such a parameter out. Results start with the default value of their type."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)FUNCTION greet$(br)  PARAMETER name STRING \"World\"$(br)  PARAMETER mark CHAR '!'$(br)  RESULT result STRING$(br)BEGIN$(br)  ASSIGN result \"Hello, \" ⊕ name ⊕ mark ;$(br)END FUNCTION$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "When the function ends, the last values of its results go back to the caller."
+    }
+  ]
+}

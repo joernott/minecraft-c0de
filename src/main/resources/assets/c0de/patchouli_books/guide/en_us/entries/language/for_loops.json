@@ -1,0 +1,16 @@
+{
+  "name": "FOR loops",
+  "icon": "c0de:program_block",
+  "category": "c0de:language",
+  "sortnum": 15,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "FOR counts. It has a loop variable, its type (INTEGER or FLOAT), a start value and an end value. An optional third value is the step, which is 1 if you leave it out.$(br2)The end value is included. You can't change the loop variable yourself."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)FOR i INTEGER 1 ; 10 ; 2 ;$(br)BEGIN$(br)  NOOP$(br)END FOR$()"
+    }
+  ]
+}

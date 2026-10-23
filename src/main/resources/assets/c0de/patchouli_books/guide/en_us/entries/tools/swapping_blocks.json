@@ -1,0 +1,12 @@
+{
+  "name": "Swapping blocks",
+  "icon": "c0de:hammer",
+  "category": "c0de:tools",
+  "sortnum": 14,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Some blocks can be turned into their partner. Put one alone into the crafting grid:$(br2)$(li)BEGIN and END$(li)PARAMETER and RESULT$(li)VARIABLE and CONSTANT$(li)IF and ELSE, FOR and EACH, WHILE and REPEAT$(li)INTEGER and FLOAT, with yellow or orange dye"
+    }
+  ]
+}

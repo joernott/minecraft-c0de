@@ -1,0 +1,20 @@
+{
+  "name": "IF and ELSE",
+  "icon": "c0de:program_block",
+  "category": "c0de:language",
+  "sortnum": 14,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "IF runs its code block only when its expression is true. An ELSE block runs otherwise. With an ELSE, the first END stands alone. The last END is followed by IF."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)IF prime ;$(br)BEGIN$(br)  ASSIGN primes primes ⊕ candidate ⊕ \" \" ;$(br)END$(br)ELSE$(br)BEGIN$(br)  NOOP$(br)END IF$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "There is no ELSE IF. Put another IF inside the ELSE block instead."
+    }
+  ]
+}

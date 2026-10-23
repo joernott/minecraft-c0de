@@ -1,0 +1,12 @@
+{
+  "name": "BREAK",
+  "icon": "c0de:program_block",
+  "category": "c0de:language",
+  "sortnum": 18,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "BREAK leaves the innermost loop at once. It may have a condition: then it only leaves the loop if the condition is true."
+    }
+  ]
+}

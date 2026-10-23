@@ -1,0 +1,24 @@
+{
+  "name": "Errors",
+  "icon": "c0de:program_block",
+  "category": "c0de:language",
+  "sortnum": 20,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "When something goes wrong, like a division by zero, the function stops and $(l)raises$() an error. The error goes to the caller, and then up to its caller."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "If the error reaches the entry function, the process $(l)crashes$(). Mistakes in the program itself, like a wrong indentation, crash it at once."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "To catch an error, add a variable of type ERROR to the CALL line. The caller then goes on, and you can check the error's $(1)code$(), $(1)message$(), $(1)context$() and $(1)line$()."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)VARIABLE problem ERROR$(br)CALL fail problem$(br)ASSIGN code problem.code ;$()"
+    }
+  ]
+}

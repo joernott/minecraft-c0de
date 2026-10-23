@@ -1,0 +1,16 @@
+{
+  "name": "Variable items",
+  "icon": "c0de:hammer",
+  "category": "c0de:tools",
+  "sortnum": 7,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "A variable item has a blue border. It carries a name, a type and a value into or out of a process. Hold it and right-click to edit it.$(br2)Recipe: a data item, a type item and light blue dye give two variable items of that type."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "An $(l)uninitialized$() variable item has no name, type or value. A process writes a result into it. Recipe: a data item and light blue dye.$(br2)The trash can button in the dialog empties all fields. Saving with all fields empty makes the item uninitialized again."
+    }
+  ]
+}

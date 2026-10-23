@@ -1,0 +1,16 @@
+{
+  "name": "Expressions",
+  "icon": "c0de:program_block",
+  "category": "c0de:language",
+  "sortnum": 8,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "An expression calculates a value from literals, variables, constants and operators. It always ends with an OPERATOR block showing $(1);$(). An expression may go on in the next line, one block further east."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Calculations follow the usual rules: $(1)*$() before $(1)+$(). Use $(1)($() and $(1))$() to group. A division with $(1)/$() always gives a FLOAT.$(br2)You can't call a function inside an expression. Use a CALL statement instead."
+    }
+  ]
+}

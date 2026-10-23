@@ -1,0 +1,16 @@
+{
+  "name": "What a process takes",
+  "icon": "c0de:trigger_block",
+  "category": "c0de:running_programs",
+  "sortnum": 5,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "When a process starts, it takes from the input inventory:$(br2)$(li)one item for each parameter that has an item,$(li)one uninitialized item for each extra result,$(li)all other initialized variable and constant items."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Those other items are not used. They are passed through unchanged to the output inventory when the process ends."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "name": "Prime numbers",
+  "icon": "c0de:function_block",
+  "category": "c0de:examples",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(1)PROGRAM primefinder$(br)NOOP$(br)NOOP$(br)FUNCTION main$(br)  RESULT primes STRING$(br)BEGIN$(br)  FOR candidate INTEGER 2 ; 20 ;$(br)  BEGIN$(br)    VARIABLE prime BOOLEAN TRUE$(br)    FOR divisor INTEGER 2 ; candidate - 1 ;$(br)    BEGIN$(br)      IF candidate \\ divisor = 0 ;$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)      BEGIN$(br)        ASSIGN prime FALSE ;$(br)        BREAK$(br)      END IF$(br)    END FOR$(br)    IF prime ;$(br)    BEGIN$(br)      ASSIGN primes primes ⊕ candidate ⊕ \" \" ;$(br)    END IF$(br)  END FOR$(br)END FUNCTION$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "The outer loop tries every number from 2 to 20. The inner loop checks if a smaller number divides it with no remainder ($(1)\\$()). If so, it is no prime, and BREAK stops the inner loop. The result is \"2 3 5 7 11 13 17 19 \"."
+    }
+  ]
+}

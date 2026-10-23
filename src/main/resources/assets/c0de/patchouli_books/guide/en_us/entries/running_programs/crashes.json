@@ -1,0 +1,12 @@
+{
+  "name": "Crashes",
+  "icon": "c0de:trigger_block",
+  "category": "c0de:running_programs",
+  "sortnum": 9,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "When a process crashes, the trigger block plays a low note. Its dialog shows the error code, the message, the function and the line where it happened.$(br2)A crashed process creates no results. All items it took go to the output inventory unchanged."
+    }
+  ]
+}

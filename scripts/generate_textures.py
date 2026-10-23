@@ -310,16 +310,6 @@ ICONS: dict[str, tuple[list[str], dict[str, int]]] = {
         "....gg....",
         "....gg....",
     ], {"g": 0x4A4A4A, "d": 0x2A2A2A}),
-    "phone": ([
-        ".kk....kk.",
-        "kkkkkkkkkk",
-        "kk......kk",
-        "..........",
-        "...kkkk...",
-        "..kkwwkk..",
-        ".kkkkkkkk.",
-        ".kkkkkkkk.",
-    ], {"k": 0x202020, "w": 0xDDDDDD}),
     "torch": ([
         ".rr.",
         "rrrr",
@@ -428,6 +418,17 @@ def small_square(dx: float, dy: float) -> bool:
 
 LIME = 0x55FF55
 
+# The telephone receiver of the emoji 📞, in black: the ear piece at the upper left, the mouth piece at the lower right
+HANDSET = [
+    "##.....",
+    "###....",
+    ".#.....",
+    ".##....",
+    "..##.##",
+    "...####",
+    "....##.",
+]
+
 # (block ID, color, function that draws the symbol on the top). The colors don't change with the state of the
 # line any more; the line numbers on the floor show it.
 CODE_BLOCKS = [
@@ -441,7 +442,7 @@ CODE_BLOCKS = [
 
     ("function_block", 0x555555, lambda i: (paint(i, circle, WHITE), glyph(i, "ƒ", 0x202020))),
     ("return_block", 0xAA00AA, lambda i: icon(i, "spruce_door")),
-    ("call_block", 0x555555, lambda i: icon(i, "phone")),
+    ("call_block", 0x555555, lambda i: (paint(i, circle, WHITE), mask(i, HANDSET, {"#": 0x000000}, 4, 4))),
     ("for_block", 0x00AA00, lambda i: (paint(i, ring, LIME), glyph(i, "#", LIME, 5, 5))),
     ("each_block", 0x00AA00, lambda i: (paint(i, ring, LIME), paint(i, small_square, LIME))),
     ("while_block", 0x00AA00, lambda i: (paint(i, ring, LIME), glyph(i, "?", LIME, 5, 4))),

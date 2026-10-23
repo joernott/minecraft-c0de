@@ -1,0 +1,20 @@
+{
+  "name": "Making music",
+  "icon": "c0de:include_block",
+  "category": "c0de:libraries",
+  "sortnum": 13,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "A short example: play a bell note at the trigger block."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/minecraft/SOUND$(br)  PARAMETER note 12 ;$(br)  PARAMETER instrument \"bell\" ;$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)note$() goes from 0 to 24, like the clicks on a note block. Without $(1)instrument$(), SOUND uses the harp."
+    }
+  ]
+}

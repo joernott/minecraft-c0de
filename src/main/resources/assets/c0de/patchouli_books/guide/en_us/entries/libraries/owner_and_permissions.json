@@ -1,0 +1,16 @@
+{
+  "name": "Owner and permissions",
+  "icon": "c0de:include_block",
+  "category": "c0de:libraries",
+  "sortnum": 12,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Programs act on behalf of the owner of the trigger block. The world-changing functions above only work if the owner is an operator, or if the server allows them in the file $(1)config/c0de.properties$()."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Otherwise they raise PERMISSION_DENIED. Players can only be teleported if the owner is an operator."
+    }
+  ]
+}

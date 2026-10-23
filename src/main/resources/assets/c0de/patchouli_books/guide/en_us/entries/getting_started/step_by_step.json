@@ -1,0 +1,20 @@
+{
+  "name": "Step by step",
+  "icon": "c0de:wrench",
+  "category": "c0de:getting_started",
+  "sortnum": 8,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(li)Line 0: a PROGRAM block at x=5, then a LABEL named $(1)first$().$(li)Line 1: a NOOP block at x=5. Every program needs it here.$(li)Line 2: another NOOP. A FUNCTION always needs a NOOP line right above it.$(li)Line 3: a FUNCTION block at x=5, then a LABEL named $(1)answer$()."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)Line 4: a RESULT block at x=6, a LABEL named $(1)result$() and an INTEGER type block.$(li)Line 5: a BEGIN block at x=5.$(li)Line 6: an ASSIGN block at x=6, a LABEL $(1)result$(), a LITERAL 42 and an OPERATOR $(1);$().$(li)Line 7: an END block at x=5, followed by a FUNCTION block."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "When all line numbers are dark green or faint, the program is ready. Leave the line after the END empty. The first empty line ends the program."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "name": "c0de/time",
+  "icon": "c0de:include_block",
+  "category": "c0de:libraries",
+  "sortnum": 9,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Real-world time and date, in the time zone of the server:"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)NOW: the current time as a TIME value$(li)YEAR, MONTH, DAY: parts of the date$(li)HOUR, MINUTE, SECOND, MILLISECOND: parts of the time$(li)WEEKDAY: 1 for Monday up to 7 for Sunday$(li)WEEK: the week of the year$(li)TIMER: seconds since midnight$(li)SLEEP: wait for a number of game ticks"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "The date and time functions use the current time, or a TIME value you pass as $(1)time$(). SLEEP waits between 1 and 72000 ticks."
+    }
+  ]
+}

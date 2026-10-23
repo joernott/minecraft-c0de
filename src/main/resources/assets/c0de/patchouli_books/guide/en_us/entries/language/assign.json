@@ -1,0 +1,20 @@
+{
+  "name": "ASSIGN",
+  "icon": "c0de:program_block",
+  "category": "c0de:language",
+  "sortnum": 10,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "ASSIGN stores the value of an expression in a variable. The value must fit the type of the variable. An INTEGER may go into a FLOAT, and a CHAR into a STRING."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)ASSIGN arithmetic 1 + 2 * ( 3 + 3 ) \\ 10 * 2 + 10 ;$(br)ASSIGN list[0] 10 ;$(br)ASSIGN list[1] 20 ;$(br)ASSIGN list[2] list[0] + list[1] ;$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Assigning to the index right after the end of a list adds a new element. A new key adds a new element to a hash."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "name": "What is c0de?",
+  "icon": "c0de:wrench",
+  "category": "c0de:getting_started",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "c0de is inspired by the old BASIC language and by the early Lego Mindstorms. Instead of typing text, you place colorful language blocks in a row. Each row is one line of your program."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Programs live in their own dimension, the c0de dimension. The trigger blocks that start them can stand anywhere: in your base, in the Nether or right next to the program itself."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "All c0de blocks and items are crafted from vanilla materials. You don't need to know how to program. This guide explains everything step by step."
+    }
+  ]
+}
