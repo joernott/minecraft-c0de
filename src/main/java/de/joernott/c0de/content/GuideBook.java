@@ -12,7 +12,7 @@ import net.minecraft.world.item.Items;
 
 /**
  * The guide book of the mod (docs/guide), if Patchouli is installed: every player gets it once, when they join a
- * world for the first time with the mod. The book is also crafted from a book and a NOOP block (recipe
+ * world for the first time with the mod. The book is also crafted from a book and a PROGRAM block (recipe
  * guide_book, which is only loaded with Patchouli). The mod doesn't depend on Patchouli: its item and data
  * component are looked up by their IDs.
  */

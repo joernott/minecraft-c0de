@@ -420,13 +420,13 @@ LIME = 0x55FF55
 
 # The telephone receiver of the emoji 📞, in black: the ear piece at the upper left, the mouth piece at the lower right
 HANDSET = [
-    "##.....",
-    "###....",
-    ".#.....",
-    ".##....",
-    "..##.##",
-    "...####",
-    "....##.",
+    "##......",
+    "###.....",
+    "###.....",
+    ".##.....",
+    "..##..##",
+    "...#####",
+    "....###.",
 ]
 
 # (block ID, color, function that draws the symbol on the top). The colors don't change with the state of the
@@ -442,7 +442,7 @@ CODE_BLOCKS = [
 
     ("function_block", 0x555555, lambda i: (paint(i, circle, WHITE), glyph(i, "ƒ", 0x202020))),
     ("return_block", 0xAA00AA, lambda i: icon(i, "spruce_door")),
-    ("call_block", 0x555555, lambda i: (paint(i, circle, WHITE), mask(i, HANDSET, {"#": 0x000000}, 4, 4))),
+    ("call_block", 0x555555, lambda i: (paint(i, circle, WHITE), mask(i, HANDSET, {"#": 0x000000}, 4, 5))),
     ("for_block", 0x00AA00, lambda i: (paint(i, ring, LIME), glyph(i, "#", LIME, 5, 5))),
     ("each_block", 0x00AA00, lambda i: (paint(i, ring, LIME), paint(i, small_square, LIME))),
     ("while_block", 0x00AA00, lambda i: (paint(i, ring, LIME), glyph(i, "?", LIME, 5, 4))),

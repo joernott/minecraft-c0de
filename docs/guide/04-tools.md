@@ -177,4 +177,4 @@ All three trigger blocks share one pattern: copper ingots in the corners, glass 
 
 If the mod Patchouli is installed, this guide is also a book in the game. You get it once, the first time you join a world with c0de.
 
-To make another copy, craft a book and a NOOP block together, in any order.
+To make another copy, craft a book and a PROGRAM block together, in any order.

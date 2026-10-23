@@ -383,3 +383,10 @@ Please turn the loop blocks into cylinders.
 Please replace the phone symbol in the call function with 📞 but just in black.
 
 Also implement 11.4. For that, add another subtask to support documentation in the patchouli format (https://vazkiimods.github.io/Patchouli/). If the mod is installed, the book should be craftable from a book and a noop block. Also, new players should be gifted the book on first join.
+
+## 2026-10-24 – CALL symbol position, guide book recipe
+
+1: The call symbol needs to shift down a pixel or two and the ear piece looks like it is missing a bit.
+2: yes
+3: The pages are fine
+4: I suggested the wrong recipe. Tis is the same recipe as for the PROGRAM block. So, instead of using a NOOP block, let's use a program block and a book to craft the patchouli book.

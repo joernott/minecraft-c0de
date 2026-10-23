@@ -20,7 +20,7 @@
       "item": "minecraft:book"
     },
     {
-      "item": "c0de:noop_block"
+      "item": "c0de:program_block"
     }
   ],
   "result": {

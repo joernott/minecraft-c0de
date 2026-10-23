@@ -43,4 +43,4 @@ The player guide explains everything step by step, with example programs:
 
 - Minecraft 1.21.1
 - **Fabric** with [Fabric API](https://modrinth.com/mod/fabric-api), or **NeoForge**
-- Optional: [Patchouli](https://modrinth.com/mod/patchouli) adds an in-game guide book with the player guide. Every player gets it on the first join; more copies are crafted from a book and a NOOP block.
+- Optional: [Patchouli](https://modrinth.com/mod/patchouli) adds an in-game guide book with the player guide. Every player gets it on the first join; more copies are crafted from a book and a PROGRAM block.

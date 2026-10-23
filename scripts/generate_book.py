@@ -134,13 +134,13 @@ def main() -> None:
         "creative_tab": "c0de:c0de",
         "show_progress": False,
     })
-    # The book is crafted from a book and a NOOP block, but only if Patchouli is installed
+    # The book is crafted from a book and a PROGRAM block, but only if Patchouli is installed
     write(RESOURCES / "data" / "c0de" / "recipe" / "guide_book.json", {
         "fabric:load_conditions": [{"condition": "fabric:all_mods_loaded", "values": ["patchouli"]}],
         "neoforge:conditions": [{"type": "neoforge:mod_loaded", "modid": "patchouli"}],
         "type": "minecraft:crafting_shapeless",
         "category": "misc",
-        "ingredients": [{"item": "minecraft:book"}, {"item": "c0de:noop_block"}],
+        "ingredients": [{"item": "minecraft:book"}, {"item": "c0de:program_block"}],
         "result": {"id": "patchouli:guide_book", "count": 1, "components": {"patchouli:book": "c0de:" + BOOK}},
     })
     for number, path in enumerate(sorted(GUIDE.glob("[0-9][0-9]-*.md"))):
