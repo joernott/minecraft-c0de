@@ -80,7 +80,7 @@ END FOR
 
 ### Minecraft block
 
-The FOR block is a dark green slab (color #00AA00). Its top shows a thin lime circular arrow around a # sign.
+The FOR block is a dark green (color #00AA00) cylinder, as high as a slab. Its top shows a thin lime circular arrow around a # sign.
 
 #### Crafting
 
@@ -94,7 +94,7 @@ For an array, the loop variable has the subtype of the array and receives the el
 
 ### Minecraft block
 
-The EACH block is a dark green slab (color #00AA00). Its top shows a thin lime circular arrow around a square.
+The EACH block is a dark green (color #00AA00) cylinder, as high as a slab. Its top shows a thin lime circular arrow around a square.
 
 #### Crafting
 
@@ -112,9 +112,9 @@ A REPEAT loop starts with a line containing only the REPEAT keyword. A code bloc
 
 ### Minecraft blocks
 
-The WHILE block is a dark green slab (color #00AA00). Its top shows a thin lime circular arrow around a question mark.
+The WHILE block is a dark green (color #00AA00) cylinder, as high as a slab. Its top shows a thin lime circular arrow around a question mark.
 
-The REPEAT block is a dark green slab (color #00AA00). Its top shows a lime square around a question mark.
+The REPEAT block is a dark green (color #00AA00) cylinder, as high as a slab. Its top shows a lime square around a question mark.
 
 #### Crafting
 

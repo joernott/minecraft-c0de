@@ -366,3 +366,11 @@ Findings:
 - In the world "Testing", the function Test8 in the program "Sprint8Test2" contains a while loop: WHILE j <= 5 ;
 Outside the loop, the variable j is initialized as 0.
 Inside the loop, I have ASSIGN j j + 1; which I intended to increase j until it hits 5. That does not happen and I had to abort the program. Please investigate, why.
+
+## 2026-10-23 – Wider shaped borders, cylindrical loop blocks
+
+1: Yes
+2: Some of the borders have clipped blocks with the inner color "outside" the borders. Maybe make the borders of the round and diagonal parts 2 blocks wide to catch those outside blocks.
+3: Yes
+
+Please turn the loop blocks into cylinders.

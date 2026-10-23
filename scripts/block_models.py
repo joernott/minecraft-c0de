@@ -6,9 +6,9 @@ line numbers on the floor show it. Most blocks are slabs with their symbol on th
   - VARIABLE is a chest and CONSTANT a barrel, scaled to the height of a slab,
   - OPERATOR is the symbol of its operator and COMMENT two slashes, extruded from the floor,
   - INCLUDE carries a bookshelf, as if it lay in an invisible item frame,
-  - BEGIN, END, PROGRAM, LITERAL, ASSIGN, IF and ELSE are slabs in their JSON models; ExtrudedModel (client) gives
-    them their shapes (trapezoid, semicircle, octagon, triangle and diamond), because JSON models can't have
-    diagonal or round sides. The bottom texture of PROGRAM is the book that ExtrudedModel lays on its top.
+  - BEGIN, END, PROGRAM, LITERAL, ASSIGN, IF, ELSE and the loops (FOR, EACH, WHILE, REPEAT) are slabs in their
+    JSON models; ExtrudedModel (client) gives them their shapes (trapezoid, semicircle, octagon, triangle, diamond
+    and cylinder), because JSON models can't have diagonal or round sides. The bottom texture of PROGRAM is the book that ExtrudedModel lays on its top.
 The outline and collision shapes in CodeBlockShapes MUST match.
 """
 

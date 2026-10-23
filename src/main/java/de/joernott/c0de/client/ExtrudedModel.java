@@ -19,7 +19,7 @@ import net.minecraft.world.level.block.state.BlockState;
  * The models of the language blocks with diagonal or round sides, which JSON models can't describe: a convex
  * polygon (seen from above) extruded to the height of a slab. BEGIN and END are trapezoids that are wide towards
  * their code block, PROGRAM is round in the west, LITERAL an octagon, ASSIGN a triangle pointing to positive x,
- * IF and ELSE diamonds.
+ * IF and ELSE diamonds, and the loops FOR, EACH, WHILE and REPEAT cylinders.
  *
  * <p>The JSON model of each block is a slab; this model wraps it and takes the textures of its top and side. The
  * top texture is projected from above, so it is cut along the sides; the sides show the lower half of the side
@@ -30,7 +30,7 @@ import net.minecraft.world.level.block.state.BlockState;
 public final class ExtrudedModel implements BakedModel {
     /** The ints of a vertex in the block vertex format: position (3), color, texture (2), light, normal. */
     private static final int STRIDE = 8;
-    /** The number of edges of the semicircle of PROGRAM. */
+    /** The number of edges of the semicircle of PROGRAM; a full circle has twice as many. */
     private static final int ROUND_EDGES = 12;
     /** The size of an item lying on the top, in blocks, and its thickness. */
     private static final float ITEM_SIZE = 10 / 16.0F;
@@ -134,6 +134,7 @@ public final class ExtrudedModel implements BakedModel {
             case "program_block" -> new ExtrudedModel(model, halfRound(), true);
             case "literal_block" -> new ExtrudedModel(model, octagon(), false);
             case "assign_block" -> new ExtrudedModel(model, new double[][] {{0, 0}, {0, 16}, {16, 8}}, false);
+            case "for_block", "each_block", "while_block", "repeat_block" -> new ExtrudedModel(model, circle(), false);
             case "if_block", "else_block" ->
                 new ExtrudedModel(model, new double[][] {{8, 0}, {0, 8}, {8, 16}, {16, 8}}, false);
             default -> model;
@@ -153,6 +154,18 @@ public final class ExtrudedModel implements BakedModel {
         }
         polygon[ROUND_EDGES + 1] = new double[] {16, 16};
         polygon[ROUND_EDGES + 2] = new double[] {16, 0};
+        return polygon;
+    }
+
+    /** A circle filling the block, in the same order of corners as the other polygons. */
+    private static double[][] circle() {
+        int edges = 2 * ROUND_EDGES;
+        double[][] polygon = new double[edges][];
+        for (int k = 0; k < edges; k++) {
+            // From the north through the west, the south and the east
+            double angle = Math.PI * 1.5 - 2 * Math.PI * k / edges;
+            polygon[k] = new double[] {8 + 8 * Math.cos(angle), 8 + 8 * Math.sin(angle)};
+        }
         return polygon;
     }
 

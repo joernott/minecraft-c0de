@@ -11,8 +11,8 @@ import net.minecraft.world.phys.shapes.VoxelShape;
  * The outline and collision shapes of the language blocks. They MUST match the block models: all blocks are as
  * high as a slab; PARAMETER is a hopper and RESULT an upside-down hopper at half their size, VARIABLE (chest) and
  * CONSTANT (barrel) are half as wide as a block, OPERATOR and COMMENT are flat symbols (scripts/block_models.py).
- * BEGIN, END, PROGRAM, LITERAL, ASSIGN, IF and ELSE get their shapes from {@code ExtrudedModel} on the client;
- * their diagonal and round sides are approximated with slices.
+ * BEGIN, END, PROGRAM, LITERAL, ASSIGN, IF, ELSE and the loops get their shapes from {@code ExtrudedModel} on the
+ * client; their diagonal and round sides are approximated with slices.
  */
 public final class CodeBlockShapes {
     /** The height of the language blocks in pixels. */
@@ -47,6 +47,9 @@ public final class CodeBlockShapes {
 
     /** ASSIGN: a triangle pointing to positive x. */
     private static final VoxelShape TRIANGLE = slices(z -> 0, z -> 16 - 2 * Math.abs(z - 8));
+    /** The loops FOR, EACH, WHILE and REPEAT: a cylinder. */
+    private static final VoxelShape CYLINDER =
+            slices(z -> 8 - Math.sqrt(64 - (z - 8) * (z - 8)), z -> 8 + Math.sqrt(64 - (z - 8) * (z - 8)));
     /** IF and ELSE: a diamond. */
     private static final VoxelShape DIAMOND = slices(z -> Math.abs(z - 8), z -> 16 - Math.abs(z - 8));
 
@@ -76,6 +79,7 @@ public final class CodeBlockShapes {
             case OPERATOR, COMMENT -> FLAT;
             case ASSIGN -> TRIANGLE;
             case IF, ELSE -> DIAMOND;
+            case FOR, EACH, WHILE, REPEAT -> CYLINDER;
             default -> SLAB;
         };
     }

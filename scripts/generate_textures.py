@@ -580,17 +580,35 @@ TOP_SHAPES = {
     "assign_block": lambda x, z: abs(z - 8) <= (16 - x) / 2,
     "if_block": lambda x, z: abs(x - 8) + abs(z - 8) <= 8,
     "else_block": lambda x, z: abs(x - 8) + abs(z - 8) <= 8,
+    "for_block": lambda x, z: (x - 8) ** 2 + (z - 8) ** 2 <= 64,
+    "each_block": lambda x, z: (x - 8) ** 2 + (z - 8) ** 2 <= 64,
+    "while_block": lambda x, z: (x - 8) ** 2 + (z - 8) ** 2 <= 64,
+    "repeat_block": lambda x, z: (x - 8) ** 2 + (z - 8) ** 2 <= 64,
     "begin_block": lambda x, z: 4 * (1 - z / 16) <= x <= 16 - 4 * (1 - z / 16),
     "end_block": lambda x, z: 4 * z / 16 <= x <= 16 - 4 * z / 16,
 }
 
 
 def shaped_top(image: Image, inside) -> None:
-    """Darkens the pixels at the edge of a shape: inside it, with a neighbor outside of it or of the texture."""
-    def contains(px: int, pz: int) -> bool:
-        return 0 <= px < 16 and 0 <= pz < 16 and inside(px + 0.5, pz + 0.5)
-    edge = [(x, z) for z in range(16) for x in range(16) if contains(x, z)
-            and not all(contains(x + dx, z + dz) for dx, dz in ((1, 0), (-1, 0), (0, 1), (0, -1)))]
+    """Darkens the pixels at the edge of a shape. The shape cuts the pixels that its round and diagonal sides
+    cross, so these are part of the border, together with the pixels inside next to them: the border is two pixels
+    wide there. Along the straight sides at the edge of the texture, it is one pixel wide."""
+    samples = [(i + 0.5) / 4 for i in range(4)]
+
+    def part(px: int, pz: int) -> str:
+        """'in', 'out' or 'cut' (crossed by a side of the shape); outside of the texture is 'out'."""
+        if not (0 <= px < 16 and 0 <= pz < 16):
+            return "out"
+        hits = [inside(px + sx, pz + sz) for sx in samples for sz in samples]
+        return "in" if all(hits) else "out" if not any(hits) else "cut"
+
+    edge = []
+    for z in range(16):
+        for x in range(16):
+            kind = part(x, z)
+            if kind == "cut" or (kind == "in" and any(
+                    part(x + dx, z + dz) != "in" for dx, dz in ((1, 0), (-1, 0), (0, 1), (0, -1)))):
+                edge.append((x, z))
     for x, z in edge:
         image[z][x] = shade(image[z][x], -40)
 

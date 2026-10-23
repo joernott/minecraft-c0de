@@ -41,10 +41,10 @@ The language blocks are as high as a slab. Most of them are slabs with their sym
 | structural base (item) | – | trapezoid | 8 NOOP around green wool → 8 |
 | IF | dark green #00AA00 | shape: a diamond with a lime ? on the top | structural base + wheat seeds; ELSE |
 | ELSE | dark green #00AA00 | shape: a diamond with a lime ¿ on the top | structural base + wheat; IF |
-| FOR | dark green #00AA00 | lime circular arrow, # | structural base + dirt; EACH |
-| EACH | dark green #00AA00 | lime circular arrow, square | structural base + cobblestone; FOR |
-| WHILE | dark green #00AA00 | lime circular arrow, ? | structural base + diorite; REPEAT |
-| REPEAT | dark green #00AA00 | lime square, ? | structural base + granite; WHILE |
+| FOR | dark green #00AA00 | shape: a cylinder with a lime circular arrow, # on the top | structural base + dirt; EACH |
+| EACH | dark green #00AA00 | shape: a cylinder with a lime circular arrow, square on the top | structural base + cobblestone; FOR |
+| WHILE | dark green #00AA00 | shape: a cylinder with a lime circular arrow, ? on the top | structural base + diorite; REPEAT |
+| REPEAT | dark green #00AA00 | shape: a cylinder with a lime square, ? on the top | structural base + granite; WHILE |
 | trigger block | – | golden ball | copper, glass, gold ingot → 8 |
 | timer block | – | clock | copper, glass, clock → 8 |
 | debug trigger block | – | red ball | copper, glass, redstone block → 1 |
