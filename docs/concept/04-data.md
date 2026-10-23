@@ -8,7 +8,7 @@ A data type defines which values a LITERAL, CONSTANT, VARIABLE, PARAMETER or RES
 
 ### Minecraft item
 
-The type base is an item, not a block. It looks like a red cube with a black question mark on every side. It is used to craft the type blocks.
+The type base is an item, not a block. It looks like a red cube with a black question mark. It is used to craft the type blocks.
 
 #### Crafting
 
@@ -42,7 +42,7 @@ A boolean is declared by the BOOLEAN keyword. It is the equivalent of a Java boo
 
 ##### Minecraft block
 
-A TYPE_BOOLEAN block is a red block with a white octagon on every side that contains a redstone torch. It can be crafted shapelessly from a type base and a redstone torch.
+A TYPE_BOOLEAN block is a red slab with a white octagon on its top that contains a redstone torch. It can be crafted shapelessly from a type base and a redstone torch.
 
 #### Integer
 
@@ -50,7 +50,7 @@ An integer is declared by the INTEGER keyword. It is the equivalent of a Java lo
 
 ##### Minecraft block
 
-A TYPE_INTEGER block is a red block with a white octagon on every side that contains a heap of yellow sand. The sand looks like sugar, but yellow. It can be crafted shapelessly from a type base and a sand block. Alternatively, it can be crafted shapelessly from a TYPE_FLOAT block and yellow dye.
+A TYPE_INTEGER block is a red slab with a white octagon on its top that contains a heap of yellow sand. The sand looks like sugar, but yellow. It can be crafted shapelessly from a type base and a sand block. Alternatively, it can be crafted shapelessly from a TYPE_FLOAT block and yellow dye.
 
 #### Float
 
@@ -58,7 +58,7 @@ A float is declared by the FLOAT keyword. It is the equivalent of a Java double.
 
 ##### Minecraft block
 
-A TYPE_FLOAT block is a red block with a white octagon on every side that contains a heap of orange sand. The sand looks like sugar, but orange. It can be crafted shapelessly from a type base and a red sand block. Alternatively, it can be crafted shapelessly from a TYPE_INTEGER block and orange dye.
+A TYPE_FLOAT block is a red slab with a white octagon on its top that contains a heap of orange sand. The sand looks like sugar, but orange. It can be crafted shapelessly from a type base and a red sand block. Alternatively, it can be crafted shapelessly from a TYPE_INTEGER block and orange dye.
 
 #### Character
 
@@ -66,7 +66,7 @@ A character is declared by the CHAR keyword. It contains a single Unicode charac
 
 ##### Minecraft block
 
-A TYPE_CHAR block is a red block with a white octagon on every side that contains an oak plank. It can be crafted shapelessly from a type base and an oak plank.
+A TYPE_CHAR block is a red slab with a white octagon on its top that contains an oak plank. It can be crafted shapelessly from a type base and an oak plank.
 
 #### Time
 
@@ -76,7 +76,7 @@ A TIME value is shown as text in the ISO 8601 format in UTC with milliseconds, e
 
 ##### Minecraft block
 
-A TYPE_TIME block is a red block with a white octagon on every side that contains a Minecraft clock. It can be crafted shapelessly from a type base and a clock.
+A TYPE_TIME block is a red slab with a white octagon on its top that contains a Minecraft clock. It can be crafted shapelessly from a type base and a clock.
 
 ### Complex data types
 
@@ -86,7 +86,7 @@ A string is declared by the STRING keyword. It is the equivalent of a Java Strin
 
 ##### Minecraft block
 
-A TYPE_STRING block is a red block with a white octagon on every side that contains a Minecraft string. It can be crafted shapelessly from a type base and a string.
+A TYPE_STRING block is a red slab with a white octagon on its top that contains a Minecraft string. It can be crafted shapelessly from a type base and a string.
 
 #### Array
 
@@ -98,7 +98,7 @@ Multidimensional arrays can be created by declaring arrays of arrays. There MUST
 
 ##### Minecraft block
 
-A TYPE_ARRAY block is a red block with a white octagon on every side that contains a Minecraft barrel. It can be crafted shapelessly from a type base and a barrel.
+A TYPE_ARRAY block is a red slab with a white octagon on its top that contains a Minecraft barrel. It can be crafted shapelessly from a type base and a barrel.
 
 #### Hash
 
@@ -110,7 +110,7 @@ Multidimensional hashes can be created by declaring hashes of hashes. There MUST
 
 ##### Minecraft block
 
-A TYPE_HASH block is a red block with a white octagon on every side that contains a Minecraft chest. It can be crafted shapelessly from a type base and a chest, or alternatively from a type base and a trapped chest.
+A TYPE_HASH block is a red slab with a white octagon on its top that contains a Minecraft chest. It can be crafted shapelessly from a type base and a chest, or alternatively from a type base and a trapped chest.
 
 #### Struct
 
@@ -122,7 +122,7 @@ Elements of a struct value are accessed by the index of a label, e.g. `position.
 
 ##### Minecraft block
 
-A TYPE_STRUCT block is a red block with a white octagon on every side that contains a scaffolding block. It can be crafted shapelessly from a type base and a scaffolding block.
+A TYPE_STRUCT block is a red slab with a white octagon on its top that contains a scaffolding block. It can be crafted shapelessly from a type base and a scaffolding block.
 
 ### Special data types
 
@@ -136,7 +136,7 @@ User-defined error codes MUST be 1000 or higher. Codes below 1000 are reserved f
 
 ##### Minecraft block
 
-A TYPE_ERROR block is a red block with a white octagon on every side that contains a burning campfire. It can be crafted shapelessly from a type base and a campfire.
+A TYPE_ERROR block is a red slab with a white octagon on its top that contains a burning campfire. It can be crafted shapelessly from a type base and a campfire.
 
 ## Variables, constants and literals
 
@@ -150,7 +150,7 @@ The VARIABLE line MAY end with one or more [TAG](#tags) blocks, which define whe
 
 #### Minecraft block
 
-A VARIABLE block in a valid VARIABLE statement is blue (color #5555FF) with a white square on every side. Otherwise its color is dark blue (color #0000AA).
+A VARIABLE block looks like a blue chest, as high as a slab. The [line number](01-dimension.md#line-numbers) shows whether the statement is valid.
 
 It can be crafted shapelessly from a type base and a bone block. It can also be crafted shapelessly from a CONSTANT block.
 
@@ -160,7 +160,7 @@ A constant definition is a statement that consists of a CONSTANT keyword directl
 
 #### Minecraft block
 
-A CONSTANT block in a valid CONSTANT statement is blue (color #5555FF) with a white diamond on every side. Otherwise its color is dark blue (color #0000AA).
+A CONSTANT block looks like a blue barrel, as high as a slab. The [line number](01-dimension.md#line-numbers) shows whether the statement is valid.
 
 It can be crafted shapelessly from a type base and three bones. It can also be crafted shapelessly from a VARIABLE block.
 
@@ -183,7 +183,7 @@ A literal is similar to a constant without a name. It has a type and a value and
 
 #### Minecraft block
 
-A LITERAL block is light gray (color #CCCCCC) when it has a value that matches its type. Otherwise its color is gray (color #AAAAAA). Its value is written on all six sides.
+A LITERAL block is gray (color #AAAAAA) and as high as a slab; seen from above, it is an octagon, which distinguishes it from a LABEL block. Its value is written on its top.
 
 Right-clicking a LITERAL block with an empty hand opens a dialog with a dropdown for the type and an input field for the value. The OK button is only enabled if the value is valid for the selected type.
 
@@ -247,7 +247,7 @@ A key that consists only of digits addresses the element with that index of an a
 
 ### Minecraft block
 
-A TAG block in a valid position with a valid language and name is brown (color #AA7744) and shows a white price tag on all sides, labeled with its language (`json` or `yaml`). Otherwise it is dark brown (color #553311).
+A TAG block is a dark brown slab (color #553311) with a white price tag on its top, labeled with its language (`json` or `yaml`).
 
 Right-clicking a TAG block with an empty hand opens a dialog with a dropdown for the language and an input field for the name. The OK button is only enabled if the name is valid for the position of the tag.
 

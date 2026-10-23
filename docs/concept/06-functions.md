@@ -34,7 +34,7 @@ If the called function returns an error with a code other than 0 and the CALL st
 
 ### Function block
 
-The FUNCTION block is a structural block. It is light gray (color #AAAAAA) when it is directly followed by a LABEL block with a valid, unique name and dark gray (color #555555) otherwise. All sides show a white circle with the letter ƒ (symbol for function) in it. It can only be placed at x=5 and only if the line directly before it (z-1) contains a NOOP statement.
+The FUNCTION block is a structural block. It is a dark gray slab (color #555555) whose top shows a white circle with the letter ƒ (symbol for function) in it. It can only be placed at x=5 and only if the line directly before it (z-1) contains a NOOP statement.
 
 #### Crafting
 
@@ -42,7 +42,7 @@ A FUNCTION block can be crafted shapelessly from a NOOP block and a stone block.
 
 ### Parameter block
 
-The PARAMETER block is a dependent block of the FUNCTION and CALL blocks. It can only be placed in the line directly after a FUNCTION or CALL line or after another PARAMETER line, indented by one block relative to the FUNCTION or CALL block. It looks like a hopper. Its color is dark purple (color #AA00AA) when the parameter line is incomplete and light purple (color #FF55FF) when it is complete.
+The PARAMETER block is a dependent block of the FUNCTION and CALL blocks. It can only be placed in the line directly after a FUNCTION or CALL line or after another PARAMETER line, indented by one block relative to the FUNCTION or CALL block. It looks like a dark purple (color #AA00AA) hopper at half its size, as high as a slab.
 
 #### Crafting
 
@@ -72,7 +72,7 @@ One PARAMETER block can also be crafted shapelessly from one RESULT block.
 
 ### Result block
 
-The RESULT block is a dependent block of the FUNCTION and CALL blocks. It can only be placed in the line directly after a FUNCTION or CALL line, a PARAMETER line or another RESULT line, indented by one block relative to the FUNCTION or CALL block. It looks like a hopper pointing upwards. Its color is dark purple (color #AA00AA) when the result line is incomplete and light purple (color #FF55FF) when it is complete.
+The RESULT block is a dependent block of the FUNCTION and CALL blocks. It can only be placed in the line directly after a FUNCTION or CALL line, a PARAMETER line or another RESULT line, indented by one block relative to the FUNCTION or CALL block. It looks like a dark purple (color #AA00AA) hopper at half its size, upside down.
 
 #### Crafting
 
@@ -80,7 +80,7 @@ One RESULT block can be crafted shapelessly from one PARAMETER block.
 
 ### Return block
 
-The RETURN block is dark purple (color #AA00AA) when the RETURN statement is invalid and light purple (color #FF55FF) when it is valid. All six sides show a spruce door.
+The RETURN block is a dark purple slab (color #AA00AA) with a spruce door on its top.
 
 #### Crafting
 
@@ -108,7 +108,7 @@ Eight RETURN blocks can be crafted from a spruce door surrounded by eight NOOP b
 
 ### Call block
 
-The CALL block is a structural block. It is light gray (color #AAAAAA) when it forms a valid CALL statement and dark gray (color #555555) otherwise. All sides show a white circle with the symbol 📞 (telephone) in it.
+The CALL block is a structural block. It is a dark gray slab (color #555555) whose top shows a white circle with the symbol 📞 (telephone) in it.
 
 #### Crafting
 

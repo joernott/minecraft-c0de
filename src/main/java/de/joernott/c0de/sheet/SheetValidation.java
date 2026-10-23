@@ -2,6 +2,7 @@ package de.joernott.c0de.sheet;
 
 import de.joernott.c0de.C0de;
 import de.joernott.c0de.block.ValidatedCodeBlock;
+import de.joernott.c0de.blockentity.OperatorBlockEntity;
 import de.joernott.c0de.core.error.ErrorCode;
 import de.joernott.c0de.core.line.Sheet;
 import de.joernott.c0de.core.sheet.SheetGeometry;
@@ -119,6 +120,9 @@ public final class SheetValidation {
         boolean incomplete = lineState == LineState.INCOMPLETE;
         for (int x = SheetGeometry.CODE_MIN_X; x <= SheetGeometry.CODE_MAX_X; x++) {
             BlockPos pos = LevelSheet.codePos(sheet, x, z);
+            if (level.getBlockEntity(pos) instanceof OperatorBlockEntity operator) {
+                operator.syncState();
+            }
             BlockState state = level.getBlockState(pos);
             if (state.getBlock() instanceof ValidatedCodeBlock
                     && (state.getValue(ValidatedCodeBlock.VALID) != valid

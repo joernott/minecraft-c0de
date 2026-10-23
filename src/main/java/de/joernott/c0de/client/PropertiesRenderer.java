@@ -2,9 +2,11 @@ package de.joernott.c0de.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+import de.joernott.c0de.block.CodeBlockShapes;
 import de.joernott.c0de.blockentity.CommentBlockEntity;
 import de.joernott.c0de.blockentity.OperatorBlockEntity;
 import de.joernott.c0de.blockentity.PropertiesBlockEntity;
+import de.joernott.c0de.blockentity.TagBlockEntity;
 import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -21,19 +23,19 @@ import net.minecraft.world.phys.HitResult;
 import org.joml.Quaternionf;
 
 /**
- * Shows the properties of blocks: the name of a LABEL, the value of a LITERAL, the symbol of an OPERATOR and
- * the language of a TAG on all six sides, and the text of a COMMENT above the block while a player looks at
- * it.
+ * Shows the properties of blocks: the name of a LABEL, the value of a LITERAL and the language of a TAG on the
+ * top of the block, and the text of a COMMENT above the block while a player looks at it. The symbol of an
+ * OPERATOR is its block model.
  */
 public class PropertiesRenderer implements BlockEntityRenderer<PropertiesBlockEntity> {
-    /** The largest part of a side the text covers. */
+    /** The largest part of the top the text covers. */
     private static final float MAX_TEXT_SIZE = 0.8F;
 
     /** The largest scale of the text, so that short texts aren't huge. */
     private static final float MAX_SCALE = 0.05F;
 
     private static final int TEXT_COLOR = 0xFF000000;
-    private static final int OPERATOR_COLOR = 0xFFAA0000;
+    private static final int TAG_COLOR = 0xFFFFFFFF;
     private static final int COMMENT_WIDTH = 160;
     private static final int COMMENT_LINES = 8;
 
@@ -55,44 +57,32 @@ public class PropertiesRenderer implements BlockEntityRenderer<PropertiesBlockEn
             renderComment(comment, pose, buffers);
             return;
         }
-        String text = entity.displayText();
+        // The model of an OPERATOR is its symbol
+        String text = entity instanceof OperatorBlockEntity ? "" : entity.displayText();
         if (text.isEmpty() || entity.getLevel() == null) {
             return;
         }
-        int color = entity instanceof OperatorBlockEntity ? OPERATOR_COLOR : TEXT_COLOR;
+        int color = entity instanceof TagBlockEntity ? TAG_COLOR : TEXT_COLOR;
         float width = font.width(text);
         float scale = Math.min(MAX_SCALE, MAX_TEXT_SIZE / Math.max(width, font.lineHeight));
-        for (Direction side : Direction.values()) {
-            int sideLight = LevelRenderer.getLightColor(entity.getLevel(), entity.getBlockPos().relative(side));
-            // Shaded like the side of the block, which is darker on the sides than on the top
-            int sideColor = shade(color, entity.getLevel().getShade(side, true));
-            pose.pushPose();
-            pose.translate(0.5F, 0.5F, 0.5F);
-            pose.mulPose(rotation(side));
-            // The text is drawn slightly in front of the south side of the rotated block, facing outwards
-            pose.translate(0.0F, 0.0F, 0.501F);
-            pose.scale(scale, -scale, scale);
-            font.drawInBatch(
-                    text,
-                    -width / 2,
-                    -font.lineHeight / 2.0F + 0.5F,
-                    sideColor,
-                    false,
-                    pose.last().pose(),
-                    buffers,
-                    Font.DisplayMode.POLYGON_OFFSET,
-                    0,
-                    sideLight);
-            pose.popPose();
-        }
-    }
-
-    /** A color with its red, green and blue components multiplied by a factor. */
-    private static int shade(int argb, float factor) {
-        int r = (int) (((argb >> 16) & 0xFF) * factor);
-        int g = (int) (((argb >> 8) & 0xFF) * factor);
-        int b = (int) ((argb & 0xFF) * factor);
-        return (argb & 0xFF000000) | (r << 16) | (g << 8) | b;
+        int topLight = LevelRenderer.getLightColor(entity.getLevel(), entity.getBlockPos().above());
+        pose.pushPose();
+        // On the top of the slab, readable from the south
+        pose.translate(0.5F, (float) (CodeBlockShapes.HEIGHT / 16) + 0.001F, 0.5F);
+        pose.mulPose(Axis.XP.rotationDegrees(-90));
+        pose.scale(scale, -scale, scale);
+        font.drawInBatch(
+                text,
+                -width / 2,
+                -font.lineHeight / 2.0F + 0.5F,
+                color,
+                false,
+                pose.last().pose(),
+                buffers,
+                Font.DisplayMode.POLYGON_OFFSET,
+                0,
+                topLight);
+        pose.popPose();
     }
 
     /** The rotation that turns the south side of a block into the given side. */
@@ -122,7 +112,7 @@ public class PropertiesRenderer implements BlockEntityRenderer<PropertiesBlockEn
         }
         float scale = 0.025F;
         pose.pushPose();
-        pose.translate(0.5F, 1.25F + lines.size() * font.lineHeight * scale, 0.5F);
+        pose.translate(0.5F, 0.75F + lines.size() * font.lineHeight * scale, 0.5F);
         pose.mulPose(minecraft.gameRenderer.getMainCamera().rotation());
         pose.scale(scale, -scale, scale);
         int background = (int) (minecraft.options.getBackgroundOpacity(0.25F) * 255.0F) << 24;

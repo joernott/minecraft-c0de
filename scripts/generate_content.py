@@ -8,12 +8,17 @@ Usage: python scripts/generate_content.py
 """
 
 import json
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 RESOURCES = ROOT / "src" / "main" / "resources"
 ASSETS = RESOURCES / "assets" / "c0de"
 DATA = RESOURCES / "data" / "c0de"
+
+# The block models are in their own module next to this script
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import block_models  # noqa: E402
 
 # (name of the CodeBlockType constant, validated, transparent, English name, German name)
 BLOCKS = [
@@ -336,112 +341,22 @@ def write(path: Path, content: dict) -> None:
     path.write_text(json.dumps(content, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
 
 
-# Blocks with a texture per side. The texture of the north side is mirrored compared with the south side, so
-# the triangle of ASSIGN points to positive x on all sides; the sides facing along x show a dot (east, the arrow
-# points at the viewer) and a cross (west, the arrow points away).
-SIDES = {
-    "ASSIGN": {"north": "left", "south": "right", "up": "right", "down": "right", "east": "dot", "west": "cross"},
-}
-
-
-def element(start: list, end: list, faces: dict) -> dict:
-    """A cuboid of a block model. The UVs follow from the coordinates; faces on the block border are culled."""
-    border = {"down": start[1] == 0, "up": end[1] == 16, "north": start[2] == 0, "south": end[2] == 16,
-              "west": start[0] == 0, "east": end[0] == 16}
-    return {"from": start, "to": end, "faces": {
-        side: dict({"texture": texture}, **({"cullface": side} if border[side] else {}))
-        for side, texture in faces.items()}}
-
-
-def flipped(elements: list) -> list:
-    """The elements upside down: y is mirrored and the up and down faces swap."""
-    result = []
-    for e in elements:
-        faces = {("down" if s == "up" else "up" if s == "down" else s): f["texture"] for s, f in e["faces"].items()}
-        result.append(element([e["from"][0], 16 - e["to"][1], e["from"][2]], [e["to"][0], 16 - e["from"][1], e["to"][2]],
-                              faces))
-    return result
-
-
-SIDES_4 = ("north", "south", "west", "east")
-
-
-def hopper() -> list:
-    """A hopper: a bowl with a rim, a middle part and a spout, like the vanilla hopper."""
-    def walls(start, end, inner):
-        faces = {side: "#outside" for side in SIDES_4}
-        faces.update({"up": "#top", "down": "#outside", inner: "#inside"})
-        return element(start, end, faces)
-    return [
-        element([0, 10, 0], [16, 11, 16], dict({side: "#outside" for side in SIDES_4}, up="#inside", down="#outside")),
-        walls([0, 11, 0], [2, 16, 16], "east"),
-        walls([14, 11, 0], [16, 16, 16], "west"),
-        walls([2, 11, 0], [14, 16, 2], "south"),
-        walls([2, 11, 14], [14, 16, 16], "north"),
-        element([4, 4, 4], [12, 10, 12], dict({side: "#outside" for side in SIDES_4}, down="#outside")),
-        element([6, 0, 6], [10, 4, 10], dict({side: "#outside" for side in SIDES_4}, down="#outside")),
-    ]
-
-
-# Blocks with a shape instead of a cube: (elements, texture prefix, texture names). The shapes in CodeBlockShapes
-# MUST match.
-SHAPES = {
-    "PARAMETER": (hopper(), "parameter_block", ("top", "outside", "inside")),
-    "RESULT": (flipped(hopper()), "parameter_block", ("top", "outside", "inside")),
-}
-
-# BEGIN and END are cubes in their JSON models; TrapezoidModel (client) moves the vertices into a trapezoid,
-# because JSON models can't have diagonal sides.
-TRAPEZOIDS = ("BEGIN", "END")
-
-
-def trapezoid_model(suffix: str) -> dict:
-    top = "c0de:block/begin_block" + suffix + "_top"
-    side = "c0de:block/begin_block" + suffix + "_side"
-    return {"parent": "minecraft:block/cube", "textures": {
-        "up": top, "down": top, "north": side, "south": side, "west": side, "east": side, "particle": side}}
-
-
-def shaped_model(name: str, suffix: str) -> dict:
-    elements, prefix, names = SHAPES[name]
-    textures = {n: "c0de:block/" + prefix + suffix + "_" + n for n in names}
-    textures["particle"] = textures[names[1]]
-    return {"parent": "minecraft:block/block", "ambientocclusion": False, "textures": textures, "elements": elements}
-
-
-def block_model(bid: str, suffix: str, sides: dict | None) -> dict:
-    texture = "c0de:block/" + bid + suffix
-    if sides is None:
-        return {"parent": "minecraft:block/cube_all", "textures": {"all": texture}}
-    textures = {side: texture + "_" + name for side, name in sides.items()}
-    textures["particle"] = textures["north"]
-    return {"parent": "minecraft:block/cube", "textures": textures}
-
-
 def block_files(name: str, validated: bool, transparent: bool) -> None:
     bid = block_id(name)
-    if validated:
+    model_ref = "c0de:block/" + bid
+    if name == "OPERATOR":
         variants = {}
-        for valid in ("true", "false"):
-            suffix = "_valid" if valid == "true" else "_invalid"
-            variants["valid=" + valid] = {"model": "c0de:block/" + bid + suffix}
-            if name in TRAPEZOIDS:
-                model = trapezoid_model(suffix)
-            elif name in SHAPES:
-                model = shaped_model(name, suffix)
-            else:
-                model = block_model(bid, suffix, SIDES.get(name))
-            write(ASSETS / "models" / "block" / (bid + suffix + ".json"), model)
+        for symbol, model in block_models.operator_models().items():
+            write(ASSETS / "models" / "block" / (bid + "_" + symbol + ".json"), model)
+            variants["operator=" + symbol] = {"model": model_ref + "_" + symbol}
         write(ASSETS / "blockstates" / (bid + ".json"), {"variants": variants})
-        item_parent = "c0de:block/" + bid + "_valid"
+        item_parent = model_ref + "_add"
     else:
-        model = {"parent": "minecraft:block/cube_all", "textures": {"all": "c0de:block/" + bid}}
-        if transparent:
-            # NeoForge reads the render type from the model; Fabric sets it in the client entry point
-            model["render_type"] = "minecraft:cutout"
-        write(ASSETS / "models" / "block" / (bid + ".json"), model)
-        write(ASSETS / "blockstates" / (bid + ".json"), {"variants": {"": {"model": "c0de:block/" + bid}}})
-        item_parent = "c0de:block/" + bid
+        write(ASSETS / "models" / "block" / (bid + ".json"), block_models.block_model(name, bid, transparent))
+        # The state of the line doesn't change the look of a block any more; the line numbers show it
+        keys = ("valid=true", "valid=false") if validated else ("",)
+        write(ASSETS / "blockstates" / (bid + ".json"), {"variants": {key: {"model": model_ref} for key in keys}})
+        item_parent = model_ref
     write(ASSETS / "models" / "item" / (bid + ".json"), {"parent": item_parent})
     write(DATA / "loot_table" / "blocks" / (bid + ".json"), {
         "type": "minecraft:block",

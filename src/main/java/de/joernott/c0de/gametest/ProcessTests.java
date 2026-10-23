@@ -1,5 +1,6 @@
 package de.joernott.c0de.gametest;
 
+import de.joernott.c0de.block.OperatorBlock;
 import de.joernott.c0de.blockentity.TriggerBlockEntity;
 import de.joernott.c0de.content.C0deBlocks;
 import de.joernott.c0de.content.C0deItems;
@@ -25,6 +26,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 
 /** GameTests of processes (sprint 8). Every test uses its own sheet and program name. */
 public final class ProcessTests {
@@ -251,6 +253,11 @@ public final class ProcessTests {
         SheetBuilder sheet = new SheetBuilder(level, 511)
                 .place(twice("doubling").replace("    ASSIGN result result / ( value - value ) ;\n", "    EXIT 7 ;\n"));
         SheetValidation.validate(level, 511);
+        // The block state shows the symbol of the operator (task 11.2.5)
+        BlockState multiply = level.getBlockState(sheet.pos(9, 6));
+        helper.assertTrue(
+                multiply.getValue(OperatorBlock.OPERATOR) == OperatorBlock.Symbol.MULTIPLY,
+                "The operator block shows " + multiply);
         TriggerBlockEntity trigger = trigger(helper, "doubling", variable("value", "INTEGER", "21"));
         trigger.start();
         helper.assertTrue(trigger.isRunning(), "The process didn't start: " + trigger.status());

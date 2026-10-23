@@ -1,5 +1,6 @@
 package de.joernott.c0de.blockentity;
 
+import de.joernott.c0de.block.OperatorBlock;
 import de.joernott.c0de.content.C0deBlockEntities;
 import de.joernott.c0de.core.line.Block;
 import de.joernott.c0de.core.line.Operator;
@@ -64,6 +65,29 @@ public class OperatorBlockEntity extends PropertiesBlockEntity {
     @Override
     protected void read(CompoundTag tag) {
         operator = parse(tag.getString("operator"));
+    }
+
+    @Override
+    protected void changed() {
+        syncState();
+        super.changed();
+    }
+
+    /**
+     * Sets the block state operator to the operator of this block entity, so the block shows its symbol. Blocks
+     * of older versions of the mod are updated by the validation of their sheet.
+     */
+    public void syncState() {
+        if (level == null || level.isClientSide() || !getBlockState().hasProperty(OperatorBlock.OPERATOR)) {
+            return;
+        }
+        OperatorBlock.Symbol symbol = OperatorBlock.Symbol.of(operator);
+        if (getBlockState().getValue(OperatorBlock.OPERATOR) != symbol) {
+            level.setBlock(
+                    worldPosition,
+                    getBlockState().setValue(OperatorBlock.OPERATOR, symbol),
+                    net.minecraft.world.level.block.Block.UPDATE_CLIENTS);
+        }
     }
 
     @Override

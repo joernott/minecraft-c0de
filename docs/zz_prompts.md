@@ -314,3 +314,17 @@ Complete 11.1 and these new 11.2 and 11.3 tasks, then let me have a look.
 ## 2026-10-23 – Trapezoids with diagonals
 
 The tests were fine and provided the expected feedback. The trapezes for begin and end should be laying on their sides and ther should be actual diagonals not steps. The Create: copycats+ module provides slopes that are actually triangular and Create: Extra Copycats provides even more variants of shapes with diagonal lines. The latter has been designed with AI support. Please have a look at them to see if we can use that technique to create a trapezoid lying on its trapez side.
+
+## 2026-10-23 – Slab-high blocks, unlit colors and new shapes
+
+yes to all three.
+
+I have a few more changes I want to mimplement:
+- Blocks should only have the height of a half slab, There should not be any symbols on the sides. Resize the PARAMETER and RESULT blocks zo 50% to fit the height of a slab but retain the proportions
+-The colors are too bright, Just use the unlit color for them and remove the lighting logic, as we have the line numbers now indicating if a line is correct.
+- The corners of a NOOP block should be as wide as the sides
+- The left side of PROGRAM should be a semi circle, while the right side remains a cuboid. Remove the Symbol on it.
+- Instead of operators being blocks, I would like to have them be just the letter/symbol on the floor extruded into the 3rd dimension.
+- For variables use a chest as model but retexture it blue. Constants should use a barrel as model, They should also be scaled down to fit the slab height.
+- Literals should be turned into octagons to distinguish them better from labels.
+- The circular arrow on the for loop needs to be thinner and the # sign sharper and they should not bleed into each other. Also, as we now use dark green for the block color, we can use lime for them.

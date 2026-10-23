@@ -1,10 +1,10 @@
 {
   "variants": {
     "valid=true": {
-      "model": "c0de:block/if_block_valid"
+      "model": "c0de:block/if_block"
     },
     "valid=false": {
-      "model": "c0de:block/if_block_invalid"
+      "model": "c0de:block/if_block"
     }
   }
 }

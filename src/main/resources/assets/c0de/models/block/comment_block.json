@@ -1,7 +1,9 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "minecraft:block/slab",
   "textures": {
-    "all": "c0de:block/comment_block"
+    "bottom": "c0de:block/comment_block",
+    "top": "c0de:block/comment_block",
+    "side": "c0de:block/comment_block_side"
   },
   "render_type": "minecraft:cutout"
 }

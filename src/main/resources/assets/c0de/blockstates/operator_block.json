@@ -1,10 +1,88 @@
 {
   "variants": {
-    "valid=true": {
-      "model": "c0de:block/operator_block_valid"
+    "operator=none": {
+      "model": "c0de:block/operator_block_none"
     },
-    "valid=false": {
-      "model": "c0de:block/operator_block_invalid"
+    "operator=bitwise_not": {
+      "model": "c0de:block/operator_block_bitwise_not"
+    },
+    "operator=not": {
+      "model": "c0de:block/operator_block_not"
+    },
+    "operator=power": {
+      "model": "c0de:block/operator_block_power"
+    },
+    "operator=negate": {
+      "model": "c0de:block/operator_block_negate"
+    },
+    "operator=multiply": {
+      "model": "c0de:block/operator_block_multiply"
+    },
+    "operator=divide": {
+      "model": "c0de:block/operator_block_divide"
+    },
+    "operator=modulus": {
+      "model": "c0de:block/operator_block_modulus"
+    },
+    "operator=add": {
+      "model": "c0de:block/operator_block_add"
+    },
+    "operator=subtract": {
+      "model": "c0de:block/operator_block_subtract"
+    },
+    "operator=shift_left": {
+      "model": "c0de:block/operator_block_shift_left"
+    },
+    "operator=shift_right": {
+      "model": "c0de:block/operator_block_shift_right"
+    },
+    "operator=concat": {
+      "model": "c0de:block/operator_block_concat"
+    },
+    "operator=equal": {
+      "model": "c0de:block/operator_block_equal"
+    },
+    "operator=not_equal": {
+      "model": "c0de:block/operator_block_not_equal"
+    },
+    "operator=less": {
+      "model": "c0de:block/operator_block_less"
+    },
+    "operator=greater": {
+      "model": "c0de:block/operator_block_greater"
+    },
+    "operator=less_or_equal": {
+      "model": "c0de:block/operator_block_less_or_equal"
+    },
+    "operator=greater_or_equal": {
+      "model": "c0de:block/operator_block_greater_or_equal"
+    },
+    "operator=bitwise_and": {
+      "model": "c0de:block/operator_block_bitwise_and"
+    },
+    "operator=bitwise_xor": {
+      "model": "c0de:block/operator_block_bitwise_xor"
+    },
+    "operator=bitwise_or": {
+      "model": "c0de:block/operator_block_bitwise_or"
+    },
+    "operator=and": {
+      "model": "c0de:block/operator_block_and"
+    },
+    "operator=xor": {
+      "model": "c0de:block/operator_block_xor"
+    },
+    "operator=or": {
+      "model": "c0de:block/operator_block_or"
+    },
+    "operator=open": {
+      "model": "c0de:block/operator_block_open"
+    },
+    "operator=close": {
+      "model": "c0de:block/operator_block_close"
+    },
+    "operator=end_of_expression": {
+      "model": "c0de:block/operator_block_end_of_expression"
     }
   }
 }

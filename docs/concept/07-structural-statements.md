@@ -55,9 +55,9 @@ There is no ELSE IF. Conditions are chained by nesting another IF statement in t
 
 ### Minecraft blocks
 
-The IF block is dark green (color #00AA00) when the IF statement is incomplete and green (color #55FF55) when it is complete. All six sides show a white diamond with a green question mark (?) in it.
+The IF block is a dark green slab (color #00AA00). Its top shows a white diamond with a green question mark (?) in it.
 
-The ELSE block is dark green (color #00AA00) when the IF statement it belongs to is incomplete and green (color #55FF55) when it is complete. All six sides show a white diamond with an inverted green question mark (¿) in it.
+The ELSE block is a dark green slab (color #00AA00). Its top shows a white diamond with an inverted green question mark (¿) in it.
 
 #### Crafting
 
@@ -80,7 +80,7 @@ END FOR
 
 ### Minecraft block
 
-The FOR block is dark green (color #00AA00) when the FOR statement is incomplete and green (color #55FF55) when it is complete. All six sides show a white circle bordered by a circular arrow around a # sign.
+The FOR block is a dark green slab (color #00AA00). Its top shows a thin lime circular arrow around a # sign.
 
 #### Crafting
 
@@ -94,7 +94,7 @@ For an array, the loop variable has the subtype of the array and receives the el
 
 ### Minecraft block
 
-The EACH block is dark green (color #00AA00) when the EACH statement is incomplete and green (color #55FF55) when it is complete. All six sides show a white circle bordered by a circular arrow around a stack of cobblestone.
+The EACH block is a dark green slab (color #00AA00). Its top shows a thin lime circular arrow around a square.
 
 #### Crafting
 
@@ -112,9 +112,9 @@ A REPEAT loop starts with a line containing only the REPEAT keyword. A code bloc
 
 ### Minecraft blocks
 
-The WHILE block is dark green (color #00AA00) when the WHILE statement is incomplete and green (color #55FF55) when it is complete. All six sides show a white circle bordered by two circular arrows around a question mark.
+The WHILE block is a dark green slab (color #00AA00). Its top shows a thin lime circular arrow around a question mark.
 
-The REPEAT block is dark green (color #00AA00) when the REPEAT statement is incomplete and green (color #55FF55) when it is complete. All six sides show a square bordered by two angled arrows around a question mark.
+The REPEAT block is a dark green slab (color #00AA00). Its top shows a lime square around a question mark.
 
 #### Crafting
 

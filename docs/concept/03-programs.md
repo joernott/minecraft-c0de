@@ -18,7 +18,7 @@ The cursor processes the program from top to bottom until the entry function end
 
 ### Validation while writing
 
-While a player writes a program, the game checks it after every change, without running it: the syntax as described in the [cursor chapter](15-cursor.md) and the names (unknown or duplicate variables, constants, functions, libraries and struct types, changed constants and calls with unknown or missing parameters or results). Every block of a line with a problem shows its invalid color; the reason is shown by the [debugging tool](14-items-and-tools.md#debugging-tool). If a statement is so broken that its following lines can't be assigned to it (e.g. a BEGIN without END), all of them are invalid. Lines after the empty line that ends the program don't belong to it and are invalid as well. Types of expressions and values are only checked when the program runs.
+While a player writes a program, the game checks it after every change, without running it: the syntax as described in the [cursor chapter](15-cursor.md) and the names (unknown or duplicate variables, constants, functions, libraries and struct types, changed constants and calls with unknown or missing parameters or results). The [line number](01-dimension.md#line-numbers) of a line with a problem is dark red (or dark yellow if its statement is only not finished yet); the reason is shown by the [debugging tool](14-items-and-tools.md#debugging-tool). If a statement is so broken that its following lines can't be assigned to it (e.g. a BEGIN without END), all of them are invalid. Lines after the empty line that ends the program don't belong to it and are invalid as well. Types of expressions and values are only checked when the program runs.
 
 Program names are unique in the c0de dimension. If a second sheet uses a name that is already used, its PROGRAM line is invalid. A sheet is also validated when the chunk of its PROGRAM line is loaded, so programs written with older versions of the mod are registered as soon as a player comes near them; the program that was registered first keeps its name.
 
@@ -50,7 +50,7 @@ The exit code 15 is also used for processes that crashed. Program authors MAY us
 
 #### Program block
 
-A PROGRAM block in a valid PROGRAM statement is dark gray (color #555555) with the picture of a Minecraft book on all six sides. If the statement is not valid, it is black (color #000000).
+A PROGRAM block is black (color #000000) and as high as a slab. Seen from above, it is round in the west and square in the east. The [line number](01-dimension.md#line-numbers) shows whether the statement is valid.
 
 ##### Crafting
 
@@ -58,7 +58,7 @@ A PROGRAM block can be crafted shapelessly from a NOOP block and a book.
 
 #### Include block
 
-An INCLUDE block in a valid INCLUDE statement is dark gray (color #555555) with the picture of a map on all six sides. If the statement is not valid, it is black (color #000000).
+An INCLUDE block is a black slab (color #000000) with the picture of a map on its top. The [line number](01-dimension.md#line-numbers) shows whether the statement is valid.
 
 ##### Crafting
 
@@ -66,7 +66,7 @@ An INCLUDE block can be crafted shapelessly from a NOOP block and an empty map.
 
 #### Exit block
 
-An EXIT block in a valid EXIT statement is dark gray (color #555555) with the picture of a Minecraft iron door on all six sides. If the statement is not valid, it is black (color #000000).
+An EXIT block is a black slab (color #000000) with the picture of a Minecraft iron door on its top. The [line number](01-dimension.md#line-numbers) shows whether the statement is valid.
 
 ##### Crafting
 
@@ -112,7 +112,7 @@ The BEGIN statement consists of a single BEGIN keyword. It MUST have the same in
 
 #### Minecraft block
 
-A BEGIN block is gold (color #FFAA00) if there is no matching valid END statement and yellow (color #FFFF55) if there is one. The top side of a BEGIN block shows a trapezoid, whose long side faces in positive z direction. The trapezoid is yellow on a gold block and gold on a yellow block.
+A BEGIN block is gold (color #FFAA00) and as high as a slab. Seen from above, it is a trapezoid whose long side faces in positive z direction, towards its code block; an END block is the same trapezoid with its long side facing in negative z direction. If there is no matching END line, the [line numbers](01-dimension.md#line-numbers) of the statement are dark yellow.
 
 ##### Crafting
 

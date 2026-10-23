@@ -223,6 +223,13 @@ A task is done when
 |---|---|:---:|
 | 11.1 | Final textures and sounds, review of all block and item looks. | ✅ |
 | 11.2 | Block shapes: the PARAMETER block has the shape of a hopper (recolored), the RESULT block the same shape upside down; BEGIN and END are trapezoids with diagonal sides, lying on their trapezoid side (a model that moves the vertices of the baked cube). | ✅ |
+| 11.2.1 | All language blocks are as high as a slab, with their symbol only on the top. PARAMETER and RESULT are hoppers at half their size. | ✅ |
+| 11.2.2 | One color per block (the former invalid color); the line numbers show the state of a line instead. | ✅ |
+| 11.2.3 | NOOP: the metal corners are as wide as the wooden edges. | ✅ |
+| 11.2.4 | PROGRAM: round in the west, square in the east, without symbol; LITERAL: octagon (models extruded from a polygon in code, which also make BEGIN and END). | ✅ |
+| 11.2.5 | OPERATOR: the symbol lying on the floor, extruded; the operator is mirrored into the block state operator, one model per symbol. | ✅ |
+| 11.2.6 | VARIABLE: a blue chest, CONSTANT: a blue barrel, both as high as a slab. | ✅ |
+| 11.2.7 | The symbols of FOR, EACH, WHILE and REPEAT in lime; a thin circular arrow and a sharp # that don't touch. | ✅ |
 | 11.3 | Line numbers: every line with content shows its number on the floor at x=2. The color shows the state of the line: a faint shade of the floor for NOOP and COMMENT lines, dark red for a wrong line, dark yellow for an incomplete statement (e.g. BEGIN without END, FUNCTION without code block), dark green for a correct line. | ✅ |
 | 11.4 | Player documentation: a guide with examples (Markdown in the repository and the Modrinth page); optionally an in-game book. |  |
 | 11.5 | Performance tests: many processes at the same time, large programs, deep recursion; tuning of the scheduler. |  |

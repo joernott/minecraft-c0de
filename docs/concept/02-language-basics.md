@@ -42,7 +42,7 @@ A NOOP line MUST NOT contain any other blocks, not even a COMMENT block. NOOP li
 
 ### Minecraft block
 
-The NOOP block is a fully transparent block with thin metallic corners and wooden edges between those corners.
+The NOOP block is a fully transparent slab with metallic corners and wooden edges between those corners, all one pixel wide.
 
 #### Crafting
 
@@ -81,7 +81,7 @@ A COMMENT has one property:
 
 ### Minecraft block
 
-The COMMENT block looks like a glass block with a small yellow sticky note on each side. The note shows `//`. When a player looks at a COMMENT block, its text is shown above the block, like the name of a named entity.
+The COMMENT block looks like a glass slab with a small yellow sticky note on its top. The note shows `//`. When a player looks at a COMMENT block, its text is shown above the block, like the name of a named entity.
 
 Right-clicking a COMMENT block with an empty hand opens a dialog with a multi-line input field that shows the current text. Clicking the OK button (a green check mark) saves the text. Pressing Escape or clicking outside of the dialog closes it without making changes.
 
@@ -138,7 +138,7 @@ A LABEL MAY also be the first block of a content line of a struct declaration or
 
 ### Minecraft block
 
-A LABEL block is white (color #FFFFFF) and shows the last part of its name (the part after the last slash) in black on all sides when it is positioned correctly and contains a valid name. Otherwise it is gray (color #AAAAAA). The index is not displayed on the block; all properties of a label can be inspected with the [debugging tool](14-items-and-tools.md#debugging-tool).
+A LABEL block is a gray slab (color #AAAAAA) that shows the last part of its name (the part after the last slash) in black on its top. The index is not displayed on the block; all properties of a label can be inspected with the [debugging tool](14-items-and-tools.md#debugging-tool).
 
 When a LABEL is placed, the game initializes its kind and parent properties from its position as far as possible.
 

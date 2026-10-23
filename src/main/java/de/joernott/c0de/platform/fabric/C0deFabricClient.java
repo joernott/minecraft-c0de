@@ -4,10 +4,10 @@ package de.joernott.c0de.platform.fabric;
 import de.joernott.c0de.blockentity.PropertiesBlockEntity;
 import de.joernott.c0de.client.C0deClient;
 import de.joernott.c0de.client.C0deDimensionEffects;
+import de.joernott.c0de.client.ExtrudedModel;
 import de.joernott.c0de.client.LineNumbers;
 import de.joernott.c0de.client.ProcessRenderers;
 import de.joernott.c0de.client.PropertiesRenderer;
-import de.joernott.c0de.client.TrapezoidModel;
 import de.joernott.c0de.client.TriggerScreen;
 import de.joernott.c0de.content.C0deEntities;
 import de.joernott.c0de.content.C0deMenus;
@@ -54,7 +54,7 @@ public class C0deFabricClient implements ClientModInitializer {
         net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin.register(plugin -> plugin
                 .modifyModelAfterBake()
                 .register((model, context) ->
-                        context.topLevelId() == null ? model : TrapezoidModel.wrap(context.topLevelId(), model)));
+                        context.topLevelId() == null ? model : ExtrudedModel.wrap(context.topLevelId(), model)));
         net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents.AFTER_ENTITIES.register(
                 context -> LineNumbers.render(context.camera()));
     }

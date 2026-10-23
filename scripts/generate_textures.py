@@ -153,7 +153,7 @@ GLYPHS = {
     "?": [".###.", "#...#", "....#", "...#.", "..#..", ".....", "..#.."],
     "¿": ["..#..", ".....", "..#..", ".#...", "#....", "#...#", ".###."],
     "ƒ": ["...##", "..#..", ".####", "..#..", "..#..", "..#..", "##..."],
-    "#": [".#.#.", ".#.#.", "#####", ".#.#.", "#####", ".#.#.", ".#.#."],
+    "#": [".#.#.", "#####", ".#.#.", "#####", ".#.#."],
 }
 
 
@@ -211,22 +211,51 @@ def octagon(dx: float, dy: float) -> bool:
 
 
 def ring(dx: float, dy: float) -> bool:
-    """A circular arrow: a ring with a gap on the right."""
-    return 16 <= dx * dx + dy * dy <= 36 and not (dx > 0 and -2 < dy < 1)
+    """A thin circular arrow: a ring one pixel wide with a gap on the right, clear of the symbol inside."""
+    return 30 <= dx * dx + dy * dy <= 46 and not (dx > 0 and -2 < dy < 1)
+
+
+WOOD = 0x8F6A3A
+
+
+def metal(x: int, y: int) -> Pixel:
+    return rgb(0xD8D8D8 if (x + y) % 2 else 0xA8A8A8)
+
+
+def frame_pixels(image: Image, top: int, color: int, corners: bool) -> None:
+    """A frame one pixel wide from row top to the last row; corners adds metal corners of the same width."""
+    for i in range(16):
+        for y in (top, 15):
+            image[y][i] = rgb(color)
+    for y in range(top, 16):
+        for x in (0, 15):
+            image[y][x] = rgb(color)
+    if corners:
+        length = min(3, 16 - top)
+        for cx, dx in ((0, 1), (15, -1)):
+            for cy, dy in ((top, 1), (15, -1)):
+                for i in range(length):
+                    image[cy][cx + dx * i] = metal(cx + dx * i, cy)
+                    image[cy + dy * i][cx] = metal(cx, cy + dy * i)
 
 
 def noop() -> Image:
-    """Transparent, with metal corners and wooden edges between them."""
+    """Transparent, with metal corners and wooden edges between them, all one pixel wide."""
     image = blank()
-    for i in range(16):
-        for edge in (0, 15):
-            image[i][edge] = rgb(0x8F6A3A)
-            image[edge][i] = rgb(0x8F6A3A)
-    for cx in (0, 13):
-        for cy in (0, 13):
-            for y in range(3):
-                for x in range(3):
-                    image[cy + y][cx + x] = rgb(0xD8D8D8 if (x + y) % 2 else 0xA8A8A8)
+    frame_pixels(image, 0, WOOD, True)
+    return image
+
+
+def noop_side() -> Image:
+    """The side of the NOOP slab: the frame in the lower half of the texture, which the slab model shows."""
+    image = blank()
+    frame_pixels(image, 8, WOOD, True)
+    return image
+
+
+def comment_side() -> Image:
+    image = blank()
+    frame_pixels(image, 8, 0xD6E8EE, False)
     return image
 
 
@@ -423,20 +452,6 @@ def triangle_right(dx: float, dy: float) -> bool:
     return triangle(-dx, dy)
 
 
-def dot(dx: float, dy: float) -> bool:
-    """The tip of an arrow pointing at the viewer."""
-    return dx * dx + dy * dy <= 9
-
-
-def cross(dx: float, dy: float) -> bool:
-    """The tail of an arrow pointing away from the viewer."""
-    return abs(dx) <= 4.5 and abs(dy) <= 4.5 and (abs(dx - dy) <= 0.8 or abs(dx + dy) <= 0.8)
-
-
-# The sides of the ASSIGN block: its triangle points to positive x on every side (see generate_content.py)
-ASSIGN_SIDES = {"left": triangle, "right": triangle_right, "dot": dot, "cross": cross}
-
-
 def frame(dx: float, dy: float) -> bool:
     return square(dx, dy) and not (abs(dx) <= 3.5 and abs(dy) <= 3.5)
 
@@ -445,27 +460,28 @@ def small_square(dx: float, dy: float) -> bool:
     return abs(dx) <= 2 and abs(dy) <= 2
 
 
-# (block ID, valid color, invalid color, function that draws the symbol)
+LIME = 0x55FF55
+
+# (block ID, color, function that draws the symbol on the top). The colors don't change with the state of the
+# line any more; the line numbers on the floor show it.
 CODE_BLOCKS = [
-    ("label_block", 0xFFFFFF, 0xAAAAAA, lambda i: None),
-    ("literal_block", 0xCCCCCC, 0xAAAAAA, lambda i: None),
-    ("operator_block", 0xFF5555, 0xAA0000, lambda i: paint(i, circle, WHITE)),
-    ("tag_block", 0xAA7744, 0x553311, lambda i: icon(i, "tag")),
-    ("program_block", 0x555555, 0x000000, lambda i: icon(i, "book")),
-    ("include_block", 0x555555, 0x000000, lambda i: icon(i, "map")),
-    ("exit_block", 0x555555, 0x000000, lambda i: icon(i, "door")),
-    ("break_block", 0xFFFF55, 0xFFAA00, lambda i: icon(i, "stick")),
-    ("variable_block", 0x5555FF, 0x0000AA, lambda i: paint(i, square, WHITE)),
-    ("constant_block", 0x5555FF, 0x0000AA, lambda i: paint(i, diamond, WHITE)),
-    ("function_block", 0xAAAAAA, 0x555555, lambda i: (paint(i, circle, WHITE), glyph(i, "ƒ", 0x202020))),
-    ("return_block", 0xFF55FF, 0xAA00AA, lambda i: icon(i, "spruce_door")),
-    ("call_block", 0xAAAAAA, 0x555555, lambda i: icon(i, "phone")),
-    ("if_block", 0x55FF55, 0x00AA00, lambda i: (paint(i, diamond, WHITE), glyph(i, "?", 0x00AA00, 5, 5))),
-    ("else_block", 0x55FF55, 0x00AA00, lambda i: (paint(i, diamond, WHITE), glyph(i, "¿", 0x00AA00, 5, 4))),
-    ("for_block", 0x55FF55, 0x00AA00, lambda i: (paint(i, ring, WHITE), glyph(i, "#", WHITE, 5, 5))),
-    ("each_block", 0x55FF55, 0x00AA00, lambda i: (paint(i, ring, WHITE), paint(i, small_square, 0x8A8A8A))),
-    ("while_block", 0x55FF55, 0x00AA00, lambda i: (paint(i, ring, WHITE), glyph(i, "?", WHITE, 5, 5))),
-    ("repeat_block", 0x55FF55, 0x00AA00, lambda i: (paint(i, frame, WHITE), glyph(i, "?", WHITE, 5, 5))),
+    ("label_block", 0xAAAAAA, lambda i: None),
+    ("literal_block", 0xAAAAAA, lambda i: None),
+    ("tag_block", 0x553311, lambda i: icon(i, "tag")),
+    ("program_block", 0x000000, lambda i: None),
+    ("include_block", 0x000000, lambda i: icon(i, "map")),
+    ("exit_block", 0x000000, lambda i: icon(i, "door")),
+    ("break_block", 0xFFAA00, lambda i: icon(i, "stick")),
+    ("assign_block", 0x00AAAA, lambda i: paint(i, triangle_right, WHITE)),
+    ("function_block", 0x555555, lambda i: (paint(i, circle, WHITE), glyph(i, "ƒ", 0x202020))),
+    ("return_block", 0xAA00AA, lambda i: icon(i, "spruce_door")),
+    ("call_block", 0x555555, lambda i: icon(i, "phone")),
+    ("if_block", 0x00AA00, lambda i: (paint(i, diamond, WHITE), glyph(i, "?", 0x00AA00, 5, 5))),
+    ("else_block", 0x00AA00, lambda i: (paint(i, diamond, WHITE), glyph(i, "¿", 0x00AA00, 5, 4))),
+    ("for_block", 0x00AA00, lambda i: (paint(i, ring, LIME), glyph(i, "#", LIME, 5, 5))),
+    ("each_block", 0x00AA00, lambda i: (paint(i, ring, LIME), paint(i, small_square, LIME))),
+    ("while_block", 0x00AA00, lambda i: (paint(i, ring, LIME), glyph(i, "?", LIME, 5, 4))),
+    ("repeat_block", 0x00AA00, lambda i: (paint(i, frame, LIME), glyph(i, "?", LIME, 5, 4))),
 ]
 
 # (block ID, icon, color of the icon, or None for its own colors)
@@ -494,14 +510,21 @@ def base_item(color: int, symbol: str | None) -> Image:
     return image
 
 
-# Blocks with a shape instead of a symbol (see SHAPES in generate_content.py): (texture prefix, valid color,
-# invalid color). BEGIN and END share the step textures, PARAMETER and RESULT the hopper textures.
-SHAPED_BLOCKS = [("begin_block", 0xFFFF55, 0xFFAA00), ("parameter_block", 0xFF55FF, 0xAA00AA)]
-
-
 def darker(color: int, delta: int) -> int:
     r, g, b, _ = shade(rgb(color), -delta)
     return r << 16 | g << 8 | b
+
+
+def slab_side(color: int, seed: str) -> Image:
+    """The side of a slab: the slab model shows the lower half of the texture, which has a darker border."""
+    image = concrete(color, seed, 3)
+    for i in range(16):
+        for y in (8, 15):
+            image[y][i] = shade(image[y][i], -40)
+    for y in range(8, 16):
+        for x in (0, 15):
+            image[y][x] = shade(image[y][x], -40)
+    return image
 
 
 def hopper_top(color: int, seed: str) -> Image:
@@ -514,38 +537,108 @@ def hopper_top(color: int, seed: str) -> Image:
     return image
 
 
-def shaped_block_textures(blocks: Path) -> None:
-    for block, valid, invalid in SHAPED_BLOCKS:
-        for suffix, color in (("_valid", valid), ("_invalid", invalid)):
-            name = block + suffix
-            if block == "begin_block":
-                write_png(blocks / (name + "_side.png"), framed(color, name + "_side"))
-                write_png(blocks / (name + "_top.png"), concrete(color, name + "_top", 3))
+def planks(color: int, seed: str, vertical: bool) -> Image:
+    """Planks four pixels wide, with darker joints."""
+    image = concrete(color, seed, 6)
+    for a in range(16):
+        for b in (3, 7, 11):
+            if vertical:
+                image[a][b] = shade(image[a][b], -35)
             else:
-                write_png(blocks / (name + "_outside.png"), framed(color, name + "_outside"))
-                write_png(blocks / (name + "_inside.png"), concrete(darker(color, 90), name + "_inside", 3))
-                write_png(blocks / (name + "_top.png"), hopper_top(color, name + "_top"))
+                image[b][a] = shade(image[b][a], -35)
+    return image
+
+
+CHEST_BLUE = 0x2A3AC0
+CHEST_DARK = 0x101860
+
+
+def chest_side(seed: str) -> Image:
+    """The side of the blue chest: planks, a dark frame and the seam between lid and body."""
+    image = planks(CHEST_BLUE, seed, False)
+    for i in range(16):
+        image[5][i] = rgb(0x0A1050)
+        for edge in (0, 15):
+            image[i][edge] = rgb(CHEST_DARK)
+            image[edge][i] = rgb(CHEST_DARK)
+    return image
+
+
+def chest_top(seed: str) -> Image:
+    image = planks(CHEST_BLUE, seed, True)
+    for i in range(16):
+        for edge in (0, 15):
+            image[i][edge] = rgb(CHEST_DARK)
+            image[edge][i] = rgb(CHEST_DARK)
+    return image
+
+
+def latch() -> Image:
+    image = concrete(0xC8C8C8, "latch", 6)
+    for i in range(16):
+        for edge in (0, 15):
+            image[i][edge] = rgb(0x707070)
+            image[edge][i] = rgb(0x707070)
+    return image
+
+
+def barrel_side(seed: str) -> Image:
+    """The side of the blue barrel: vertical staves with two iron bands."""
+    image = planks(CHEST_BLUE, seed, True)
+    for x in range(16):
+        for y in (2, 3, 12, 13):
+            image[y][x] = metal(x, y) if y in (2, 13) else rgb(0x606870)
+    return image
+
+
+def barrel_top(seed: str) -> Image:
+    """The lid of the barrel: a rim and a darker lid with a hole in the middle."""
+    image = concrete(CHEST_BLUE, seed, 6)
+    for y in range(16):
+        for x in range(16):
+            if x in (0, 15) or y in (0, 15):
+                image[y][x] = rgb(0x606870)
+            elif 2 <= x <= 13 and 2 <= y <= 13:
+                image[y][x] = shade(image[y][x], -40)
+    for y in (7, 8):
+        for x in (7, 8):
+            image[y][x] = rgb(0x0A1050)
+    return image
 
 
 def code_block_textures(blocks: Path) -> None:
-    shaped_block_textures(blocks)
     write_png(blocks / "noop_block.png", noop())
+    write_png(blocks / "noop_block_side.png", noop_side())
     write_png(blocks / "comment_block.png", comment())
-    for block, valid, invalid, draw in CODE_BLOCKS:
-        for suffix, color in (("_valid", valid), ("_invalid", invalid)):
-            image = framed(color, block + suffix)
-            draw(image)
-            write_png(blocks / (block + suffix + ".png"), image)
-    for side, shape in ASSIGN_SIDES.items():
-        for suffix, color in (("_valid", 0x55FFFF), ("_invalid", 0x00AAAA)):
-            image = framed(color, "assign_block" + suffix)
-            paint(image, shape, WHITE)
-            write_png(blocks / ("assign_block" + suffix + "_" + side + ".png"), image)
+    write_png(blocks / "comment_block_side.png", comment_side())
+    for block, color, draw in CODE_BLOCKS:
+        image = framed(color, block)
+        draw(image)
+        write_png(blocks / (block + ".png"), image)
+        write_png(blocks / (block + "_side.png"), slab_side(color, block + "_side"))
     for block, name, color in TYPE_BLOCKS:
         image = framed(0xCC2222, block)
         paint(image, octagon, WHITE)
         icon(image, name, color)
         write_png(blocks / (block + ".png"), image)
+        write_png(blocks / (block + "_side.png"), slab_side(0xCC2222, block + "_side"))
+    # BEGIN and END: the top is cut along the diagonals, so it has no border
+    write_png(blocks / "begin_block.png", concrete(0xFFAA00, "begin_block", 3))
+    write_png(blocks / "begin_block_side.png", slab_side(0xFFAA00, "begin_block_side"))
+    # PARAMETER and RESULT: hoppers
+    write_png(blocks / "parameter_block_outside.png", framed(0xAA00AA, "parameter_block_outside"))
+    write_png(blocks / "parameter_block_inside.png", concrete(darker(0xAA00AA, 90), "parameter_block_inside", 3))
+    write_png(blocks / "parameter_block_top.png", hopper_top(0xAA00AA, "parameter_block_top"))
+    # VARIABLE: a blue chest, CONSTANT: a blue barrel
+    write_png(blocks / "variable_block_side.png", chest_side("variable_block_side"))
+    write_png(blocks / "variable_block_front.png", chest_side("variable_block_front"))
+    write_png(blocks / "variable_block_top.png", chest_top("variable_block_top"))
+    write_png(blocks / "variable_block_latch.png", latch())
+    write_png(blocks / "constant_block_side.png", barrel_side("constant_block_side"))
+    write_png(blocks / "constant_block_top.png", barrel_top("constant_block_top"))
+    # OPERATOR: the extruded symbol
+    write_png(blocks / "operator_block.png", concrete(0xAA0000, "operator_block", 4))
+    write_png(blocks / "operator_block_side.png", concrete(0x770000, "operator_block_side", 4))
     write_png(TEXTURES / "item" / "type_base.png", base_item(0xCC2222, "?"))
     structural = base_item(0x55FF55, None)
     paint(structural, trapezoid(True), WHITE)

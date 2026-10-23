@@ -2,15 +2,14 @@ package de.joernott.c0de.content;
 
 import de.joernott.c0de.block.BlackBedrockBlock;
 import de.joernott.c0de.block.CodeBlock;
-import de.joernott.c0de.block.CodeBlockShapes;
 import de.joernott.c0de.block.CommentBlock;
+import de.joernott.c0de.block.OperatorBlock;
 import de.joernott.c0de.block.PidBlock;
 import de.joernott.c0de.block.PropertyBlock;
 import de.joernott.c0de.block.TriggerBlock;
 import de.joernott.c0de.block.ValidatedCodeBlock;
 import de.joernott.c0de.blockentity.LabelBlockEntity;
 import de.joernott.c0de.blockentity.LiteralBlockEntity;
-import de.joernott.c0de.blockentity.OperatorBlockEntity;
 import de.joernott.c0de.blockentity.TagBlockEntity;
 import de.joernott.c0de.core.sheet.FloorBlock;
 import de.joernott.c0de.platform.Platform;
@@ -70,21 +69,18 @@ public final class C0deBlocks {
                 .strength(0.6F, 3600000.0F)
                 .pushReaction(PushReaction.BLOCK)
                 .sound(type == CodeBlockType.NOOP ? SoundType.METAL : SoundType.STONE);
-        if (type.isTransparent()) {
-            properties = properties
-                    .noOcclusion()
-                    .isValidSpawn((state, level, pos, entityType) -> false)
-                    .isRedstoneConductor((state, level, pos) -> false)
-                    .isSuffocating((state, level, pos) -> false)
-                    .isViewBlocking((state, level, pos) -> false);
-        } else if (CodeBlockShapes.isShaped(type)) {
-            properties = properties.noOcclusion();
-        }
+        // The language blocks are as high as a slab, some have other shapes: none of them hides its neighbors
+        properties = properties
+                .noOcclusion()
+                .isValidSpawn((state, level, pos, entityType) -> false)
+                .isRedstoneConductor((state, level, pos) -> false)
+                .isSuffocating((state, level, pos) -> false)
+                .isViewBlocking((state, level, pos) -> false);
         return switch (type) {
             case COMMENT -> new CommentBlock(properties);
             case LABEL -> new PropertyBlock(properties, type, LabelBlockEntity::new);
             case LITERAL -> new PropertyBlock(properties, type, LiteralBlockEntity::new);
-            case OPERATOR -> new PropertyBlock(properties, type, OperatorBlockEntity::new);
+            case OPERATOR -> new OperatorBlock(properties);
             case TAG -> new PropertyBlock(properties, type, TagBlockEntity::new);
             default -> type.isValidated() ? new ValidatedCodeBlock(properties, type) : new CodeBlock(properties, type);
         };

@@ -3,10 +3,10 @@ package de.joernott.c0de.platform.neoforge;
 //? if neoforge {
 /*import de.joernott.c0de.client.C0deClient;
 import de.joernott.c0de.client.C0deDimensionEffects;
+import de.joernott.c0de.client.ExtrudedModel;
 import de.joernott.c0de.client.LineNumbers;
 import de.joernott.c0de.client.ProcessRenderers;
 import de.joernott.c0de.client.PropertiesRenderer;
-import de.joernott.c0de.client.TrapezoidModel;
 import de.joernott.c0de.client.TriggerScreen;
 import de.joernott.c0de.content.C0deEntities;
 import de.joernott.c0de.content.C0deMenus;
@@ -32,7 +32,7 @@ public final class C0deNeoForgeClient {
             event.registerEntityRenderer(C0deEntities.MARK.get(), ProcessRenderers.Mark::new);
         });
         modEventBus.addListener(net.neoforged.neoforge.client.event.ModelEvent.ModifyBakingResult.class,
-                event -> event.getModels().replaceAll(TrapezoidModel::wrap));
+                event -> event.getModels().replaceAll(ExtrudedModel::wrap));
         modEventBus.addListener(net.neoforged.neoforge.client.event.RegisterMenuScreensEvent.class,
                 event -> event.register(C0deMenus.TRIGGER.get(), TriggerScreen::new));
         net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
