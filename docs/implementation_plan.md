@@ -222,6 +222,9 @@ A task is done when
 | Task | Description | Done |
 |---|---|:---:|
 | 11.1 | Final textures and sounds, review of all block and item looks. | ✅ |
+| 11.1.1 | The text marker is the feather of Minecraft, colored yellow by an item color. | ✅ |
+| 11.1.2 | Right click of the hammer: inserts an empty line, the clicked line and the following lines move south. | ✅ |
+| 11.1.3 | Right click of the text marker: marks or unmarks all lines from the line of the last left click to the clicked line, as the left click did. | ✅ |
 | 11.2 | Block shapes: the PARAMETER block has the shape of a hopper (recolored), the RESULT block the same shape upside down; BEGIN and END are trapezoids with diagonal sides, lying on their trapezoid side (a model that moves the vertices of the baked cube). | ✅ |
 | 11.2.1 | All language blocks are as high as a slab, with their symbol only on the top. PARAMETER and RESULT are hoppers at half their size. | ✅ |
 | 11.2.2 | One color per block (the former invalid color); the line numbers show the state of a line instead. | ✅ |

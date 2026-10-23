@@ -16,6 +16,8 @@
   "message.c0de.copied": "%s lines copied in front of line %s",
   "message.c0de.missing_blocks": "Missing blocks: %s",
   "message.c0de.deleted": "Lines %s to %s deleted",
+  "message.c0de.inserted": "Empty line inserted in front of line %s",
+  "message.c0de.no_last_mark": "Mark or unmark a line on this sheet with a left click first",
   "message.c0de.protected": "The program %s is running (PID %s), its sheet can't be changed",
   "message.c0de.exported": "Program %s saved to the disk",
   "message.c0de.imported": "Program %s loaded from the disk",

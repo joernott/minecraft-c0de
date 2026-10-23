@@ -705,20 +705,6 @@ def debug_tool() -> Image:
     return image
 
 
-def marker() -> Image:
-    """A yellow feather."""
-    image = blank()
-    for i in range(1, 14):
-        image[15 - i][i] = rgb(0xC8A000)
-    for i in range(4, 13):
-        for d in (1, 2, 3):
-            if 1 <= i - d and 15 - i - d >= 0:
-                image[15 - i - d + 1][i - d + 1] = rgb(0xFFE040 if d < 3 else 0xF0C820)
-            if i + d <= 15 and 15 - i + d <= 15:
-                image[15 - i + d - 1][i + d - 1] = rgb(0xFFE040 if d < 3 else 0xF0C820)
-    return image
-
-
 def hammer() -> Image:
     """An iron hammer with a red handle: a heavy head across the upper end of the handle."""
     image = blank()
@@ -782,7 +768,6 @@ def main() -> None:
     code_block_textures(blocks)
     item_textures()
     write_png(TEXTURES / "item" / "debug_tool.png", debug_tool())
-    write_png(TEXTURES / "item" / "marker.png", marker())
     write_png(TEXTURES / "item" / "hammer.png", hammer())
     write_png(TEXTURES / "item" / "c0de_disk.png", disk())
     write_png(TEXTURES / "gui" / "trash.png", trash())

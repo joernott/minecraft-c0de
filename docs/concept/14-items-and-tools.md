@@ -38,7 +38,9 @@ A debugging tool is crafted from a red wool block, a stick and a piece of leathe
 
 ## Marker
 
-A text marker is used to mark code. It looks like a yellow feather. Left-clicking a line of code with the marker marks the line, left-clicking it again removes the mark. A marked line gets a yellow overlay.
+A text marker is used to mark code. It looks like the feather of Minecraft, colored yellow. Left-clicking a line of code with the marker marks the line, left-clicking it again removes the mark. A marked line gets a yellow overlay.
+
+The marker remembers the line of its last left click and whether that click marked the line or removed its mark. Right-clicking another line of the same sheet then does the same with all lines from the remembered line to the clicked line: it marks them, or removes their marks. The clicked line is remembered for the next right click, so a selection can be extended step by step.
 
 ### Crafting
 
@@ -77,6 +79,8 @@ A wrench is crafted from red wool and three iron ingots:
 ## Hammer
 
 Every decent tech mod needs a hammer. This is the c0de hammer. It is used to delete a single line or marked code: the user left-clicks a marked area or a single line, which removes the marked area or the line. The following lines up to the next empty line are moved up (north) automatically. In survival mode, the removed blocks go to the inventory of the player.
+
+Right-clicking a line with the hammer inserts an empty line in front of it: the clicked line and all lines after it move south, up to the next gap of two empty lines, so they don't join the lines after the gap. The marks move with their lines.
 
 The wrench and the hammer can't be used on a sheet while a process of its program is running (see [Protection of running programs](13-running-programs.md#protection-of-running-programs)).
 

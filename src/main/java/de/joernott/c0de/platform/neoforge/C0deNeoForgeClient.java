@@ -9,6 +9,7 @@ import de.joernott.c0de.client.ProcessRenderers;
 import de.joernott.c0de.client.PropertiesRenderer;
 import de.joernott.c0de.client.TriggerScreen;
 import de.joernott.c0de.content.C0deEntities;
+import de.joernott.c0de.content.C0deItems;
 import de.joernott.c0de.content.C0deMenus;
 import de.joernott.c0de.content.C0deBlockEntities;
 import net.neoforged.bus.api.IEventBus;
@@ -31,6 +32,8 @@ public final class C0deNeoForgeClient {
             event.registerEntityRenderer(C0deEntities.CURSOR.get(), ProcessRenderers.Cursor::new);
             event.registerEntityRenderer(C0deEntities.MARK.get(), ProcessRenderers.Mark::new);
         });
+        modEventBus.addListener(net.neoforged.neoforge.client.event.RegisterColorHandlersEvent.Item.class,
+                event -> event.register(C0deClient::itemColor, C0deItems.MARKER.get()));
         modEventBus.addListener(net.neoforged.neoforge.client.event.ModelEvent.ModifyBakingResult.class,
                 event -> event.getModels().replaceAll(ExtrudedModel::wrap));
         modEventBus.addListener(net.neoforged.neoforge.client.event.RegisterMenuScreensEvent.class,

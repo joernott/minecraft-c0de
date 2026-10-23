@@ -171,6 +171,11 @@ public class FabricGameTests implements FabricGameTest {
     }
 
     @GameTest(template = SmokeTests.EMPTY_STRUCTURE)
+    public void markerAndHammerRightClicks(GameTestHelper helper) {
+        ToolTests.markerAndHammerRightClicks(helper);
+    }
+
+    @GameTest(template = SmokeTests.EMPTY_STRUCTURE)
     public void programsSwitchLevers(GameTestHelper helper) {
         LibraryTests.programsSwitchLevers(helper);
     }

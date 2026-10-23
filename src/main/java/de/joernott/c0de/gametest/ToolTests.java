@@ -193,6 +193,50 @@ public final class ToolTests {
         helper.succeed();
     }
 
+    /**
+     * A right click with the marker marks or unmarks all lines from the last left click to the clicked line; a
+     * right click with the hammer inserts an empty line, the clicked line and the following lines move south.
+     */
+    public static void markerAndHammerRightClicks(GameTestHelper helper) {
+        ServerLevel level = c0de(helper);
+        SheetBuilder sheet = new SheetBuilder(level, 523);
+        for (int z = 0; z < 6; z++) {
+            sheet.place(new de.joernott.c0de.core.line.Block.KeywordBlock(de.joernott.c0de.core.line.Keyword.ASSIGN), 5, z);
+            sheet.place(new de.joernott.c0de.core.line.Block.LabelBlock("l" + z), 6, z);
+        }
+        ServerPlayer player = helper.makeMockServerPlayerInLevel();
+        try {
+            player.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND, new ItemStack(C0deItems.MARKER.get()));
+            click(helper, player, sheet.pos(6, 1));
+            rightClick(helper, player, sheet.pos(8, 4).below());
+            helper.assertTrue(
+                    SheetMarks.marked(level, 523).equals(new java.util.TreeSet<>(List.of(1, 2, 3, 4))),
+                    "Marked after the right click: " + SheetMarks.marked(level, 523));
+            // The left click removes the mark of line 2, so the right click removes the marks up to line 4
+            click(helper, player, sheet.pos(6, 2));
+            rightClick(helper, player, sheet.pos(6, 4));
+            helper.assertTrue(
+                    SheetMarks.marked(level, 523).equals(new java.util.TreeSet<>(List.of(1))),
+                    "Marked after unmarking: " + SheetMarks.marked(level, 523));
+
+            player.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND, new ItemStack(C0deItems.HAMMER.get()));
+            rightClick(helper, player, sheet.pos(6, 1));
+            List<Integer> order = new java.util.ArrayList<>();
+            for (int z = 0; z < 7; z++) {
+                order.add(line(level, sheet, z));
+            }
+            helper.assertTrue(order.equals(List.of(0, -1, 1, 2, 3, 4, 5)), "After inserting, the lines are " + order);
+            helper.assertTrue(SheetMarks.isMarked(level, 523, 2), "The mark didn't move with its line");
+        } finally {
+            for (int z = 0; z < 8; z++) {
+                level.setBlockAndUpdate(sheet.pos(5, z), Blocks.AIR.defaultBlockState());
+                level.setBlockAndUpdate(sheet.pos(6, z), Blocks.AIR.defaultBlockState());
+                SheetMarks.set(level, 523, z, false);
+            }
+        }
+        helper.succeed();
+    }
+
     /** The cooldown of the tools lets the first click through and blocks repeats within 6 ticks. */
     public static void toolCooldown(GameTestHelper helper) {
         helper.assertTrue(de.joernott.c0de.tool.ToolActions.cooldownOver(0, null), "The first click is blocked");
@@ -202,6 +246,12 @@ public final class ToolTests {
         helper.assertTrue(de.joernott.c0de.tool.ToolActions.cooldownOver(106, 100L), "A later click is blocked");
         helper.assertTrue(de.joernott.c0de.tool.ToolActions.cooldownOver(5, 100L), "A click in another world is blocked");
         helper.succeed();
+    }
+
+    /** A right click of a tool, with the cooldown of the tools in between. */
+    private static void rightClick(GameTestHelper helper, ServerPlayer player, BlockPos pos) {
+        de.joernott.c0de.tool.ToolActions.resetCooldown(player);
+        de.joernott.c0de.tool.ToolActions.rightClick(player, c0de(helper), pos);
     }
 
     /** A left click of a tool, as the client sends it, with the cooldown of the tools in between. */

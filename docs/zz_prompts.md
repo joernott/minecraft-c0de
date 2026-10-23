@@ -328,3 +328,13 @@ I have a few more changes I want to mimplement:
 - For variables use a chest as model but retexture it blue. Constants should use a barrel as model, They should also be scaled down to fit the slab height.
 - Literals should be turned into octagons to distinguish them better from labels.
 - The circular arrow on the for loop needs to be thinner and the # sign sharper and they should not bleed into each other. Also, as we now use dark green for the block color, we can use lime for them.
+
+## 2026-10-23 – Hammer and marker right click, feather marker
+
+The blocks look fine so far.
+
+I would like to add a new functionality to the hammer: Right clicking a line or a block on a line should move that line and every line after to the south
+
+The marker should get a right click functionality. It should remeber the last line that it was used on and whether this was marking or unmarking the line. If you then right click another line, all the lines between the last one and the line that was right clicked become either marked or unmarked, depending on what happened on the line that was left clicked.
+
+The model of the marker should be that of a Minecraft feather but colored yellow.

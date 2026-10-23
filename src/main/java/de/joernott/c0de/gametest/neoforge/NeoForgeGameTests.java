@@ -175,6 +175,11 @@ public class NeoForgeGameTests {
     }
 
     @GameTest(template = "empty")
+    public static void markerAndHammerRightClicks(GameTestHelper helper) {
+        ToolTests.markerAndHammerRightClicks(helper);
+    }
+
+    @GameTest(template = "empty")
     public static void programsSwitchLevers(GameTestHelper helper) {
         LibraryTests.programsSwitchLevers(helper);
     }

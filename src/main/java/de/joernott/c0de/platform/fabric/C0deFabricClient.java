@@ -10,6 +10,7 @@ import de.joernott.c0de.client.ProcessRenderers;
 import de.joernott.c0de.client.PropertiesRenderer;
 import de.joernott.c0de.client.TriggerScreen;
 import de.joernott.c0de.content.C0deEntities;
+import de.joernott.c0de.content.C0deItems;
 import de.joernott.c0de.content.C0deMenus;
 import de.joernott.c0de.content.C0deBlockEntities;
 import de.joernott.c0de.content.C0deBlocks;
@@ -55,6 +56,8 @@ public class C0deFabricClient implements ClientModInitializer {
                 .modifyModelAfterBake()
                 .register((model, context) ->
                         context.topLevelId() == null ? model : ExtrudedModel.wrap(context.topLevelId(), model)));
+        net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry.ITEM.register(
+                C0deClient::itemColor, C0deItems.MARKER.get());
         net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents.AFTER_ENTITIES.register(
                 context -> LineNumbers.render(context.camera()));
     }

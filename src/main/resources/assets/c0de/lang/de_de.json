@@ -16,6 +16,8 @@
   "message.c0de.copied": "%s Zeilen vor Zeile %s kopiert",
   "message.c0de.missing_blocks": "Fehlende Blöcke: %s",
   "message.c0de.deleted": "Zeilen %s bis %s gelöscht",
+  "message.c0de.inserted": "Leere Zeile vor Zeile %s eingefügt",
+  "message.c0de.no_last_mark": "Markiere zuerst eine Zeile auf diesem Blatt mit einem Linksklick oder entferne ihre Markierung",
   "message.c0de.protected": "Das Programm %s läuft (PID %s), sein Blatt kann nicht geändert werden",
   "message.c0de.exported": "Programm %s auf der Diskette gespeichert",
   "message.c0de.imported": "Programm %s von der Diskette geladen",

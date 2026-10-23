@@ -55,6 +55,13 @@ public final class SheetMarks {
         level.addFreshEntity(mark);
     }
 
+    /** Marks a line or removes its mark; a line that is already in that state stays unchanged. */
+    public static void set(ServerLevel level, int sheet, int z, boolean marked) {
+        if (isMarked(level, sheet, z) != marked) {
+            toggle(level, sheet, z);
+        }
+    }
+
     /**
      * The marked area that contains a line: the consecutive marked lines around it.
      *

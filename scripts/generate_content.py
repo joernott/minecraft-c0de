@@ -246,6 +246,9 @@ MESSAGES = [
     ("message.c0de.copied", "%s lines copied in front of line %s", "%s Zeilen vor Zeile %s kopiert"),
     ("message.c0de.missing_blocks", "Missing blocks: %s", "Fehlende Blöcke: %s"),
     ("message.c0de.deleted", "Lines %s to %s deleted", "Zeilen %s bis %s gelöscht"),
+    ("message.c0de.inserted", "Empty line inserted in front of line %s", "Leere Zeile vor Zeile %s eingefügt"),
+    ("message.c0de.no_last_mark", "Mark or unmark a line on this sheet with a left click first",
+     "Markiere zuerst eine Zeile auf diesem Blatt mit einem Linksklick oder entferne ihre Markierung"),
     ("message.c0de.protected", "The program %s is running (PID %s), its sheet can't be changed",
      "Das Programm %s läuft (PID %s), sein Blatt kann nicht geändert werden"),
     ("message.c0de.exported", "Program %s saved to the disk", "Programm %s auf der Diskette gespeichert"),
@@ -397,8 +400,10 @@ def main() -> None:
     for floor in FLOOR_BLOCKS:
         write(ASSETS / "models" / "item" / (floor + ".json"), {"parent": "c0de:block/" + floor})
     for item in [i for i, _, _ in ITEMS] + [type_item(t) for t, _ in TYPE_ITEMS]:
+        # The text marker is the feather of Minecraft, colored yellow by the item color of the mod
+        texture = "minecraft:item/feather" if item == "marker" else "c0de:item/" + item
         write(ASSETS / "models" / "item" / (item + ".json"),
-              {"parent": "minecraft:item/generated", "textures": {"layer0": "c0de:item/" + item}})
+              {"parent": "minecraft:item/generated", "textures": {"layer0": texture}})
     for name, recipe in recipes().items():
         write(DATA / "recipe" / (name + ".json"), recipe)
 

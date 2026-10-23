@@ -34,14 +34,16 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 /**
- * The left clicks of the c0de tools (docs/concept/14-items-and-tools.md):
+ * The left and right clicks of the c0de tools (docs/concept/14-items-and-tools.md):
  *
  * <ul>
  *   <li>debugging tool: starts a debug process at a debug trigger block, controls debug cursors
- *   <li>text marker: marks a line or removes its mark
+ *   <li>text marker: marks a line or removes its mark; a right click does the same with all lines from the
+ *       line of the last left click to the clicked line
  *   <li>wrench: moves the marked lines in front of the clicked line (a right click copies them, see
  *       {@link #wrench})
- *   <li>hammer: deletes a marked area or a single line; the following lines move up
+ *   <li>hammer: deletes a marked area or a single line, the following lines move up; a right click inserts an
+ *       empty line, the clicked line and the following lines move south
  * </ul>
  */
 public final class ToolActions {
@@ -56,6 +58,14 @@ public final class ToolActions {
 
     /** The game time of the last action of every player on the server. Only used on the server thread. */
     private static final Map<UUID, Long> LAST_ACTIONS = new HashMap<>();
+
+    /**
+     * The line of the last left click of every player with the text marker, and whether it was marked by it. Only
+     * used on the server thread.
+     */
+    private static final Map<UUID, LastMark> LAST_MARKS = new HashMap<>();
+
+    private record LastMark(int sheet, int z, boolean marked) {}
 
     /** The game time of the last action sent by this client, or null before the first one. */
     private static Long lastSent;
@@ -175,11 +185,70 @@ public final class ToolActions {
         if (item == C0deItems.MARKER.get()) {
             // Marking doesn't change the program, so it is allowed while processes run
             SheetMarks.toggle(level, sheet, z);
+            LAST_MARKS.put(player.getUUID(), new LastMark(sheet, z, SheetMarks.isMarked(level, sheet, z)));
         } else if (item instanceof WrenchItem) {
             wrench(player, level, pos, false);
         } else if (item == C0deItems.HAMMER.get()) {
             hammer(player, level, pos, sheet, z);
         }
+    }
+
+    /**
+     * Executes a right click of the text marker or the hammer on a line.
+     *
+     * @return false if the item has no right click
+     */
+    public static boolean rightClick(ServerPlayer player, ServerLevel level, BlockPos pos) {
+        Item item = player.getMainHandItem().getItem();
+        if (item != C0deItems.MARKER.get() && item != C0deItems.HAMMER.get()) {
+            return false;
+        }
+        long now = level.getGameTime();
+        if (!cooldownOver(now, LAST_ACTIONS.get(player.getUUID()))) {
+            // Holding the button uses the item again every few ticks
+            return true;
+        }
+        LAST_ACTIONS.put(player.getUUID(), now);
+        int sheet = LevelSheet.sheetOf(pos);
+        int z = pos.getZ();
+        if (item == C0deItems.MARKER.get()) {
+            markRange(player, level, sheet, z);
+        } else {
+            insertLine(player, level, pos, sheet, z);
+        }
+        return true;
+    }
+
+    /**
+     * Marks the lines from the line of the last left click with the marker to the clicked line, or removes their
+     * marks if the left click removed a mark.
+     */
+    private static void markRange(ServerPlayer player, ServerLevel level, int sheet, int z) {
+        LastMark last = LAST_MARKS.get(player.getUUID());
+        if (last == null || last.sheet() != sheet) {
+            message(player, "message.c0de.no_last_mark");
+            return;
+        }
+        for (int line = Math.min(last.z(), z); line <= Math.max(last.z(), z); line++) {
+            SheetMarks.set(level, sheet, line, last.marked());
+        }
+        // A following right click continues from here
+        LAST_MARKS.put(player.getUUID(), new LastMark(sheet, z, last.marked()));
+    }
+
+    /** Inserts an empty line in front of the clicked line: the line and the lines after it move south. */
+    private static void insertLine(ServerPlayer player, ServerLevel level, BlockPos pos, int sheet, int z) {
+        if (isProtected(player, level, pos)) {
+            return;
+        }
+        // Up to a gap of two empty lines, so the moved lines don't join the lines after the gap
+        int end = SheetEditor.endOfContent(level, sheet, z, 2);
+        if (end <= z) {
+            return;
+        }
+        SheetEditor.apply(level, sheet, LineMoves.insert(z, 1, end));
+        level.playSound(null, pos, SoundEvents.PISTON_EXTEND, SoundSource.BLOCKS, 0.5F, 1.0F);
+        message(player, "message.c0de.inserted", z);
     }
 
     /** True for the code layer and the floor of the code area of a sheet: clicking either selects the line. */
