@@ -460,3 +460,7 @@ Findings:
 Another change: A process should get another state "WAITING" when waiting on an input and the cursor should pulse between black and dark green or black and dark red for the debug cursor.
 
 The function minecraft/GET_BLOCK should also have a boolean property "has_inventory".
+
+## 2026-10-24 – Cursor color, remaining steps
+
+The chest is fine. The cursors brightest color should be lower than it is now, though. Please lower it and continue with the remaining steps of sprint 10

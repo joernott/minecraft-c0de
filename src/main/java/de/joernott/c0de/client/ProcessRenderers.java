@@ -33,8 +33,8 @@ public final class ProcessRenderers {
         private static final int[] REGULAR = {0x00AA00, 0x55FF55};
         private static final int[] DEBUG = {0xAA0000, 0xFF5555};
         // A waiting cursor (INPUT, WRITE) pulses between black and the dark color
-        private static final int[] REGULAR_WAITING = {0x000000, 0x00AA00};
-        private static final int[] DEBUG_WAITING = {0x000000, 0xAA0000};
+        private static final int[] REGULAR_WAITING = {0x000000, 0x006600};
+        private static final int[] DEBUG_WAITING = {0x000000, 0x660000};
 
         /** Ticks of one pulse, from the dark to the bright color and back. */
         private static final float PULSE_TICKS = 40.0F;

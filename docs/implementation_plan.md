@@ -263,7 +263,7 @@ A task is done when
 | 11.8 | Laptop block: a terminal with the output of the bound program and function, a scroll bar and an input line for INPUT. | ✅ |
 | 11.8.1 | ✔ in the terminal binds and closes it; the wrench turns laptops. | ✅ |
 | 11.8.2 | Lines typed on a terminal reach a waiting INPUT reliably. | ✅ |
-| 11.8.3 | Process state WAITING while INPUT or WRITE waits; the cursor pulses between black and dark green (debug cursor: dark red). | ✅ |
+| 11.8.3 | Process state WAITING while INPUT or WRITE waits; the cursor pulses between black and dark green (debug cursor: dark red), at most #006600 and #660000. | ✅ |
 | 11.8.4 | GET_BLOCK of c0de/minecraft also returns has_inventory; the VARIABLE chest keeps the seam between lid and body. | ✅ |
 | 11.9 | Tablet: the mobile laptop; left click opens the terminal. Recipes between laptop and tablet. | ✅ |
 | 11.10 | Performance tests: many processes at the same time, large programs, deep recursion; tuning of the scheduler. |  |
