@@ -478,3 +478,7 @@ I have created the modrinth project and put the id into the TOML file and a PAT 
 ## 2026-10-24 – Several clients
 
 How can I start multiple clients with different users?
+
+## 2026-10-24 – Operator
+
+please make Player962 into an admin
