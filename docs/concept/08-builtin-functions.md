@@ -29,6 +29,7 @@ Many functions are taken from AmigaBASIC. AmigaBASIC functions that deal with fi
 Conventions:
   - A function with a single result names it `result`.
   - Some parameters accept several types, written as `INTEGER|FLOAT`. Where the result type is written as "like `value`", the result has the type of that parameter.
+  - The built-in functions and the libraries `c0de/math`, `c0de/strings` and `c0de/time` accept a CHAR wherever a STRING parameter is expected. The library `c0de/minecraft` only accepts a STRING for its STRING parameters.
   - Parameters are passed by value, so functions that change a string, array or hash return the changed value as `result`. To change a variable, use the same variable as parameter and result target. The only exception is the `destination` parameter of [FROM_JSON and FROM_YAML](10-lib-strings.md#reading-values), which writes directly into a variable.
   - Positions in strings and arrays start at 0, unlike AmigaBASIC, where string positions start at 1.
   - An invalid argument (e.g. the square root of a negative number) raises INVALID_ARGUMENT unless stated otherwise.
@@ -39,8 +40,8 @@ Conventions:
 |---|---|---|---|---|
 | LEN | value STRING\|ARRAY\|HASH | result INTEGER | Number of characters of a string or number of elements of an array or hash. | LEN, UBOUND |
 | HAS_KEY | hash HASH, key STRING | result BOOLEAN | True if `hash` contains `key`. | – |
-| REMOVE | container ARRAY\|HASH, index INTEGER (arrays) or key STRING (hashes) | result like `container` | `container` without the element. Following array elements move down by one. A missing index raises INDEX_OUT_OF_BOUNDS, a missing key raises UNKNOWN_KEY. | – |
-| INSERT | array ARRAY, index INTEGER, value (subtype of `array`) | result like `array` | `array` with `value` inserted at position `index`. Following elements move up by one. `index` MUST be between 0 and the length of the array. | – |
+| REMOVE | container ARRAY\|HASH, index INTEGER (optional), key STRING (optional) | result like `container` | `container` without the element. An array element is selected with `index`, a hash element with `key`; leaving out the parameter the container needs raises INVALID_ARGUMENT. Following array elements move down by one. An index that does not exist raises INDEX_OUT_OF_BOUNDS, a key that does not exist raises UNKNOWN_KEY. | – |
+| INSERT | array ARRAY, index INTEGER, value (subtype of `array`) | result like `array` | `array` with `value` inserted at position `index`. Following elements move up by one. `index` MUST be between 0 and the length of the array, otherwise INDEX_OUT_OF_BOUNDS is raised. A `value` that does not fit the subtype of `array` raises TYPE_MISMATCH. | – |
 | CLEAR | container ARRAY\|HASH | result like `container` | An empty array or hash of the same type. | ERASE |
-| SWAP | a (any type), b (same type as `a`) | a, b | Returns the two values swapped. | SWAP |
-| RAISE | code INTEGER, message STRING (default empty) | – | Returns an error with `code` and `message` to the caller, which raises it or stores it in the error label of the CALL statement. `code` MUST be 1000 or higher. The `context` and `line` of the error are those of the CALL statement. | ERROR |
+| SWAP | a (any type), b (same type as `a`) | a, b | Returns the two values swapped. Values of different types raise TYPE_MISMATCH (length limits of STRINGs are ignored). | SWAP |
+| RAISE | code INTEGER, message STRING (default empty) | – | Returns an error with `code` and `message` to the caller, which raises it or stores it in the error label of the CALL statement. `code` MUST be 1000 or higher, otherwise INVALID_ARGUMENT is raised. The `context` and `line` of the error are those of the CALL statement. | ERROR |

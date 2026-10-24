@@ -750,7 +750,7 @@ def code_block_textures(blocks: Path) -> None:
     write_png(TEXTURES / "item" / "structural_base.png", structural)
 
 
-def card(border: int | None) -> Image:
+def card(border: int | None, markings: bool = True) -> Image:
     """A punch card: cream with light gray markings and the upper right corner cut off, optionally framed."""
     image = blank()
     for y in range(2, 14):
@@ -758,7 +758,7 @@ def card(border: int | None) -> Image:
             if x - y > 10:
                 continue  # the cut corner
             image[y][x] = rgb(0xFFFEE9)
-    for y in (5, 8, 11):
+    for y in (5, 8, 11) if markings else ():
         for x in range(3, 12, 2):
             image[y][x] = rgb(0xCCCCCC)
     if border is not None:
@@ -790,7 +790,7 @@ TYPE_ITEM_ICONS = [
 def item_textures() -> None:
     items = TEXTURES / "item"
     write_png(items / "data_item.png", card(None))
-    write_png(items / "variable_item.png", card(0x5555FF))
+    write_png(items / "variable_item.png", card(0x5555FF, markings=False))
     write_png(items / "constant_item.png", card(0xFF55FF))
     for type_name, name, color in TYPE_ITEM_ICONS:
         image = card(0xCC2222)

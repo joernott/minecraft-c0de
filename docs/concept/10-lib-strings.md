@@ -8,20 +8,20 @@ The library `c0de/strings` contains all string and character functions except LE
 
 | Function | Parameters | Results | Description | AmigaBASIC |
 |---|---|---|---|---|
-| LEFT | text STRING, length INTEGER | result STRING | The first `length` characters of `text`, or the whole text if it is shorter. | LEFT$ |
-| RIGHT | text STRING, length INTEGER | result STRING | The last `length` characters of `text`, or the whole text if it is shorter. | RIGHT$ |
-| MID | text STRING, start INTEGER, length INTEGER (default: rest of the text) | result STRING | `length` characters of `text`, beginning at position `start`. Returns fewer characters at the end of the text and an empty string if `start` is behind the end. | MID$ function |
-| REPLACE | text STRING, start INTEGER, insert STRING | result STRING | Overwrites the characters of `text` beginning at position `start` with `insert`. The length of `text` does not change; characters of `insert` that would extend it are dropped. | MID$ statement |
-| INSTR | text STRING, search STRING, start INTEGER (default 0) | result INTEGER | Position of the first occurrence of `search` in `text`, searching from position `start`. -1 if it is not found. | INSTR |
+| LEFT | text STRING, length INTEGER | result STRING | The first `length` characters of `text`, or the whole text if it is shorter. A negative `length` raises INVALID_ARGUMENT. | LEFT$ |
+| RIGHT | text STRING, length INTEGER | result STRING | The last `length` characters of `text`, or the whole text if it is shorter. A negative `length` raises INVALID_ARGUMENT. | RIGHT$ |
+| MID | text STRING, start INTEGER, length INTEGER (default: rest of the text) | result STRING | `length` characters of `text`, beginning at position `start`. Returns fewer characters at the end of the text and an empty string if `start` is behind the end. A negative `start` or `length` raises INVALID_ARGUMENT. | MID$ function |
+| REPLACE | text STRING, start INTEGER, insert STRING | result STRING | Overwrites the characters of `text` beginning at position `start` with `insert`. The length of `text` does not change; characters of `insert` that would extend it are dropped. `start` MUST be between 0 and the length of `text`, otherwise INVALID_ARGUMENT is raised. | MID$ statement |
+| INSTR | text STRING, search STRING, start INTEGER (default 0) | result INTEGER | Position of the first occurrence of `search` in `text`, searching from position `start`. -1 if it is not found. A negative `start` raises INVALID_ARGUMENT. | INSTR |
 | UCASE | text STRING | result STRING | `text` with all lowercase letters converted to uppercase. | UCASE$ |
 | LCASE | text STRING | result STRING | `text` with all uppercase letters converted to lowercase. | – |
 | SPACE | count INTEGER | result STRING | A string of `count` spaces. `count` MUST be between 0 and 1,000,000. | SPACE$ |
 | FILL | count INTEGER, char CHAR | result STRING | A string of `count` copies of `char`. `count` MUST be between 0 and 1,000,000. | STRING$ |
 | ASC | char CHAR | result INTEGER | The Unicode code point of `char`. | ASC |
-| CHR | code INTEGER | result CHAR | The character with the Unicode code point `code`. | CHR$ |
+| CHR | code INTEGER | result CHAR | The character with the Unicode code point `code`. A number that is not a Unicode code point (0 to 1114111, hexadecimal 10FFFF) raises INVALID_ARGUMENT. | CHR$ |
 | STR | value BOOLEAN\|INTEGER\|FLOAT\|CHAR\|TIME | result STRING | Text representation of `value`, the same as used by the ⊕ operator. | STR$ |
 | FORMAT | value BOOLEAN\|INTEGER\|FLOAT\|CHAR\|STRING\|TIME, format STRING | result STRING | Formats `value` according to the format string `format`, see [FORMAT](#format). | DATE$, TIME$, PRINT USING |
-| VAL | text STRING | value FLOAT, isInteger BOOLEAN | Converts a text to a number. `isInteger` is true if the text contains an integer number, which can be converted with FIX without loss. Raises INVALID_ARGUMENT if the text is not a number. | VAL |
+| VAL | text STRING | value FLOAT, isInteger BOOLEAN | Converts a text to a number. `isInteger` is true if the text contains an integer number (only digits and an optional sign) that fits into an INTEGER, which can be converted with FIX. Spaces before and after the number are ignored. Raises INVALID_ARGUMENT if the text is not a number. | VAL |
 | HEX | value INTEGER | result STRING | Hexadecimal representation of `value` in uppercase letters. Negative values are shown in two's complement, e.g. `FFFFFFFFFFFFFFFF` for -1. | HEX$ |
 | OCT | value INTEGER | result STRING | Octal representation of `value`. Negative values are shown in two's complement. | OCT$ |
 

@@ -38,9 +38,11 @@ The player guide explains everything step by step, with example programs:
 - [Tools and items](https://github.com/joernott/minecraft-c0de/blob/main/docs/guide/04-tools.md)
 - [Libraries](https://github.com/joernott/minecraft-c0de/blob/main/docs/guide/05-libraries.md)
 - [Examples](https://github.com/joernott/minecraft-c0de/blob/main/docs/guide/06-examples.md)
+- [Reference](https://github.com/joernott/minecraft-c0de/blob/main/docs/reference/index.md): a page for every block, item and function
+- [Writing libraries](https://github.com/joernott/minecraft-c0de/blob/main/docs/library-development.md): for mod developers who want to add c0de libraries
 
 ## Requirements
 
 - Minecraft 1.21.1
 - **Fabric** with [Fabric API](https://modrinth.com/mod/fabric-api), or **NeoForge**
-- Optional: [Patchouli](https://modrinth.com/mod/patchouli) adds an in-game guide book with the player guide. Every player gets it on the first join; more copies are crafted from a book and a PROGRAM block.
+- Optional: [Patchouli](https://modrinth.com/mod/patchouli) adds an in-game guide book with the player guide. Every player gets it on the first join; more copies are crafted from a book and a PROGRAM block. Five handbooks (Data, Statements, Tools, Triggers and Functions) describe every block, item and function on a page of its own.

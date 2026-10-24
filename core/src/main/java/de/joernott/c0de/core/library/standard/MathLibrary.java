@@ -29,6 +29,12 @@ import java.util.function.DoubleUnaryOperator;
 public final class MathLibrary implements Library {
     public static final String NAME = "c0de/math";
 
+    private static IntegerValue integerPart(NativeCall call, java.util.function.DoubleUnaryOperator rounding) {
+        return call.argument("value") instanceof IntegerValue integer
+                ? integer
+                : new IntegerValue(toLong(rounding.applyAsDouble(number(call, "value"))));
+    }
+
     private static final List<NativeFunction.Parameter> NUMBER_VALUE =
             List.of(required("value", "INTEGER|FLOAT", NUMBER));
 
@@ -54,9 +60,10 @@ public final class MathLibrary implements Library {
             .add("COS", NUMBER_VALUE, floats(Math::cos))
             .add("TAN", NUMBER_VALUE, floats(Math::tan))
             .add("ATN", NUMBER_VALUE, floats(Math::atan))
-            .add("INT", NUMBER_VALUE, call -> new IntegerValue(toLong(Math.floor(number(call, "value")))))
-            .add("FIX", NUMBER_VALUE, call -> new IntegerValue(toLong(number(call, "value"))))
-            .add("ROUND", NUMBER_VALUE, call -> new IntegerValue(toLong(Math.rint(number(call, "value")))))
+            // An INTEGER is returned unchanged; converting it to a double would lose precision above 2^53
+            .add("INT", NUMBER_VALUE, call -> integerPart(call, Math::floor))
+            .add("FIX", NUMBER_VALUE, call -> integerPart(call, value -> value))
+            .add("ROUND", NUMBER_VALUE, call -> integerPart(call, Math::rint))
             .add("TO_FLOAT", NUMBER_VALUE, call -> new FloatValue(number(call, "value")))
             .add(
                     "DIV",

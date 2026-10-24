@@ -66,6 +66,9 @@ class MathAndTimeLibraryTest {
         assertEquals(integer(14), math("ROUND", floating(13.5)));
         assertEquals(integer(-2), math("ROUND", floating(-2.5)));
         assertEquals(integer(3), math("ROUND", integer(3)), "INTEGER values are accepted");
+        // INTEGER values are returned unchanged, also beyond the precision of a FLOAT
+        assertEquals(integer(Long.MAX_VALUE), math("INT", integer(Long.MAX_VALUE)));
+        assertEquals(integer(9007199254740993L), math("FIX", integer(9007199254740993L)));
         assertCode(ErrorCode.NUMERIC_OVERFLOW, () -> math("FIX", floating(1e19)));
         assertEquals(floating(4.0), math("TO_FLOAT", integer(4)));
     }

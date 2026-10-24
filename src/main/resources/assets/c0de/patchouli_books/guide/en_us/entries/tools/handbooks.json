@@ -1,0 +1,16 @@
+{
+  "name": "Handbooks",
+  "icon": "c0de:hammer",
+  "category": "c0de:tools",
+  "sortnum": 17,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "With Patchouli, there are five more red books: handbooks with one page per block, item or function. Each page has a short description, the crafting recipe and an example."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(l)Data$(): crafted from a book and a type base$(li)$(l)Statements$(): a book and a structural base$(li)$(l)Tools$(): a book and a wrench$(li)$(l)Triggers$(): a book and a trigger block$(li)$(l)Functions$(): a book and a FUNCTION block"
+    }
+  ]
+}

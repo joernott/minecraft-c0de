@@ -409,3 +409,25 @@ The MD documentation also should have an image for every crafting recipe and loo
 I want to use the hammer tool on completely empty lines, too.
 
 When left clicking the cursor with the debug tool, it should say the instruction line in the chat to the person who clicked, highlighting in red, when elements are missing or wrong.
+
+## 2026-10-24 – Concept and code, library docs, PRINT/WRITE/INPUT, display, I/O block, laptop and tablet
+
+Please bring the concept in line with the code.
+I ran the gabe and tested the 4 things:
+1: Yes
+2: Yes, they do. Please add the documentation for the new books
+3. yes
+4. yes
+
+Please remove the lines from the "Variable" items texture. 
+Please also add a documentation on how to write c0de libraries in other mods so that they register with c0de
+
+I also want to add some core functions and three more blocks that can be placed everywhere and another Item:
+- The main functions are PRINT, WRITE and INPUT. Print and wrrite need an expression after its keyword and Input needs the name of a declared variable. They will be used to interacct with the following blocks and items. Please also add the screen related functions from AmigaBASIC we did not implement due to the lack of a screen. 
+- The first block is a display block that can be assembled with other display blocks into a flat horizontal or vertical multiblock structure. It has one borderless front side that is a very dark gray. The remaining sides usually have the texture of an iron block but can be camouflaged. The block can be rotated around the axis going through a face by left clicking that face with a wrench. If another block is placed next to an existing block, it will try to choose the same direction. The blocks connect seamlessly and can be used by the game to output data. Each block can be connected to a program/function in a similar way to a trigger but all connected blocs automatically share that data. Please use the font https://github.com/IdreesInc/Monocraft or use it as as a reference to ensure that text written on the blocks are in a monospace font. Its content will be influenced by the PRINT and other screen related elements. 8 items should be crafted from a central glowstone dust with a redstone dust on its left. the remaining 7 spots are filled with iron nuggets. 
+
+- The next block is an I/O block that looks like a retextured hopper. It is linked to a program/function in the same way, a trigger is. It accepts inputs in the form of Variable/Constant/Literal items. When an INPUT statement is encountered and a variable with the correct/name/type is in any of the connected I/O blocks input inventory, that item will be read. Otherwise, the input function will wait for an item placed into any I/O blocks or the user to enter an input on a laptop or tablet. If multiple I/O blocks have a valid input, the I/O blocks that has been connected earlier will take precedence.  The matching item in the input inventory will be consumed as its value is passed to the program and an uninitialized variable will be placed inthe blocks output inventory, if the input was a variable. If the input is a constant, it will remain unchanged when appearing in the output inventory. As literals don't have a name, the first literal matching the required type will be taken from the input inventory and an empty literal item will be placed in the output inventory. The WRITE function should take an uninitialized variable item from the input inventory of each connected I/O block and put a variable item containing the WRITE functions output into the blocks output inventory. If none of the I/O blocks have uninitialized variables in their input, the function waits for the player to provide it. The shapeless recipe for the bock should be a data item combined with a hopper.
+
+- The last block should look like an open Laptop. It can be bound to a program/function. When right clicking it, it will open a text terminal that uses the same monospace font as the display block and also outputs the same thing as a display would. While the display is limited by the number of adjacent blocks, the terminal should have scroll bar. Below the display is a single input line that becomes available when an input is requested. This does not require items, just a user typing. A Laptop does not interact with WRITE. A Laptop can be crafted from a display block and an I/O block. It can also be crafted from a tablet item.
+
+- The tablet is the mobile variant of a laptop. when having the item in hand, left clicking with it opens the dialog. A tablet can be crafted from a laptop block.

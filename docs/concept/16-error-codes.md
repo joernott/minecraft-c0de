@@ -31,12 +31,12 @@
 | 301 | UNKNOWN_STRUCT_ENTITY | raise | A declaration references a struct that has not been declared (yet), or an index references an element the struct does not have. Raised when it occurs at run time, crash when it occurs in a declaration. |
 | 302 | TYPE_MISMATCH | raise | A value does not have the type required at this place. |
 | 303 | DIVISION_BY_ZERO | raise | A division or modulus by 0. |
-| 304 | NUMERIC_OVERFLOW | raise | An INTEGER result does not fit into 64 bits. |
+| 304 | NUMERIC_OVERFLOW | raise | An INTEGER result does not fit into 64 bits, e.g. ABS of the smallest INTEGER, DIV of the smallest INTEGER by -1, or INT, FIX or ROUND of a number too big for an INTEGER. |
 | 305 | INDEX_OUT_OF_BOUNDS | raise | An array or string index is outside of the valid range. |
 | 306 | UNKNOWN_KEY | raise | A hash does not contain the requested key. |
 | 307 | STRING_TOO_LONG | raise | A value exceeds the length limit of a STRING. Crash when it occurs in a declaration. |
 | 308 | INVALID_LOOP_STEP | raise | The increment of a FOR loop is 0. |
-| 309 | INVALID_ARGUMENT | raise | A built-in or library function received a parameter value outside of its valid range. |
+| 309 | INVALID_ARGUMENT | raise | A built-in or library function received a parameter value outside of its valid range (e.g. a negative length, an unknown instrument, item or dimension), or a parameter it needs in this case is missing (e.g. `index` or `key` of REMOVE). |
 | 310 | CHUNK_NOT_LOADED | raise | A library function accessed a position in a chunk that is not loaded. |
-| 311 | PERMISSION_DENIED | raise | A library function is not permitted for the owner of the trigger block. |
+| 311 | PERMISSION_DENIED | raise | A library function is not permitted for the owner of the trigger block, or it would change a block on the sheets of the c0de dimension. |
 | ≥1000 | user-defined | raise | Errors raised by programs. |
