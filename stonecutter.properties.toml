@@ -9,8 +9,8 @@ mod.authors = "Jörn Ott"
 mod.license = "BSD-3-Clause"
 mod.sources_url = "https://github.com/joernott/minecraft-c0de"
 mod.issues_url = "https://github.com/joernott/minecraft-c0de/issues"
-# The ID of the Modrinth project (task 11.12); empty until the project exists, which keeps publishMods a dry run
-publish.modrinth_id = ""
+# The ID of the Modrinth project (task 11.12); publishMods is a dry run without it or without MODRINTH_TOKEN
+publish.modrinth_id = "T9RufCc0"
 
 deps.fabric_loader = "0.19.5"
 loomx.loom_version = "1.18-SNAPSHOT"
