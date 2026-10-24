@@ -40,6 +40,12 @@ Every line of a sheet that contains blocks shows its number (its z coordinate) o
 
 The state is stored in the block state `incomplete` of the language blocks, next to `valid`.
 
+## Sheet owners
+
+The player who changes an unowned sheet first, by placing or breaking a block, with a tool, in a dialog or by importing a program with the c0de disk, becomes its owner. Only the owner and administrators (operators with permission level 2 or higher) can change a sheet; other players get a message with the name of the owner, and the dialogs of its blocks open read-only for them. A sheet whose first line becomes empty holds no program and has no owner any more. The owners are stored with the dimension (`c0de_sheet_owners.dat`).
+
+Together with the rule for restricted functions ([Owner and permissions](12-lib-minecraft.md#owner-and-permissions)), this keeps other players from changing a program that runs with the rights of an administrator.
+
 ## Entering and leaving the dimension
 
 A player enters the c0de dimension by right-clicking a [trigger block](13-running-programs.md#trigger-blocks) (of any kind) with a [wrench](14-items-and-tools.md#wrench). The player is teleported

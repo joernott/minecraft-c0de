@@ -5,10 +5,13 @@ import de.joernott.c0de.content.C0deBlocks;
 import de.joernott.c0de.content.C0deItems;
 import de.joernott.c0de.dimension.C0deDimension;
 import de.joernott.c0de.item.ValueItem;
+import de.joernott.c0de.sheet.SheetOwners;
 import de.joernott.c0de.sheet.SheetValidation;
 import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.players.ServerOpListEntry;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LeverBlock;
@@ -104,6 +107,55 @@ public final class LibraryTests {
             } finally {
                 sheet.clear();
                 SheetValidation.validate(c0de, 530);
+            }
+            helper.succeed();
+        });
+    }
+
+    /**
+     * The trigger block of an administrator doesn't give administrator rights to a program on the sheet of another
+     * player (task 11.11): REMOVE_BLOCK is denied.
+     */
+    public static void administratorsRunOnlyTheirOwnPrograms(GameTestHelper helper) {
+        ServerLevel c0de = helper.getLevel().getServer().getLevel(C0deDimension.LEVEL);
+        SheetBuilder sheet = new SheetBuilder(c0de, 536).place(PROGRAM);
+        SheetValidation.validate(c0de, 536);
+        ServerPlayer author = helper.makeMockServerPlayerInLevel();
+        ServerPlayer admin = helper.makeMockServerPlayerInLevel();
+        helper.getLevel().getServer().getPlayerList().getOps().add(new ServerOpListEntry(admin.getGameProfile(), 4, false));
+        SheetOwners.get(c0de).check(author, 536, true);
+        helper.setBlock(new BlockPos(2, 0, 0), Blocks.STONE);
+        helper.setBlock(new BlockPos(2, 1, 0), Blocks.LEVER.defaultBlockState().setValue(LeverBlock.FACE, AttachFace.FLOOR));
+        BlockPos lever = helper.absolutePos(new BlockPos(2, 1, 0));
+        helper.setBlock(BlockPos.ZERO, C0deBlocks.TRIGGER_BLOCK.get());
+        TriggerBlockEntity trigger = (TriggerBlockEntity) helper.getBlockEntity(BlockPos.ZERO);
+        trigger.configure(admin, "worldtest", "run", 20);
+        trigger.input().setItem(0, variable(
+                "lever",
+                "STRUCT c0de/minecraft/POSITION",
+                "{\"x\": %d, \"y\": %d, \"z\": %d, \"dimension\": \"\"}"
+                        .formatted(lever.getX(), lever.getY(), lever.getZ())));
+        for (int i = 1; i <= 4; i++) {
+            trigger.input().setItem(i, variable("", "", ""));
+        }
+        trigger.start();
+        helper.assertTrue(trigger.isRunning(), "The process didn't start: " + trigger.status());
+        helper.runAfterDelay(40, () -> {
+            try {
+                helper.assertTrue(!trigger.isRunning(), "The process is still running");
+                String denied = "";
+                for (int i = 0; i < trigger.output().getContainerSize(); i++) {
+                    ValueItem.Contents result = ValueItem.Contents.of(trigger.output().getItem(i));
+                    if (result.name().equals("denied")) {
+                        denied = result.value();
+                    }
+                }
+                helper.assertTrue(denied.equals("311"), "REMOVE_BLOCK returned " + denied + " instead of 311");
+                helper.assertTrue(helper.getLevel().getBlockState(lever).is(Blocks.LEVER), "The lever was removed");
+            } finally {
+                helper.getLevel().getServer().getPlayerList().getOps().remove(admin.getGameProfile());
+                sheet.clear();
+                SheetValidation.validate(c0de, 536);
             }
             helper.succeed();
         });

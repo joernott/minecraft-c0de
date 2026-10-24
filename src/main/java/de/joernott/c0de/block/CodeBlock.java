@@ -47,7 +47,7 @@ public class CodeBlock extends Block {
         if (state == null || !LevelSheet.isOnSheet(level, pos)) {
             return state;
         }
-        Optional<Component> running = SheetProtection.reason(level, pos);
+        Optional<Component> running = SheetProtection.reason(context.getPlayer(), level, pos, true);
         if (running.isPresent()) {
             if (context.getPlayer() != null) {
                 context.getPlayer().displayClientMessage(running.get(), true);

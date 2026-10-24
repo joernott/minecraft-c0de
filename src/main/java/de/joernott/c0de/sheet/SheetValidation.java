@@ -89,6 +89,10 @@ public final class SheetValidation {
             C0de.LOGGER.debug("Sheet {} not validated: a part of it is not loaded", sheet);
             return Optional.empty();
         }
+        if (lines.get().size() == 0) {
+            // Without its first line, the sheet holds no program
+            SheetOwners.get(level).release(sheet);
+        }
         Validation validation = Validator.validate(lines.get(), ModLibraries.registry());
         ProgramRegistry registry = ProgramRegistry.get(level);
         String name = validation.programName();

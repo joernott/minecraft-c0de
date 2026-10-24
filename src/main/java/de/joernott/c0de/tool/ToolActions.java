@@ -308,7 +308,7 @@ public final class ToolActions {
     }
 
     private static boolean isProtected(ServerPlayer player, ServerLevel level, BlockPos pos) {
-        Optional<Component> reason = SheetProtection.reason(level, pos);
+        Optional<Component> reason = SheetProtection.reason(player, level, pos, true);
         reason.ifPresent(message -> player.displayClientMessage(message, true));
         return reason.isPresent();
     }

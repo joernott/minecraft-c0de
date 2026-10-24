@@ -132,6 +132,16 @@ public class NeoForgeGameTests {
     }
 
     @GameTest(template = "empty")
+    public static void sheetsBelongToTheirOwners(GameTestHelper helper) {
+        ToolTests.sheetsBelongToTheirOwners(helper);
+    }
+
+    @GameTest(template = "empty")
+    public static void administratorsRunOnlyTheirOwnPrograms(GameTestHelper helper) {
+        LibraryTests.administratorsRunOnlyTheirOwnPrograms(helper);
+    }
+
+    @GameTest(template = "empty")
     public static void ioBlocksExchangeItems(GameTestHelper helper) {
         IoTests.ioBlocksExchangeItems(helper);
     }

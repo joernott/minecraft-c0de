@@ -19,9 +19,12 @@ import de.joernott.c0de.core.value.StructDefinition;
 import de.joernott.c0de.core.value.StructValue;
 import de.joernott.c0de.core.value.Type;
 import de.joernott.c0de.core.value.Value;
+import de.joernott.c0de.dimension.C0deDimension;
 import de.joernott.c0de.entity.CursorEntity;
 import de.joernott.c0de.entity.MarkEntity;
 import de.joernott.c0de.sheet.LevelSheet;
+import de.joernott.c0de.sheet.ProgramRegistry;
+import de.joernott.c0de.sheet.SheetOwners;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -36,6 +39,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -325,18 +329,36 @@ public final class MinecraftLibrary implements Library {
         return item.get();
     }
 
-    /** True if the owner of the process is an administrator (permission level 2 or higher). */
+    /**
+     * True if the owner of the process is an administrator (permission level 2 or higher) and the program is theirs:
+     * its sheet belongs to them, to another administrator or to nobody (blocks placed by commands). Otherwise a
+     * player could write a program with the name of an administrator's program and run it with their trigger.
+     */
     private static boolean isAdministrator(ProcessHost host) {
-        if (host.owner() == null) {
+        if (!isAdministrator(host.server(), host.owner())) {
             return false;
         }
-        ServerPlayer online = host.server().getPlayerList().getPlayer(host.owner());
+        ServerLevel c0de = host.server().getLevel(C0deDimension.LEVEL);
+        if (c0de == null) {
+            return true;
+        }
+        java.util.OptionalInt sheet = ProgramRegistry.get(c0de).sheetOf(host.program());
+        Optional<SheetOwners.Owner> author =
+                sheet.isPresent() ? SheetOwners.get(c0de).owner(sheet.getAsInt()) : Optional.empty();
+        return author.map(a -> a.id().equals(host.owner()) || isAdministrator(host.server(), a.id()))
+                .orElse(true);
+    }
+
+    /** True if the player is an administrator (permission level 2 or higher), online or not. */
+    private static boolean isAdministrator(MinecraftServer server, UUID player) {
+        if (player == null) {
+            return false;
+        }
+        ServerPlayer online = server.getPlayerList().getPlayer(player);
         Optional<GameProfile> profile = online != null
                 ? Optional.of(online.getGameProfile())
-                : host.server().getProfileCache() == null
-                        ? Optional.empty()
-                        : host.server().getProfileCache().get(host.owner());
-        return profile.map(p -> host.server().getProfilePermissions(p) >= 2).orElse(false);
+                : server.getProfileCache() == null ? Optional.empty() : server.getProfileCache().get(player);
+        return profile.map(p -> server.getProfilePermissions(p) >= 2).orElse(false);
     }
 
     /** Raises PERMISSION_DENIED unless the group of the function is allowed or the owner is an administrator. */

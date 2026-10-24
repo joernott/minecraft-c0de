@@ -11,6 +11,7 @@ import de.joernott.c0de.network.OpenDialogPayload;
 import de.joernott.c0de.platform.Platform;
 import de.joernott.c0de.sheet.LevelSheet;
 import de.joernott.c0de.sheet.ProgramRegistry;
+import de.joernott.c0de.sheet.SheetOwners;
 import de.joernott.c0de.sheet.SheetValidation;
 import de.joernott.c0de.sheet.SheetWriter;
 import java.io.IOException;
@@ -157,6 +158,10 @@ public final class DiskService {
                 return show(player, pos, List.of("The sheet is not empty (line " + z + ")"));
             }
         }
+        Optional<Component> owner = SheetOwners.get(level).check(player, sheet, false);
+        if (owner.isPresent()) {
+            return show(player, pos, List.of(owner.get().getString()));
+        }
         Map<Item, Integer> needed = SheetWriter.items(lines);
         if (!player.isCreative()) {
             List<String> missing = new ArrayList<>();
@@ -174,6 +179,7 @@ public final class DiskService {
             needed.forEach((item, count) -> player.getInventory()
                     .clearOrCountMatchingItems(stack -> stack.is(item), count, player.inventoryMenu.getCraftSlots()));
         }
+        SheetOwners.get(level).check(player, sheet, true);
         SheetWriter.place(level, sheet, lines);
         level.playSound(null, pos, SoundEvents.STONE_PLACE, SoundSource.BLOCKS, 1.0F, 0.8F);
         SheetValidation.validate(level, sheet);

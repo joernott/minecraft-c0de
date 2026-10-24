@@ -257,6 +257,8 @@ MESSAGES = [
     ("message.c0de.inserted", "Empty line inserted in front of line %s", "Leere Zeile vor Zeile %s eingefügt"),
     ("message.c0de.no_last_mark", "Mark or unmark a line on this sheet with a left click first",
      "Markiere zuerst eine Zeile auf diesem Blatt mit einem Linksklick oder entferne ihre Markierung"),
+    ("message.c0de.sheet_owner", "This sheet belongs to %s; only they and administrators can change it",
+     "Dieses Blatt gehört %s; nur diese Person und Administratoren können es ändern"),
     ("message.c0de.protected", "The program %s is running (PID %s), its sheet can't be changed",
      "Das Programm %s läuft (PID %s), sein Blatt kann nicht geändert werden"),
     ("message.c0de.exported", "Program %s saved to the disk", "Programm %s auf der Diskette gespeichert"),

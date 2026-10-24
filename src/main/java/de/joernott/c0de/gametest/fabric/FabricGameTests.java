@@ -128,6 +128,16 @@ public class FabricGameTests implements FabricGameTest {
     }
 
     @GameTest(template = SmokeTests.EMPTY_STRUCTURE)
+    public void sheetsBelongToTheirOwners(GameTestHelper helper) {
+        ToolTests.sheetsBelongToTheirOwners(helper);
+    }
+
+    @GameTest(template = SmokeTests.EMPTY_STRUCTURE)
+    public void administratorsRunOnlyTheirOwnPrograms(GameTestHelper helper) {
+        LibraryTests.administratorsRunOnlyTheirOwnPrograms(helper);
+    }
+
+    @GameTest(template = SmokeTests.EMPTY_STRUCTURE)
     public void ioBlocksExchangeItems(GameTestHelper helper) {
         IoTests.ioBlocksExchangeItems(helper);
     }

@@ -6,11 +6,13 @@ import de.joernott.c0de.content.C0deBlocks;
 import de.joernott.c0de.content.C0deItems;
 import de.joernott.c0de.content.CodeBlockType;
 import de.joernott.c0de.core.edit.LineMoves;
+import de.joernott.c0de.dialog.SheetProtection;
 import de.joernott.c0de.dimension.C0deDimension;
 import de.joernott.c0de.item.ValueItem;
 import de.joernott.c0de.process.ProcessManager;
 import de.joernott.c0de.sheet.SheetEditor;
 import de.joernott.c0de.sheet.SheetMarks;
+import de.joernott.c0de.sheet.SheetOwners;
 import de.joernott.c0de.sheet.SheetValidation;
 import de.joernott.c0de.tool.Inspector;
 import java.util.List;
@@ -267,5 +269,42 @@ public final class ToolTests {
         de.joernott.c0de.tool.ToolActions.resetCooldown(player);
         de.joernott.c0de.tool.ToolActions.perform(
                 player, c0de(helper), new de.joernott.c0de.network.ToolPayload(pos, -1), false);
+    }
+
+    /**
+     * The player who changes an empty sheet first owns it (task 11.11): other players can't change it and see its
+     * dialogs read-only, administrators can; an emptied sheet has no owner any more.
+     */
+    public static void sheetsBelongToTheirOwners(GameTestHelper helper) {
+        ServerLevel level = c0de(helper);
+        SheetBuilder sheet = new SheetBuilder(level, 534).place("""
+                PROGRAM owned
+                NOOP
+                """);
+        BlockPos pos = sheet.pos(5, 0);
+        ServerPlayer owner = helper.makeMockServerPlayerInLevel();
+        ServerPlayer other = helper.makeMockServerPlayerInLevel();
+        ServerPlayer admin = helper.makeMockServerPlayerInLevel();
+        // op() would use the operator level of the GameTest server, which is 0
+        helper.getLevel().getServer().getPlayerList().getOps()
+                .add(new net.minecraft.server.players.ServerOpListEntry(admin.getGameProfile(), 4, false));
+        try {
+            helper.assertTrue(SheetProtection.reason(owner, level, pos, true).isEmpty(), "The first player was refused");
+            helper.assertTrue(
+                    SheetOwners.get(level).owner(534).map(o -> o.id().equals(owner.getUUID())).orElse(false),
+                    "The first player doesn't own the sheet");
+            helper.assertTrue(SheetProtection.reason(other, level, pos, true).isPresent(), "Another player may change it");
+            // The dialogs open read-only for the same reason, without claiming the sheet
+            helper.assertTrue(SheetProtection.reason(other, level, pos, false).isPresent(), "The dialog isn't read-only");
+            helper.assertTrue(SheetProtection.reason(admin, level, pos, true).isEmpty(), "The administrator was refused");
+            sheet.clear();
+            SheetValidation.validate(level, 534);
+            helper.assertTrue(SheetOwners.get(level).owner(534).isEmpty(), "The empty sheet still has an owner");
+        } finally {
+            helper.getLevel().getServer().getPlayerList().getOps().remove(admin.getGameProfile());
+            sheet.clear();
+            SheetValidation.validate(level, 534);
+        }
+        helper.succeed();
     }
 }

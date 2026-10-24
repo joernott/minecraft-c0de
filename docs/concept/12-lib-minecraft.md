@@ -26,7 +26,7 @@ The library provides the following struct types:
 
 Every trigger block has an owner: the player who configured it last. All functions of the library act on behalf of this player.
 
-Functions that change the world are restricted. A function of a restricted group can only be used if the owner is an administrator (operator with permission level 2 or higher) or if the group is enabled in the configuration file of the mod:
+Functions that change the world are restricted. A function of a restricted group can only be used if the owner is an administrator (operator with permission level 2 or higher) or if the group is enabled in the configuration file of the mod. The rights of an administrator only count for programs on sheets that belong to them, to another administrator or to nobody ([Sheet owners](01-dimension.md#sheet-owners)); otherwise another player could write a program with the name of an administrator's program and run it with the administrator's trigger block. Anyone may activate a trigger block, like a command block, but only its owner's rights count:
 
 | Configuration key | Default | Functions |
 |---|---|---|

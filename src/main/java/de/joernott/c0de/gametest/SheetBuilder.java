@@ -7,6 +7,7 @@ import de.joernott.c0de.core.line.Line;
 import de.joernott.c0de.core.line.Notation;
 import de.joernott.c0de.core.sheet.SheetGeometry;
 import de.joernott.c0de.sheet.LevelSheet;
+import de.joernott.c0de.sheet.SheetOwners;
 import de.joernott.c0de.sheet.SheetWriter;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -35,6 +36,8 @@ final class SheetBuilder {
     SheetBuilder(ServerLevel level, int sheet) {
         this.level = level;
         this.sheet = sheet;
+        // The mock players of earlier runs, which may have claimed the sheet, don't exist any more
+        SheetOwners.get(level).release(sheet);
         int chunkX = SheetGeometry.absoluteX(sheet, 0) >> 4;
         for (int chunkZ = 0; chunkZ < 3; chunkZ++) {
             for (ChunkPos chunk : List.of(new ChunkPos(chunkX, chunkZ), new ChunkPos(chunkX + 1, chunkZ))) {

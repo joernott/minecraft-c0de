@@ -130,7 +130,10 @@ public final class DialogService {
             return null;
         }
         return new OpenDialogPayload(
-                pos, entity.dialog(), SheetProtection.isProtected(level, pos), entity.dialogData(level));
+                pos,
+                entity.dialog(),
+                SheetProtection.reason(player, level, pos, false).isPresent(),
+                entity.dialogData(level));
     }
 
     /**
@@ -143,8 +146,9 @@ public final class DialogService {
         if (!level.isLoaded(pos) || !player.canInteractWithBlock(pos, REACH_TOLERANCE)) {
             return Optional.of("The block is too far away");
         }
-        if (SheetProtection.isProtected(level, pos)) {
-            return Optional.of("A process of the program is running");
+        Optional<Component> protection = SheetProtection.reason(player, level, pos, true);
+        if (protection.isPresent()) {
+            return Optional.of(protection.get().getString());
         }
         if (!(level.getBlockEntity(pos) instanceof PropertiesBlockEntity entity)) {
             return Optional.of("The block has no properties");
