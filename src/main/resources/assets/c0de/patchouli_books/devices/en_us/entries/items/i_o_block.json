@@ -10,7 +10,11 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Right-click it to open its dialog. It has 9 input slots and 9 output slots. The input takes only variable, constant and literal items. You can only take items out of the output. The button \"Binding\" opens the binding dialog.$(br2)Hoppers fill the input and empty the output. A comparator reads how full the output is."
+      "text": "Right-click it to open its dialog. It has 18 input slots and 18 output slots. The input takes only variable, constant and literal items. You can only take items out of the output. The Program and Function buttons and ✔ bind the block, like on a display block."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Hoppers fill the input and empty the output. A comparator reads how full the output is."
     },
     {
       "type": "patchouli:crafting",
@@ -23,7 +27,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "$(1)PROGRAM doubling$(br)NOOP$(br)NOOP$(br)FUNCTION double$(br)BEGIN$(br)  VARIABLE number INTEGER$(br)  INPUT number$(br)  WRITE number * 2 ;$(br)END FUNCTION$()"
+      "text": "$(1)PROGRAM doubling$(br)NOOP$(br)NOOP$(br)FUNCTION double$(br)BEGIN$(br)  VARIABLE number INTEGER$(br)  CALL INPUT$(br)    PARAMETER variable number ;$(br)  CALL WRITE$(br)    PARAMETER value number * 2 ;$(br)END FUNCTION$()"
     }
   ]
 }

@@ -11,7 +11,7 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
  *
  * @param action {@code line} (a line typed for INPUT), {@code key} (a key typed for INKEY), {@code bind} (a new
  *     binding) or {@code close}
- * @param text the line, the key or the program
+ * @param text the line, the key, the program or (when closing) the ID of the terminal
  * @param function the function of a new binding
  */
 public record TerminalActionPayload(String action, String text, String function) implements CustomPacketPayload {

@@ -1,8 +1,8 @@
 {
   "name": "POS",
   "icon": "minecraft:book",
-  "category": "c0de:screen_functions",
-  "sortnum": 3,
+  "category": "c0de:input_and_output",
+  "sortnum": 6,
   "pages": [
     {
       "type": "patchouli:text",

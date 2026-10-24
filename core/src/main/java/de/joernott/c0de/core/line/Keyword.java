@@ -26,9 +26,6 @@ public enum Keyword {
     EACH,
     WHILE,
     REPEAT,
-    PRINT,
-    WRITE,
-    INPUT,
     // Types. STRUCT is also the keyword of a struct declaration.
     BOOLEAN,
     INTEGER,

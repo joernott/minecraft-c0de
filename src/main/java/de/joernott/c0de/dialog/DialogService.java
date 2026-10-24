@@ -5,7 +5,6 @@ import de.joernott.c0de.blockentity.PropertiesBlockEntity;
 import de.joernott.c0de.core.edit.ItemRules;
 import de.joernott.c0de.core.validation.Validation;
 import de.joernott.c0de.dimension.C0deDimension;
-import de.joernott.c0de.io.Bindable;
 import de.joernott.c0de.item.LiteralItem;
 import de.joernott.c0de.item.ValueItem;
 import de.joernott.c0de.library.ModLibraries;
@@ -127,13 +126,6 @@ public final class DialogService {
     /** The payload that opens the dialog, or null if the block has no dialog. */
     public static OpenDialogPayload payload(ServerPlayer player, BlockPos pos) {
         ServerLevel level = player.serverLevel();
-        if (level.getBlockEntity(pos) instanceof Bindable device) {
-            CompoundTag data = new CompoundTag();
-            data.putString("program", device.program());
-            data.putString("function", device.function());
-            data.put("programs", programs(player));
-            return new OpenDialogPayload(pos, "device", false, data);
-        }
         if (!(level.getBlockEntity(pos) instanceof PropertiesBlockEntity entity)) {
             return null;
         }
@@ -150,17 +142,6 @@ public final class DialogService {
         ServerLevel level = player.serverLevel();
         if (!level.isLoaded(pos) || !player.canInteractWithBlock(pos, REACH_TOLERANCE)) {
             return Optional.of("The block is too far away");
-        }
-        if (level.getBlockEntity(pos) instanceof Bindable device) {
-            String program = payload.properties().getString("program");
-            String function = payload.properties().getString("function");
-            CompoundTag programs = programs(player);
-            if (!program.isEmpty()
-                    && !programs.getList(program, net.minecraft.nbt.Tag.TAG_STRING).contains(StringTag.valueOf(function))) {
-                return Optional.of("The program " + program + " has no function " + function);
-            }
-            device.bind(level, program, program.isEmpty() ? "" : function);
-            return Optional.empty();
         }
         if (SheetProtection.isProtected(level, pos)) {
             return Optional.of("A process of the program is running");

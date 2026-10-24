@@ -12,14 +12,16 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 
 /**
- * The dialog of an I/O block: the input inventory (variable, constant and literal items), the output inventory
- * (only taking) and the player inventory. The binding is shown and changed with the dialog of devices.
+ * The dialog of an I/O block, laid out like that of the trigger block: the input inventory (variable, constant and
+ * literal items), the output inventory (only taking) and the player inventory on the left, the binding on the
+ * right.
  */
 public class IoMenu extends AbstractContainerMenu {
     public static final int SLOT = 18;
-    public static final int INPUT_Y = 42;
-    public static final int OUTPUT_Y = INPUT_Y + SLOT + 14;
-    public static final int PLAYER_Y = OUTPUT_Y + SLOT + 14;
+    public static final int ROWS = IoBlockEntity.SIZE / 9;
+    public static final int INPUT_Y = 18;
+    public static final int OUTPUT_Y = INPUT_Y + ROWS * SLOT + 14;
+    public static final int PLAYER_Y = OUTPUT_Y + ROWS * SLOT + 14;
     public static final int HOTBAR_Y = PLAYER_Y + 3 * SLOT + 4;
     private static final int CONTAINER_SLOTS = 2 * IoBlockEntity.SIZE;
 
@@ -43,7 +45,7 @@ public class IoMenu extends AbstractContainerMenu {
         this.data = data;
         this.pos = block != null ? block.getBlockPos() : BlockPos.of(data.getLong("pos"));
         for (int i = 0; i < IoBlockEntity.SIZE; i++) {
-            addSlot(new Slot(input, i, 8 + i * SLOT, INPUT_Y) {
+            addSlot(new Slot(input, i, 8 + i % 9 * SLOT, INPUT_Y + i / 9 * SLOT) {
                 @Override
                 public boolean mayPlace(ItemStack stack) {
                     return IoBlockEntity.accepts(stack);
@@ -51,7 +53,7 @@ public class IoMenu extends AbstractContainerMenu {
             });
         }
         for (int i = 0; i < IoBlockEntity.SIZE; i++) {
-            addSlot(new Slot(output, i, 8 + i * SLOT, OUTPUT_Y) {
+            addSlot(new Slot(output, i, 8 + i % 9 * SLOT, OUTPUT_Y + i / 9 * SLOT) {
                 @Override
                 public boolean mayPlace(ItemStack stack) {
                     return false;
@@ -72,13 +74,9 @@ public class IoMenu extends AbstractContainerMenu {
         return pos;
     }
 
-    /** The binding when the dialog was opened: program and function, empty if the block is not bound. */
-    public String program() {
-        return data.getString("program");
-    }
-
-    public String function() {
-        return data.getString("function");
+    /** The binding when the dialog was opened and the programs to choose from. */
+    public CompoundTag data() {
+        return data;
     }
 
     @Override

@@ -1,0 +1,28 @@
+{
+  "name": "WRITE",
+  "icon": "minecraft:book",
+  "category": "c0de:input_and_output",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Puts a value into the I/O blocks as a variable item."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Each bound I/O block with an uninitialized variable item in its input gets the value. The item moves to the output. It is named after $(1)name$(). Without $(1)name$(), it is named after the variable, like $(1)count$() for $(1)PARAMETER value count ;$(). Otherwise it is named $(1)output$()."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "If no bound I/O block has an uninitialized variable item, the cursor waits until a player puts one in. Laptops and tablets don't take part in WRITE."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)value$() any type: the value to write$(li)$(1)name$() STRING: the name of the item (optional)"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL WRITE$(br)  PARAMETER value count + step ;$(br)  PARAMETER name \"total\" ;$()"
+    }
+  ]
+}

@@ -10,11 +10,11 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Right-click it to open its terminal. The screen has 48 columns and 20 rows. Rows that scroll off the top stay in a history of 200 rows. Scroll with the mouse wheel or the scroll bar."
+      "text": "Right-click it to open its terminal. Left-click it with the wrench to turn it. The screen has 48 columns and 20 rows. Rows that scroll off the top stay in a history of 200 rows. Scroll with the mouse wheel or the scroll bar."
     },
     {
       "type": "patchouli:text",
-      "text": "At the top, two buttons pick the program and the function. ✔ binds the laptop. Below the screen is the input line. It only works while an INPUT waits, and it shows what INPUT asks for, like $(1)INPUT count (INTEGER):$()."
+      "text": "At the top, two buttons pick the program and the function. ✔ binds the laptop and closes the terminal. Below the screen is the input line. It only works while an INPUT waits, and it shows what INPUT asks for, like $(1)INPUT count (INTEGER):$()."
     },
     {
       "type": "patchouli:text",
@@ -39,7 +39,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "$(1)PROGRAM typing$(br)NOOP$(br)NOOP$(br)FUNCTION ask$(br)BEGIN$(br)  VARIABLE count INTEGER$(br)  INPUT count$(br)  PRINT count * 2 ;$(br)END FUNCTION$()"
+      "text": "$(1)PROGRAM typing$(br)NOOP$(br)NOOP$(br)FUNCTION ask$(br)BEGIN$(br)  VARIABLE count INTEGER$(br)  CALL INPUT$(br)    PARAMETER variable count ;$(br)  CALL PRINT$(br)    PARAMETER value count * 2 ;$(br)END FUNCTION$()"
     }
   ]
 }

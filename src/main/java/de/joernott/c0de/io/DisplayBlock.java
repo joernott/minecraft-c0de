@@ -1,24 +1,19 @@
 package de.joernott.c0de.io;
 
 import com.mojang.serialization.MapCodec;
-import de.joernott.c0de.dialog.DialogService;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.InteractionHand;
+import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -30,10 +25,10 @@ import net.minecraft.world.phys.BlockHitResult;
 
 /**
  * The display block (docs/concept/19-input-output.md): its front shows the screen of its wall. Right-clicking it
- * with an empty hand opens the binding dialog; right-clicking it with a block camouflages its other sides, and
- * sneaking with an empty hand removes the camouflage. The wrench turns it (ToolActions).
+ * with an empty hand opens its dialog with the binding and the camouflage slot, whose block covers its other
+ * sides. The wrench turns it (ToolActions).
  */
-public class DisplayBlock extends BaseEntityBlock implements EntityBlock {
+public class DisplayBlock extends BaseEntityBlock {
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
     public static final BooleanProperty CAMOUFLAGED = BooleanProperty.create("camouflaged");
     private static final MapCodec<DisplayBlock> CODEC = simpleCodec(DisplayBlock::new);
@@ -98,9 +93,7 @@ public class DisplayBlock extends BaseEntityBlock implements EntityBlock {
                 removedOrigin = pos;
                 removedScreen = entity.screen() == null ? null : ScreenNbt.write(entity.screen());
             }
-            if (entity.camouflage() != null) {
-                Block.popResource(level, pos, new ItemStack(entity.camouflage()));
-            }
+            Containers.dropContents(level, pos, entity.camouflage());
         }
         super.onRemove(state, level, pos, newState, movedByPiston);
         if (level instanceof ServerLevel serverLevel) {
@@ -116,43 +109,10 @@ public class DisplayBlock extends BaseEntityBlock implements EntityBlock {
     }
 
     @Override
-    protected ItemInteractionResult useItemOn(
-            ItemStack stack,
-            BlockState state,
-            Level level,
-            BlockPos pos,
-            Player player,
-            InteractionHand hand,
-            BlockHitResult hitResult) {
-        if (stack.getItem() instanceof BlockItem item
-                && !(item.getBlock() instanceof EntityBlock)
-                && item.getBlock().defaultBlockState().isCollisionShapeFullBlock(level, pos)
-                && !state.getValue(CAMOUFLAGED)) {
-            if (!level.isClientSide() && level.getBlockEntity(pos) instanceof DisplayBlockEntity entity) {
-                entity.setCamouflage(item.getBlock());
-                level.setBlock(pos, state.setValue(CAMOUFLAGED, true), Block.UPDATE_ALL);
-                stack.consume(1, player);
-            }
-            return ItemInteractionResult.sidedSuccess(level.isClientSide());
-        }
-        return stack.isEmpty()
-                ? ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION
-                : ItemInteractionResult.SKIP_DEFAULT_BLOCK_INTERACTION;
-    }
-
-    @Override
     protected InteractionResult useWithoutItem(
             BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
-        if (player.isShiftKeyDown() && state.getValue(CAMOUFLAGED)) {
-            if (!level.isClientSide() && level.getBlockEntity(pos) instanceof DisplayBlockEntity entity) {
-                Block.popResource(level, pos.relative(hitResult.getDirection()), new ItemStack(entity.camouflage()));
-                entity.setCamouflage(null);
-                level.setBlock(pos, state.setValue(CAMOUFLAGED, false), Block.UPDATE_ALL);
-            }
-            return InteractionResult.sidedSuccess(level.isClientSide());
-        }
-        if (player instanceof ServerPlayer serverPlayer) {
-            DialogService.open(serverPlayer, pos);
+        if (player instanceof ServerPlayer serverPlayer && level.getBlockEntity(pos) instanceof DisplayBlockEntity entity) {
+            entity.openMenu(serverPlayer);
         }
         return InteractionResult.sidedSuccess(level.isClientSide());
     }

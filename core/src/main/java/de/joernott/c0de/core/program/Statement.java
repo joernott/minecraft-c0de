@@ -155,25 +155,6 @@ public sealed interface Statement {
 
     record Exit(int line, Expression code) implements Statement {}
 
-    /**
-     * PRINT statement: writes the value on the screens (docs/concept/19-input-output.md).
-     *
-     * @param endLine z coordinate of the last line (continuation lines of the expression)
-     */
-    record Print(int line, Expression value, int endLine) implements Statement {}
-
-    /**
-     * WRITE statement: writes the value into the I/O blocks.
-     *
-     * @param name the name of the variable items: the name of the label if the expression is a single label,
-     *     otherwise {@code output}
-     * @param endLine z coordinate of the last line (continuation lines of the expression)
-     */
-    record Write(int line, Expression value, String name, int endLine) implements Statement {}
-
-    /** INPUT statement: reads a value from an I/O block or a terminal into a variable. */
-    record Input(int line, LabelRef target) implements Statement {}
-
     /** A code block: the lines from BEGIN to END. */
     record CodeBlock(int beginLine, List<Statement> statements, int endLine) {
         public CodeBlock {

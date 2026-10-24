@@ -1,9 +1,0 @@
-{
-  "parent": "minecraft:block/slab",
-  "textures": {
-    "bottom": "c0de:block/input_block_symbol",
-    "top": "c0de:block/input_block",
-    "side": "c0de:block/input_block_side"
-  },
-  "render_type": "minecraft:cutout"
-}

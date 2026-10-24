@@ -14,9 +14,9 @@ The display block shows the text of PRINT on its front.
 
 One display block has 16 columns and 8 rows. Display blocks next to each other in a flat rectangle, all facing the same way, form a display wall with one big screen. A wall of 4 × 2 blocks has 64 columns and 16 rows. A wall can stand upright or lie flat.
 
-Right-click a display block with an empty hand to bind it: pick a program and a function. Binding one block binds the whole wall. A new block that joins a wall takes its binding.
+Right-click a display block with an empty hand to open its dialog. Click the Program and Function buttons until they show your program and function. Then click ✔ to bind the block. Binding one block binds the whole wall. A new block that joins a wall takes its binding.
 
-Left-click it with the wrench to rotate it. Right-click it with a full block to camouflage its sides. Sneak and right-click it with an empty hand to remove the camouflage.
+The dialog also has a camouflage slot. Put a full block into it, and the sides of the display block take on its look. Take it out to remove the camouflage. Each block of a wall has its own camouflage. Left-click a display block with the wrench to rotate it.
 
 **Recipe**
 
@@ -37,7 +37,8 @@ BEGIN
     CALL CLS
     CALL COLOR
         PARAMETER foreground 14 ;
-    PRINT "Welcome!" ;
+    CALL PRINT
+        PARAMETER value "Welcome!" ;
 END FUNCTION
 ```
 
@@ -45,9 +46,9 @@ END FUNCTION
 
 A laptop is a block with a screen and a keyboard. Players type the values for INPUT on it.
 
-Right-click it to open its terminal. The screen has 48 columns and 20 rows. Rows that scroll off the top stay in a history of 200 rows. Scroll with the mouse wheel or the scroll bar.
+Right-click it to open its terminal. Left-click it with the wrench to turn it. The screen has 48 columns and 20 rows. Rows that scroll off the top stay in a history of 200 rows. Scroll with the mouse wheel or the scroll bar.
 
-At the top, two buttons pick the program and the function. ✔ binds the laptop. Below the screen is the input line. It only works while an INPUT waits, and it shows what INPUT asks for, like `INPUT count (INTEGER):`.
+At the top, two buttons pick the program and the function. ✔ binds the laptop and closes the terminal. Below the screen is the input line. It only works while an INPUT waits, and it shows what INPUT asks for, like `INPUT count (INTEGER):`.
 
 Press Enter to send the line. The line appears on the screen. Text that doesn't fit the type is refused with a line starting with `? `, and INPUT keeps waiting. Keys typed while no INPUT waits are kept for INKEY. Enter arrives there as CHR 13.
 
@@ -72,8 +73,10 @@ NOOP
 FUNCTION ask
 BEGIN
     VARIABLE count INTEGER
-    INPUT count
-    PRINT count * 2 ;
+    CALL INPUT
+        PARAMETER variable count ;
+    CALL PRINT
+        PARAMETER value count * 2 ;
 END FUNCTION
 ```
 
@@ -101,7 +104,7 @@ These items carry values between players and programs.
 
 The I/O block takes values for INPUT and gives out values from WRITE.
 
-Right-click it to open its dialog. It has 9 input slots and 9 output slots. The input takes only variable, constant and literal items. You can only take items out of the output. The button "Binding" opens the binding dialog.
+Right-click it to open its dialog. It has 18 input slots and 18 output slots. The input takes only variable, constant and literal items. You can only take items out of the output. The Program and Function buttons and ✔ bind the block, like on a display block.
 
 Hoppers fill the input and empty the output. A comparator reads how full the output is.
 
@@ -122,8 +125,10 @@ NOOP
 FUNCTION double
 BEGIN
     VARIABLE number INTEGER
-    INPUT number
-    WRITE number * 2 ;
+    CALL INPUT
+        PARAMETER variable number ;
+    CALL WRITE
+        PARAMETER value number * 2 ;
 END FUNCTION
 ```
 

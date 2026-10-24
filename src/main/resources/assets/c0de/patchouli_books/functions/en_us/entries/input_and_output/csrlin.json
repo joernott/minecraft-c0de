@@ -1,8 +1,8 @@
 {
   "name": "CSRLIN",
   "icon": "minecraft:book",
-  "category": "c0de:screen_functions",
-  "sortnum": 2,
+  "category": "c0de:input_and_output",
+  "sortnum": 5,
   "pages": [
     {
       "type": "patchouli:text",

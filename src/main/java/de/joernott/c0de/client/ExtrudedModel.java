@@ -141,8 +141,7 @@ public final class ExtrudedModel implements BakedModel {
             case "assign_block" -> new ExtrudedModel(model, new double[][] {{0, 0}, {0, 16}, {16, 8}});
             case "for_block", "each_block", "while_block", "repeat_block" -> new ExtrudedModel(model, circle());
             case "if_block", "else_block" -> new ExtrudedModel(model, new double[][] {{8, 0}, {0, 8}, {8, 16}, {16, 8}});
-            case "tag_block", "exit_block", "break_block", "function_block", "return_block", "call_block",
-                    "print_block", "write_block", "input_block" ->
+            case "tag_block", "exit_block", "break_block", "function_block", "return_block", "call_block" ->
                 new ExtrudedModel(model, SQUARE);
             default -> path.startsWith("type_") && path.endsWith("_block") ? new ExtrudedModel(model, SQUARE) : model;
         };

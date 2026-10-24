@@ -1,0 +1,24 @@
+{
+  "name": "INPUT",
+  "icon": "minecraft:book",
+  "category": "c0de:input_and_output",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Reads a value into a variable."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)variable$() must be the name of one declared variable, without index. A constant or loop variable doesn't work. The function writes into the variable directly. It first looks into the bound I/O blocks for an item with the same name and type, or a literal item of the right type. Otherwise it waits until a player types a line on a bound laptop or tablet."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)variable$() variable: the variable that receives the value$(li)no results"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)PROGRAM typing$(br)NOOP$(br)NOOP$(br)FUNCTION ask$(br)BEGIN$(br)  VARIABLE count INTEGER$(br)  CALL INPUT$(br)    PARAMETER variable count ;$(br)  CALL PRINT$(br)    PARAMETER value count * 2 ;$(br)END FUNCTION$()"
+    }
+  ]
+}

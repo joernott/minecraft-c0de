@@ -12,7 +12,7 @@ import de.joernott.c0de.dialog.DialogService;
 import de.joernott.c0de.item.LiteralItem;
 import de.joernott.c0de.item.ValueItem;
 import de.joernott.c0de.item.TabletItem;
-import de.joernott.c0de.network.OpenDevicePayload;
+import de.joernott.c0de.network.BindPayload;
 import de.joernott.c0de.network.OpenTabletPayload;
 import de.joernott.c0de.network.TerminalActionPayload;
 import de.joernott.c0de.network.TerminalPayload;
@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -40,18 +41,40 @@ public final class IoService {
 
     /** Registers the payloads of the devices. Called once when the mod is initialized. */
     public static void register() {
-        Platform.INSTANCE.registerServerbound(OpenDevicePayload.TYPE, OpenDevicePayload.CODEC, (payload, player) -> {
-            if (player.serverLevel().isLoaded(payload.pos())
-                    && player.canInteractWithBlock(payload.pos(), REACH_TOLERANCE)) {
-                DialogService.open(player, payload.pos());
-            }
-        });
+        Platform.INSTANCE.registerServerbound(BindPayload.TYPE, BindPayload.CODEC, (payload, player) -> bind(
+                        player, payload)
+                .ifPresent(problem -> player.displayClientMessage(
+                        Component.translatable("message.c0de.not_saved", problem), true)));
         Platform.INSTANCE.registerClientbound(TerminalPayload.TYPE, TerminalPayload.CODEC);
         Platform.INSTANCE.registerServerbound(
                 TerminalActionPayload.TYPE, TerminalActionPayload.CODEC, (payload, player) -> act(player, payload));
         Platform.INSTANCE.registerServerbound(
                 OpenTabletPayload.TYPE, OpenTabletPayload.CODEC, (payload, player) -> TabletItem.open(player));
         Terminals.register();
+    }
+
+    /** Binds a display or I/O block as chosen in its dialog; returns the reason if it was not bound. */
+    private static Optional<String> bind(ServerPlayer player, BindPayload payload) {
+        ServerLevel level = player.serverLevel();
+        if (!level.isLoaded(payload.pos()) || !player.canInteractWithBlock(payload.pos(), REACH_TOLERANCE)) {
+            return Optional.of("The block is too far away");
+        }
+        if (!(level.getBlockEntity(payload.pos()) instanceof Bindable device)) {
+            return Optional.of("The block can't be bound");
+        }
+        if (!hasFunction(player, payload.program(), payload.function())) {
+            return Optional.of("The program " + payload.program() + " has no function " + payload.function());
+        }
+        device.bind(level, payload.program(), payload.program().isEmpty() ? "" : payload.function());
+        return Optional.empty();
+    }
+
+    /** True for an empty program (no binding) or a program with the function. */
+    private static boolean hasFunction(ServerPlayer player, String program, String function) {
+        return program.isEmpty()
+                || DialogService.programs(player)
+                        .getList(program, net.minecraft.nbt.Tag.TAG_STRING)
+                        .contains(net.minecraft.nbt.StringTag.valueOf(function));
     }
 
     /** What a player did in the terminal they have open. */
@@ -64,14 +87,14 @@ public final class IoService {
         switch (payload.action()) {
             case "line" -> terminals.line(terminal, payload.text());
             case "key" -> terminals.key(terminal, payload.text());
-            case "close" -> terminals.close(player);
+            case "close" -> {
+                if (terminal.id().toString().equals(payload.text())) {
+                    terminals.close(player);
+                }
+            }
             case "bind" -> {
-                String program = payload.text();
-                if (program.isEmpty()
-                        || DialogService.programs(player)
-                                .getList(program, net.minecraft.nbt.Tag.TAG_STRING)
-                                .contains(net.minecraft.nbt.StringTag.valueOf(payload.function()))) {
-                    terminals.bind(player.server, terminal, program, payload.function());
+                if (hasFunction(player, payload.text(), payload.function())) {
+                    terminals.bind(player.server, terminal, payload.text(), payload.function());
                 }
             }
             default -> {

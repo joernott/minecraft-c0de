@@ -148,9 +148,74 @@ CALL RAISE
     PARAMETER message "too big" ;
 ```
 
-## Screen functions
+## Input and output
 
-Screen functions work on the screens of displays, laptops and tablets and need no INCLUDE. They come from AmigaBASIC. Rows and columns start at 0.
+These built-in functions talk to players through displays, laptops, tablets and I/O blocks. They need no INCLUDE. The devices are bound to the program and function, see the handbook Devices. The screen functions come from AmigaBASIC. Rows and columns start at 0.
+
+### PRINT
+
+Writes a value on the screens and starts a new line.
+
+The text appears on every display, laptop and tablet bound to the program and function. Strings are printed without quotes, BOOLEAN values as `TRUE` and `FALSE`. Arrays, hashes and structs are printed as JSON. To print several values on one line, join them with ⊕. Without a bound screen, PRINT does nothing.
+
+**Parameters and results**
+
+- `value` any type: the value to print
+
+**Example**
+
+```c0de
+CALL PRINT
+    PARAMETER value "Hello" ;
+```
+
+### WRITE
+
+Puts a value into the I/O blocks as a variable item.
+
+Each bound I/O block with an uninitialized variable item in its input gets the value. The item moves to the output. It is named after `name`. Without `name`, it is named after the variable, like `count` for `PARAMETER value count ;`. Otherwise it is named `output`.
+
+If no bound I/O block has an uninitialized variable item, the cursor waits until a player puts one in. Laptops and tablets don't take part in WRITE.
+
+**Parameters and results**
+
+- `value` any type: the value to write
+- `name` STRING: the name of the item (optional)
+
+**Example**
+
+```c0de
+CALL WRITE
+    PARAMETER value count + step ;
+    PARAMETER name "total" ;
+```
+
+### INPUT
+
+Reads a value into a variable.
+
+`variable` must be the name of one declared variable, without index. A constant or loop variable doesn't work. The function writes into the variable directly. It first looks into the bound I/O blocks for an item with the same name and type, or a literal item of the right type. Otherwise it waits until a player types a line on a bound laptop or tablet.
+
+**Parameters and results**
+
+- `variable` variable: the variable that receives the value
+- no results
+
+**Example**
+
+```c0de
+PROGRAM typing
+NOOP
+NOOP
+FUNCTION ask
+BEGIN
+    VARIABLE count INTEGER
+    CALL INPUT
+        PARAMETER variable count ;
+    CALL PRINT
+        PARAMETER value count * 2 ;
+END FUNCTION
+```
 
 ### CLS
 

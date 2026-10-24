@@ -1,6 +1,7 @@
 package de.joernott.c0de.io;
 
 import de.joernott.c0de.content.C0deBlockEntities;
+import de.joernott.c0de.dialog.DialogService;
 import de.joernott.c0de.item.LiteralItem;
 import de.joernott.c0de.item.ValueItem;
 import de.joernott.c0de.platform.Platform;
@@ -26,13 +27,13 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
 /**
- * The I/O block (docs/concept/19-input-output.md): its binding and its input and output inventories of 9 slots.
+ * The I/O block (docs/concept/19-input-output.md): its binding and its input and output inventories of 18 slots.
  * INPUT reads variable, constant and literal items from the input inventory, WRITE takes uninitialized variable
  * items from it, and both put their items into the output inventory. Hoppers and pipes reach the inventories
  * from all sides: they put items into the input and take them out of the output.
  */
 public class IoBlockEntity extends BlockEntity implements Bindable, MenuProvider, WorldlyContainer {
-    public static final int SIZE = 9;
+    public static final int SIZE = 18;
     private static final int[] SLOTS = IntStream.range(0, 2 * SIZE).toArray();
 
     private final SimpleContainer input = container();
@@ -104,6 +105,7 @@ public class IoBlockEntity extends BlockEntity implements Bindable, MenuProvider
         data.putLong("pos", worldPosition.asLong());
         data.putString("program", program);
         data.putString("function", function);
+        data.put("programs", DialogService.programs(player));
         Platform.INSTANCE.openMenu(player, this, data);
     }
 

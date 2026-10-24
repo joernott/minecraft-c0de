@@ -44,10 +44,7 @@ public enum CodeBlockType {
     FOR(Keyword.FOR),
     EACH(Keyword.EACH),
     WHILE(Keyword.WHILE),
-    REPEAT(Keyword.REPEAT),
-    PRINT(Keyword.PRINT),
-    WRITE(Keyword.WRITE),
-    INPUT(Keyword.INPUT);
+    REPEAT(Keyword.REPEAT);
 
     private final Keyword keyword;
     private final Shape shape;

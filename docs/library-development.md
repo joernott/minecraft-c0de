@@ -149,7 +149,7 @@ A `NativeFunction` has a name (without library), its parameters, the names of it
 
   `types` describes the accepted types for error messages, e.g. `"INTEGER|FLOAT"`. `accepts` checks a value; a value it refuses raises TYPE_MISMATCH at the CALL. `Values` has helpers, e.g. `Values::isNumber`.
 - **Results** are named; a CALL assigns them with `RESULT name variable`. A single result is usually called `result`.
-- **The implementation** receives a `NativeCall`: `argument(name)` is the value of a parameter (or its default), `tags(name)` the tags of the variable that provided it, `process()` the random generator, the clock, the time zone and the `host()` of the process.
+- **The implementation** receives a `NativeCall`: `argument(name)` is the value of a parameter (or its default), `tags(name)` the tags of the variable that provided it, `label(name)` its name (an `Optional<String>`, present if the PARAMETER expression is a single LABEL without index; WRITE names its item after it), `process()` the random generator, the clock, the time zone and the `host()` of the process.
 
 It returns a `NativeResult`:
 
@@ -157,6 +157,7 @@ It returns a `NativeResult`:
 - `NativeResult.of(value)`: the single result `result`; `NativeResult.of(Map.of("a", …, "b", …))` for several.
 - `NativeResult.error(code, message)`: returns an error to the caller, like RETURN with an error label.
 - `NativeResult.waitSteps(n)`: the cursor waits `n` steps before it continues (see below).
+- `NativeResult.waitForValue()`: the function can't finish yet; the cursor stays on the CALL line and calls the function again in the next step (see below).
 
 ## Values and types
 
@@ -171,6 +172,8 @@ A function reports an error by throwing `C0deException.of(code, message)` with a
 ## Waiting
 
 A function must not block the server. If it starts something that takes time, it returns `NativeResult.waitSteps(n)`: the cursor waits `n` steps (one step per tick) and then continues with the next line. To check later whether the work is done, offer a second function that the program calls in a loop.
+
+If the function waits for something it can't predict, it returns `NativeResult.waitForValue()`: no results are delivered, the cursor stays on the CALL line and calls the function again in the next step, with the PARAMETER expressions evaluated again, until it returns something else. INPUT uses this while it waits for a value, WRITE while no I/O block has an uninitialized variable item. Each call must still return quickly.
 
 ## The world and permissions
 

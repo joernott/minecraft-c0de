@@ -45,9 +45,6 @@ The language blocks are as high as a slab. Most of them are slabs with their sym
 | EACH | dark green #00AA00 | shape: a cylinder with a lime circular arrow, square on the top | structural base + cobblestone; FOR |
 | WHILE | dark green #00AA00 | shape: a cylinder with a lime circular arrow, ? on the top | structural base + diorite; REPEAT |
 | REPEAT | dark green #00AA00 | shape: a cylinder with a lime square, ? on the top | structural base + granite; WHILE |
-| PRINT | blue #5555FF | a screen with text | NOOP + glow ink sac |
-| WRITE | blue #5555FF | a pen | NOOP + ink sac |
-| INPUT | blue #5555FF | an arrow into a box | NOOP + tripwire hook |
 | trigger block | – | golden ball | copper, glass, gold ingot → 8 |
 | timer block | – | clock | copper, glass, clock → 8 |
 | debug trigger block | – | red ball | copper, glass, redstone block → 1 |

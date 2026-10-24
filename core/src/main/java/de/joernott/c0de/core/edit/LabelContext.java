@@ -51,7 +51,7 @@ public record LabelContext(LabelKind kind, LabelMode mode, String parent) {
                         sheet.programName());
             case CALL -> new LabelContext(LabelKind.FUNCTION, LabelMode.FUNCTION, sheet.programName());
             case PARAMETER, RESULT -> parameterOrResult(sheet, x, z, keyword);
-            case ASSIGN, INPUT -> TARGET;
+            case ASSIGN -> TARGET;
             default -> REFERENCE;
         };
     }

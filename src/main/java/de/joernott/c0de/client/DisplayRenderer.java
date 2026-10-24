@@ -6,18 +6,25 @@ import de.joernott.c0de.C0de;
 import de.joernott.c0de.core.io.TextScreen;
 import de.joernott.c0de.io.DisplayBlock;
 import de.joernott.c0de.io.DisplayBlockEntity;
+import java.util.ArrayList;
+import java.util.List;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.block.state.BlockState;
 import org.joml.Matrix4f;
 
 /**
@@ -46,10 +53,9 @@ public class DisplayRenderer implements BlockEntityRenderer<DisplayBlockEntity> 
     @Override
     public void render(
             DisplayBlockEntity entity, float partialTick, PoseStack pose, MultiBufferSource buffers, int light, int overlay) {
-        if (entity.camouflage() != null) {
-            Minecraft.getInstance()
-                    .getBlockRenderer()
-                    .renderSingleBlock(entity.camouflage().defaultBlockState(), pose, buffers, light, overlay);
+        BlockState camouflage = entity.camouflageState();
+        if (camouflage != null) {
+            renderCamouflage(camouflage, entity.getBlockState().getValue(DisplayBlock.FACING), pose, buffers, light, overlay);
         }
         TextScreen screen = entity.screen();
         if (!entity.isOrigin() || screen == null) {
@@ -63,6 +69,36 @@ public class DisplayRenderer implements BlockEntityRenderer<DisplayBlockEntity> 
         pose.translate(-0.5F - entity.offsetRight(), 0.5F + entity.offsetDown(), 0.505F);
         draw(screen, entity.wallWidth(), entity.wallHeight(), pose, buffers, font);
         pose.popPose();
+    }
+
+    /**
+     * Draws the camouflage block without its face on the front of the display, so that it doesn't flicker with the
+     * front from far away.
+     */
+    private static void renderCamouflage(
+            BlockState state, Direction front, PoseStack pose, MultiBufferSource buffers, int light, int overlay) {
+        Minecraft minecraft = Minecraft.getInstance();
+        BakedModel model = minecraft.getBlockRenderer().getBlockModel(state);
+        VertexConsumer consumer = buffers.getBuffer(ItemBlockRenderTypes.getRenderType(state, false));
+        RandomSource random = RandomSource.create(42);
+        List<BakedQuad> quads = new ArrayList<>();
+        for (Direction side : Direction.values()) {
+            if (side != front) {
+                random.setSeed(42);
+                quads.addAll(model.getQuads(state, side, random));
+            }
+        }
+        random.setSeed(42);
+        model.getQuads(state, null, random).stream()
+                .filter(quad -> quad.getDirection() != front)
+                .forEach(quads::add);
+        for (BakedQuad quad : quads) {
+            int color = quad.isTinted() ? minecraft.getBlockColors().getColor(state, null, null, quad.getTintIndex()) : -1;
+            float red = (color >> 16 & 0xFF) / 255.0F;
+            float green = (color >> 8 & 0xFF) / 255.0F;
+            float blue = (color & 0xFF) / 255.0F;
+            consumer.putBulkData(pose.last(), quad, red, green, blue, 1.0F, light, overlay);
+        }
     }
 
     /**

@@ -27,7 +27,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 /**
  * The laptop (docs/concept/19-input-output.md): an open laptop whose screen faces the player who placed it.
- * Right-clicking it opens its terminal, with the screen, the input line and the binding.
+ * Right-clicking it opens its terminal, with the screen, the input line and the binding. The wrench turns it.
  */
 public class LaptopBlock extends BaseEntityBlock {
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
@@ -85,6 +85,14 @@ public class LaptopBlock extends BaseEntityBlock {
             terminals.open(serverPlayer, terminals.terminal(laptop.terminal()));
         }
         return InteractionResult.sidedSuccess(level.isClientSide());
+    }
+
+    /** Turns the laptop clockwise, seen from above (left click with the wrench). */
+    public static void turn(ServerLevel level, BlockPos pos) {
+        BlockState state = level.getBlockState(pos);
+        if (state.getBlock() instanceof LaptopBlock) {
+            level.setBlock(pos, state.setValue(FACING, state.getValue(FACING).getClockWise()), Block.UPDATE_ALL);
+        }
     }
 
     @Override

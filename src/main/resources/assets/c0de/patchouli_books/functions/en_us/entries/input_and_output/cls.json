@@ -1,8 +1,8 @@
 {
   "name": "CLS",
   "icon": "minecraft:book",
-  "category": "c0de:screen_functions",
-  "sortnum": 0,
+  "category": "c0de:input_and_output",
+  "sortnum": 3,
   "pages": [
     {
       "type": "patchouli:text",

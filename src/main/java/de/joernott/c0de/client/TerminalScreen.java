@@ -102,8 +102,10 @@ public class TerminalScreen extends Screen {
                 })
                 .bounds(left + buttonWidth + 2, top - TOP + 2, buttonWidth, 18)
                 .build());
-        save = addRenderableWidget(Button.builder(Component.literal("✔").withStyle(ChatFormatting.GREEN), button ->
-                        Platform.INSTANCE.sendToServer(new TerminalActionPayload("bind", program, function)))
+        save = addRenderableWidget(Button.builder(Component.literal("✔").withStyle(ChatFormatting.GREEN), button -> {
+                    Platform.INSTANCE.sendToServer(new TerminalActionPayload("bind", program, function));
+                    onClose();
+                })
                 .bounds(left + screenWidth + SCROLL_BAR + BORDER - 20, top - TOP + 2, 20, 18)
                 .build());
         input = addRenderableWidget(new EditBox(
@@ -328,7 +330,8 @@ public class TerminalScreen extends Screen {
 
     @Override
     public void removed() {
-        Platform.INSTANCE.sendToServer(new TerminalActionPayload("close", "", ""));
+        // The ID: a terminal opened again before this one was closed stays open
+        Platform.INSTANCE.sendToServer(new TerminalActionPayload("close", id.toString(), ""));
         super.removed();
     }
 }

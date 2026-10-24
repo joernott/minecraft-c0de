@@ -1,9 +1,0 @@
-{
-  "parent": "minecraft:block/slab",
-  "textures": {
-    "bottom": "c0de:block/write_block_symbol",
-    "top": "c0de:block/write_block",
-    "side": "c0de:block/write_block_side"
-  },
-  "render_type": "minecraft:cutout"
-}

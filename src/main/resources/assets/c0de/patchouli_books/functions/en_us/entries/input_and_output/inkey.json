@@ -1,8 +1,8 @@
 {
   "name": "INKEY",
   "icon": "minecraft:book",
-  "category": "c0de:screen_functions",
-  "sortnum": 5,
+  "category": "c0de:input_and_output",
+  "sortnum": 8,
   "pages": [
     {
       "type": "patchouli:text",

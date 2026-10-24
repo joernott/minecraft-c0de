@@ -1,0 +1,24 @@
+{
+  "name": "PRINT",
+  "icon": "minecraft:book",
+  "category": "c0de:input_and_output",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Writes a value on the screens and starts a new line."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "The text appears on every display, laptop and tablet bound to the program and function. Strings are printed without quotes, BOOLEAN values as $(1)TRUE$() and $(1)FALSE$(). Arrays, hashes and structs are printed as JSON. To print several values on one line, join them with ⊕. Without a bound screen, PRINT does nothing."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)value$() any type: the value to print"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL PRINT$(br)  PARAMETER value \"Hello\" ;$()"
+    }
+  ]
+}

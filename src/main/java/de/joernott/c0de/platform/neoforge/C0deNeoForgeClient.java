@@ -42,6 +42,7 @@ public final class C0deNeoForgeClient {
                 event -> {
                     event.register(C0deMenus.TRIGGER.get(), TriggerScreen::new);
                     event.register(C0deMenus.IO.get(), de.joernott.c0de.client.IoScreen::new);
+                    event.register(C0deMenus.DISPLAY.get(), de.joernott.c0de.client.DisplayScreen::new);
                 });
         net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
                 net.neoforged.neoforge.client.event.InputEvent.InteractionKeyMappingTriggered.class, event -> {

@@ -18,7 +18,7 @@ import java.util.Map;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
-/** PRINT, WRITE, INPUT and the screen functions (docs/concept/19-input-output.md). */
+/** The built-in functions PRINT, WRITE, INPUT and the screen functions (docs/concept/19-input-output.md). */
 class CursorIoTest {
     /** A console with one screen, values to read and room for a number of writes. */
     private static final class TestConsole implements Console {
@@ -99,8 +99,10 @@ class CursorIoTest {
                 FUNCTION main
                 BEGIN
                     VARIABLE count INTEGER 41
-                    PRINT "Hello" ;
-                    PRINT count + 1 ;
+                    CALL PRINT
+                        PARAMETER value "Hello" ;
+                    CALL PRINT
+                        PARAMETER value count + 1 ;
                 END FUNCTION
                 """, console);
         cursor.run(100);
@@ -117,7 +119,8 @@ class CursorIoTest {
                     RESULT doubled INTEGER
                 BEGIN
                     VARIABLE count INTEGER
-                    INPUT count
+                    CALL INPUT
+                        PARAMETER variable count ;
                     ASSIGN doubled count * 2 ;
                 END FUNCTION
                 """, console);
@@ -131,24 +134,21 @@ class CursorIoTest {
     }
 
     @Test
-    void inputIntoAnElementAsksForItsType() {
+    void inputNeedsAWholeVariable() {
         TestConsole console = new TestConsole();
         console.inputs.add(new StringValue("b"));
         Cursor cursor = cursor("""
                 FUNCTION main
-                    RESULT second STRING
                 BEGIN
                     VARIABLE names ARRAY STRING
                     ASSIGN names[0] "a" ;
-                    ASSIGN names[1] "x" ;
-                    INPUT names[1]
-                    ASSIGN second names[1] ;
+                    CALL INPUT
+                        PARAMETER variable names[0] ;
                 END FUNCTION
                 """, console);
         cursor.run(100);
-        assertEquals(CursorState.FINISHED, cursor.state(), () -> "crashed: " + cursor.error());
-        assertEquals(List.of("names:STRING"), console.requested);
-        assertEquals(new StringValue("b"), cursor.results().get("second"));
+        assertEquals(CursorState.CRASHED, cursor.state());
+        assertEquals(List.of(), console.requested);
     }
 
     @Test
@@ -158,16 +158,21 @@ class CursorIoTest {
                 FUNCTION main
                 BEGIN
                     VARIABLE count INTEGER 7
-                    WRITE count ;
-                    WRITE count + 1 ;
+                    CALL WRITE
+                        PARAMETER value count ;
+                    CALL WRITE
+                        PARAMETER value count + 1 ;
+                    CALL WRITE
+                        PARAMETER value count ;
+                        PARAMETER name "total" ;
                 END FUNCTION
                 """, console);
         cursor.run(20);
         assertEquals(CursorState.RUNNING, cursor.state(), "The cursor didn't wait for an item");
-        console.writable = 2;
+        console.writable = 3;
         cursor.run(20);
         assertEquals(CursorState.FINISHED, cursor.state(), () -> "crashed: " + cursor.error());
-        assertEquals(List.of("count=7", "output=8"), console.written);
+        assertEquals(List.of("count=7", "output=8", "total=7"), console.written);
     }
 
     @Test
@@ -180,7 +185,8 @@ class CursorIoTest {
                     RESULT column INTEGER
                     RESULT key STRING
                 BEGIN
-                    PRINT "dirty" ;
+                    CALL PRINT
+                        PARAMETER value "dirty" ;
                     CALL CLS
                     CALL LOCATE
                         PARAMETER row 2 ;
@@ -193,7 +199,8 @@ class CursorIoTest {
                         RESULT result column
                     CALL INKEY
                         RESULT result key
-                    PRINT "x" ;
+                    CALL PRINT
+                        PARAMETER value "x" ;
                 END FUNCTION
                 """, console);
         cursor.run(200);

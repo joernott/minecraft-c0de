@@ -254,14 +254,14 @@ A task is done when
 | 11.4.3 | The concept of the functions matches the code; INT, FIX and ROUND return INTEGERs unchanged. The handbooks are described in the guide and on Modrinth. | ✅ |
 | 11.4.4 | Documentation for mods that add c0de libraries (docs/library-development.md) and the API ModLibraries.register. | ✅ |
 | 11.5 | PRINT, WRITE and INPUT: keyword blocks and statements; the screen functions of AmigaBASIC (CLS, LOCATE, CSRLIN, POS, COLOR, INKEY). The screen model in `core`: the screens of the displays, laptops and tablets bound to the program and function of a process. | ✅ |
-| 11.5.1 | PRINT, WRITE and INPUT are built-in functions used with CALL instead of statements and keyword blocks. |  |
+| 11.5.1 | PRINT, WRITE and INPUT are built-in functions used with CALL instead of statements and keyword blocks. | ✅ |
 | 11.6 | Display block: flat multiblock walls that share one screen (fixed characters per block, Monocraft font), rotation with the wrench, camouflage, binding to a program and function like a trigger block. | ✅ |
-| 11.6.1 | Display dialog like that of the trigger block: light gray, program and function buttons, one camouflage slot. |  |
-| 11.6.2 | The camouflage doesn't mix with the front of a display block from far away. |  |
+| 11.6.1 | Display dialog like that of the trigger block: light gray, program and function buttons, one camouflage slot. | ✅ |
+| 11.6.2 | The camouflage doesn't mix with the front of a display block from far away. | ✅ |
 | 11.7 | I/O block (a retextured hopper): binding, input and output inventories; INPUT reads variable, constant and literal items, WRITE fills uninitialized variable items; literal items (a card with a type and a value, without name). | ✅ |
-| 11.7.1 | I/O dialog like that of the trigger block, with program and function buttons; 18 slots in each inventory. |  |
+| 11.7.1 | I/O dialog like that of the trigger block, with program and function buttons; 18 slots in each inventory. | ✅ |
 | 11.8 | Laptop block: a terminal with the output of the bound program and function, a scroll bar and an input line for INPUT. | ✅ |
-| 11.8.1 | ✔ in the terminal binds and closes it; the wrench turns laptops. |  |
+| 11.8.1 | ✔ in the terminal binds and closes it; the wrench turns laptops. | ✅ |
 | 11.8.2 | Lines typed on a terminal reach a waiting INPUT reliably. |  |
 | 11.9 | Tablet: the mobile laptop; left click opens the terminal. Recipes between laptop and tablet. | ✅ |
 | 11.10 | Performance tests: many processes at the same time, large programs, deep recursion; tuning of the scheduler. |  |

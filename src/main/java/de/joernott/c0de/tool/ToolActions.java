@@ -13,6 +13,7 @@ import de.joernott.c0de.dialog.SheetProtection;
 import de.joernott.c0de.dimension.C0deDimension;
 import de.joernott.c0de.entity.CursorEntity;
 import de.joernott.c0de.io.DisplayBlock;
+import de.joernott.c0de.io.LaptopBlock;
 import de.joernott.c0de.item.DebugToolItem;
 import de.joernott.c0de.item.WrenchItem;
 import de.joernott.c0de.library.ModLibraries;
@@ -218,6 +219,11 @@ public final class ToolActions {
                 && level.getBlockState(pos).getBlock() instanceof DisplayBlock) {
             // The wrench turns display blocks around the axis through the clicked face
             DisplayBlock.turn(level, pos, net.minecraft.core.Direction.from3DDataValue(payload.face()));
+            return;
+        }
+        if (item instanceof WrenchItem && level.getBlockState(pos).getBlock() instanceof LaptopBlock) {
+            // The wrench turns laptops clockwise, seen from above
+            LaptopBlock.turn(level, pos);
             return;
         }
         if (!isOnLine(level, pos)) {

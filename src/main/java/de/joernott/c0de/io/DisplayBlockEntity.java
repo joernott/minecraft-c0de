@@ -2,17 +2,28 @@ package de.joernott.c0de.io;
 
 import de.joernott.c0de.content.C0deBlockEntities;
 import de.joernott.c0de.core.io.TextScreen;
+import de.joernott.c0de.dialog.DialogService;
+import de.joernott.c0de.platform.Platform;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.EmptyBlockGetter;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -21,14 +32,25 @@ import net.minecraft.world.level.block.state.BlockState;
  * left of a display wall (the origin) the screen of the whole wall and the size of the wall. The walls are
  * maintained by {@link DisplayWalls}.
  */
-public class DisplayBlockEntity extends BlockEntity implements Bindable {
+public class DisplayBlockEntity extends BlockEntity implements Bindable, MenuProvider {
     /** The characters of a display block: 16 columns and 8 rows. */
     public static final int COLUMNS = 16;
     public static final int ROWS = 8;
 
     private String program = "";
     private String function = "";
-    private Block camouflage;
+    private final SimpleContainer camouflage = new SimpleContainer(1) {
+        @Override
+        public int getMaxStackSize() {
+            return 1;
+        }
+
+        @Override
+        public void setChanged() {
+            super.setChanged();
+            camouflageChanged();
+        }
+    };
     private boolean origin;
     private int width = 1;
     private int height = 1;
@@ -115,13 +137,53 @@ public class DisplayBlockEntity extends BlockEntity implements Bindable {
         changed();
     }
 
-    public Block camouflage() {
+    /** The slot of the camouflage block. */
+    public SimpleContainer camouflage() {
         return camouflage;
     }
 
-    void setCamouflage(Block block) {
-        camouflage = block;
+    /** The block shown on the sides other than the front, or null. */
+    public BlockState camouflageState() {
+        return camouflage.getItem(0).getItem() instanceof BlockItem item ? item.getBlock().defaultBlockState() : null;
+    }
+
+    /** Blocks that can camouflage a display: full blocks without block entity. */
+    public static boolean canCamouflage(ItemStack stack) {
+        return stack.getItem() instanceof BlockItem item
+                && !(item.getBlock() instanceof EntityBlock)
+                && item.getBlock().defaultBlockState().isCollisionShapeFullBlock(EmptyBlockGetter.INSTANCE, BlockPos.ZERO);
+    }
+
+    private void camouflageChanged() {
+        if (level == null || level.isClientSide()) {
+            return;
+        }
+        boolean camouflaged = camouflageState() != null;
+        BlockState state = getBlockState();
+        if (state.getBlock() instanceof DisplayBlock && state.getValue(DisplayBlock.CAMOUFLAGED) != camouflaged) {
+            level.setBlock(worldPosition, state.setValue(DisplayBlock.CAMOUFLAGED, camouflaged), Block.UPDATE_ALL);
+        }
         changed();
+    }
+
+    /** Opens the dialog: the binding of the wall and the camouflage slot. */
+    public void openMenu(ServerPlayer player) {
+        CompoundTag data = new CompoundTag();
+        data.putLong("pos", worldPosition.asLong());
+        data.putString("program", program);
+        data.putString("function", function);
+        data.put("programs", DialogService.programs(player));
+        Platform.INSTANCE.openMenu(player, this, data);
+    }
+
+    @Override
+    public Component getDisplayName() {
+        return getBlockState().getBlock().getName();
+    }
+
+    @Override
+    public AbstractContainerMenu createMenu(int id, Inventory inventory, Player player) {
+        return new DisplayMenu(id, inventory, this);
     }
 
     private void changed() {
@@ -136,9 +198,7 @@ public class DisplayBlockEntity extends BlockEntity implements Bindable {
         super.saveAdditional(tag, registries);
         tag.putString("program", program);
         tag.putString("function", function);
-        if (camouflage != null) {
-            tag.putString("camouflage", BuiltInRegistries.BLOCK.getKey(camouflage).toString());
-        }
+        tag.put("camouflage", camouflage.createTag(registries));
         tag.putBoolean("origin", origin);
         tag.putInt("width", width);
         tag.putInt("height", height);
@@ -154,10 +214,7 @@ public class DisplayBlockEntity extends BlockEntity implements Bindable {
         super.loadAdditional(tag, registries);
         program = tag.getString("program");
         function = tag.getString("function");
-        Block block = tag.contains("camouflage")
-                ? BuiltInRegistries.BLOCK.get(ResourceLocation.tryParse(tag.getString("camouflage")))
-                : null;
-        camouflage = block == null || block == Blocks.AIR ? null : block;
+        camouflage.fromTag(tag.getList("camouflage", Tag.TAG_COMPOUND), registries);
         origin = tag.getBoolean("origin");
         width = Math.max(1, tag.getInt("width"));
         height = Math.max(1, tag.getInt("height"));

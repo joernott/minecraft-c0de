@@ -59,9 +59,6 @@ BLOCKS = [
     ("EACH", True, False, "EACH Block", "EACH-Block"),
     ("WHILE", True, False, "WHILE Block", "WHILE-Block"),
     ("REPEAT", True, False, "REPEAT Block", "REPEAT-Block"),
-    ("PRINT", True, False, "PRINT Block", "PRINT-Block"),
-    ("WRITE", True, False, "WRITE Block", "WRITE-Block"),
-    ("INPUT", True, False, "INPUT Block", "INPUT-Block"),
 ]
 
 # Trigger blocks: (ID, center ingredient, count, English name, German name)
@@ -196,9 +193,6 @@ def recipes() -> dict[str, dict]:
         "result_block": shapeless([c0de("PARAMETER")], c0de("RESULT")),
         "return_block": around(mc("spruce_door"), c0de("RETURN")),
         "call_block": shapeless([noop, mc("smooth_stone")], c0de("CALL")),
-        "print_block": shapeless([noop, mc("glow_ink_sac")], c0de("PRINT")),
-        "write_block": shapeless([noop, mc("ink_sac")], c0de("WRITE")),
-        "input_block": shapeless([noop, mc("tripwire_hook")], c0de("INPUT")),
         "structural_base": around(mc("green_wool"), structural),
     }
     for trigger, center, count, _, _ in TRIGGERS:
@@ -272,9 +266,6 @@ MESSAGES = [
     ("dialog.c0de.disk.exists", "The file of %s exists. Overwrite it?", "Die Datei von %s existiert. Überschreiben?"),
     ("dialog.c0de.disk.confirm", "Overwrite", "Überschreiben"),
     ("dialog.c0de.disk.empty", "There are no saved programs", "Es gibt keine gespeicherten Programme"),
-    ("dialog.c0de.device", "Binding", "Bindung"),
-    ("dialog.c0de.device.program", "Program (empty: not bound)", "Programm (leer: nicht gebunden)"),
-    ("dialog.c0de.device.function", "Function", "Funktion"),
     ("block.c0de.display_block", "Display Block", "Anzeigeblock"),
     ("block.c0de.io_block", "I/O Block", "E/A-Block"),
     ("dialog.c0de.io.unbound", "Not bound", "Nicht gebunden"),

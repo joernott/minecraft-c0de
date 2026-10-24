@@ -14,11 +14,11 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Right-click a display block with an empty hand to bind it: pick a program and a function. Binding one block binds the whole wall. A new block that joins a wall takes its binding."
+      "text": "Right-click a display block with an empty hand to open its dialog. Click the Program and Function buttons until they show your program and function. Then click ✔ to bind the block. Binding one block binds the whole wall. A new block that joins a wall takes its binding."
     },
     {
       "type": "patchouli:text",
-      "text": "Left-click it with the wrench to rotate it. Right-click it with a full block to camouflage its sides. Sneak and right-click it with an empty hand to remove the camouflage."
+      "text": "The dialog also has a camouflage slot. Put a full block into it, and the sides of the display block take on its look. Take it out to remove the camouflage. Each block of a wall has its own camouflage. Left-click a display block with the wrench to rotate it."
     },
     {
       "type": "patchouli:crafting",
@@ -34,7 +34,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "$(1)PROGRAM sign$(br)NOOP$(br)NOOP$(br)FUNCTION welcome$(br)BEGIN$(br)  CALL CLS$(br)  CALL COLOR$(br)    PARAMETER foreground 14 ;$(br)  PRINT \"Welcome!\" ;$(br)END FUNCTION$()"
+      "text": "$(1)PROGRAM sign$(br)NOOP$(br)NOOP$(br)FUNCTION welcome$(br)BEGIN$(br)  CALL CLS$(br)  CALL COLOR$(br)    PARAMETER foreground 14 ;$(br)  CALL PRINT$(br)    PARAMETER value \"Welcome!\" ;$(br)END FUNCTION$()"
     }
   ]
 }

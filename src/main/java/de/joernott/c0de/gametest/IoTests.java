@@ -34,10 +34,12 @@ public final class IoTests {
                 NOOP
                 FUNCTION hello
                 BEGIN
-                    PRINT "Hello" ;
+                    CALL PRINT
+                        PARAMETER value "Hello" ;
                     CALL LOCATE
                         PARAMETER row 3 ;
-                    PRINT "World" ;
+                    CALL PRINT
+                        PARAMETER value "World" ;
                 END FUNCTION
                 """);
         SheetValidation.validate(c0de, 524);
@@ -98,9 +100,12 @@ public final class IoTests {
                 BEGIN
                     VARIABLE count INTEGER
                     VARIABLE step INTEGER
-                    INPUT count
-                    INPUT step
-                    WRITE count + step ;
+                    CALL INPUT
+                        PARAMETER variable count ;
+                    CALL INPUT
+                        PARAMETER variable step ;
+                    CALL WRITE
+                        PARAMETER value count + step ;
                 END FUNCTION
                 """);
         SheetValidation.validate(c0de, 526);
@@ -174,8 +179,10 @@ public final class IoTests {
                 FUNCTION ask
                 BEGIN
                     VARIABLE count INTEGER
-                    INPUT count
-                    PRINT count * 2 ;
+                    CALL INPUT
+                        PARAMETER variable count ;
+                    CALL PRINT
+                        PARAMETER value count * 2 ;
                 END FUNCTION
                 """);
         SheetValidation.validate(c0de, 528);

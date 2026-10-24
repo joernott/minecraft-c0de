@@ -13,6 +13,7 @@ import static de.joernott.c0de.core.library.standard.Functions.text;
 
 import de.joernott.c0de.core.error.C0deException;
 import de.joernott.c0de.core.error.ErrorCode;
+import de.joernott.c0de.core.eval.Variable;
 import de.joernott.c0de.core.library.Library;
 import de.joernott.c0de.core.library.NativeCall;
 import de.joernott.c0de.core.library.NativeFunction;
@@ -22,10 +23,12 @@ import de.joernott.c0de.core.value.BooleanValue;
 import de.joernott.c0de.core.value.HashValue;
 import de.joernott.c0de.core.value.IntegerValue;
 import de.joernott.c0de.core.value.StringValue;
+import de.joernott.c0de.core.value.StructValue;
 import de.joernott.c0de.core.value.Value;
 import de.joernott.c0de.core.value.Values;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /** The built-in functions, which are available without INCLUDE (docs/concept/08-builtin-functions.md). */
 public final class Builtins implements Library {
@@ -63,7 +66,22 @@ public final class Builtins implements Library {
                     List.of(required("a", "any", ANY), required("b", "the type of a", ANY)),
                     List.of("a", "b"),
                     Builtins::swap)
-            // The screen functions of AmigaBASIC (docs/concept/19-input-output.md)
+            // Input and output (docs/concept/19-input-output.md)
+            .add("PRINT", List.of(required("value", "any", ANY)), List.of(), call -> {
+                call.process().console().print(printed(call.argument("value")));
+                return NativeResult.none();
+            })
+            .add(
+                    "WRITE",
+                    List.of(required("value", "any", ANY), optional("name", "STRING", TEXT)),
+                    List.of(),
+                    Builtins::write)
+            .add(
+                    "INPUT",
+                    List.of(NativeFunction.Parameter.reference("variable", "a variable")),
+                    List.of(),
+                    Builtins::input)
+            // The screen functions of AmigaBASIC
             .add("CLS", List.of(), List.of(), call -> {
                 call.process().console().cls();
                 return NativeResult.none();
@@ -109,6 +127,39 @@ public final class Builtins implements Library {
     @Override
     public String name() {
         return "";
+    }
+
+    /** The text form of a value on a screen: simple values as text, arrays, hashes and structs as JSON. */
+    private static String printed(Value value) {
+        return switch (value) {
+            case ArrayValue array -> JsonValues.write(array);
+            case HashValue hash -> JsonValues.write(hash);
+            case StructValue struct -> JsonValues.write(struct);
+            default -> value.text();
+        };
+    }
+
+    /**
+     * WRITE waits until an I/O block takes the value. The item is named after the parameter {@code name}, or the
+     * variable if the value is a single label, otherwise {@code output}.
+     */
+    private static NativeResult write(NativeCall call) {
+        String name =
+                call.provided("name") ? text(call, "name") : call.label("value").orElse("output");
+        return call.process().console().write(name, call.argument("value"))
+                ? NativeResult.none()
+                : NativeResult.waitForValue();
+    }
+
+    /** INPUT waits until an I/O block or a terminal has a value for the variable. */
+    private static NativeResult input(NativeCall call) {
+        Variable variable = call.reference("variable").orElseThrow();
+        Optional<Value> value = call.process().console().input(variable.name(), variable.type());
+        if (value.isEmpty()) {
+            return NativeResult.waitForValue();
+        }
+        variable.set(value.get());
+        return NativeResult.none();
     }
 
     /** A row or column for LOCATE; the screens move positions outside of them to their edges. */

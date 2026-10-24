@@ -1,5 +1,6 @@
 package de.joernott.c0de.content;
 
+import de.joernott.c0de.io.DisplayMenu;
 import de.joernott.c0de.io.IoMenu;
 import de.joernott.c0de.menu.TriggerMenu;
 import de.joernott.c0de.platform.Platform;
@@ -11,6 +12,7 @@ import net.minecraft.world.inventory.MenuType;
 public final class C0deMenus {
     public static Supplier<MenuType<TriggerMenu>> TRIGGER;
     public static Supplier<MenuType<IoMenu>> IO;
+    public static Supplier<MenuType<DisplayMenu>> DISPLAY;
 
     private C0deMenus() {}
 
@@ -18,5 +20,7 @@ public final class C0deMenus {
         TRIGGER = Platform.INSTANCE.register(
                 BuiltInRegistries.MENU, "trigger", () -> Platform.INSTANCE.menuType(TriggerMenu::new));
         IO = Platform.INSTANCE.register(BuiltInRegistries.MENU, "io", () -> Platform.INSTANCE.menuType(IoMenu::new));
+        DISPLAY = Platform.INSTANCE.register(
+                BuiltInRegistries.MENU, "display", () -> Platform.INSTANCE.menuType(DisplayMenu::new));
     }
 }

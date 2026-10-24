@@ -299,9 +299,6 @@ final class ProgramAnalyzer {
                     expression(exit.code(), exit.line());
                 }
             }
-            case Statement.Print print -> expression(print.value(), print.line());
-            case Statement.Write write -> expression(write.value(), write.line());
-            case Statement.Input input -> writable(input.target(), input.line(), ErrorCode.SYNTAX_ERROR_INPUT_OUTPUT);
             default -> {
                 // INCLUDE, STRUCT and FUNCTION are only parsed in the global scope
             }
@@ -354,10 +351,14 @@ final class ProgramAnalyzer {
                         ErrorCode.SYNTAX_ERROR_CALL,
                         call.function() + " has no parameter " + parameter.name());
             }
-            if (function != null
-                    && function.byReference().contains(parameter.name())
-                    && !(parameter.value() instanceof Expression.Reference)) {
-                problem(parameter.line(), ErrorCode.SYNTAX_ERROR_CALL, parameter.name() + " must be a variable");
+            if (function != null && function.byReference().contains(parameter.name())) {
+                // Like the cursor: a variable without index that can be changed (FROM_JSON, INPUT)
+                if (parameter.value() instanceof Expression.Reference reference
+                        && reference.label().index().isEmpty()) {
+                    writable(reference.label(), parameter.line(), ErrorCode.SYNTAX_ERROR_CALL);
+                } else {
+                    problem(parameter.line(), ErrorCode.SYNTAX_ERROR_CALL, parameter.name() + " must be a variable");
+                }
             }
             expression(parameter.value(), parameter.line());
         }

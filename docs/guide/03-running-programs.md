@@ -94,7 +94,7 @@ If exactly one block with an inventory touches a trigger block, the output goes 
 
 ## Talking to players
 
-A process can also talk to players while it runs. Three statements do this:
+A process can also talk to players while it runs. Three built-in functions do this, called with CALL like any other function:
 
 - **PRINT** writes text on screens.
 - **INPUT** reads a value into a variable.
@@ -102,7 +102,7 @@ A process can also talk to players while it runs. Three statements do this:
 
 The devices for this are display blocks, laptops, tablets and I/O blocks. Bind each of them to a program and function, like a trigger block. Display blocks next to each other form one big screen.
 
-INPUT takes a matching item from an I/O block first. Otherwise it waits until a player types a line on a laptop or tablet. The handbooks Statements and Devices describe all of them.
+INPUT takes a matching item from an I/O block first. Otherwise it waits until a player types a line on a laptop or tablet. The handbooks Functions and Devices describe all of them.
 
 ## Protected programs
 

@@ -19,6 +19,14 @@ public interface NativeCall {
      */
     Map<String, String> tags(String name);
 
+    /**
+     * The name of the variable or constant that provided a parameter, if the PARAMETER expression is a single
+     * LABEL without index (WRITE names its item after it).
+     */
+    default Optional<String> label(String name) {
+        return Optional.empty();
+    }
+
     /** The variable passed to a by-reference parameter. */
     Optional<Variable> reference(String name);
 

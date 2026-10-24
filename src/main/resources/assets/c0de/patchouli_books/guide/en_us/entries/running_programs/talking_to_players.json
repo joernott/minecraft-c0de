@@ -6,7 +6,11 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "A process can also talk to players while it runs. Three statements do this:$(br2)$(li)$(l)PRINT$() writes text on screens.$(li)$(l)INPUT$() reads a value into a variable.$(li)$(l)WRITE$() puts a value into an I/O block as a variable item."
+      "text": "A process can also talk to players while it runs. Three built-in functions do this, called with CALL like any other function:"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(l)PRINT$() writes text on screens.$(li)$(l)INPUT$() reads a value into a variable.$(li)$(l)WRITE$() puts a value into an I/O block as a variable item."
     },
     {
       "type": "patchouli:text",
@@ -14,7 +18,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "INPUT takes a matching item from an I/O block first. Otherwise it waits until a player types a line on a laptop or tablet. The handbooks Statements and Devices describe all of them."
+      "text": "INPUT takes a matching item from an I/O block first. Otherwise it waits until a player types a line on a laptop or tablet. The handbooks Functions and Devices describe all of them."
     }
   ]
 }
