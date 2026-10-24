@@ -36,6 +36,7 @@ public final class C0deBlocks {
     public static Supplier<Block> DEBUG_TRIGGER_BLOCK;
     public static Supplier<Block> PID_BLOCK;
     public static Supplier<Block> DISPLAY_BLOCK;
+    public static Supplier<Block> IO_BLOCK;
 
     /** The language blocks. */
     public static final Map<CodeBlockType, Supplier<Block>> CODE_BLOCKS = new EnumMap<>(CodeBlockType.class);
@@ -54,6 +55,7 @@ public final class C0deBlocks {
                 register("debug_trigger_block", () -> new TriggerBlock(trigger(), TriggerBlock.Kind.DEBUG));
         PID_BLOCK = register("pid_block", () -> new PidBlock(bedrock(MapColor.COLOR_BLACK)));
         DISPLAY_BLOCK = register("display_block", () -> new de.joernott.c0de.io.DisplayBlock(device()));
+        IO_BLOCK = register("io_block", () -> new de.joernott.c0de.io.IoBlock(device()));
         for (CodeBlockType type : CodeBlockType.values()) {
             CODE_BLOCKS.put(type, register(type.id(), () -> codeBlock(type)));
         }

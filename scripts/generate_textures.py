@@ -829,6 +829,7 @@ def item_textures() -> None:
     write_png(items / "data_item.png", card(None))
     write_png(items / "variable_item.png", card(0x5555FF, markings=False))
     write_png(items / "constant_item.png", card(0xFF55FF))
+    write_png(items / "literal_item.png", card(0xAAAAAA))
     for type_name, name, color in TYPE_ITEM_ICONS:
         image = card(0xCC2222)
         icon(image, name, color)
@@ -908,6 +909,10 @@ def main() -> None:
     write_png(blocks / "pid_block.png", pid_block())
     # The front of the display blocks: borderless, very dark gray
     write_png(blocks / "display_front.png", concrete(0x141414, "display_front", 2))
+    # The I/O block: a hopper in the blue of the keyword blocks
+    write_png(blocks / "io_block_top.png", hopper_top(0x5555FF, "io_top"))
+    write_png(blocks / "io_block_outside.png", slab_side(0x4444CC, "io_outside"))
+    write_png(blocks / "io_block_inside.png", concrete(darker(0x5555FF, 90), "io_inside", 3))
     write_png(TEXTURES / "item" / "wrench.png", wrench())
     code_block_textures(blocks)
     item_textures()

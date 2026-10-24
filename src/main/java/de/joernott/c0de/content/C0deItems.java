@@ -21,6 +21,8 @@ import net.minecraft.world.level.block.Block;
 public final class C0deItems {
     public static Supplier<Item> TRIGGER_BLOCK;
     public static Supplier<Item> DISPLAY_BLOCK;
+    public static Supplier<Item> IO_BLOCK;
+    public static Supplier<Item> LITERAL_ITEM;
     public static Supplier<Item> TIMER_BLOCK;
     public static Supplier<Item> DEBUG_TRIGGER_BLOCK;
     public static Supplier<Item> WRENCH;
@@ -53,6 +55,7 @@ public final class C0deItems {
     public static void register() {
         DISPLAY_BLOCK = register(
                 "display_block", () -> new BlockItem(C0deBlocks.DISPLAY_BLOCK.get(), new Item.Properties()));
+        IO_BLOCK = register("io_block", () -> new BlockItem(C0deBlocks.IO_BLOCK.get(), new Item.Properties()));
         TRIGGER_BLOCK = register(
                 "trigger_block", () -> new BlockItem(C0deBlocks.TRIGGER_BLOCK.get(), new Item.Properties()));
         TIMER_BLOCK =
@@ -83,6 +86,7 @@ public final class C0deItems {
         }
         VARIABLE_ITEM = register("variable_item", () -> new ValueItem(new Item.Properties(), false));
         CONSTANT_ITEM = register("constant_item", () -> new ValueItem(new Item.Properties(), true));
+        LITERAL_ITEM = register("literal_item", () -> new de.joernott.c0de.item.LiteralItem(new Item.Properties()));
         TYPE_BASE = register("type_base", () -> new Item(new Item.Properties()));
         STRUCTURAL_BASE = register("structural_base", () -> new Item(new Item.Properties()));
         for (CodeBlockType type : CodeBlockType.values()) {
@@ -96,6 +100,7 @@ public final class C0deItems {
                 .displayItems((parameters, output) -> {
                     output.accept(TRIGGER_BLOCK.get());
                     output.accept(DISPLAY_BLOCK.get());
+                    output.accept(IO_BLOCK.get());
                     output.accept(TIMER_BLOCK.get());
                     output.accept(DEBUG_TRIGGER_BLOCK.get());
                     output.accept(WRENCH.get());
@@ -111,6 +116,7 @@ public final class C0deItems {
                     TYPE_ITEMS.values().forEach(item -> output.accept(item.get()));
                     output.accept(VARIABLE_ITEM.get());
                     output.accept(CONSTANT_ITEM.get());
+                    output.accept(LITERAL_ITEM.get());
                 })
                 .build());
     }

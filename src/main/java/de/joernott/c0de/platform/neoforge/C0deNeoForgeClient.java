@@ -39,7 +39,10 @@ public final class C0deNeoForgeClient {
         modEventBus.addListener(net.neoforged.neoforge.client.event.ModelEvent.ModifyBakingResult.class,
                 event -> event.getModels().replaceAll(ExtrudedModel::wrap));
         modEventBus.addListener(net.neoforged.neoforge.client.event.RegisterMenuScreensEvent.class,
-                event -> event.register(C0deMenus.TRIGGER.get(), TriggerScreen::new));
+                event -> {
+                    event.register(C0deMenus.TRIGGER.get(), TriggerScreen::new);
+                    event.register(C0deMenus.IO.get(), de.joernott.c0de.client.IoScreen::new);
+                });
         net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
                 net.neoforged.neoforge.client.event.RenderLevelStageEvent.class, event -> {
                     if (event.getStage() == net.neoforged.neoforge.client.event.RenderLevelStageEvent.Stage.AFTER_ENTITIES) {

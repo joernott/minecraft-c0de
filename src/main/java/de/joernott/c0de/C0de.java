@@ -47,6 +47,7 @@ public final class C0de {
         C0deMenus.register();
         DialogService.register();
         TriggerService.register();
+        de.joernott.c0de.io.IoService.register();
         ToolActions.register();
         DiskService.register();
         SheetValidation.register();

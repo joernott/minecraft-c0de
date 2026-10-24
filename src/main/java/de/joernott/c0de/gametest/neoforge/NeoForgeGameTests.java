@@ -125,6 +125,11 @@ public class NeoForgeGameTests {
         IoTests.displaysShowWhatProgramsPrint(helper);
     }
 
+    @GameTest(template = "empty")
+    public static void ioBlocksExchangeItems(GameTestHelper helper) {
+        IoTests.ioBlocksExchangeItems(helper);
+    }
+
     @GameTest(template = "empty", timeoutTicks = 800)
     public static void longLoopsEnd(GameTestHelper helper) {
         ProcessTests.longLoopsEnd(helper);

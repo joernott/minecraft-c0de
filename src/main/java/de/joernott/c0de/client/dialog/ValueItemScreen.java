@@ -39,8 +39,16 @@ public class ValueItemScreen extends PropertiesScreen {
         super(payload);
     }
 
+    /** True for a literal item: it has no name. */
+    private boolean literal() {
+        return payload.data().getBoolean("literal");
+    }
+
     @Override
     public Component getTitle() {
+        if (literal()) {
+            return Component.translatable("item.c0de.literal_item");
+        }
         return Component.translatable(
                 payload.data().getBoolean("constant") ? "item.c0de.constant_item" : "item.c0de.variable_item");
     }
@@ -65,7 +73,8 @@ public class ValueItemScreen extends PropertiesScreen {
         name = field(0, "name", PropertyRules.MAX_TEXT_LENGTH);
         type = field(1, "type", 200);
         value = field(2, "value", 10 * PropertyRules.MAX_TEXT_LENGTH);
-        setInitialFocus(name);
+        name.visible = !literal();
+        setInitialFocus(literal() ? type : name);
         List<String> choices = new ArrayList<>();
         payload.data().getList("types", Tag.TAG_STRING).forEach(type -> choices.add(type.getAsString()));
         // The drop-down list is drawn over the value field, so it is drawn and clicked separately
@@ -133,7 +142,9 @@ public class ValueItemScreen extends PropertiesScreen {
             types.render(graphics, mouseX, mouseY, partialTick);
             graphics.pose().popPose();
         }
-        caption(graphics, Component.translatable("dialog.c0de.item.name"), name.getY());
+        if (!literal()) {
+            caption(graphics, Component.translatable("dialog.c0de.item.name"), name.getY());
+        }
         caption(graphics, Component.translatable("dialog.c0de.item.type"), type.getY());
         caption(graphics, Component.translatable("dialog.c0de.item.value"), value.getY());
         if (trash != null) {
@@ -143,6 +154,14 @@ public class ValueItemScreen extends PropertiesScreen {
 
     @Override
     protected Optional<String> problem() {
+        if (literal()) {
+            if (type.getValue().isBlank()) {
+                return value.getValue().isEmpty() ? Optional.empty() : Optional.of("A literal needs a type");
+            }
+            // A literal has no name; the rules of variable items are checked with a placeholder name
+            return ItemRules.check("literal", type.getValue(), value.getValue(), ZoneId.systemDefault())
+                    .problem();
+        }
         return ItemRules.check(name.getValue(), type.getValue(), value.getValue(), ZoneId.systemDefault())
                 .problem();
     }

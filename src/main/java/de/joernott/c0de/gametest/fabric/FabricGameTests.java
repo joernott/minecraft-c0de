@@ -121,6 +121,11 @@ public class FabricGameTests implements FabricGameTest {
         IoTests.displaysShowWhatProgramsPrint(helper);
     }
 
+    @GameTest(template = SmokeTests.EMPTY_STRUCTURE)
+    public void ioBlocksExchangeItems(GameTestHelper helper) {
+        IoTests.ioBlocksExchangeItems(helper);
+    }
+
     @GameTest(template = SmokeTests.EMPTY_STRUCTURE, timeoutTicks = 800)
     public void longLoopsEnd(GameTestHelper helper) {
         ProcessTests.longLoopsEnd(helper);

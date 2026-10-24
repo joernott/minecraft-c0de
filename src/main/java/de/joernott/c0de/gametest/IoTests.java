@@ -2,14 +2,19 @@ package de.joernott.c0de.gametest;
 
 import de.joernott.c0de.blockentity.TriggerBlockEntity;
 import de.joernott.c0de.content.C0deBlocks;
+import de.joernott.c0de.content.C0deItems;
 import de.joernott.c0de.dimension.C0deDimension;
 import de.joernott.c0de.io.DisplayBlock;
 import de.joernott.c0de.io.DisplayBlockEntity;
+import de.joernott.c0de.io.IoBlockEntity;
+import de.joernott.c0de.item.LiteralItem;
+import de.joernott.c0de.item.ValueItem;
 import de.joernott.c0de.sheet.SheetValidation;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.item.ItemStack;
 
 /** GameTests of the devices of input and output (tasks 11.6 to 11.9). */
 public final class IoTests {
@@ -74,6 +79,83 @@ public final class IoTests {
                 SheetValidation.validate(c0de, 524);
             }
             helper.succeed();
+        });
+    }
+
+    /**
+     * INPUT takes the variable item with the name of the variable, then a literal item of the type; WRITE fills an
+     * uninitialized variable item. The used items end up in the output of the I/O block.
+     */
+    public static void ioBlocksExchangeItems(GameTestHelper helper) {
+        ServerLevel c0de = helper.getLevel().getServer().getLevel(C0deDimension.LEVEL);
+        SheetBuilder sheet = new SheetBuilder(c0de, 526).place("""
+                PROGRAM exchanging
+                NOOP
+                FUNCTION run
+                BEGIN
+                    VARIABLE count INTEGER
+                    VARIABLE step INTEGER
+                    INPUT count
+                    INPUT step
+                    WRITE count + step ;
+                END FUNCTION
+                """);
+        SheetValidation.validate(c0de, 526);
+        BlockPos pos = new BlockPos(1, 2, 1);
+        helper.setBlock(pos, C0deBlocks.IO_BLOCK.get());
+        IoBlockEntity io = (IoBlockEntity) helper.getBlockEntity(pos);
+        io.bind(helper.getLevel(), "exchanging", "run");
+        ItemStack count = new ItemStack(C0deItems.VARIABLE_ITEM.get());
+        new ValueItem.Contents("count", "INTEGER", "20").writeTo(count);
+        ItemStack literal = new ItemStack(C0deItems.LITERAL_ITEM.get());
+        new LiteralItem.Contents("INTEGER", "5").writeTo(literal);
+        io.input().setItem(0, count);
+        io.input().setItem(1, literal);
+
+        helper.setBlock(BlockPos.ZERO, C0deBlocks.TRIGGER_BLOCK.get());
+        TriggerBlockEntity trigger = (TriggerBlockEntity) helper.getBlockEntity(BlockPos.ZERO);
+        trigger.configure(helper.makeMockServerPlayerInLevel(), "exchanging", "run", 20);
+        trigger.start();
+        helper.assertTrue(trigger.isRunning(), "The process didn't start: " + trigger.status());
+        helper.runAfterDelay(30, () -> {
+            try {
+                helper.assertTrue(trigger.isRunning(), "WRITE didn't wait for an uninitialized variable item");
+                helper.assertTrue(io.input().isEmpty(), "INPUT didn't take the items");
+                io.input().setItem(0, new ItemStack(C0deItems.VARIABLE_ITEM.get()));
+            } catch (RuntimeException e) {
+                sheet.clear();
+                SheetValidation.validate(c0de, 526);
+                throw e;
+            }
+            helper.runAfterDelay(20, () -> {
+                try {
+                    helper.assertTrue(!trigger.isRunning(), "The process is still running");
+                    String written = null;
+                    boolean emptyLiteral = false;
+                    int uninitialized = 0;
+                    for (int i = 0; i < io.output().getContainerSize(); i++) {
+                        ItemStack stack = io.output().getItem(i);
+                        if (stack.getItem() instanceof LiteralItem) {
+                            LiteralItem.Contents contents = LiteralItem.Contents.of(stack);
+                            emptyLiteral = contents.isEmpty() && contents.type().equals("INTEGER");
+                        } else if (stack.getItem() instanceof ValueItem) {
+                            ValueItem.Contents contents = ValueItem.Contents.of(stack);
+                            if (contents.isEmpty()) {
+                                uninitialized += stack.getCount();
+                            } else {
+                                written = contents.name() + "=" + contents.value();
+                            }
+                        }
+                    }
+                    helper.assertTrue("output=25".equals(written), "WRITE wrote " + written);
+                    helper.assertTrue(emptyLiteral, "The literal item didn't come out empty");
+                    helper.assertTrue(uninitialized == 1, uninitialized + " uninitialized variable items came out");
+                } finally {
+                    sheet.clear();
+                    SheetValidation.validate(c0de, 526);
+                }
+                helper.succeed();
+            });
         });
     }
 }

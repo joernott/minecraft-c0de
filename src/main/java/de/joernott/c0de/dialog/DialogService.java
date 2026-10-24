@@ -6,6 +6,7 @@ import de.joernott.c0de.core.edit.ItemRules;
 import de.joernott.c0de.core.validation.Validation;
 import de.joernott.c0de.dimension.C0deDimension;
 import de.joernott.c0de.io.Bindable;
+import de.joernott.c0de.item.LiteralItem;
 import de.joernott.c0de.item.ValueItem;
 import de.joernott.c0de.library.ModLibraries;
 import de.joernott.c0de.network.OpenDialogPayload;
@@ -67,32 +68,49 @@ public final class DialogService {
     /** Opens the dialog of the variable or constant item in the main hand of a player. */
     public static void openItem(ServerPlayer player) {
         ItemStack stack = player.getMainHandItem();
-        if (!(stack.getItem() instanceof ValueItem item)) {
+        CompoundTag data = new CompoundTag();
+        String type;
+        boolean readOnly = false;
+        if (stack.getItem() instanceof ValueItem item) {
+            ValueItem.Contents contents = ValueItem.Contents.of(stack);
+            type = contents.type();
+            data.putString("name", contents.name());
+            data.putString("value", ItemRules.display(contents.type(), contents.value()));
+            data.putBoolean("constant", item.isConstant());
+            readOnly = item.isReadOnly(stack);
+        } else if (stack.getItem() instanceof LiteralItem) {
+            // A literal item has a type and a value, but no name; its type can always be changed
+            LiteralItem.Contents contents = LiteralItem.Contents.of(stack);
+            type = "";
+            data.putString("name", "");
+            data.putString("value", ItemRules.display(contents.type(), contents.value()));
+            data.putBoolean("literal", true);
+            data.putString("type", contents.type());
+        } else {
             return;
         }
-        ValueItem.Contents contents = ValueItem.Contents.of(stack);
-        CompoundTag data = new CompoundTag();
-        data.putString("name", contents.name());
-        data.putString("type", contents.type());
-        data.putString("value", ItemRules.display(contents.type(), contents.value()));
-        data.putBoolean("constant", item.isConstant());
+        if (!data.contains("type")) {
+            data.putString("type", type);
+        }
         List<String> structTypes = new ArrayList<>();
         ModLibraries.registry()
                 .all()
-                .forEach(library -> library.types().keySet().forEach(type -> structTypes.add(library.name() + "/" + type)));
+                .forEach(library -> library.types().keySet().forEach(name -> structTypes.add(library.name() + "/" + name)));
         ListTag types = new ListTag();
-        ItemRules.typeChoices(contents.type().split(" ")[0], structTypes)
-                .forEach(type -> types.add(StringTag.valueOf(type)));
+        ItemRules.typeChoices(type.split(" ")[0], structTypes).forEach(choice -> types.add(StringTag.valueOf(choice)));
         data.put("types", types);
         Platform.INSTANCE.sendToPlayer(
-                player, new OpenDialogPayload(player.blockPosition(), "value_item", item.isReadOnly(stack), data));
+                player, new OpenDialogPayload(player.blockPosition(), "value_item", readOnly, data));
     }
 
     /** Changes the properties of the variable or constant item in the main hand of a player. */
     public static Optional<String> saveItem(ServerPlayer player, CompoundTag properties) {
         ItemStack stack = player.getMainHandItem();
+        if (stack.getItem() instanceof LiteralItem literal) {
+            return literal.apply(stack, properties.getString("type"), properties.getString("value"));
+        }
         if (!(stack.getItem() instanceof ValueItem item)) {
-            return Optional.of("There is no variable or constant item in the main hand");
+            return Optional.of("There is no variable, constant or literal item in the main hand");
         }
         return item.apply(
                 stack, properties.getString("name"), properties.getString("type"), properties.getString("value"));

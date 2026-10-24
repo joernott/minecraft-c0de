@@ -81,6 +81,7 @@ ITEMS = [
     ("data_item", "Data Item", "Datenkarte"),
     ("variable_item", "Variable", "Variable"),
     ("constant_item", "Constant", "Konstante"),
+    ("literal_item", "Literal", "Literal"),
     ("debug_tool", "Debugging Tool", "Debugging-Werkzeug"),
     ("marker", "Text Marker", "Textmarker"),
     ("hammer", "Hammer", "Hammer"),
@@ -213,6 +214,7 @@ def recipes() -> dict[str, dict]:
     # Uninitialized items have no type: result targets for results without a parameter
     r["variable_item_uninitialized"] = shapeless([c0de("data_item"), mc("light_blue_dye")], c0de("variable_item"))
     r["constant_item_uninitialized"] = shapeless([c0de("data_item"), mc("pink_dye")], c0de("constant_item"))
+    r["literal_item"] = shapeless([c0de("data_item"), mc("light_gray_dye")], c0de("literal_item"), 2)
     for type_name, ingredient_ in TYPE_ITEMS:
         source = [mc(i) for i in ingredient_] if isinstance(ingredient_, list) else mc(ingredient_)
         r[type_item(type_name)] = shapeless([c0de("data_item"), mc("red_dye"), source], c0de(type_item(type_name)))
@@ -274,6 +276,9 @@ MESSAGES = [
     ("dialog.c0de.device.program", "Program (empty: not bound)", "Programm (leer: nicht gebunden)"),
     ("dialog.c0de.device.function", "Function", "Funktion"),
     ("block.c0de.display_block", "Display Block", "Anzeigeblock"),
+    ("block.c0de.io_block", "I/O Block", "E/A-Block"),
+    ("dialog.c0de.io.unbound", "Not bound", "Nicht gebunden"),
+    ("item.c0de.literal_item.valued", "Literal %s", "Literal %s"),
     ("dialog.c0de.trigger.input", "Input", "Eingabe"),
     ("dialog.c0de.trigger.output", "Output", "Ausgabe"),
     ("dialog.c0de.trigger.program", "Program", "Programm"),
@@ -392,7 +397,7 @@ def block_files(name: str, validated: bool, transparent: bool) -> None:
 
 
 # The devices of input and output (docs/concept/19-input-output.md)
-DEVICES = ["display_block"]
+DEVICES = ["display_block", "io_block"]
 
 # The rotations of a model whose front faces north, for the six directions of a device
 FACINGS = {"north": {}, "south": {"y": 180}, "west": {"y": 270}, "east": {"y": 90}, "up": {"x": 270}, "down": {"x": 90}}
@@ -429,6 +434,20 @@ def devices() -> None:
         ["NNN", "RGN", "NNN"],
         {"N": mc("iron_nugget"), "R": mc("redstone"), "G": mc("glowstone_dust")},
         c0de("display_block"), 8))
+    # The I/O block: the model of the hopper with blue textures
+    write(ASSETS / "models" / "block" / "io_block.json", {
+        "parent": "minecraft:block/hopper",
+        "textures": {"particle": "c0de:block/io_block_outside", "top": "c0de:block/io_block_top",
+                     "side": "c0de:block/io_block_outside", "inside": "c0de:block/io_block_inside"},
+    })
+    write(ASSETS / "blockstates" / "io_block.json", {"variants": {"": {"model": "c0de:block/io_block"}}})
+    write(ASSETS / "models" / "item" / "io_block.json", {"parent": "c0de:block/io_block"})
+    write(DATA / "loot_table" / "blocks" / "io_block.json", {
+        "type": "minecraft:block",
+        "pools": [{"rolls": 1, "entries": [{"type": "minecraft:item", "name": "c0de:io_block"}],
+                   "conditions": [{"condition": "minecraft:survives_explosion"}]}],
+    })
+    write(DATA / "recipe" / "io_block.json", shapeless([c0de("data_item"), mc("hopper")], c0de("io_block")))
     write(ASSETS / "font" / "monocraft.json", {
         "providers": [{"type": "ttf", "file": "c0de:monocraft.ttf", "shift": [0, 0], "size": 9, "oversample": 4.0}],
     })
