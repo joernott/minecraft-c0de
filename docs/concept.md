@@ -81,6 +81,7 @@ The concept is split into the following documents:
 
   - [YAML format](concept/17-yaml-format.md)
   - [Block reference](concept/18-block-reference.md)
+  - [Input and output](concept/19-input-output.md)
 
 **Project**
 
