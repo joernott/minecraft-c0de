@@ -269,6 +269,8 @@ A task is done when
 | 11.10 | Performance tests: many processes at the same time, large programs, deep recursion; tuning of the scheduler. | ✅ |
 | 11.11 | Multiplayer tests on the Docker servers with several clients (development clients and Modrinth App profiles), including non-operator players and permissions. |  |
 | 11.12 | Workflow `release.yml`, Modrinth project, changelog. |  |
+| 11.12.1 | `release.yml`, `publishMods` (Mod Publish Plugin 2.2.1, dry run without token) and `CHANGELOG.md`. | ✅ |
+| 11.12.2 | Modrinth project created, its ID in `publish.modrinth_id` and the secret `MODRINTH_TOKEN` (by the maintainer). |  |
 | 11.13 | Release 0.1.0 (first alpha). |  |
 
 ## Sprint 12: Newer Minecraft versions

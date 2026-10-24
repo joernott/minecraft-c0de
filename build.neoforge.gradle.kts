@@ -1,6 +1,7 @@
 plugins {
     id("net.neoforged.moddev") version "2.0.148"
     id("neoforge-mutex")
+    id("me.modmuss50.mod-publish-plugin") version "2.2.1"
 }
 
 version = "${property("mod.version")}+${sc.current.version}"
@@ -129,5 +130,26 @@ tasks {
         inputs.property("version", project.property("mod.version"))
         from(jar.flatMap { it.archiveFile }, named<Jar>("sourcesJar").flatMap { it.archiveFile })
         into(rootProject.layout.buildDirectory.file("libs/${project.property("mod.version")}"))
+    }
+}
+
+// Publishing to Modrinth (task 11.12): `publishMods` is a dry run unless MODRINTH_TOKEN and the project ID are set
+publishMods {
+    val modVersion = property("mod.version") as String
+    val projectId = sc.properties.get<String>("publish.modrinth_id")
+    val token = providers.environmentVariable("MODRINTH_TOKEN")
+    file = tasks.jar.flatMap { it.archiveFile }
+    version = "${modVersion}+${sc.current.version}-neoforge"
+    displayName = "c0de $modVersion for NeoForge ${sc.current.version}"
+    changelog = providers.fileContents(rootProject.layout.projectDirectory.file("CHANGELOG.md")).asText
+        .map { changelogSection(it, modVersion) }
+    type = if (modVersion.startsWith("0.")) ALPHA else STABLE
+    modLoaders.add("neoforge")
+    dryRun = token.map { it.isBlank() || projectId.isBlank() }.orElse(true)
+    modrinth {
+        this.projectId = projectId
+        accessToken = token
+        minecraftVersions.addAll(sc.properties.get<String>("mod.mc_releases").split(",").map { it.trim() })
+        optional("patchouli")
     }
 }

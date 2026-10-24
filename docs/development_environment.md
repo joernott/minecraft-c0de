@@ -138,6 +138,14 @@ The smoke test (`contrib/itest/smoke.sh`) also runs a process scenario (`contrib
 
 All workflows use `actions/setup-java` (Temurin) and `gradle/actions/setup-gradle` for caching. Every check is reported as an annotation, so failures are readable without opening the job logs.
 
+### Releasing a version
+
+The jars are published with the [Mod Publish Plugin](https://modmuss50.github.io/mod-publish-plugin/) (`publishMods` in both build scripts): one Modrinth version per node, named `<mod.version>+<Minecraft version>-<loader>`, as alpha for 0.x versions, with Fabric API as required and Patchouli as optional dependency. Without the secret or the project ID, `./gradlew :<node>:publishMods` is a dry run that prints what it would publish.
+
+  1. Once: create the Modrinth project (description from `docs/modrinth.md`), put its ID into `publish.modrinth_id` in `stonecutter.properties.toml` and store a Modrinth token with the scope to create versions as repository secret `MODRINTH_TOKEN`.
+  2. Set `mod.version` in `stonecutter.properties.toml` and add the section `## <version>` to `CHANGELOG.md`; it becomes the changelog on Modrinth and the notes of the GitHub release.
+  3. Fast-forward `main`, then tag and push: `git tag v<version> && git push origin v<version>`. `release.yml` checks that the tag matches `mod.version`, builds and tests all nodes, publishes them to Modrinth and creates the GitHub release (a pre-release for 0.x versions).
+
 ## Setup steps
 
 1. ~~Increase the VM disk~~ (done: 128 GB).

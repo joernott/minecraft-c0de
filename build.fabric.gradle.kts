@@ -1,6 +1,7 @@
 plugins {
     // Applies the right Loom variant depending on the Minecraft version
     id("dev.kikugie.loom-back-compat")
+    id("me.modmuss50.mod-publish-plugin") version "2.2.1"
 }
 
 // DO NOT set group = ...!
@@ -142,5 +143,27 @@ tasks {
         // loomx.mod(Sources)Jar returns the jar task for the applied loom variant
         from(loomx.modJar.flatMap { it.archiveFile }, loomx.modSourcesJar.flatMap { it.archiveFile })
         into(rootProject.layout.buildDirectory.file("libs/${project.property("mod.version")}"))
+    }
+}
+
+// Publishing to Modrinth (task 11.12): `publishMods` is a dry run unless MODRINTH_TOKEN and the project ID are set
+publishMods {
+    val modVersion = property("mod.version") as String
+    val projectId = sc.properties.get<String>("publish.modrinth_id")
+    val token = providers.environmentVariable("MODRINTH_TOKEN")
+    file = loomx.modJar.flatMap { it.archiveFile }
+    version = "${modVersion}+${sc.current.version}-fabric"
+    displayName = "c0de $modVersion for Fabric ${sc.current.version}"
+    changelog = providers.fileContents(rootProject.layout.projectDirectory.file("CHANGELOG.md")).asText
+        .map { changelogSection(it, modVersion) }
+    type = if (modVersion.startsWith("0.")) ALPHA else STABLE
+    modLoaders.add("fabric")
+    dryRun = token.map { it.isBlank() || projectId.isBlank() }.orElse(true)
+    modrinth {
+        this.projectId = projectId
+        accessToken = token
+        minecraftVersions.addAll(sc.properties.get<String>("mod.mc_releases").split(",").map { it.trim() })
+        requires("fabric-api")
+        optional("patchouli")
     }
 }
