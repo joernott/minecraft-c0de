@@ -1,8 +1,9 @@
 {
   "parent": "minecraft:block/slab",
   "textures": {
-    "bottom": "c0de:block/type_time_block",
+    "bottom": "minecraft:item/clock_00",
     "top": "c0de:block/type_time_block",
     "side": "c0de:block/type_time_block_side"
-  }
+  },
+  "render_type": "minecraft:cutout"
 }

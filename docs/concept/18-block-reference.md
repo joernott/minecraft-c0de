@@ -4,7 +4,7 @@
 
 The block IDs are the names in lowercase with the suffix `_block`, e.g. `c0de:noop_block`, `c0de:type_boolean_block` or `c0de:operator_block`.
 
-The language blocks are as high as a slab. Most of them are slabs with their symbol on the top and plain sides; some have the shape of their symbol instead. Their color doesn't show whether a line is valid; the [line numbers](01-dimension.md#line-numbers) on the floor show it. The validated blocks have the block states `valid` and `incomplete` for the line numbers. Right-clicking a block with an item in the main hand uses the item (e.g. places a block next to it); only an empty hand opens the dialog of a block.
+The language blocks are as high as a slab. Most of them are slabs with their symbol on the top and plain sides; some have the shape of their symbol instead. The symbols are raised half a pixel above the top, as if they lay in an invisible item frame. Their color doesn't show whether a line is valid; the [line numbers](01-dimension.md#line-numbers) on the floor show it. The validated blocks have the block states `valid` and `incomplete` for the line numbers. Right-clicking a block with an item in the main hand uses the item (e.g. places a block next to it); only an empty hand opens the dialog of a block.
 
 | Block | Color | Look | Recipe |
 |---|---|---|---|
@@ -17,16 +17,16 @@ The language blocks are as high as a slab. Most of them are slabs with their sym
 | BEGIN / END | gold #FFAA00 | shape: seen from above a trapezoid with diagonal sides; BEGIN is wide towards its code block (south), END towards the code block above it (north) | 8 NOOP around yellow wool → 8 BEGIN; BEGIN ↔ END |
 | BREAK | gold #FFAA00 | broken stick | NOOP + stick |
 | type base (item) | – | question mark | 8 NOOP around red carpet → 8 |
-| TYPE_BOOLEAN | red | redstone torch | type base + redstone torch |
-| TYPE_INTEGER | red | yellow sand | type base + sand; TYPE_FLOAT + yellow dye |
-| TYPE_FLOAT | red | orange sand | type base + red sand; TYPE_INTEGER + orange dye |
-| TYPE_CHAR | red | oak plank | type base + oak plank |
-| TYPE_STRING | red | string | type base + string |
-| TYPE_ARRAY | red | barrel | type base + barrel |
-| TYPE_HASH | red | chest | type base + chest or trapped chest |
-| TYPE_STRUCT | red | scaffolding | type base + scaffolding |
-| TYPE_TIME | red | clock | type base + clock |
-| TYPE_ERROR | red | campfire | type base + campfire |
+| TYPE_BOOLEAN | red | a redstone torch lies on the top, the item it is crafted from | type base + redstone torch |
+| TYPE_INTEGER | red | a sand block lies on the top, the item it is crafted from | type base + sand; TYPE_FLOAT + yellow dye |
+| TYPE_FLOAT | red | a red sand block lies on the top, the item it is crafted from | type base + red sand; TYPE_INTEGER + orange dye |
+| TYPE_CHAR | red | an oak plank lies on the top, the item it is crafted from | type base + oak plank |
+| TYPE_STRING | red | a string lies on the top, the item it is crafted from | type base + string |
+| TYPE_ARRAY | red | a barrel lies on the top, the item it is crafted from | type base + barrel |
+| TYPE_HASH | red | a chest lies on the top, the item it is crafted from | type base + chest or trapped chest |
+| TYPE_STRUCT | red | a scaffolding block lies on the top, the item it is crafted from | type base + scaffolding |
+| TYPE_TIME | red | a clock lies on the top, the item it is crafted from | type base + clock |
+| TYPE_ERROR | red | a campfire lies on the top, the item it is crafted from | type base + campfire |
 | VARIABLE | blue | shape: a blue chest, as high as a slab | type base + bone block; CONSTANT |
 | CONSTANT | blue | shape: a blue barrel, as high as a slab | type base + 3 bones; VARIABLE |
 | LITERAL | gray #AAAAAA | shape: octagon, value on the top | 8 NOOP around white wool → 8 |

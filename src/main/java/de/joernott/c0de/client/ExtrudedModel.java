@@ -23,8 +23,13 @@ import net.minecraft.world.level.block.state.BlockState;
  *
  * <p>The JSON model of each block is a slab; this model wraps it and takes the textures of its top and side. The
  * top texture is projected from above, so it is cut along the sides; the sides show the lower half of the side
- * texture, like a slab. PROGRAM carries a book, as if it lay in an invisible item frame: the bottom texture of
- * its slab model, extruded by half a pixel like an item. The outline and collision shapes are in
+ * texture, like a slab.
+ *
+ * <p>The symbols of the blocks are raised half a pixel above their tops, like items in invisible item frames: the
+ * bottom texture of the slab model is the symbol on a transparent background (the bottom of the block is never
+ * seen). Textures of Minecraft (the book of PROGRAM, the items of the type blocks) are as large as items in an item
+ * frame; the symbols of the mod cover the whole top, so their pixels stay where the texture has them. Blocks with a
+ * symbol but without a shape of their own are squares. The outline and collision shapes are in
  * {@link CodeBlockShapes}.
  */
 public final class ExtrudedModel implements BakedModel {
@@ -32,7 +37,7 @@ public final class ExtrudedModel implements BakedModel {
     private static final int STRIDE = 8;
     /** The number of edges of the semicircle of PROGRAM; a full circle has twice as many. */
     private static final int ROUND_EDGES = 12;
-    /** The size of an item lying on the top, in blocks, and its thickness. */
+    /** The size of a Minecraft texture lying on the top, in blocks, and the thickness of all symbols. */
     private static final float ITEM_SIZE = 10 / 16.0F;
     private static final float ITEM_THICKNESS = 0.5F / 16;
 
@@ -40,7 +45,7 @@ public final class ExtrudedModel implements BakedModel {
     private final List<BakedQuad> bottom = new ArrayList<>();
     private final List<BakedQuad> quads = new ArrayList<>();
 
-    private ExtrudedModel(BakedModel slab, double[][] polygon, boolean item) {
+    private ExtrudedModel(BakedModel slab, double[][] polygon) {
         this.slab = slab;
         TextureAtlasSprite top = sprite(slab, Direction.UP);
         TextureAtlasSprite side = sprite(slab, Direction.NORTH);
@@ -57,8 +62,10 @@ public final class ExtrudedModel implements BakedModel {
         for (int i = 0; i < n; i++) {
             quads.add(side(polygon[i], polygon[(i + 1) % n], center, height, side));
         }
-        if (item) {
-            item(sprite(slab, Direction.DOWN), height);
+        TextureAtlasSprite symbol = sprite(slab, Direction.DOWN);
+        if (!symbol.contents().name().equals(top.contents().name())) {
+            boolean minecraft = symbol.contents().name().getNamespace().equals("minecraft");
+            item(symbol, height, minecraft ? ITEM_SIZE : 1);
         }
     }
 
@@ -66,18 +73,17 @@ public final class ExtrudedModel implements BakedModel {
      * An item lying on the top, as in an invisible item frame: its sprite on top and a side for every edge between
      * an opaque and a transparent pixel, like the item models of Minecraft. Readable from the south.
      */
-    private void item(TextureAtlasSprite sprite, float bottom) {
+    private void item(TextureAtlasSprite sprite, float bottom, float size) {
         SpriteContents contents = sprite.contents();
         int width = contents.width();
         int height = contents.height();
-        float x0 = (1 - ITEM_SIZE) / 2;
-        float z0 = (1 - ITEM_SIZE) / 2;
+        float x0 = (1 - size) / 2;
+        float z0 = (1 - size) / 2;
         float top = bottom + ITEM_THICKNESS;
-        float pixelX = ITEM_SIZE / width;
-        float pixelZ = ITEM_SIZE / height;
+        float pixelX = size / width;
+        float pixelZ = size / height;
         int[] data = new int[4 * STRIDE];
-        float[][] corners = {{x0, z0, 0, 0}, {x0, z0 + ITEM_SIZE, 0, 1}, {x0 + ITEM_SIZE, z0 + ITEM_SIZE, 1, 1},
-            {x0 + ITEM_SIZE, z0, 1, 0}};
+        float[][] corners = {{x0, z0, 0, 0}, {x0, z0 + size, 0, 1}, {x0 + size, z0 + size, 1, 1}, {x0 + size, z0, 1, 0}};
         for (int i = 0; i < 4; i++) {
             vertex(data, i, corners[i][0], top, corners[i][1], sprite.getU(corners[i][2]), sprite.getV(corners[i][3]),
                     Direction.UP);
@@ -126,18 +132,18 @@ public final class ExtrudedModel implements BakedModel {
         }
         double inset = CodeBlockShapes.TRAPEZOID_INSET;
         // The polygons MUST match the borders of the top textures (scripts/generate_textures.py, TOP_SHAPES)
-        return switch (id.id().getPath()) {
-            case "begin_block" ->
-                new ExtrudedModel(model, new double[][] {{inset, 0}, {0, 16}, {16, 16}, {16 - inset, 0}}, false);
-            case "end_block" ->
-                new ExtrudedModel(model, new double[][] {{0, 0}, {inset, 16}, {16 - inset, 16}, {16, 0}}, false);
-            case "program_block" -> new ExtrudedModel(model, halfRound(), true);
-            case "literal_block" -> new ExtrudedModel(model, octagon(), false);
-            case "assign_block" -> new ExtrudedModel(model, new double[][] {{0, 0}, {0, 16}, {16, 8}}, false);
-            case "for_block", "each_block", "while_block", "repeat_block" -> new ExtrudedModel(model, circle(), false);
-            case "if_block", "else_block" ->
-                new ExtrudedModel(model, new double[][] {{8, 0}, {0, 8}, {8, 16}, {16, 8}}, false);
-            default -> model;
+        String path = id.id().getPath();
+        return switch (path) {
+            case "begin_block" -> new ExtrudedModel(model, new double[][] {{inset, 0}, {0, 16}, {16, 16}, {16 - inset, 0}});
+            case "end_block" -> new ExtrudedModel(model, new double[][] {{0, 0}, {inset, 16}, {16 - inset, 16}, {16, 0}});
+            case "program_block" -> new ExtrudedModel(model, halfRound());
+            case "literal_block" -> new ExtrudedModel(model, octagon());
+            case "assign_block" -> new ExtrudedModel(model, new double[][] {{0, 0}, {0, 16}, {16, 8}});
+            case "for_block", "each_block", "while_block", "repeat_block" -> new ExtrudedModel(model, circle());
+            case "if_block", "else_block" -> new ExtrudedModel(model, new double[][] {{8, 0}, {0, 8}, {8, 16}, {16, 8}});
+            case "tag_block", "exit_block", "break_block", "function_block", "return_block", "call_block" ->
+                new ExtrudedModel(model, SQUARE);
+            default -> path.startsWith("type_") && path.endsWith("_block") ? new ExtrudedModel(model, SQUARE) : model;
         };
     }
 
@@ -156,6 +162,9 @@ public final class ExtrudedModel implements BakedModel {
         polygon[ROUND_EDGES + 2] = new double[] {16, 0};
         return polygon;
     }
+
+    /** The whole block: for blocks with a symbol but without a shape of their own. */
+    private static final double[][] SQUARE = {{0, 0}, {0, 16}, {16, 16}, {16, 0}};
 
     /** A circle filling the block, in the same order of corners as the other polygons. */
     private static double[][] circle() {

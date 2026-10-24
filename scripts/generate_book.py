@@ -129,8 +129,8 @@ def main() -> None:
                         " trigger blocks. This guide shows how to write and run them.",
         "version": 1,
         "use_resource_pack": True,
-        "model": "patchouli:book_green",
-        "book_texture": "patchouli:textures/gui/book_green.png",
+        "model": "patchouli:book_red",
+        "book_texture": "patchouli:textures/gui/book_red.png",
         "creative_tab": "c0de:c0de",
         "show_progress": False,
     })

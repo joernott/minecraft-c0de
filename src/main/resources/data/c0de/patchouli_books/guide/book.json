@@ -3,8 +3,8 @@
   "landing_text": "Programs built from blocks, written on the greenbar paper of the c0de dimension and run by trigger blocks. This guide shows how to write and run them.",
   "version": 1,
   "use_resource_pack": true,
-  "model": "patchouli:book_green",
-  "book_texture": "patchouli:textures/gui/book_green.png",
+  "model": "patchouli:book_red",
+  "book_texture": "patchouli:textures/gui/book_red.png",
   "creative_tab": "c0de:c0de",
   "show_progress": false
 }

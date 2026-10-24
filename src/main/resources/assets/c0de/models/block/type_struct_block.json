@@ -1,8 +1,9 @@
 {
   "parent": "minecraft:block/slab",
   "textures": {
-    "bottom": "c0de:block/type_struct_block",
+    "bottom": "minecraft:block/scaffolding_top",
     "top": "c0de:block/type_struct_block",
     "side": "c0de:block/type_struct_block_side"
-  }
+  },
+  "render_type": "minecraft:cutout"
 }

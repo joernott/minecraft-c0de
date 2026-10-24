@@ -575,6 +575,12 @@ public class ProcessManager extends SavedData {
         return Component.translatable("message.c0de.aborted", process.program(), pid);
     }
 
+    /** The sheet and the current line of the cursor of a process, or empty if it has ended. */
+    public Optional<int[]> position(UUID id) {
+        Process process = processes.get(id);
+        return process == null ? Optional.empty() : Optional.of(new int[] {process.sheet(), process.cursor().line()});
+    }
+
     /** The data of the cursor dialog of the debugging tool: properties and stack of the cursor. */
     public Optional<CompoundTag> inspect(UUID id) {
         Process process = processes.get(id);

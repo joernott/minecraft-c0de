@@ -1,8 +1,9 @@
 {
   "parent": "minecraft:block/slab",
   "textures": {
-    "bottom": "c0de:block/type_error_block",
+    "bottom": "minecraft:item/campfire",
     "top": "c0de:block/type_error_block",
     "side": "c0de:block/type_error_block_side"
-  }
+  },
+  "render_type": "minecraft:cutout"
 }

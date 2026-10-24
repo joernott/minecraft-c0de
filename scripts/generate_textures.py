@@ -202,10 +202,6 @@ def circle(dx: float, dy: float) -> bool:
     return dx * dx + dy * dy <= 30
 
 
-def octagon(dx: float, dy: float) -> bool:
-    return abs(dx) <= 6 and abs(dy) <= 6 and abs(dx) + abs(dy) <= 9
-
-
 def ring(dx: float, dy: float) -> bool:
     """A thin circular arrow: a ring one pixel wide with a gap on the right, clear of the symbol inside."""
     return 30 <= dx * dx + dy * dy <= 46 and not (dx > 0 and -2 < dy < 1)
@@ -418,16 +414,6 @@ def small_square(dx: float, dy: float) -> bool:
 
 LIME = 0x55FF55
 
-# The telephone receiver of the emoji 📞, in black: the ear piece at the upper left, the mouth piece at the lower right
-HANDSET = [
-    "##......",
-    "###.....",
-    "###.....",
-    ".##.....",
-    "..##..##",
-    "...#####",
-    "....###.",
-]
 
 # (block ID, color, function that draws the symbol on the top). The colors don't change with the state of the
 # line any more; the line numbers on the floor show it.
@@ -442,7 +428,8 @@ CODE_BLOCKS = [
 
     ("function_block", 0x555555, lambda i: (paint(i, circle, WHITE), glyph(i, "ƒ", 0x202020))),
     ("return_block", 0xAA00AA, lambda i: icon(i, "spruce_door")),
-    ("call_block", 0x555555, lambda i: (paint(i, circle, WHITE), mask(i, HANDSET, {"#": 0x000000}, 4, 5))),
+    # The symbol of CALL is drawn by hand: scripts/hand_drawn/call_block.png
+    ("call_block", 0x555555, lambda i: None),
     ("for_block", 0x00AA00, lambda i: (paint(i, ring, LIME), glyph(i, "#", LIME, 5, 5))),
     ("each_block", 0x00AA00, lambda i: (paint(i, ring, LIME), paint(i, small_square, LIME))),
     ("while_block", 0x00AA00, lambda i: (paint(i, ring, LIME), glyph(i, "?", LIME, 5, 4))),
@@ -614,6 +601,59 @@ def shaped_top(image: Image, inside) -> None:
         image[z][x] = shade(image[z][x], -40)
 
 
+HAND_DRAWN = Path(__file__).resolve().parent / "hand_drawn"
+
+
+def read_png(path: Path) -> Image:
+    """Reads an RGBA or RGB PNG with 8 bits per channel."""
+    data = path.read_bytes()
+    pos, idat, width, height, kind = 8, b"", 0, 0, 6
+    while pos < len(data):
+        length, chunk = struct.unpack(">I4s", data[pos:pos + 8])
+        body = data[pos + 8:pos + 8 + length]
+        if chunk == b"IHDR":
+            width, height, _, kind = struct.unpack(">IIBB", body[:10])
+        elif chunk == b"IDAT":
+            idat += body
+        pos += 12 + length
+    channels = {6: 4, 2: 3}[kind]
+    raw = zlib.decompress(idat)
+    stride = width * channels
+    rows, previous, i = [], bytearray(stride), 0
+    for _ in range(height):
+        method, line = raw[i], bytearray(raw[i + 1:i + 1 + stride])
+        i += 1 + stride
+        for x in range(stride):
+            a = line[x - channels] if x >= channels else 0
+            b = previous[x]
+            c = previous[x - channels] if x >= channels else 0
+            if method == 1:
+                line[x] = (line[x] + a) & 255
+            elif method == 2:
+                line[x] = (line[x] + b) & 255
+            elif method == 3:
+                line[x] = (line[x] + (a + b) // 2) & 255
+            elif method == 4:
+                p = a + b - c
+                pa, pb, pc = abs(p - a), abs(p - b), abs(p - c)
+                line[x] = (line[x] + (a if pa <= pb and pa <= pc else b if pb <= pc else c)) & 255
+        previous = line
+        rows.append([tuple(line[x:x + channels]) + ((255,) if channels == 3 else ()) for x in range(0, stride, channels)])
+    return rows
+
+
+def hand_drawn_symbol(block: str) -> Image:
+    """The symbol of a texture drawn by hand: its white and black pixels inside the frame; the gray background
+    and the frame are left out."""
+    image = blank()
+    for y, row in enumerate(read_png(HAND_DRAWN / (block + ".png"))):
+        for x, (r, g, b, a) in enumerate(row):
+            light = (r + g + b) / 3
+            if a and 0 < x < 15 and 0 < y < 15 and (light > 200 or light < 30):
+                image[y][x] = (r, g, b, 255)
+    return image
+
+
 def code_block_textures(blocks: Path) -> None:
     write_png(blocks / "noop_block.png", noop())
     write_png(blocks / "noop_block_side.png", noop_side())
@@ -625,25 +665,34 @@ def code_block_textures(blocks: Path) -> None:
     shaped_top(assign, TOP_SHAPES["assign_block"])
     write_png(blocks / "assign_block.png", assign)
     write_png(blocks / "assign_block_side.png", slab_side(0x00AAAA, "assign_block_side"))
+    # The symbols are textures of their own on a transparent background; the models raise them half a pixel
+    # above the top of the block (ExtrudedModel), so the tops are plain
     for block, char, top in (("if_block", "?", 5), ("else_block", "¿", 4)):
         image = concrete(0x00AA00, block, 3)
         shaped_top(image, TOP_SHAPES[block])
-        glyph(image, char, LIME, 5, top)
         write_png(blocks / (block + ".png"), image)
+        symbol = blank()
+        glyph(symbol, char, LIME, 5, top)
+        write_png(blocks / (block + "_symbol.png"), symbol)
     write_png(blocks / "if_block_side.png", slab_side(0x00AA00, "if_block_side"))
     for block, color, draw in CODE_BLOCKS:
         image = concrete(color, block, 3) if block in TOP_SHAPES else framed(color, block)
         if block in TOP_SHAPES:
             shaped_top(image, TOP_SHAPES[block])
-        draw(image)
         write_png(blocks / (block + ".png"), image)
         write_png(blocks / (block + "_side.png"), slab_side(color, block + "_side"))
+        symbol = blank()
+        draw(symbol)
+        if any(pixel != CLEAR for row in symbol for pixel in row):
+            write_png(blocks / (block + "_symbol.png"), symbol)
+    write_png(blocks / "call_block_symbol.png", hand_drawn_symbol("call_block"))
+    # The type blocks carry the item they were crafted from (block models); the chest of HASH is drawn
     for block, name, color in TYPE_BLOCKS:
-        image = framed(0xCC2222, block)
-        paint(image, octagon, WHITE)
-        icon(image, name, color)
-        write_png(blocks / (block + ".png"), image)
+        write_png(blocks / (block + ".png"), framed(0xCC2222, block))
         write_png(blocks / (block + "_side.png"), slab_side(0xCC2222, block + "_side"))
+    chest = blank()
+    icon(chest, "chest")
+    write_png(blocks / "type_hash_block_symbol.png", chest)
     # BEGIN and END: the top is cut along the diagonals, so it has no border
     for block in ("begin_block", "end_block"):
         image = concrete(0xFFAA00, block, 3)

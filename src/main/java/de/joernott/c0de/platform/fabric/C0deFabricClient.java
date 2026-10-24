@@ -34,11 +34,9 @@ public class C0deFabricClient implements ClientModInitializer {
         DimensionRenderingRegistry.registerDimensionEffects(C0deDimensionEffects.ID, new C0deDimensionEffects());
         C0deClient.init();
         Platform.FabricPlatform.CLIENTBOUND.forEach(C0deFabricClient::receive);
+        // The symbols on the blocks have transparent pixels; NeoForge reads the render type from the models
         for (CodeBlockType type : CodeBlockType.values()) {
-            // PROGRAM carries a book with transparent pixels
-            if (type.isTransparent() || type == CodeBlockType.PROGRAM) {
-                BlockRenderLayerMap.INSTANCE.putBlock(C0deBlocks.get(type), RenderType.cutout());
-            }
+            BlockRenderLayerMap.INSTANCE.putBlock(C0deBlocks.get(type), RenderType.cutout());
         }
         // The vanilla registration method is private in 1.21.1
         C0deBlockEntities.all().forEach(C0deFabricClient::renderer);

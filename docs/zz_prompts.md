@@ -390,3 +390,22 @@ Also implement 11.4. For that, add another subtask to support documentation in t
 2: yes
 3: The pages are fine
 4: I suggested the wrong recipe. Tis is the same recipe as for the PROGRAM block. So, instead of using a NOOP block, let's use a program block and a book to craft the patchouli book.
+
+## 2026-10-24 – Raised symbols, reference handbooks, hammer on empty lines, cursor line in chat
+
+The recipe looks fine. I have redreawn src/resources/assets/c0de/textures/block/call_block.png to look the way I want.
+
+I like the way, the symbol sticks out a pixel from Program and Include. Please do that for all th other symbols on blocks as well. Also design the symbols on the type blocks to actually use a similar technique, with the item, they were crafted from
+
+Please recolor the Patchouli book to be red instead of green. 
+
+In addition to the guide, I'd like more separate red books: For types, literals, constants and variables, one for functions and the other structural blocks, one for tools, one for triggers. Another book should be a function reference. Those should be designed more like a handbook, each with one page per element, Those pages should be structured in the same way:
+- The first paragraph is always with a short description at the beginning,
+- The second is their crafting recipe
+- The third is an example on how to use it
+
+The MD documentation also should have an image for every crafting recipe and lookup pages following the same organisational structure and an index to tie them together.
+
+I want to use the hammer tool on completely empty lines, too.
+
+When left clicking the cursor with the debug tool, it should say the instruction line in the chat to the person who clicked, highlighting in red, when elements are missing or wrong.

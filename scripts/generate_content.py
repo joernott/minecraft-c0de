@@ -251,6 +251,7 @@ MESSAGES = [
     ("message.c0de.no_process", "No process with PID %s is running", "Es läuft kein Prozess mit der PID %s"),
     ("message.c0de.not_owner", "Only the owner of its trigger block or an operator can abort process %s",
      "Nur der Besitzer seines Auslöserblocks oder ein Operator kann Prozess %s abbrechen"),
+    ("message.c0de.cursor_line", "Line %s: ", "Zeile %s: "),
     ("message.c0de.inserted", "Empty line inserted in front of line %s", "Leere Zeile vor Zeile %s eingefügt"),
     ("message.c0de.no_last_mark", "Mark or unmark a line on this sheet with a left click first",
      "Markiere zuerst eine Zeile auf diesem Blatt mit einem Linksklick oder entferne ihre Markierung"),

@@ -5,11 +5,16 @@ import de.joernott.c0de.block.TriggerBlock;
 import de.joernott.c0de.blockentity.TriggerBlockEntity;
 import de.joernott.c0de.content.C0deItems;
 import de.joernott.c0de.core.edit.LineMoves;
+import de.joernott.c0de.core.line.Notation;
 import de.joernott.c0de.core.sheet.SheetGeometry;
+import de.joernott.c0de.core.validation.Validation;
+import de.joernott.c0de.core.validation.Validator;
 import de.joernott.c0de.dialog.SheetProtection;
+import de.joernott.c0de.dimension.C0deDimension;
 import de.joernott.c0de.entity.CursorEntity;
 import de.joernott.c0de.item.DebugToolItem;
 import de.joernott.c0de.item.WrenchItem;
+import de.joernott.c0de.library.ModLibraries;
 import de.joernott.c0de.network.ToolPayload;
 import de.joernott.c0de.platform.Platform;
 import de.joernott.c0de.process.ProcessManager;
@@ -21,8 +26,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -116,6 +123,32 @@ public final class ToolActions {
         return true;
     }
 
+    /**
+     * Shows the line of a cursor in the chat of the player, in the notation of the line. A wrong line is red, a line
+     * of an unfinished statement gold; then the problem follows.
+     */
+    private static void showLine(ServerPlayer player, int sheet, int z) {
+        ServerLevel c0de = player.server.getLevel(C0deDimension.LEVEL);
+        if (c0de == null || !LevelSheet.isLoaded(c0de, sheet, z)) {
+            return;
+        }
+        String text = Notation.format(LevelSheet.readLine(c0de, sheet, z)).strip();
+        Optional<Validation> validation =
+                LevelSheet.read(c0de, sheet).map(lines -> Validator.validate(lines, ModLibraries.registry()));
+        Validation.LineState state = validation.map(v -> v.state(z)).orElse(Validation.LineState.VALID);
+        ChatFormatting color = switch (state) {
+            case VALID -> ChatFormatting.WHITE;
+            case INCOMPLETE -> ChatFormatting.GOLD;
+            case INVALID -> ChatFormatting.RED;
+        };
+        MutableComponent message = Component.translatable("message.c0de.cursor_line", z)
+                .withStyle(ChatFormatting.GRAY)
+                .append(Component.literal(text.isEmpty() ? "(empty)" : text).withStyle(color));
+        validation.flatMap(v -> v.problem(z)).ifPresent(problem ->
+                message.append(Component.literal("  " + problem.message()).withStyle(ChatFormatting.RED)));
+        player.sendSystemMessage(message);
+    }
+
     private static void message(ServerPlayer player, String key, Object... arguments) {
         player.displayClientMessage(Component.translatable(key, arguments), true);
     }
@@ -155,10 +188,12 @@ public final class ToolActions {
             if (item instanceof DebugToolItem
                     && entity instanceof CursorEntity cursor
                     && (!checkReach || player.distanceTo(cursor) <= player.entityInteractionRange() + REACH_TOLERANCE)) {
+                ProcessManager processes = ProcessManager.get(player.server);
                 message(
                         player,
                         "message.c0de.debug",
-                        ProcessManager.get(player.server).debug(player.server, cursor.process(), player.isShiftKeyDown()));
+                        processes.debug(player.server, cursor.process(), player.isShiftKeyDown()));
+                processes.position(cursor.process()).ifPresent(position -> showLine(player, position[0], position[1]));
             }
             return;
         }
@@ -280,6 +315,13 @@ public final class ToolActions {
             }
         }
         if (!hasCode) {
+            // Empty lines are removed too: the content after them moves up, up to a gap of two empty lines
+            int end = SheetEditor.endOfContent(level, sheet, area[1] + 1, 2);
+            if (end > area[1] + 1) {
+                SheetEditor.apply(level, sheet, LineMoves.delete(area[0], area[1], end));
+                level.playSound(null, pos, SoundEvents.STONE_BREAK, SoundSource.BLOCKS, 0.8F, 0.8F);
+                message(player, "message.c0de.deleted", area[0], area[1]);
+            }
             return;
         }
         int end = SheetEditor.endOfFollowingLines(level, sheet, area[1]);

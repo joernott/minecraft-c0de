@@ -1,8 +1,9 @@
 {
   "parent": "minecraft:block/slab",
   "textures": {
-    "bottom": "c0de:block/type_char_block",
+    "bottom": "minecraft:block/oak_planks",
     "top": "c0de:block/type_char_block",
     "side": "c0de:block/type_char_block_side"
-  }
+  },
+  "render_type": "minecraft:cutout"
 }

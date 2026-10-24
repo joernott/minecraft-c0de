@@ -1,8 +1,9 @@
 {
   "parent": "minecraft:block/slab",
   "textures": {
-    "bottom": "c0de:block/type_integer_block",
+    "bottom": "minecraft:block/sand",
     "top": "c0de:block/type_integer_block",
     "side": "c0de:block/type_integer_block_side"
-  }
+  },
+  "render_type": "minecraft:cutout"
 }

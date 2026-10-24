@@ -1,8 +1,9 @@
 {
   "parent": "minecraft:block/slab",
   "textures": {
-    "bottom": "c0de:block/type_boolean_block",
+    "bottom": "minecraft:block/redstone_torch",
     "top": "c0de:block/type_boolean_block",
     "side": "c0de:block/type_boolean_block_side"
-  }
+  },
+  "render_type": "minecraft:cutout"
 }

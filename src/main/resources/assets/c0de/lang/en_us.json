@@ -19,6 +19,7 @@
   "message.c0de.aborted": "Process %2$s of %1$s aborted",
   "message.c0de.no_process": "No process with PID %s is running",
   "message.c0de.not_owner": "Only the owner of its trigger block or an operator can abort process %s",
+  "message.c0de.cursor_line": "Line %s: ",
   "message.c0de.inserted": "Empty line inserted in front of line %s",
   "message.c0de.no_last_mark": "Mark or unmark a line on this sheet with a left click first",
   "message.c0de.protected": "The program %s is running (PID %s), its sheet can't be changed",

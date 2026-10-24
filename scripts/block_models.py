@@ -229,6 +229,25 @@ def texture(name: str) -> str:
     return "c0de:block/" + name
 
 
+# The blocks whose symbol is raised above their top (ExtrudedModel): the bottom texture of their slab model is the
+# symbol, on a transparent background
+SYMBOLS = ("TAG", "EXIT", "BREAK", "FUNCTION", "RETURN", "CALL", "FOR", "EACH", "WHILE", "REPEAT", "TYPE_HASH")
+
+# The type blocks carry the item they were crafted from, as if in an invisible item frame. The chest of HASH has
+# no texture of its own in Minecraft, so it is drawn (SYMBOLS).
+ITEM_SYMBOLS = {
+    "TYPE_BOOLEAN": "minecraft:block/redstone_torch",
+    "TYPE_INTEGER": "minecraft:block/sand",
+    "TYPE_FLOAT": "minecraft:block/red_sand",
+    "TYPE_CHAR": "minecraft:block/oak_planks",
+    "TYPE_STRING": "minecraft:item/string",
+    "TYPE_ARRAY": "minecraft:block/barrel_top",
+    "TYPE_STRUCT": "minecraft:block/scaffolding_top",
+    "TYPE_TIME": "minecraft:item/clock_00",
+    "TYPE_ERROR": "minecraft:item/campfire",
+}
+
+
 def block_model(name: str, bid: str, transparent: bool) -> dict:
     """The model of a language block (not OPERATOR, see operator_models)."""
     if name in ("PARAMETER", "RESULT"):
@@ -256,7 +275,11 @@ def block_model(name: str, bid: str, transparent: bool) -> dict:
     if name == "COMMENT":
         return shaped(glyph_elements(slashes()), {"top": texture("comment_block"), "side": texture("comment_block_side")})
     if name in ("IF", "ELSE"):
-        return slab(texture(bid), texture("if_block_side"))
+        return slab(texture(bid), texture("if_block_side"), True, texture(bid + "_symbol"))
+    if name in ITEM_SYMBOLS:
+        return slab(texture(bid), texture(bid + "_side"), True, ITEM_SYMBOLS[name])
+    if name in SYMBOLS:
+        return slab(texture(bid), texture(bid + "_side"), True, texture(bid + "_symbol"))
     return slab(texture(bid), texture(bid + "_side"), transparent)
 
 

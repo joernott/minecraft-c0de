@@ -227,6 +227,14 @@ public final class ToolTests {
             }
             helper.assertTrue(order.equals(List.of(0, -1, 1, 2, 3, 4, 5)), "After inserting, the lines are " + order);
             helper.assertTrue(SheetMarks.isMarked(level, 523, 2), "The mark didn't move with its line");
+            // A left click on the empty line removes it again
+            SheetMarks.set(level, 523, 2, false);
+            click(helper, player, sheet.pos(8, 1).below());
+            order.clear();
+            for (int z = 0; z < 7; z++) {
+                order.add(line(level, sheet, z));
+            }
+            helper.assertTrue(order.equals(List.of(0, 1, 2, 3, 4, 5, -1)), "After removing, the lines are " + order);
         } finally {
             for (int z = 0; z < 8; z++) {
                 level.setBlockAndUpdate(sheet.pos(5, z), Blocks.AIR.defaultBlockState());

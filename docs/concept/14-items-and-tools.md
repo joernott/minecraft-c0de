@@ -6,6 +6,8 @@
 
 The debugging tool looks like a fly swatter with a wooden handle and a leather square at the top.
 
+Left-clicking a cursor with the debugging tool also shows its current line in the chat of the player, in the notation of the line. A wrong line is shown in red and an unfinished statement in gold, followed by the problem.
+
 Shift-right-clicking a PID block with the debugging tool aborts its process: the cursor crashes with PROCESS_ABORTED (206), and the process ends like a crashed one, so the items it took from the input inventory go to the output inventory. Only the owner of the trigger block and operators can abort a process.
 
 It is used to
@@ -82,7 +84,7 @@ A wrench is crafted from red wool and three iron ingots:
 
 Every decent tech mod needs a hammer. This is the c0de hammer. It is used to delete a single line or marked code: the user left-clicks a marked area or a single line, which removes the marked area or the line. The following lines up to the next empty line are moved up (north) automatically. In survival mode, the removed blocks go to the inventory of the player.
 
-Right-clicking a line with the hammer inserts an empty line in front of it: the clicked line and all lines after it move south, up to the next gap of two empty lines, so they don't join the lines after the gap. The marks move with their lines.
+Empty lines can be deleted too: left-clicking an empty line removes it, and the lines after it move up. Right-clicking a line with the hammer inserts an empty line in front of it: the clicked line and all lines after it move south, up to the next gap of two empty lines, so they don't join the lines after the gap. The marks move with their lines.
 
 The wrench and the hammer can't be used on a sheet while a process of its program is running (see [Protection of running programs](13-running-programs.md#protection-of-running-programs)).
 
