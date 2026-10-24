@@ -2,6 +2,7 @@
   "values": [
     "c0de:trigger_block",
     "c0de:timer_block",
-    "c0de:debug_trigger_block"
+    "c0de:debug_trigger_block",
+    "c0de:display_block"
   ]
 }

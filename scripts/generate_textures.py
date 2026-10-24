@@ -906,6 +906,8 @@ def main() -> None:
     write_png(blocks / "timer_block.png", timer_block())
     write_png(blocks / "debug_trigger_block.png", debug_trigger_block())
     write_png(blocks / "pid_block.png", pid_block())
+    # The front of the display blocks: borderless, very dark gray
+    write_png(blocks / "display_front.png", concrete(0x141414, "display_front", 2))
     write_png(TEXTURES / "item" / "wrench.png", wrench())
     code_block_textures(blocks)
     item_textures()

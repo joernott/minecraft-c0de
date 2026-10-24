@@ -5,6 +5,7 @@ package de.joernott.c0de.gametest.neoforge;
 import de.joernott.c0de.gametest.CodeBlockTests;
 import de.joernott.c0de.gametest.DimensionTests;
 import de.joernott.c0de.gametest.DiskTests;
+import de.joernott.c0de.gametest.IoTests;
 import de.joernott.c0de.gametest.LibraryTests;
 import de.joernott.c0de.gametest.ProcessTests;
 import de.joernott.c0de.gametest.SmokeTests;
@@ -117,6 +118,11 @@ public class NeoForgeGameTests {
     @GameTest(template = "empty")
     public static void processesCanBeAborted(GameTestHelper helper) {
         ProcessTests.processesCanBeAborted(helper);
+    }
+
+    @GameTest(template = "empty")
+    public static void displaysShowWhatProgramsPrint(GameTestHelper helper) {
+        IoTests.displaysShowWhatProgramsPrint(helper);
     }
 
     @GameTest(template = "empty", timeoutTicks = 800)

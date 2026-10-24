@@ -120,7 +120,8 @@ public sealed interface Platform {
     /** A handler of a player starting to break a block. */
     @FunctionalInterface
     interface AttackBlockHandler {
-        boolean handle(Player player, Level level, BlockPos pos);
+        /** @param face the clicked face of the block, or null if it is not known */
+        boolean handle(Player player, Level level, BlockPos pos, net.minecraft.core.Direction face);
     }
 
     /** A handler of a player attacking an entity. */
@@ -289,7 +290,7 @@ public sealed interface Platform {
         @Override
         public void onAttackBlock(AttackBlockHandler handler) {
             net.fabricmc.fabric.api.event.player.AttackBlockCallback.EVENT.register(
-                    (player, level, hand, pos, direction) -> handler.handle(player, level, pos)
+                    (player, level, hand, pos, direction) -> handler.handle(player, level, pos, direction)
                             ? net.minecraft.world.InteractionResult.SUCCESS
                             : net.minecraft.world.InteractionResult.PASS);
         }
@@ -466,7 +467,7 @@ public sealed interface Platform {
                         if (event.getAction()
                                         == net.neoforged.neoforge.event.entity.player.PlayerInteractEvent.LeftClickBlock
                                                 .Action.START
-                                && handler.handle(event.getEntity(), event.getLevel(), event.getPos())) {
+                                && handler.handle(event.getEntity(), event.getLevel(), event.getPos(), event.getFace())) {
                             event.setCanceled(true);
                         }
                     });

@@ -27,6 +27,7 @@ public final class C0deBlockEntities {
     public static Supplier<BlockEntityType<TagBlockEntity>> TAG;
     public static Supplier<BlockEntityType<TriggerBlockEntity>> TRIGGER;
     public static Supplier<BlockEntityType<PidBlockEntity>> PID;
+    public static Supplier<BlockEntityType<de.joernott.c0de.io.DisplayBlockEntity>> DISPLAY;
 
     private C0deBlockEntities() {}
 
@@ -50,6 +51,11 @@ public final class C0deBlockEntities {
                 BuiltInRegistries.BLOCK_ENTITY_TYPE,
                 "pid",
                 () -> Platform.INSTANCE.blockEntityType(PidBlockEntity::new, C0deBlocks.PID_BLOCK.get()));
+        DISPLAY = Platform.INSTANCE.register(
+                BuiltInRegistries.BLOCK_ENTITY_TYPE,
+                "display",
+                () -> Platform.INSTANCE.blockEntityType(
+                        de.joernott.c0de.io.DisplayBlockEntity::new, C0deBlocks.DISPLAY_BLOCK.get()));
     }
 
     /** All block entity types, e.g. for registering their renderers. */

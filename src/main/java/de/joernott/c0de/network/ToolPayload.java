@@ -14,12 +14,23 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
  *
  * @param pos the clicked block
  * @param entity the ID of the clicked entity, or -1 for a block
+ * @param face the index of the clicked face of the block ({@link net.minecraft.core.Direction#get3DDataValue}), or -1
  */
-public record ToolPayload(BlockPos pos, int entity) implements CustomPacketPayload {
+public record ToolPayload(BlockPos pos, int entity, int face) implements CustomPacketPayload {
+    public ToolPayload(BlockPos pos, int entity) {
+        this(pos, entity, -1);
+    }
+
     public static final Type<ToolPayload> TYPE = new Type<>(C0de.id("tool"));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, ToolPayload> CODEC = StreamCodec.composite(
-            BlockPos.STREAM_CODEC, ToolPayload::pos, ByteBufCodecs.VAR_INT, ToolPayload::entity, ToolPayload::new);
+            BlockPos.STREAM_CODEC,
+            ToolPayload::pos,
+            ByteBufCodecs.VAR_INT,
+            ToolPayload::entity,
+            ByteBufCodecs.VAR_INT,
+            ToolPayload::face,
+            ToolPayload::new);
 
     @Override
     public Type<ToolPayload> type() {

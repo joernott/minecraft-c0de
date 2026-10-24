@@ -270,6 +270,10 @@ MESSAGES = [
     ("dialog.c0de.disk.exists", "The file of %s exists. Overwrite it?", "Die Datei von %s existiert. Überschreiben?"),
     ("dialog.c0de.disk.confirm", "Overwrite", "Überschreiben"),
     ("dialog.c0de.disk.empty", "There are no saved programs", "Es gibt keine gespeicherten Programme"),
+    ("dialog.c0de.device", "Binding", "Bindung"),
+    ("dialog.c0de.device.program", "Program (empty: not bound)", "Programm (leer: nicht gebunden)"),
+    ("dialog.c0de.device.function", "Function", "Funktion"),
+    ("block.c0de.display_block", "Display Block", "Anzeigeblock"),
     ("dialog.c0de.trigger.input", "Input", "Eingabe"),
     ("dialog.c0de.trigger.output", "Output", "Ausgabe"),
     ("dialog.c0de.trigger.program", "Program", "Programm"),
@@ -387,6 +391,49 @@ def block_files(name: str, validated: bool, transparent: bool) -> None:
     })
 
 
+# The devices of input and output (docs/concept/19-input-output.md)
+DEVICES = ["display_block"]
+
+# The rotations of a model whose front faces north, for the six directions of a device
+FACINGS = {"north": {}, "south": {"y": 180}, "west": {"y": 270}, "east": {"y": 90}, "up": {"x": 270}, "down": {"x": 90}}
+
+
+def devices() -> None:
+    """The display block: a dark front and iron sides, or only the front if it is camouflaged."""
+    iron = "minecraft:block/iron_block"
+    front = "c0de:block/display_front"
+    write(ASSETS / "models" / "block" / "display_block.json", {
+        "parent": "minecraft:block/cube",
+        "textures": {"north": front, "south": iron, "east": iron, "west": iron, "up": iron, "down": iron,
+                     "particle": iron},
+    })
+    # A camouflaged display: the renderer draws the camouflage block, the front lies just in front of it
+    write(ASSETS / "models" / "block" / "display_block_front.json", {
+        "parent": "minecraft:block/block",
+        "textures": {"front": front, "particle": front},
+        "elements": [{"from": [0, 0, -0.02], "to": [16, 16, 0], "faces": {"north": {"texture": "#front"}}}],
+    })
+    variants = {}
+    for facing, rotation in FACINGS.items():
+        for camouflaged in ("false", "true"):
+            model = "c0de:block/display_block" + ("_front" if camouflaged == "true" else "")
+            variants["camouflaged=" + camouflaged + ",facing=" + facing] = dict({"model": model}, **rotation)
+    write(ASSETS / "blockstates" / "display_block.json", {"variants": variants})
+    write(ASSETS / "models" / "item" / "display_block.json", {"parent": "c0de:block/display_block"})
+    write(DATA / "loot_table" / "blocks" / "display_block.json", {
+        "type": "minecraft:block",
+        "pools": [{"rolls": 1, "entries": [{"type": "minecraft:item", "name": "c0de:display_block"}],
+                   "conditions": [{"condition": "minecraft:survives_explosion"}]}],
+    })
+    write(DATA / "recipe" / "display_block.json", shaped(
+        ["NNN", "RGN", "NNN"],
+        {"N": mc("iron_nugget"), "R": mc("redstone"), "G": mc("glowstone_dust")},
+        c0de("display_block"), 8))
+    write(ASSETS / "font" / "monocraft.json", {
+        "providers": [{"type": "ttf", "file": "c0de:monocraft.ttf", "shift": [0, 0], "size": 9, "oversample": 4.0}],
+    })
+
+
 def main() -> None:
     generate_book.main()
     for name, validated, transparent, _, _ in BLOCKS:
@@ -407,8 +454,9 @@ def main() -> None:
                 "conditions": [{"condition": "minecraft:survives_explosion"}],
             }],
         })
+    devices()
     write(RESOURCES / "data" / "minecraft" / "tags" / "block" / "mineable" / "pickaxe.json",
-          {"values": ["c0de:" + trigger for trigger, _, _, _, _ in TRIGGERS]})
+          {"values": ["c0de:" + trigger for trigger, _, _, _, _ in TRIGGERS] + ["c0de:" + d for d in DEVICES]})
     write(ASSETS / "models" / "block" / "pid_block.json",
           {"parent": "minecraft:block/cube_all", "textures": {"all": "c0de:block/pid_block"}})
     write(ASSETS / "blockstates" / "pid_block.json", {"variants": {"": {"model": "c0de:block/pid_block"}}})

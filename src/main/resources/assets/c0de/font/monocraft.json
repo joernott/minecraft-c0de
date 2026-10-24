@@ -1,0 +1,14 @@
+{
+  "providers": [
+    {
+      "type": "ttf",
+      "file": "c0de:monocraft.ttf",
+      "shift": [
+        0,
+        0
+      ],
+      "size": 9,
+      "oversample": 4.0
+    }
+  ]
+}

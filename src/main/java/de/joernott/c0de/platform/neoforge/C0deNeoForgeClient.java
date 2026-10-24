@@ -3,6 +3,7 @@ package de.joernott.c0de.platform.neoforge;
 //? if neoforge {
 /*import de.joernott.c0de.client.C0deClient;
 import de.joernott.c0de.client.C0deDimensionEffects;
+import de.joernott.c0de.client.DisplayRenderer;
 import de.joernott.c0de.client.ExtrudedModel;
 import de.joernott.c0de.client.LineNumbers;
 import de.joernott.c0de.client.ProcessRenderers;
@@ -29,6 +30,7 @@ public final class C0deNeoForgeClient {
             C0deBlockEntities.all().forEach(type -> event.registerBlockEntityRenderer(type, PropertiesRenderer::new));
             event.registerBlockEntityRenderer(C0deBlockEntities.TRIGGER.get(), ProcessRenderers.Camouflage::new);
             event.registerBlockEntityRenderer(C0deBlockEntities.PID.get(), ProcessRenderers.Pid::new);
+            event.registerBlockEntityRenderer(C0deBlockEntities.DISPLAY.get(), DisplayRenderer::new);
             event.registerEntityRenderer(C0deEntities.CURSOR.get(), ProcessRenderers.Cursor::new);
             event.registerEntityRenderer(C0deEntities.MARK.get(), ProcessRenderers.Mark::new);
         });

@@ -4,6 +4,7 @@ package de.joernott.c0de.platform.fabric;
 import de.joernott.c0de.blockentity.PropertiesBlockEntity;
 import de.joernott.c0de.client.C0deClient;
 import de.joernott.c0de.client.C0deDimensionEffects;
+import de.joernott.c0de.client.DisplayRenderer;
 import de.joernott.c0de.client.ExtrudedModel;
 import de.joernott.c0de.client.LineNumbers;
 import de.joernott.c0de.client.ProcessRenderers;
@@ -46,6 +47,8 @@ public class C0deFabricClient implements ClientModInitializer {
         }
         BlockEntityRendererRegistry.register(C0deBlockEntities.TRIGGER.get(), ProcessRenderers.Camouflage::new);
         BlockEntityRendererRegistry.register(C0deBlockEntities.PID.get(), ProcessRenderers.Pid::new);
+        BlockEntityRendererRegistry.register(C0deBlockEntities.DISPLAY.get(), DisplayRenderer::new);
+        BlockRenderLayerMap.INSTANCE.putBlock(C0deBlocks.DISPLAY_BLOCK.get(), RenderType.cutout());
         net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry.register(
                 C0deEntities.CURSOR.get(), ProcessRenderers.Cursor::new);
         net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry.register(

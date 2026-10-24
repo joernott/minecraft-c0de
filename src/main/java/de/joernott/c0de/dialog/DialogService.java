@@ -3,12 +3,16 @@ package de.joernott.c0de.dialog;
 import de.joernott.c0de.C0de;
 import de.joernott.c0de.blockentity.PropertiesBlockEntity;
 import de.joernott.c0de.core.edit.ItemRules;
+import de.joernott.c0de.core.validation.Validation;
+import de.joernott.c0de.dimension.C0deDimension;
+import de.joernott.c0de.io.Bindable;
 import de.joernott.c0de.item.ValueItem;
 import de.joernott.c0de.library.ModLibraries;
 import de.joernott.c0de.network.OpenDialogPayload;
 import de.joernott.c0de.network.SaveItemPayload;
 import de.joernott.c0de.network.SavePropertiesPayload;
 import de.joernott.c0de.platform.Platform;
+import de.joernott.c0de.sheet.ProgramRegistry;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -41,6 +45,23 @@ public final class DialogService {
                 SaveItemPayload.CODEC,
                 (payload, player) -> saveItem(player, payload.properties()).ifPresent(problem -> player.displayClientMessage(
                         Component.translatable("message.c0de.not_saved", problem), true)));
+    }
+
+    /** The programs of the c0de dimension with their functions, for the dialogs of devices. */
+    public static CompoundTag programs(ServerPlayer player) {
+        CompoundTag programs = new CompoundTag();
+        ServerLevel c0de = player.server.getLevel(C0deDimension.LEVEL);
+        if (c0de != null) {
+            ProgramRegistry registry = ProgramRegistry.get(c0de);
+            for (String name : registry.programs()) {
+                ListTag functions = new ListTag();
+                for (Validation.Function function : registry.functions(name)) {
+                    functions.add(StringTag.valueOf(function.name()));
+                }
+                programs.put(name, functions);
+            }
+        }
+        return programs;
     }
 
     /** Opens the dialog of the variable or constant item in the main hand of a player. */
@@ -88,6 +109,13 @@ public final class DialogService {
     /** The payload that opens the dialog, or null if the block has no dialog. */
     public static OpenDialogPayload payload(ServerPlayer player, BlockPos pos) {
         ServerLevel level = player.serverLevel();
+        if (level.getBlockEntity(pos) instanceof Bindable device) {
+            CompoundTag data = new CompoundTag();
+            data.putString("program", device.program());
+            data.putString("function", device.function());
+            data.put("programs", programs(player));
+            return new OpenDialogPayload(pos, "device", false, data);
+        }
         if (!(level.getBlockEntity(pos) instanceof PropertiesBlockEntity entity)) {
             return null;
         }
@@ -104,6 +132,17 @@ public final class DialogService {
         ServerLevel level = player.serverLevel();
         if (!level.isLoaded(pos) || !player.canInteractWithBlock(pos, REACH_TOLERANCE)) {
             return Optional.of("The block is too far away");
+        }
+        if (level.getBlockEntity(pos) instanceof Bindable device) {
+            String program = payload.properties().getString("program");
+            String function = payload.properties().getString("function");
+            CompoundTag programs = programs(player);
+            if (!program.isEmpty()
+                    && !programs.getList(program, net.minecraft.nbt.Tag.TAG_STRING).contains(StringTag.valueOf(function))) {
+                return Optional.of("The program " + program + " has no function " + function);
+            }
+            device.bind(level, program, program.isEmpty() ? "" : function);
+            return Optional.empty();
         }
         if (SheetProtection.isProtected(level, pos)) {
             return Optional.of("A process of the program is running");

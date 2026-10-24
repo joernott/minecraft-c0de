@@ -35,6 +35,7 @@ public final class C0deBlocks {
     public static Supplier<Block> TIMER_BLOCK;
     public static Supplier<Block> DEBUG_TRIGGER_BLOCK;
     public static Supplier<Block> PID_BLOCK;
+    public static Supplier<Block> DISPLAY_BLOCK;
 
     /** The language blocks. */
     public static final Map<CodeBlockType, Supplier<Block>> CODE_BLOCKS = new EnumMap<>(CodeBlockType.class);
@@ -52,6 +53,7 @@ public final class C0deBlocks {
         DEBUG_TRIGGER_BLOCK =
                 register("debug_trigger_block", () -> new TriggerBlock(trigger(), TriggerBlock.Kind.DEBUG));
         PID_BLOCK = register("pid_block", () -> new PidBlock(bedrock(MapColor.COLOR_BLACK)));
+        DISPLAY_BLOCK = register("display_block", () -> new de.joernott.c0de.io.DisplayBlock(device()));
         for (CodeBlockType type : CodeBlockType.values()) {
             CODE_BLOCKS.put(type, register(type.id(), () -> codeBlock(type)));
         }
@@ -87,6 +89,15 @@ public final class C0deBlocks {
     }
 
     /** Properties of the trigger blocks: transparent copper and glass. */
+    /** Properties of the devices (display, I/O block, laptop): iron. */
+    private static BlockBehaviour.Properties device() {
+        return BlockBehaviour.Properties.of()
+                .mapColor(MapColor.METAL)
+                .strength(3.0F, 6.0F)
+                .sound(SoundType.METAL)
+                .noOcclusion();
+    }
+
     private static BlockBehaviour.Properties trigger() {
         return BlockBehaviour.Properties.of()
                 .mapColor(MapColor.COLOR_ORANGE)

@@ -20,6 +20,7 @@ import net.minecraft.world.level.block.Block;
 /** The items of the mod and its creative mode tab. */
 public final class C0deItems {
     public static Supplier<Item> TRIGGER_BLOCK;
+    public static Supplier<Item> DISPLAY_BLOCK;
     public static Supplier<Item> TIMER_BLOCK;
     public static Supplier<Item> DEBUG_TRIGGER_BLOCK;
     public static Supplier<Item> WRENCH;
@@ -50,6 +51,8 @@ public final class C0deItems {
     private C0deItems() {}
 
     public static void register() {
+        DISPLAY_BLOCK = register(
+                "display_block", () -> new BlockItem(C0deBlocks.DISPLAY_BLOCK.get(), new Item.Properties()));
         TRIGGER_BLOCK = register(
                 "trigger_block", () -> new BlockItem(C0deBlocks.TRIGGER_BLOCK.get(), new Item.Properties()));
         TIMER_BLOCK =
@@ -92,6 +95,7 @@ public final class C0deItems {
                 .icon(() -> new ItemStack(WRENCH.get()))
                 .displayItems((parameters, output) -> {
                     output.accept(TRIGGER_BLOCK.get());
+                    output.accept(DISPLAY_BLOCK.get());
                     output.accept(TIMER_BLOCK.get());
                     output.accept(DEBUG_TRIGGER_BLOCK.get());
                     output.accept(WRENCH.get());

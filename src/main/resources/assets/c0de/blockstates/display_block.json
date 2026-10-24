@@ -1,0 +1,50 @@
+{
+  "variants": {
+    "camouflaged=false,facing=north": {
+      "model": "c0de:block/display_block"
+    },
+    "camouflaged=true,facing=north": {
+      "model": "c0de:block/display_block_front"
+    },
+    "camouflaged=false,facing=south": {
+      "model": "c0de:block/display_block",
+      "y": 180
+    },
+    "camouflaged=true,facing=south": {
+      "model": "c0de:block/display_block_front",
+      "y": 180
+    },
+    "camouflaged=false,facing=west": {
+      "model": "c0de:block/display_block",
+      "y": 270
+    },
+    "camouflaged=true,facing=west": {
+      "model": "c0de:block/display_block_front",
+      "y": 270
+    },
+    "camouflaged=false,facing=east": {
+      "model": "c0de:block/display_block",
+      "y": 90
+    },
+    "camouflaged=true,facing=east": {
+      "model": "c0de:block/display_block_front",
+      "y": 90
+    },
+    "camouflaged=false,facing=up": {
+      "model": "c0de:block/display_block",
+      "x": 270
+    },
+    "camouflaged=true,facing=up": {
+      "model": "c0de:block/display_block_front",
+      "x": 270
+    },
+    "camouflaged=false,facing=down": {
+      "model": "c0de:block/display_block",
+      "x": 90
+    },
+    "camouflaged=true,facing=down": {
+      "model": "c0de:block/display_block_front",
+      "x": 90
+    }
+  }
+}

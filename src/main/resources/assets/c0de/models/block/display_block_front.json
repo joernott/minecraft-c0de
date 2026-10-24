@@ -1,0 +1,26 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "front": "c0de:block/display_front",
+    "particle": "c0de:block/display_front"
+  },
+  "elements": [
+    {
+      "from": [
+        0,
+        0,
+        -0.02
+      ],
+      "to": [
+        16,
+        16,
+        0
+      ],
+      "faces": {
+        "north": {
+          "texture": "#front"
+        }
+      }
+    }
+  ]
+}

@@ -12,6 +12,7 @@ import de.joernott.c0de.core.validation.Validator;
 import de.joernott.c0de.dialog.SheetProtection;
 import de.joernott.c0de.dimension.C0deDimension;
 import de.joernott.c0de.entity.CursorEntity;
+import de.joernott.c0de.io.DisplayBlock;
 import de.joernott.c0de.item.DebugToolItem;
 import de.joernott.c0de.item.WrenchItem;
 import de.joernott.c0de.library.ModLibraries;
@@ -94,12 +95,12 @@ public final class ToolActions {
                 || item instanceof WrenchItem;
     }
 
-    private static boolean attackBlock(Player player, Level level, BlockPos pos) {
+    private static boolean attackBlock(Player player, Level level, BlockPos pos, net.minecraft.core.Direction face) {
         if (!isTool(player.getMainHandItem().getItem())) {
             return false;
         }
         if (level.isClientSide()) {
-            send(level, new ToolPayload(pos, -1));
+            send(level, new ToolPayload(pos, -1, face == null ? -1 : face.get3DDataValue()));
         }
         return true;
     }
@@ -210,6 +211,13 @@ public final class ToolActions {
                                 problem -> message(player, "message.c0de.not_started", problem),
                                 () -> message(player, "message.c0de.debug_started", trigger.pid()));
             }
+            return;
+        }
+        if (item instanceof WrenchItem
+                && payload.face() >= 0
+                && level.getBlockState(pos).getBlock() instanceof DisplayBlock) {
+            // The wrench turns display blocks around the axis through the clicked face
+            DisplayBlock.turn(level, pos, net.minecraft.core.Direction.from3DDataValue(payload.face()));
             return;
         }
         if (!isOnLine(level, pos)) {
