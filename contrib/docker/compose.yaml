@@ -29,7 +29,8 @@ services:
       <<: *environment
       TYPE: FABRIC
       FABRIC_LOADER_VERSION: "0.19.5"
-      MODRINTH_PROJECTS: "fabric-api:0.116.17+1.21.1"
+      # Patchouli like in the development clients (the in-game books)
+      MODRINTH_PROJECTS: "fabric-api:0.116.17+1.21.1,patchouli:1.21.1-93-fabric"
     ports:
       - "25565:25565"
     volumes:
@@ -42,6 +43,8 @@ services:
       <<: *environment
       TYPE: NEOFORGE
       NEOFORGE_VERSION: "21.1.264"
+      # NeoForge clients with Patchouli (all development clients) can only join servers that have it too
+      MODRINTH_PROJECTS: "patchouli:1.21.1-93-neoforge"
     ports:
       - "25566:25565"
     volumes:

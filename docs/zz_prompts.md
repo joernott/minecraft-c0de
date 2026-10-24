@@ -482,3 +482,9 @@ How can I start multiple clients with different users?
 ## 2026-10-24 – Operator
 
 please make Player962 into an admin
+
+## 2026-10-24 – Multiplayer results
+
+Tests 1, 2 and 4 were successful on Fabric. Test 3 could be run by Tester2, allowing a non-operator to place and break blocks with a program written by Player962 and triggered by a trigger placed by that player.
+
+I could not start test 5 with either the patchouly mod present or absent in the mods folder of the neoforge client. It complains about patchouli missing on the server.
