@@ -266,7 +266,7 @@ A task is done when
 | 11.8.3 | Process state WAITING while INPUT or WRITE waits; the cursor pulses between black and dark green (debug cursor: dark red), at most #006600 and #660000. | ✅ |
 | 11.8.4 | GET_BLOCK of c0de/minecraft also returns has_inventory; the VARIABLE chest keeps the seam between lid and body. | ✅ |
 | 11.9 | Tablet: the mobile laptop; left click opens the terminal. Recipes between laptop and tablet. | ✅ |
-| 11.10 | Performance tests: many processes at the same time, large programs, deep recursion; tuning of the scheduler. |  |
+| 11.10 | Performance tests: many processes at the same time, large programs, deep recursion; tuning of the scheduler. | ✅ |
 | 11.11 | Multiplayer tests on the Docker servers with several clients (development clients and Modrinth App profiles), including non-operator players and permissions. |  |
 | 11.12 | Workflow `release.yml`, Modrinth project, changelog. |  |
 | 11.13 | Release 0.1.0 (first alpha). |  |

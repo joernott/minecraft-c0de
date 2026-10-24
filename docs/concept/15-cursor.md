@@ -10,7 +10,7 @@ A cursor looks like an upright cuboid, one block high and 3/4 of a block wide, i
 
 There are two kinds of cursors: a regular cursor and a debug cursor. The regular cursor moves automatically, the debug cursor is controlled by a player with a debugging tool.
 
-  - A regular cursor moves to the next line every tick, if it is allowed to.
+  - A regular cursor moves to the next line every tick, if it is allowed to. If the steps of all processes take longer than the `tickBudget` of the configuration (20 ms), the remaining cursors wait for the next tick, in which they go first; measured, a step of 100 processes takes about 0.6 ms (task 11.10).
   - A debug cursor starts in the PAUSED state. Shift-left-clicking it with a debugging tool switches it to the RUNNING state, in which it moves every tick like a regular cursor; shift-left-clicking it again pauses it. Left-clicking a paused debug cursor with a debugging tool moves it by one line.
   - Right-clicking any cursor with a debugging tool opens a dialog that shows its properties and the content of its stack.
 

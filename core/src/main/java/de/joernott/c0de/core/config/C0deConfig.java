@@ -35,6 +35,15 @@ public final class C0deConfig {
     public static final IntSetting STACK_SIZE = new IntSetting(
             "stackSize", 2048, 2048, 1_048_576, "Number of slots of the stack of a cursor (2048 to 1048576).");
 
+    /** Time in milliseconds the processes may take per tick; the others continue in the next tick. */
+    public static final IntSetting TICK_BUDGET = new IntSetting(
+            "tickBudget",
+            20,
+            1,
+            1000,
+            "Milliseconds the c0de processes may take per server tick (1 to 1000). If the steps of all processes",
+            "take longer, the remaining processes skip the tick and go first in the next one.");
+
     /** Radius around the trigger block in which players receive SAY messages without a player name. */
     public static final IntSetting SAY_RADIUS = new IntSetting(
             "sayRadius",
@@ -66,6 +75,7 @@ public final class C0deConfig {
     public static final List<Setting<?>> SETTINGS = List.of(
             MAX_BUILD_HEIGHT,
             STACK_SIZE,
+            TICK_BUDGET,
             SAY_RADIUS,
             ALLOW_INVENTORY_CHANGES,
             ALLOW_BLOCK_CHANGES,

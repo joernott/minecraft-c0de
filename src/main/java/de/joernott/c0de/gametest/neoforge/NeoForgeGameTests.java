@@ -7,6 +7,7 @@ import de.joernott.c0de.gametest.DimensionTests;
 import de.joernott.c0de.gametest.DiskTests;
 import de.joernott.c0de.gametest.IoTests;
 import de.joernott.c0de.gametest.LibraryTests;
+import de.joernott.c0de.gametest.PerformanceTests;
 import de.joernott.c0de.gametest.ProcessTests;
 import de.joernott.c0de.gametest.SmokeTests;
 import de.joernott.c0de.gametest.ToolTests;
@@ -123,6 +124,11 @@ public class NeoForgeGameTests {
     @GameTest(template = "empty")
     public static void displaysShowWhatProgramsPrint(GameTestHelper helper) {
         IoTests.displaysShowWhatProgramsPrint(helper);
+    }
+
+    @GameTest(template = "empty", timeoutTicks = 300)
+    public static void manyProcessesRunAtTheSameTime(GameTestHelper helper) {
+        PerformanceTests.manyProcessesRunAtTheSameTime(helper);
     }
 
     @GameTest(template = "empty")

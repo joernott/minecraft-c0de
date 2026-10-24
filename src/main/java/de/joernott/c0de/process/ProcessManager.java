@@ -90,6 +90,12 @@ public class ProcessManager extends SavedData {
 
     /** Processes loaded from the save data, restored at the first tick, when all levels exist. */
     private final List<CompoundTag> pending = new ArrayList<>();
+    /** The time the ticks of the processes took since the last {@link #resetTickTimes()} (task 11.10). */
+    private long tickNanos;
+    private long maxTickNanos;
+    private int ticks;
+    /** The process that goes first in the next tick, because it was skipped in the last one. */
+    private UUID first;
 
     private static final SavedData.Factory<ProcessManager> FACTORY =
             new SavedData.Factory<>(ProcessManager::new, ProcessManager::load, DATA_FIX_TYPE);
@@ -491,8 +497,20 @@ public class ProcessManager extends SavedData {
         if (processes.isEmpty()) {
             return;
         }
-        ServerLevel c0de = server.getLevel(C0deDimension.LEVEL);
-        for (Process process : List.copyOf(processes.values())) {
+        long start = System.nanoTime();
+        long budget = C0de.config().get(C0deConfig.TICK_BUDGET) * 1_000_000L;
+        List<Process> order = new ArrayList<>(processes.values());
+        int firstIndex = first == null ? -1 : order.indexOf(processes.get(first));
+        if (firstIndex > 0) {
+            // The processes skipped in the last tick go first
+            java.util.Collections.rotate(order, -firstIndex);
+        }
+        first = null;
+        for (Process process : order) {
+            if (System.nanoTime() - start > budget) {
+                first = process.id();
+                break;
+            }
             Cursor cursor = process.cursor();
             if (!cursor.ended()) {
                 try {
@@ -506,6 +524,22 @@ public class ProcessManager extends SavedData {
             moved(server, process);
         }
         setDirty();
+        long nanos = System.nanoTime() - start;
+        tickNanos += nanos;
+        maxTickNanos = Math.max(maxTickNanos, nanos);
+        ticks++;
+    }
+
+    /** The average and the longest time of the ticks of the processes since the last reset, in microseconds. */
+    public long[] tickTimes() {
+        return new long[] {ticks == 0 ? 0 : tickNanos / ticks / 1000, maxTickNanos / 1000};
+    }
+
+    /** Starts a new measurement of {@link #tickTimes()}. */
+    public void resetTickTimes() {
+        tickNanos = 0;
+        maxTickNanos = 0;
+        ticks = 0;
     }
 
     /** Moves the cursor entity to the line of the cursor and ends the process if the cursor has ended. */
