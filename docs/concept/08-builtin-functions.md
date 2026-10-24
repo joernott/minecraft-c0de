@@ -24,7 +24,7 @@ CALL c0de/strings/MID
     RESULT result part
 ```
 
-Many functions are taken from AmigaBASIC. AmigaBASIC functions that deal with files, graphics, memory, input devices, the screen, menus or speech output have no equivalent in c0de. The `$` suffix of the AmigaBASIC string function names is dropped, as `$` is not allowed in names.
+Many functions are taken from AmigaBASIC. AmigaBASIC functions that deal with files, graphics, memory, input devices, menus or speech output have no equivalent in c0de; the text screen functions (CLS, LOCATE, CSRLIN, POS, COLOR, INKEY) work on the screens of display blocks, laptops and tablets. The `$` suffix of the AmigaBASIC string function names is dropped, as `$` is not allowed in names.
 
 Conventions:
   - A function with a single result names it `result`.
@@ -33,6 +33,8 @@ Conventions:
   - Parameters are passed by value, so functions that change a string, array or hash return the changed value as `result`. To change a variable, use the same variable as parameter and result target. The only exception is the `destination` parameter of [FROM_JSON and FROM_YAML](10-lib-strings.md#reading-values), which writes directly into a variable.
   - Positions in strings and arrays start at 0, unlike AmigaBASIC, where string positions start at 1.
   - An invalid argument (e.g. the square root of a negative number) raises INVALID_ARGUMENT unless stated otherwise.
+
+The screen functions CLS, LOCATE, CSRLIN, POS, COLOR and INKEY are built-in functions too; they are described with the screens in [Input and output](19-input-output.md#screen-functions).
 
 ## Built-in functions
 

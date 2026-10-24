@@ -249,7 +249,7 @@ A task is done when
 | 11.4.2 | Handbooks in docs/reference (data, statements, tools, triggers, functions) with one page per element (description, recipe, example), recipe images (scripts/generate_recipe_images.py) and a generated index; the same handbooks as red Patchouli books. | ✅ |
 | 11.4.3 | The concept of the functions matches the code; INT, FIX and ROUND return INTEGERs unchanged. The handbooks are described in the guide and on Modrinth. | ✅ |
 | 11.4.4 | Documentation for mods that add c0de libraries (docs/library-development.md) and the API ModLibraries.register. | ✅ |
-| 11.5 | PRINT, WRITE and INPUT: keyword blocks and statements; the screen functions of AmigaBASIC (CLS, LOCATE, CSRLIN, POS, COLOR, INKEY). The screen model in `core`: the screens of the displays, laptops and tablets bound to the program and function of a process. |  |
+| 11.5 | PRINT, WRITE and INPUT: keyword blocks and statements; the screen functions of AmigaBASIC (CLS, LOCATE, CSRLIN, POS, COLOR, INKEY). The screen model in `core`: the screens of the displays, laptops and tablets bound to the program and function of a process. | ✅ |
 | 11.6 | Display block: flat multiblock walls that share one screen (fixed characters per block, Monocraft font), rotation with the wrench, camouflage, binding to a program and function like a trigger block. |  |
 | 11.7 | I/O block (a retextured hopper): binding, input and output inventories; INPUT reads variable, constant and literal items, WRITE fills uninitialized variable items; literal items (a card with a type and a value, without name). |  |
 | 11.8 | Laptop block: a terminal with the output of the bound program and function, a scroll bar and an input line for INPUT. |  |

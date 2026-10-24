@@ -20,6 +20,7 @@
 | 112 | SYNTAX_ERROR_LOOP | crash | A part of a FOR, EACH, WHILE or REPEAT statement is wrong. |
 | 113 | SYNTAX_ERROR_EXPRESSION | crash | An expression is malformed. |
 | 114 | SYNTAX_ERROR_EXIT | crash | An EXIT statement has no expression. |
+| 115 | SYNTAX_ERROR_INPUT_OUTPUT | crash | A PRINT or WRITE statement has no valid expression, or an INPUT statement has no variable that can be changed. |
 | 200 | UNKNOWN_LIBRARY | crash | An included library does not exist. |
 | 201 | BROKEN_LIBRARY | crash | A library could not be read or does not contain the required elements. |
 | 202 | UNKNOWN_FUNCTION | crash | A called function or the entry function is not known (yet). |

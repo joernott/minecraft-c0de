@@ -299,6 +299,9 @@ final class ProgramAnalyzer {
                     expression(exit.code(), exit.line());
                 }
             }
+            case Statement.Print print -> expression(print.value(), print.line());
+            case Statement.Write write -> expression(write.value(), write.line());
+            case Statement.Input input -> writable(input.target(), input.line(), ErrorCode.SYNTAX_ERROR_INPUT_OUTPUT);
             default -> {
                 // INCLUDE, STRUCT and FUNCTION are only parsed in the global scope
             }

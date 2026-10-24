@@ -58,6 +58,9 @@ public final class Statements {
             case Statement.Break breakStatement -> breakStatement.line();
             case Statement.Return returnStatement -> returnStatement.line();
             case Statement.Exit exit -> exit.line();
+            case Statement.Print print -> print.endLine();
+            case Statement.Write write -> write.endLine();
+            case Statement.Input input -> input.line();
         };
     }
 }

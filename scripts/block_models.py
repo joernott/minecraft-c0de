@@ -231,7 +231,8 @@ def texture(name: str) -> str:
 
 # The blocks whose symbol is raised above their top (ExtrudedModel): the bottom texture of their slab model is the
 # symbol, on a transparent background
-SYMBOLS = ("TAG", "EXIT", "BREAK", "FUNCTION", "RETURN", "CALL", "FOR", "EACH", "WHILE", "REPEAT", "TYPE_HASH")
+SYMBOLS = ("TAG", "EXIT", "BREAK", "FUNCTION", "RETURN", "CALL", "FOR", "EACH", "WHILE", "REPEAT", "TYPE_HASH",
+           "PRINT", "WRITE", "INPUT")
 
 # The type blocks carry the item they were crafted from, as if in an invisible item frame. The chest of HASH has
 # no texture of its own in Minecraft, so it is drawn (SYMBOLS).

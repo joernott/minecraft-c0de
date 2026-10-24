@@ -15,11 +15,14 @@ import de.joernott.c0de.core.eval.ExpressionEvaluator;
 import de.joernott.c0de.core.eval.IndexedAccess;
 import de.joernott.c0de.core.eval.TypeRegistry;
 import de.joernott.c0de.core.eval.Variable;
+import de.joernott.c0de.core.io.Console;
 import de.joernott.c0de.core.library.Library;
 import de.joernott.c0de.core.library.NativeCall;
 import de.joernott.c0de.core.library.NativeFunction;
 import de.joernott.c0de.core.library.NativeResult;
 import de.joernott.c0de.core.library.ProcessContext;
+import de.joernott.c0de.core.library.standard.JsonValues;
+import de.joernott.c0de.core.line.IndexEntry;
 import de.joernott.c0de.core.program.Expression;
 import de.joernott.c0de.core.program.LabelRef;
 import de.joernott.c0de.core.program.Program;
@@ -232,7 +235,82 @@ public final class Cursor {
             case Statement.Break breakStatement -> breakLoop(breakStatement);
             case Statement.Return returnStatement -> returnStatement(returnStatement);
             case Statement.Exit exit -> exit(exit);
+            case Statement.Print print -> print(print);
+            case Statement.Write write -> write(write);
+            case Statement.Input input -> input(input);
         }
+    }
+
+    // ---------------------------------------------------------------------------------- input and output
+
+    /** The devices of the process: the host of the mod if it has some, otherwise none. */
+    private Console console() {
+        return settings.host() instanceof Console console ? console : Console.NONE;
+    }
+
+    /** The text form of a value on a screen: simple values as text, arrays, hashes and structs as JSON. */
+    private static String printed(Value value) {
+        return switch (value) {
+            case ArrayValue array -> JsonValues.write(array);
+            case HashValue hash -> JsonValues.write(hash);
+            case StructValue struct -> JsonValues.write(struct);
+            default -> value.text();
+        };
+    }
+
+    private void print(Statement.Print print) {
+        console().print(printed(ExpressionEvaluator.evaluate(print.value(), stack)));
+        continueAfter(print.endLine());
+    }
+
+    /** WRITE waits on its line until an I/O block takes the value. */
+    private void write(Statement.Write write) {
+        Value value = ExpressionEvaluator.evaluate(write.value(), stack);
+        if (console().write(write.name(), value)) {
+            continueAfter(write.endLine());
+        } else {
+            line = write.line();
+        }
+    }
+
+    /** INPUT waits on its line until an I/O block or a terminal has a value. */
+    private void input(Statement.Input input) {
+        Variable target = stack.resolve(input.target().name());
+        if (target.constant() || target.loopVariable()) {
+            throw C0deException.crash(
+                    ErrorCode.SYNTAX_ERROR_INPUT_OUTPUT,
+                    "The constant or loop variable " + target.name() + " can't be changed");
+        }
+        Type type = elementType(target.type(), input.target());
+        Optional<Value> value = console().input(target.name(), type);
+        if (value.isEmpty()) {
+            line = input.line();
+            return;
+        }
+        IndexedAccess.write(input.target(), stack, value.get());
+        continueAfter(input.line());
+    }
+
+    /** The type of the element a label refers to: the type of the variable, followed along its index. */
+    private Type elementType(Type type, LabelRef label) {
+        Type current = type;
+        for (IndexEntry entry : label.index()) {
+            current = switch (current) {
+                case Type.Array array -> array.element();
+                case Type.Hash hash -> hash.element();
+                case Type.Struct struct -> {
+                    String element = entry instanceof IndexEntry.Element named ? named.name() : "";
+                    yield struct.definition()
+                            .element(element)
+                            .map(StructDefinition.Element::type)
+                            .orElseThrow(() -> C0deException.of(
+                                    ErrorCode.UNKNOWN_STRUCT_ENTITY, "The struct has no element " + element));
+                }
+                case Type.Str str -> Type.Simple.CHAR;
+                default -> throw C0deException.of(ErrorCode.TYPE_MISMATCH, "A " + current + " has no elements");
+            };
+        }
+        return current;
     }
 
     /** Continues after the given line. */
@@ -912,6 +990,11 @@ public final class Cursor {
         @Override
         public Object host() {
             return settings.host();
+        }
+
+        @Override
+        public Console console() {
+            return Cursor.this.console();
         }
     }
 

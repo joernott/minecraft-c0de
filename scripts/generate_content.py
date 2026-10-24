@@ -59,6 +59,9 @@ BLOCKS = [
     ("EACH", True, False, "EACH Block", "EACH-Block"),
     ("WHILE", True, False, "WHILE Block", "WHILE-Block"),
     ("REPEAT", True, False, "REPEAT Block", "REPEAT-Block"),
+    ("PRINT", True, False, "PRINT Block", "PRINT-Block"),
+    ("WRITE", True, False, "WRITE Block", "WRITE-Block"),
+    ("INPUT", True, False, "INPUT Block", "INPUT-Block"),
 ]
 
 # Trigger blocks: (ID, center ingredient, count, English name, German name)
@@ -192,6 +195,9 @@ def recipes() -> dict[str, dict]:
         "result_block": shapeless([c0de("PARAMETER")], c0de("RESULT")),
         "return_block": around(mc("spruce_door"), c0de("RETURN")),
         "call_block": shapeless([noop, mc("smooth_stone")], c0de("CALL")),
+        "print_block": shapeless([noop, mc("glow_ink_sac")], c0de("PRINT")),
+        "write_block": shapeless([noop, mc("ink_sac")], c0de("WRITE")),
+        "input_block": shapeless([noop, mc("tripwire_hook")], c0de("INPUT")),
         "structural_base": around(mc("green_wool"), structural),
     }
     for trigger, center, count, _, _ in TRIGGERS:

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "ingredients": [
+    {
+      "item": "c0de:noop_block"
+    },
+    {
+      "item": "minecraft:ink_sac"
+    }
+  ],
+  "result": {
+    "id": "c0de:write_block",
+    "count": 1
+  }
+}

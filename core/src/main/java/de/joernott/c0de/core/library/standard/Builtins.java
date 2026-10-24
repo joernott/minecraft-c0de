@@ -63,6 +63,40 @@ public final class Builtins implements Library {
                     List.of(required("a", "any", ANY), required("b", "the type of a", ANY)),
                     List.of("a", "b"),
                     Builtins::swap)
+            // The screen functions of AmigaBASIC (docs/concept/19-input-output.md)
+            .add("CLS", List.of(), List.of(), call -> {
+                call.process().console().cls();
+                return NativeResult.none();
+            })
+            .add(
+                    "LOCATE",
+                    List.of(
+                            required("row", "INTEGER", INTEGER),
+                            optional("column", "INTEGER", INTEGER, new IntegerValue(0))),
+                    List.of(),
+                    call -> {
+                        call.process().console().locate(clamp(call, "row"), clamp(call, "column"));
+                        return NativeResult.none();
+                    })
+            .add(
+                    "CSRLIN",
+                    List.of(),
+                    call -> new IntegerValue(call.process().console().row()))
+            .add(
+                    "POS",
+                    List.of(),
+                    call -> new IntegerValue(call.process().console().column()))
+            .add(
+                    "COLOR",
+                    List.of(
+                            required("foreground", "INTEGER", INTEGER),
+                            optional("background", "INTEGER", INTEGER, new IntegerValue(0))),
+                    List.of(),
+                    Builtins::color)
+            .add(
+                    "INKEY",
+                    List.of(),
+                    call -> new StringValue(call.process().console().inkey()))
             .add(
                     "RAISE",
                     List.of(
@@ -75,6 +109,22 @@ public final class Builtins implements Library {
     @Override
     public String name() {
         return "";
+    }
+
+    /** A row or column for LOCATE; the screens move positions outside of them to their edges. */
+    private static int clamp(NativeCall call, String name) {
+        long value = ((IntegerValue) call.argument(name)).value();
+        return (int) Math.max(Integer.MIN_VALUE, Math.min(Integer.MAX_VALUE, value));
+    }
+
+    private static NativeResult color(NativeCall call) {
+        long foreground = ((IntegerValue) call.argument("foreground")).value();
+        long background = ((IntegerValue) call.argument("background")).value();
+        if (foreground < 0 || foreground > 15 || background < 0 || background > 15) {
+            throw C0deException.of(ErrorCode.INVALID_ARGUMENT, "Colors are numbers from 0 to 15");
+        }
+        call.process().console().color((int) foreground, (int) background);
+        return NativeResult.none();
     }
 
     @Override

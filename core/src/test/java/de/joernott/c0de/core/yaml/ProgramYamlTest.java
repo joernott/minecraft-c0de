@@ -89,6 +89,25 @@ class ProgramYamlTest {
         assertEquals("doorbell", ProgramYaml.programName(yaml));
     }
 
+    /** PRINT, WRITE and INPUT survive export and layout (task 11.5). */
+    @Test
+    void inputAndOutputStatements() {
+        String program = """
+                PROGRAM echo
+                NOOP
+                FUNCTION main
+                BEGIN
+                    VARIABLE name STRING
+                    INPUT name
+                    PRINT "Hello " ⊕ name ;
+                    WRITE name ;
+                END FUNCTION
+                """;
+        String yaml = ProgramYaml.export(Notation.parse(program));
+        assertTrue(yaml.contains("keyword: INPUT"), yaml);
+        assertEquals(yaml, ProgramYaml.export(ProgramYaml.layout(yaml)));
+    }
+
     @Test
     void longExpressionsAreContinued() {
         StringBuilder expression = new StringBuilder("1");

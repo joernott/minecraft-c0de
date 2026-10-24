@@ -365,6 +365,8 @@ public final class ProgramParser {
             case BREAK -> parseBreak(row, context);
             case RETURN -> parseReturn(row);
             case EXIT -> parseExit(row);
+            case PRINT, WRITE -> parseOutput(row, keyword);
+            case INPUT -> parseInput(row);
             case ELSE ->
                 throw C0deException.at(
                         row.z(),
@@ -647,6 +649,33 @@ public final class ProgramParser {
         Expression value = reader.read(error, "the value");
         reader.end(error);
         return new Statement.Assign(row.z(), target, value, reader.lastLine());
+    }
+
+    /** PRINT or WRITE, followed by an expression. */
+    private Statement parseOutput(Row row, Keyword keyword) {
+        ErrorCode error = ErrorCode.SYNTAX_ERROR_INPUT_OUTPUT;
+        position++;
+        Cells cells = new Cells(row);
+        cells.next();
+        ExpressionReader reader = new ExpressionReader(cells, row.x() + 1);
+        Expression value = reader.read(error, "the value");
+        reader.end(error);
+        if (keyword == Keyword.PRINT) {
+            return new Statement.Print(row.z(), value, reader.lastLine());
+        }
+        String name = value instanceof Expression.Reference(LabelRef label) ? label.name() : "output";
+        return new Statement.Write(row.z(), value, name, reader.lastLine());
+    }
+
+    /** INPUT, followed by the variable that receives the value. */
+    private Statement parseInput(Row row) {
+        ErrorCode error = ErrorCode.SYNTAX_ERROR_INPUT_OUTPUT;
+        position++;
+        Cells cells = new Cells(row);
+        cells.next();
+        LabelRef target = cells.reference(error, "the variable");
+        cells.end(error);
+        return new Statement.Input(row.z(), target);
     }
 
     private Statement parseCall(Row row) {

@@ -214,7 +214,13 @@ public class ProcessManager extends SavedData {
         // All preconditions are met
         UUID id = UUID.randomUUID();
         ProcessHost host = new ProcessHost(
-                server, triggerLevel.dimension(), trigger.getBlockPos(), trigger.owner(), trigger.program(), pid);
+                server,
+                triggerLevel.dimension(),
+                trigger.getBlockPos(),
+                trigger.owner(),
+                trigger.program(),
+                trigger.function(),
+                pid);
         CursorSettings settings = settings(c0de.getRandom().nextLong(), host);
         Cursor cursor = new Cursor(program, trigger.function(), inputs, settings);
         if (debug) {
@@ -773,6 +779,7 @@ public class ProcessManager extends SavedData {
                         triggerPos,
                         tag.hasUUID("owner") ? tag.getUUID("owner") : null,
                         tag.getString("program"),
+                        function,
                         tag.getInt("pid"));
                 Map<String, Object> data = (Map<String, Object>) SnapshotNbt.fromNbt(tag.get("cursor"));
                 // The random number generator continues from the snapshot, so the seed doesn't matter here

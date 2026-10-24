@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "valid=true": {
+      "model": "c0de:block/input_block"
+    },
+    "valid=false": {
+      "model": "c0de:block/input_block"
+    }
+  }
+}

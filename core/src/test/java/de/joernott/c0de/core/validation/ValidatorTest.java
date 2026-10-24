@@ -82,6 +82,26 @@ class ValidatorTest {
         assertEquals("VVVVVXV", states(function.replace("ASSIGN result 1 ;", "ASSIGN unknown 1 ;")));
     }
 
+    /** INPUT needs a variable that can be changed (task 11.5). */
+    @Test
+    void inputNeedsAVariable() {
+        Validation validation = validate("""
+                PROGRAM reading
+                NOOP
+                CONSTANT LIMIT INTEGER 3
+                NOOP
+                FUNCTION main
+                BEGIN
+                    VARIABLE count INTEGER
+                    INPUT count
+                    INPUT LIMIT
+                    INPUT unknown
+                    PRINT count ;
+                END FUNCTION
+                """);
+        assertEquals(Map.of(8, ErrorCode.SYNTAX_ERROR_INPUT_OUTPUT, 9, ErrorCode.UNKNOWN_NAME), codes(validation));
+    }
+
     /** The examples crash only at runtime, if at all, so they are statically valid. */
     @ParameterizedTest
     @MethodSource("examples")

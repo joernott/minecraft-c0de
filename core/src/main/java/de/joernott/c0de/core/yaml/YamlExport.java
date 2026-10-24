@@ -276,6 +276,18 @@ final class YamlExport {
                 entry = entry("EXIT");
                 entry.put("expression", ExpressionText.format(exit.code()));
             }
+            case Statement.Print print -> {
+                entry = entry("PRINT");
+                entry.put("expression", ExpressionText.format(print.value()));
+            }
+            case Statement.Write write -> {
+                entry = entry("WRITE");
+                entry.put("expression", ExpressionText.format(write.value()));
+            }
+            case Statement.Input input -> {
+                entry = entry("INPUT");
+                entry.put("name", ExpressionText.label(input.target()));
+            }
             case Statement.Include include -> throw new IllegalStateException("INCLUDE in a code block");
             case Statement.Invalid invalid -> throw new IllegalStateException("Invalid statement");
         }

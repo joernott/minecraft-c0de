@@ -414,6 +414,40 @@ def small_square(dx: float, dy: float) -> bool:
 
 LIME = 0x55FF55
 
+# The symbols of PRINT (a screen with text), WRITE (a pen) and INPUT (an arrow into a box)
+SCREEN = [
+    "##########",
+    "#........#",
+    "#.ggg....#",
+    "#........#",
+    "#.gggg...#",
+    "#........#",
+    "##########",
+    "....##....",
+    "..######..",
+]
+PEN = [
+    ".......##.",
+    "......####",
+    ".....####.",
+    "....####..",
+    "...####...",
+    "..####....",
+    ".####.....",
+    ".t##......",
+    "tt........",
+]
+ARROW_IN = [
+    "....##....",
+    "....##....",
+    "..######..",
+    "...####...",
+    "#...##...#",
+    "#........#",
+    "#........#",
+    "##########",
+]
+
 
 # (block ID, color, function that draws the symbol on the top). The colors don't change with the state of the
 # line any more; the line numbers on the floor show it.
@@ -434,6 +468,9 @@ CODE_BLOCKS = [
     ("each_block", 0x00AA00, lambda i: (paint(i, ring, LIME), paint(i, small_square, LIME))),
     ("while_block", 0x00AA00, lambda i: (paint(i, ring, LIME), glyph(i, "?", LIME, 5, 4))),
     ("repeat_block", 0x00AA00, lambda i: (paint(i, frame, LIME), glyph(i, "?", LIME, 5, 4))),
+    ("print_block", 0x5555FF, lambda i: mask(i, SCREEN, {"#": WHITE, "g": 0x55FF55}, 3, 3)),
+    ("write_block", 0x5555FF, lambda i: mask(i, PEN, {"#": WHITE, "t": 0x202020}, 3, 3)),
+    ("input_block", 0x5555FF, lambda i: mask(i, ARROW_IN, {"#": WHITE}, 3, 3)),
 ]
 
 # (block ID, icon, color of the icon, or None for its own colors)

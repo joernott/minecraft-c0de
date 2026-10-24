@@ -23,4 +23,9 @@ public interface ProcessContext {
      * processes without a host.
      */
     Object host();
+
+    /** The devices of the process: screens, I/O blocks and terminals (docs/concept/19-input-output.md). */
+    default de.joernott.c0de.core.io.Console console() {
+        return de.joernott.c0de.core.io.Console.NONE;
+    }
 }

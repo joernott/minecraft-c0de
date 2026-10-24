@@ -281,6 +281,13 @@ final class YamlLayout {
             }
             case "EXIT" ->
                 expressionLine(indent, List.of("EXIT"), text(entry.get("expression"), "expression"), comment);
+            case "PRINT", "WRITE" ->
+                expressionLine(
+                        indent,
+                        List.of(String.valueOf(entry.get("keyword"))),
+                        text(entry.get("expression"), "expression"),
+                        comment);
+            case "INPUT" -> line(indent, with(List.of("INPUT", name(entry.get("name"), "name")), comment));
             default -> throw new IllegalArgumentException("Unknown keyword " + keyword);
         }
     }

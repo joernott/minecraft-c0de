@@ -31,6 +31,8 @@ Every statement is an object with the property `keyword`. Statements that have a
 | RETURN | `name` (error label, optional) |
 | ASSIGN | `name` (target, with index), `expression` |
 | EXIT | `expression` |
+| PRINT, WRITE | `expression` |
+| INPUT | `name` (the variable, with index) |
 | BREAK | `expression` (optional) |
 | IF | `expression`, `code`, `else` (optional, the statements of the ELSE code block) |
 | FOR | `name`, `type`, `from`, `to`, `step` (optional), `code` |
