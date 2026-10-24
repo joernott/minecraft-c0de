@@ -571,27 +571,20 @@ def planks(color: int, seed: str, vertical: bool) -> Image:
 
 
 CHEST_BLUE = 0x2A3AC0
-CHEST_DARK = 0x101860
 
 
 def chest_side(seed: str) -> Image:
-    """The side of the blue chest: planks, a dark frame and the seam between lid and body."""
-    image = planks(CHEST_BLUE, seed, False)
+    """The side of the blue chest: plain blue with a slightly darker rim, without plank lines."""
+    image = concrete(CHEST_BLUE, seed, 3)
     for i in range(16):
-        image[5][i] = rgb(0x0A1050)
         for edge in (0, 15):
-            image[i][edge] = rgb(CHEST_DARK)
-            image[edge][i] = rgb(CHEST_DARK)
+            image[i][edge] = shade(rgb(CHEST_BLUE), -30)
+            image[edge][i] = shade(rgb(CHEST_BLUE), -30)
     return image
 
 
 def chest_top(seed: str) -> Image:
-    image = planks(CHEST_BLUE, seed, True)
-    for i in range(16):
-        for edge in (0, 15):
-            image[i][edge] = rgb(CHEST_DARK)
-            image[edge][i] = rgb(CHEST_DARK)
-    return image
+    return chest_side(seed)
 
 
 def latch() -> Image:
@@ -743,13 +736,13 @@ def read_png(path: Path) -> Image:
 
 
 def hand_drawn_symbol(block: str) -> Image:
-    """The symbol of a texture drawn by hand: its white and black pixels inside the frame; the gray background
-    and the frame are left out."""
+    """The symbol of a texture drawn by hand: its pixels inside the frame that differ from the gray background
+    (white, black and the gray shades between them); the background and the frame are left out."""
     image = blank()
     for y, row in enumerate(read_png(HAND_DRAWN / (block + ".png"))):
         for x, (r, g, b, a) in enumerate(row):
             light = (r + g + b) / 3
-            if a and 0 < x < 15 and 0 < y < 15 and (light > 200 or light < 30):
+            if a and 0 < x < 15 and 0 < y < 15 and (light > 110 or light < 30):
                 image[y][x] = (r, g, b, 255)
     return image
 

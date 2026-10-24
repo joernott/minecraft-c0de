@@ -28,7 +28,8 @@ public final class Literals {
      */
     public static Value parse(Type type, String text, ZoneId zone) {
         return switch (type) {
-            case Type.Simple simple -> parseSimple(simple, text.trim(), zone);
+            // A CHAR may be a space, so only the other types ignore surrounding spaces
+            case Type.Simple simple -> parseSimple(simple, simple == Type.Simple.CHAR ? text : text.trim(), zone);
             case Type.Str str -> new StringValue(text);
             default -> throw new IllegalArgumentException("A literal can't have the type " + type);
         };

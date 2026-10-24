@@ -38,6 +38,11 @@ public final class ProgramParser {
     private final Sheet sheet;
     private final List<Row> rows = new ArrayList<>();
     private int position;
+    /**
+     * The wrong statements inside code blocks without END. The code block is reported as incomplete, but these
+     * lines keep their own problems, which are reported before it (docs/concept/03-programs.md).
+     */
+    private final List<Statement.Invalid> abandoned = new ArrayList<>();
 
     private ProgramParser(Sheet sheet) {
         this.sheet = sheet;
@@ -142,6 +147,8 @@ public final class ProgramParser {
                 statements.add(statement);
             } catch (C0deException e) {
                 skipRest(start, row);
+                statements.addAll(abandoned);
+                abandoned.clear();
                 statements.add(new Statement.Invalid(row.z(), e.inLine(row.z()), lastSkipped()));
             }
         }
@@ -291,6 +298,10 @@ public final class ProgramParser {
         while (true) {
             Row row = current();
             if (row == null || (row.x() <= x && !(row.x() == x && row.startsWith(Keyword.END)))) {
+                statements.stream()
+                        .filter(Statement.Invalid.class::isInstance)
+                        .map(Statement.Invalid.class::cast)
+                        .forEach(abandoned::add);
                 throw C0deException.incomplete(
                         begin.z(), ErrorCode.SYNTAX_ERROR_BEGIN_WITHOUT_END, "The BEGIN line has no matching END line");
             }
@@ -323,6 +334,8 @@ public final class ProgramParser {
                 statements.add(parseStatement(row, context));
             } catch (C0deException e) {
                 skipRest(start, row);
+                statements.addAll(abandoned);
+                abandoned.clear();
                 statements.add(new Statement.Invalid(row.z(), e.inLine(row.z()), lastSkipped()));
             }
         }

@@ -74,6 +74,8 @@ class ValidatorTest {
         assertEquals("VVVVVVV", states(function));
         // A BEGIN without END: the statement is not finished
         assertEquals("VVIIII", states(function.replace("END FUNCTION\n", "")));
+        // A wrong line inside a BEGIN without END stays wrong (task 11.2.21)
+        assertEquals("VVIIIX", states(function.replace("END FUNCTION\n", "").replace("1 ;", "1")));
         // A FUNCTION without code block at the end of the program
         assertEquals("VVII", states(function.substring(0, function.indexOf("BEGIN"))));
         // A wrong line in a function: the line is wrong, the other lines of the function are incomplete

@@ -102,6 +102,7 @@ class ValuesTest {
         assertEquals(new IntegerValue(-7), Literals.parse(Type.Simple.INTEGER, " -7 ", berlin));
         assertEquals(new FloatValue(1.5e3), Literals.parse(Type.Simple.FLOAT, "1.5e3", berlin));
         assertEquals(new CharValue(0x1F600), Literals.parse(Type.Simple.CHAR, "😀", berlin));
+        assertEquals(new CharValue(' '), Literals.parse(Type.Simple.CHAR, " ", berlin));
         assertEquals(new StringValue(" spaces "), Literals.parse(Type.Str.UNLIMITED, " spaces ", berlin));
         assertEquals(
                 new TimeValue(1792411509250L), Literals.parse(Type.Simple.TIME, "2026-10-19T12:05:09.250Z", berlin));

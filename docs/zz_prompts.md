@@ -431,3 +431,19 @@ I also want to add some core functions and three more blocks that can be placed 
 - The last block should look like an open Laptop. It can be bound to a program/function. When right clicking it, it will open a text terminal that uses the same monospace font as the display block and also outputs the same thing as a display would. While the display is limited by the number of adjacent blocks, the terminal should have scroll bar. Below the display is a single input line that becomes available when an input is requested. This does not require items, just a user typing. A Laptop does not interact with WRITE. A Laptop can be crafted from a display block and an I/O block. It can also be crafted from a tablet item.
 
 - The tablet is the mobile variant of a laptop. when having the item in hand, left clicking with it opens the dialog. A tablet can be crafted from a laptop block.
+
+## 2026-10-24 – Feedback on I/O devices, PRINT/WRITE/INPUT as functions
+
+1: Looks OK. The dialog should be wider to accomodate a program and function button, simitlar to the other blocks that bind to something. Increase both inventories to 18 slots. The layout of the trigger button is a good starting base for it.
+2: The model looks OK but the OK button does not close the dialog. Please also make the wrench rotate it
+3: Opening it works fine, the OK button does not work either
+4: The items look good, rotating and camouflaging works but the block should contain a slot for the camouflage item similar to the trigger blocks. The dialog should match the trigger block design (light gray, a button for program, a button for function and one single inventory slot for camouflage.
+
+Findings:
+- When looking at the call button diagonally, I can see that the gray pixels of the call logo are not raised like the black and white ones.
+- I can't enter a single space into a char literal, a space is treated as if nothing was entered.
+- I created an assign statement without a trailing ; and the line number was yellow, because an end statement was not yet there. it should be red as the statement in that line is incomplete. Red errors should have a higher priority than yellow carried on from a previous statement.
+- I created an INPUT statement for the Integer Anzahl. I had the laptop bound to the wrong program. I fixed that and got the prompt for Anzahl. When I typed 10 in the laptop, this did not accept the input but asked again.
+-Please remove the dark blue lines on the VARIABLE block texture. It should look like a blue chest.
+-From around 40 blockss distance, the camouflage texture mixes with the front of the display blocks
+- Instead of statements, PRINT, INPUT and WRITE should become core functions that are used with CALL
