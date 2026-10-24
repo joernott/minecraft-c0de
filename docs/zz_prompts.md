@@ -447,3 +447,16 @@ Findings:
 -Please remove the dark blue lines on the VARIABLE block texture. It should look like a blue chest.
 -From around 40 blockss distance, the camouflage texture mixes with the front of the display blocks
 - Instead of statements, PRINT, INPUT and WRITE should become core functions that are used with CALL
+
+## 2026-10-24 – WAITING state, chest seam, has_inventory
+
+1: Both look OK
+2: Both are fine now
+3: Works as expected
+4: Works as expected
+5: The call symbol is fine, The border between chest lid and bottom is gone, too. That line should remain
+6: Works fine
+
+Another change: A process should get another state "WAITING" when waiting on an input and the cursor should pulse between black and dark green or black and dark red for the debug cursor.
+
+The function minecraft/GET_BLOCK should also have a boolean property "has_inventory".

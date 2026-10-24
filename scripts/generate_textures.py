@@ -536,8 +536,8 @@ def planks(color: int, seed: str, vertical: bool) -> Image:
 CHEST_BLUE = 0x2A3AC0
 
 
-def chest_side(seed: str) -> Image:
-    """The side of the blue chest: plain blue with a slightly darker rim, without plank lines."""
+def chest_top(seed: str) -> Image:
+    """The top of the blue chest: plain blue with a slightly darker rim, without plank lines."""
     image = concrete(CHEST_BLUE, seed, 3)
     for i in range(16):
         for edge in (0, 15):
@@ -546,8 +546,12 @@ def chest_side(seed: str) -> Image:
     return image
 
 
-def chest_top(seed: str) -> Image:
-    return chest_side(seed)
+def chest_side(seed: str) -> Image:
+    """The side of the blue chest: like the top, with the dark seam between lid and body."""
+    image = chest_top(seed)
+    for i in range(16):
+        image[5][i] = rgb(0x0A1050)
+    return image
 
 
 def latch() -> Image:

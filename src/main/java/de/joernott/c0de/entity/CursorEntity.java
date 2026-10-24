@@ -26,6 +26,10 @@ public class CursorEntity extends Entity {
     private static final EntityDataAccessor<Boolean> DEBUG =
             SynchedEntityData.defineId(CursorEntity.class, EntityDataSerializers.BOOLEAN);
 
+    /** True while the process waits for a value or for room (WAITING): the cursor pulses from black. */
+    private static final EntityDataAccessor<Boolean> WAITING =
+            SynchedEntityData.defineId(CursorEntity.class, EntityDataSerializers.BOOLEAN);
+
     private UUID process;
 
     public CursorEntity(EntityType<? extends CursorEntity> type, Level level) {
@@ -51,9 +55,20 @@ public class CursorEntity extends Entity {
         entityData.set(DEBUG, debug);
     }
 
+    public boolean isWaiting() {
+        return entityData.get(WAITING);
+    }
+
+    public void setWaiting(boolean waiting) {
+        if (isWaiting() != waiting) {
+            entityData.set(WAITING, waiting);
+        }
+    }
+
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         builder.define(DEBUG, false);
+        builder.define(WAITING, false);
     }
 
     @Override

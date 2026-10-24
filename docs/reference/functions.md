@@ -1326,7 +1326,7 @@ CALL c0de/minecraft/SAY
 
 Reads the block at a position.
 
-You get its ID, its block state properties as text and the redstone power it receives. An unloaded chunk raises CHUNK_NOT_LOADED. An empty `dimension` in the position means the dimension of the trigger block.
+You get its ID, its block state properties as text, the redstone power it receives and whether it has an inventory. An unloaded chunk raises CHUNK_NOT_LOADED. An empty `dimension` in the position means the dimension of the trigger block.
 
 **Parameters and results**
 
@@ -1334,6 +1334,7 @@ You get its ID, its block state properties as text and the redstone power it rec
 - result `id` STRING: the block ID, e.g. minecraft:oak_door
 - result `properties` HASH STRING: the block states, e.g. facing is north
 - result `power` INTEGER: the redstone power it receives, 0 to 15
+- result `has_inventory` BOOLEAN: true for blocks with an inventory, such as chests; GET_INVENTORY, MOVE_ITEMS and DELETE_ITEMS work with them
 
 **Example**
 
@@ -1343,6 +1344,7 @@ CALL c0de/minecraft/GET_BLOCK
     RESULT id blockId
     RESULT properties states
     RESULT power power
+    RESULT has_inventory isChest
 ```
 
 ### GET_INVENTORY

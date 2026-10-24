@@ -141,9 +141,14 @@ public final class Cursor {
         return frame == null ? "" : frame.function();
     }
 
+    /** True for a cursor that takes steps: RUNNING or WAITING. */
+    private boolean active() {
+        return state == CursorState.RUNNING || state == CursorState.WAITING;
+    }
+
     /** Pauses a running cursor (debug cursor). */
     public void pause() {
-        if (state == CursorState.RUNNING) {
+        if (active()) {
             state = CursorState.PAUSED;
         }
     }
@@ -157,7 +162,7 @@ public final class Cursor {
 
     /** Processes one line if the cursor is running. */
     public void step() {
-        if (state == CursorState.RUNNING) {
+        if (active()) {
             execute();
         }
     }
@@ -172,7 +177,7 @@ public final class Cursor {
     /** Runs until the process ends or the number of steps is reached; returns the number of steps taken. */
     public int run(int maxSteps) {
         int steps = 0;
-        while (state == CursorState.RUNNING && steps < maxSteps) {
+        while (active() && steps < maxSteps) {
             step();
             steps++;
         }
@@ -182,6 +187,9 @@ public final class Cursor {
     // --------------------------------------------------------------------------------------- execution
 
     private void execute() {
+        if (state == CursorState.WAITING) {
+            state = CursorState.RUNNING;
+        }
         if (waitSteps > 0) {
             waitSteps--;
             return;
@@ -710,6 +718,9 @@ public final class Cursor {
         }
         if (result.retry()) {
             line = call.line();
+            if (state == CursorState.RUNNING) {
+                state = CursorState.WAITING;
+            }
             return;
         }
         Integer next = index.next(call.endLine() + 1);

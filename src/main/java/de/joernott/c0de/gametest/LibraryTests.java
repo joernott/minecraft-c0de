@@ -29,8 +29,15 @@ public final class LibraryTests {
                 RESULT before BOOLEAN
                 RESULT after BOOLEAN
                 RESULT denied INTEGER
+                RESULT barrel BOOLEAN
             BEGIN
                 VARIABLE problem ERROR
+                VARIABLE below STRUCT c0de/minecraft/POSITION
+                ASSIGN below lever ;
+                ASSIGN below.y lever.y - 1 ;
+                CALL c0de/minecraft/GET_BLOCK
+                    PARAMETER position below ;
+                    RESULT has_inventory barrel
                 CALL c0de/minecraft/GET_LEVER
                     PARAMETER position lever ;
                     RESULT result before
@@ -56,13 +63,13 @@ public final class LibraryTests {
 
     /**
      * A program switches a lever with SET_LEVER and reads it with GET_LEVER; REMOVE_BLOCK is not allowed for an
-     * owner who is not an administrator.
+     * owner who is not an administrator. GET_BLOCK finds the inventory of the barrel below the lever.
      */
     public static void programsSwitchLevers(GameTestHelper helper) {
         ServerLevel c0de = helper.getLevel().getServer().getLevel(C0deDimension.LEVEL);
         SheetBuilder sheet = new SheetBuilder(c0de, 530).place(PROGRAM);
         SheetValidation.validate(c0de, 530);
-        helper.setBlock(new BlockPos(2, 0, 0), Blocks.STONE);
+        helper.setBlock(new BlockPos(2, 0, 0), Blocks.BARREL);
         helper.setBlock(new BlockPos(2, 1, 0), Blocks.LEVER.defaultBlockState()
                 .setValue(LeverBlock.FACE, AttachFace.FLOOR));
         BlockPos lever = helper.absolutePos(new BlockPos(2, 1, 0));
@@ -76,6 +83,7 @@ public final class LibraryTests {
                         .formatted(lever.getX(), lever.getY(), lever.getZ())));
         trigger.input().setItem(1, variable("", "", ""));
         trigger.input().setItem(2, variable("", "", ""));
+        trigger.input().setItem(3, variable("", "", ""));
         trigger.start();
         helper.assertTrue(trigger.isRunning(), "The process didn't start: " + trigger.status());
         helper.runAfterDelay(40, () -> {
@@ -83,12 +91,12 @@ public final class LibraryTests {
                 helper.assertTrue(!trigger.isRunning(), "The process is still running");
                 helper.assertTrue(trigger.exitCode() == 0, "Exit code " + trigger.exitCode() + " " + trigger.error());
                 String results = "";
-                for (int i = 0; i < 3; i++) {
+                for (int i = 0; i < 4; i++) {
                     ValueItem.Contents result = ValueItem.Contents.of(trigger.output().getItem(i));
                     results += result.name() + "=" + result.value() + " ";
                 }
                 helper.assertTrue(
-                        results.equals("before=false after=true denied=311 "), "The results are " + results);
+                        results.equals("before=false after=true denied=311 barrel=true "), "The results are " + results);
                 BlockState state = helper.getLevel().getBlockState(lever);
                 helper.assertTrue(
                         state.is(Blocks.LEVER) && state.getValue(BlockStateProperties.POWERED),

@@ -207,9 +207,9 @@ public final class MinecraftLibrary implements Library {
 
     private static NativeFunction function(
             String name, List<NativeFunction.Parameter> parameters, NativeFunction.Implementation implementation) {
-        // All functions of the library have at most one result, called result; GET_BLOCK has three
+        // All functions of the library have at most one result, called result; GET_BLOCK has four
         List<String> results = switch (name) {
-            case "GET_BLOCK" -> List.of("id", "properties", "power");
+            case "GET_BLOCK" -> List.of("id", "properties", "power", "has_inventory");
             case "BEEP", "SOUND", "SAY", "SET_LEVER", "PRESS_BUTTON", "SET_OPEN", "PLACE_BLOCK", "REMOVE_BLOCK",
                     "TELEPORT" -> List.of();
             default -> List.of("result");
@@ -423,6 +423,9 @@ public final class MinecraftLibrary implements Library {
         results.put("id", new StringValue(BuiltInRegistries.BLOCK.getKey(state.getBlock()).toString()));
         results.put("properties", properties);
         results.put("power", new IntegerValue(place.level().getBestNeighborSignal(place.pos())));
+        // The blocks GET_INVENTORY, MOVE_ITEMS and DELETE_ITEMS work with
+        results.put(
+                "has_inventory", BooleanValue.of(place.level().getBlockEntity(place.pos()) instanceof Container));
         return NativeResult.of(results);
     }
 

@@ -515,6 +515,7 @@ public class ProcessManager extends SavedData {
         if (c0de.getEntity(process.entity()) instanceof CursorEntity entity) {
             BlockPos pos = LevelSheet.pidPos(process.sheet(), process.pid());
             entity.setPos(pos.getX() + 0.5, process.pid(), cursor.line() + 0.5);
+            entity.setWaiting(cursor.state() == CursorState.WAITING);
         }
         if (cursor.ended()) {
             end(server, process, cursor.exitCode(), cursor.error() != null);

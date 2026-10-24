@@ -125,7 +125,7 @@ class CursorIoTest {
                 END FUNCTION
                 """, console);
         cursor.run(20);
-        assertEquals(CursorState.RUNNING, cursor.state(), "The cursor didn't wait for the input");
+        assertEquals(CursorState.WAITING, cursor.state(), "The cursor didn't wait for the input");
         assertTrue(console.requested.contains("count:INTEGER"), "Requested: " + console.requested);
         console.inputs.add(new IntegerValue(21));
         cursor.run(20);
@@ -168,7 +168,7 @@ class CursorIoTest {
                 END FUNCTION
                 """, console);
         cursor.run(20);
-        assertEquals(CursorState.RUNNING, cursor.state(), "The cursor didn't wait for an item");
+        assertEquals(CursorState.WAITING, cursor.state(), "The cursor didn't wait for an item");
         console.writable = 3;
         cursor.run(20);
         assertEquals(CursorState.FINISHED, cursor.state(), () -> "crashed: " + cursor.error());

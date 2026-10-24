@@ -6,15 +6,19 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "Reads the block at a position.$(br2)You get its ID, its block state properties as text and the redstone power it receives. An unloaded chunk raises CHUNK_NOT_LOADED. An empty $(1)dimension$() in the position means the dimension of the trigger block."
+      "text": "Reads the block at a position."
     },
     {
       "type": "patchouli:text",
-      "text": "$(li)$(1)position$() STRUCT c0de/minecraft/POSITION: where the block is$(li)result $(1)id$() STRING: the block ID, e.g. minecraft:oak_door$(li)result $(1)properties$() HASH STRING: the block states, e.g. facing is north$(li)result $(1)power$() INTEGER: the redstone power it receives, 0 to 15"
+      "text": "You get its ID, its block state properties as text, the redstone power it receives and whether it has an inventory. An unloaded chunk raises CHUNK_NOT_LOADED. An empty $(1)dimension$() in the position means the dimension of the trigger block."
     },
     {
       "type": "patchouli:text",
-      "text": "$(1)CALL c0de/minecraft/GET_BLOCK$(br)  PARAMETER position spot ;$(br)  RESULT id blockId$(br)  RESULT properties states$(br)  RESULT power power$()"
+      "text": "$(li)$(1)position$() STRUCT c0de/minecraft/POSITION: where the block is$(li)result $(1)id$() STRING: the block ID, e.g. minecraft:oak_door$(li)result $(1)properties$() HASH STRING: the block states, e.g. facing is north$(li)result $(1)power$() INTEGER: the redstone power it receives, 0 to 15$(li)result $(1)has_inventory$() BOOLEAN: true for blocks with an inventory, such as chests; GET_INVENTORY, MOVE_ITEMS and DELETE_ITEMS work with them"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/minecraft/GET_BLOCK$(br)  PARAMETER position spot ;$(br)  RESULT id blockId$(br)  RESULT properties states$(br)  RESULT power power$(br)  RESULT has_inventory isChest$()"
     }
   ]
 }

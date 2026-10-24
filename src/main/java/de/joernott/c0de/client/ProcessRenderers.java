@@ -32,6 +32,9 @@ public final class ProcessRenderers {
     public static class Cursor extends EntityRenderer<CursorEntity> {
         private static final int[] REGULAR = {0x00AA00, 0x55FF55};
         private static final int[] DEBUG = {0xAA0000, 0xFF5555};
+        // A waiting cursor (INPUT, WRITE) pulses between black and the dark color
+        private static final int[] REGULAR_WAITING = {0x000000, 0x00AA00};
+        private static final int[] DEBUG_WAITING = {0x000000, 0xAA0000};
 
         /** Ticks of one pulse, from the dark to the bright color and back. */
         private static final float PULSE_TICKS = 40.0F;
@@ -53,7 +56,9 @@ public final class ProcessRenderers {
                 PoseStack pose,
                 MultiBufferSource buffers,
                 int light) {
-            int[] colors = entity.isDebug() ? DEBUG : REGULAR;
+            int[] colors = entity.isWaiting()
+                    ? (entity.isDebug() ? DEBUG_WAITING : REGULAR_WAITING)
+                    : (entity.isDebug() ? DEBUG : REGULAR);
             float time = (entity.tickCount + partialTick) / PULSE_TICKS;
             float mix = 0.5F - 0.5F * (float) Math.cos(time * 2.0 * Math.PI);
             int color = blend(colors[0], colors[1], mix);

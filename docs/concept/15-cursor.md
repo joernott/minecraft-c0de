@@ -4,7 +4,7 @@
 
 The cursor is an entity that is created when a process starts. It is placed directly after the PID block it belongs to (x=4, y=PID, z=1 relative to the sheet).
 
-A cursor looks like an upright cuboid, one block high and 3/4 of a block wide, in the middle of its block. It slowly pulses between dark green (#00AA00) and lime (#55FF55). A debug cursor pulses between dark red (#AA0000) and red (#FF5555).
+A cursor looks like an upright cuboid, one block high and 3/4 of a block wide, in the middle of its block. It slowly pulses between dark green (#00AA00) and lime (#55FF55). A debug cursor pulses between dark red (#AA0000) and red (#FF5555). While its process waits (WAITING: INPUT waits for a value, WRITE for an uninitialized variable item), a cursor pulses between black (#000000) and dark green, a debug cursor between black and dark red.
 
 ## Movement
 
@@ -33,7 +33,7 @@ The cursor has the following specific properties:
   - an associative array of available types
   - an associative array of available library constants
   - a stack with 2048 slots, each of which can hold one stack item. A larger stack can be configured in the mod settings. The stack size is the only limit for the depth of nested function calls and recursion.
-  - its state: RUNNING, PAUSED (debug cursors only) or CRASHED
+  - its state: RUNNING, WAITING (a CALL of INPUT or WRITE waits for a value or an item; the cursor pulses between black and its dark color), PAUSED (debug cursors only) or CRASHED
   - the last keyword it processed
 
 ## The stack
