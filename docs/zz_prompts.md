@@ -474,3 +474,7 @@ the VM is now reachable again.
 ssh -i .ssh/id_ed25519_claude doener@192.168.178.101 works for me. The doener user still has sudo rights without the need for a password
 
 I have created the modrinth project and put the id into the TOML file and a PAT into the github secret MODRINTH_TOKEN.
+
+## 2026-10-24 – Several clients
+
+How can I start multiple clients with different users?

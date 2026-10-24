@@ -83,6 +83,12 @@ loom {
     }
 
     runs {
+        // A second client for multiplayer tests (task 11.11): its own game directory and user name
+        register("client2") {
+            client()
+            programArgs("--username", "Tester2")
+            runDirectory = rootProject.file("run/fabric-client2")
+        }
         register("gametest") {
             server()
             jvmArguments.add("-Dfabric-api.gametest")

@@ -58,6 +58,13 @@ neoForge {
             client()
         }
 
+        // A second client for multiplayer tests (task 11.11): its own game directory and user name
+        register("client2") {
+            gameDirectory = rootProject.file("run/neoforge-client2")
+            client()
+            programArguments.addAll("--username", "Tester2")
+        }
+
         register("server") {
             gameDirectory = rootProject.file("run/neoforge")
             server()
