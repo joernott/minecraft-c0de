@@ -29,6 +29,7 @@ public final class C0deBlockEntities {
     public static Supplier<BlockEntityType<PidBlockEntity>> PID;
     public static Supplier<BlockEntityType<de.joernott.c0de.io.DisplayBlockEntity>> DISPLAY;
     public static Supplier<BlockEntityType<de.joernott.c0de.io.IoBlockEntity>> IO;
+    public static Supplier<BlockEntityType<de.joernott.c0de.io.LaptopBlockEntity>> LAPTOP;
 
     private C0deBlockEntities() {}
 
@@ -63,6 +64,11 @@ public final class C0deBlockEntities {
                 () -> Platform.INSTANCE.blockEntityType(de.joernott.c0de.io.IoBlockEntity::new, C0deBlocks.IO_BLOCK.get()));
         // Like trigger blocks, hoppers and pipes fill the input and empty the output of I/O blocks
         Platform.INSTANCE.exposeContainer(IO);
+        LAPTOP = Platform.INSTANCE.register(
+                BuiltInRegistries.BLOCK_ENTITY_TYPE,
+                "laptop",
+                () -> Platform.INSTANCE.blockEntityType(
+                        de.joernott.c0de.io.LaptopBlockEntity::new, C0deBlocks.LAPTOP.get()));
     }
 
     /** All block entity types, e.g. for registering their renderers. */

@@ -24,6 +24,31 @@ public final class ScreenNbt {
         return tag;
     }
 
+    /** The screen with only the newest rows of its history, for an update of a screen the client already has. */
+    public static CompoundTag update(TextScreen screen, int newHistoryRows) {
+        CompoundTag tag = write(screen);
+        List<TextScreen.Row> history = screen.history();
+        tag.put("history", rows(history.subList(Math.max(0, history.size() - newHistoryRows), history.size())));
+        tag.putBoolean("append", true);
+        return tag;
+    }
+
+    /** Applies a screen written by {@link #write} or {@link #update} to the screen of a client. */
+    public static void apply(TextScreen screen, CompoundTag tag) {
+        List<TextScreen.Row> history = new ArrayList<>();
+        if (tag.getBoolean("append")) {
+            history.addAll(screen.history());
+        }
+        history.addAll(rows(tag.getList("history", Tag.TAG_COMPOUND)));
+        screen.restore(
+                rows(tag.getList("rows", Tag.TAG_COMPOUND)),
+                history,
+                tag.getInt("row"),
+                tag.getInt("column"),
+                tag.getInt("foreground"),
+                tag.getInt("background"));
+    }
+
     /** A screen of the given size with the content of the tag; content that doesn't fit is cut off. */
     public static TextScreen read(CompoundTag tag, int width, int height, int historySize) {
         TextScreen screen = new TextScreen(width, height, historySize);

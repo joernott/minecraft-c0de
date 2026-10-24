@@ -44,6 +44,13 @@ public final class C0deNeoForgeClient {
                     event.register(C0deMenus.IO.get(), de.joernott.c0de.client.IoScreen::new);
                 });
         net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
+                net.neoforged.neoforge.client.event.InputEvent.InteractionKeyMappingTriggered.class, event -> {
+                    if (event.isAttack() && C0deClient.attack()) {
+                        event.setSwingHand(false);
+                        event.setCanceled(true);
+                    }
+                });
+        net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
                 net.neoforged.neoforge.client.event.RenderLevelStageEvent.class, event -> {
                     if (event.getStage() == net.neoforged.neoforge.client.event.RenderLevelStageEvent.Stage.AFTER_ENTITIES) {
                         LineNumbers.render(event.getCamera());

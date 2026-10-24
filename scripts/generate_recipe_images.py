@@ -85,9 +85,40 @@ def overlay(base, top):
     return result
 
 
+def tinted(image, color: tuple[int, int, int]):
+    """A gray texture in a color, e.g. the hopper of Minecraft in the blue of the I/O block."""
+    return [[(r * color[0] // 255, g * color[1] // 255, b * color[2] // 255, a) for r, g, b, a in row]
+            for row in image]
+
+
+def laptop_icon():
+    """An open laptop seen from the front: the screen above, the keyboard below."""
+    image = [[(0, 0, 0, 0)] * 16 for _ in range(16)]
+    for y in range(2, 11):
+        for x in range(2, 14):
+            frame = y in (2, 10) or x in (2, 13)
+            image[y][x] = (0x5A, 0x5A, 0x5E, 255) if frame else (0x14, 0x14, 0x14, 255)
+    for y, x0, x1 in ((11, 1, 15), (12, 0, 16), (13, 0, 16)):
+        for x in range(x0, x1):
+            image[y][x] = (0x3A, 0x3A, 0x3E, 255) if y == 12 and x % 2 else (0x6E, 0x6E, 0x72, 255)
+    for y, length in ((4, 5), (6, 8)):
+        for x in range(4, 4 + length):
+            image[y][x] = (0x55, 0xFF, 0x55, 255)
+    return image
+
+
+# Items whose block models can't be drawn from their textures
+SPECIAL_ICONS = {
+    "io_block": lambda: tinted(jar_texture("item/hopper"), (0x77, 0x77, 0xFF)),
+    "laptop": laptop_icon,
+}
+
+
 def icon(item: str):
     """The icon of an item: its item texture, or the top and the symbol of its block."""
     namespace, name = item.split(":")
+    if namespace == "c0de" and name in SPECIAL_ICONS:
+        return SPECIAL_ICONS[name]()
     if namespace == "patchouli":
         # The guide books of the mod are red books
         book = jar_texture("item/book")

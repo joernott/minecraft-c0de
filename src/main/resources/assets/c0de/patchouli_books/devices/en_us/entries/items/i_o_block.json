@@ -1,0 +1,29 @@
+{
+  "name": "I/O block",
+  "icon": "c0de:io_block",
+  "category": "c0de:items",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "The I/O block takes values for INPUT and gives out values from WRITE."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Right-click it to open its dialog. It has 9 input slots and 9 output slots. The input takes only variable, constant and literal items. You can only take items out of the output. The button \"Binding\" opens the binding dialog.$(br2)Hoppers fill the input and empty the output. A comparator reads how full the output is."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:io_block",
+      "text": "Craft a data item and a hopper together."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Bind an I/O block to the function $(1)double$(). Put an INTEGER variable item named $(1)number$() with the value 21 and an uninitialized variable item into its input. Start the function: the output gets an item named $(1)output$() with the value 42."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)PROGRAM doubling$(br)NOOP$(br)NOOP$(br)FUNCTION double$(br)BEGIN$(br)  VARIABLE number INTEGER$(br)  INPUT number$(br)  WRITE number * 2 ;$(br)END FUNCTION$()"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "c0de:block/laptop"
+    },
+    "facing=east": {
+      "model": "c0de:block/laptop",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "c0de:block/laptop",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "c0de:block/laptop",
+      "y": 270
+    }
+  }
+}

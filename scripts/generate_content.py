@@ -278,6 +278,11 @@ MESSAGES = [
     ("block.c0de.display_block", "Display Block", "Anzeigeblock"),
     ("block.c0de.io_block", "I/O Block", "E/A-Block"),
     ("dialog.c0de.io.unbound", "Not bound", "Nicht gebunden"),
+    ("block.c0de.laptop", "Laptop", "Laptop"),
+    ("item.c0de.tablet", "Tablet", "Tablet"),
+    ("dialog.c0de.terminal", "Terminal", "Terminal"),
+    ("dialog.c0de.terminal.keys", "Typed keys go to INKEY", "Getippte Tasten gehen an INKEY"),
+    ("dialog.c0de.terminal.input", "INPUT %s:", "INPUT %s:"),
     ("item.c0de.literal_item.valued", "Literal %s", "Literal %s"),
     ("dialog.c0de.trigger.input", "Input", "Eingabe"),
     ("dialog.c0de.trigger.output", "Output", "Ausgabe"),
@@ -397,7 +402,7 @@ def block_files(name: str, validated: bool, transparent: bool) -> None:
 
 
 # The devices of input and output (docs/concept/19-input-output.md)
-DEVICES = ["display_block", "io_block"]
+DEVICES = ["display_block", "io_block", "laptop"]
 
 # The rotations of a model whose front faces north, for the six directions of a device
 FACINGS = {"north": {}, "south": {"y": 180}, "west": {"y": 270}, "east": {"y": 90}, "up": {"x": 270}, "down": {"x": 90}}
@@ -448,6 +453,44 @@ def devices() -> None:
                    "conditions": [{"condition": "minecraft:survives_explosion"}]}],
     })
     write(DATA / "recipe" / "io_block.json", shapeless([c0de("data_item"), mc("hopper")], c0de("io_block")))
+    # The laptop, its screen facing north: the keyboard in front, the lid at the back
+    body = "c0de:block/laptop_body"
+    write(ASSETS / "models" / "block" / "laptop.json", {
+        "parent": "minecraft:block/block",
+        "textures": {"body": body, "keyboard": "c0de:block/laptop_keyboard", "screen": "c0de:block/display_front",
+                     "particle": body},
+        "elements": [
+            {"from": [1, 0, 1], "to": [15, 1, 13], "faces": {
+                "up": {"uv": [1, 1, 15, 13], "texture": "#keyboard"},
+                "down": {"uv": [1, 3, 15, 15], "texture": "#body", "cullface": "down"},
+                **{side: {"uv": [1, 15, 15, 16], "texture": "#body"} for side in ("north", "south")},
+                **{side: {"uv": [1, 15, 13, 16], "texture": "#body"} for side in ("east", "west")}}},
+            {"from": [1, 1, 13], "to": [15, 11, 14], "faces": {
+                "north": {"uv": [1, 5, 15, 15], "texture": "#body"},
+                "south": {"uv": [1, 5, 15, 15], "texture": "#body"},
+                "up": {"uv": [1, 13, 15, 14], "texture": "#body"},
+                "east": {"uv": [2, 5, 3, 15], "texture": "#body"},
+                "west": {"uv": [13, 5, 14, 15], "texture": "#body"}}},
+            {"from": [2, 2, 12.95], "to": [14, 10, 13], "faces": {
+                "north": {"uv": [2, 6, 14, 14], "texture": "#screen"}}},
+        ],
+    })
+    write(ASSETS / "blockstates" / "laptop.json", {"variants": {
+        "facing=" + facing: dict({"model": "c0de:block/laptop"}, **({"y": y} if y else {}))
+        for facing, y in (("north", 0), ("east", 90), ("south", 180), ("west", 270))}})
+    write(ASSETS / "models" / "item" / "laptop.json", {"parent": "c0de:block/laptop"})
+    write(DATA / "loot_table" / "blocks" / "laptop.json", {
+        "type": "minecraft:block",
+        "pools": [{"rolls": 1, "entries": [{"type": "minecraft:item", "name": "c0de:laptop"}],
+                   "conditions": [{"condition": "minecraft:survives_explosion"}]}],
+    })
+    write(DATA / "recipe" / "laptop.json",
+          shapeless([c0de("display_block"), c0de("io_block")], c0de("laptop")))
+    # A laptop folds into a tablet and back
+    write(DATA / "recipe" / "laptop_from_tablet.json", shapeless([c0de("tablet")], c0de("laptop")))
+    write(DATA / "recipe" / "tablet.json", shapeless([c0de("laptop")], c0de("tablet")))
+    write(ASSETS / "models" / "item" / "tablet.json",
+          {"parent": "minecraft:item/generated", "textures": {"layer0": "c0de:item/tablet"}})
     write(ASSETS / "font" / "monocraft.json", {
         "providers": [{"type": "ttf", "file": "c0de:monocraft.ttf", "shift": [0, 0], "size": 9, "oversample": 4.0}],
     })

@@ -2,7 +2,7 @@
   "name": "Aborting a process",
   "icon": "c0de:trigger_block",
   "category": "c0de:running_programs",
-  "sortnum": 14,
+  "sortnum": 15,
   "pages": [
     {
       "type": "patchouli:text",

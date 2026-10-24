@@ -62,6 +62,8 @@ public class C0deFabricClient implements ClientModInitializer {
                         context.topLevelId() == null ? model : ExtrudedModel.wrap(context.topLevelId(), model)));
         net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry.ITEM.register(
                 C0deClient::itemColor, C0deItems.MARKER.get());
+        net.fabricmc.fabric.api.event.client.player.ClientPreAttackCallback.EVENT.register(
+                (client, player, clickCount) -> clickCount > 0 && C0deClient.attack());
         net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents.AFTER_ENTITIES.register(
                 context -> LineNumbers.render(context.camera()));
     }

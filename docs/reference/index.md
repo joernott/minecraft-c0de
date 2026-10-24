@@ -19,6 +19,7 @@ Book: crafted from a book and structural base.
 - **Expressions**: [ASSIGN](statements.md#assign), [OPERATOR](statements.md#operator)
 - **Conditions**: [Structural base](statements.md#structural-base), [IF](statements.md#if), [ELSE](statements.md#else)
 - **Loops**: [FOR](statements.md#for), [EACH](statements.md#each), [WHILE](statements.md#while), [REPEAT](statements.md#repeat), [BREAK](statements.md#break)
+- **Input and output**: [PRINT](statements.md#print), [WRITE](statements.md#write), [INPUT](statements.md#input)
 
 ## [Tools](tools.md)
 
@@ -35,11 +36,19 @@ Book: crafted from a book and trigger block.
 - **Starting programs**: [Trigger block](triggers.md#trigger-block), [Timer block](triggers.md#timer-block), [Debug trigger block](triggers.md#debug-trigger-block)
 - **Running programs**: [PID block](triggers.md#pid-block)
 
+## [Devices](devices.md)
+
+Book: crafted from a book and display block.
+
+- **Screens**: [Display block](devices.md#display-block), [Laptop](devices.md#laptop), [Tablet](devices.md#tablet)
+- **Items**: [I/O block](devices.md#io-block), [Literal item](devices.md#literal-item)
+
 ## [Functions](functions.md)
 
 Book: crafted from a book and function block.
 
 - **Built-in functions**: [LEN](functions.md#len), [HAS_KEY](functions.md#has_key), [REMOVE](functions.md#remove), [INSERT](functions.md#insert), [CLEAR](functions.md#clear), [SWAP](functions.md#swap), [RAISE](functions.md#raise)
+- **Screen functions**: [CLS](functions.md#cls), [LOCATE](functions.md#locate), [CSRLIN](functions.md#csrlin), [POS](functions.md#pos), [COLOR](functions.md#color), [INKEY](functions.md#inkey)
 - **c0de/math**: [ABS](functions.md#abs), [SGN](functions.md#sgn), [SQR](functions.md#sqr), [EXP](functions.md#exp), [LOG](functions.md#log), [SIN](functions.md#sin), [COS](functions.md#cos), [TAN](functions.md#tan), [ATN](functions.md#atn), [INT](functions.md#int), [FIX](functions.md#fix), [ROUND](functions.md#round), [TO_FLOAT](functions.md#to_float), [DIV](functions.md#div), [RANDOM](functions.md#random), [RANDOMIZE](functions.md#randomize)
 - **c0de/strings**: [LEFT](functions.md#left), [RIGHT](functions.md#right), [MID](functions.md#mid), [REPLACE](functions.md#replace), [INSTR](functions.md#instr), [UCASE](functions.md#ucase), [LCASE](functions.md#lcase), [SPACE](functions.md#space), [FILL](functions.md#fill), [ASC](functions.md#asc), [CHR](functions.md#chr), [STR](functions.md#str), [FORMAT](functions.md#format), [VAL](functions.md#val), [HEX](functions.md#hex), [OCT](functions.md#oct), [TO_JSON](functions.md#to_json), [TO_YAML](functions.md#to_yaml), [FROM_JSON](functions.md#from_json), [FROM_YAML](functions.md#from_yaml)
 - **c0de/time**: [NOW](functions.md#now), [MILLISECOND](functions.md#millisecond), [SECOND](functions.md#second), [MINUTE](functions.md#minute), [HOUR](functions.md#hour), [DAY](functions.md#day), [MONTH](functions.md#month), [YEAR](functions.md#year), [WEEKDAY](functions.md#weekday), [WEEK](functions.md#week), [TIMER](functions.md#timer), [SLEEP](functions.md#sleep)

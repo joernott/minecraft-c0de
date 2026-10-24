@@ -1,0 +1,29 @@
+{
+  "name": "INPUT",
+  "icon": "c0de:input_block",
+  "category": "c0de:input_and_output",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "INPUT reads a value into a variable.$(br2)A LABEL with the variable follows, without $(1);$(). The variable must be declared and must be changeable, so a CONSTANT doesn't work. An element works too, like $(1)INPUT names[1]$()."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "The cursor first looks into the bound I/O blocks. It takes a variable or constant item with the same name and type, or a literal item of the right type. Otherwise it waits until a player types a line on a bound laptop or tablet."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:input_block",
+      "text": "Craft a NOOP block and a tripwire hook together."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Bind a laptop to the function $(1)ask$() and start it. The laptop asks for $(1)count$(). Type 21 and press Enter: the screen shows 42."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)PROGRAM typing$(br)NOOP$(br)NOOP$(br)FUNCTION ask$(br)BEGIN$(br)  VARIABLE count INTEGER$(br)  INPUT count$(br)  PRINT count * 2 ;$(br)END FUNCTION$()"
+    }
+  ]
+}

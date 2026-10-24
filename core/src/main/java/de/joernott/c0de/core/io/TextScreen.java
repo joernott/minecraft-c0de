@@ -22,6 +22,8 @@ public final class TextScreen {
     private int column;
     private int foreground = DEFAULT_FOREGROUND;
     private int background;
+    private long scrolled;
+    private long clears;
 
     /** A row of the screen: the characters (code points) and their colors. */
     public record Row(int[] characters, byte[] foregrounds, byte[] backgrounds) {
@@ -80,6 +82,16 @@ public final class TextScreen {
         return List.copyOf(history);
     }
 
+    /** How many rows went into the history so far: terminals send only the new ones to the players. */
+    public long scrolled() {
+        return scrolled;
+    }
+
+    /** How often the screen was cleared so far. */
+    public long clears() {
+        return clears;
+    }
+
     /** Writes the text at the cursor and ends the line (PRINT). */
     public void println(String text) {
         text.codePoints().forEach(this::put);
@@ -114,6 +126,7 @@ public final class TextScreen {
     private void scroll() {
         if (historySize > 0) {
             history.add(rows[0]);
+            scrolled++;
             if (history.size() > historySize) {
                 history.remove(0);
             }
@@ -129,6 +142,7 @@ public final class TextScreen {
             rows[i] = Row.empty(width);
         }
         history.clear();
+        clears++;
         row = 0;
         column = 0;
     }

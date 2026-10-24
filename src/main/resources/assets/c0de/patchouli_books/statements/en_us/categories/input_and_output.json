@@ -1,0 +1,6 @@
+{
+  "name": "Input and output",
+  "description": "These blocks let a program talk to players: through screens and through items.",
+  "icon": "c0de:print_block",
+  "sortnum": 6
+}

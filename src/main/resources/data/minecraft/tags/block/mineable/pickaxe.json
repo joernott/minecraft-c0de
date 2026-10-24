@@ -4,6 +4,7 @@
     "c0de:timer_block",
     "c0de:debug_trigger_block",
     "c0de:display_block",
-    "c0de:io_block"
+    "c0de:io_block",
+    "c0de:laptop"
   ]
 }

@@ -2,7 +2,7 @@
   "name": "PID blocks",
   "icon": "c0de:trigger_block",
   "category": "c0de:running_programs",
-  "sortnum": 12,
+  "sortnum": 13,
   "pages": [
     {
       "type": "patchouli:text",

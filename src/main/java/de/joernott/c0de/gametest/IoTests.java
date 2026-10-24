@@ -7,6 +7,8 @@ import de.joernott.c0de.dimension.C0deDimension;
 import de.joernott.c0de.io.DisplayBlock;
 import de.joernott.c0de.io.DisplayBlockEntity;
 import de.joernott.c0de.io.IoBlockEntity;
+import de.joernott.c0de.io.LaptopBlockEntity;
+import de.joernott.c0de.io.Terminals;
 import de.joernott.c0de.item.LiteralItem;
 import de.joernott.c0de.item.ValueItem;
 import de.joernott.c0de.sheet.SheetValidation;
@@ -14,6 +16,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.server.level.ServerLevel;
+import java.util.List;
 import net.minecraft.world.item.ItemStack;
 
 /** GameTests of the devices of input and output (tasks 11.6 to 11.9). */
@@ -153,6 +156,64 @@ public final class IoTests {
                 } finally {
                     sheet.clear();
                     SheetValidation.validate(c0de, 526);
+                }
+                helper.succeed();
+            });
+        });
+    }
+
+    /**
+     * A laptop shows what the process prints. INPUT waits for a line typed on it; a line that doesn't fit the type
+     * is refused, the next one is read.
+     */
+    public static void laptopsTakeTypedLines(GameTestHelper helper) {
+        ServerLevel c0de = helper.getLevel().getServer().getLevel(C0deDimension.LEVEL);
+        SheetBuilder sheet = new SheetBuilder(c0de, 528).place("""
+                PROGRAM typing
+                NOOP
+                FUNCTION ask
+                BEGIN
+                    VARIABLE count INTEGER
+                    INPUT count
+                    PRINT count * 2 ;
+                END FUNCTION
+                """);
+        SheetValidation.validate(c0de, 528);
+        BlockPos pos = new BlockPos(1, 2, 1);
+        helper.setBlock(pos, C0deBlocks.LAPTOP.get());
+        LaptopBlockEntity laptop = (LaptopBlockEntity) helper.getBlockEntity(pos);
+        Terminals terminals = Terminals.get(helper.getLevel().getServer());
+        Terminals.Terminal terminal = terminals.terminal(laptop.terminal());
+        terminals.bind(helper.getLevel().getServer(), terminal, "typing", "ask");
+
+        helper.setBlock(BlockPos.ZERO, C0deBlocks.TRIGGER_BLOCK.get());
+        TriggerBlockEntity trigger = (TriggerBlockEntity) helper.getBlockEntity(BlockPos.ZERO);
+        trigger.configure(helper.makeMockServerPlayerInLevel(), "typing", "ask", 20);
+        trigger.start();
+        helper.assertTrue(trigger.isRunning(), "The process didn't start: " + trigger.status());
+        helper.runAfterDelay(10, () -> {
+            try {
+                helper.assertTrue(terminal.prompt().equals("count (INTEGER)"), "The prompt is " + terminal.prompt());
+                terminals.line(terminal, "many");
+                terminals.line(terminal, "21");
+            } catch (RuntimeException e) {
+                sheet.clear();
+                SheetValidation.validate(c0de, 528);
+                throw e;
+            }
+            helper.runAfterDelay(10, () -> {
+                try {
+                    helper.assertTrue(!trigger.isRunning(), "The process is still running");
+                    List<String> rows = terminal.screen().rows().stream().map(row -> row.text()).toList();
+                    helper.assertTrue(
+                            rows.get(0).equals("many") && rows.get(1).startsWith("? ") && rows.get(2).equals("21")
+                                    && rows.get(3).equals("42"),
+                            "The terminal shows " + rows.subList(0, 4));
+                    helper.assertTrue(terminal.prompt().isEmpty(), "INPUT still waits");
+                } finally {
+                    sheet.clear();
+                    SheetValidation.validate(c0de, 528);
+                    helper.getLevel().removeBlock(pos, false);
                 }
                 helper.succeed();
             });

@@ -92,6 +92,18 @@ So you can build chains: trigger block, hopper, trigger block, hopper, chest. Ea
 
 If exactly one block with an inventory touches a trigger block, the output goes there by itself. Another trigger block counts too: the items land in its input. A hopper pointing into the trigger block does not count.
 
+## Talking to players
+
+A process can also talk to players while it runs. Three statements do this:
+
+- **PRINT** writes text on screens.
+- **INPUT** reads a value into a variable.
+- **WRITE** puts a value into an I/O block as a variable item.
+
+The devices for this are display blocks, laptops, tablets and I/O blocks. Bind each of them to a program and function, like a trigger block. Display blocks next to each other form one big screen.
+
+INPUT takes a matching item from an I/O block first. Otherwise it waits until a player types a line on a laptop or tablet. The handbooks Statements and Devices describe all of them.
+
 ## Protected programs
 
 While a process runs, its sheet is locked. Nobody can place or break blocks on it, not even pistons or explosions. The wrench and the hammer don't work there.

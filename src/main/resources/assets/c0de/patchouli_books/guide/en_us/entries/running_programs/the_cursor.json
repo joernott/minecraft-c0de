@@ -2,7 +2,7 @@
   "name": "The cursor",
   "icon": "c0de:trigger_block",
   "category": "c0de:running_programs",
-  "sortnum": 13,
+  "sortnum": 14,
   "pages": [
     {
       "type": "patchouli:text",

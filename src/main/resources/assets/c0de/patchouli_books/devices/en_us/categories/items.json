@@ -1,0 +1,6 @@
+{
+  "name": "Items",
+  "description": "These items carry values between players and programs.",
+  "icon": "c0de:io_block",
+  "sortnum": 1
+}

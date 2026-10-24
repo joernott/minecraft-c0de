@@ -1,0 +1,10 @@
+{
+  "name": "c0de Devices",
+  "landing_text": "This book shows the devices that let programs talk to players. Screens show what PRINT writes. Items carry values into INPUT and out of WRITE. Every device is bound to a program and one of its functions, like a trigger block. A process uses all devices bound to its program and its entry function. The device bound first comes first. Binding a device again clears its screen.",
+  "version": 1,
+  "use_resource_pack": true,
+  "model": "patchouli:book_red",
+  "book_texture": "patchouli:textures/gui/book_red.png",
+  "creative_tab": "c0de:c0de",
+  "show_progress": false
+}

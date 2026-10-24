@@ -22,6 +22,8 @@ public final class C0deItems {
     public static Supplier<Item> TRIGGER_BLOCK;
     public static Supplier<Item> DISPLAY_BLOCK;
     public static Supplier<Item> IO_BLOCK;
+    public static Supplier<Item> LAPTOP;
+    public static Supplier<Item> TABLET;
     public static Supplier<Item> LITERAL_ITEM;
     public static Supplier<Item> TIMER_BLOCK;
     public static Supplier<Item> DEBUG_TRIGGER_BLOCK;
@@ -56,6 +58,8 @@ public final class C0deItems {
         DISPLAY_BLOCK = register(
                 "display_block", () -> new BlockItem(C0deBlocks.DISPLAY_BLOCK.get(), new Item.Properties()));
         IO_BLOCK = register("io_block", () -> new BlockItem(C0deBlocks.IO_BLOCK.get(), new Item.Properties()));
+        LAPTOP = register("laptop", () -> new BlockItem(C0deBlocks.LAPTOP.get(), new Item.Properties()));
+        TABLET = register("tablet", () -> new de.joernott.c0de.item.TabletItem(new Item.Properties().stacksTo(1)));
         TRIGGER_BLOCK = register(
                 "trigger_block", () -> new BlockItem(C0deBlocks.TRIGGER_BLOCK.get(), new Item.Properties()));
         TIMER_BLOCK =
@@ -101,6 +105,8 @@ public final class C0deItems {
                     output.accept(TRIGGER_BLOCK.get());
                     output.accept(DISPLAY_BLOCK.get());
                     output.accept(IO_BLOCK.get());
+                    output.accept(LAPTOP.get());
+                    output.accept(TABLET.get());
                     output.accept(TIMER_BLOCK.get());
                     output.accept(DEBUG_TRIGGER_BLOCK.get());
                     output.accept(WRENCH.get());

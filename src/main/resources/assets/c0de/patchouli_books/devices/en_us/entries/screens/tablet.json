@@ -1,0 +1,21 @@
+{
+  "name": "Tablet",
+  "icon": "c0de:tablet",
+  "category": "c0de:screens",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "A tablet is a laptop you carry as an item.$(br2)Hold it in your main hand and left-click to open its terminal. Everything else works like a laptop. The tablet keeps its binding, screen and history even while it lies in a chest."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:tablet",
+      "text": "Turn a laptop into a tablet. The crafted device gets a new terminal that is not bound yet."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Bind your tablet to a quiz program and take it with you. When the program asks a question, open the tablet anywhere and type your answer."
+    }
+  ]
+}

@@ -252,8 +252,8 @@ A task is done when
 | 11.5 | PRINT, WRITE and INPUT: keyword blocks and statements; the screen functions of AmigaBASIC (CLS, LOCATE, CSRLIN, POS, COLOR, INKEY). The screen model in `core`: the screens of the displays, laptops and tablets bound to the program and function of a process. | ✅ |
 | 11.6 | Display block: flat multiblock walls that share one screen (fixed characters per block, Monocraft font), rotation with the wrench, camouflage, binding to a program and function like a trigger block. | ✅ |
 | 11.7 | I/O block (a retextured hopper): binding, input and output inventories; INPUT reads variable, constant and literal items, WRITE fills uninitialized variable items; literal items (a card with a type and a value, without name). | ✅ |
-| 11.8 | Laptop block: a terminal with the output of the bound program and function, a scroll bar and an input line for INPUT. |  |
-| 11.9 | Tablet: the mobile laptop; left click opens the terminal. Recipes between laptop and tablet. |  |
+| 11.8 | Laptop block: a terminal with the output of the bound program and function, a scroll bar and an input line for INPUT. | ✅ |
+| 11.9 | Tablet: the mobile laptop; left click opens the terminal. Recipes between laptop and tablet. | ✅ |
 | 11.10 | Performance tests: many processes at the same time, large programs, deep recursion; tuning of the scheduler. |  |
 | 11.11 | Multiplayer tests on the Docker servers with several clients (development clients and Modrinth App profiles), including non-operator players and permissions. |  |
 | 11.12 | Workflow `release.yml`, Modrinth project, changelog. |  |

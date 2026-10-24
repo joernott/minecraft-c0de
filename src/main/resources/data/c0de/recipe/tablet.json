@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "ingredients": [
+    {
+      "item": "c0de:laptop"
+    }
+  ],
+  "result": {
+    "id": "c0de:tablet",
+    "count": 1
+  }
+}

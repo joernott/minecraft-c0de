@@ -1,0 +1,20 @@
+{
+  "name": "CLS",
+  "icon": "minecraft:book",
+  "category": "c0de:screen_functions",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Clears the screens.$(br2)The cursor of the screens moves to row 0, column 0. CLS works on all screens bound to the program and function."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)no parameters and no results"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL CLS$()"
+    }
+  ]
+}

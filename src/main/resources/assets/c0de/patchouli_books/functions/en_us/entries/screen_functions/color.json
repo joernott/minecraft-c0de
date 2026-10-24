@@ -1,0 +1,20 @@
+{
+  "name": "COLOR",
+  "icon": "minecraft:book",
+  "category": "c0de:screen_functions",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Sets the colors of the text printed from now on.$(br2)The colors are the 16 colors of Minecraft text, from 0 (black) to 15 (white). Background 0 is the color of the screen. A number outside 0 to 15 raises INVALID_ARGUMENT."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)foreground$() INTEGER: the color of the letters, 0 to 15$(li)$(1)background$() INTEGER: the color behind the letters, 0 to 15 (optional, default 0)"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL COLOR$(br)  PARAMETER foreground 14 ;$(br)  PARAMETER background 1 ;$()"
+    }
+  ]
+}

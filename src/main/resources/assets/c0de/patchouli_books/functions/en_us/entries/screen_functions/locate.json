@@ -1,0 +1,20 @@
+{
+  "name": "LOCATE",
+  "icon": "minecraft:book",
+  "category": "c0de:screen_functions",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Moves the cursor of the screens.$(br2)The next PRINT writes at this place. A row or column outside the screen moves the cursor to the nearest edge."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)row$() INTEGER: the row$(li)$(1)column$() INTEGER: the column (optional, default 0)"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL LOCATE$(br)  PARAMETER row 3 ;$(br)  PARAMETER column 5 ;$()"
+    }
+  ]
+}

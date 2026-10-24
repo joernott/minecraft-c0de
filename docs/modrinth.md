@@ -13,6 +13,7 @@ c0de is inspired by BASIC and the early Lego Mindstorms. You don't need to know 
 - **Live checking**: line numbers on the floor turn green, yellow or red while you build, and the debugging tool tells you what is wrong.
 - **Trigger blocks**: start programs with a redstone pulse, a timer, or step by step with a debug trigger. A comparator reads the exit code.
 - **Data as items**: pass values in and out as variable and constant items. Hoppers and pipes can fill and empty trigger blocks, so programs can be chained.
+- **Input and output**: PRINT text on display walls, laptops and tablets, let players type values for INPUT, and WRITE results into I/O blocks. Screen functions like CLS, LOCATE, COLOR and INKEY come from AmigaBASIC.
 - **Libraries**: math, strings (including FORMAT, JSON and YAML), date and time, and a Minecraft library for sounds, chat messages, levers, buttons, doors, inventories, blocks and entities.
 - **Permissions**: world-changing functions are off by default and can be enabled per server. Programs act on behalf of the trigger block's owner.
 - **Editing tools**: a text marker to select lines, a wrench to move and copy them, a hammer to delete or insert lines.
@@ -45,4 +46,4 @@ The player guide explains everything step by step, with example programs:
 
 - Minecraft 1.21.1
 - **Fabric** with [Fabric API](https://modrinth.com/mod/fabric-api), or **NeoForge**
-- Optional: [Patchouli](https://modrinth.com/mod/patchouli) adds an in-game guide book with the player guide. Every player gets it on the first join; more copies are crafted from a book and a PROGRAM block. Five handbooks (Data, Statements, Tools, Triggers and Functions) describe every block, item and function on a page of its own.
+- Optional: [Patchouli](https://modrinth.com/mod/patchouli) adds an in-game guide book with the player guide. Every player gets it on the first join; more copies are crafted from a book and a PROGRAM block. Six handbooks (Data, Statements, Tools, Triggers, Devices and Functions) describe every block, item and function on a page of its own.

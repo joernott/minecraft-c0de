@@ -18,7 +18,8 @@ import net.minecraft.world.level.saveddata.SavedData;
 
 /**
  * The devices bound to programs and functions (docs/concept/19-input-output.md): display walls (by the position
- * of the block that holds their screen), I/O blocks and laptops, in the order they were bound. Stored with the
+ * of the block that holds their screen) and I/O blocks, in the order they were bound; the terminals of laptops and
+ * tablets are kept in {@link Terminals}. Stored with the
  * overworld ({@code data/c0de_devices.dat}), so that processes find the devices of unloaded chunks too.
  */
 public class IoDevices extends SavedData {
@@ -35,8 +36,7 @@ public class IoDevices extends SavedData {
     /** The kinds of devices. */
     public enum Kind {
         DISPLAY,
-        IO,
-        LAPTOP
+        IO
     }
 
     /**

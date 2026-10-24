@@ -526,6 +526,38 @@ def hopper_top(color: int, seed: str) -> Image:
     return image
 
 
+def laptop_keyboard() -> Image:
+    """The top of the lower half of a laptop: rows of keys and a touchpad in front (at the top of the texture)."""
+    image = concrete(0x5A5A5E, "laptop_keyboard", 3)
+    for y in range(6, 13, 2):
+        for x in range(2, 14):
+            image[y][x] = rgb(0x2A2A2E if x % 2 == 0 or y == 12 else 0x3A3A3E)
+    for y in range(12, 13):
+        for x in range(5, 11):
+            image[y][x] = rgb(0x2A2A2E)  # the space bar
+    for y in range(2, 5):
+        for x in range(6, 10):
+            image[y][x] = rgb(0x6E6E72)  # the touchpad
+    return image
+
+
+def tablet() -> Image:
+    """A tablet: a gray frame with rounded corners around a dark screen with a few lines of text."""
+    image = blank()
+    for y in range(2, 14):
+        for x in range(1, 15):
+            corner = (x in (1, 14)) and (y in (2, 13))
+            if not corner:
+                image[y][x] = rgb(0x5A5A5E)
+    for y in range(3, 13):
+        for x in range(2, 14):
+            image[y][x] = rgb(0x141414)
+    for y, length in ((4, 7), (6, 10), (8, 5)):
+        for x in range(3, 3 + length):
+            image[y][x] = rgb(0x55FF55)
+    return image
+
+
 def planks(color: int, seed: str, vertical: bool) -> Image:
     """Planks four pixels wide, with darker joints."""
     image = concrete(color, seed, 6)
@@ -913,12 +945,15 @@ def main() -> None:
     write_png(blocks / "io_block_top.png", hopper_top(0x5555FF, "io_top"))
     write_png(blocks / "io_block_outside.png", slab_side(0x4444CC, "io_outside"))
     write_png(blocks / "io_block_inside.png", concrete(darker(0x5555FF, 90), "io_inside", 3))
+    write_png(blocks / "laptop_body.png", concrete(0x5A5A5E, "laptop_body", 3))
+    write_png(blocks / "laptop_keyboard.png", laptop_keyboard())
     write_png(TEXTURES / "item" / "wrench.png", wrench())
     code_block_textures(blocks)
     item_textures()
     write_png(TEXTURES / "item" / "debug_tool.png", debug_tool())
     write_png(TEXTURES / "item" / "hammer.png", hammer())
     write_png(TEXTURES / "item" / "c0de_disk.png", disk())
+    write_png(TEXTURES / "item" / "tablet.png", tablet())
     write_png(TEXTURES / "gui" / "trash.png", trash())
 
 

@@ -148,6 +148,115 @@ CALL RAISE
     PARAMETER message "too big" ;
 ```
 
+## Screen functions
+
+Screen functions work on the screens of displays, laptops and tablets and need no INCLUDE. They come from AmigaBASIC. Rows and columns start at 0.
+
+### CLS
+
+Clears the screens.
+
+The cursor of the screens moves to row 0, column 0. CLS works on all screens bound to the program and function.
+
+**Parameters and results**
+
+- no parameters and no results
+
+**Example**
+
+```c0de
+CALL CLS
+```
+
+### LOCATE
+
+Moves the cursor of the screens.
+
+The next PRINT writes at this place. A row or column outside the screen moves the cursor to the nearest edge.
+
+**Parameters and results**
+
+- `row` INTEGER: the row
+- `column` INTEGER: the column (optional, default 0)
+
+**Example**
+
+```c0de
+CALL LOCATE
+    PARAMETER row 3 ;
+    PARAMETER column 5 ;
+```
+
+### CSRLIN
+
+Returns the row of the cursor.
+
+It answers for the screen of the device bound first. Without a screen, the result is 0.
+
+**Parameters and results**
+
+- result `result` INTEGER: the row of the cursor
+
+**Example**
+
+```c0de
+CALL CSRLIN
+    RESULT result row
+```
+
+### POS
+
+Returns the column of the cursor.
+
+It answers for the screen of the device bound first. Without a screen, the result is 0.
+
+**Parameters and results**
+
+- result `result` INTEGER: the column of the cursor
+
+**Example**
+
+```c0de
+CALL POS
+    RESULT result column
+```
+
+### COLOR
+
+Sets the colors of the text printed from now on.
+
+The colors are the 16 colors of Minecraft text, from 0 (black) to 15 (white). Background 0 is the color of the screen. A number outside 0 to 15 raises INVALID_ARGUMENT.
+
+**Parameters and results**
+
+- `foreground` INTEGER: the color of the letters, 0 to 15
+- `background` INTEGER: the color behind the letters, 0 to 15 (optional, default 0)
+
+**Example**
+
+```c0de
+CALL COLOR
+    PARAMETER foreground 14 ;
+    PARAMETER background 1 ;
+```
+
+### INKEY
+
+Returns the oldest key a player typed on a laptop or tablet.
+
+Only keys typed while no INPUT waits count. Enter arrives as CHR 13. If no key is waiting, the result is the empty string. INKEY doesn't wait.
+
+**Parameters and results**
+
+- result `result` STRING: the key, or the empty string
+
+**Example**
+
+```c0de
+CALL INKEY
+    RESULT result key
+```
+
 ## c0de/math
 
 The math library has number functions and random numbers and needs INCLUDE c0de/math.

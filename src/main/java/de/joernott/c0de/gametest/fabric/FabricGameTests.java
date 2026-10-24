@@ -126,6 +126,11 @@ public class FabricGameTests implements FabricGameTest {
         IoTests.ioBlocksExchangeItems(helper);
     }
 
+    @GameTest(template = SmokeTests.EMPTY_STRUCTURE)
+    public void laptopsTakeTypedLines(GameTestHelper helper) {
+        IoTests.laptopsTakeTypedLines(helper);
+    }
+
     @GameTest(template = SmokeTests.EMPTY_STRUCTURE, timeoutTicks = 800)
     public void longLoopsEnd(GameTestHelper helper) {
         ProcessTests.longLoopsEnd(helper);

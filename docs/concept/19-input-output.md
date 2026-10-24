@@ -72,13 +72,15 @@ A literal item is a card with a gray border that holds a type and a value, but n
 
 ## Laptop
 
-A laptop is a block that looks like an open laptop. Right-clicking it opens its terminal: the screen of the laptop (48 columns; the rows that scroll off the top stay in a history of 200 rows, with a scroll bar), and below it an input line, which is only available while an INPUT of a bound process waits. The terminal also has the program and function dropdowns of the binding. A laptop doesn't take part in WRITE.
+A laptop is a block that looks like an open laptop; its screen faces the player who placed it. Right-clicking it opens its terminal: the screen of the laptop (48 columns and 20 rows; the rows that scroll off the top stay in a history of 200 rows, with a scroll bar and the mouse wheel), and below it an input line, which is only available while an INPUT of a bound process waits. Above the screen, two buttons pick the program and function of the binding, and ✔ binds the terminal. Keys typed while no INPUT waits are kept for INKEY. A laptop doesn't take part in WRITE.
+
+The terminals of laptops and tablets are stored with the world (`data/c0de_terminals.dat`), so processes reach them even if the laptop is in an unloaded chunk or the tablet in a chest. Breaking a laptop deletes its terminal.
 
 A laptop is crafted shapelessly from a display block and an I/O block, or from a tablet.
 
 ## Tablet
 
-A tablet is a laptop as an item: left-clicking with the tablet in the hand opens its terminal. Its binding, screen and history are stored in the item. A tablet is crafted from a laptop.
+A tablet is a laptop as an item: left-clicking with the tablet in the main hand opens its terminal. The item keeps the ID of its terminal; its binding, screen and history are stored with the world like those of laptops. A tablet is crafted from a laptop, and a laptop from a tablet; the crafted device gets a new, unbound terminal.
 
 ## Keyword blocks
 

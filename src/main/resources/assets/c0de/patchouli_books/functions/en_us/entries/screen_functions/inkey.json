@@ -1,0 +1,20 @@
+{
+  "name": "INKEY",
+  "icon": "minecraft:book",
+  "category": "c0de:screen_functions",
+  "sortnum": 5,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Returns the oldest key a player typed on a laptop or tablet.$(br2)Only keys typed while no INPUT waits count. Enter arrives as CHR 13. If no key is waiting, the result is the empty string. INKEY doesn't wait."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)result $(1)result$() STRING: the key, or the empty string"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL INKEY$(br)  RESULT result key$()"
+    }
+  ]
+}

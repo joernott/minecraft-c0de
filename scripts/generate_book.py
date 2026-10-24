@@ -29,6 +29,7 @@ HANDBOOKS = [
     ("statements", "c0de:structural_base"),
     ("tools", "c0de:wrench"),
     ("triggers", "c0de:trigger_block"),
+    ("devices", "c0de:display_block"),
     ("functions", "c0de:function_block"),
 ]
 IMAGE = re.compile(r"!\[[^\]]*\]\(images/([a-z0-9_]+)\.png\)")

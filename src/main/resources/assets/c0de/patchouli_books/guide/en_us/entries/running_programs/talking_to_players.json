@@ -1,0 +1,20 @@
+{
+  "name": "Talking to players",
+  "icon": "c0de:trigger_block",
+  "category": "c0de:running_programs",
+  "sortnum": 11,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "A process can also talk to players while it runs. Three statements do this:$(br2)$(li)$(l)PRINT$() writes text on screens.$(li)$(l)INPUT$() reads a value into a variable.$(li)$(l)WRITE$() puts a value into an I/O block as a variable item."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "The devices for this are display blocks, laptops, tablets and I/O blocks. Bind each of them to a program and function, like a trigger block. Display blocks next to each other form one big screen."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "INPUT takes a matching item from an I/O block first. Otherwise it waits until a player types a line on a laptop or tablet. The handbooks Statements and Devices describe all of them."
+    }
+  ]
+}

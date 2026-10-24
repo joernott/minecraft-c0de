@@ -130,6 +130,11 @@ public class NeoForgeGameTests {
         IoTests.ioBlocksExchangeItems(helper);
     }
 
+    @GameTest(template = "empty")
+    public static void laptopsTakeTypedLines(GameTestHelper helper) {
+        IoTests.laptopsTakeTypedLines(helper);
+    }
+
     @GameTest(template = "empty", timeoutTicks = 800)
     public static void longLoopsEnd(GameTestHelper helper) {
         ProcessTests.longLoopsEnd(helper);

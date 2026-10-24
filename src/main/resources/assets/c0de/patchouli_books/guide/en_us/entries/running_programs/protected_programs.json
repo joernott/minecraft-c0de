@@ -2,7 +2,7 @@
   "name": "Protected programs",
   "icon": "c0de:trigger_block",
   "category": "c0de:running_programs",
-  "sortnum": 11,
+  "sortnum": 12,
   "pages": [
     {
       "type": "patchouli:text",

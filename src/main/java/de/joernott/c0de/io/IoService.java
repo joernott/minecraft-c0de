@@ -11,14 +11,20 @@ import de.joernott.c0de.core.value.Value;
 import de.joernott.c0de.dialog.DialogService;
 import de.joernott.c0de.item.LiteralItem;
 import de.joernott.c0de.item.ValueItem;
+import de.joernott.c0de.item.TabletItem;
 import de.joernott.c0de.network.OpenDevicePayload;
+import de.joernott.c0de.network.OpenTabletPayload;
+import de.joernott.c0de.network.TerminalActionPayload;
+import de.joernott.c0de.network.TerminalPayload;
 import de.joernott.c0de.platform.Platform;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
 
@@ -40,6 +46,38 @@ public final class IoService {
                 DialogService.open(player, payload.pos());
             }
         });
+        Platform.INSTANCE.registerClientbound(TerminalPayload.TYPE, TerminalPayload.CODEC);
+        Platform.INSTANCE.registerServerbound(
+                TerminalActionPayload.TYPE, TerminalActionPayload.CODEC, (payload, player) -> act(player, payload));
+        Platform.INSTANCE.registerServerbound(
+                OpenTabletPayload.TYPE, OpenTabletPayload.CODEC, (payload, player) -> TabletItem.open(player));
+        Terminals.register();
+    }
+
+    /** What a player did in the terminal they have open. */
+    private static void act(ServerPlayer player, TerminalActionPayload payload) {
+        Terminals terminals = Terminals.get(player.server);
+        Terminals.Terminal terminal = terminals.openBy(player);
+        if (terminal == null) {
+            return;
+        }
+        switch (payload.action()) {
+            case "line" -> terminals.line(terminal, payload.text());
+            case "key" -> terminals.key(terminal, payload.text());
+            case "close" -> terminals.close(player);
+            case "bind" -> {
+                String program = payload.text();
+                if (program.isEmpty()
+                        || DialogService.programs(player)
+                                .getList(program, net.minecraft.nbt.Tag.TAG_STRING)
+                                .contains(net.minecraft.nbt.StringTag.valueOf(payload.function()))) {
+                    terminals.bind(player.server, terminal, program, payload.function());
+                }
+            }
+            default -> {
+                // Unknown actions of other versions are ignored
+            }
+        }
     }
 
     /** The console of the devices bound to a program and function. */
@@ -68,6 +106,10 @@ public final class IoService {
                         && display.screen() != null) {
                     screens.add(new Screen(display.screen(), display::screenChanged));
                 }
+            }
+            Terminals terminals = Terminals.get(server);
+            for (Terminals.Terminal terminal : terminals.terminals(program, function)) {
+                screens.add(new Screen(terminal.screen(), () -> terminals.changed(terminal)));
             }
             return screens;
         }
@@ -145,7 +187,53 @@ public final class IoService {
                     return value;
                 }
             }
+            return typed(name, typeText, type);
+        }
+
+        /**
+         * A line typed on a terminal; the terminals show that INPUT waits. The line is shown on its terminal; a
+         * line that doesn't fit the type is refused with a message there.
+         */
+        private Optional<Value> typed(String name, String typeText, Type type) {
+            Terminals terminals = Terminals.get(server);
+            List<Terminals.Terminal> bound = terminals.terminals(program, function);
+            long tick = server.overworld().getGameTime();
+            for (Terminals.Terminal terminal : bound) {
+                terminals.waiting(terminal, name + " (" + typeText + ")", tick);
+                String line;
+                while ((line = terminal.pollLine()) != null) {
+                    terminal.screen().println(line);
+                    terminals.changed(terminal);
+                    ItemRules.Result result = ItemRules.check("input", typeText, line, ZoneId.systemDefault());
+                    Optional<String> problem = result.problem();
+                    Value value = null;
+                    if (problem.isEmpty()) {
+                        try {
+                            value = ItemRules.value(result.json(), type);
+                        } catch (C0deException e) {
+                            problem = Optional.of(e.getMessage());
+                        }
+                    }
+                    if (problem.isPresent()) {
+                        terminal.screen().println("? " + problem.get());
+                        continue;
+                    }
+                    bound.forEach(terminals::answered);
+                    return Optional.of(value);
+                }
+            }
             return Optional.empty();
+        }
+
+        @Override
+        public String inkey() {
+            for (Terminals.Terminal terminal : Terminals.get(server).terminals(program, function)) {
+                String key = terminal.pollKey();
+                if (key != null) {
+                    return key;
+                }
+            }
+            return "";
         }
 
         private static Optional<Value> take(IoBlockEntity block, String name, String typeText, Type type) {

@@ -1,0 +1,45 @@
+{
+  "name": "Laptop",
+  "icon": "c0de:laptop",
+  "category": "c0de:screens",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "A laptop is a block with a screen and a keyboard. Players type the values for INPUT on it."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Right-click it to open its terminal. The screen has 48 columns and 20 rows. Rows that scroll off the top stay in a history of 200 rows. Scroll with the mouse wheel or the scroll bar."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "At the top, two buttons pick the program and the function. ✔ binds the laptop. Below the screen is the input line. It only works while an INPUT waits, and it shows what INPUT asks for, like $(1)INPUT count (INTEGER):$()."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Press Enter to send the line. The line appears on the screen. Text that doesn't fit the type is refused with a line starting with $(1)? $(), and INPUT keeps waiting. Keys typed while no INPUT waits are kept for INKEY. Enter arrives there as CHR 13."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "A laptop doesn't take part in WRITE. Breaking a laptop deletes its terminal."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:laptop",
+      "text": "Craft a display block and an I/O block together, or turn a tablet into a laptop."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:laptop_from_tablet"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Bind a laptop to the function $(1)ask$() and start it. The input line shows $(1)INPUT count (INTEGER):$(). Type 21 and press Enter. The screen shows 42."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)PROGRAM typing$(br)NOOP$(br)NOOP$(br)FUNCTION ask$(br)BEGIN$(br)  VARIABLE count INTEGER$(br)  INPUT count$(br)  PRINT count * 2 ;$(br)END FUNCTION$()"
+    }
+  ]
+}

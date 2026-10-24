@@ -1,0 +1,6 @@
+{
+  "name": "Screen functions",
+  "description": "Screen functions work on the screens of displays, laptops and tablets and need no INCLUDE. They come from AmigaBASIC. Rows and columns start at 0.",
+  "icon": "c0de:function_block",
+  "sortnum": 1
+}
