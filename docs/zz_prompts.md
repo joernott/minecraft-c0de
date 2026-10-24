@@ -464,3 +464,7 @@ The function minecraft/GET_BLOCK should also have a boolean property "has_invent
 ## 2026-10-24 – Cursor color, remaining steps
 
 The chest is fine. The cursors brightest color should be lower than it is now, though. Please lower it and continue with the remaining steps of sprint 10
+
+## 2026-10-24 – VM
+
+the VM is now reachable again.
