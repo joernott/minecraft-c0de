@@ -1,0 +1,29 @@
+{
+  "name": "EACH",
+  "icon": "c0de:each_block",
+  "category": "c0de:loops",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "EACH goes through an array or a hash.$(br2)A name for the loop variable and a LABEL with the array or hash follow. For an array, the loop variable gets each element in order. For a hash, it gets each key in alphabetical order."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "The loop works on a copy, so changing the list inside the loop doesn't change the loop. You can't change the loop variable yourself."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:each_block",
+      "text": "Craft a structural base and a cobblestone block, or turn a FOR block into an EACH block."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:each_block_from_for_block"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)EACH key h$(br)BEGIN$(br)  ASSIGN keys keys ⊕ key ⊕ \"=\" ⊕ h[key] ⊕ \" \" ;$(br)END EACH$()"
+    }
+  ]
+}

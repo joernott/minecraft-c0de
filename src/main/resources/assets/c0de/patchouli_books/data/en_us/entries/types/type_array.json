@@ -1,0 +1,25 @@
+{
+  "name": "TYPE_ARRAY",
+  "icon": "c0de:type_array_block",
+  "category": "c0de:types",
+  "sortnum": 6,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "TYPE_ARRAY stands for the type ARRAY: a list of values.$(br2)An array is numbered from 0. It grows and shrinks by itself. After ARRAY comes the type of its content, like $(1)ARRAY INTEGER$(). Arrays of arrays are allowed, up to 8 levels deep."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:type_array_block",
+      "text": "Craft a type base and a barrel together."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)VARIABLE list ARRAY INTEGER$(br)BEGIN$(br)  1 2 3$(br)END VARIABLE$(br)ASSIGN list[3] 4 ;$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Assigning to the index right after the end adds a new element."
+    }
+  ]
+}

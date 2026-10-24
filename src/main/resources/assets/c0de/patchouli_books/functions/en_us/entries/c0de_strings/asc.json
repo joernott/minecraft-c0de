@@ -1,0 +1,20 @@
+{
+  "name": "ASC",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_strings",
+  "sortnum": 9,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Returns the Unicode code point of a character."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)char$() CHAR: the character$(li)result $(1)result$() INTEGER: its code point, e.g. 65 for A"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/strings/ASC$(br)  PARAMETER char letter ;$(br)  RESULT result code$()"
+    }
+  ]
+}

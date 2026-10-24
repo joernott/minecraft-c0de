@@ -1,0 +1,21 @@
+{
+  "name": "Guide book",
+  "icon": "minecraft:book",
+  "category": "c0de:help",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "The guide book is the c0de player guide as an in-game book.$(br2)It needs the mod Patchouli. You get the book once, the first time you join a world with c0de. Without Patchouli, there is no book and no recipe."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:guide_book",
+      "text": "A book and a PROGRAM block, in any shape."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "You forgot which item crafts a FLOAT type block. Open the guide book and look it up in the chapter on tools, without leaving the game."
+    }
+  ]
+}

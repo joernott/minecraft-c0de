@@ -1,0 +1,21 @@
+{
+  "name": "PROGRAM",
+  "icon": "c0de:program_block",
+  "category": "c0de:program_structure",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "The PROGRAM block starts every program.$(br2)It sits in line 0 at x=5, followed by a LABEL with the program name. The name must be unique in the whole c0de dimension. Line 1 must be a NOOP line. The program ends at the first empty line."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:program_block",
+      "text": "Craft a NOOP block and a book together."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)PROGRAM first$(br)NOOP$()"
+    }
+  ]
+}

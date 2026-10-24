@@ -1,0 +1,20 @@
+{
+  "name": "INT",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_math",
+  "sortnum": 9,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Rounds a number down to an integer.$(br2)-12.85 becomes -13. A number too large for an INTEGER raises NUMERIC_OVERFLOW."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)value$() INTEGER|FLOAT: the number$(li)result $(1)result$() INTEGER: the largest integer not greater than $(1)value$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/math/INT$(br)  PARAMETER value height ;$(br)  RESULT result blocks$()"
+    }
+  ]
+}

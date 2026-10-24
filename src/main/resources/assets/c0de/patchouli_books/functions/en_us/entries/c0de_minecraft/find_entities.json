@@ -1,0 +1,20 @@
+{
+  "name": "FIND_ENTITIES",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_minecraft",
+  "sortnum": 19,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Finds all entities near a position.$(br2)Items count as entities too. Each ENTITY has uuid, type, name and position. $(1)radius$() must be 1 to 64, otherwise INVALID_ARGUMENT is raised."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)position$() STRUCT c0de/minecraft/POSITION: the center of the search$(li)$(1)radius$() INTEGER: the search radius in blocks, 1 to 64$(li)$(1)type$() STRING: only this entity type (optional, default empty for all types)$(li)result $(1)result$() ARRAY STRUCT c0de/minecraft/ENTITY: the entities found"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/minecraft/FIND_ENTITIES$(br)  PARAMETER position pen ;$(br)  PARAMETER radius 8 ;$(br)  PARAMETER type \"minecraft:sheep\" ;$(br)  RESULT result sheep$()"
+    }
+  ]
+}

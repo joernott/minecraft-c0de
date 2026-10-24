@@ -1,0 +1,20 @@
+{
+  "name": "INSERT",
+  "icon": "minecraft:book",
+  "category": "c0de:built_in_functions",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Inserts a value into an array.$(br2)The following elements move up by one. $(1)index$() must be between 0 and the length of the array, otherwise INDEX_OUT_OF_BOUNDS is raised. Use the length to add the value at the end."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)array$() ARRAY: the array$(li)$(1)index$() INTEGER: the position of the new element$(li)$(1)value$() the type of the elements: the value to insert$(li)result $(1)result$() like $(1)array$(): the array with the new element"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL INSERT$(br)  PARAMETER array list ;$(br)  PARAMETER index 0 ;$(br)  PARAMETER value 42 ;$(br)  RESULT result list$()"
+    }
+  ]
+}

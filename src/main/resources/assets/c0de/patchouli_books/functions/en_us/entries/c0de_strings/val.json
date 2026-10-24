@@ -1,0 +1,20 @@
+{
+  "name": "VAL",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_strings",
+  "sortnum": 13,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Converts a text to a number.$(br2)$(1)isInteger$() is true if the text is a whole number. Use FIX to turn the value into an INTEGER then. A text that is not a number raises INVALID_ARGUMENT."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)text$() STRING: the text, e.g. \"42\" or \"3.5\"$(li)result $(1)value$() FLOAT: the number$(li)result $(1)isInteger$() BOOLEAN: true if the text is a whole number"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/strings/VAL$(br)  PARAMETER text input ;$(br)  RESULT value number$(br)  RESULT isInteger whole$()"
+    }
+  ]
+}

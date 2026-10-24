@@ -1,0 +1,32 @@
+{
+  "name": "Constant item",
+  "icon": "c0de:constant_item",
+  "category": "c0de:items",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "A constant item works like a variable item, but once it has a value, it can't be changed.$(br2)It has a pink border. Hold it and right-click to set its name and value. This only works as long as it has no value yet."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:constant_item_boolean"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:constant_item_uninitialized"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "A data item, a type item and pink dye give two constant items; a data item and pink dye give one uninitialized constant item."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Use a constant item for a value that must stay fixed, like a limit for a loop. Nobody can change it by accident in the dialog."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "In a chain of trigger blocks, items a process does not use pass through unchanged. So a constant item can travel along the whole chain."
+    }
+  ]
+}

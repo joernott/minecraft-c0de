@@ -1,0 +1,25 @@
+{
+  "name": "CONSTANT",
+  "icon": "c0de:constant_block",
+  "category": "c0de:values_and_names",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "A CONSTANT line makes a constant: a named value that never changes.$(br2)It looks like a VARIABLE line, but it must have a value. You can't ASSIGN to a constant, and it can't receive a CALL result."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:constant_block",
+      "text": "Craft a type base and three bones, or turn a VARIABLE block into a CONSTANT block."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:constant_block_from_variable_block"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CONSTANT BASE INTEGER 42$(br)CONSTANT ORIGIN STRUCT point$(br)BEGIN$(br)  x 3$(br)END CONSTANT$()"
+    }
+  ]
+}

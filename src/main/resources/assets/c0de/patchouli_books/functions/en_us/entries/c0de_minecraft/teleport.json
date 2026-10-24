@@ -1,0 +1,20 @@
+{
+  "name": "TELEPORT",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_minecraft",
+  "sortnum": 20,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Teleports an entity or item to a position.$(br2)This needs allowTeleporting or an administrator as owner. Only administrators can teleport players. Both raise PERMISSION_DENIED otherwise. An entity that is not loaded raises INVALID_ARGUMENT."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)uuid$() STRING: the UUID of the entity$(li)$(1)position$() STRUCT c0de/minecraft/POSITION: the destination"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/minecraft/TELEPORT$(br)  PARAMETER uuid pigId ;$(br)  PARAMETER position barn ;$()"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "name": "INCLUDE",
+  "icon": "c0de:include_block",
+  "category": "c0de:program_structure",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "An INCLUDE line loads a library.$(br2)A LABEL with the library name follows the block, like $(1)c0de/math$(). INCLUDE lines start at x=5, right after the NOOP in line 1. They come before all structs, variables, constants and functions."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:include_block",
+      "text": "Craft a NOOP block and an empty map together."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)PROGRAM math$(br)NOOP$(br)INCLUDE c0de/math$(br)INCLUDE c0de/strings$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Now the program can call functions like $(1)c0de/math/ROUND$()."
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "name": "c0de Statements",
+  "landing_text": "This book lists the keyword blocks of c0de. A keyword block starts a line and decides what the line does. Some of them, like PARAMETER or ELSE, only work together with others. Each page shows what a block does, how to craft it and a short example. The examples use the text notation of the guide: one text line is one line on the sheet, and four spaces mean one block further east.",
+  "version": 1,
+  "use_resource_pack": true,
+  "model": "patchouli:book_red",
+  "book_texture": "patchouli:textures/gui/book_red.png",
+  "creative_tab": "c0de:c0de",
+  "show_progress": false
+}

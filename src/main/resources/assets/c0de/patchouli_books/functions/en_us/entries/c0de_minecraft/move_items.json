@@ -1,0 +1,24 @@
+{
+  "name": "MOVE_ITEMS",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_minecraft",
+  "sortnum": 13,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Moves items from one inventory to another."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "It moves up to $(1)count$() items and returns how many were moved. This needs allowInventoryChanges or an administrator as owner, otherwise PERMISSION_DENIED is raised. Blocks without inventory raise INVALID_ARGUMENT."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)from$() STRUCT c0de/minecraft/POSITION: the block to take items from$(li)$(1)to$() STRUCT c0de/minecraft/POSITION: the block to put items into$(li)$(1)id$() STRING: the item ID, e.g. minecraft:wheat$(li)$(1)count$() INTEGER: the most items to move$(li)result $(1)result$() INTEGER: the number of moved items"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/minecraft/MOVE_ITEMS$(br)  PARAMETER from farmChest ;$(br)  PARAMETER to storage ;$(br)  PARAMETER id \"minecraft:wheat\" ;$(br)  PARAMETER count 64 ;$(br)  RESULT result moved$()"
+    }
+  ]
+}

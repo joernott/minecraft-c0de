@@ -1,0 +1,21 @@
+{
+  "name": "TYPE_HASH",
+  "icon": "c0de:type_hash_block",
+  "category": "c0de:types",
+  "sortnum": 7,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "TYPE_HASH stands for the type HASH: values stored under text keys.$(br2)A hash grows and shrinks by itself. After HASH comes the type of its content, like $(1)HASH INTEGER$(). A new key adds a new element."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:type_hash_block",
+      "text": "Craft a type base and a chest. A trapped chest works too."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)VARIABLE stock HASH INTEGER$(br)BEGIN$(br)  gold 10$(br)END VARIABLE$(br)ASSIGN stock[\"diamond\"] 3 ;$()"
+    }
+  ]
+}

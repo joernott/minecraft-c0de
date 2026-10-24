@@ -1,0 +1,24 @@
+{
+  "name": "RAISE",
+  "icon": "minecraft:book",
+  "category": "c0de:built_in_functions",
+  "sortnum": 6,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Returns your own error to the caller of the function."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "The caller raises the error or stores it in the error label of its CALL line. $(1)code$() must be 1000 or higher, otherwise INVALID_ARGUMENT is raised. The error gets the context and line of the CALL statement."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)code$() INTEGER: the error code, 1000 or higher$(li)$(1)message$() STRING: the error message (optional, default empty)"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL RAISE$(br)  PARAMETER code 1001 ;$(br)  PARAMETER message \"too big\" ;$()"
+    }
+  ]
+}

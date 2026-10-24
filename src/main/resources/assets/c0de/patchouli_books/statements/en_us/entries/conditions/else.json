@@ -1,0 +1,25 @@
+{
+  "name": "ELSE",
+  "icon": "c0de:else_block",
+  "category": "c0de:conditions",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "ELSE runs its code block when the IF condition was false.$(br2)The ELSE line holds only the ELSE block, at the same x as its IF. It comes right after the first END, which then stands alone. The second code block ends with $(1)END IF$()."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:else_block",
+      "text": "Craft a structural base and wheat, or turn an IF block into an ELSE block."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:else_block_from_if_block"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)IF prime ;$(br)BEGIN$(br)  ASSIGN primes primes ⊕ candidate ⊕ \" \" ;$(br)END$(br)ELSE$(br)BEGIN$(br)  NOOP$(br)END IF$()"
+    }
+  ]
+}

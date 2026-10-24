@@ -1,0 +1,20 @@
+{
+  "name": "LEFT",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_strings",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Returns the first characters of a text.$(br2)If the text is shorter, you get the whole text. A negative length raises INVALID_ARGUMENT."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)text$() STRING: the text$(li)$(1)length$() INTEGER: the number of characters$(li)result $(1)result$() STRING: the first $(1)length$() characters"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/strings/LEFT$(br)  PARAMETER text name ;$(br)  PARAMETER length 3 ;$(br)  RESULT result short$()"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "name": "SOUND",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_minecraft",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Plays a note at the trigger block like a note block.$(br2)$(1)note$() is 0 to 24, like the clicks on a note block. Instruments are note block instruments such as harp, bass, bell or flute. A wrong note or instrument raises INVALID_ARGUMENT."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)note$() INTEGER: the note, 0 to 24$(li)$(1)instrument$() STRING: the instrument (optional, default \"harp\")"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/minecraft/SOUND$(br)  PARAMETER note 12 ;$(br)  PARAMETER instrument \"bell\" ;$()"
+    }
+  ]
+}

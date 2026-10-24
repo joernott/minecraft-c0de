@@ -1,0 +1,6 @@
+{
+  "name": "Built-in functions",
+  "description": "Built-in functions work with arrays, hashes and errors and need no INCLUDE.",
+  "icon": "c0de:function_block",
+  "sortnum": 0
+}

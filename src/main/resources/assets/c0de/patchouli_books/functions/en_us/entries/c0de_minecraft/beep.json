@@ -1,0 +1,20 @@
+{
+  "name": "BEEP",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_minecraft",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Plays a short bell sound at the trigger block."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)no parameters and no results"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/minecraft/BEEP$()"
+    }
+  ]
+}

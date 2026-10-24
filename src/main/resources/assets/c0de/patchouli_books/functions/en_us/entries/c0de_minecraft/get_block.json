@@ -1,0 +1,20 @@
+{
+  "name": "GET_BLOCK",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_minecraft",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Reads the block at a position.$(br2)You get its ID, its block state properties as text and the redstone power it receives. An unloaded chunk raises CHUNK_NOT_LOADED. An empty $(1)dimension$() in the position means the dimension of the trigger block."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)position$() STRUCT c0de/minecraft/POSITION: where the block is$(li)result $(1)id$() STRING: the block ID, e.g. minecraft:oak_door$(li)result $(1)properties$() HASH STRING: the block states, e.g. facing is north$(li)result $(1)power$() INTEGER: the redstone power it receives, 0 to 15"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/minecraft/GET_BLOCK$(br)  PARAMETER position spot ;$(br)  RESULT id blockId$(br)  RESULT properties states$(br)  RESULT power power$()"
+    }
+  ]
+}

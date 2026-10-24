@@ -1,0 +1,21 @@
+{
+  "name": "Structural base",
+  "icon": "c0de:structural_base",
+  "category": "c0de:conditions",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "The structural base is the item you craft conditions and loops from.$(br2)It is an item, not a block, so you can't place it. IF, ELSE, FOR, EACH, WHILE and REPEAT are all made from it."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:structural_base",
+      "text": "Put a green wool block in the middle and eight NOOP blocks around it. You get eight structural bases."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Combine one structural base with wheat seeds, and you get an IF block. With dirt, you get a FOR block instead."
+    }
+  ]
+}

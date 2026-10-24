@@ -1,0 +1,33 @@
+{
+  "name": "c0de disk",
+  "icon": "c0de:c0de_disk",
+  "category": "c0de:editing_tools",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "The c0de disk saves programs as YAML files and loads them again."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "To save, right-click the PROGRAM block with the disk. The file goes to the folder $(1)c0de/programs$() in the world folder of the server. If the file exists, you are asked before it is overwritten. Saving also works while the program runs."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "To load, right-click the floor at the start of an empty sheet (x=5, line 0). Pick a file from the list. In survival mode, the blocks come from your inventory. A program with the same name must not exist yet."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:c0de_disk",
+      "text": "A data item, an iron ingot and black dye, in any shape."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Before a big change, save your program with the disk. If the change goes wrong, delete the program and load the saved file onto an empty sheet."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "The file keeps everything: the blocks and the names, values and symbols of all LABEL, LITERAL and OPERATOR blocks."
+    }
+  ]
+}

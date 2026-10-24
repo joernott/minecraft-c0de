@@ -1,0 +1,20 @@
+{
+  "name": "REMOVE_BLOCK",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_minecraft",
+  "sortnum": 16,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Removes the block at a position.$(br2)With $(1)drop$(), the block drops as an item like when it is mined. This needs allowBlockChanges or an administrator as owner, otherwise PERMISSION_DENIED is raised."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)position$() STRUCT c0de/minecraft/POSITION: where the block is$(li)$(1)drop$() BOOLEAN: true to drop the block as an item (optional, default TRUE)"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/minecraft/REMOVE_BLOCK$(br)  PARAMETER position spot ;$(br)  PARAMETER drop FALSE ;$()"
+    }
+  ]
+}

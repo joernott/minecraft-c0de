@@ -1,0 +1,29 @@
+{
+  "name": "TYPE_STRUCT",
+  "icon": "c0de:type_struct_block",
+  "category": "c0de:types",
+  "sortnum": 8,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "TYPE_STRUCT stands for the type STRUCT: your own type with named elements."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "At x=5, the block starts a struct declaration. A LABEL with the type name follows, and a code block lists the elements. Elsewhere, it uses a struct: a LABEL with the struct name follows it."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:type_struct_block",
+      "text": "Craft a type base and a scaffolding block together."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)STRUCT point$(br)BEGIN$(br)  x INTEGER$(br)  y INTEGER$(br)END STRUCT$(br)VARIABLE p STRUCT point$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "You reach the elements with an index, like $(1)p.x$()."
+    }
+  ]
+}

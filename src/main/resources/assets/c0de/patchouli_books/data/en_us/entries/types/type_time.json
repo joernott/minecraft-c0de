@@ -1,0 +1,25 @@
+{
+  "name": "TYPE_TIME",
+  "icon": "c0de:type_time_block",
+  "category": "c0de:types",
+  "sortnum": 9,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "TYPE_TIME stands for the type TIME: a point in time.$(br2)A new TIME holds the start of 1970 (UTC). You can add or subtract milliseconds as an INTEGER. Two times subtracted give the difference in milliseconds."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:type_time_block",
+      "text": "Craft a type base and a clock together."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)VARIABLE start TIME @2026-10-19T12:05:09Z$(br)VARIABLE later TIME$(br)ASSIGN later start + 60000 ;$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Now $(1)later$() is one minute after $(1)start$()."
+    }
+  ]
+}

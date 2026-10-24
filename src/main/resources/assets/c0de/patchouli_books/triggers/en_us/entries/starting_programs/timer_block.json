@@ -1,0 +1,29 @@
+{
+  "name": "Timer block",
+  "icon": "c0de:timer_block",
+  "category": "c0de:starting_programs",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "The timer block starts a process again and again, at an interval you set.$(br2)Its dialog works like that of a trigger block, with one extra field: the interval in ticks. 20 ticks are one second. A new process only starts when the last one has ended."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "A redstone signal pauses the timer block. Use a lever to switch it off and on. Like the trigger block, it can be camouflaged with any block in the camouflage slot."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:timer_block",
+      "text": "Copper ingots in the corners, glass on the edges and a clock in the center give eight timer blocks."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Set a timer block to the function $(1)ring$() and an interval of 20 ticks. It plays a bell note every second. Put a lever next to it to stop the chime."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)PROGRAM chime$(br)NOOP$(br)INCLUDE c0de/minecraft$(br)NOOP$(br)FUNCTION ring$(br)BEGIN$(br)  CALL c0de/minecraft/SOUND$(br)    PARAMETER note 12 ;$(br)    PARAMETER instrument \"bell\" ;$(br)END FUNCTION$()"
+    }
+  ]
+}

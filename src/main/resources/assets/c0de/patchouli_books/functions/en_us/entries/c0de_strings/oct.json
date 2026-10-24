@@ -1,0 +1,20 @@
+{
+  "name": "OCT",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_strings",
+  "sortnum": 15,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Returns the octal text of an integer.$(br2)Negative numbers use two's complement."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)value$() INTEGER: the number$(li)result $(1)result$() STRING: the octal text"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/strings/OCT$(br)  PARAMETER value 8 ;$(br)  RESULT result octText$()"
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "name": "RESULT",
+  "icon": "c0de:result_block",
+  "category": "c0de:functions",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "A RESULT line is an output of a function."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Below a FUNCTION, it has a name and a type. It starts with the default value of its type. When the function ends, its last value goes back to the caller. Below a CALL, it names a result and the variable that receives it.$(br2)RESULT lines come after the PARAMETER lines. Results the caller doesn't list are thrown away."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:result_block",
+      "text": "Turn one PARAMETER block into a RESULT block."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/math/ROUND$(br)  PARAMETER value 12.5 ;$(br)  RESULT result rounded$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "The result $(1)result$() of ROUND goes into the variable $(1)rounded$()."
+    }
+  ]
+}

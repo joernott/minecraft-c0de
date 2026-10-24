@@ -1,0 +1,20 @@
+{
+  "name": "SET_LEVER",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_minecraft",
+  "sortnum": 7,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Switches a lever on or off.$(br2)A block that is not a lever raises INVALID_ARGUMENT. Levers on the sheets of the c0de dimension can't be changed (PERMISSION_DENIED)."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)position$() STRUCT c0de/minecraft/POSITION: where the lever is$(li)$(1)on$() BOOLEAN: true to switch it on, false to switch it off"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/minecraft/SET_LEVER$(br)  PARAMETER position lever ;$(br)  PARAMETER on TRUE ;$()"
+    }
+  ]
+}

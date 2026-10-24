@@ -1,0 +1,20 @@
+{
+  "name": "GET_BUTTON",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_minecraft",
+  "sortnum": 8,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Checks if a button is pressed.$(br2)A block that is not a button raises INVALID_ARGUMENT."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)position$() STRUCT c0de/minecraft/POSITION: where the button is$(li)result $(1)result$() BOOLEAN: true if the button is pressed"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/minecraft/GET_BUTTON$(br)  PARAMETER position button ;$(br)  RESULT result pressed$()"
+    }
+  ]
+}

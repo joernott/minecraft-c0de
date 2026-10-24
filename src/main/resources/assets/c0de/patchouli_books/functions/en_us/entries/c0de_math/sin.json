@@ -1,0 +1,20 @@
+{
+  "name": "SIN",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_math",
+  "sortnum": 5,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Returns the sine of an angle.$(br2)The angle is in radians. A full circle is 2 × $(1)c0de/math/PI$()."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)value$() INTEGER|FLOAT: the angle in radians$(li)result $(1)result$() FLOAT: the sine"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/math/SIN$(br)  PARAMETER value angle ;$(br)  RESULT result sine$()"
+    }
+  ]
+}

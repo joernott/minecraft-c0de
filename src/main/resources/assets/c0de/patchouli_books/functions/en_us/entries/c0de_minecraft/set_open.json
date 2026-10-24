@@ -1,0 +1,20 @@
+{
+  "name": "SET_OPEN",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_minecraft",
+  "sortnum": 12,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Opens or closes a door, trapdoor or fence gate.$(br2)Any other block raises INVALID_ARGUMENT. Iron doors and iron trapdoors need the permission allowBlockChanges or an administrator as owner, otherwise PERMISSION_DENIED is raised."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)position$() STRUCT c0de/minecraft/POSITION: where the door is$(li)$(1)open$() BOOLEAN: true to open, false to close"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/minecraft/SET_OPEN$(br)  PARAMETER position door ;$(br)  PARAMETER open TRUE ;$()"
+    }
+  ]
+}

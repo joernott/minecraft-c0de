@@ -1,0 +1,20 @@
+{
+  "name": "REPLACE",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_strings",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Overwrites characters of a text with another text.$(br2)The length of the text stays the same. Characters of $(1)insert$() that would make it longer are dropped. A start behind the end of the text raises INVALID_ARGUMENT."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)text$() STRING: the text$(li)$(1)start$() INTEGER: the position where overwriting begins$(li)$(1)insert$() STRING: the new characters$(li)result $(1)result$() STRING: the changed text"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/strings/REPLACE$(br)  PARAMETER text \"Hello Alex\" ;$(br)  PARAMETER start 6 ;$(br)  PARAMETER insert \"Stev\" ;$(br)  RESULT result greeting$()"
+    }
+  ]
+}

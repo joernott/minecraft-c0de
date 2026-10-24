@@ -1,0 +1,21 @@
+{
+  "name": "TYPE_BOOLEAN",
+  "icon": "c0de:type_boolean_block",
+  "category": "c0de:types",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "TYPE_BOOLEAN stands for the type BOOLEAN: a value that is true or false.$(br2)A new BOOLEAN holds false. You use booleans for yes-or-no questions, like the condition of an IF or a WHILE."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:type_boolean_block",
+      "text": "Craft a type base and a redstone torch together."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)VARIABLE done BOOLEAN$(br)VARIABLE ready BOOLEAN TRUE$()"
+    }
+  ]
+}

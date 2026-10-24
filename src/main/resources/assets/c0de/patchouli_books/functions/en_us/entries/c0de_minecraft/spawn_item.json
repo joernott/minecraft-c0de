@@ -1,0 +1,20 @@
+{
+  "name": "SPAWN_ITEM",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_minecraft",
+  "sortnum": 17,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Spawns items on the ground at a position.$(br2)$(1)count$() must be 1 to 64. The result is the UUID of the new item entity. This needs allowSpawning or an administrator as owner, otherwise PERMISSION_DENIED is raised."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)position$() STRUCT c0de/minecraft/POSITION: where the items appear$(li)$(1)id$() STRING: the item ID, e.g. minecraft:bread$(li)$(1)count$() INTEGER: the number of items, 1 to 64$(li)result $(1)result$() STRING: the UUID of the item entity"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/minecraft/SPAWN_ITEM$(br)  PARAMETER position spot ;$(br)  PARAMETER id \"minecraft:bread\" ;$(br)  PARAMETER count 3 ;$(br)  RESULT result itemId$()"
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "name": "c0de/math",
+  "description": "The math library has number functions and random numbers and needs INCLUDE c0de/math.",
+  "icon": "c0de:function_block",
+  "sortnum": 1
+}

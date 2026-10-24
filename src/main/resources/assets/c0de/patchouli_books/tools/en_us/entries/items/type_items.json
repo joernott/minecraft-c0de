@@ -1,0 +1,33 @@
+{
+  "name": "Type items",
+  "icon": "c0de:type_boolean_item",
+  "category": "c0de:items",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "A type item stands for a data type and is used to craft variable and constant items of that type."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "It looks like a data item with a red border. There are ten of them, one for each type: BOOLEAN redstone torch, INTEGER sand, FLOAT red sand, CHAR oak plank, STRING string, ARRAY barrel, HASH chest, STRUCT scaffolding, TIME clock, ERROR campfire."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:type_boolean_item",
+      "text": "A data item, red dye and the item of the type, in any shape; the other seven type items work the same way."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:type_integer_item"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:type_string_item"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Your function has a parameter $(1)n$() of type INTEGER. Craft an INTEGER type item from a data item, red dye and sand. Then turn it into INTEGER variable items."
+    }
+  ]
+}

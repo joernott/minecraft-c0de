@@ -1,0 +1,25 @@
+{
+  "name": "TYPE_ERROR",
+  "icon": "c0de:type_error_block",
+  "category": "c0de:types",
+  "sortnum": 10,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "TYPE_ERROR stands for the type ERROR: an error report.$(br2)An error has four elements: $(1)code$(), $(1)message$(), $(1)context$() (the function) and $(1)line$(). Code 0 means no error. Your own error codes must be 1000 or higher."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:type_error_block",
+      "text": "Craft a type base and a campfire together."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)VARIABLE problem ERROR$(br)CALL fail problem$(br)ASSIGN code problem.code ;$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "The CALL catches the error of $(1)fail$() in $(1)problem$()."
+    }
+  ]
+}

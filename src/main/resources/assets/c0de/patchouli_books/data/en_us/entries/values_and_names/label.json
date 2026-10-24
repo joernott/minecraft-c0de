@@ -1,0 +1,29 @@
+{
+  "name": "LABEL",
+  "icon": "c0de:label_block",
+  "category": "c0de:values_and_names",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "A LABEL block holds a name.$(br2)Labels name programs, functions, variables and more. A name uses a-z, A-Z, 0-9 and the underscore, and it starts with a letter. Keywords in capitals are reserved: $(1)RESULT$() is not a valid name, but $(1)result$() is."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "A label can point into a value with an index, like $(1)list[0]$(), $(1)stock[\"gold\"]$() or $(1)problem.code$(). Right-click the block with an empty hand to enter the name and the index."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:label_block",
+      "text": "Craft a NOOP block and a paper together."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)VARIABLE score INTEGER$(br)ASSIGN score score + 1 ;$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "All three $(1)score$() blocks are LABEL blocks. The first names the variable, the others refer to it."
+    }
+  ]
+}

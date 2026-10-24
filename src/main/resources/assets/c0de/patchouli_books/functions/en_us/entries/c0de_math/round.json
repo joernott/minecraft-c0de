@@ -1,0 +1,20 @@
+{
+  "name": "ROUND",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_math",
+  "sortnum": 11,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Rounds a number to the nearest integer.$(br2)A .5 goes to the nearest even integer: 12.5 becomes 12, 13.5 becomes 14. A number too large for an INTEGER raises NUMERIC_OVERFLOW."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)value$() INTEGER|FLOAT: the number$(li)result $(1)result$() INTEGER: the rounded number"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/math/ROUND$(br)  PARAMETER value 12.5 ;$(br)  RESULT result rounded$()"
+    }
+  ]
+}

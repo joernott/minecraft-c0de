@@ -1,0 +1,32 @@
+{
+  "name": "Debug trigger block",
+  "icon": "c0de:debug_trigger_block",
+  "category": "c0de:starting_programs",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "The debug trigger block starts a process with a red debug cursor when you hit it with the debugging tool."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Its dialog works like that of a trigger block. The debug cursor starts paused. Left-click it with the debugging tool to move one line, and shift-left-click it to let it run or pause it again."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Each left click on the cursor shows its current line in your chat. Right-click the cursor to see its properties and its stack."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:debug_trigger_block"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Copper ingots in the corners, glass on the edges and a redstone block in the center give one debug trigger block."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Your program gives a wrong result. Place a debug trigger block next to the sheet and set it to the same function. Fill its input like the real trigger block. Then step through the program and watch the values change."
+    }
+  ]
+}

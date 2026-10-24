@@ -1,0 +1,20 @@
+{
+  "name": "FIX",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_math",
+  "sortnum": 10,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Cuts off the decimal places of a number.$(br2)There is no rounding: -12.85 becomes -12. A number too large for an INTEGER raises NUMERIC_OVERFLOW."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)value$() INTEGER|FLOAT: the number$(li)result $(1)result$() INTEGER: the number without decimal places"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/math/FIX$(br)  PARAMETER value price ;$(br)  RESULT result coins$()"
+    }
+  ]
+}

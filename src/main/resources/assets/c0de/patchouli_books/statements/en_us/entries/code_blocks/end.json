@@ -1,0 +1,21 @@
+{
+  "name": "END",
+  "icon": "c0de:end_block",
+  "category": "c0de:code_blocks",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "END closes a code block.$(br2)It has the same x as its BEGIN. The keyword that opened the block follows it, like $(1)END FUNCTION$() or $(1)END WHILE$(). In an IF with an ELSE, the first END stands alone. After $(1)END REPEAT$() comes the loop condition."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:end_block",
+      "text": "Turn one BEGIN block into an END block."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)FUNCTION answer$(br)  RESULT result INTEGER$(br)BEGIN$(br)  ASSIGN result 42 ;$(br)END FUNCTION$()"
+    }
+  ]
+}

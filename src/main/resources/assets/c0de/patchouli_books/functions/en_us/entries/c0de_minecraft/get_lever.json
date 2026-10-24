@@ -1,0 +1,20 @@
+{
+  "name": "GET_LEVER",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_minecraft",
+  "sortnum": 6,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Checks if a lever is on.$(br2)A block that is not a lever raises INVALID_ARGUMENT."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)position$() STRUCT c0de/minecraft/POSITION: where the lever is$(li)result $(1)result$() BOOLEAN: true if the lever is on"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/minecraft/GET_LEVER$(br)  PARAMETER position lever ;$(br)  RESULT result isOn$()"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "name": "GET_PRESSURE_PLATE",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_minecraft",
+  "sortnum": 10,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Reads the signal strength of a pressure plate.$(br2)Pressure plates can only be read; entities press them. A block that is not a pressure plate raises INVALID_ARGUMENT."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)position$() STRUCT c0de/minecraft/POSITION: where the pressure plate is$(li)result $(1)result$() INTEGER: the signal strength, 0 to 15"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/minecraft/GET_PRESSURE_PLATE$(br)  PARAMETER position plate ;$(br)  RESULT result strength$()"
+    }
+  ]
+}

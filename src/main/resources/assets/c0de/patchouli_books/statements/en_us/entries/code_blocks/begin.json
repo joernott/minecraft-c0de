@@ -1,0 +1,28 @@
+{
+  "name": "BEGIN",
+  "icon": "c0de:begin_block",
+  "category": "c0de:code_blocks",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "BEGIN starts a code block.$(br2)It has the same x as the line that needs the code block. The lines inside are one block further east. Variables made inside a code block only live there. A code block may not be empty: a NOOP line is enough."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:begin_block"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:begin_block_from_end_block"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Put a yellow wool block in the middle and eight NOOP blocks around it for eight BEGIN blocks, or turn one END block into a BEGIN block."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)WHILE n > 0 ;$(br)BEGIN$(br)  ASSIGN n n - 1 ;$(br)END WHILE$()"
+    }
+  ]
+}

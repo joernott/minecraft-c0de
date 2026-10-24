@@ -1,0 +1,6 @@
+{
+  "name": "Expressions",
+  "description": "These blocks calculate values and store them.",
+  "icon": "c0de:assign_block",
+  "sortnum": 3
+}

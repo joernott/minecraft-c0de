@@ -1,0 +1,20 @@
+{
+  "name": "GET_OPEN",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_minecraft",
+  "sortnum": 11,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Checks if a door, trapdoor or fence gate is open.$(br2)Any other block raises INVALID_ARGUMENT."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)position$() STRUCT c0de/minecraft/POSITION: where the door is$(li)result $(1)result$() BOOLEAN: true if it is open"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/minecraft/GET_OPEN$(br)  PARAMETER position door ;$(br)  RESULT result isOpen$()"
+    }
+  ]
+}

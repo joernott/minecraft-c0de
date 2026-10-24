@@ -1,0 +1,20 @@
+{
+  "name": "PRESS_BUTTON",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_minecraft",
+  "sortnum": 9,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Presses a button like a player would.$(br2)A block that is not a button raises INVALID_ARGUMENT. Buttons on the sheets of the c0de dimension can't be pressed (PERMISSION_DENIED)."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)position$() STRUCT c0de/minecraft/POSITION: where the button is"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/minecraft/PRESS_BUTTON$(br)  PARAMETER position button ;$()"
+    }
+  ]
+}

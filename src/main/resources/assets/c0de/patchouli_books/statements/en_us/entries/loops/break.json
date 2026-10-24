@@ -1,0 +1,25 @@
+{
+  "name": "BREAK",
+  "icon": "c0de:break_block",
+  "category": "c0de:loops",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "BREAK leaves the innermost loop at once.$(br2)It works in FOR, EACH, WHILE and REPEAT loops. It may have a condition: then it only leaves the loop if the condition is true. A BREAK outside of a loop is a mistake."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:break_block",
+      "text": "Craft a NOOP block and a stick together."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)FOR divisor INTEGER 2 ; candidate - 1 ;$(br)BEGIN$(br)  BREAK candidate \\ divisor = 0 ;$(br)END FOR$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "The loop stops as soon as a divisor is found."
+    }
+  ]
+}

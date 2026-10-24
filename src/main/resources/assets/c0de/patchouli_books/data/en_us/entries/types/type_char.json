@@ -1,0 +1,21 @@
+{
+  "name": "TYPE_CHAR",
+  "icon": "c0de:type_char_block",
+  "category": "c0de:types",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "TYPE_CHAR stands for the type CHAR: one single character.$(br2)A new CHAR holds a space. You may store a CHAR in a STRING. Text joined with $(1)⊕$() can mix characters and strings."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:type_char_block",
+      "text": "Craft a type base and an oak plank together."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)VARIABLE mark CHAR '!'$()"
+    }
+  ]
+}

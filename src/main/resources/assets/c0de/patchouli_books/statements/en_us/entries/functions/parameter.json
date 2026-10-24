@@ -1,0 +1,36 @@
+{
+  "name": "PARAMETER",
+  "icon": "c0de:parameter_block",
+  "category": "c0de:functions",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "A PARAMETER line is an input of a function."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Below a FUNCTION, it has a name, a type and an optional default value. Below a CALL, it has the name of a parameter and an expression with its value. PARAMETER lines are one block further east than their FUNCTION or CALL."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "A caller may leave out parameters with a default value. Parameters are copies: changing them doesn't change the caller's variables."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:parameter_block"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:parameter_block_from_result_block"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Put a hopper in the middle and eight NOOP blocks around it for eight PARAMETER blocks, or turn one RESULT block into a PARAMETER block."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL greet$(br)  PARAMETER name \"c0de\" ;$(br)  RESULT result greeting$()"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "name": "TO_FLOAT",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_math",
+  "sortnum": 12,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Converts a number to a FLOAT."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)value$() INTEGER|FLOAT: the number$(li)result $(1)result$() FLOAT: the same number as FLOAT"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/math/TO_FLOAT$(br)  PARAMETER value count ;$(br)  RESULT result amount$()"
+    }
+  ]
+}

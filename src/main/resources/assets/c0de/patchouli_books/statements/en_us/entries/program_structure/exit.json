@@ -1,0 +1,33 @@
+{
+  "name": "EXIT",
+  "icon": "c0de:exit_block",
+  "category": "c0de:program_structure",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "EXIT ends the whole process at once."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "It works no matter how deep the cursor is in functions and code blocks. An expression with a number from 0 to 15 follows: the exit code. A comparator next to the trigger block can read it. EXIT only works inside functions."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Exit code 15 means the program crashed. You may use $(1)EXIT 15 ;$() for a fatal problem too."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:exit_block",
+      "text": "Put an iron door in the middle and eight NOOP blocks around it. You get eight EXIT blocks."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)EXIT 3 ;$(br)ASSIGN value 0 ;$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "The ASSIGN line never runs, because EXIT ends the process first."
+    }
+  ]
+}

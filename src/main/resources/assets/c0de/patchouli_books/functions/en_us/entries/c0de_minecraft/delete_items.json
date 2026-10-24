@@ -1,0 +1,20 @@
+{
+  "name": "DELETE_ITEMS",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_minecraft",
+  "sortnum": 14,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Removes items from an inventory.$(br2)It removes up to $(1)count$() items and returns how many were removed. This needs allowInventoryChanges or an administrator as owner, otherwise PERMISSION_DENIED is raised."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)position$() STRUCT c0de/minecraft/POSITION: the block with the inventory$(li)$(1)id$() STRING: the item ID, e.g. minecraft:rotten_flesh$(li)$(1)count$() INTEGER: the most items to remove$(li)result $(1)result$() INTEGER: the number of removed items"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/minecraft/DELETE_ITEMS$(br)  PARAMETER position trashChest ;$(br)  PARAMETER id \"minecraft:rotten_flesh\" ;$(br)  PARAMETER count 64 ;$(br)  RESULT result removed$()"
+    }
+  ]
+}

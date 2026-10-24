@@ -1,0 +1,24 @@
+{
+  "name": "FORMAT",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_strings",
+  "sortnum": 12,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Formats a value as text with a format string."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Conversions start with $(1)%$(), e.g. $(1)%5d$() (integer, 5 wide), $(1)%.2f$() (2 decimal places), $(1)%s$() (any value), $(1)%tF$() and $(1)%tT$() (date and time). A wrong type raises TYPE_MISMATCH, a bad format string INVALID_ARGUMENT."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)value$() BOOLEAN|INTEGER|FLOAT|CHAR|STRING|TIME: the value$(li)$(1)format$() STRING: the format string$(li)result $(1)result$() STRING: the formatted text"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/strings/FORMAT$(br)  PARAMETER value now ;$(br)  PARAMETER format \"%tF %tT\" ;$(br)  RESULT result text$()"
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "name": "Editing tools",
+  "description": "These tools change, check and save the code on a sheet.",
+  "icon": "c0de:wrench",
+  "sortnum": 0
+}

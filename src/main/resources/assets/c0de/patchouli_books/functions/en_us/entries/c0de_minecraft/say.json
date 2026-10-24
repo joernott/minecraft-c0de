@@ -1,0 +1,20 @@
+{
+  "name": "SAY",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_minecraft",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Writes a message to the chat.$(br2)The message starts with the program name and PID. With $(1)player$(), only that player gets it; if they are not online, INVALID_ARGUMENT is raised. Otherwise all players near the trigger block get it (64 blocks by default)."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)message$() STRING: the message$(li)$(1)player$() STRING: the name of one player (optional, default empty for all players nearby)"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/minecraft/SAY$(br)  PARAMETER message \"The farm is full!\" ;$(br)  PARAMETER player \"Alex\" ;$()"
+    }
+  ]
+}

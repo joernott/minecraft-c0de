@@ -1,0 +1,29 @@
+{
+  "name": "VARIABLE",
+  "icon": "c0de:variable_block",
+  "category": "c0de:values_and_names",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "A VARIABLE line makes a variable: a named place for a value that can change."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "A name and a type follow the block. A literal may give the start value. Without one, the variable holds the default of its type. Arrays, hashes and structs get their start values in a code block.$(br2)A variable made inside a code block lives only inside that block. A variable at x=5 is global."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:variable_block",
+      "text": "Craft a type base and a bone block, or turn a CONSTANT block into a VARIABLE block."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:variable_block_from_constant_block"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)VARIABLE i INTEGER$(br)VARIABLE name STRING \"Steve\"$(br)VARIABLE list ARRAY INTEGER$(br)BEGIN$(br)  1 2 3$(br)END VARIABLE$()"
+    }
+  ]
+}

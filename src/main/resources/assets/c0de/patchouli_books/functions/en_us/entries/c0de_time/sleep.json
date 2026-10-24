@@ -1,0 +1,20 @@
+{
+  "name": "SLEEP",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_time",
+  "sortnum": 11,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Pauses the program for a number of game ticks.$(br2)20 ticks are about one second. $(1)ticks$() must be between 1 and 72000 (one hour), otherwise INVALID_ARGUMENT is raised."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)ticks$() INTEGER: the number of game ticks, 1 to 72000"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/time/SLEEP$(br)  PARAMETER ticks 20 ;$()"
+    }
+  ]
+}

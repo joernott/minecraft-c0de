@@ -1,0 +1,10 @@
+{
+  "name": "c0de Tools",
+  "landing_text": "This book lists the tools and items of c0de. Tools help you write, test and save programs. Items carry data into and out of your programs. Each page shows what a tool or item does, how to craft it and how it is typically used.",
+  "version": 1,
+  "use_resource_pack": true,
+  "model": "patchouli:book_red",
+  "book_texture": "patchouli:textures/gui/book_red.png",
+  "creative_tab": "c0de:c0de",
+  "show_progress": false
+}

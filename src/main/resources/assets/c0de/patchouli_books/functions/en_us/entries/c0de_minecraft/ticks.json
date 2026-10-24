@@ -1,0 +1,20 @@
+{
+  "name": "TICKS",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_minecraft",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Returns the game time in ticks.$(br2)It is the game time of the dimension of the trigger block."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)result $(1)result$() INTEGER: the game time in ticks"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/minecraft/TICKS$(br)  RESULT result ticks$()"
+    }
+  ]
+}

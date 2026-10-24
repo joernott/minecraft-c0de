@@ -1,0 +1,20 @@
+{
+  "name": "HEX",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_strings",
+  "sortnum": 14,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Returns the hexadecimal text of an integer.$(br2)Letters are uppercase. Negative numbers use two's complement, so -1 becomes FFFFFFFFFFFFFFFF."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)value$() INTEGER: the number$(li)result $(1)result$() STRING: the hexadecimal text"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/strings/HEX$(br)  PARAMETER value 255 ;$(br)  RESULT result hexText$()"
+    }
+  ]
+}

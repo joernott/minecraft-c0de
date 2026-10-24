@@ -1,0 +1,20 @@
+{
+  "name": "DAY",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_time",
+  "sortnum": 5,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Returns the day of the month (1 to 31).$(br2)Without $(1)time$() the function uses the current time. It uses the time zone of the server."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)time$() TIME: the time (optional, default now)$(li)result $(1)result$() INTEGER: the day, 1 to 31"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/time/DAY$(br)  PARAMETER time birthday ;$(br)  RESULT result day$()"
+    }
+  ]
+}

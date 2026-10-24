@@ -1,0 +1,20 @@
+{
+  "name": "NOW",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_time",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Returns the current time.$(br2)The TIME value is a Unix timestamp in milliseconds. Use FORMAT to turn it into text."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)result $(1)result$() TIME: the current time"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/time/NOW$(br)  RESULT result now$()"
+    }
+  ]
+}

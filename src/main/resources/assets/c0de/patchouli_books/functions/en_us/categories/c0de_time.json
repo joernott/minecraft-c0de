@@ -1,0 +1,6 @@
+{
+  "name": "c0de/time",
+  "description": "The time library has real-world time and date functions and SLEEP and needs INCLUDE c0de/time.",
+  "icon": "c0de:function_block",
+  "sortnum": 3
+}

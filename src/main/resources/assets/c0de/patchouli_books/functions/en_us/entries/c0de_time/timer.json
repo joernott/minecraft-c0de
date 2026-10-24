@@ -1,0 +1,20 @@
+{
+  "name": "TIMER",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_time",
+  "sortnum": 10,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Returns the seconds since midnight.$(br2)This is the real time of the server, not the game time. Use TICKS from c0de/minecraft for the game time."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)result $(1)result$() FLOAT: the seconds since midnight"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/time/TIMER$(br)  RESULT result seconds$()"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "name": "TYPE_INTEGER",
+  "icon": "c0de:type_integer_block",
+  "category": "c0de:types",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "TYPE_INTEGER stands for the type INTEGER: a whole number.$(br2)Integers have no decimals, like 42 or -7. A new INTEGER holds 0. Integers can be very large: up to about nine quintillion."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:type_integer_block",
+      "text": "Craft a type base and a sand block, or turn a TYPE_FLOAT block into a TYPE_INTEGER block with yellow dye."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:type_integer_block_from_type_float_block"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)VARIABLE count INTEGER$(br)CONSTANT BASE INTEGER 42$()"
+    }
+  ]
+}

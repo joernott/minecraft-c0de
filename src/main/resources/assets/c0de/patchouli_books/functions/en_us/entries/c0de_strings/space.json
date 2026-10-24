@@ -1,0 +1,20 @@
+{
+  "name": "SPACE",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_strings",
+  "sortnum": 7,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Returns a text of spaces.$(br2)$(1)count$() must be between 0 and 1,000,000, otherwise INVALID_ARGUMENT is raised."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)count$() INTEGER: the number of spaces$(li)result $(1)result$() STRING: the spaces"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/strings/SPACE$(br)  PARAMETER count 8 ;$(br)  RESULT result indent$()"
+    }
+  ]
+}

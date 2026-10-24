@@ -1,0 +1,20 @@
+{
+  "name": "FILL",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_strings",
+  "sortnum": 8,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Returns a text that repeats one character.$(br2)$(1)count$() must be between 0 and 1,000,000, otherwise INVALID_ARGUMENT is raised."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)count$() INTEGER: how often the character is repeated$(li)$(1)char$() CHAR: the character$(li)result $(1)result$() STRING: the repeated character"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/strings/FILL$(br)  PARAMETER count 20 ;$(br)  PARAMETER char '-' ;$(br)  RESULT result line$()"
+    }
+  ]
+}

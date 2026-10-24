@@ -1,0 +1,33 @@
+{
+  "name": "FOR",
+  "icon": "c0de:for_block",
+  "category": "c0de:loops",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "FOR counts with a loop variable.$(br2)A name, a type (INTEGER or FLOAT), a start value and an end value follow. An optional third value is the step. Without it, the step is 1. The step may not be 0, and a negative step counts down."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "The end value is included. The values are computed once, before the loop starts. You can't change the loop variable yourself."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:for_block",
+      "text": "Craft a structural base and a dirt block, or turn an EACH block into a FOR block."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:for_block_from_each_block"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)FOR i INTEGER 1 ; 10 ; 2 ;$(br)BEGIN$(br)  ASSIGN sum sum + i ;$(br)END FOR$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "The loop runs with i = 1, 3, 5, 7 and 9."
+    }
+  ]
+}

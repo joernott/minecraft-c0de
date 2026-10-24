@@ -1,0 +1,25 @@
+{
+  "name": "TYPE_STRING",
+  "icon": "c0de:type_string_block",
+  "category": "c0de:types",
+  "sortnum": 5,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "TYPE_STRING stands for the type STRING: a text.$(br2)A new STRING is empty. You may put an INTEGER literal after the type to limit the length. You can read one character with an index that starts at 0, like $(1)name[0]$()."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:type_string_block",
+      "text": "Craft a type base and a string together."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)VARIABLE greeting STRING \"Hello\"$(br)VARIABLE short STRING 3$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "The second line makes a text with at most 3 characters."
+    }
+  ]
+}

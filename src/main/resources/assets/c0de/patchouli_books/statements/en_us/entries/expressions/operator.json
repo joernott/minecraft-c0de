@@ -1,0 +1,29 @@
+{
+  "name": "OPERATOR",
+  "icon": "c0de:operator_block",
+  "category": "c0de:expressions",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "An OPERATOR block holds one symbol of an expression.$(br2)Right-click it with an empty hand and click a symbol. It can be an operator, $(1)($(), $(1))$() or the $(1);$() that ends every expression. A new block shows a question mark."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)math: $(1)+$() $(1)-$() $(1)*$() $(1)/$() $(1)^$() (power) $(1)\\$() (remainder)$(li)compare: $(1)=$() $(1)≠$() $(1)<$() $(1)>$() $(1)≤$() $(1)≥$()$(li)logic: $(1)NOT$() $(1)AND$() $(1)OR$() $(1)XOR$(), text: $(1)⊕$(), bits: $(1)&$() $(1)|$() $(1)⊻$() $(1)¬$() $(1)←$() $(1)→$()"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:operator_block",
+      "text": "Put a red wool block in the middle and eight NOOP blocks around it. You get eight OPERATOR blocks."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)*$() comes before $(1)+$(), and $(1)($() and $(1))$() group. $(1)=$() only compares; to store a value, use ASSIGN."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)ASSIGN arithmetic 1 + 2 * ( 3 + 3 ) \\ 10 * 2 + 10 ;$()"
+    }
+  ]
+}

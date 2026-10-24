@@ -1,0 +1,40 @@
+{
+  "name": "Variable item",
+  "icon": "c0de:variable_item",
+  "category": "c0de:items",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "A variable item carries a name, a type and a value into or out of a process."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "It has a blue border. Hold it in your main hand and right-click to edit its name, type and value. The trash can button empties all fields. Saving with all fields empty makes the item uninitialized."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "An uninitialized variable item has no name, type or value. A process writes a result into it. You need one for each result that has no parameter item to take its place."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:variable_item_boolean"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:variable_item_uninitialized"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "A data item, a type item and light blue dye give two variable items; a data item and light blue dye give one uninitialized item."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "This function doubles a number. Put an INTEGER variable item named $(1)n$() with the value 21 into the trigger block. After the run, the output holds an item named $(1)result$() with the value 42."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)PROGRAM doubler$(br)NOOP$(br)NOOP$(br)FUNCTION double$(br)  PARAMETER n INTEGER$(br)  RESULT result INTEGER$(br)BEGIN$(br)  ASSIGN result n * 2 ;$(br)END FUNCTION$()"
+    }
+  ]
+}

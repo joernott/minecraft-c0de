@@ -1,0 +1,6 @@
+{
+  "name": "Conditions",
+  "description": "An IF runs its code block only when a condition is true.",
+  "icon": "c0de:structural_base",
+  "sortnum": 4
+}

@@ -1,0 +1,20 @@
+{
+  "name": "HOUR",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_time",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Returns the hour of a time (0 to 23).$(br2)Without $(1)time$() the function uses the current time. It uses the time zone of the server."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)time$() TIME: the time (optional, default now)$(li)result $(1)result$() INTEGER: the hour, 0 to 23"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/time/HOUR$(br)  RESULT result hour$()"
+    }
+  ]
+}

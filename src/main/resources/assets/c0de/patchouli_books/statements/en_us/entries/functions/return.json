@@ -1,0 +1,21 @@
+{
+  "name": "RETURN",
+  "icon": "c0de:return_block",
+  "category": "c0de:functions",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "RETURN ends the function right away.$(br2)It may name a variable of type ERROR to report a problem to the caller. Without a name, the function returns \"no error\". The results keep the values they have at that moment."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:return_block",
+      "text": "Put a spruce door in the middle and eight NOOP blocks around it. You get eight RETURN blocks."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)FUNCTION fail$(br)BEGIN$(br)  VARIABLE e ERROR$(br)  ASSIGN e.code 1000 ;$(br)  RETURN e$(br)END FUNCTION$()"
+    }
+  ]
+}

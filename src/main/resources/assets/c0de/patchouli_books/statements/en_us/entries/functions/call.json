@@ -1,0 +1,25 @@
+{
+  "name": "CALL",
+  "icon": "c0de:call_block",
+  "category": "c0de:functions",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "A CALL line runs a function.$(br2)A LABEL with the function name follows. PARAMETER lines give it values, RESULT lines catch its results. A second LABEL on the CALL line may name an ERROR variable. It catches an error, and your function goes on."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Without that ERROR variable, an error stops your function too and goes on to its caller. You can't call a function inside an expression."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:call_block",
+      "text": "Craft a NOOP block and a smooth stone block together."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)VARIABLE problem ERROR$(br)CALL c0de/math/DIV problem$(br)  PARAMETER dividend -7 ;$(br)  PARAMETER divisor 2 ;$(br)  RESULT result quotient$()"
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "name": "TYPE_FLOAT",
+  "icon": "c0de:type_float_block",
+  "category": "c0de:types",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "TYPE_FLOAT stands for the type FLOAT: a number with decimals.$(br2)A new FLOAT holds 0.0. You may store an INTEGER in a FLOAT, but not the other way round. A division with $(1)/$() always gives a FLOAT."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:type_float_block",
+      "text": "Craft a type base and a red sand block, or turn a TYPE_INTEGER block into a TYPE_FLOAT block with orange dye."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:type_float_block_from_type_integer_block"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)VARIABLE half FLOAT$(br)ASSIGN half 1 / 2 ;$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Now $(1)half$() holds 0.5."
+    }
+  ]
+}

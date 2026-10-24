@@ -1,0 +1,25 @@
+{
+  "name": "REPEAT",
+  "icon": "c0de:repeat_block",
+  "category": "c0de:loops",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "REPEAT runs its code block, then checks its condition.$(br2)The REPEAT line holds only the REPEAT block. The condition comes after $(1)END REPEAT$(). The code block runs again as long as the condition is true, and it always runs at least once."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:repeat_block",
+      "text": "Craft a structural base and a granite block, or turn a WHILE block into a REPEAT block."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:repeat_block_from_while_block"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)REPEAT$(br)BEGIN$(br)  ASSIGN repeats repeats + 1 ;$(br)END REPEAT n > 0 ;$()"
+    }
+  ]
+}

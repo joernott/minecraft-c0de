@@ -1,0 +1,24 @@
+{
+  "name": "REMOVE",
+  "icon": "minecraft:book",
+  "category": "c0de:built_in_functions",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Removes one element from an array or a hash."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Use $(1)index$() for an array and $(1)key$() for a hash. The following array elements move down by one. A missing index raises INDEX_OUT_OF_BOUNDS, a missing key raises UNKNOWN_KEY. Leaving out $(1)index$() or $(1)key$() raises INVALID_ARGUMENT."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)container$() ARRAY|HASH: the array or hash$(li)$(1)index$() INTEGER: position of the element to remove (optional, needed for arrays)$(li)$(1)key$() STRING: key of the element to remove (optional, needed for hashes)$(li)result $(1)result$() like $(1)container$(): the array or hash without the element"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL REMOVE$(br)  PARAMETER container list ;$(br)  PARAMETER index 1 ;$(br)  RESULT result list$()"
+    }
+  ]
+}

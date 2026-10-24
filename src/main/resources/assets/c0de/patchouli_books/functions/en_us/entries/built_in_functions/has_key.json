@@ -1,0 +1,20 @@
+{
+  "name": "HAS_KEY",
+  "icon": "minecraft:book",
+  "category": "c0de:built_in_functions",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Checks if a hash contains a key."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)hash$() HASH: the hash to look in$(li)$(1)key$() STRING: the key to look for$(li)result $(1)result$() BOOLEAN: true if the key exists"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL HAS_KEY$(br)  PARAMETER hash stock ;$(br)  PARAMETER key \"gold\" ;$(br)  RESULT result hasGold$()"
+    }
+  ]
+}

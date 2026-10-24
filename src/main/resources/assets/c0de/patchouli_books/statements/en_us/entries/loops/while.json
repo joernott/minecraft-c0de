@@ -1,0 +1,29 @@
+{
+  "name": "WHILE",
+  "icon": "c0de:while_block",
+  "category": "c0de:loops",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "WHILE runs its code block as long as its condition is true.$(br2)It checks the condition before each round. If it is false right away, the code block never runs. The condition must give a BOOLEAN and ends with $(1);$()."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:while_block",
+      "text": "Craft a structural base and a diorite block, or turn a REPEAT block into a WHILE block."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:while_block_from_repeat_block"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)VARIABLE n INTEGER 3$(br)WHILE n > 0 ;$(br)BEGIN$(br)  ASSIGN countdown countdown ⊕ n ⊕ \" \" ;$(br)  ASSIGN n n - 1 ;$(br)END WHILE$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Now $(1)countdown$() is \"3 2 1 \"."
+    }
+  ]
+}

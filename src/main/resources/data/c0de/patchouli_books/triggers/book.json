@@ -1,0 +1,10 @@
+{
+  "name": "c0de Triggers",
+  "landing_text": "A program on a sheet does nothing by itself. Trigger blocks start it, feed it data and collect its results. A running program is called a $(l)process$(). This book shows the three trigger blocks that start processes and the PID block that marks a running process.",
+  "version": 1,
+  "use_resource_pack": true,
+  "model": "patchouli:book_red",
+  "book_texture": "patchouli:textures/gui/book_red.png",
+  "creative_tab": "c0de:c0de",
+  "show_progress": false
+}

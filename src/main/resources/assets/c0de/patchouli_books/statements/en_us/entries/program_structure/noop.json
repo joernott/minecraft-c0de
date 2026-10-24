@@ -1,0 +1,28 @@
+{
+  "name": "NOOP",
+  "icon": "c0de:noop_block",
+  "category": "c0de:program_structure",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "NOOP means \"no operation\": a NOOP line does nothing.$(br2)Use NOOP lines to separate parts of your program. A NOOP line may not hold any other block, not even a COMMENT. Line 1 of every program is a NOOP line, and every FUNCTION needs one right above it."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "NOOP blocks are also the base of most other recipes."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:noop_block"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Put iron ingots in the four corners and sticks on the four sides, and leave the middle empty. You get 64 NOOP blocks."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)PROGRAM first$(br)NOOP$(br)NOOP$(br)FUNCTION answer$(br)  RESULT result INTEGER$(br)BEGIN$(br)  ASSIGN result 42 ;$(br)END FUNCTION$()"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "name": "MID",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_strings",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Returns a part of a text.$(br2)Positions start at 0. Near the end you get fewer characters. A start behind the end gives an empty text. A negative start or length raises INVALID_ARGUMENT."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)text$() STRING: the text$(li)$(1)start$() INTEGER: the position of the first character$(li)$(1)length$() INTEGER: the number of characters (optional, default the rest of the text)$(li)result $(1)result$() STRING: the part of the text"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/strings/MID$(br)  PARAMETER text name ;$(br)  PARAMETER start 2 ;$(br)  PARAMETER length 3 ;$(br)  RESULT result part$()"
+    }
+  ]
+}

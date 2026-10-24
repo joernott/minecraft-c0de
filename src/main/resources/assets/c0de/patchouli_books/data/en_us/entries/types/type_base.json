@@ -1,0 +1,21 @@
+{
+  "name": "Type base",
+  "icon": "c0de:type_base",
+  "category": "c0de:types",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "The type base is the item you craft all type blocks from.$(br2)It is an item, not a block, so you can't place it. It looks like a red cube with a black question mark. The VARIABLE and CONSTANT blocks are crafted from it too."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:type_base",
+      "text": "Put a red carpet in the middle and eight NOOP blocks around it. You get eight type bases."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Combine one type base with a redstone torch, and you get a TYPE_BOOLEAN block. Each type block needs its own extra item, like sand for TYPE_INTEGER or a clock for TYPE_TIME."
+    }
+  ]
+}

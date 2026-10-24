@@ -1,0 +1,20 @@
+{
+  "name": "RANDOMIZE",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_math",
+  "sortnum": 15,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Sets the seed of the random number generator.$(br2)The same seed always gives the same sequence of random numbers. This only affects the current process."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)seed$() INTEGER: the seed"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/math/RANDOMIZE$(br)  PARAMETER seed 42 ;$()"
+    }
+  ]
+}

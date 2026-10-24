@@ -1,0 +1,33 @@
+{
+  "name": "TAG",
+  "icon": "c0de:tag_block",
+  "category": "c0de:values_and_names",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "A TAG block sets the name of a value in JSON or YAML text."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Right-click it with an empty hand. Pick the language, $(1)json$() or $(1)yaml$(), and enter the name. Tags go at the end of a struct element line or a VARIABLE or CONSTANT line. Only one tag per language fits in a line."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "On a struct element, the tag replaces the element name. The name $(1)-$() skips the element. On a variable, the name is a path with dots, like $(1)server.port$()."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:tag_block",
+      "text": "Put a brown wool block in the middle and eight NOOP blocks around it. You get eight TAG blocks."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)STRUCT player$(br)BEGIN$(br)  playerName STRING TAG(json: \"name\")$(br)END STRUCT$(br)VARIABLE port INTEGER 25565 TAG(json: \"server.port\")$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "TO_JSON turns $(1)port$() into $(1){\"server\": {\"port\": 25565}}$()."
+    }
+  ]
+}

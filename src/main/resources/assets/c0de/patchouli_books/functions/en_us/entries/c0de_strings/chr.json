@@ -1,0 +1,20 @@
+{
+  "name": "CHR",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_strings",
+  "sortnum": 10,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Returns the character with a Unicode code point.$(br2)A number that is not a code point raises INVALID_ARGUMENT."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)code$() INTEGER: the code point$(li)result $(1)result$() CHAR: the character"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/strings/CHR$(br)  PARAMETER code 65 ;$(br)  RESULT result letter$()"
+    }
+  ]
+}

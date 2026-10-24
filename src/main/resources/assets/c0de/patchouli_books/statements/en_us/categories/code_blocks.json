@@ -1,0 +1,6 @@
+{
+  "name": "Code blocks",
+  "description": "A code block is a group of lines between BEGIN and END.",
+  "icon": "c0de:begin_block",
+  "sortnum": 1
+}

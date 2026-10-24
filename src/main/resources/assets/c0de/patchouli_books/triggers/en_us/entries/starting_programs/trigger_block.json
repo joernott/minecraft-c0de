@@ -1,0 +1,33 @@
+{
+  "name": "Trigger block",
+  "icon": "c0de:trigger_block",
+  "category": "c0de:starting_programs",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "The trigger block starts a process when it gets a redstone pulse."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Right-click it with an empty hand to open its dialog. Pick a program and a function. Put variable and constant items into the input inventory. Results land in the output inventory. Items the process doesn't use pass through to the output unchanged."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "A hopper above or beside it fills the input, a hopper below it empties the output. An adjacent trigger block gets the output in its input, so you can build chains. A comparator reads the exit code of the last process as signal strength."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:trigger_block",
+      "text": "Copper ingots in the corners, glass on the edges and a gold ingot in the center give eight trigger blocks."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Place a trigger block with a button on it. Set it to the function $(1)answer$() and put an uninitialized variable item into its input. Press the button. The output now holds an item named $(1)result$() with the value 42."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)PROGRAM first$(br)NOOP$(br)NOOP$(br)FUNCTION answer$(br)  RESULT result INTEGER$(br)BEGIN$(br)  ASSIGN result 42 ;$(br)END FUNCTION$()"
+    }
+  ]
+}

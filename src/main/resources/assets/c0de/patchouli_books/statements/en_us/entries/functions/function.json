@@ -1,0 +1,25 @@
+{
+  "name": "FUNCTION",
+  "icon": "c0de:function_block",
+  "category": "c0de:functions",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "A FUNCTION line starts a function.$(br2)It sits at x=5, right below a NOOP line. A LABEL with the function name follows. PARAMETER and RESULT lines may come next, then the code block. It ends with $(1)END FUNCTION$()."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "A function can only call functions above it, or itself. Struct and function declarations are not allowed inside a function."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:function_block",
+      "text": "Craft a NOOP block and a stone block together."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)NOOP$(br)FUNCTION greet$(br)  PARAMETER name STRING \"World\"$(br)  PARAMETER mark CHAR '!'$(br)  RESULT result STRING$(br)BEGIN$(br)  ASSIGN result \"Hello, \" ⊕ name ⊕ mark ;$(br)END FUNCTION$()"
+    }
+  ]
+}

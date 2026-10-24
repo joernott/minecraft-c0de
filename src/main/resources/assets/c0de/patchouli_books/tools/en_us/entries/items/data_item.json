@@ -1,0 +1,21 @@
+{
+  "name": "Data item",
+  "icon": "c0de:data_item",
+  "category": "c0de:items",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "The data item is a blank punch card and the base of all items that carry data.$(br2)You need data items to craft type items, variable items, constant items and the c0de disk."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:data_item",
+      "text": "A paper, white dye and yellow dye, in any shape, give four data items."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Craft a stack of data items before you start a new program. Most programs need a few variable items, and each of them starts as a data item."
+    }
+  ]
+}

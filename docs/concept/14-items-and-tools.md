@@ -180,4 +180,6 @@ Two constant items can be crafted shapelessly from a data item, a type item and 
 
 ## Guide book
 
-If the mod [Patchouli](https://vazkiimods.github.io/Patchouli/) is installed, the c0de guide is available as an in-game book. It is generated from the player guide in the repository (`docs/guide`). Every player gets the book once, when they join a world with the mod for the first time. More books are crafted shapelessly from a book and a PROGRAM block. Without Patchouli, there is no book and no recipe.
+If the mod [Patchouli](https://vazkiimods.github.io/Patchouli/) is installed, the c0de guide is available as an in-game book. It is generated from the player guide in the repository (`docs/guide`). Every player gets the book once, when they join a world with the mod for the first time. More books are crafted shapelessly from a book and a PROGRAM block.
+
+Five red handbooks describe every element on a page of its own (a short description, the crafting recipe and an example), generated from `docs/reference`: Data (crafted from a book and a type base), Statements (book and structural base), Tools (book and wrench), Triggers (book and trigger block) and Functions (book and FUNCTION block). Without Patchouli, there are no books and no recipes for them.

@@ -1,0 +1,29 @@
+{
+  "name": "COMMENT",
+  "icon": "c0de:comment_block",
+  "category": "c0de:program_structure",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "A COMMENT block holds a note for humans.$(br2)Put it at the end of a line. The cursor ignores the COMMENT and every block after it. So a COMMENT in front of blocks switches them off."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "A line that starts with a COMMENT is a comment line. It is skipped like a NOOP line. Right-click the block with an empty hand to write its text."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:comment_block",
+      "text": "Put a glass block in the middle and eight NOOP blocks around it. You get eight COMMENT blocks."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "The text notation writes a COMMENT block as $(1)//$() followed by its text."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)// A comment line is skipped completely$(br)VARIABLE time INTEGER 1 // a comment at the end$()"
+    }
+  ]
+}

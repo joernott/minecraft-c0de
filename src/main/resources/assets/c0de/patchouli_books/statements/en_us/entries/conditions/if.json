@@ -1,0 +1,29 @@
+{
+  "name": "IF",
+  "icon": "c0de:if_block",
+  "category": "c0de:conditions",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "IF runs its code block only when its expression is true.$(br2)The expression must give a BOOLEAN and ends with $(1);$(). A code block follows. The last END of the condition is followed by an IF block."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "There is no ELSE IF. Put another IF inside the ELSE code block instead."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:if_block",
+      "text": "Craft a structural base and wheat seeds, or turn an ELSE block into an IF block."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:if_block_from_else_block"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)IF candidate \\ divisor = 0 ;$(br)BEGIN$(br)  ASSIGN prime FALSE ;$(br)END IF$()"
+    }
+  ]
+}
