@@ -302,8 +302,8 @@ A task is done when
 | 12.2.1 | Node 26.1.2: GUI renamed to extract methods (replacements and conditional headers), moved classes, messages to players, chunk positions, items, edit boxes, saved data IDs, Fabric menu and networking APIs, NeoForge events; access widener in the namespace "official". All GameTests pass on both loaders. | ✅ |
 | 12.2.2 | Node 26.2: screens and light through `ClientCompat`, no buffers any more (text colors of the displays as a table, line numbers through the submit events). All GameTests pass on both loaders. | ✅ |
 | 12.2.3 | Node 26.3: key codes from `InputConstants` (no GLFW), rotations as matrices, no block codecs, chunk generation in one step, pack resources, items to players and inventories through `Compat`; the recipe category `equipment` instead of the invalid `tools`. All GameTests pass on both loaders. | ✅ |
-| 12.3 | Extend the CI matrix and the Docker test servers to all nodes. |  |
-| 12.3.1 | GameTests and smoke tests on all nodes in GitHub Actions (one job per node); test servers for all nodes in `compose.yaml`; `smoke.sh` and `deploy.sh` only touch the servers they work on. |  |
+| 12.3 | Extend the CI matrix and the Docker test servers to all nodes. | ✅ |
+| 12.3.1 | GameTests and smoke tests on all nodes in GitHub Actions (one job per node); test servers for all nodes in `compose.yaml`; `smoke.sh` and `deploy.sh` only touch the servers they work on; the smoke test starts one server after the other. All nodes pass in GitHub Actions and on the VM. | ✅ |
 | 12.4 | Replace HeadlessMC by Fabric client GameTests where available. |  |
 | 12.5 | Release for all versions; document the process for adding future Minecraft versions. |  |
 
