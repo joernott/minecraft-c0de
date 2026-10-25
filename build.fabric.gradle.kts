@@ -112,6 +112,16 @@ loom {
             programArgs("--username", "Tester2")
             runDirectory = rootProject.file("run/fabric-client2$runSuffix")
         }
+        // Client GameTests (task 12.4): Fabric API has them since 1.21.4. Not part of `check`, because they need
+        // a display (on Linux: xvfb-run ./gradlew :<node>:runClientGameTest)
+        if (sc.current.parsed >= "1.21.11") {
+            register("clientGameTest") {
+                client()
+                property("fabric.client.gametest")
+                programArgs("--username", "Tester1")
+                runDirectory = project.file("build/clientGameTest")
+            }
+        }
         register("gametest") {
             server()
             jvmArguments.add("-Dfabric-api.gametest")
