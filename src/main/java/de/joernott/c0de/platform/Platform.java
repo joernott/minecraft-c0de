@@ -330,7 +330,10 @@ public sealed interface Platform {
 
         @Override
         public void sendToPlayer(ServerPlayer player, CustomPacketPayload payload) {
-            net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking.send(player, payload);
+            // Players without the mod (or GameTest mock players) can't receive the payloads of the mod
+            if (net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking.canSend(player, payload.type())) {
+                net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking.send(player, payload);
+            }
         }
 
         @Override
@@ -524,7 +527,10 @@ public sealed interface Platform {
 
         @Override
         public void sendToPlayer(ServerPlayer player, CustomPacketPayload payload) {
-            net.neoforged.neoforge.network.PacketDistributor.sendToPlayer(player, payload);
+            // Players without the mod (or GameTest mock players) can't receive the payloads of the mod
+            if (player.connection != null && player.connection.hasChannel(payload)) {
+                net.neoforged.neoforge.network.PacketDistributor.sendToPlayer(player, payload);
+            }
         }
 
         @Override
