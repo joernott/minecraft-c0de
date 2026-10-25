@@ -135,8 +135,13 @@ public class ValueItemScreen extends PropertiesScreen {
         return super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
     }
 
+    //? if >=26.1 {
+    /*@Override
+    public void extractRenderState(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+    *///?} else {
     @Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+    //?}
         super.render(graphics, mouseX, mouseY, partialTick);
         types.visible = showsTypes();
         if (!readOnly && !Nbt.list(payload.data(), "types", Tag.TAG_STRING).isEmpty()) {

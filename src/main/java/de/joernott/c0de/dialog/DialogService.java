@@ -40,13 +40,13 @@ public final class DialogService {
         Platform.INSTANCE.registerServerbound(
                 SavePropertiesPayload.TYPE,
                 SavePropertiesPayload.CODEC,
-                (payload, player) -> save(player, payload.pos(), payload).ifPresent(problem -> player.displayClientMessage(
-                        Component.translatable("message.c0de.not_saved", problem), true)));
+                (payload, player) -> save(player, payload.pos(), payload).ifPresent(problem -> Compat.message(
+                                        player, Component.translatable("message.c0de.not_saved", problem), true)));
         Platform.INSTANCE.registerServerbound(
                 SaveItemPayload.TYPE,
                 SaveItemPayload.CODEC,
-                (payload, player) -> saveItem(player, payload.properties()).ifPresent(problem -> player.displayClientMessage(
-                        Component.translatable("message.c0de.not_saved", problem), true)));
+                (payload, player) -> saveItem(player, payload.properties()).ifPresent(problem -> Compat.message(
+                                        player, Component.translatable("message.c0de.not_saved", problem), true)));
     }
 
     /** The programs of the c0de dimension with their functions, for the dialogs of devices. */

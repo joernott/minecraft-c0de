@@ -32,10 +32,8 @@ public class DebugToolItem extends Item {
                 && context.getPlayer().isShiftKeyDown()
                 && context.getLevel().getBlockState(pos).is(C0deBlocks.PID_BLOCK.get())) {
             if (context.getPlayer() instanceof ServerPlayer player) {
-                player.displayClientMessage(
-                        ProcessManager.get(Compat.server(player))
-                                .abort(Compat.server(player), player, LevelSheet.sheetOf(pos), pos.getY()),
-                        true);
+                Compat.message(player, ProcessManager.get(Compat.server(player))
+                                .abort(Compat.server(player), player, LevelSheet.sheetOf(pos), pos.getY()), true);
             }
             return InteractionResult.SUCCESS;
         }

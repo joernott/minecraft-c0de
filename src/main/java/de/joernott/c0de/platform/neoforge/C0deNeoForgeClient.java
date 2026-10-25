@@ -61,7 +61,12 @@ public final class C0deNeoForgeClient {
                         event.setCanceled(true);
                     }
                 });
-        //? if >=1.21.11 {
+        //? if >=26.1 {
+        /^net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
+                net.neoforged.neoforge.client.event.RenderLevelStageEvent.AfterOpaqueFeatures.class,
+                event -> LineNumbers.renderImmediately(
+                        event.getLevelRenderState().cameraRenderState.pos, event.getPoseStack()));
+        ^///?} elif >=1.21.11 {
         /^net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
                 net.neoforged.neoforge.client.event.RenderLevelStageEvent.AfterEntities.class,
                 event -> LineNumbers.renderImmediately(

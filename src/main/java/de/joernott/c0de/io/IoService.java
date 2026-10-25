@@ -45,8 +45,8 @@ public final class IoService {
     public static void register() {
         Platform.INSTANCE.registerServerbound(BindPayload.TYPE, BindPayload.CODEC, (payload, player) -> bind(
                         player, payload)
-                .ifPresent(problem -> player.displayClientMessage(
-                        Component.translatable("message.c0de.not_saved", problem), true)));
+                .ifPresent(problem -> Compat.message(
+                                        player, Component.translatable("message.c0de.not_saved", problem), true)));
         Platform.INSTANCE.registerClientbound(TerminalPayload.TYPE, TerminalPayload.CODEC);
         Platform.INSTANCE.registerServerbound(
                 TerminalActionPayload.TYPE, TerminalActionPayload.CODEC, (payload, player) -> act(player, payload));

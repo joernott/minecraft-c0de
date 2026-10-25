@@ -79,8 +79,13 @@ public class LabelScreen extends PropertiesScreen {
         }
     }
 
+    //? if >=26.1 {
+    /*@Override
+    public void extractRenderState(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+    *///?} else {
     @Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+    //?}
         super.render(graphics, mouseX, mouseY, partialTick);
         caption(graphics, Component.translatable("dialog.c0de.label." + mode.name().toLowerCase(Locale.ROOT)), name.getY());
         if (index != null) {

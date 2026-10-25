@@ -246,7 +246,7 @@ public class ProcessManager extends C0deSavedData {
         if (c0de.getBlockEntity(pidPos) instanceof PidBlockEntity pidBlock) {
             pidBlock.setTrigger(pid, triggerLevel.dimension(), trigger.getBlockPos());
         }
-        ChunkPos triggerChunk = new ChunkPos(trigger.getBlockPos());
+        ChunkPos triggerChunk = Compat.chunk(trigger.getBlockPos());
         ChunkTickets.add(triggerLevel, triggerChunk);
         UUID entity = spawnCursor(c0de, id, sheet.getAsInt(), pid, debug);
         List<ItemStack> taken = take(trigger.input(), inputs.keySet(), empty);
@@ -693,7 +693,7 @@ public class ProcessManager extends C0deSavedData {
         }
         release(c0de, process.chunks());
         if (triggerLevel != null) {
-            ChunkPos chunk = new ChunkPos(process.triggerPos());
+            ChunkPos chunk = Compat.chunk(process.triggerPos());
             ChunkTickets.remove(triggerLevel, chunk);
         }
     }
@@ -833,7 +833,7 @@ public class ProcessManager extends C0deSavedData {
                 Cursor cursor = CursorSnapshot.restore(data, program, settings(0, host));
                 ServerLevel trigger = server.getLevel(triggerLevel);
                 if (trigger != null) {
-                    ChunkPos chunk = new ChunkPos(triggerPos);
+                    ChunkPos chunk = Compat.chunk(triggerPos);
                     ChunkTickets.add(trigger, chunk);
                 }
                 UUID id = Nbt.uuid(tag, "id");

@@ -139,11 +139,9 @@ public class SheetOwners extends C0deSavedData {
             Optional<String> problem = c0de == null || receiver == null
                     ? Optional.of("The player " + payload.player() + " is not online")
                     : get(c0de).give(player, payload.sheet(), receiver);
-            player.displayClientMessage(
-                    problem.map(reason -> Component.translatable("message.c0de.not_saved", reason))
+            Compat.message(player, problem.map(reason -> Component.translatable("message.c0de.not_saved", reason))
                             .orElse(Component.translatable(
-                                    "message.c0de.sheet_given", payload.sheet(), payload.player())),
-                    true);
+                                    "message.c0de.sheet_given", payload.sheet(), payload.player())), true);
         });
         Platform.INSTANCE.onPlayerJoin(player -> {
             ServerLevel c0de = Compat.server(player).getLevel(C0deDimension.LEVEL);

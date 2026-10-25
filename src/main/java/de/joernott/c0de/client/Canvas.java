@@ -67,12 +67,20 @@ public interface Canvas {
 
     /** The render type of a block that is drawn by a renderer. */
     static RenderType block(BlockState state) {
-        //? if >=1.21.11 {
+        //? if >=26.1 {
+        /*return net.minecraft.client.renderer.Sheets.cutoutBlockSheet();
+        *///?} elif >=1.21.11 {
         /*return net.minecraft.client.renderer.ItemBlockRenderTypes.getRenderType(state);
         *///?} else {
         return net.minecraft.client.renderer.ItemBlockRenderTypes.getRenderType(state, false);
         //?}
     }
+
+    //? if >=26.1 {
+    /*/^* The display context of the blocks that renderers draw. ^/
+    net.minecraft.client.renderer.block.model.BlockDisplayContext BLOCK_CONTEXT =
+            net.minecraft.client.renderer.block.model.BlockDisplayContext.create();
+    *///?}
 
     //? if >=1.21.11 {
     /*/^* The canvas of the submit node collector. ^/
@@ -92,7 +100,14 @@ public interface Canvas {
 
             @Override
             public void block(PoseStack pose, BlockState state, int light, int overlay) {
+                //? if >=26.1 {
+                /^var model = new net.minecraft.client.renderer.block.BlockModelRenderState();
+                new net.minecraft.client.renderer.block.BlockModelResolver(Minecraft.getInstance().getModelManager())
+                        .update(model, state, BLOCK_CONTEXT);
+                model.submit(pose, collector, light, overlay, 0);
+                ^///?} else {
                 collector.submitBlock(pose, state, light, overlay, 0);
+                //?}
             }
         };
     }

@@ -57,8 +57,13 @@ public class ChoiceList extends AbstractWidget {
         return Math.max(0, shown.size() - rows());
     }
 
+    //? if >=26.1 {
+    /*@Override
+    protected void extractWidgetRenderState(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+    *///?} else {
     @Override
     protected void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+    //?}
         int x = getX();
         int y = getY();
         graphics.fill(x, y, x + width, y + height, BORDER);

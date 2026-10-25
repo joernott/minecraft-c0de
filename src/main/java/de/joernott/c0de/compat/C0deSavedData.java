@@ -4,6 +4,7 @@ import java.util.function.BiFunction;
 import java.util.function.Supplier;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.datafix.DataFixTypes;
 import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraft.world.level.storage.DimensionDataStorage;
@@ -41,7 +42,13 @@ public abstract class C0deSavedData extends SavedData {
             com.mojang.serialization.Codec<T> codec = CompoundTag.CODEC.xmap(
                     tag -> load.apply(tag, net.minecraft.core.RegistryAccess.EMPTY),
                     data -> data.save(new CompoundTag(), net.minecraft.core.RegistryAccess.EMPTY));
+            //? if >=26.1 {
+            /^// The files of the older versions (data/<name>.dat) are moved to data/minecraft/<name>.dat
+            type = new net.minecraft.world.level.saveddata.SavedDataType<>(
+                    ResourceLocation.withDefaultNamespace(name), constructor, codec, DATA_FIX_TYPE);
+            ^///?} else {
             type = new net.minecraft.world.level.saveddata.SavedDataType<>(name, constructor, codec, DATA_FIX_TYPE);
+            //?}
             *///?} else {
             this.name = name;
             factory = new SavedData.Factory<>(constructor, load::apply, DATA_FIX_TYPE);

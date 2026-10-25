@@ -60,7 +60,7 @@ public final class DiskService {
         text.append(payload.chunk());
         if (text.length() > DiskItem.MAX_LENGTH) {
             UPLOADS.remove(player.getUUID());
-            player.displayClientMessage(Component.translatable("message.c0de.not_saved", "The program is too long"), true);
+            Compat.message(player, Component.translatable("message.c0de.not_saved", "The program is too long"), true);
             return;
         }
         if (!payload.last()) {
@@ -71,10 +71,8 @@ public final class DiskService {
             return;
         }
         Optional<String> problem = menu.load(text.toString());
-        player.displayClientMessage(
-                problem.map(reason -> Component.translatable("message.c0de.not_saved", reason))
-                        .orElse(Component.translatable("message.c0de.disk_loaded")),
-                true);
+        Compat.message(player, problem.map(reason -> Component.translatable("message.c0de.not_saved", reason))
+                        .orElse(Component.translatable("message.c0de.disk_loaded")), true);
     }
 
     /** The program of a YAML text for a disk, or the reason why it can't be one. */
@@ -118,7 +116,7 @@ public final class DiskService {
         }
         contents.writeTo(disk);
         level.playSound(null, pos, SoundEvents.BOOK_PAGE_TURN, SoundSource.BLOCKS, 1.0F, 1.0F);
-        player.displayClientMessage(Component.translatable("message.c0de.exported", contents.name()), true);
+        Compat.message(player, Component.translatable("message.c0de.exported", contents.name()), true);
         return Optional.empty();
     }
 
@@ -188,7 +186,7 @@ public final class DiskService {
         SheetWriter.place(level, sheet, lines);
         level.playSound(null, pos, SoundEvents.STONE_PLACE, SoundSource.BLOCKS, 1.0F, 0.8F);
         SheetValidation.validate(level, sheet);
-        player.displayClientMessage(Component.translatable("message.c0de.imported", name), true);
+        Compat.message(player, Component.translatable("message.c0de.imported", name), true);
         return Optional.empty();
     }
 }

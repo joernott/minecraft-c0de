@@ -18,8 +18,8 @@ public final class TriggerService {
                 TriggerConfigPayload.TYPE,
                 TriggerConfigPayload.CODEC,
                 (payload, player) -> configure(player, payload)
-                        .ifPresent(problem -> player.displayClientMessage(
-                                Component.translatable("message.c0de.not_saved", problem), true)));
+                        .ifPresent(problem -> Compat.message(
+                                player, Component.translatable("message.c0de.not_saved", problem), true)));
     }
 
     /**

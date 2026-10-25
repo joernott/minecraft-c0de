@@ -67,8 +67,13 @@ public class SheetOwnerScreen extends Screen {
         rebuildWidgets();
     }
 
+    //? if >=26.1 {
+    /*@Override
+    public void extractRenderState(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+    *///?} else {
     @Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+    //?}
         super.render(graphics, mouseX, mouseY, partialTick);
         int top = height / 2 - (PAGE_SIZE / 2 + 3) * (BUTTON_HEIGHT + 2);
         graphics.drawCenteredString(font, title, width / 2, top, 0xFFFFFFFF);

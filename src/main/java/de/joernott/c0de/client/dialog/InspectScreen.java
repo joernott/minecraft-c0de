@@ -41,14 +41,24 @@ public class InspectScreen extends Screen {
         top = (height - panelHeight) / 2;
     }
 
+    //? if >=26.1 {
+    /*@Override
+    public void extractBackground(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+    *///?} else {
     @Override
     public void renderBackground(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+    //?}
         super.renderBackground(graphics, mouseX, mouseY, partialTick);
         Panels.draw(graphics, left, top, WIDTH, panelHeight, 0xFF808080, 0xF0202020);
     }
 
+    //? if >=26.1 {
+    /*@Override
+    public void extractRenderState(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+    *///?} else {
     @Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+    //?}
         super.render(graphics, mouseX, mouseY, partialTick);
         graphics.drawString(font, title, left + MARGIN, top + MARGIN, 0xFFFFFFFF);
         int y = top + MARGIN + 14;

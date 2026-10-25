@@ -24,10 +24,14 @@ public class DisplayScreen extends AbstractContainerScreen<DisplayMenu> {
     private final BindingPanel binding;
 
     public DisplayScreen(DisplayMenu menu, Inventory inventory, Component title) {
+        //? if >=26.1 {
+        /*super(menu, inventory, title, PANEL_X + BindingPanel.WIDTH, DisplayMenu.HOTBAR_Y + 24);
+        *///?} else {
         super(menu, inventory, title);
-        binding = new BindingPanel(menu.data());
         imageWidth = PANEL_X + BindingPanel.WIDTH;
         imageHeight = DisplayMenu.HOTBAR_Y + 24;
+        //?}
+        binding = new BindingPanel(menu.data());
         inventoryLabelY = DisplayMenu.PLAYER_Y - 11;
     }
 
@@ -40,8 +44,14 @@ public class DisplayScreen extends AbstractContainerScreen<DisplayMenu> {
         });
     }
 
+    //? if >=26.1 {
+    /*@Override
+    public void extractBackground(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+        super.renderBackground(graphics, mouseX, mouseY, partialTick);
+    *///?} else {
     @Override
     protected void renderBg(GuiGraphics graphics, float partialTick, int mouseX, int mouseY) {
+    //?}
         Panels.draw(graphics, leftPos + 1, topPos + 1, imageWidth - 2, imageHeight - 2, 0xFF555555, BACKGROUND);
         for (Slot slot : menu.slots) {
             int x = leftPos + slot.x - 1;
@@ -52,8 +62,13 @@ public class DisplayScreen extends AbstractContainerScreen<DisplayMenu> {
         }
     }
 
+    //? if >=26.1 {
+    /*@Override
+    protected void extractLabels(GuiGraphics graphics, int mouseX, int mouseY) {
+    *///?} else {
     @Override
     protected void renderLabels(GuiGraphics graphics, int mouseX, int mouseY) {
+    //?}
         int dark = 0xFF404040;
         graphics.drawString(font, title, 8, 8, dark, false);
         graphics.drawString(font, playerInventoryTitle, inventoryLabelX, inventoryLabelY, dark, false);
@@ -67,9 +82,15 @@ public class DisplayScreen extends AbstractContainerScreen<DisplayMenu> {
                 false);
     }
 
+    //? if >=26.1 {
+    /*@Override
+    public void extractRenderState(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+    *///?} else {
     @Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+    //?}
         super.render(graphics, mouseX, mouseY, partialTick);
+        //? if <26.1
         renderTooltip(graphics, mouseX, mouseY);
     }
 }

@@ -154,7 +154,7 @@ public final class ToolActions {
     }
 
     private static void message(ServerPlayer player, String key, Object... arguments) {
-        player.displayClientMessage(Component.translatable(key, arguments), true);
+        Compat.message(player, Component.translatable(key, arguments), true);
     }
 
     /**
@@ -311,7 +311,7 @@ public final class ToolActions {
 
     private static boolean isProtected(ServerPlayer player, ServerLevel level, BlockPos pos) {
         Optional<Component> reason = SheetProtection.reason(player, level, pos, true);
-        reason.ifPresent(message -> player.displayClientMessage(message, true));
+        reason.ifPresent(message -> Compat.message(player, message, true));
         return reason.isPresent();
     }
 

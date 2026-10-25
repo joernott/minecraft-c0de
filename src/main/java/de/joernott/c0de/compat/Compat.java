@@ -152,9 +152,33 @@ public final class Compat {
         //?}
     }
 
+    /** Shows a message to the player: above the hotbar (overlay) or in the chat. */
+    public static void message(net.minecraft.world.entity.player.Player player, Component message, boolean overlay) {
+        //? if >=26.1 {
+        /*if (overlay) {
+            player.sendOverlayMessage(message);
+        } else {
+            player.sendSystemMessage(message);
+        }
+        *///?} else {
+        player.displayClientMessage(message, overlay);
+        //?}
+    }
+
+    /** The chunk of a position. */
+    public static net.minecraft.world.level.ChunkPos chunk(net.minecraft.core.BlockPos pos) {
+        //? if >=26.1 {
+        /*return net.minecraft.world.level.ChunkPos.containing(pos);
+        *///?} else {
+        return new net.minecraft.world.level.ChunkPos(pos);
+        //?}
+    }
+
     /** The name of an item. */
     public static Component name(Item item) {
-        //? if >=1.21.2 {
+        //? if >=26.1 {
+        /*return item.getName(item.getDefaultInstance());
+        *///?} elif >=1.21.2 {
         /*return item.getName();
         *///?} else {
         return item.getDescription();

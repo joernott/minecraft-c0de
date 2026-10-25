@@ -43,7 +43,8 @@ public final class DimensionTypeJson {
 
     /**
      * The dimension type in the format of Minecraft 1.21.11 and later: the sky and the fog are environment
-     * attributes, the sky box "none" replaces the dimension effects of the mod. The sky shows the fog color, the
+     * attributes, the sky box "none" replaces the dimension effects of the mod. 26.1 requires
+     * {@code has_ender_dragon_fight}, which 1.21.11 ignores. The sky shows the fog color, the
      * blue of the biome; there are no clouds, sun, moon and stars.
      */
     public static String createWithAttributes(int maxBuildHeight) {
@@ -54,6 +55,7 @@ public final class DimensionTypeJson {
                   "has_skylight": false,
                   "has_ceiling": false,
                   "has_fixed_time": true,
+                  "has_ender_dragon_fight": false,
                   "ambient_light": 0.5,
                   "monster_spawn_light_level": 0,
                   "monster_spawn_block_light_limit": 0,

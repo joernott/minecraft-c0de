@@ -305,8 +305,13 @@ public class TerminalScreen extends Screen {
 
     // ------------------------------------------------------------------ drawing
 
+    //? if >=26.1 {
+    /*@Override
+    public void extractRenderState(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+    *///?} else {
     @Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+    //?}
         super.render(graphics, mouseX, mouseY, partialTick);
         int screenWidth = Terminals.COLUMNS * cellWidth;
         int screenHeight = Terminals.ROWS * cellHeight;
@@ -332,8 +337,13 @@ public class TerminalScreen extends Screen {
         graphics.drawString(font, label, left, top + screenHeight + 6, 0xFFFFFFFF, false);
     }
 
+    //? if >=26.1 {
+    /*@Override
+    public void extractBackground(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+    *///?} else {
     @Override
     public void renderBackground(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+    //?}
         super.renderBackground(graphics, mouseX, mouseY, partialTick);
         int screenWidth = Terminals.COLUMNS * cellWidth;
         int screenHeight = Terminals.ROWS * cellHeight;

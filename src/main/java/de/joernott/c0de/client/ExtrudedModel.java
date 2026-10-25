@@ -204,7 +204,11 @@ public final class ExtrudedModel {
     /** The sprite of a face of the slab model, given by its quads, or the fallback if no quad has the face. */
     private static TextureAtlasSprite sprite(List<BakedQuad> slab, Direction face, TextureAtlasSprite fallback) {
         for (BakedQuad quad : slab) {
-            //? if >=1.21.5 {
+            //? if >=26.1 {
+            /*if (quad.direction() == face) {
+                return quad.materialInfo().sprite();
+            }
+            *///?} elif >=1.21.5 {
             /*if (quad.direction() == face) {
                 return quad.sprite();
             }
@@ -264,7 +268,26 @@ public final class ExtrudedModel {
 
     /** A quad from four vertices: x, y, z, u, v. */
     private static BakedQuad quad(float[][] vertices, Direction face, TextureAtlasSprite sprite) {
-        //? if >=1.21.11 {
+        //? if >=26.1 {
+        /*org.joml.Vector3f[] positions = new org.joml.Vector3f[4];
+        long[] uvs = new long[4];
+        for (int i = 0; i < 4; i++) {
+            positions[i] = new org.joml.Vector3f(vertices[i][0], vertices[i][1], vertices[i][2]);
+            uvs[i] = net.minecraft.client.model.geom.builders.UVPair.pack(vertices[i][3], vertices[i][4]);
+        }
+        // The textures of the language blocks have transparent pixels (the symbols, the book of PROGRAM)
+        var material = new BakedQuad.MaterialInfo(
+                sprite,
+                net.minecraft.client.renderer.chunk.ChunkSectionLayer.CUTOUT,
+                net.minecraft.client.renderer.Sheets.cutoutBlockItemSheet(),
+                -1,
+                true,
+                0);
+        return new BakedQuad(
+                positions[0], positions[1], positions[2], positions[3],
+                uvs[0], uvs[1], uvs[2], uvs[3],
+                face, material);
+        *///?} elif >=1.21.11 {
         /*org.joml.Vector3f[] positions = new org.joml.Vector3f[4];
         long[] uvs = new long[4];
         for (int i = 0; i < 4; i++) {
@@ -380,7 +403,11 @@ public final class ExtrudedModel {
                         ? wrapped.geometry()
                         : baker.getModel(wrapped.parent()).getTopGeometry();
                 List<BakedQuad> slabQuads = slab.bake(textureSlots, baker, state, name).getAll();
+                //? if >=26.1 {
+                /^TextureAtlasSprite particle = baker.materials().resolveSlot(textureSlots, "particle", name).sprite();
+                ^///?} else {
                 TextureAtlasSprite particle = baker.sprites().resolveSlot(textureSlots, "particle", name);
+                //?}
                 ExtrudedModel model = new ExtrudedModel(face -> sprite(slabQuads, face, particle), polygon);
                 var quads = new net.minecraft.client.resources.model.QuadCollection.Builder();
                 model.quads.forEach(quads::addUnculledFace);

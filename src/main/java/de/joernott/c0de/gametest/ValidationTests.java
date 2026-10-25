@@ -214,7 +214,7 @@ public final class ValidationTests {
         helper.runAfterDelay(2, () -> {
             // Forgets the program, as if it was written by an older version of the mod
             registry.update(507, null, List.of());
-            SheetValidation.chunkLoaded(level, new net.minecraft.world.level.ChunkPos(sheet.pos(5, 0)));
+            SheetValidation.chunkLoaded(level, de.joernott.c0de.compat.Compat.chunk(sheet.pos(5, 0)));
             helper.runAfterDelay(2, () -> {
                 try {
                     helper.assertTrue(

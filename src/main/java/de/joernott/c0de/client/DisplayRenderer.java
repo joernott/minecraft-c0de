@@ -72,6 +72,16 @@ public class DisplayRenderer extends C0deBlockEntityRenderer<DisplayBlockEntity>
      */
     private static void renderCamouflage(
             BlockState state, Direction front, PoseStack pose, Canvas canvas, int light, int overlay) {
+        //? if >=26.1 {
+        /*// The quads of the block models can't be filtered any more: the camouflage is slightly smaller instead, so
+        // that the front of the display stays in front of it
+        pose.pushPose();
+        pose.translate(0.5F, 0.5F, 0.5F);
+        pose.scale(0.995F, 0.995F, 0.995F);
+        pose.translate(-0.5F, -0.5F, -0.5F);
+        canvas.block(pose, state, light, overlay);
+        pose.popPose();
+        *///?} else {
         Minecraft minecraft = Minecraft.getInstance();
         RandomSource random = RandomSource.create(42);
         List<BakedQuad> quads = new ArrayList<>();
@@ -111,6 +121,7 @@ public class DisplayRenderer extends C0deBlockEntityRenderer<DisplayBlockEntity>
                 consumer.putBulkData(last, quad, red, green, blue, 1.0F, light, overlay);
             }
         });
+        //?}
     }
 
     /**

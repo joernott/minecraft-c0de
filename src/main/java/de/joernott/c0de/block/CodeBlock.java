@@ -1,5 +1,6 @@
 package de.joernott.c0de.block;
 
+import de.joernott.c0de.compat.Compat;
 import de.joernott.c0de.content.CodeBlockType;
 import de.joernott.c0de.core.edit.PlacementRules;
 import de.joernott.c0de.core.sheet.SheetGeometry;
@@ -52,7 +53,7 @@ public class CodeBlock extends Block {
         Optional<Component> running = SheetProtection.reason(context.getPlayer(), level, pos, true);
         if (running.isPresent()) {
             if (context.getPlayer() != null) {
-                context.getPlayer().displayClientMessage(running.get(), true);
+                Compat.message(context.getPlayer(), running.get(), true);
             }
             return null;
         }
@@ -63,8 +64,7 @@ public class CodeBlock extends Block {
             return state;
         }
         if (!level.isClientSide() && context.getPlayer() != null) {
-            context.getPlayer()
-                    .displayClientMessage(Component.translatable("message.c0de.not_placed", problem.get()), true);
+            Compat.message(context.getPlayer(), Component.translatable("message.c0de.not_placed", problem.get()), true);
         }
         return null;
     }

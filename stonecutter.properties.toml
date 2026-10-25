@@ -44,3 +44,41 @@ deps.fabric_api = "0.141.6+1.21.11"
 [neoforge."1.21.11"]
 mod.mc_compat = "[1.21.11, 1.21.12)"
 deps.neo_loader = "21.11.48"
+
+["26.1.2"]
+mod.mc_releases = "26.1.2"
+# Unobfuscated: no Parchment mappings needed
+deps.fabric_loader = "0.20.1"
+# No Patchouli: 26.1 builds are only on Modrinth, not on its Maven
+
+[fabric."26.1.2"]
+mod.mc_compat = "~26.1.2"
+deps.fabric_api = "0.155.3+26.1.2"
+
+[neoforge."26.1.2"]
+mod.mc_compat = "[26.1.2, 26.1.3)"
+deps.neo_loader = "26.1.2.124"
+
+["26.2"]
+mod.mc_releases = "26.2"
+deps.fabric_loader = "0.20.1"
+
+[fabric."26.2"]
+mod.mc_compat = "~26.2"
+deps.fabric_api = "0.161.0+26.2"
+
+[neoforge."26.2"]
+mod.mc_compat = "[26.2, 26.2.1)"
+deps.neo_loader = "26.2.0.93"
+
+["26.3"]
+mod.mc_releases = "26.3"
+deps.fabric_loader = "0.20.1"
+
+[fabric."26.3"]
+mod.mc_compat = "~26.3"
+deps.fabric_api = "0.165.0+26.3"
+
+[neoforge."26.3"]
+mod.mc_compat = "[26.3, 26.3.1)"
+deps.neo_loader = "26.3.0.99"

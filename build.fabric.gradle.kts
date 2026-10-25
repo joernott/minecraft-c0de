@@ -52,7 +52,7 @@ dependencies {
     }
 
     // Use `mod{dependency type}` even on 26.1+ - loom-back-compat converts them
-    modImplementation("net.fabricmc:fabric-loader:${property("deps.fabric_loader")}")
+    modImplementation("net.fabricmc:fabric-loader:${sc.properties.get<String>("deps.fabric_loader")}")
     if (sc.current.parsed > "1.21.1") {
         // Fabric API renamed and merged modules after 1.21.1; newer nodes compile against all of it
         modImplementation("net.fabricmc.fabric-api:fabric-api:${sc.properties.get<String>("deps.fabric_api")}")
@@ -84,7 +84,10 @@ dependencies {
 
 loom {
     fabricModJsonPath = rootProject.file("src/main/resources/fabric.mod.json")
-    accessWidenerPath = rootProject.file("src/main/resources/c0de.accesswidener")
+    // Named mappings before 26.1, official (unobfuscated) names since then (src/main/versioned/accesswidener)
+    accessWidenerPath = versionedResourceDirs(rootProject.file("src/main/versioned")) { sc.current.parsed >= it }
+        .map { it.resolve("c0de.accesswidener") }
+        .single { it.exists() }
 
     decompilerOptions.named("vineflower") {
         options.put("mark-corresponding-synthetics", "1") // Adds names to lambdas - useful for mixins

@@ -64,11 +64,19 @@ public class C0deFabricClient implements ClientModInitializer {
                 .modifyModelOnLoad()
                 .register((model, context) -> ExtrudedModel.wrap(context.id(), model)));
         // The text marker is colored by the tint of its item definition (assets/c0de/items/marker.json)
+        //? if >=26.1 {
+        /^net.fabricmc.fabric.api.client.rendering.v1.level.LevelRenderEvents.COLLECT_SUBMITS.register(
+                context -> LineNumbers.render(
+                        context.levelState().cameraRenderState.pos,
+                        context.poseStack(),
+                        de.joernott.c0de.client.Canvas.of(context.submitNodeCollector())));
+        ^///?} else {
         net.fabricmc.fabric.api.client.rendering.v1.world.WorldRenderEvents.BEFORE_ENTITIES.register(
                 context -> LineNumbers.render(
                         context.worldState().cameraRenderState.pos,
                         context.matrices(),
                         de.joernott.c0de.client.Canvas.of(context.commandQueue())));
+        //?}
         *///?} else {
         net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin.register(plugin -> plugin
                 .modifyModelAfterBake()
@@ -85,7 +93,9 @@ public class C0deFabricClient implements ClientModInitializer {
 
     /** Draws the block with transparent pixels. */
     private static void cutout(Block block) {
-        //? if >=1.21.11 {
+        //? if >=26.1 {
+        /*// The quads have the layer of the transparency of their textures
+        *///?} elif >=1.21.11 {
         /*net.fabricmc.fabric.api.client.rendering.v1.BlockRenderLayerMap.putBlock(
                 block, net.minecraft.client.renderer.chunk.ChunkSectionLayer.CUTOUT);
         *///?} else {

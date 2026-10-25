@@ -54,15 +54,19 @@ public class TriggerScreen extends AbstractContainerScreen<TriggerMenu> {
     private int scroll;
 
     public TriggerScreen(TriggerMenu menu, Inventory inventory, Component title) {
+        //? if >=26.1 {
+        /*super(menu, inventory, title, PANEL_X + PANEL_WIDTH, TriggerMenu.HOTBAR_Y + 24);
+        *///?} else {
         super(menu, inventory, title);
+        imageWidth = PANEL_X + PANEL_WIDTH;
+        imageHeight = TriggerMenu.HOTBAR_Y + 24;
+        //?}
         CompoundTag data = menu.data();
         programs = Nbt.compound(data, "programs");
         timer = TriggerBlock.Kind.TIMER.name().equals(Nbt.string(data, "kind"));
         program = Nbt.string(data, "program");
         function = Nbt.string(data, "function");
         run = TriggerBlockEntity.Run.of(Nbt.string(data, "run"));
-        imageWidth = PANEL_X + PANEL_WIDTH;
-        imageHeight = TriggerMenu.HOTBAR_Y + 24;
         inventoryLabelY = TriggerMenu.PLAYER_Y - 11;
     }
 
@@ -88,7 +92,18 @@ public class TriggerScreen extends AbstractContainerScreen<TriggerMenu> {
             interval = addRenderableWidget(
                     new EditBox(font, x, topPos + 86, PANEL_WIDTH - 6, 18, Component.empty()));
             interval.setValue(Integer.toString(Nbt.integer(menu.data(), "interval")));
+            //? if >=26.1 {
+            /*// Edit boxes have no filter any more: other characters than digits are removed
+            interval.setMaxLength(5);
+            interval.setResponder(text -> {
+                String digits = text.replaceAll("\\D", "");
+                if (!digits.equals(text)) {
+                    interval.setValue(digits);
+                }
+            });
+            *///?} else {
             interval.setFilter(text -> text.matches("\\d{0,5}"));
+            //?}
         } else {
             // Who may start the block (task 11.11.8); timer blocks start themselves
             runButton = addRenderableWidget(Button.builder(Component.empty(), button -> {
@@ -166,8 +181,14 @@ public class TriggerScreen extends AbstractContainerScreen<TriggerMenu> {
                 && value <= TriggerBlockEntity.MAX_INTERVAL;
     }
 
+    //? if >=26.1 {
+    /*@Override
+    public void extractBackground(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+        super.renderBackground(graphics, mouseX, mouseY, partialTick);
+    *///?} else {
     @Override
     protected void renderBg(GuiGraphics graphics, float partialTick, int mouseX, int mouseY) {
+    //?}
         Panels.draw(graphics, leftPos + 1, topPos + 1, imageWidth - 2, imageHeight - 2, 0xFF555555, BACKGROUND);
         for (Slot slot : menu.slots) {
             int x = leftPos + slot.x - 1;
@@ -184,8 +205,13 @@ public class TriggerScreen extends AbstractContainerScreen<TriggerMenu> {
         }
     }
 
+    //? if >=26.1 {
+    /*@Override
+    protected void extractLabels(GuiGraphics graphics, int mouseX, int mouseY) {
+    *///?} else {
     @Override
     protected void renderLabels(GuiGraphics graphics, int mouseX, int mouseY) {
+    //?}
         int dark = 0xFF404040;
         graphics.drawString(font, Component.translatable("dialog.c0de.trigger.input"), 8, 6, dark, false);
         graphics.drawString(
@@ -295,10 +321,16 @@ public class TriggerScreen extends AbstractContainerScreen<TriggerMenu> {
         return super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
     }
 
+    //? if >=26.1 {
+    /*@Override
+    public void extractRenderState(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+    *///?} else {
     @Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+    //?}
         super.render(graphics, mouseX, mouseY, partialTick);
         renderMessages(graphics);
+        //? if <26.1
         renderTooltip(graphics, mouseX, mouseY);
     }
 }

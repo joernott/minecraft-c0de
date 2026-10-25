@@ -1,6 +1,7 @@
 package de.joernott.c0de.platform;
 
 import de.joernott.c0de.C0de;
+import de.joernott.c0de.compat.Compat;
 import de.joernott.c0de.network.ClientReceivers;
 import java.nio.file.Path;
 import java.util.Optional;
@@ -205,7 +206,11 @@ public sealed interface Platform {
                 CustomPacketPayload.Type<T> type,
                 StreamCodec<? super RegistryFriendlyByteBuf, T> codec,
                 BiConsumer<T, ServerPlayer> handler) {
+            //? if >=26.1 {
+            /*net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry.serverboundPlay().register(type, codec);
+            *///?} else {
             net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry.playC2S().register(type, codec);
+            //?}
             net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking.registerGlobalReceiver(
                     type, (payload, context) -> handler.accept(payload, context.player()));
         }
@@ -213,7 +218,11 @@ public sealed interface Platform {
         @Override
         public <T extends CustomPacketPayload> void registerClientbound(
                 CustomPacketPayload.Type<T> type, StreamCodec<? super RegistryFriendlyByteBuf, T> codec) {
+            //? if >=26.1 {
+            /*net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry.clientboundPlay().register(type, codec);
+            *///?} else {
             net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry.playS2C().register(type, codec);
+            //?}
             CLIENTBOUND.add(type);
         }
 
@@ -240,19 +249,33 @@ public sealed interface Platform {
         @Override
         public void onChunkLoad(
                 BiConsumer<net.minecraft.server.level.ServerLevel, net.minecraft.world.level.ChunkPos> listener) {
+            //? if >=26.1 {
+            /*net.fabricmc.fabric.api.event.lifecycle.v1.ServerChunkEvents.CHUNK_LOAD.register(
+                    (level, chunk, generated) -> listener.accept(level, chunk.getPos()));
+            *///?} else {
             net.fabricmc.fabric.api.event.lifecycle.v1.ServerChunkEvents.CHUNK_LOAD.register(
                     (level, chunk) -> listener.accept(level, chunk.getPos()));
+            //?}
         }
 
         @Override
         public <T extends AbstractContainerMenu> MenuType<T> menuType(MenuFactory<T> factory) {
+            //? if >=26.1 {
+            /*return new net.fabricmc.fabric.api.menu.v1.ExtendedMenuType<>(
+                    factory::create, net.minecraft.network.codec.ByteBufCodecs.COMPOUND_TAG);
+            *///?} else {
             return new net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType<>(
                     factory::create, net.minecraft.network.codec.ByteBufCodecs.COMPOUND_TAG);
+            //?}
         }
 
         @Override
         public void openMenu(ServerPlayer player, MenuProvider provider, CompoundTag data) {
+            //? if >=26.1 {
+            /*player.openMenu(new net.fabricmc.fabric.api.menu.v1.ExtendedMenuProvider<CompoundTag>() {
+            *///?} else {
             player.openMenu(new net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory<CompoundTag>() {
+            //?}
                 @Override
                 public CompoundTag getScreenOpeningData(ServerPlayer target) {
                     return data;
@@ -275,7 +298,7 @@ public sealed interface Platform {
             net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents.BEFORE.register(
                     (level, player, pos, state, blockEntity) -> {
                         Optional<Component> reason = check.check(player, level, pos);
-                        reason.ifPresent(message -> player.displayClientMessage(message, true));
+                        reason.ifPresent(message -> Compat.message(player, message, true));
                         return reason.isEmpty();
                     });
             net.fabricmc.fabric.api.event.player.UseBlockCallback.EVENT.register((player, level, hand, hit) -> {
@@ -287,7 +310,7 @@ public sealed interface Platform {
                     Optional<Component> reason = check.check(player, level, pos);
                     if (reason.isPresent()) {
                         if (!level.isClientSide()) {
-                            player.displayClientMessage(reason.get(), true);
+                            Compat.message(player, reason.get(), true);
                         }
                         return net.minecraft.world.InteractionResult.FAIL;
                     }
@@ -483,7 +506,7 @@ public sealed interface Platform {
                     net.neoforged.neoforge.event.level.BlockEvent.BreakEvent.class, event -> {
                         if (event.getLevel() instanceof Level level) {
                             check.check(event.getPlayer(), level, event.getPos()).ifPresent(message -> {
-                                event.getPlayer().displayClientMessage(message, true);
+                                Compat.message(event.getPlayer(), message, true);
                                 event.setCanceled(true);
                             });
                         }
@@ -492,7 +515,7 @@ public sealed interface Platform {
                     net.neoforged.neoforge.event.level.BlockEvent.EntityPlaceEvent.class, event -> {
                         if (event.getEntity() instanceof Player player && event.getLevel() instanceof Level level) {
                             check.check(player, level, event.getPos()).ifPresent(message -> {
-                                player.displayClientMessage(message, true);
+                                Compat.message(player, message, true);
                                 event.setCanceled(true);
                             });
                         }

@@ -85,8 +85,13 @@ public class CursorEntity extends C0deEntity {
     }
 
     /** Right-clicking a cursor with the debugging tool shows its properties and stack. */
+    //? if >=26.1 {
+    /*@Override
+    public InteractionResult interact(Player player, InteractionHand hand, net.minecraft.world.phys.Vec3 location) {
+    *///?} else {
     @Override
     public InteractionResult interact(Player player, InteractionHand hand) {
+    //?}
         if (!(player.getItemInHand(hand).getItem() instanceof DebugToolItem)) {
             return InteractionResult.PASS;
         }

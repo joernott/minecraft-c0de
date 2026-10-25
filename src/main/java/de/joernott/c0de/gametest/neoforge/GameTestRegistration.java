@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.function.Consumer;
-import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.gametest.framework.FunctionGameTestInstance;
@@ -67,7 +66,8 @@ public final class GameTestRegistration {
             }
         }
         modEventBus.addListener(RegisterGameTestsEvent.class, event -> {
-            Holder<TestEnvironmentDefinition> environment =
+            // The type of the holder has a type parameter since 26.1
+            var environment =
                     event.registerEnvironment(C0de.id("default"), new TestEnvironmentDefinition.AllOf(List.of()));
             for (Method method : tests) {
                 GameTest test = method.getAnnotation(GameTest.class);
