@@ -83,7 +83,8 @@ public class LabelBlockEntity extends PropertiesBlockEntity {
 
     @Override
     public String displayText() {
-        return name.substring(name.lastIndexOf('/') + 1);
+        // The index shows which element is meant, e.g. names[i] (task 11.11.5)
+        return name.substring(name.lastIndexOf('/') + 1) + index;
     }
 
     /** The name as used in the program: functions of libraries are called by their qualified names. */

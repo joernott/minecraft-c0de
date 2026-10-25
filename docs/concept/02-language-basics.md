@@ -138,7 +138,7 @@ A LABEL MAY also be the first block of a content line of a struct declaration or
 
 ### Minecraft block
 
-A LABEL block is a gray slab (color #AAAAAA) that shows the last part of its name (the part after the last slash) in black on its top. The index is not displayed on the block; all properties of a label can be inspected with the [debugging tool](14-items-and-tools.md#debugging-tool).
+A LABEL block is a gray slab (color #AAAAAA) that shows the last part of its name (the part after the last slash) and its index, e.g. `names[i]`, in black on its top; all properties of a label can be inspected with the [debugging tool](14-items-and-tools.md#debugging-tool).
 
 When a LABEL is placed, the game initializes its kind and parent properties from its position as far as possible.
 
