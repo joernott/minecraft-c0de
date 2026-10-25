@@ -278,9 +278,11 @@ A task is done when
 | 11.11.8 | Trigger property Run (Only me, Players, Mobs, Everyone): who may start it, identified by the button, lever or pressure plate touching it; restricted functions are fatal errors for processes started by players who are not administrators. | ✅ |
 | 11.11.9 | Disk drive block: the c0de disk carries a program; the drive saves it to the folder `.minecraft/c0de` of the client and loads programs from there onto the disk. Right-clicking a PROGRAM block copies its program onto the disk, right-clicking the start of an empty sheet builds it. | ✅ |
 | 11.11.10 | The COMMENT item reads // in the inventory; the wrench gives a sheet away on the floor that shows its information; the trigger dialog is read-only (greyed out) for players who may not change it; on NeoForge only the first development client gets Patchouli. | ✅ |
+| 11.11.11 | Trigger dialog: the camouflage slot below the configuration with its caption to the right, ✔ in the lower right corner, the messages in a box with a scroll bar. | ✅ |
 | 11.12 | Workflow `release.yml`, Modrinth project, changelog. |  |
 | 11.12.1 | `release.yml`, `publishMods` (Mod Publish Plugin 2.2.1, dry run without token) and `CHANGELOG.md`. | ✅ |
 | 11.12.2 | Modrinth project created, its ID in `publish.modrinth_id` and the secret `MODRINTH_TOKEN` (by the maintainer). | ✅ |
+| 11.12.3 | Logo: `docs/images/logo.png` (256 × 256, cropped from the picture of the maintainer) and `docs/images/logo.svg` (`scripts/generate_logo.py`), also the icon of the mod. | ✅ |
 | 11.13 | Release 0.1.0 (first alpha). |  |
 
 ## Sprint 12: Newer Minecraft versions

@@ -29,8 +29,9 @@ public class TriggerMenu extends AbstractContainerMenu {
     public static final int OUTPUT_Y = INPUT_Y + 3 * SLOT + 14;
     public static final int PLAYER_Y = OUTPUT_Y + 3 * SLOT + 14;
     public static final int HOTBAR_Y = PLAYER_Y + 3 * SLOT + 4;
-    public static final int CAMOUFLAGE_X = 186;
-    public static final int CAMOUFLAGE_Y = HOTBAR_Y;
+    /** The camouflage slot below the configuration, its caption to the right of it. */
+    public static final int CAMOUFLAGE_X = 183;
+    public static final int CAMOUFLAGE_Y = 112;
     private static final int CONTAINER_SLOTS = 2 * TriggerBlockEntity.INVENTORY_SIZE + 1;
 
     private final TriggerBlockEntity trigger;

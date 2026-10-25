@@ -16,6 +16,7 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
 
@@ -32,6 +33,11 @@ public class TriggerScreen extends AbstractContainerScreen<TriggerMenu> {
     private static final int SLOT_DARK = 0xFF373737;
     private static final int SLOT_LIGHT = 0xFFFFFFFF;
     private static final int SLOT_INSIDE = 0xFF8B8B8B;
+    /** The box of the messages: below the camouflage slot, above the save button. */
+    private static final int MESSAGES_Y = TriggerMenu.CAMOUFLAGE_Y + 24;
+    private static final int MESSAGES_WIDTH = PANEL_WIDTH - 6;
+    private static final int SCROLL_BAR = 4;
+    private static final int LINE_HEIGHT = 10;
 
     private final CompoundTag programs;
     private final boolean timer;
@@ -43,6 +49,8 @@ public class TriggerScreen extends AbstractContainerScreen<TriggerMenu> {
     private TriggerBlockEntity.Run run;
     private Button runButton;
     private Button save;
+    /** The first message line shown. */
+    private int scroll;
 
     public TriggerScreen(TriggerMenu menu, Inventory inventory, Component title) {
         super(menu, inventory, title);
@@ -95,7 +103,8 @@ public class TriggerScreen extends AbstractContainerScreen<TriggerMenu> {
                             new TriggerConfigPayload(menu.pos(), program, function, intervalValue(), run.name()));
                     onClose();
                 })
-                .bounds(leftPos + imageWidth - 26, topPos + 110, 20, 20)
+                // In the lower right corner
+                .bounds(leftPos + imageWidth - 26, topPos + imageHeight - 26, 20, 20)
                 .build());
         updateLabels();
     }
@@ -191,10 +200,16 @@ public class TriggerScreen extends AbstractContainerScreen<TriggerMenu> {
         graphics.drawString(
                 font,
                 Component.translatable("dialog.c0de.trigger.camouflage"),
-                PANEL_X + 2,
-                TriggerMenu.CAMOUFLAGE_Y - 11,
+                TriggerMenu.CAMOUFLAGE_X + 22,
+                TriggerMenu.CAMOUFLAGE_Y + 5,
                 dark,
                 false);
+    }
+
+    // ------------------------------------------------------------------ messages
+
+    /** The state of the block: PID or exit code, the error of the last process, the status and the owner. */
+    private List<Component> messages() {
         List<Component> state = new ArrayList<>();
         if (menu.pid() >= 0) {
             state.add(Component.translatable("dialog.c0de.trigger.pid", menu.pid()));
@@ -215,18 +230,74 @@ public class TriggerScreen extends AbstractContainerScreen<TriggerMenu> {
         if (!owner.isEmpty()) {
             state.add(Component.translatable("dialog.c0de.trigger.owner", owner));
         }
-        int y = 136;
-        for (Component line : state) {
-            for (var part : font.split(line, PANEL_WIDTH - 6)) {
-                graphics.drawString(font, part, PANEL_X + 2, y, dark, false);
-                y += 10;
-            }
+        return state;
+    }
+
+    /** The lines of the messages, wrapped to the width of the message box. */
+    private List<FormattedCharSequence> messageLines() {
+        List<FormattedCharSequence> lines = new ArrayList<>();
+        for (Component message : messages()) {
+            lines.addAll(font.split(message, MESSAGES_WIDTH - SCROLL_BAR - 4));
         }
+        return lines;
+    }
+
+    private int messagesLeft() {
+        return leftPos + PANEL_X + 2;
+    }
+
+    private int messagesTop() {
+        return topPos + MESSAGES_Y;
+    }
+
+    private int messagesHeight() {
+        return imageHeight - MESSAGES_Y - 30;
+    }
+
+    private int maxScroll(int lines) {
+        return Math.max(0, lines - messagesHeight() / LINE_HEIGHT);
+    }
+
+    /** The messages in a box with a scroll bar, so that long errors don't run over the other elements. */
+    private void renderMessages(GuiGraphics graphics) {
+        int left = messagesLeft();
+        int top = messagesTop();
+        int height = messagesHeight();
+        graphics.fill(left - 1, top - 1, left + MESSAGES_WIDTH + 1, top + height + 1, SLOT_DARK);
+        graphics.fill(left, top, left + MESSAGES_WIDTH, top + height, 0xFFDADADA);
+        List<FormattedCharSequence> lines = messageLines();
+        scroll = Math.min(scroll, maxScroll(lines.size()));
+        graphics.enableScissor(left, top, left + MESSAGES_WIDTH - SCROLL_BAR, top + height);
+        for (int i = scroll; i < lines.size(); i++) {
+            graphics.drawString(font, lines.get(i), left + 2, top + 2 + (i - scroll) * LINE_HEIGHT, 0xFF404040, false);
+        }
+        graphics.disableScissor();
+        int visible = height / LINE_HEIGHT;
+        if (lines.size() > visible) {
+            int barX = left + MESSAGES_WIDTH - SCROLL_BAR;
+            graphics.fill(barX, top, barX + SCROLL_BAR, top + height, SLOT_INSIDE);
+            int thumb = Math.max(6, height * visible / lines.size());
+            int thumbTop = top + (height - thumb) * scroll / Math.max(1, maxScroll(lines.size()));
+            graphics.fill(barX, thumbTop, barX + SCROLL_BAR, thumbTop + thumb, SLOT_DARK);
+        }
+    }
+
+    @Override
+    public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
+        if (mouseX >= messagesLeft()
+                && mouseX < messagesLeft() + MESSAGES_WIDTH
+                && mouseY >= messagesTop()
+                && mouseY < messagesTop() + messagesHeight()) {
+            scroll = Math.max(0, Math.min(maxScroll(messageLines().size()), scroll - (int) Math.signum(scrollY)));
+            return true;
+        }
+        return super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
     }
 
     @Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
         super.render(graphics, mouseX, mouseY, partialTick);
+        renderMessages(graphics);
         renderTooltip(graphics, mouseX, mouseY);
     }
 }

@@ -11,6 +11,7 @@ version = "${version}"
 authors = "${authors}"
 description = "${description}"
 displayURL = "${sources}"
+logoFile = "assets/c0de/icon.png"
 
 [[mixins]]
 config = "c0de.mixins.json"
