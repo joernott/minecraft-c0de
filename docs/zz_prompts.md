@@ -533,3 +533,7 @@ Also, I have created a "icon.png" image.  Please crop that to a 256x256 pixel im
 ## 2026-10-25 – Logo
 
 The logo svg does not look like the image. There are spaces between the columns
+
+## 2026-10-25 – Release
+
+The logo is fine, you can now implement 11.13
