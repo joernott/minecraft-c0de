@@ -76,14 +76,7 @@ public class DisplayRenderer extends C0deBlockEntityRenderer<DisplayBlockEntity>
     private static void renderCamouflage(
             BlockState state, Direction front, PoseStack pose, Canvas canvas, int light, int overlay) {
         //? if >=26.1 {
-        /*// The quads of the block models can't be filtered any more: the camouflage is slightly smaller instead, so
-        // that the front of the display stays in front of it
-        pose.pushPose();
-        pose.translate(0.5F, 0.5F, 0.5F);
-        pose.scale(0.995F, 0.995F, 0.995F);
-        pose.translate(-0.5F, -0.5F, -0.5F);
-        canvas.block(pose, state, light, overlay);
-        pose.popPose();
+        /*canvas.block(pose, state, front, light, overlay);
         *///?} else {
         Minecraft minecraft = Minecraft.getInstance();
         RandomSource random = RandomSource.create(42);
@@ -136,24 +129,17 @@ public class DisplayRenderer extends C0deBlockEntityRenderer<DisplayBlockEntity>
         float cellHeight = height / screen.height();
         float advance = Math.max(1, font.width(Component.literal("M").withStyle(STYLE)));
         int light = LightTexture.FULL_BRIGHT;
-        canvas.geometry(pose, Canvas.textBackground(), (last, matrix, background) -> {
-            for (int r = 0; r < screen.height(); r++) {
-                TextScreen.Row row = screen.rows().get(r);
-                float top = -r * cellHeight;
-                forEachRun(screen, row, (start, end) -> {
-                    int back = row.backgrounds()[start];
-                    if (back != 0) {
-                        float x0 = start * cellWidth;
-                        float x1 = end * cellWidth;
-                        int argb = color(back);
-                        background.addVertex(matrix, x0, top, -0.002F).setColor(argb).setLight(light);
-                        background.addVertex(matrix, x0, top - cellHeight, -0.002F).setColor(argb).setLight(light);
-                        background.addVertex(matrix, x1, top - cellHeight, -0.002F).setColor(argb).setLight(light);
-                        background.addVertex(matrix, x1, top, -0.002F).setColor(argb).setLight(light);
-                    }
-                });
-            }
-        });
+        for (int r = 0; r < screen.height(); r++) {
+            TextScreen.Row row = screen.rows().get(r);
+            float top = -r * cellHeight;
+            forEachRun(screen, row, (start, end) -> {
+                int back = row.backgrounds()[start];
+                if (back != 0) {
+                    canvas.textBackground(
+                            pose, start * cellWidth, top, end * cellWidth, top - cellHeight, color(back), light);
+                }
+            });
+        }
         for (int r = 0; r < screen.height(); r++) {
             TextScreen.Row row = screen.rows().get(r);
             float top = -r * cellHeight;

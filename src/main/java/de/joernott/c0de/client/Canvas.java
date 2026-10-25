@@ -29,6 +29,22 @@ public interface Canvas {
     /** A whole block, as placed in the world. */
     void block(PoseStack pose, BlockState state, int light, int overlay);
 
+    /** A block without its faces on one side (since 26.1; before, DisplayRenderer filters the quads itself). */
+    default void block(
+            PoseStack pose, BlockState state, net.minecraft.core.Direction hidden, int light, int overlay) {
+        throw new UnsupportedOperationException("blocks without faces are submitted");
+    }
+
+    /** A rectangle behind text, at z = -0.002 in the coordinates of the pose. */
+    default void textBackground(PoseStack pose, float x0, float y0, float x1, float y1, int color, int light) {
+        geometry(pose, textBackground(), (last, matrix, consumer) -> {
+            consumer.addVertex(matrix, x0, y0, -0.002F).setColor(color).setLight(light);
+            consumer.addVertex(matrix, x0, y1, -0.002F).setColor(color).setLight(light);
+            consumer.addVertex(matrix, x1, y1, -0.002F).setColor(color).setLight(light);
+            consumer.addVertex(matrix, x1, y0, -0.002F).setColor(color).setLight(light);
+        });
+    }
+
     /** Draws vertices. */
     @FunctionalInterface
     interface Geometry {
@@ -56,11 +72,10 @@ public interface Canvas {
         //?}
     }
 
-    /** The backgrounds of text. */
+    /** The backgrounds of text (before 26.3; since then the text renderer draws them). */
     static RenderType textBackground() {
         //? if >=26.3 {
-        /*// The render type of text backgrounds was removed; the backgrounds of the screens are fully lit anyway
-        return RenderTypes.debugQuads();
+        /*throw new UnsupportedOperationException("text backgrounds are submitted");
         *///?} elif >=1.21.11 {
         /*return RenderTypes.textBackground();
         *///?} else {
@@ -111,6 +126,85 @@ public interface Canvas {
                 ^///?} else {
                 collector.submitBlock(pose, state, light, overlay, 0);
                 //?}
+            }
+
+            //? if >=26.3 {
+            /^@Override
+            public void textBackground(
+                    PoseStack pose, float x0, float y0, float x1, float y1, int color, int light) {
+                pose.pushPose();
+                pose.translate(0, 0, -0.002F);
+                collector.submitTextBackground(pose, x0, y0, x1, y1, color, Font.DisplayMode.POLYGON_OFFSET, light);
+                pose.popPose();
+            }
+            ^///?}
+
+            //? if >=26.1 {
+            /^@Override
+            public void block(
+                    PoseStack pose, BlockState state, net.minecraft.core.Direction hidden, int light, int overlay) {
+                Minecraft minecraft = Minecraft.getInstance();
+                // The tints of the block come from its render state, the parts from its model
+                var tints = new net.minecraft.client.renderer.block.BlockModelRenderState();
+                new net.minecraft.client.renderer.block.BlockModelResolver(minecraft.getModelManager())
+                        .update(tints, state, BLOCK_CONTEXT);
+                var parts = new java.util.ArrayList<net.minecraft.client.renderer.block.dispatch.BlockStateModelPart>();
+                minecraft.getModelManager().getBlockStateModelSet().get(state)
+                        .collectParts(net.minecraft.util.RandomSource.create(42), parts);
+                boolean translucent = false;
+                for (int i = 0; i < parts.size(); i++) {
+                    translucent |= (parts.get(i).materialFlags() & 1) != 0;
+                    parts.set(i, without(parts.get(i), hidden));
+                }
+                collector.submitBlockModel(
+                        pose, blockSheet(translucent), parts, tints.tintLayers().toIntArray(), light, overlay, 0);
+            }
+            ^///?}
+        };
+    }
+    *///?}
+
+    //? if >=26.1 {
+    /*/^* The render type of blocks drawn by renderers. ^/
+    private static RenderType blockSheet(boolean translucent) {
+        //? if >=26.2 {
+        /^return translucent
+                ? net.minecraft.client.renderer.Sheets.translucentBlockItemSheet()
+                : net.minecraft.client.renderer.Sheets.cutoutBlockItemSheet();
+        ^///?} else {
+        return translucent
+                ? net.minecraft.client.renderer.Sheets.translucentBlockSheet()
+                : net.minecraft.client.renderer.Sheets.cutoutBlockSheet();
+        //?}
+    }
+
+    /^* A part of a block model without its faces on one side. ^/
+    private static net.minecraft.client.renderer.block.dispatch.BlockStateModelPart without(
+            net.minecraft.client.renderer.block.dispatch.BlockStateModelPart part, net.minecraft.core.Direction hidden) {
+        return new net.minecraft.client.renderer.block.dispatch.BlockStateModelPart() {
+            @Override
+            public java.util.List<net.minecraft.client.resources.model.geometry.BakedQuad> getQuads(
+                    net.minecraft.core.Direction side) {
+                if (side == hidden) {
+                    return java.util.List.of();
+                }
+                var quads = part.getQuads(side);
+                return side != null ? quads : quads.stream().filter(quad -> quad.direction() != hidden).toList();
+            }
+
+            @Override
+            public boolean useAmbientOcclusion() {
+                return part.useAmbientOcclusion();
+            }
+
+            @Override
+            public net.minecraft.client.resources.model.sprite.Material.Baked particleMaterial() {
+                return part.particleMaterial();
+            }
+
+            @Override
+            public int materialFlags() {
+                return part.materialFlags();
             }
         };
     }

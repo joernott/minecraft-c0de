@@ -575,3 +575,11 @@ Back to the requested Tests for 1.21.11
 The tests on 12.1 were done, I jut forgot to write them down here.
 Findings so far:
 - Upon entering the c0de dimension, the entire floor is black, the wrench in hand is black, too. It seems, there is no lighting. I've stopped testing there, as I could not find the beginning of sheet 0
+
+## 2026-10-25 – Tests of 26.3
+
+- The light level is fine now, a program was loaded and ran fine.
+- Blocks look OK, line numbers look OK
+- Display walls look OK, but depending on the angle, I can see a thin line of the camouflage when looking at the front of a display diagonally. However, when I run a program, I get no output on the display but it is fine on the laptop.
+- Terminal keys are working
+- The timer block dialogs are fine.
