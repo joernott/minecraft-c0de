@@ -89,7 +89,7 @@ public final class LibraryTests {
         trigger.input().setItem(3, variable("", "", ""));
         trigger.start();
         helper.assertTrue(trigger.isRunning(), "The process didn't start: " + trigger.status());
-        helper.runAfterDelay(40, () -> {
+        TestCompat.await(helper, () -> !trigger.isRunning(), () -> {
             try {
                 helper.assertTrue(!trigger.isRunning(), "The process is still running");
                 helper.assertTrue(trigger.exitCode() == 0, "Exit code " + trigger.exitCode() + " " + trigger.error());
@@ -141,7 +141,7 @@ public final class LibraryTests {
         }
         trigger.start();
         helper.assertTrue(trigger.isRunning(), "The process didn't start: " + trigger.status());
-        helper.runAfterDelay(40, () -> {
+        TestCompat.await(helper, () -> !trigger.isRunning(), () -> {
             try {
                 helper.assertTrue(!trigger.isRunning(), "The process is still running");
                 String denied = "";
@@ -197,7 +197,7 @@ public final class LibraryTests {
         trigger.configure(admin, "activators", "run", 20, TriggerBlockEntity.Run.PLAYERS);
         trigger.start(Activator.player(player));
         helper.assertTrue(trigger.isRunning(), "A player can't start a 'Players' trigger block: " + trigger.status());
-        helper.runAfterDelay(40, () -> {
+        TestCompat.await(helper, () -> !trigger.isRunning(), () -> {
             try {
                 helper.assertTrue(!trigger.isRunning(), "The process is still running");
                 helper.assertTrue(

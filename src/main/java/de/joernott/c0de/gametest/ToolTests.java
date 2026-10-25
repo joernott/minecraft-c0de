@@ -72,8 +72,7 @@ public final class ToolTests {
                     first.startsWith("PAUSED") && second.startsWith("PAUSED") && !first.equals(second),
                     "The cursor didn't step: " + first + ", " + second);
             processes.debug(level.getServer(), trigger.processId(), true);
-            // The tests running at the same time share the steps per tick, so the process may need more ticks
-            helper.runAfterDelay(60, () -> {
+            TestCompat.await(helper, () -> !trigger.isRunning(), () -> {
                 try {
                     helper.assertTrue(!trigger.isRunning(), "The running debug process didn't end");
                     ValueItem.Contents result = ValueItem.Contents.of(trigger.output().getItem(0));

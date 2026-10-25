@@ -42,7 +42,9 @@ public final class SettingsPack {
 
     private static Pack create() {
         int maxBuildHeight = C0de.config().get(C0deConfig.MAX_BUILD_HEIGHT);
-        //? if >=1.21.11 {
+        //? if >=26.1 {
+        /*String dimensionType = DimensionTypeJson.createWithAttributes(maxBuildHeight, true);
+        *///?} elif >=1.21.11 {
         /*String dimensionType = DimensionTypeJson.createWithAttributes(maxBuildHeight);
         *///?} else {
         String dimensionType = DimensionTypeJson.create(maxBuildHeight);

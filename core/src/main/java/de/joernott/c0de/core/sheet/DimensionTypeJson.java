@@ -48,7 +48,19 @@ public final class DimensionTypeJson {
      * blue of the biome; there are no clouds, sun, moon and stars.
      */
     public static String createWithAttributes(int maxBuildHeight) {
+        return createWithAttributes(maxBuildHeight, false);
+    }
+
+    /**
+     * The dimension type in the format of Minecraft 1.21.11 and later. Since 26.1, the ambient light of a dimension
+     * without sky light is the attribute {@code visual/ambient_light_color}, which is black by default (1.21.11
+     * doesn't know it): {@code ambientLightColor} adds it, as bright as the ambient light 0.5 before.
+     */
+    public static String createWithAttributes(int maxBuildHeight, boolean ambientLightColor) {
         int height = height(maxBuildHeight);
+        String ambient = ambientLightColor
+                ? "\n    \"minecraft:visual/ambient_light_color\": \"" + AMBIENT_LIGHT_COLOR + "\","
+                : "";
         return """
                 {
                   "coordinate_scale": 1.0,
@@ -64,7 +76,7 @@ public final class DimensionTypeJson {
                   "logical_height": %d,
                   "infiniburn": "#minecraft:infiniburn_overworld",
                   "skybox": "none",
-                  "attributes": {
+                  "attributes": {%s
                     "minecraft:visual/sky_color": "%s",
                     "minecraft:visual/fog_color": "%s",
                     "minecraft:gameplay/respawn_anchor_works": false,
@@ -75,8 +87,11 @@ public final class DimensionTypeJson {
                     }
                   }
                 }
-                """.formatted(SheetGeometry.MIN_Y, height, height, SKY_COLOR, SKY_COLOR);
+                """.formatted(SheetGeometry.MIN_Y, height, height, ambient, SKY_COLOR, SKY_COLOR);
     }
+
+    /** The ambient light since 26.1: as bright as the ambient light 0.5 of the older versions. */
+    public static final String AMBIENT_LIGHT_COLOR = "#808080";
 
     /** The blue of the sky and the fog, the colors of the biome c0de:greenbar. */
     public static final String SKY_COLOR = "#78a7ff";

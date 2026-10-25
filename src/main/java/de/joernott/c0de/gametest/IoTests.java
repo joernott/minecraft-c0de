@@ -62,7 +62,7 @@ public final class IoTests {
         trigger.configure(helper.makeMockServerPlayerInLevel(), "printing", "hello", 20);
         trigger.start();
         helper.assertTrue(trigger.isRunning(), "The process didn't start: " + trigger.status());
-        helper.runAfterDelay(30, () -> {
+        TestCompat.await(helper, () -> !trigger.isRunning(), () -> {
             try {
                 helper.assertTrue(!trigger.isRunning(), "The process is still running");
                 String first = origin.screen().rows().get(0).text();
@@ -125,7 +125,7 @@ public final class IoTests {
         trigger.configure(helper.makeMockServerPlayerInLevel(), "exchanging", "run", 20);
         trigger.start();
         helper.assertTrue(trigger.isRunning(), "The process didn't start: " + trigger.status());
-        helper.runAfterDelay(30, () -> {
+        TestCompat.await(helper, () -> io.input().isEmpty(), () -> {
             try {
                 helper.assertTrue(trigger.isRunning(), "WRITE didn't wait for an uninitialized variable item");
                 helper.assertTrue(io.input().isEmpty(), "INPUT didn't take the items");
@@ -135,7 +135,7 @@ public final class IoTests {
                 SheetValidation.validate(c0de, 526);
                 throw e;
             }
-            helper.runAfterDelay(20, () -> {
+            TestCompat.await(helper, () -> !trigger.isRunning(), () -> {
                 try {
                     helper.assertTrue(!trigger.isRunning(), "The process is still running");
                     String written = null;
@@ -198,7 +198,7 @@ public final class IoTests {
         trigger.configure(helper.makeMockServerPlayerInLevel(), "typing", "ask", 20);
         trigger.start();
         helper.assertTrue(trigger.isRunning(), "The process didn't start: " + trigger.status());
-        helper.runAfterDelay(10, () -> {
+        TestCompat.await(helper, () -> !terminal.prompt().isEmpty(), () -> {
             try {
                 helper.assertTrue(terminal.prompt().equals("count (INTEGER)"), "The prompt is " + terminal.prompt());
                 terminals.line(terminal, "many");
@@ -208,7 +208,7 @@ public final class IoTests {
                 SheetValidation.validate(c0de, 528);
                 throw e;
             }
-            helper.runAfterDelay(10, () -> {
+            TestCompat.await(helper, () -> !trigger.isRunning(), () -> {
                 try {
                     helper.assertTrue(!trigger.isRunning(), "The process is still running");
                     List<String> rows = terminal.screen().rows().stream().map(row -> row.text()).toList();

@@ -85,7 +85,7 @@ public final class ProcessTests {
         BlockPos pid = LevelSheet.pidPos(510, trigger.pid());
         helper.assertTrue(level.getBlockState(pid).is(C0deBlocks.PID_BLOCK.get()), "There is no PID block");
         helper.assertTrue(SheetProtection.isProtected(level, sheet.pos(5, 6)), "The sheet is not protected");
-        helper.runAfterDelay(40, () -> {
+        TestCompat.await(helper, () -> !trigger.isRunning(), () -> {
             try {
                 helper.assertTrue(!trigger.isRunning(), "The process is still running");
                 helper.assertTrue(trigger.exitCode() == Cursor.CRASH_EXIT_CODE, "Exit code " + trigger.exitCode());
@@ -135,7 +135,7 @@ public final class ProcessTests {
         helper.assertTrue(trigger.input().getItem(0).getCount() == 3, "Uninitialized items left: "
                 + trigger.input().getItem(0).getCount());
         helper.assertTrue(trigger.input().getItem(1).isEmpty(), "The spare item was not passed through");
-        helper.runAfterDelay(40, () -> {
+        TestCompat.await(helper, () -> !trigger.isRunning(), () -> {
             try {
                 helper.assertTrue(!trigger.isRunning(), "The process is still running");
                 String names = "";
@@ -181,8 +181,8 @@ public final class ProcessTests {
         first.input().setItem(1, variable("spare", "INTEGER", "3"));
         first.start();
         helper.assertTrue(first.isRunning(), "The process didn't start: " + first.status());
-        // The tests running at the same time share the steps per tick, so the process may need more ticks
-        helper.runAfterDelay(80, () -> {
+        // The output moves into the input of the next trigger block when the process ends
+        TestCompat.await(helper, () -> !first.isRunning() && filledSlots(second.input()) == 2, () -> {
             try {
                 helper.assertTrue(!first.isRunning(), "The process is still running");
                 helper.assertTrue(first.output().isEmpty(), "The output was not transferred");
@@ -231,7 +231,8 @@ public final class ProcessTests {
         first.input().setItem(1, variable("spare", "INTEGER", "3"));
         first.start();
         helper.assertTrue(first.isRunning(), "The process didn't start: " + first.status());
-        helper.runAfterDelay(80, () -> {
+        // Hoppers move one item every 8 ticks
+        TestCompat.await(helper, () -> !first.isRunning() && filledSlots(second.input()) == 2, () -> {
             try {
                 helper.assertTrue(!first.isRunning(), "The process is still running");
                 helper.assertTrue(first.output().isEmpty(), "The hopper didn't empty the output");
@@ -248,6 +249,15 @@ public final class ProcessTests {
             }
             helper.succeed();
         });
+    }
+
+    /** The number of slots of a container that hold items. */
+    private static int filledSlots(net.minecraft.world.Container container) {
+        int filled = 0;
+        for (int i = 0; i < container.getContainerSize(); i++) {
+            filled += container.getItem(i).isEmpty() ? 0 : 1;
+        }
+        return filled;
     }
 
     /** Shift-right-clicking the PID block with the debugging tool aborts the process (task 11.2.12). */
@@ -365,7 +375,7 @@ public final class ProcessTests {
         TriggerBlockEntity trigger = trigger(helper, "doubling", variable("value", "INTEGER", "21"));
         trigger.start();
         helper.assertTrue(trigger.isRunning(), "The process didn't start: " + trigger.status());
-        helper.runAfterDelay(40, () -> {
+        TestCompat.await(helper, () -> !trigger.isRunning(), () -> {
             try {
                 helper.assertTrue(trigger.exitCode() == 7, "Exit code " + trigger.exitCode());
                 helper.assertTrue(trigger.comparatorSignal() == 7, "Comparator " + trigger.comparatorSignal());

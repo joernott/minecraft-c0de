@@ -15,6 +15,27 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 final class TestCompat {
     private TestCompat() {}
 
+    /** The most ticks {@link #await} waits: less than the timeout of the tests (100 ticks). */
+    static final int MAX_WAIT = 90;
+
+    /**
+     * Runs the checks of a test as soon as the condition holds, at the latest after {@link #MAX_WAIT} ticks. The
+     * processes of all tests share a time budget per tick (setting {@code tickBudget}), so while many tests run at
+     * once, a process may need more ticks than usual.
+     */
+    static void await(GameTestHelper helper, java.util.function.BooleanSupplier condition, Runnable checks) {
+        await(helper, condition, checks, MAX_WAIT);
+    }
+
+    private static void await(
+            GameTestHelper helper, java.util.function.BooleanSupplier condition, Runnable checks, int ticksLeft) {
+        if (condition.getAsBoolean() || ticksLeft <= 0) {
+            checks.run();
+        } else {
+            helper.runAfterDelay(1, () -> await(helper, condition, checks, ticksLeft - 1));
+        }
+    }
+
     /** The block entity at a position relative to the test. */
     static BlockEntity blockEntity(GameTestHelper helper, BlockPos pos) {
         //? if >=1.21.5 {

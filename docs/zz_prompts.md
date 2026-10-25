@@ -569,3 +569,9 @@ Back to the requested Tests for 1.21.11
 3: Texts appear for both versions
 5: The cursor pulses and marked lines are highlighted for both versions
 6: The sky looks the same for both versions
+
+## 2026-10-25 – Lighting in the c0de dimension on 26.x
+
+The tests on 12.1 were done, I jut forgot to write them down here.
+Findings so far:
+- Upon entering the c0de dimension, the entire floor is black, the wrench in hand is black, too. It seems, there is no lighting. I've stopped testing there, as I could not find the beginning of sheet 0

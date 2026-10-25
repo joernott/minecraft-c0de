@@ -39,4 +39,12 @@ class DimensionTypeJsonTest {
         assertTrue(json.contains("\"skybox\": \"none\""), json);
         assertTrue(json.contains("\"minecraft:visual/fog_color\": \"#78a7ff\""), json);
     }
+
+    @Test
+    void ambientLightColorOnlyWhenRequested() {
+        String withColor = DimensionTypeJson.createWithAttributes(511, true);
+        assertTrue(withColor.contains("\"minecraft:visual/ambient_light_color\": \"#808080\","), withColor);
+        String without = DimensionTypeJson.createWithAttributes(511);
+        assertTrue(!without.contains("ambient_light_color"), without);
+    }
 }
