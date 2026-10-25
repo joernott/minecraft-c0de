@@ -271,7 +271,7 @@ A task is done when
 | 11.11.1 | Sheet owners: only the player who built on an empty sheet first and administrators can change it; administrator rights only count for programs on sheets of administrators. Patchouli on the test servers; a second development client (`runClient2` as Tester2; `runClient` as Tester1). | ✅ |
 | 11.11.2 | Administrators also become owners of the sheets they build on; the COMMENT item is turned like the other language block items. |  |
 | 11.11.3 | Redeploying the test servers backs up the saved programs and the operators and restores them. | ✅ |
-| 11.11.4 | Patchouli stays optional: development runs without it (`-Ppatchouli=false`) and a NeoForge test server without it. |  |
+| 11.11.4 | Patchouli stays optional: development runs without it (`-Ppatchouli=false`) and a NeoForge test server without it. | ✅ |
 | 11.11.5 | LABEL blocks show the index of the element they refer to. |  |
 | 11.11.6 | The debugging tool shows the owner of a sheet on PROGRAM and FUNCTION blocks and the owner of a process on PID blocks. |  |
 | 11.11.7 | The floor block at x=0, z=0 of a sheet shows its number, coordinates and owner; the wrench gives a sheet to another player (owners their own sheets, administrators every sheet). |  |

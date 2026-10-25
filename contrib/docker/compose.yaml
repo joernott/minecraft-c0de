@@ -51,6 +51,22 @@ services:
       - ./mods/1.21.1-neoforge:/mods:ro
       - neoforge-1.21.1:/data
 
+  # NeoForge without Patchouli (task 11.11.4): for clients started with -Ppatchouli=false; Patchouli on NeoForge
+  # requires its channels on both sides. Not started by the smoke test:
+  #   docker compose -f contrib/docker/compose.yaml up -d c0de-1.21.1-neoforge-plain
+  c0de-1.21.1-neoforge-plain:
+    <<: *server
+    environment:
+      <<: *environment
+      TYPE: NEOFORGE
+      NEOFORGE_VERSION: "21.1.264"
+    ports:
+      - "25567:25565"
+    volumes:
+      - ./mods/1.21.1-neoforge:/mods:ro
+      - neoforge-plain-1.21.1:/data
+
 volumes:
   fabric-1.21.1:
   neoforge-1.21.1:
+  neoforge-plain-1.21.1:

@@ -65,7 +65,10 @@ dependencies {
     // Players install the complete Fabric API, which fabric.mod.json requires. Development runs need it too.
     modLocalRuntime("net.fabricmc.fabric-api:fabric-api:${sc.properties.get<String>("deps.fabric_api")}")
     // Patchouli is optional: with it, the guide book of the mod can be crafted and read
-    modLocalRuntime("vazkii.patchouli:Patchouli:${sc.properties.get<String>("deps.patchouli")}-FABRIC")
+    // Development runs without Patchouli: -Ppatchouli=false (task 11.11.4)
+    if (providers.gradleProperty("patchouli").orNull != "false") {
+        modLocalRuntime("vazkii.patchouli:Patchouli:${sc.properties.get<String>("deps.patchouli")}-FABRIC")
+    }
 }
 
 loom {

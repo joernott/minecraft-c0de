@@ -21,7 +21,10 @@ repositories {
 
 dependencies {
     // Patchouli is optional: with it, the guide book of the mod can be crafted and read
-    runtimeOnly("vazkii.patchouli:Patchouli:${sc.properties.get<String>("deps.patchouli")}-NEOFORGE")
+    // Development runs without Patchouli: -Ppatchouli=false (task 11.11.4)
+    if (providers.gradleProperty("patchouli").orNull != "false") {
+        runtimeOnly("vazkii.patchouli:Patchouli:${sc.properties.get<String>("deps.patchouli")}-NEOFORGE")
+    }
     // Used by core (TO_YAML, FROM_YAML, FROM_JSON), embedded in the mod jar
     implementation("org.snakeyaml:snakeyaml-engine:3.2")
     jarJar("org.snakeyaml:snakeyaml-engine:[3.2,4.0)") {
