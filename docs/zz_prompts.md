@@ -537,3 +537,7 @@ The logo svg does not look like the image. There are spaces between the columns
 ## 2026-10-25 – Release
 
 The logo is fine, you can now implement 11.13
+
+## 2026-10-25 – Modrinth environment
+
+Please make sure, when modifying versions to modrinth, always set the environment to "client and server"

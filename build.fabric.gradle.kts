@@ -175,6 +175,8 @@ publishMods {
     modrinth {
         this.projectId = projectId
         accessToken = token
+        // c0de must be installed on clients and servers
+        environment = CLIENT_AND_SERVER
         minecraftVersions.addAll(sc.properties.get<String>("mod.mc_releases").split(",").map { it.trim() })
         requires("fabric-api")
         optional("patchouli")

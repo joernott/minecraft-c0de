@@ -143,7 +143,7 @@ All workflows use `actions/setup-java` (Temurin) and `gradle/actions/setup-gradl
 
 ### Releasing a version
 
-The jars are published with the [Mod Publish Plugin](https://modmuss50.github.io/mod-publish-plugin/) (`publishMods` in both build scripts): one Modrinth version per node, named `<mod.version>+<Minecraft version>-<loader>`, as alpha for 0.x versions, with Fabric API as required and Patchouli as optional dependency. Without the secret or the project ID, `./gradlew :<node>:publishMods` is a dry run that prints what it would publish.
+The jars are published with the [Mod Publish Plugin](https://modmuss50.github.io/mod-publish-plugin/) (`publishMods` in both build scripts): one Modrinth version per node, named `<mod.version>+<Minecraft version>-<loader>`, as alpha for 0.x versions, with the environment "client and server", Fabric API as required and Patchouli as optional dependency. Without the secret or the project ID, `./gradlew :<node>:publishMods` is a dry run that prints what it would publish.
 
   1. Once: create the Modrinth project (description from `docs/modrinth.md`, icon `docs/images/logo.png`, 256 × 256 pixels; the vector logo `docs/images/logo.svg` is written by `scripts/generate_logo.py`, the same picture is the icon of the mod in the mod lists), put its ID into `publish.modrinth_id` in `stonecutter.properties.toml` and store a Modrinth token with the scope to create versions as repository secret `MODRINTH_TOKEN`.
   2. Set `mod.version` in `stonecutter.properties.toml` and add the section `## <version>` to `CHANGELOG.md`; it becomes the changelog on Modrinth and the notes of the GitHub release.
