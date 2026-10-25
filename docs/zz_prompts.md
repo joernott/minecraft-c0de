@@ -553,3 +553,9 @@ I have added the mods JEI and jade to both 1.21.11 instances. The game crashes/f
 ## 2026-10-25 – Commands in the 1.21.11 worlds
 
 I ran into a freeze again and that disappeared when I disabled the mods. However, Tester1 does not seem to be an admin, so /give failed
+
+## 2026-10-25 – Freeze of the 1.21.11 client
+
+Even with all mods disabled and the world recreated, the fabric instanze freezes shortly after I enter the world and turn around. latest.log shows the logs for that last test.
+
+ok, it just froze
