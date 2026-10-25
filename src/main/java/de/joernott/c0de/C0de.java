@@ -52,6 +52,7 @@ public final class C0de {
         DiskService.register();
         SheetValidation.register();
         ProcessManager.register();
+        de.joernott.c0de.process.Activator.register();
         SheetProtection.register();
         de.joernott.c0de.sheet.SheetOwners.register();
         C0deDimension.register();

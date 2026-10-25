@@ -8,7 +8,7 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 
 /** The configuration a player chose in the dialog of a trigger block. */
-public record TriggerConfigPayload(BlockPos pos, String program, String function, int interval)
+public record TriggerConfigPayload(BlockPos pos, String program, String function, int interval, String run)
         implements CustomPacketPayload {
     public static final Type<TriggerConfigPayload> TYPE = new Type<>(C0de.id("trigger_config"));
 
@@ -21,6 +21,8 @@ public record TriggerConfigPayload(BlockPos pos, String program, String function
             TriggerConfigPayload::function,
             ByteBufCodecs.VAR_INT,
             TriggerConfigPayload::interval,
+            ByteBufCodecs.STRING_UTF8,
+            TriggerConfigPayload::run,
             TriggerConfigPayload::new);
 
     @Override

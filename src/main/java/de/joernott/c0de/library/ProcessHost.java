@@ -26,7 +26,8 @@ public record ProcessHost(
         UUID owner,
         String program,
         String function,
-        int pid)
+        int pid,
+        UUID activator)
         implements Console {
     /** The level of the trigger block, or null if it doesn't exist. */
     public ServerLevel level() {

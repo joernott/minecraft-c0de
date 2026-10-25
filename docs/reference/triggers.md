@@ -14,6 +14,8 @@ The trigger block starts a process when it gets a redstone pulse.
 
 Right-click it with an empty hand to open its dialog. Pick a program and a function. Put variable and constant items into the input inventory. Results land in the output inventory. Items the process doesn't use pass through to the output unchanged.
 
+The **Run** button decides who may start it: *Only me*, *Players*, *Mobs* or *Everyone*. The block knows who pressed a button or lever touching it, or who stands on a pressure plate next to it. Other redstone signals only start it with *Everyone*. Only you and administrators can change a trigger block you set up. If a player who is not an administrator starts it, functions that need more rights stop the program.
+
 A hopper above or beside it fills the input, a hopper below it empties the output. An adjacent trigger block gets the output in its input, so you can build chains. A comparator reads the exit code of the last process as signal strength.
 
 **Recipe**

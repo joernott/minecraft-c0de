@@ -117,6 +117,15 @@ public sealed interface Platform {
     /** Calls the listener when a player joins the server. */
     void onPlayerJoin(java.util.function.Consumer<ServerPlayer> listener);
 
+    /** Calls the listener on the server when a player right-clicks a block, before the block reacts. */
+    void onUseBlock(UseBlockListener listener);
+
+    /** A listener of players right-clicking blocks. */
+    @FunctionalInterface
+    interface UseBlockListener {
+        void used(ServerPlayer player, Level level, BlockPos pos);
+    }
+
     /** A handler of a player starting to break a block. */
     @FunctionalInterface
     interface AttackBlockHandler {
@@ -304,6 +313,16 @@ public sealed interface Platform {
         }
 
         @Override
+        public void onUseBlock(UseBlockListener listener) {
+            net.fabricmc.fabric.api.event.player.UseBlockCallback.EVENT.register((player, level, hand, hit) -> {
+                if (player instanceof ServerPlayer serverPlayer) {
+                    listener.used(serverPlayer, level, hit.getBlockPos());
+                }
+                return net.minecraft.world.InteractionResult.PASS;
+            });
+        }
+
+        @Override
         public void onPlayerJoin(java.util.function.Consumer<ServerPlayer> listener) {
             net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents.JOIN.register(
                     (connection, sender, server) -> listener.accept(connection.getPlayer()));
@@ -479,6 +498,16 @@ public sealed interface Platform {
                     net.neoforged.neoforge.event.entity.player.AttackEntityEvent.class, event -> {
                         if (handler.handle(event.getEntity(), event.getEntity().level(), event.getTarget())) {
                             event.setCanceled(true);
+                        }
+                    });
+        }
+
+        @Override
+        public void onUseBlock(UseBlockListener listener) {
+            net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
+                    net.neoforged.neoforge.event.entity.player.PlayerInteractEvent.RightClickBlock.class, event -> {
+                        if (event.getEntity() instanceof ServerPlayer player) {
+                            listener.used(player, event.getLevel(), event.getPos());
                         }
                     });
         }

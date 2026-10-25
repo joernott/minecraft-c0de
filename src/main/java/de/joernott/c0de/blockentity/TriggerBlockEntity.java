@@ -7,8 +7,10 @@ import de.joernott.c0de.dimension.C0deDimension;
 import de.joernott.c0de.item.ValueItem;
 import de.joernott.c0de.menu.TriggerMenu;
 import de.joernott.c0de.platform.Platform;
+import de.joernott.c0de.process.Activator;
 import de.joernott.c0de.process.ProcessManager;
 import de.joernott.c0de.sheet.ProgramRegistry;
+import de.joernott.c0de.sheet.SheetOwners;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -77,6 +79,7 @@ public class TriggerBlockEntity extends BlockEntity implements MenuProvider, Wor
 
     private UUID owner;
     private String ownerName = "";
+    private Run run = Run.EVERYONE;
     private String program = "";
     private String function = "";
     private int interval = 20;
@@ -89,6 +92,45 @@ public class TriggerBlockEntity extends BlockEntity implements MenuProvider, Wor
 
     public TriggerBlockEntity(BlockPos pos, BlockState state) {
         super(C0deBlockEntities.TRIGGER.get(), pos, state);
+    }
+
+    /**
+     * Who may start a trigger block or debug trigger block (task 11.11.8): the activator is the entity that
+     * pressed a button, switched a lever or stands on a pressure plate touching it ({@link Activator}). Each value
+     * allows everybody of the values before it. Timer blocks have no activator and ignore it.
+     */
+    public enum Run {
+        /** Only the owner. */
+        OWNER,
+        /** Any player. */
+        PLAYERS,
+        /** Players and mobs. */
+        MOBS,
+        /** Also redstone signals without activator. */
+        EVERYONE;
+
+        /** True if the activator may start the trigger block of the owner. */
+        public boolean allows(Activator activator, UUID owner) {
+            return switch (this) {
+                case OWNER -> activator.kind() == Activator.Kind.PLAYER && activator.player().equals(owner);
+                case PLAYERS -> activator.kind() == Activator.Kind.PLAYER;
+                case MOBS -> activator.kind() != Activator.Kind.NONE;
+                case EVERYONE -> true;
+            };
+        }
+
+        public static Run of(String name) {
+            for (Run value : values()) {
+                if (value.name().equals(name)) {
+                    return value;
+                }
+            }
+            return EVERYONE;
+        }
+    }
+
+    public Run run() {
+        return run;
     }
 
     private SimpleContainer container(int size) {
@@ -247,6 +289,7 @@ public class TriggerBlockEntity extends BlockEntity implements MenuProvider, Wor
         data.putString("program", program);
         data.putString("function", function);
         data.putInt("interval", interval);
+        data.putString("run", run.name());
         data.putString("owner", ownerName);
         data.putInt("exitCode", exitCode);
         data.put("error", error.copy());
@@ -277,14 +320,24 @@ public class TriggerBlockEntity extends BlockEntity implements MenuProvider, Wor
         return new TriggerMenu(id, inventory, this);
     }
 
+    /** Changes the configuration and keeps the Run property. */
+    public Optional<String> configure(ServerPlayer player, String newProgram, String newFunction, int newInterval) {
+        return configure(player, newProgram, newFunction, newInterval, run);
+    }
+
     /**
-     * Changes the configuration. The player who configures the block becomes its owner.
+     * Changes the configuration. The player who configures the block becomes its owner; a block that has an owner
+     * can only be configured by the owner and administrators.
      *
      * @return the reason if the configuration can't be changed
      */
-    public Optional<String> configure(ServerPlayer player, String newProgram, String newFunction, int newInterval) {
+    public Optional<String> configure(
+            ServerPlayer player, String newProgram, String newFunction, int newInterval, Run newRun) {
         if (isRunning()) {
             return Optional.of("A process is running");
+        }
+        if (owner != null && !owner.equals(player.getUUID()) && !player.hasPermissions(SheetOwners.ADMIN_LEVEL)) {
+            return Optional.of("Only " + ownerName + " and administrators can change this block");
         }
         if (newInterval < MIN_INTERVAL || newInterval > MAX_INTERVAL) {
             return Optional.of("The interval must be between " + MIN_INTERVAL + " and " + MAX_INTERVAL + " ticks");
@@ -292,6 +345,7 @@ public class TriggerBlockEntity extends BlockEntity implements MenuProvider, Wor
         program = newProgram;
         function = newFunction;
         interval = newInterval;
+        run = newRun;
         countdown = interval;
         owner = player.getUUID();
         ownerName = player.getGameProfile().getName();
@@ -302,9 +356,14 @@ public class TriggerBlockEntity extends BlockEntity implements MenuProvider, Wor
 
     // ------------------------------------------------------------------------------------------ processes
 
-    /** Starts a process, if all preconditions are met; otherwise the reason is stored as status. */
+    /** Starts a process without activator, if all preconditions are met; otherwise the reason is stored as status. */
     public void start() {
-        start(false);
+        start(Activator.NONE, false);
+    }
+
+    /** Starts a process for an activator, if the Run property allows it (redstone signal). */
+    public void start(Activator activator) {
+        start(activator, false);
     }
 
     /**
@@ -313,15 +372,30 @@ public class TriggerBlockEntity extends BlockEntity implements MenuProvider, Wor
      * @return the reason if the process didn't start
      */
     public Optional<String> startDebug() {
-        start(true);
+        return startDebug(Activator.NONE);
+    }
+
+    /** Starts a process with a debug cursor for the player who clicked the debug trigger block. */
+    public Optional<String> startDebug(Activator activator) {
+        start(activator, true);
         return status.isEmpty() ? Optional.empty() : Optional.of(status);
     }
 
-    private void start(boolean debug) {
+    private void start(Activator activator, boolean debug) {
         if (!(level instanceof ServerLevel serverLevel)) {
             return;
         }
-        Optional<String> problem = ProcessManager.get(serverLevel.getServer()).start(serverLevel, this, debug);
+        if (kind() != TriggerBlock.Kind.TIMER && !run.allows(activator, owner)) {
+            status = "Not started: " + switch (run) {
+                case OWNER -> "only " + ownerName + " may start it";
+                case PLAYERS -> "only players may start it";
+                default -> "only players and mobs may start it";
+            };
+            changed();
+            return;
+        }
+        Optional<String> problem =
+                ProcessManager.get(serverLevel.getServer()).start(serverLevel, this, debug, activator);
         status = problem.orElse("");
         changed();
     }
@@ -481,6 +555,7 @@ public class TriggerBlockEntity extends BlockEntity implements MenuProvider, Wor
             tag.putUUID("owner", owner);
         }
         tag.putString("ownerName", ownerName);
+        tag.putString("run", run.name());
         tag.putString("program", program);
         tag.putString("function", function);
         tag.putInt("interval", interval);
@@ -505,6 +580,7 @@ public class TriggerBlockEntity extends BlockEntity implements MenuProvider, Wor
         super.loadAdditional(tag, registries);
         owner = tag.hasUUID("owner") ? tag.getUUID("owner") : null;
         ownerName = tag.getString("ownerName");
+        run = Run.of(tag.getString("run"));
         program = tag.getString("program");
         function = tag.getString("function");
         interval = tag.contains("interval") ? tag.getInt("interval") : 20;

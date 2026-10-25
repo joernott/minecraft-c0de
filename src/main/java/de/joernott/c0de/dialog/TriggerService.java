@@ -33,6 +33,11 @@ public final class TriggerService {
         if (!(player.serverLevel().getBlockEntity(payload.pos()) instanceof TriggerBlockEntity trigger)) {
             return Optional.of("The block is not a trigger block");
         }
-        return trigger.configure(player, payload.program(), payload.function(), payload.interval());
+        return trigger.configure(
+                player,
+                payload.program(),
+                payload.function(),
+                payload.interval(),
+                TriggerBlockEntity.Run.of(payload.run()));
     }
 }

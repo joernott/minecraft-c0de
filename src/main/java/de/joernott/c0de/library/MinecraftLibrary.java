@@ -361,9 +361,28 @@ public final class MinecraftLibrary implements Library {
         return profile.map(p -> server.getProfilePermissions(p) >= 2).orElse(false);
     }
 
-    /** Raises PERMISSION_DENIED unless the group of the function is allowed or the owner is an administrator. */
+    /**
+     * True if a player who is not an administrator started the process (task 11.11.8): restricted functions are
+     * fatal errors for them, whatever the rights of the owner of the trigger block are.
+     */
+    private static boolean startedByNonAdministrator(ProcessHost host) {
+        return host.activator() != null && !isAdministrator(host.server(), host.activator());
+    }
+
+    /**
+     * Raises PERMISSION_DENIED unless the group of the function is allowed or the owner is an administrator. If a
+     * player who is not an administrator started the process, the process crashes instead.
+     */
     private static void requirePermission(NativeCall call, C0deConfig.BooleanSetting setting) {
-        if (!C0de.config().get(setting) && !isAdministrator(host(call))) {
+        if (C0de.config().get(setting)) {
+            return;
+        }
+        if (startedByNonAdministrator(host(call))) {
+            throw C0deException.crash(
+                    ErrorCode.PERMISSION_DENIED,
+                    "A player who is not an administrator started the process (" + setting.key() + ")");
+        }
+        if (!isAdministrator(host(call))) {
             throw C0deException.of(
                     ErrorCode.PERMISSION_DENIED,
                     "The owner of the trigger block may not use this function (" + setting.key() + ")");
@@ -683,6 +702,10 @@ public final class MinecraftLibrary implements Library {
         }
         if (entity == null) {
             throw invalid("No loaded entity has the UUID " + uuid);
+        }
+        if (entity instanceof ServerPlayer && startedByNonAdministrator(host)) {
+            throw C0deException.crash(
+                    ErrorCode.PERMISSION_DENIED, "A player who is not an administrator started the process");
         }
         if (entity instanceof ServerPlayer && !isAdministrator(host)) {
             throw C0deException.of(ErrorCode.PERMISSION_DENIED, "Only administrators can teleport players");

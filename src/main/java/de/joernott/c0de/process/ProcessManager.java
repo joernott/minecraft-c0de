@@ -179,6 +179,12 @@ public class ProcessManager extends SavedData {
      * @return the reason if the process can't be started
      */
     public Optional<String> start(ServerLevel triggerLevel, TriggerBlockEntity trigger, boolean debug) {
+        return start(triggerLevel, trigger, debug, Activator.NONE);
+    }
+
+    /** Starts a process for an activator: a player who isn't an administrator can't use restricted functions. */
+    public Optional<String> start(
+            ServerLevel triggerLevel, TriggerBlockEntity trigger, boolean debug, Activator activator) {
         MinecraftServer server = triggerLevel.getServer();
         ServerLevel c0de = server.getLevel(C0deDimension.LEVEL);
         if (trigger.isRunning()) {
@@ -235,7 +241,8 @@ public class ProcessManager extends SavedData {
                 trigger.owner(),
                 trigger.program(),
                 trigger.function(),
-                pid);
+                pid,
+                activator.player());
         CursorSettings settings = settings(c0de.getRandom().nextLong(), host);
         Cursor cursor = new Cursor(program, trigger.function(), inputs, settings);
         if (debug) {
@@ -782,6 +789,9 @@ public class ProcessManager extends SavedData {
         tag.putString("function", process.function());
         if (process.owner() != null) {
             tag.putUUID("owner", process.owner());
+            if (process.cursor().settings().host() instanceof ProcessHost host && host.activator() != null) {
+                tag.putUUID("activator", host.activator());
+            }
         }
         tag.putString("triggerLevel", process.triggerLevel().location().toString());
         tag.putLong("triggerPos", process.triggerPos().asLong());
@@ -824,7 +834,8 @@ public class ProcessManager extends SavedData {
                         tag.hasUUID("owner") ? tag.getUUID("owner") : null,
                         tag.getString("program"),
                         function,
-                        tag.getInt("pid"));
+                        tag.getInt("pid"),
+                        tag.hasUUID("activator") ? tag.getUUID("activator") : null);
                 Map<String, Object> data = (Map<String, Object>) SnapshotNbt.fromNbt(tag.get("cursor"));
                 // The random number generator continues from the snapshot, so the seed doesn't matter here
                 Cursor cursor = CursorSnapshot.restore(data, program, settings(0, host));

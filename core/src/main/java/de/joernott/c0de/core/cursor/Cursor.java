@@ -105,6 +105,11 @@ public final class Cursor {
         return state;
     }
 
+    /** The settings the cursor was created with, e.g. the host of the mod. */
+    public CursorSettings settings() {
+        return settings;
+    }
+
     /** The z coordinate of the line the cursor is at (the next line it processes). */
     public int line() {
         return line;

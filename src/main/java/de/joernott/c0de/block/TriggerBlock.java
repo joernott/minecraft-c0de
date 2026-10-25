@@ -1,6 +1,7 @@
 package de.joernott.c0de.block;
 
 import de.joernott.c0de.blockentity.TriggerBlockEntity;
+import de.joernott.c0de.process.Activator;
 import de.joernott.c0de.core.sheet.SheetGeometry;
 import de.joernott.c0de.dimension.C0deDimension;
 import de.joernott.c0de.item.WrenchItem;
@@ -130,7 +131,7 @@ public class TriggerBlock extends Block implements EntityBlock {
                 && kind == Kind.TRIGGER
                 && level instanceof ServerLevel
                 && level.getBlockEntity(pos) instanceof TriggerBlockEntity trigger) {
-            trigger.start();
+            trigger.start(Activator.find((ServerLevel) level, pos));
         }
     }
 

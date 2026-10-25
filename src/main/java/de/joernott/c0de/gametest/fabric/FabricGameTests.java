@@ -138,6 +138,11 @@ public class FabricGameTests implements FabricGameTest {
     }
 
     @GameTest(template = SmokeTests.EMPTY_STRUCTURE)
+    public void triggersRunForTheRightActivators(GameTestHelper helper) {
+        LibraryTests.triggersRunForTheRightActivators(helper);
+    }
+
+    @GameTest(template = SmokeTests.EMPTY_STRUCTURE)
     public void ioBlocksExchangeItems(GameTestHelper helper) {
         IoTests.ioBlocksExchangeItems(helper);
     }

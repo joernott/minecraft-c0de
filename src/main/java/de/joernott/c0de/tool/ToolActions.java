@@ -19,6 +19,7 @@ import de.joernott.c0de.item.WrenchItem;
 import de.joernott.c0de.library.ModLibraries;
 import de.joernott.c0de.network.ToolPayload;
 import de.joernott.c0de.platform.Platform;
+import de.joernott.c0de.process.Activator;
 import de.joernott.c0de.process.ProcessManager;
 import de.joernott.c0de.sheet.LevelSheet;
 import de.joernott.c0de.sheet.SheetEditor;
@@ -207,7 +208,7 @@ public final class ToolActions {
             if (level.getBlockState(pos).getBlock() instanceof TriggerBlock block
                     && block.kind() == TriggerBlock.Kind.DEBUG
                     && level.getBlockEntity(pos) instanceof TriggerBlockEntity trigger) {
-                trigger.startDebug()
+                trigger.startDebug(Activator.player(player))
                         .ifPresentOrElse(
                                 problem -> message(player, "message.c0de.not_started", problem),
                                 () -> message(player, "message.c0de.debug_started", trigger.pid()));

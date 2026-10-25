@@ -40,6 +40,8 @@ public class TriggerScreen extends AbstractContainerScreen<TriggerMenu> {
     private Button programButton;
     private Button functionButton;
     private EditBox interval;
+    private TriggerBlockEntity.Run run;
+    private Button runButton;
     private Button save;
 
     public TriggerScreen(TriggerMenu menu, Inventory inventory, Component title) {
@@ -49,6 +51,7 @@ public class TriggerScreen extends AbstractContainerScreen<TriggerMenu> {
         timer = TriggerBlock.Kind.TIMER.name().equals(data.getString("kind"));
         program = data.getString("program");
         function = data.getString("function");
+        run = TriggerBlockEntity.Run.of(data.getString("run"));
         imageWidth = PANEL_X + PANEL_WIDTH;
         imageHeight = TriggerMenu.HOTBAR_Y + 24;
         inventoryLabelY = TriggerMenu.PLAYER_Y - 11;
@@ -77,10 +80,19 @@ public class TriggerScreen extends AbstractContainerScreen<TriggerMenu> {
                     new EditBox(font, x, topPos + 86, PANEL_WIDTH - 6, 18, Component.empty()));
             interval.setValue(Integer.toString(menu.data().getInt("interval")));
             interval.setFilter(text -> text.matches("\\d{0,5}"));
+        } else {
+            // Who may start the block (task 11.11.8); timer blocks start themselves
+            runButton = addRenderableWidget(Button.builder(Component.empty(), button -> {
+                        TriggerBlockEntity.Run[] values = TriggerBlockEntity.Run.values();
+                        run = values[(run.ordinal() + 1) % values.length];
+                        updateLabels();
+                    })
+                    .bounds(x, topPos + 86, PANEL_WIDTH - 6, 20)
+                    .build());
         }
         save = addRenderableWidget(Button.builder(Component.literal("✔").withStyle(ChatFormatting.GREEN), button -> {
                     Platform.INSTANCE.sendToServer(
-                            new TriggerConfigPayload(menu.pos(), program, function, intervalValue()));
+                            new TriggerConfigPayload(menu.pos(), program, function, intervalValue(), run.name()));
                     onClose();
                 })
                 .bounds(leftPos + imageWidth - 26, topPos + 110, 20, 20)
@@ -119,6 +131,9 @@ public class TriggerScreen extends AbstractContainerScreen<TriggerMenu> {
     private void updateLabels() {
         programButton.setMessage(Component.literal(program.isEmpty() ? "–" : program));
         functionButton.setMessage(Component.literal(function.isEmpty() ? "–" : function));
+        if (runButton != null) {
+            runButton.setMessage(Component.translatable("dialog.c0de.trigger.run." + run.name().toLowerCase(java.util.Locale.ROOT)));
+        }
     }
 
     @Override
@@ -130,6 +145,9 @@ public class TriggerScreen extends AbstractContainerScreen<TriggerMenu> {
         functionButton.active = !running && !program.isEmpty();
         if (interval != null) {
             interval.setEditable(!running);
+        }
+        if (runButton != null) {
+            runButton.active = !running;
         }
         int value = interval == null || interval.getValue().isEmpty() ? 1 : Integer.parseInt(interval.getValue());
         save.active = !running
@@ -161,6 +179,8 @@ public class TriggerScreen extends AbstractContainerScreen<TriggerMenu> {
         graphics.drawString(font, Component.translatable("dialog.c0de.trigger.function"), PANEL_X + 2, 42, dark, false);
         if (timer) {
             graphics.drawString(font, Component.translatable("dialog.c0de.trigger.interval"), PANEL_X + 2, 76, dark, false);
+        } else {
+            graphics.drawString(font, Component.translatable("dialog.c0de.trigger.run"), PANEL_X + 2, 76, dark, false);
         }
         graphics.drawString(
                 font,

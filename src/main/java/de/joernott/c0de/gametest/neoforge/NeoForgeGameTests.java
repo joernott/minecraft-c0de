@@ -142,6 +142,11 @@ public class NeoForgeGameTests {
     }
 
     @GameTest(template = "empty")
+    public static void triggersRunForTheRightActivators(GameTestHelper helper) {
+        LibraryTests.triggersRunForTheRightActivators(helper);
+    }
+
+    @GameTest(template = "empty")
     public static void ioBlocksExchangeItems(GameTestHelper helper) {
         IoTests.ioBlocksExchangeItems(helper);
     }
