@@ -13,7 +13,7 @@ Shift-right-clicking a PID block with the debugging tool aborts its process: the
 It is used to
   - start a process with a debug trigger block (by attacking the block),
   - control a debug cursor and inspect cursors (see [Movement](15-cursor.md#movement)),
-  - inspect blocks: right-clicking any c0de block with the debugging tool opens a read-only dialog that shows all properties of the block, e.g. the kind, parent, name and index of a LABEL, the type and value of a LITERAL or the PID and trigger coordinates of a PID block.
+  - inspect blocks: right-clicking any c0de block with the debugging tool opens a read-only dialog that shows all properties of the block, e.g. the kind, parent, name and index of a LABEL, the type and value of a LITERAL or the PID, trigger coordinates and owner of the process of a PID block. PROGRAM and FUNCTION blocks also show the owner of their sheet, trigger blocks their owner.
 
 ### Crafting
 

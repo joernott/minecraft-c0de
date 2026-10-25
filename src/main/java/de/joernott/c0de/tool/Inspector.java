@@ -10,6 +10,7 @@ import de.joernott.c0de.blockentity.OperatorBlockEntity;
 import de.joernott.c0de.blockentity.PidBlockEntity;
 import de.joernott.c0de.blockentity.TagBlockEntity;
 import de.joernott.c0de.blockentity.TriggerBlockEntity;
+import de.joernott.c0de.content.CodeBlockType;
 import de.joernott.c0de.core.sheet.SheetGeometry;
 import de.joernott.c0de.core.validation.Validation;
 import de.joernott.c0de.core.validation.Validator;
@@ -19,6 +20,7 @@ import de.joernott.c0de.network.OpenDialogPayload;
 import de.joernott.c0de.platform.Platform;
 import de.joernott.c0de.process.ProcessManager;
 import de.joernott.c0de.sheet.LevelSheet;
+import de.joernott.c0de.sheet.SheetOwners;
 import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.core.BlockPos;
@@ -84,10 +86,14 @@ public final class Inspector {
             case PidBlockEntity pid -> {
                 lines.add("PID: " + pid.pid());
                 lines.add("trigger: " + pid.trigger());
+                ProcessManager.get(player.server)
+                        .owner(LevelSheet.sheetOf(pos), pid.pid())
+                        .ifPresent(owner -> lines.add("owner: " + playerName(player.server, owner)));
             }
             case TriggerBlockEntity trigger -> {
                 lines.add("program: " + trigger.program());
                 lines.add("function: " + trigger.function());
+                lines.add("owner: " + (trigger.ownerName().isEmpty() ? "-" : trigger.ownerName()));
                 lines.add("PID: " + (trigger.isRunning() ? trigger.pid() : "-"));
                 lines.add("exit code: " + (trigger.exitCode() < 0 ? "-" : trigger.exitCode()));
                 if (!trigger.status().isEmpty()) {
@@ -100,6 +106,15 @@ public final class Inspector {
                 }
             }
         }
+        // PROGRAM and FUNCTION show who owns the sheet (task 11.11.6)
+        if (block instanceof CodeBlock code
+                && (code.type() == CodeBlockType.PROGRAM || code.type() == CodeBlockType.FUNCTION)
+                && LevelSheet.isOnSheet(level, pos)) {
+            lines.add("owner of the sheet: " + SheetOwners.get(level)
+                    .owner(LevelSheet.sheetOf(pos))
+                    .map(SheetOwners.Owner::name)
+                    .orElse("nobody"));
+        }
         if (block instanceof CodeBlock && LevelSheet.isOnSheet(level, pos) && pos.getY() == SheetGeometry.CODE_Y) {
             lines.add(validation(level, pos));
         }
@@ -108,6 +123,17 @@ public final class Inspector {
         data.put("lines", strings(lines));
         Platform.INSTANCE.sendToPlayer(player, new OpenDialogPayload(pos, "inspect", true, data));
         return true;
+    }
+
+    /** The name of a player, online or known to the server, or the UUID. */
+    private static String playerName(net.minecraft.server.MinecraftServer server, java.util.UUID id) {
+        net.minecraft.server.level.ServerPlayer online = server.getPlayerList().getPlayer(id);
+        if (online != null) {
+            return online.getGameProfile().getName();
+        }
+        return server.getProfileCache() == null
+                ? id.toString()
+                : server.getProfileCache().get(id).map(profile -> profile.getName()).orElse(id.toString());
     }
 
     /** The validation result of the line of a block. */

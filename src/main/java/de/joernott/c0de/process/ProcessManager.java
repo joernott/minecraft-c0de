@@ -149,6 +149,15 @@ public class ProcessManager extends SavedData {
                 .toList();
     }
 
+    /** The owner of a process: the owner of its trigger block when it was started. */
+    public Optional<UUID> owner(int sheet, int pid) {
+        return processes.values().stream()
+                .filter(process -> process.sheet() == sheet && process.pid() == pid)
+                .map(Process::owner)
+                .filter(java.util.Objects::nonNull)
+                .findFirst();
+    }
+
     /** The name of the program on a sheet with running processes. */
     public Optional<String> program(int sheet) {
         return processes.values().stream()

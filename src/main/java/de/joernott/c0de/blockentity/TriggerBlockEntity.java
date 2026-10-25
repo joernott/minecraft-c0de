@@ -190,6 +190,11 @@ public class TriggerBlockEntity extends BlockEntity implements MenuProvider, Wor
         return held;
     }
 
+    /** The name of the owner, as it was when they configured the trigger block. */
+    public String ownerName() {
+        return ownerName;
+    }
+
     public UUID owner() {
         return owner;
     }
