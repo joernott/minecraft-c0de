@@ -583,3 +583,7 @@ Findings so far:
 - Display walls look OK, but depending on the angle, I can see a thin line of the camouflage when looking at the front of a display diagonally. However, when I run a program, I get no output on the display but it is fine on the laptop.
 - Terminal keys are working
 - The timer block dialogs are fine.
+
+## 2026-10-25 – Displays on 26.3
+
+The text now shows on the display and the line is gone.
