@@ -37,7 +37,7 @@ final class SheetBuilder {
         this.level = level;
         this.sheet = sheet;
         // The mock players of earlier runs, which may have claimed the sheet, don't exist any more
-        SheetOwners.get(level).release(sheet);
+        SheetOwners.get(level).release(level.getServer(), sheet);
         int chunkX = SheetGeometry.absoluteX(sheet, 0) >> 4;
         for (int chunkZ = 0; chunkZ < 3; chunkZ++) {
             for (ChunkPos chunk : List.of(new ChunkPos(chunkX, chunkZ), new ChunkPos(chunkX + 1, chunkZ))) {

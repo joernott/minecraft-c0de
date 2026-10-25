@@ -2,6 +2,7 @@ package de.joernott.c0de.item;
 
 import de.joernott.c0de.block.TriggerBlock;
 import de.joernott.c0de.dimension.C0deDimension;
+import de.joernott.c0de.sheet.SheetOwners;
 import de.joernott.c0de.tool.ToolActions;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
@@ -29,6 +30,13 @@ public class WrenchItem extends Item {
         if (level.getBlockState(pos).getBlock() instanceof TriggerBlock) {
             if (context.getPlayer() instanceof ServerPlayer player) {
                 C0deDimension.enter(player, pos);
+            }
+            return InteractionResult.sidedSuccess(level.isClientSide());
+        }
+        if (SheetOwners.isCorner(level, pos)) {
+            // The corner of a sheet: give the sheet to another player (task 11.11.7)
+            if (context.getPlayer() instanceof ServerPlayer player) {
+                SheetOwners.openGive(player, pos);
             }
             return InteractionResult.sidedSuccess(level.isClientSide());
         }

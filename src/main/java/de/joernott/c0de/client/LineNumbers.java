@@ -9,6 +9,7 @@ import de.joernott.c0de.content.CodeBlockType;
 import de.joernott.c0de.core.sheet.SheetGeometry;
 import de.joernott.c0de.dimension.C0deDimension;
 import de.joernott.c0de.sheet.LevelSheet;
+import java.util.List;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -16,6 +17,7 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
@@ -23,7 +25,8 @@ import net.minecraft.world.phys.Vec3;
  * The line numbers on the floor of the sheets (task 11.3): every line with content shows its number at x=2. The
  * color shows the state of the line, which the validation stores in the block states of the code blocks:
  * a faint shade of the floor for NOOP and COMMENT lines, dark green for a correct line, dark yellow for an
- * incomplete statement and dark red for a wrong line.
+ * incomplete statement and dark red for a wrong line. North of the corner of every sheet (x=0, z=0), the floor
+ * shows the number of the sheet, its coordinates and its owner (task 11.11.7).
  */
 public final class LineNumbers {
     /** The distance from the camera in blocks up to which line numbers are drawn. */
@@ -36,6 +39,9 @@ public final class LineNumbers {
     /** Faint shades of the floor: black on the white lines (the holes of the tractor feed), light green. */
     private static final int NEUTRAL_ON_BLACK = 0xFF2A2A2A;
     private static final int NEUTRAL_ON_GREEN = 0xFFB4CCB9;
+    /** The sheet information: light gray on the black floor, lines half a block high. */
+    private static final int INFO_COLOR = 0xFFC0C0C0;
+    private static final float INFO_LINE = 0.5F;
 
     private static final MultiBufferSource.BufferSource BUFFERS =
             MultiBufferSource.immediate(new ByteBufferBuilder(4096));
@@ -84,8 +90,47 @@ public final class LineNumbers {
                         LevelRenderer.getLightColor(level, floor.above()));
                 pose.popPose();
             }
+            if (cameraZ <= RANGE) {
+                renderInfo(level, sheet, pose, font, position);
+            }
         }
         BUFFERS.endBatch();
+    }
+
+    /** The number, coordinates and owner of a sheet, lying on the black floor north of its corner. */
+    private static void renderInfo(ClientLevel level, int sheet, PoseStack pose, Font font, Vec3 position) {
+        String owner = ClientSheets.owner(sheet);
+        List<Component> lines = List.of(
+                Component.translatable("sheet.c0de.info.sheet", sheet),
+                Component.literal("x " + SheetGeometry.absoluteX(sheet, 0) + ", z 0"),
+                owner == null
+                        ? Component.translatable("sheet.c0de.info.nobody")
+                        : Component.translatable("sheet.c0de.info.owner", owner));
+        BlockPos corner = new BlockPos(SheetGeometry.absoluteX(sheet, 0), SheetGeometry.FLOOR_Y, 0);
+        float scale = INFO_LINE * 0.8F / font.lineHeight;
+        int light = LevelRenderer.getLightColor(level, corner.above());
+        for (int i = 0; i < lines.size(); i++) {
+            pose.pushPose();
+            // Readable from the south; the last line ends at the north edge of the corner
+            pose.translate(
+                    corner.getX() + 0.1 - position.x,
+                    corner.getY() + 1.001 - position.y,
+                    corner.getZ() - (lines.size() - i) * INFO_LINE + 0.05 - position.z);
+            pose.mulPose(Axis.XP.rotationDegrees(-90));
+            pose.scale(scale, -scale, scale);
+            font.drawInBatch(
+                    lines.get(i),
+                    0,
+                    0,
+                    INFO_COLOR,
+                    false,
+                    pose.last().pose(),
+                    BUFFERS,
+                    Font.DisplayMode.POLYGON_OFFSET,
+                    0,
+                    light);
+            pose.popPose();
+        }
     }
 
     /** The color of the number of a line, or 0 if the line is empty or not loaded. */

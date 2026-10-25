@@ -91,7 +91,7 @@ public final class SheetValidation {
         }
         if (lines.get().size() == 0) {
             // Without its first line, the sheet holds no program
-            SheetOwners.get(level).release(sheet);
+            SheetOwners.get(level).release(level.getServer(), sheet);
         }
         Validation validation = Validator.validate(lines.get(), ModLibraries.registry());
         ProgramRegistry registry = ProgramRegistry.get(level);

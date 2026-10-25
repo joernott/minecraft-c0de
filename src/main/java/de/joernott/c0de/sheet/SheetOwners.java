@@ -1,17 +1,27 @@
 package de.joernott.c0de.sheet;
 
+import de.joernott.c0de.core.sheet.SheetGeometry;
+import de.joernott.c0de.dimension.C0deDimension;
+import de.joernott.c0de.network.GiveSheetPayload;
+import de.joernott.c0de.network.OpenDialogPayload;
+import de.joernott.c0de.network.SheetOwnersPayload;
+import de.joernott.c0de.platform.Platform;
 import java.util.Map;
 import java.util.Optional;
 import java.util.TreeMap;
 import java.util.UUID;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.datafix.DataFixTypes;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.saveddata.SavedData;
 
 /**
@@ -59,7 +69,7 @@ public class SheetOwners extends SavedData {
             // Administrators become owners too, so that their sheets are protected like everybody's
             if (claim) {
                 owners.put(sheet, new Owner(player.getUUID(), player.getGameProfile().getName()));
-                setDirty();
+                changed(player.server);
             }
             return Optional.empty();
         }
@@ -70,10 +80,88 @@ public class SheetOwners extends SavedData {
     }
 
     /** The sheet is empty: it has no owner any more. */
-    public void release(int sheet) {
+    public void release(MinecraftServer server, int sheet) {
         if (owners.remove(sheet) != null) {
-            setDirty();
+            changed(server);
         }
+    }
+
+    /**
+     * Gives a sheet to another player (task 11.11.7): owners can give their own sheets, administrators every sheet.
+     *
+     * @return the reason if the sheet was not given
+     */
+    public Optional<String> give(ServerPlayer player, int sheet, ServerPlayer receiver) {
+        Owner owner = owners.get(sheet);
+        boolean own = owner != null && owner.id().equals(player.getUUID());
+        if (!own && !player.hasPermissions(ADMIN_LEVEL)) {
+            return Optional.of("Only the owner of the sheet and administrators can give it away");
+        }
+        owners.put(sheet, new Owner(receiver.getUUID(), receiver.getGameProfile().getName()));
+        changed(player.server);
+        return Optional.empty();
+    }
+
+    // ------------------------------------------------------------------ clients
+
+    /** True for the corner of a sheet whose floor shows its information (x=0, z=0). */
+    public static boolean isCorner(Level level, BlockPos pos) {
+        return level.dimension().equals(C0deDimension.LEVEL)
+                && pos.getY() == SheetGeometry.FLOOR_Y
+                && pos.getZ() == 0
+                && pos.getX() >= 0
+                && SheetGeometry.relativeX(pos.getX()) == 0;
+    }
+
+    /** Opens the dialog that gives the sheet at the corner to another player (wrench). */
+    public static void openGive(ServerPlayer player, BlockPos pos) {
+        int sheet = LevelSheet.sheetOf(pos);
+        CompoundTag data = new CompoundTag();
+        data.putInt("sheet", sheet);
+        data.putString("owner", get(player.serverLevel()).owner(sheet).map(Owner::name).orElse(""));
+        ListTag players = new ListTag();
+        player.server.getPlayerList().getPlayers().stream()
+                .map(online -> online.getGameProfile().getName())
+                .sorted()
+                .forEach(name -> players.add(StringTag.valueOf(name)));
+        data.put("players", players);
+        Platform.INSTANCE.sendToPlayer(player, new OpenDialogPayload(pos, "sheet_owner", false, data));
+    }
+
+    /** Sends the owners to every player who joins. Called once when the mod is initialized. */
+    public static void register() {
+        Platform.INSTANCE.registerClientbound(SheetOwnersPayload.TYPE, SheetOwnersPayload.CODEC);
+        Platform.INSTANCE.registerServerbound(GiveSheetPayload.TYPE, GiveSheetPayload.CODEC, (payload, player) -> {
+            ServerLevel c0de = player.server.getLevel(C0deDimension.LEVEL);
+            ServerPlayer receiver = player.server.getPlayerList().getPlayerByName(payload.player());
+            Optional<String> problem = c0de == null || receiver == null
+                    ? Optional.of("The player " + payload.player() + " is not online")
+                    : get(c0de).give(player, payload.sheet(), receiver);
+            player.displayClientMessage(
+                    problem.map(reason -> Component.translatable("message.c0de.not_saved", reason))
+                            .orElse(Component.translatable(
+                                    "message.c0de.sheet_given", payload.sheet(), payload.player())),
+                    true);
+        });
+        Platform.INSTANCE.onPlayerJoin(player -> {
+            ServerLevel c0de = player.server.getLevel(C0deDimension.LEVEL);
+            if (c0de != null) {
+                Platform.INSTANCE.sendToPlayer(player, get(c0de).payload());
+            }
+        });
+    }
+
+    private SheetOwnersPayload payload() {
+        CompoundTag names = new CompoundTag();
+        owners.forEach((sheet, owner) -> names.putString(Integer.toString(sheet), owner.name()));
+        return new SheetOwnersPayload(names);
+    }
+
+    /** Saves the owners and sends them to all players. */
+    private void changed(MinecraftServer server) {
+        setDirty();
+        SheetOwnersPayload payload = payload();
+        server.getPlayerList().getPlayers().forEach(player -> Platform.INSTANCE.sendToPlayer(player, payload));
     }
 
     private static SheetOwners load(CompoundTag tag, HolderLookup.Provider registries) {

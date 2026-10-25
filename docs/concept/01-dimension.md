@@ -44,6 +44,8 @@ The state is stored in the block state `incomplete` of the language blocks, next
 
 The player who changes an unowned sheet first, by placing or breaking a block, with a tool, in a dialog or by importing a program with the c0de disk, becomes its owner. Only the owner and administrators (operators with permission level 2 or higher) can change a sheet; other players get a message with the name of the owner, and the dialogs of its blocks open read-only for them. A sheet whose first line becomes empty holds no program and has no owner any more. The owners are stored with the dimension (`c0de_sheet_owners.dat`).
 
+North of the corner of every sheet (x=0, z=0), the black floor shows the number of the sheet, its coordinates (the absolute x of x=0, and z=0) and its owner. Right-clicking the corner with the wrench opens a list of the players online: clicking a player gives the sheet to them. Owners can give away their own sheets, administrators every sheet.
+
 Together with the rule for restricted functions ([Owner and permissions](12-lib-minecraft.md#owner-and-permissions)), this keeps other players from changing a program that runs with the rights of an administrator.
 
 ## Entering and leaving the dimension

@@ -15,6 +15,7 @@ public final class C0deClient {
     public static void init() {
         ClientReceivers.register(OpenDialogPayload.TYPE, DialogScreens::open);
         ClientReceivers.register(de.joernott.c0de.network.TerminalPayload.TYPE, TerminalScreen::receive);
+        ClientReceivers.register(de.joernott.c0de.network.SheetOwnersPayload.TYPE, ClientSheets::receive);
     }
 
     /**

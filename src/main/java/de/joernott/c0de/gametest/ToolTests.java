@@ -297,6 +297,11 @@ public final class ToolTests {
             // The dialogs open read-only for the same reason, without claiming the sheet
             helper.assertTrue(SheetProtection.reason(other, level, pos, false).isPresent(), "The dialog isn't read-only");
             helper.assertTrue(SheetProtection.reason(admin, level, pos, true).isEmpty(), "The administrator was refused");
+            // Owners give their own sheets away, other players can't (task 11.11.7)
+            helper.assertTrue(SheetOwners.get(level).give(other, 534, other).isPresent(), "A stranger gave the sheet away");
+            helper.assertTrue(SheetOwners.get(level).give(owner, 534, other).isEmpty(), "The owner can't give it away");
+            helper.assertTrue(SheetProtection.reason(other, level, pos, true).isEmpty(), "The new owner was refused");
+            helper.assertTrue(SheetProtection.reason(owner, level, pos, true).isPresent(), "The old owner may change it");
             sheet.clear();
             SheetValidation.validate(level, 534);
             helper.assertTrue(SheetOwners.get(level).owner(534).isEmpty(), "The empty sheet still has an owner");

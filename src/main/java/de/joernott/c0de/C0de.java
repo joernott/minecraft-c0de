@@ -53,6 +53,7 @@ public final class C0de {
         SheetValidation.register();
         ProcessManager.register();
         SheetProtection.register();
+        de.joernott.c0de.sheet.SheetOwners.register();
         C0deDimension.register();
         GuideBook.register();
     }

@@ -20,6 +20,7 @@ public final class DialogScreens {
                     case "value_item" -> new ValueItemScreen(payload);
                     case "inspect" -> new InspectScreen(payload);
                     case "disk_overwrite", "disk_import" -> new DiskScreen(payload);
+                    case "sheet_owner" -> new SheetOwnerScreen(payload);
                     default -> null;
                 };
         if (screen == null) {
