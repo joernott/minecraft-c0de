@@ -1,5 +1,6 @@
 package de.joernott.c0de.client;
 
+import de.joernott.c0de.compat.Nbt;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
@@ -29,9 +30,9 @@ public final class BindingPanel {
 
     /** @param data the data of the dialog: {@code programs}, {@code program} and {@code function} */
     public BindingPanel(CompoundTag data) {
-        programs = data.getCompound("programs");
-        program = data.getString("program");
-        function = data.getString("function");
+        programs = Nbt.compound(data, "programs");
+        program = Nbt.string(data, "program");
+        function = Nbt.string(data, "function");
     }
 
     public String program() {
@@ -84,7 +85,7 @@ public final class BindingPanel {
     }
 
     private List<String> programNames() {
-        List<String> names = new ArrayList<>(programs.getAllKeys());
+        List<String> names = new ArrayList<>(Nbt.keys(programs));
         names.sort(String::compareTo);
         names.add(0, "");
         return names;
@@ -92,7 +93,7 @@ public final class BindingPanel {
 
     private List<String> functionNames(String name) {
         List<String> names = new ArrayList<>();
-        programs.getList(name, Tag.TAG_STRING).forEach(f -> names.add(f.getAsString()));
+        Nbt.list(programs, name, Tag.TAG_STRING).forEach(f -> names.add(Nbt.text(f)));
         return names;
     }
 

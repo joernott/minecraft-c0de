@@ -1,5 +1,6 @@
 package de.joernott.c0de.client;
 
+import de.joernott.c0de.compat.Nbt;
 import de.joernott.c0de.network.SheetOwnersPayload;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -13,8 +14,8 @@ public final class ClientSheets {
     /** Replaces the owners with those of the payload. */
     public static void receive(SheetOwnersPayload payload) {
         OWNERS.clear();
-        for (String key : payload.owners().getAllKeys()) {
-            OWNERS.put(Integer.parseInt(key), payload.owners().getString(key));
+        for (String key : Nbt.keys(payload.owners())) {
+            OWNERS.put(Integer.parseInt(key), Nbt.string(payload.owners(), key));
         }
     }
 

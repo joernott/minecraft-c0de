@@ -1,0 +1,11 @@
+{
+  "loader": "c0de:extruded",
+  "c0de:block": "tag_block",
+  "parent": "minecraft:block/slab",
+  "textures": {
+    "bottom": "c0de:block/tag_block_symbol",
+    "top": "c0de:block/tag_block",
+    "side": "c0de:block/tag_block_side"
+  },
+  "render_type": "minecraft:cutout"
+}

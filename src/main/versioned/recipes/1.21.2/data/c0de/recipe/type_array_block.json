@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "ingredients": [
+    "c0de:type_base",
+    "minecraft:barrel"
+  ],
+  "result": {
+    "id": "c0de:type_array_block",
+    "count": 1
+  }
+}

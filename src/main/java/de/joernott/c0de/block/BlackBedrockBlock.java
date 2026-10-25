@@ -1,5 +1,6 @@
 package de.joernott.c0de.block;
 
+import de.joernott.c0de.compat.Compat;
 import de.joernott.c0de.dimension.C0deDimension;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
@@ -29,6 +30,6 @@ public class BlackBedrockBlock extends Block {
         if (player instanceof ServerPlayer serverPlayer) {
             C0deDimension.leave(serverPlayer);
         }
-        return InteractionResult.sidedSuccess(level.isClientSide());
+        return Compat.success(level);
     }
 }

@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "ingredients": [
+    "minecraft:paper",
+    "minecraft:white_dye",
+    "minecraft:yellow_dye"
+  ],
+  "result": {
+    "id": "c0de:data_item",
+    "count": 4
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "sources": [
+    {
+      "type": "minecraft:single",
+      "resource": "minecraft:item/book",
+      "sprite": "c0de:block/item/book"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "minecraft:item/campfire",
+      "sprite": "c0de:block/item/campfire"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "minecraft:item/clock_00",
+      "sprite": "c0de:block/item/clock_00"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "minecraft:item/string",
+      "sprite": "c0de:block/item/string"
+    }
+  ]
+}

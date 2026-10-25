@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "ingredients": [
+    "c0de:data_item",
+    "minecraft:light_blue_dye"
+  ],
+  "result": {
+    "id": "c0de:variable_item",
+    "count": 1
+  }
+}

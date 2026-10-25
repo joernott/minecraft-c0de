@@ -1,5 +1,8 @@
 package de.joernott.c0de.entity;
 
+import de.joernott.c0de.compat.C0deEntity;
+import de.joernott.c0de.compat.Compat;
+import de.joernott.c0de.compat.Nbt;
 import de.joernott.c0de.item.DebugToolItem;
 import de.joernott.c0de.tool.Inspector;
 import java.util.UUID;
@@ -10,7 +13,6 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
@@ -21,7 +23,7 @@ import net.minecraft.world.level.Level;
  * the line it processes. The entity only shows the cursor: the process manager runs the process and moves the
  * entity. It is not saved with the chunk; the process manager creates it again when the process is restored.
  */
-public class CursorEntity extends Entity {
+public class CursorEntity extends C0deEntity {
     /** True for debug cursors, which are drawn in red instead of green. */
     private static final EntityDataAccessor<Boolean> DEBUG =
             SynchedEntityData.defineId(CursorEntity.class, EntityDataSerializers.BOOLEAN);
@@ -91,12 +93,7 @@ public class CursorEntity extends Entity {
         if (player instanceof ServerPlayer serverPlayer) {
             Inspector.inspectCursor(serverPlayer, this);
         }
-        return InteractionResult.sidedSuccess(level().isClientSide());
-    }
-
-    @Override
-    public boolean hurt(DamageSource source, float amount) {
-        return false;
+        return Compat.success(level());
     }
 
     @Override
@@ -105,14 +102,14 @@ public class CursorEntity extends Entity {
     }
 
     @Override
-    protected void readAdditionalSaveData(CompoundTag tag) {
-        process = tag.hasUUID("process") ? tag.getUUID("process") : null;
+    protected void loadData(CompoundTag tag) {
+        process = Nbt.hasUuid(tag, "process") ? Nbt.uuid(tag, "process") : null;
     }
 
     @Override
-    protected void addAdditionalSaveData(CompoundTag tag) {
+    protected void saveData(CompoundTag tag) {
         if (process != null) {
-            tag.putUUID("process", process);
+            Nbt.putUuid(tag, "process", process);
         }
     }
 }

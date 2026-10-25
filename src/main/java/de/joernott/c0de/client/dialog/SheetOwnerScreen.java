@@ -1,5 +1,6 @@
 package de.joernott.c0de.client.dialog;
 
+import de.joernott.c0de.compat.Nbt;
 import de.joernott.c0de.network.GiveSheetPayload;
 import de.joernott.c0de.network.OpenDialogPayload;
 import de.joernott.c0de.platform.Platform;
@@ -25,9 +26,9 @@ public class SheetOwnerScreen extends Screen {
     private int page;
 
     public SheetOwnerScreen(OpenDialogPayload payload) {
-        super(Component.translatable("dialog.c0de.sheet_owner", payload.data().getInt("sheet")));
+        super(Component.translatable("dialog.c0de.sheet_owner", Nbt.integer(payload.data(), "sheet")));
         this.payload = payload;
-        payload.data().getList("players", Tag.TAG_STRING).forEach(player -> players.add(player.getAsString()));
+        Nbt.list(payload.data(), "players", Tag.TAG_STRING).forEach(player -> players.add(Nbt.text(player)));
     }
 
     @Override
@@ -37,7 +38,7 @@ public class SheetOwnerScreen extends Screen {
         for (int i = page * PAGE_SIZE; i < players.size() && i < (page + 1) * PAGE_SIZE; i++) {
             String player = players.get(i);
             addRenderableWidget(Button.builder(Component.literal(player), button -> {
-                        Platform.INSTANCE.sendToServer(new GiveSheetPayload(payload.data().getInt("sheet"), player));
+                        Platform.INSTANCE.sendToServer(new GiveSheetPayload(Nbt.integer(payload.data(), "sheet"), player));
                         onClose();
                     })
                     .bounds(left, y, WIDTH, BUTTON_HEIGHT)
@@ -71,7 +72,7 @@ public class SheetOwnerScreen extends Screen {
         super.render(graphics, mouseX, mouseY, partialTick);
         int top = height / 2 - (PAGE_SIZE / 2 + 3) * (BUTTON_HEIGHT + 2);
         graphics.drawCenteredString(font, title, width / 2, top, 0xFFFFFFFF);
-        String owner = payload.data().getString("owner");
+        String owner = Nbt.string(payload.data(), "owner");
         graphics.drawCenteredString(
                 font,
                 Component.translatable("dialog.c0de.sheet_owner.current", owner.isEmpty() ? "-" : owner),

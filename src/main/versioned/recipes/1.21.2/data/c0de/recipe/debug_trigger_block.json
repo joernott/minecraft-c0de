@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "pattern": [
+    "ABA",
+    "BCB",
+    "ABA"
+  ],
+  "key": {
+    "A": "minecraft:copper_ingot",
+    "B": "minecraft:glass",
+    "C": "minecraft:redstone_block"
+  },
+  "result": {
+    "id": "c0de:debug_trigger_block",
+    "count": 1
+  }
+}

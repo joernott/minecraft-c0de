@@ -364,7 +364,11 @@ public sealed interface Platform {
 
         @Override
         public boolean isClient() {
+            //? if >=1.21.11 {
+            /^return net.neoforged.fml.loading.FMLEnvironment.getDist().isClient();
+            ^///?} else {
             return net.neoforged.fml.loading.FMLEnvironment.dist.isClient();
+            //?}
         }
 
         @Override
@@ -415,7 +419,11 @@ public sealed interface Platform {
         @Override
         public <T extends BlockEntity> BlockEntityType<T> blockEntityType(
                 BiFunction<BlockPos, BlockState, T> factory, Block... blocks) {
+            //? if >=1.21.2 {
+            /^return new BlockEntityType<>(factory::apply, java.util.Set.of(blocks));
+            ^///?} else {
             return BlockEntityType.Builder.of(factory::apply, blocks).build(null);
+            //?}
         }
 
         @Override
@@ -423,12 +431,21 @@ public sealed interface Platform {
                 Supplier<BlockEntityType<T>> type) {
             modEventBus.addListener(
                     net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent.class,
+                    //? if >=1.21.11 {
+                    /^event -> event.registerBlockEntity(
+                            net.neoforged.neoforge.capabilities.Capabilities.Item.BLOCK,
+                            type.get(),
+                            (entity, side) -> side == null
+                                    ? net.neoforged.neoforge.transfer.item.VanillaContainerWrapper.of(entity)
+                                    : new net.neoforged.neoforge.transfer.item.WorldlyContainerWrapper(entity, side)));
+                    ^///?} else {
                     event -> event.registerBlockEntity(
                             net.neoforged.neoforge.capabilities.Capabilities.ItemHandler.BLOCK,
                             type.get(),
                             (entity, side) -> side == null
                                     ? new net.neoforged.neoforge.items.wrapper.InvWrapper(entity)
                                     : new net.neoforged.neoforge.items.wrapper.SidedInvWrapper(entity, side)));
+                    //?}
         }
 
         @Override
@@ -535,7 +552,11 @@ public sealed interface Platform {
 
         @Override
         public void sendToServer(CustomPacketPayload payload) {
+            //? if >=1.21.11 {
+            /^net.neoforged.neoforge.client.network.ClientPacketDistributor.sendToServer(payload);
+            ^///?} else {
             net.neoforged.neoforge.network.PacketDistributor.sendToServer(payload);
+            //?}
         }
     }
     *///?}

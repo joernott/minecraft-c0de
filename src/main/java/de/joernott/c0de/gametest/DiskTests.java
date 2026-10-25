@@ -66,7 +66,7 @@ public final class DiskTests {
             String copy = contents.yaml().replace("disksource", "diskcopy");
             // The disk drive loads a program onto the disk in its slot
             helper.setBlock(BlockPos.ZERO, C0deBlocks.DISK_DRIVE.get());
-            DiskDriveBlockEntity drive = (DiskDriveBlockEntity) helper.getBlockEntity(BlockPos.ZERO);
+            DiskDriveBlockEntity drive = (DiskDriveBlockEntity) TestCompat.blockEntity(helper, BlockPos.ZERO);
             drive.disk().setItem(0, new ItemStack(C0deItems.DISK.get()));
             DiskDriveMenu menu = new DiskDriveMenu(0, player.getInventory(), drive);
             helper.assertTrue(menu.load(copy).isEmpty(), "The drive didn't load the program");

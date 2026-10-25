@@ -1,5 +1,6 @@
 package de.joernott.c0de.process;
 
+import de.joernott.c0de.compat.Nbt;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -49,7 +50,7 @@ public final class SnapshotNbt {
         return switch (tag) {
             case CompoundTag compound -> {
                 Map<String, Object> map = new LinkedHashMap<>();
-                for (String key : compound.getAllKeys()) {
+                for (String key : Nbt.keys(compound)) {
                     map.put(key, fromNbt(compound.get(key)));
                 }
                 yield map;
@@ -61,10 +62,16 @@ public final class SnapshotNbt {
                 }
                 yield result;
             }
-            case StringTag string -> string.getAsString();
+            case StringTag string -> Nbt.text(string);
+            //? if >=1.21.5 {
+            /*case ByteTag bool -> bool.value() != 0;
+            case LongTag number -> number.value();
+            case DoubleTag number -> number.value();
+            *///?} else {
             case ByteTag bool -> bool.getAsByte() != 0;
             case LongTag number -> number.getAsLong();
             case DoubleTag number -> number.getAsDouble();
+            //?}
             default -> throw new IllegalArgumentException("Unexpected tag " + tag);
         };
     }

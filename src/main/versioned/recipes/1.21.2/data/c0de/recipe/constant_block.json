@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "ingredients": [
+    "c0de:type_base",
+    "minecraft:bone",
+    "minecraft:bone",
+    "minecraft:bone"
+  ],
+  "result": {
+    "id": "c0de:constant_block",
+    "count": 1
+  }
+}

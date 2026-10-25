@@ -1,5 +1,7 @@
 package de.joernott.c0de.client;
 
+// Since 1.21.11, the sky of the dimension is described by its dimension type (DimensionTypeJson)
+//? if <1.21.11 {
 import de.joernott.c0de.C0de;
 import net.minecraft.client.renderer.DimensionSpecialEffects;
 import net.minecraft.resources.ResourceLocation;
@@ -28,3 +30,4 @@ public class C0deDimensionEffects extends DimensionSpecialEffects {
         return false;
     }
 }
+//?}

@@ -1,5 +1,6 @@
 package de.joernott.c0de.blockentity;
 
+import de.joernott.c0de.compat.Nbt;
 import de.joernott.c0de.content.C0deBlockEntities;
 import de.joernott.c0de.core.edit.PropertyRules;
 import de.joernott.c0de.core.line.Block;
@@ -42,12 +43,12 @@ public class CommentBlockEntity extends PropertiesBlockEntity {
 
     @Override
     protected Optional<String> check(CompoundTag properties, ServerLevel level) {
-        return PropertyRules.comment(properties.getString("text"));
+        return PropertyRules.comment(Nbt.string(properties, "text"));
     }
 
     @Override
     protected void read(CompoundTag tag) {
-        text = tag.getString("text");
+        text = Nbt.string(tag, "text");
     }
 
     @Override

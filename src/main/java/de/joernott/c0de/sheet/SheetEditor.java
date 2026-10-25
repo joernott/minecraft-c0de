@@ -121,7 +121,7 @@ public final class SheetEditor {
         level.setBlock(pos, cell.state(), Block.UPDATE_ALL);
         if (cell.entity() != null && level.getBlockEntity(pos) != null) {
             BlockEntity entity = level.getBlockEntity(pos);
-            entity.loadWithComponents(cell.entity(), level.registryAccess());
+            de.joernott.c0de.compat.Compat.loadBlockEntity(entity, cell.entity(), level.registryAccess());
             entity.setChanged();
             level.sendBlockUpdated(pos, cell.state(), cell.state(), Block.UPDATE_CLIENTS);
         }

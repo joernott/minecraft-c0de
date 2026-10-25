@@ -1,0 +1,87 @@
+{
+  "loader": "c0de:extruded",
+  "c0de:block": "include_block",
+  "parent": "minecraft:block/block",
+  "ambientocclusion": false,
+  "textures": {
+    "side": "c0de:block/include_block_side",
+    "top": "c0de:block/include_block",
+    "shelf": "minecraft:block/bookshelf",
+    "planks": "minecraft:block/oak_planks",
+    "particle": "c0de:block/include_block_side"
+  },
+  "elements": [
+    {
+      "from": [
+        0,
+        0,
+        0
+      ],
+      "to": [
+        16,
+        8,
+        16
+      ],
+      "faces": {
+        "north": {
+          "texture": "#side",
+          "cullface": "north"
+        },
+        "south": {
+          "texture": "#side",
+          "cullface": "south"
+        },
+        "west": {
+          "texture": "#side",
+          "cullface": "west"
+        },
+        "east": {
+          "texture": "#side",
+          "cullface": "east"
+        },
+        "up": {
+          "texture": "#top"
+        },
+        "down": {
+          "texture": "#top",
+          "cullface": "down"
+        }
+      }
+    },
+    {
+      "from": [
+        2,
+        8,
+        2
+      ],
+      "to": [
+        14,
+        9,
+        14
+      ],
+      "faces": {
+        "north": {
+          "texture": "#planks"
+        },
+        "south": {
+          "texture": "#planks"
+        },
+        "west": {
+          "texture": "#planks"
+        },
+        "east": {
+          "texture": "#planks"
+        },
+        "up": {
+          "texture": "#shelf",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        }
+      }
+    }
+  ]
+}

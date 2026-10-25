@@ -8,6 +8,7 @@ import de.joernott.c0de.blockentity.LiteralBlockEntity;
 import de.joernott.c0de.blockentity.OperatorBlockEntity;
 import de.joernott.c0de.blockentity.PropertiesBlockEntity;
 import de.joernott.c0de.blockentity.TagBlockEntity;
+import de.joernott.c0de.compat.Nbt;
 import de.joernott.c0de.content.C0deBlocks;
 import de.joernott.c0de.content.CodeBlockType;
 import de.joernott.c0de.core.edit.LabelKind;
@@ -47,14 +48,14 @@ public final class CodeBlockTests {
         var server = helper.getLevel().getServer();
         for (CodeBlockType type : CodeBlockType.values()) {
             var id = C0de.id(type.id());
-            var block = BuiltInRegistries.BLOCK.get(id);
+            var block = TestCompat.block(id);
             helper.assertTrue(block instanceof CodeBlock code && code.type() == type, id + " is not registered");
             helper.assertTrue(
-                    BuiltInRegistries.ITEM.get(id).asItem() != net.minecraft.world.item.Items.AIR, id + " has no item");
+                    TestCompat.item(id).asItem() != net.minecraft.world.item.Items.AIR, id + " has no item");
             LootTable loot = server.reloadableRegistries()
                     .getLootTable(ResourceKey.create(Registries.LOOT_TABLE, id.withPrefix("blocks/")));
             helper.assertTrue(loot != LootTable.EMPTY, id + " has no loot table");
-            helper.assertTrue(server.getRecipeManager().byKey(id).isPresent(), id + " has no recipe");
+            helper.assertTrue(TestCompat.hasRecipe(server, id), id + " has no recipe");
             helper.assertTrue(
                     block.defaultBlockState().hasProperty(ValidatedCodeBlock.VALID) == type.isValidated(),
                     id + " has the wrong block states");
@@ -62,18 +63,18 @@ public final class CodeBlockTests {
         for (String floor : List.of(
                 "white_c0de_bedrock", "light_green_c0de_bedrock", "black_c0de_bedrock", "cursor_c0de_bedrock")) {
             helper.assertTrue(
-                    BuiltInRegistries.ITEM.get(C0de.id(floor)) instanceof net.minecraft.world.item.BlockItem,
+                    TestCompat.item(C0de.id(floor)) instanceof net.minecraft.world.item.BlockItem,
                     floor + " has no item for picking it in creative mode");
         }
         for (String item : List.of("type_base", "structural_base")) {
-            helper.assertTrue(server.getRecipeManager().byKey(C0de.id(item)).isPresent(), item + " has no recipe");
+            helper.assertTrue(TestCompat.hasRecipe(server, C0de.id(item)), item + " has no recipe");
         }
         helper.succeed();
     }
 
     private static <T extends BlockEntity> T place(GameTestHelper helper, CodeBlockType type, Class<T> entityClass) {
         helper.setBlock(BlockPos.ZERO, C0deBlocks.get(type));
-        BlockEntity entity = helper.getBlockEntity(BlockPos.ZERO);
+        BlockEntity entity = TestCompat.blockEntity(helper, BlockPos.ZERO);
         helper.assertTrue(entityClass.isInstance(entity), type + " has no " + entityClass.getSimpleName());
         return entityClass.cast(entity);
     }
@@ -116,7 +117,7 @@ public final class CodeBlockTests {
         // The properties are stored and sent to the clients
         var registries = helper.getLevel().registryAccess();
         CompoundTag update = literal.getUpdateTag(registries);
-        helper.assertTrue(update.getString("value").equals("42"), "The update tag lacks the value: " + update);
+        helper.assertTrue(Nbt.string(update, "value").equals("42"), "The update tag lacks the value: " + update);
         BlockEntity copy = BlockEntity.loadStatic(
                 literal.getBlockPos(), literal.getBlockState(), literal.saveWithFullMetadata(registries), registries);
         helper.assertTrue(
@@ -184,7 +185,7 @@ public final class CodeBlockTests {
             LabelBlockEntity call = (LabelBlockEntity) level.getBlockEntity(sheet.pos(7, 7));
             CompoundTag data = call.dialogData(level);
             helper.assertTrue(
-                    data.getString("mode").equals(LabelMode.FUNCTION.name()), "The CALL label dialog is " + data);
+                    Nbt.string(data, "mode").equals(LabelMode.FUNCTION.name()), "The CALL label dialog is " + data);
             CompoundTag function = new CompoundTag();
             function.putString("name", "c0de/math/SIN");
             helper.assertTrue(call.apply(function, level).isEmpty(), "The function was not saved");

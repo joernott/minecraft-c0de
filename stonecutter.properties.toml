@@ -31,3 +31,16 @@ deps.fabric_api = "0.116.17+1.21.1"
 # Compatibility range in neoforge.mods.toml
 mod.mc_compat = "[1.21.1, 1.21.2)"
 deps.neo_loader = "21.1.264"
+
+["1.21.11"]
+mod.mc_releases = "1.21.11"
+deps.parchment = "2025.12.20"
+# No Patchouli for 1.21.11
+
+[fabric."1.21.11"]
+mod.mc_compat = "~1.21.11"
+deps.fabric_api = "0.141.6+1.21.11"
+
+[neoforge."1.21.11"]
+mod.mc_compat = "[1.21.11, 1.21.12)"
+deps.neo_loader = "21.11.48"

@@ -1,5 +1,6 @@
 package de.joernott.c0de.client.dialog;
 
+import de.joernott.c0de.compat.Nbt;
 import de.joernott.c0de.network.OpenDialogPayload;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,8 +27,8 @@ public class InspectScreen extends Screen {
     private int panelHeight;
 
     public InspectScreen(OpenDialogPayload payload) {
-        super(Component.literal(payload.data().getString("title")));
-        payload.data().getList("lines", Tag.TAG_STRING).forEach(line -> items.add(Component.literal(line.getAsString())));
+        super(Component.literal(Nbt.string(payload.data(), "title")));
+        Nbt.list(payload.data(), "lines", Tag.TAG_STRING).forEach(line -> items.add(Component.literal(Nbt.text(line))));
     }
 
     @Override
@@ -64,14 +65,26 @@ public class InspectScreen extends Screen {
         return true;
     }
 
-    @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+    /** A click outside of the panel closes the dialog. */
+    private boolean clickOutside(double mouseX, double mouseY) {
         if (mouseX < left || mouseX >= left + WIDTH || mouseY < top || mouseY >= top + panelHeight) {
             onClose();
             return true;
         }
-        return super.mouseClicked(mouseX, mouseY, button);
+        return false;
     }
+
+    //? if >=1.21.9 {
+    /*@Override
+    public boolean mouseClicked(net.minecraft.client.input.MouseButtonEvent event, boolean doubleClick) {
+        return clickOutside(event.x(), event.y()) || super.mouseClicked(event, doubleClick);
+    }
+    *///?} else {
+    @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        return clickOutside(mouseX, mouseY) || super.mouseClicked(mouseX, mouseY, button);
+    }
+    //?}
 
     @Override
     public boolean isPauseScreen() {

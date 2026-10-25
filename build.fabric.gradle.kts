@@ -13,6 +13,10 @@ val requiredJava: JavaVersion = when {
     else -> JavaVersion.VERSION_21
 }
 
+// The development runs of 1.21.1 keep their directories (run/fabric, run/neoforge); the other versions get
+// their own (e.g. run/fabric-1.21.11), because mods in the mods folders work for one version only
+val runSuffix = if (sc.current.version == "1.21.1") "" else "-${sc.current.version}"
+
 repositories {
     maven("https://maven.parchmentmc.org") { name = "ParchmentMC" }
     maven("https://maven.blamejared.com") { name = "BlameJared" }
@@ -21,6 +25,9 @@ repositories {
 // The interpreter is compiled into every node
 sourceSets.main {
     java.srcDir(rootProject.file("core/src/main/java"))
+    // Data whose format changed between the Minecraft versions (buildSrc/VersionedResources.kt)
+    versionedResourceDirs(rootProject.file("src/main/versioned")) { sc.current.parsed >= it }
+        .forEach { resources.srcDir(it) }
 }
 
 dependencies {
@@ -46,7 +53,10 @@ dependencies {
 
     // Use `mod{dependency type}` even on 26.1+ - loom-back-compat converts them
     modImplementation("net.fabricmc:fabric-loader:${property("deps.fabric_loader")}")
-    fapi(
+    if (sc.current.parsed > "1.21.1") {
+        // Fabric API renamed and merged modules after 1.21.1; newer nodes compile against all of it
+        modImplementation("net.fabricmc.fabric-api:fabric-api:${sc.properties.get<String>("deps.fabric_api")}")
+    } else fapi(
         "fabric-api-base",
         "fabric-lifecycle-events-v1",
         "fabric-resource-loader-v0",
@@ -67,7 +77,8 @@ dependencies {
     // Patchouli is optional: with it, the guide book of the mod can be crafted and read
     // Development runs without Patchouli: -Ppatchouli=false (task 11.11.4)
     if (providers.gradleProperty("patchouli").orNull != "false") {
-        modLocalRuntime("vazkii.patchouli:Patchouli:${sc.properties.get<String>("deps.patchouli")}-FABRIC")
+        // Not every Minecraft version has a Patchouli release
+        sc.properties.getOrNull<String>("deps.patchouli")?.let { modLocalRuntime("vazkii.patchouli:Patchouli:$it-FABRIC") }
     }
 }
 
@@ -82,7 +93,7 @@ loom {
     runConfigs.all {
         preferGradleTask = true
         generateRunConfig = true
-        runDirectory = rootProject.file("run/fabric")
+        runDirectory = rootProject.file("run/fabric$runSuffix")
     }
 
     runs {
@@ -94,7 +105,7 @@ loom {
         register("client2") {
             client()
             programArgs("--username", "Tester2")
-            runDirectory = rootProject.file("run/fabric-client2")
+            runDirectory = rootProject.file("run/fabric-client2$runSuffix")
         }
         register("gametest") {
             server()
@@ -181,4 +192,9 @@ publishMods {
         requires("fabric-api")
         optional("patchouli")
     }
+}
+
+// All compile errors at once, which helps when porting to a new Minecraft version
+tasks.withType<JavaCompile>().configureEach {
+    options.compilerArgs.addAll(listOf("-Xmaxerrs", "2000"))
 }

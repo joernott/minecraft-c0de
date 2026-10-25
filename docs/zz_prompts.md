@@ -541,3 +541,7 @@ The logo is fine, you can now implement 11.13
 ## 2026-10-25 – Modrinth environment
 
 Please make sure, when modifying versions to modrinth, always set the environment to "client and server"
+
+## 2026-10-25 – Sprint 12
+
+I did the change for the 0.1.0 versions manually as it was required by Modrinth to proceed with a review. Please continue with Sprint 12 and just make sure it is set for future releases.

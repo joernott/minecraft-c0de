@@ -34,6 +34,7 @@ stonecutter {
         }
 
         match("1.21.1", "fabric", "neoforge")
+        match("1.21.11", "fabric", "neoforge")
 
         // The committed sources are in the state of this node
         vcsVersion = "1.21.1-fabric"

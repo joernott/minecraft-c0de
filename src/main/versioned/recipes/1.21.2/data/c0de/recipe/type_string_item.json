@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "ingredients": [
+    "c0de:data_item",
+    "minecraft:red_dye",
+    "minecraft:string"
+  ],
+  "result": {
+    "id": "c0de:type_string_item",
+    "count": 1
+  }
+}

@@ -4,14 +4,12 @@ import de.joernott.c0de.C0de;
 import de.joernott.c0de.block.CodeBlockShapes;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 import net.minecraft.client.renderer.block.model.BakedQuad;
-import net.minecraft.client.renderer.block.model.ItemOverrides;
-import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.texture.SpriteContents;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -21,9 +19,9 @@ import net.minecraft.world.level.block.state.BlockState;
  * their code block, PROGRAM is round in the west, LITERAL an octagon, ASSIGN a triangle pointing to positive x,
  * IF and ELSE diamonds, and the loops FOR, EACH, WHILE and REPEAT cylinders.
  *
- * <p>The JSON model of each block is a slab; this model wraps it and takes the textures of its top and side. The
- * top texture is projected from above, so it is cut along the sides; the sides show the lower half of the side
- * texture, like a slab.
+ * <p>The JSON model of each block is a slab; this model replaces its quads and takes the textures of its top and
+ * side. The top texture is projected from above, so it is cut along the sides; the sides show the lower half of the
+ * side texture, like a slab.
  *
  * <p>The symbols of the blocks are raised half a pixel above their tops, like items in invisible item frames: the
  * bottom texture of the slab model is the symbol on a transparent background (the bottom of the block is never
@@ -31,24 +29,31 @@ import net.minecraft.world.level.block.state.BlockState;
  * frame; the symbols of the mod cover the whole top, so their pixels stay where the texture has them. Blocks with a
  * symbol but without a shape of their own are squares. The outline and collision shapes are in
  * {@link CodeBlockShapes}.
+ *
+ * <p>Before 1.21.11, {@link Baked} wraps the baked slab models of the blocks and items. Since then the geometry of
+ * the unbaked block models is replaced ({@link Unbaked}), which the item models inherit.
  */
-public final class ExtrudedModel implements BakedModel {
-    /** The ints of a vertex in the block vertex format: position (3), color, texture (2), light, normal. */
-    private static final int STRIDE = 8;
+public final class ExtrudedModel {
     /** The number of edges of the semicircle of PROGRAM; a full circle has twice as many. */
     private static final int ROUND_EDGES = 12;
     /** The size of a Minecraft texture lying on the top, in blocks, and the thickness of all symbols. */
     private static final float ITEM_SIZE = 10 / 16.0F;
     private static final float ITEM_THICKNESS = 0.5F / 16;
 
-    private final BakedModel slab;
+    /** The whole block: for blocks with a symbol but without a shape of their own. */
+    private static final double[][] SQUARE = {{0, 0}, {0, 16}, {16, 16}, {16, 0}};
+
+    /** The quads on the bottom of the block, where a neighbor can hide them. */
     private final List<BakedQuad> bottom = new ArrayList<>();
+    /** All other quads. */
     private final List<BakedQuad> quads = new ArrayList<>();
 
-    private ExtrudedModel(BakedModel slab, double[][] polygon) {
-        this.slab = slab;
-        TextureAtlasSprite top = sprite(slab, Direction.UP);
-        TextureAtlasSprite side = sprite(slab, Direction.NORTH);
+    /**
+     * @param sprites the sprites of the faces of the slab model: the top, the side (north) and the symbol (bottom)
+     */
+    private ExtrudedModel(Function<Direction, TextureAtlasSprite> sprites, double[][] polygon) {
+        TextureAtlasSprite top = sprites.apply(Direction.UP);
+        TextureAtlasSprite side = sprites.apply(Direction.NORTH);
         float height = (float) (CodeBlockShapes.HEIGHT / 16);
         int n = polygon.length;
         // The top is a fan of triangles (quads with a repeated vertex) around the first corner
@@ -62,9 +67,11 @@ public final class ExtrudedModel implements BakedModel {
         for (int i = 0; i < n; i++) {
             quads.add(side(polygon[i], polygon[(i + 1) % n], center, height, side));
         }
-        TextureAtlasSprite symbol = sprite(slab, Direction.DOWN);
+        TextureAtlasSprite symbol = sprites.apply(Direction.DOWN);
         if (!symbol.contents().name().equals(top.contents().name())) {
-            boolean minecraft = symbol.contents().name().getNamespace().equals("minecraft");
+            // Since 1.21.11, the item textures of Minecraft are in the blocks atlas as c0de:block/item/...
+            ResourceLocation name = symbol.contents().name();
+            boolean minecraft = name.getNamespace().equals("minecraft") || name.getPath().startsWith("block/item/");
             item(symbol, height, minecraft ? ITEM_SIZE : 1);
         }
     }
@@ -82,13 +89,14 @@ public final class ExtrudedModel implements BakedModel {
         float top = bottom + ITEM_THICKNESS;
         float pixelX = size / width;
         float pixelZ = size / height;
-        int[] data = new int[4 * STRIDE];
         float[][] corners = {{x0, z0, 0, 0}, {x0, z0 + size, 0, 1}, {x0 + size, z0 + size, 1, 1}, {x0 + size, z0, 1, 0}};
+        float[][] vertices = new float[4][];
         for (int i = 0; i < 4; i++) {
-            vertex(data, i, corners[i][0], top, corners[i][1], sprite.getU(corners[i][2]), sprite.getV(corners[i][3]),
-                    Direction.UP);
+            vertices[i] = new float[] {
+                corners[i][0], top, corners[i][1], sprite.getU(corners[i][2]), sprite.getV(corners[i][3])
+            };
         }
-        quads.add(new BakedQuad(data, -1, Direction.UP, sprite, true));
+        quads.add(quad(vertices, Direction.UP, sprite));
         Direction[] sides = {Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST};
         for (int px = 0; px < width; px++) {
             for (int pz = 0; pz < height; pz++) {
@@ -114,36 +122,37 @@ public final class ExtrudedModel implements BakedModel {
                         case WEST -> new float[][] {{xa, za}, {xa, zb}};
                         default -> new float[][] {{xb, zb}, {xb, za}};
                     };
-                    int[] side = new int[4 * STRIDE];
-                    vertex(side, 0, edge[0][0], top, edge[0][1], u, v, face);
-                    vertex(side, 1, edge[0][0], bottom, edge[0][1], u, v, face);
-                    vertex(side, 2, edge[1][0], bottom, edge[1][1], u, v, face);
-                    vertex(side, 3, edge[1][0], top, edge[1][1], u, v, face);
-                    quads.add(new BakedQuad(side, -1, face, sprite, true));
+                    quads.add(quad(
+                            new float[][] {
+                                {edge[0][0], top, edge[0][1], u, v},
+                                {edge[0][0], bottom, edge[0][1], u, v},
+                                {edge[1][0], bottom, edge[1][1], u, v},
+                                {edge[1][0], top, edge[1][1], u, v}
+                            },
+                            face,
+                            sprite));
                 }
             }
         }
     }
 
-    /** Wraps the models of the blocks with an extruded shape and their items; other models stay unchanged. */
-    public static BakedModel wrap(ModelResourceLocation id, BakedModel model) {
-        if (!id.id().getNamespace().equals(C0de.MOD_ID)) {
-            return model;
-        }
+    /**
+     * The polygon of the block with the given model name (the path of a block or item ID), or null if the block
+     * keeps its JSON model.
+     */
+    private static double[][] polygon(String path) {
         double inset = CodeBlockShapes.TRAPEZOID_INSET;
         // The polygons MUST match the borders of the top textures (scripts/generate_textures.py, TOP_SHAPES)
-        String path = id.id().getPath();
         return switch (path) {
-            case "begin_block" -> new ExtrudedModel(model, new double[][] {{inset, 0}, {0, 16}, {16, 16}, {16 - inset, 0}});
-            case "end_block" -> new ExtrudedModel(model, new double[][] {{0, 0}, {inset, 16}, {16 - inset, 16}, {16, 0}});
-            case "program_block" -> new ExtrudedModel(model, halfRound());
-            case "literal_block" -> new ExtrudedModel(model, octagon());
-            case "assign_block" -> new ExtrudedModel(model, new double[][] {{0, 0}, {0, 16}, {16, 8}});
-            case "for_block", "each_block", "while_block", "repeat_block" -> new ExtrudedModel(model, circle());
-            case "if_block", "else_block" -> new ExtrudedModel(model, new double[][] {{8, 0}, {0, 8}, {8, 16}, {16, 8}});
-            case "tag_block", "exit_block", "break_block", "function_block", "return_block", "call_block" ->
-                new ExtrudedModel(model, SQUARE);
-            default -> path.startsWith("type_") && path.endsWith("_block") ? new ExtrudedModel(model, SQUARE) : model;
+            case "begin_block" -> new double[][] {{inset, 0}, {0, 16}, {16, 16}, {16 - inset, 0}};
+            case "end_block" -> new double[][] {{0, 0}, {inset, 16}, {16 - inset, 16}, {16, 0}};
+            case "program_block" -> halfRound();
+            case "literal_block" -> octagon();
+            case "assign_block" -> new double[][] {{0, 0}, {0, 16}, {16, 8}};
+            case "for_block", "each_block", "while_block", "repeat_block" -> circle();
+            case "if_block", "else_block" -> new double[][] {{8, 0}, {0, 8}, {8, 16}, {16, 8}};
+            case "tag_block", "exit_block", "break_block", "function_block", "return_block", "call_block" -> SQUARE;
+            default -> path.startsWith("type_") && path.endsWith("_block") ? SQUARE : null;
         };
     }
 
@@ -162,9 +171,6 @@ public final class ExtrudedModel implements BakedModel {
         polygon[ROUND_EDGES + 2] = new double[] {16, 0};
         return polygon;
     }
-
-    /** The whole block: for blocks with a symbol but without a shape of their own. */
-    private static final double[][] SQUARE = {{0, 0}, {0, 16}, {16, 16}, {16, 0}};
 
     /** A circle filling the block, in the same order of corners as the other polygons. */
     private static double[][] circle() {
@@ -195,29 +201,31 @@ public final class ExtrudedModel implements BakedModel {
         return new double[] {x / polygon.length, z / polygon.length};
     }
 
-    /** The sprite of a face of the slab model. */
-    private static TextureAtlasSprite sprite(BakedModel model, Direction face) {
-        RandomSource random = RandomSource.create(0);
-        List<BakedQuad> all = new ArrayList<>(model.getQuads(null, null, random));
-        for (Direction side : Direction.values()) {
-            all.addAll(model.getQuads(null, side, random));
+    /** The sprite of a face of the slab model, given by its quads, or the fallback if no quad has the face. */
+    private static TextureAtlasSprite sprite(List<BakedQuad> slab, Direction face, TextureAtlasSprite fallback) {
+        for (BakedQuad quad : slab) {
+            //? if >=1.21.5 {
+            /*if (quad.direction() == face) {
+                return quad.sprite();
+            }
+            *///?} else {
+            if (quad.getDirection() == face) {
+                return quad.getSprite();
+            }
+            //?}
         }
-        return all.stream()
-                .filter(quad -> quad.getDirection() == face)
-                .findFirst()
-                .map(BakedQuad::getSprite)
-                .orElse(model.getParticleIcon());
+        return fallback;
     }
 
     /** The top or bottom: the texture is projected from above. */
     private static BakedQuad horizontal(double[][] corners, float y, Direction face, TextureAtlasSprite sprite) {
-        int[] data = new int[4 * STRIDE];
+        float[][] vertices = new float[4][];
         for (int i = 0; i < 4; i++) {
             float x = (float) (corners[i][0] / 16);
             float z = (float) (corners[i][1] / 16);
-            vertex(data, i, x, y, z, sprite.getU(x), sprite.getV(face == Direction.UP ? z : 1 - z), face);
+            vertices[i] = new float[] {x, y, z, sprite.getU(x), sprite.getV(face == Direction.UP ? z : 1 - z)};
         }
-        return new BakedQuad(data, -1, face, sprite, true);
+        return quad(vertices, face, sprite);
     }
 
     /** A side between two corners, facing away from the center of the polygon. */
@@ -230,97 +238,243 @@ public final class ExtrudedModel implements BakedModel {
             nx = -nx;
             nz = -nz;
         }
+        //? if >=1.21.5 {
+        /*Direction face = Direction.getApproximateNearest((float) nx, 0, (float) nz);
+        *///?} else {
         Direction face = Direction.getNearest((float) nx, 0, (float) nz);
+        //?}
         // Seen from outside, left is the direction normal x up
         double leftX = -nz;
         double leftZ = nx;
         double[] left = a[0] * leftX + a[1] * leftZ >= b[0] * leftX + b[1] * leftZ ? a : b;
         double[] right = left == a ? b : a;
-        int[] data = new int[4 * STRIDE];
         double[][] corners = {left, left, right, right};
         float[] heights = {height, 0, 0, height};
         boolean alongX = face.getAxis() == Direction.Axis.Z;
+        float[][] vertices = new float[4][];
         for (int i = 0; i < 4; i++) {
             float x = (float) (corners[i][0] / 16);
             float z = (float) (corners[i][1] / 16);
             // Like the sides of a block: u runs along the side, v from the top, the slab shows the lower half
             float u = alongX ? (face == Direction.SOUTH ? x : 1 - x) : (face == Direction.WEST ? z : 1 - z);
-            vertex(data, i, x, heights[i], z, sprite.getU(u), sprite.getV(1 - heights[i]), face);
+            vertices[i] = new float[] {x, heights[i], z, sprite.getU(u), sprite.getV(1 - heights[i])};
         }
-        return new BakedQuad(data, -1, face, sprite, true);
+        return quad(vertices, face, sprite);
     }
 
-    private static void vertex(int[] data, int i, float x, float y, float z, float u, float v, Direction face) {
-        int offset = i * STRIDE;
-        data[offset] = Float.floatToRawIntBits(x);
-        data[offset + 1] = Float.floatToRawIntBits(y);
-        data[offset + 2] = Float.floatToRawIntBits(z);
-        data[offset + 3] = -1;
-        data[offset + 4] = Float.floatToRawIntBits(u);
-        data[offset + 5] = Float.floatToRawIntBits(v);
-        data[offset + 6] = 0;
-        data[offset + 7] = (face.getStepX() * 127 & 0xFF)
+    /** A quad from four vertices: x, y, z, u, v. */
+    private static BakedQuad quad(float[][] vertices, Direction face, TextureAtlasSprite sprite) {
+        //? if >=1.21.11 {
+        /*org.joml.Vector3f[] positions = new org.joml.Vector3f[4];
+        long[] uvs = new long[4];
+        for (int i = 0; i < 4; i++) {
+            positions[i] = new org.joml.Vector3f(vertices[i][0], vertices[i][1], vertices[i][2]);
+            uvs[i] = net.minecraft.client.model.geom.builders.UVPair.pack(vertices[i][3], vertices[i][4]);
+        }
+        return new BakedQuad(
+                positions[0], positions[1], positions[2], positions[3],
+                uvs[0], uvs[1], uvs[2], uvs[3],
+                -1, face, sprite, true, 0);
+        *///?} else {
+        // The ints of a vertex in the block vertex format: position (3), color, texture (2), light, normal
+        int stride = 8;
+        int[] data = new int[4 * stride];
+        int normal = (face.getStepX() * 127 & 0xFF)
                 | (face.getStepY() * 127 & 0xFF) << 8
                 | (face.getStepZ() * 127 & 0xFF) << 16;
-    }
-
-    @Override
-    public List<BakedQuad> getQuads(BlockState state, Direction side, RandomSource random) {
-        if (side == null) {
-            return quads;
+        for (int i = 0; i < 4; i++) {
+            int offset = i * stride;
+            data[offset] = Float.floatToRawIntBits(vertices[i][0]);
+            data[offset + 1] = Float.floatToRawIntBits(vertices[i][1]);
+            data[offset + 2] = Float.floatToRawIntBits(vertices[i][2]);
+            data[offset + 3] = -1;
+            data[offset + 4] = Float.floatToRawIntBits(vertices[i][3]);
+            data[offset + 5] = Float.floatToRawIntBits(vertices[i][4]);
+            data[offset + 6] = 0;
+            data[offset + 7] = normal;
         }
-        // Only the bottom lies on the border of the block, where a neighbor can hide it
-        return side == Direction.DOWN ? bottom : List.of();
+        return new BakedQuad(data, -1, face, sprite, true);
+        //?}
     }
 
-    @Override
-    public boolean useAmbientOcclusion() {
-        // Ambient occlusion is computed for the corners of block faces, not for diagonal sides
-        return false;
+    //? if >=1.21.11 {
+    /*/^*
+     * Replaces the geometry of the block models with an extruded shape; the item models inherit it. Other models
+     * stay unchanged.
+     ^/
+    public static net.minecraft.client.resources.model.UnbakedModel wrap(
+            ResourceLocation id, net.minecraft.client.resources.model.UnbakedModel model) {
+        if (!id.getNamespace().equals(C0de.MOD_ID) || !id.getPath().startsWith("block/")) {
+            return model;
+        }
+        return wrap(id.getPath().substring("block/".length()), model);
     }
 
-    @Override
-    public boolean isGui3d() {
-        return slab.isGui3d();
-    }
-
-    @Override
-    public boolean usesBlockLight() {
-        return slab.usesBlockLight();
-    }
-
-    @Override
-    public boolean isCustomRenderer() {
-        return false;
-    }
-
-    @Override
-    public TextureAtlasSprite getParticleIcon() {
-        return slab.getParticleIcon();
-    }
-
-    @Override
-    public ItemTransforms getTransforms() {
-        return slab.getTransforms();
-    }
-
-    @Override
-    public ItemOverrides getOverrides() {
-        return slab.getOverrides();
+    /^* Gives the model of a block the extruded shape of the block with the given name, if it has one. ^/
+    public static net.minecraft.client.resources.model.UnbakedModel wrap(
+            String name, net.minecraft.client.resources.model.UnbakedModel model) {
+        double[][] polygon = polygon(name);
+        return polygon == null ? model : new Unbaked(model, polygon);
     }
 
     //? if neoforge {
-    /*// The render type (cutout for the book of PROGRAM) comes from the JSON model on NeoForge
-    @Override
-    public net.neoforged.neoforge.client.ChunkRenderTypeSet getRenderTypes(
-            BlockState state, RandomSource random, net.neoforged.neoforge.client.model.data.ModelData data) {
-        return slab.getRenderTypes(state, random, data);
+    /^// NeoForge has no event to change loaded models, so the models of the language blocks name this loader
+    // ("loader": "c0de:extruded", "c0de:block": name of the block; src/main/versioned/block-models)
+    public static final net.neoforged.neoforge.client.model.UnbakedModelLoader<
+                    net.minecraft.client.resources.model.UnbakedModel>
+            LOADER = (json, context) -> {
+                com.google.gson.JsonObject plain = json.deepCopy();
+                plain.remove("loader");
+                String name = net.minecraft.util.GsonHelper.getAsString(plain, "c0de:block");
+                plain.remove("c0de:block");
+                return wrap(name, context.deserialize(plain, net.minecraft.client.resources.model.UnbakedModel.class));
+            };
+    ^///?}
+
+    /^* A block model whose geometry is extruded from the geometry of its slab model. ^/
+    private record Unbaked(net.minecraft.client.resources.model.UnbakedModel wrapped, double[][] polygon)
+            implements net.minecraft.client.resources.model.UnbakedModel {
+        @Override
+        public Boolean ambientOcclusion() {
+            // Ambient occlusion is computed for the corners of block faces, not for diagonal sides
+            return false;
+        }
+
+        @Override
+        public net.minecraft.client.resources.model.UnbakedModel.GuiLight guiLight() {
+            return wrapped.guiLight();
+        }
+
+        @Override
+        public net.minecraft.client.renderer.block.model.ItemTransforms transforms() {
+            return wrapped.transforms();
+        }
+
+        @Override
+        public net.minecraft.client.renderer.block.model.TextureSlots.Data textureSlots() {
+            return wrapped.textureSlots();
+        }
+
+        @Override
+        public ResourceLocation parent() {
+            return wrapped.parent();
+        }
+
+        //? if neoforge {
+        /^// The render type of the JSON model (cutout for the book of PROGRAM)
+        @Override
+        public void fillAdditionalProperties(net.minecraft.util.context.ContextMap.Builder properties) {
+            wrapped.fillAdditionalProperties(properties);
+        }
+
+        @Override
+        public void resolveDependencies(net.minecraft.client.resources.model.ResolvableModel.Resolver resolver) {
+            wrapped.resolveDependencies(resolver);
+        }
+        ^///?}
+
+        @Override
+        public net.minecraft.client.resources.model.UnbakedGeometry geometry() {
+            return (textureSlots, baker, state, name) -> {
+                net.minecraft.client.resources.model.UnbakedGeometry slab = wrapped.geometry() != null
+                        ? wrapped.geometry()
+                        : baker.getModel(wrapped.parent()).getTopGeometry();
+                List<BakedQuad> slabQuads = slab.bake(textureSlots, baker, state, name).getAll();
+                TextureAtlasSprite particle = baker.sprites().resolveSlot(textureSlots, "particle", name);
+                ExtrudedModel model = new ExtrudedModel(face -> sprite(slabQuads, face, particle), polygon);
+                var quads = new net.minecraft.client.resources.model.QuadCollection.Builder();
+                model.quads.forEach(quads::addUnculledFace);
+                model.bottom.forEach(quad -> quads.addCulledFace(Direction.DOWN, quad));
+                return quads.build();
+            };
+        }
+    }
+    *///?} else {
+    /** Wraps the models of the blocks with an extruded shape and their items; other models stay unchanged. */
+    public static net.minecraft.client.resources.model.BakedModel wrap(
+            net.minecraft.client.resources.model.ModelResourceLocation id,
+            net.minecraft.client.resources.model.BakedModel model) {
+        if (!id.id().getNamespace().equals(C0de.MOD_ID)) {
+            return model;
+        }
+        double[][] polygon = polygon(id.id().getPath());
+        return polygon == null ? model : new Baked(model, polygon);
     }
 
-    @Override
-    public List<net.minecraft.client.renderer.RenderType> getRenderTypes(
-            net.minecraft.world.item.ItemStack stack, boolean fabulous) {
-        return slab.getRenderTypes(stack, fabulous);
+    /** A baked slab model with the quads of an extruded shape. */
+    private static final class Baked implements net.minecraft.client.resources.model.BakedModel {
+        private final net.minecraft.client.resources.model.BakedModel slab;
+        private final ExtrudedModel shape;
+
+        private Baked(net.minecraft.client.resources.model.BakedModel slab, double[][] polygon) {
+            this.slab = slab;
+            RandomSource random = RandomSource.create(0);
+            List<BakedQuad> all = new ArrayList<>(slab.getQuads(null, null, random));
+            for (Direction side : Direction.values()) {
+                all.addAll(slab.getQuads(null, side, random));
+            }
+            shape = new ExtrudedModel(face -> sprite(all, face, slab.getParticleIcon()), polygon);
+        }
+
+        @Override
+        public List<BakedQuad> getQuads(BlockState state, Direction side, RandomSource random) {
+            if (side == null) {
+                return shape.quads;
+            }
+            // Only the bottom lies on the border of the block, where a neighbor can hide it
+            return side == Direction.DOWN ? shape.bottom : List.of();
+        }
+
+        @Override
+        public boolean useAmbientOcclusion() {
+            // Ambient occlusion is computed for the corners of block faces, not for diagonal sides
+            return false;
+        }
+
+        @Override
+        public boolean isGui3d() {
+            return slab.isGui3d();
+        }
+
+        @Override
+        public boolean usesBlockLight() {
+            return slab.usesBlockLight();
+        }
+
+        @Override
+        public boolean isCustomRenderer() {
+            return false;
+        }
+
+        @Override
+        public TextureAtlasSprite getParticleIcon() {
+            return slab.getParticleIcon();
+        }
+
+        @Override
+        public net.minecraft.client.renderer.block.model.ItemTransforms getTransforms() {
+            return slab.getTransforms();
+        }
+
+        @Override
+        public net.minecraft.client.renderer.block.model.ItemOverrides getOverrides() {
+            return slab.getOverrides();
+        }
+
+        //? if neoforge {
+        /*// The render type (cutout for the book of PROGRAM) comes from the JSON model on NeoForge
+        @Override
+        public net.neoforged.neoforge.client.ChunkRenderTypeSet getRenderTypes(
+                BlockState state, RandomSource random, net.neoforged.neoforge.client.model.data.ModelData data) {
+            return slab.getRenderTypes(state, random, data);
+        }
+
+        @Override
+        public List<net.minecraft.client.renderer.RenderType> getRenderTypes(
+                net.minecraft.world.item.ItemStack stack, boolean fabulous) {
+            return slab.getRenderTypes(stack, fabulous);
+        }
+        *///?}
     }
-    *///?}
+    //?}
 }

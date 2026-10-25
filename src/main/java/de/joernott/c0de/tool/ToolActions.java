@@ -3,6 +3,7 @@ package de.joernott.c0de.tool;
 import de.joernott.c0de.block.CodeBlock;
 import de.joernott.c0de.block.TriggerBlock;
 import de.joernott.c0de.blockentity.TriggerBlockEntity;
+import de.joernott.c0de.compat.Compat;
 import de.joernott.c0de.content.C0deItems;
 import de.joernott.c0de.core.edit.LineMoves;
 import de.joernott.c0de.core.line.Notation;
@@ -131,7 +132,7 @@ public final class ToolActions {
      * of an unfinished statement gold; then the problem follows.
      */
     private static void showLine(ServerPlayer player, int sheet, int z) {
-        ServerLevel c0de = player.server.getLevel(C0deDimension.LEVEL);
+        ServerLevel c0de = Compat.server(player).getLevel(C0deDimension.LEVEL);
         if (c0de == null || !LevelSheet.isLoaded(c0de, sheet, z)) {
             return;
         }
@@ -171,7 +172,7 @@ public final class ToolActions {
 
     /** Executes a left click on the server. */
     public static void handle(ToolPayload payload, ServerPlayer player) {
-        perform(player, player.serverLevel(), payload, true);
+        perform(player, Compat.level(player), payload, true);
     }
 
     /**
@@ -191,17 +192,17 @@ public final class ToolActions {
             if (item instanceof DebugToolItem
                     && entity instanceof CursorEntity cursor
                     && (!checkReach || player.distanceTo(cursor) <= player.entityInteractionRange() + REACH_TOLERANCE)) {
-                ProcessManager processes = ProcessManager.get(player.server);
+                ProcessManager processes = ProcessManager.get(Compat.server(player));
                 message(
                         player,
                         "message.c0de.debug",
-                        processes.debug(player.server, cursor.process(), player.isShiftKeyDown()));
+                        processes.debug(Compat.server(player), cursor.process(), player.isShiftKeyDown()));
                 processes.position(cursor.process()).ifPresent(position -> showLine(player, position[0], position[1]));
             }
             return;
         }
         BlockPos pos = payload.pos();
-        if (!level.isLoaded(pos) || (checkReach && !player.canInteractWithBlock(pos, REACH_TOLERANCE))) {
+        if (!level.isLoaded(pos) || (checkReach && !Compat.canReach(player, pos, REACH_TOLERANCE))) {
             return;
         }
         if (item instanceof DebugToolItem) {
@@ -378,7 +379,7 @@ public final class ToolActions {
                 missing.forEach((item, count) -> text.append(text.isEmpty() ? "" : ", ")
                         .append(count)
                         .append(" ")
-                        .append(item.getDescription().getString()));
+                        .append(Compat.name(item).getString()));
                 message(player, "message.c0de.missing_blocks", text.toString());
                 return;
             }

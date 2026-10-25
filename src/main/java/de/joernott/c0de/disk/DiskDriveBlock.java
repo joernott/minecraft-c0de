@@ -1,8 +1,10 @@
 package de.joernott.c0de.disk;
 
+import de.joernott.c0de.compat.Compat;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionResult;
@@ -16,7 +18,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.BlockHitResult;
 
 /**
@@ -25,7 +27,7 @@ import net.minecraft.world.phys.BlockHitResult;
  * the disk.
  */
 public class DiskDriveBlock extends BaseEntityBlock {
-    public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
+    public static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;
     private static final MapCodec<DiskDriveBlock> CODEC = simpleCodec(DiskDriveBlock::new);
 
     public DiskDriveBlock(Properties properties) {
@@ -64,14 +66,30 @@ public class DiskDriveBlock extends BaseEntityBlock {
         if (player instanceof ServerPlayer serverPlayer && level.getBlockEntity(pos) instanceof DiskDriveBlockEntity drive) {
             drive.openMenu(serverPlayer);
         }
-        return InteractionResult.sidedSuccess(level.isClientSide());
+        return Compat.success(level);
     }
 
+    /** What happens after the block was removed: its block entity has already cleaned up (removed). */
+    private void afterRemoval(ServerLevel level, BlockPos pos) {
+    }
+
+    //? if >=1.21.5 {
+    /*@Override
+    protected void affectNeighborsAfterRemoval(BlockState state, ServerLevel level, BlockPos pos, boolean movedByPiston) {
+        super.affectNeighborsAfterRemoval(state, level, pos, movedByPiston);
+        afterRemoval(level, pos);
+    }
+    *///?} else {
     @Override
     protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
-        if (!state.is(newState.getBlock()) && level.getBlockEntity(pos) instanceof DiskDriveBlockEntity drive) {
-            Containers.dropContents(level, pos, drive.disk());
+        boolean replaced = !state.is(newState.getBlock());
+        if (replaced && level.getBlockEntity(pos) instanceof de.joernott.c0de.compat.C0deBlockEntity entity) {
+            entity.removedBeforeRemoval();
         }
         super.onRemove(state, level, pos, newState, movedByPiston);
+        if (replaced && level instanceof ServerLevel serverLevel) {
+            afterRemoval(serverLevel, pos);
+        }
     }
+    //?}
 }

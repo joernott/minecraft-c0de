@@ -1,6 +1,7 @@
 package de.joernott.c0de.disk;
 
 import de.joernott.c0de.block.CodeBlock;
+import de.joernott.c0de.compat.Compat;
 import de.joernott.c0de.content.CodeBlockType;
 import de.joernott.c0de.core.line.Sheet;
 import de.joernott.c0de.core.sheet.SheetGeometry;
@@ -172,7 +173,7 @@ public final class DiskService {
             needed.forEach((item, count) -> {
                 int available = player.getInventory().countItem(item);
                 if (available < count) {
-                    missing.add((count - available) + " " + item.getDescription().getString());
+                    missing.add((count - available) + " " + Compat.name(item).getString());
                 }
             });
             if (!missing.isEmpty()) {

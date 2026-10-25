@@ -1,5 +1,8 @@
 package de.joernott.c0de.io;
 
+import de.joernott.c0de.compat.C0deBlockEntity;
+import de.joernott.c0de.compat.Nbt;
+import de.joernott.c0de.compat.Persist;
 import de.joernott.c0de.content.C0deBlockEntities;
 import de.joernott.c0de.dialog.DialogService;
 import de.joernott.c0de.item.LiteralItem;
@@ -32,7 +35,7 @@ import net.minecraft.world.level.block.state.BlockState;
  * items from it, and both put their items into the output inventory. Hoppers and pipes reach the inventories
  * from all sides: they put items into the input and take them out of the output.
  */
-public class IoBlockEntity extends BlockEntity implements Bindable, MenuProvider, WorldlyContainer {
+public class IoBlockEntity extends C0deBlockEntity implements Bindable, MenuProvider, WorldlyContainer {
     public static final int SIZE = 18;
     private static final int[] SLOTS = IntStream.range(0, 2 * SIZE).toArray();
 
@@ -120,7 +123,8 @@ public class IoBlockEntity extends BlockEntity implements Bindable, MenuProvider
     }
 
     /** The block was removed: the items are dropped and the device is unbound. */
-    void removed() {
+    @Override
+    protected void removed() {
         if (level instanceof ServerLevel serverLevel) {
             Containers.dropContents(level, worldPosition, input);
             Containers.dropContents(level, worldPosition, output);
@@ -196,20 +200,18 @@ public class IoBlockEntity extends BlockEntity implements Bindable, MenuProvider
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.saveAdditional(tag, registries);
+    protected void save(CompoundTag tag, HolderLookup.Provider registries) {
         tag.putString("program", program);
         tag.putString("function", function);
-        tag.put("input", input.createTag(registries));
-        tag.put("output", output.createTag(registries));
+        tag.put("input", Persist.saveItems(input, registries));
+        tag.put("output", Persist.saveItems(output, registries));
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries);
-        program = tag.getString("program");
-        function = tag.getString("function");
-        input.fromTag(tag.getList("input", Tag.TAG_COMPOUND), registries);
-        output.fromTag(tag.getList("output", Tag.TAG_COMPOUND), registries);
+    protected void load(CompoundTag tag, HolderLookup.Provider registries) {
+        program = Nbt.string(tag, "program");
+        function = Nbt.string(tag, "function");
+        Persist.loadItems(input, Nbt.list(tag, "input", Tag.TAG_COMPOUND), registries);
+        Persist.loadItems(output, Nbt.list(tag, "output", Tag.TAG_COMPOUND), registries);
     }
 }

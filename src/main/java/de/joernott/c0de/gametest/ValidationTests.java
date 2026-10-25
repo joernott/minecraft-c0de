@@ -2,6 +2,7 @@ package de.joernott.c0de.gametest;
 
 import de.joernott.c0de.block.ValidatedCodeBlock;
 import de.joernott.c0de.blockentity.LabelBlockEntity;
+import de.joernott.c0de.compat.Nbt;
 import de.joernott.c0de.content.C0deBlocks;
 import de.joernott.c0de.content.C0deItems;
 import de.joernott.c0de.content.CodeBlockType;
@@ -181,20 +182,20 @@ public final class ValidationTests {
             // The label "angle" of the PARAMETER line of the CALL: an expression
             CompoundTag reference = ((LabelBlockEntity) level.getBlockEntity(sheet.pos(9, 10))).dialogData(level);
             helper.assertTrue(
-                    reference.getString("mode").equals(LabelMode.REFERENCE.name()), "Not a reference: " + reference);
-            String names = reference.getList("options", Tag.TAG_STRING).toString();
+                    Nbt.string(reference, "mode").equals(LabelMode.REFERENCE.name()), "Not a reference: " + reference);
+            String names = Nbt.list(reference, "options", Tag.TAG_STRING).toString();
             for (String name : List.of("local", "count", "angle", "c0de/math/PI")) {
                 helper.assertTrue(names.contains("\"" + name + "\""), name + " is not listed: " + names);
             }
             // The label "value" after PARAMETER in the CALL: the parameters of SIN
             CompoundTag parameter = ((LabelBlockEntity) level.getBlockEntity(sheet.pos(8, 10))).dialogData(level);
             helper.assertTrue(
-                    parameter.getString("mode").equals(LabelMode.CALL_PARAMETER.name())
-                            && parameter.getList("options", Tag.TAG_STRING).size() == 1,
+                    Nbt.string(parameter, "mode").equals(LabelMode.CALL_PARAMETER.name())
+                            && Nbt.list(parameter, "options", Tag.TAG_STRING).size() == 1,
                     "The parameters of SIN are not listed: " + parameter);
             // The label after CALL: the functions, including the program's own
             CompoundTag function = ((LabelBlockEntity) level.getBlockEntity(sheet.pos(7, 9))).dialogData(level);
-            String functions = function.getList("options", Tag.TAG_STRING).toString();
+            String functions = Nbt.list(function, "options", Tag.TAG_STRING).toString();
             helper.assertTrue(
                     functions.contains("\"main\"") && functions.contains("\"c0de/math/SIN\""),
                     "The functions are not listed: " + functions);

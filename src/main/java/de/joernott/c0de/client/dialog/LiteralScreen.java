@@ -1,5 +1,7 @@
 package de.joernott.c0de.client.dialog;
 
+import de.joernott.c0de.client.ClientCompat;
+import de.joernott.c0de.compat.Nbt;
 import de.joernott.c0de.core.edit.PropertyRules;
 import de.joernott.c0de.network.OpenDialogPayload;
 import java.time.ZoneId;
@@ -26,10 +28,9 @@ public class LiteralScreen extends PropertiesScreen {
 
     @Override
     protected void addFields() {
-        String initialType = payload.data().getString("type");
-        type = addRenderableWidget(CycleButton.<String>builder(Component::literal)
-                .withValues(PropertyRules.LITERAL_TYPES)
-                .withInitialValue(
+        String initialType = Nbt.string(payload.data(), "type");
+        type = addRenderableWidget(ClientCompat.cycleButton(
+                        PropertyRules.LITERAL_TYPES,
                         PropertyRules.LITERAL_TYPES.contains(initialType) ? initialType : "INTEGER")
                 .create(
                         left + MARGIN,
@@ -42,7 +43,7 @@ public class LiteralScreen extends PropertiesScreen {
         value = addRenderableWidget(
                 new EditBox(font, left + MARGIN, contentTop() + ROW + 10, FIELD_WIDTH, 18, Component.empty()));
         value.setMaxLength(PropertyRules.MAX_TEXT_LENGTH);
-        value.setValue(payload.data().getString("value"));
+        value.setValue(Nbt.string(payload.data(), "value"));
         value.setEditable(!readOnly);
         value.setResponder(text -> update());
         setInitialFocus(value);

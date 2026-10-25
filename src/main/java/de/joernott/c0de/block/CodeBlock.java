@@ -9,7 +9,9 @@ import de.joernott.c0de.sheet.SheetValidation;
 import java.util.Optional;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
+//? if <1.21.2
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -82,18 +84,50 @@ public class CodeBlock extends Block {
         }
     }
 
+    /** What happens after the block was removed: its block entity has already cleaned up (removed). */
+    private void afterRemoval(ServerLevel level, BlockPos pos) {
+        SheetValidation.changed(level, pos);
+    }
+
+    //? if >=1.21.5 {
+    /*@Override
+    protected void affectNeighborsAfterRemoval(BlockState state, ServerLevel level, BlockPos pos, boolean movedByPiston) {
+        super.affectNeighborsAfterRemoval(state, level, pos, movedByPiston);
+        afterRemoval(level, pos);
+    }
+    *///?} else {
     @Override
     protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
-        if (!state.is(newState.getBlock())) {
-            SheetValidation.changed(level, pos);
+        boolean replaced = !state.is(newState.getBlock());
+        if (replaced && level.getBlockEntity(pos) instanceof de.joernott.c0de.compat.C0deBlockEntity entity) {
+            entity.removedBeforeRemoval();
         }
         super.onRemove(state, level, pos, newState, movedByPiston);
+        if (replaced && level instanceof ServerLevel serverLevel) {
+            afterRemoval(serverLevel, pos);
+        }
     }
+    //?}
 
     /**
      * Right-clicking with an item uses the item, e.g. places a block next to this one. Only an empty hand
      * interacts with the block itself.
      */
+    //? if >=1.21.2 {
+    /*@Override
+    protected net.minecraft.world.InteractionResult useItemOn(
+            ItemStack stack,
+            BlockState state,
+            Level level,
+            BlockPos pos,
+            Player player,
+            InteractionHand hand,
+            BlockHitResult hitResult) {
+        return stack.isEmpty()
+                ? net.minecraft.world.InteractionResult.TRY_WITH_EMPTY_HAND
+                : net.minecraft.world.InteractionResult.PASS;
+    }
+    *///?} else {
     @Override
     protected ItemInteractionResult useItemOn(
             ItemStack stack,
@@ -107,4 +141,5 @@ public class CodeBlock extends Block {
                 ? ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION
                 : ItemInteractionResult.SKIP_DEFAULT_BLOCK_INTERACTION;
     }
+    //?}
 }

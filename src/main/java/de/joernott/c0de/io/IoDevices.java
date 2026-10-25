@@ -1,5 +1,7 @@
 package de.joernott.c0de.io;
 
+import de.joernott.c0de.compat.C0deSavedData;
+import de.joernott.c0de.compat.Nbt;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -12,9 +14,7 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.datafix.DataFixTypes;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.saveddata.SavedData;
 
 /**
  * The devices bound to programs and functions (docs/concept/19-input-output.md): display walls (by the position
@@ -22,16 +22,11 @@ import net.minecraft.world.level.saveddata.SavedData;
  * tablets are kept in {@link Terminals}. Stored with the
  * overworld ({@code data/c0de_devices.dat}), so that processes find the devices of unloaded chunks too.
  */
-public class IoDevices extends SavedData {
+public class IoDevices extends C0deSavedData {
     private static final String NAME = "c0de_devices";
 
-    // Vanilla (Fabric) can't load saved data without a data fixer type; NeoForge allows null
-    private static final DataFixTypes DATA_FIX_TYPE =
-        /*? if fabric {*/DataFixTypes.SAVED_DATA_COMMAND_STORAGE;
-        /*?} else *///null;
-
-    private static final SavedData.Factory<IoDevices> FACTORY =
-            new SavedData.Factory<>(IoDevices::new, IoDevices::load, DATA_FIX_TYPE);
+    private static final C0deSavedData.Kind<IoDevices> KIND =
+            new C0deSavedData.Kind<>(NAME, IoDevices::new, IoDevices::load);
 
     /** The kinds of devices. */
     public enum Kind {
@@ -50,7 +45,7 @@ public class IoDevices extends SavedData {
     private long next;
 
     public static IoDevices get(MinecraftServer server) {
-        return server.overworld().getDataStorage().computeIfAbsent(FACTORY, NAME);
+        return KIND.get(server.overworld().getDataStorage());
     }
 
     /** Binds a device; a device that was bound before moves to the end of the order. */
@@ -89,17 +84,17 @@ public class IoDevices extends SavedData {
 
     private static IoDevices load(CompoundTag tag, HolderLookup.Provider registries) {
         IoDevices result = new IoDevices();
-        result.next = tag.getLong("next");
-        for (Tag element : tag.getList("devices", Tag.TAG_COMPOUND)) {
+        result.next = Nbt.longValue(tag, "next");
+        for (Tag element : Nbt.list(tag, "devices", Tag.TAG_COMPOUND)) {
             CompoundTag device = (CompoundTag) element;
             try {
                 result.devices.add(new Device(
-                        Kind.valueOf(device.getString("kind")),
-                        ResourceKey.create(Registries.DIMENSION, ResourceLocation.parse(device.getString("level"))),
-                        BlockPos.of(device.getLong("pos")),
-                        device.getString("program"),
-                        device.getString("function"),
-                        device.getLong("order")));
+                        Kind.valueOf(Nbt.string(device, "kind")),
+                        ResourceKey.create(Registries.DIMENSION, ResourceLocation.parse(Nbt.string(device, "level"))),
+                        BlockPos.of(Nbt.longValue(device, "pos")),
+                        Nbt.string(device, "program"),
+                        Nbt.string(device, "function"),
+                        Nbt.longValue(device, "order")));
             } catch (IllegalArgumentException e) {
                 // A device of an unknown kind or dimension is left out
             }

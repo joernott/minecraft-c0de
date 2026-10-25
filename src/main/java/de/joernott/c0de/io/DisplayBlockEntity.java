@@ -1,5 +1,8 @@
 package de.joernott.c0de.io;
 
+import de.joernott.c0de.compat.C0deBlockEntity;
+import de.joernott.c0de.compat.Nbt;
+import de.joernott.c0de.compat.Persist;
 import de.joernott.c0de.content.C0deBlockEntities;
 import de.joernott.c0de.core.io.TextScreen;
 import de.joernott.c0de.dialog.DialogService;
@@ -32,7 +35,7 @@ import net.minecraft.world.level.block.state.BlockState;
  * left of a display wall (the origin) the screen of the whole wall and the size of the wall. The walls are
  * maintained by {@link DisplayWalls}.
  */
-public class DisplayBlockEntity extends BlockEntity implements Bindable, MenuProvider {
+public class DisplayBlockEntity extends C0deBlockEntity implements Bindable, MenuProvider {
     /** The characters of a display block: 16 columns and 8 rows. */
     public static final int COLUMNS = 16;
     public static final int ROWS = 8;
@@ -166,6 +169,21 @@ public class DisplayBlockEntity extends BlockEntity implements Bindable, MenuPro
         changed();
     }
 
+    /**
+     * The display block was removed: the camouflage drops, and the screen of a removed origin is kept for the wall
+     * that remains (DisplayWalls.removed).
+     */
+    @Override
+    protected void removed() {
+        if (level == null) {
+            return;
+        }
+        net.minecraft.world.Containers.dropContents(level, worldPosition, camouflage);
+        if (origin) {
+            DisplayWalls.originRemoved(worldPosition, screen == null ? null : ScreenNbt.write(screen));
+        }
+    }
+
     /** Opens the dialog: the binding of the wall and the camouflage slot. */
     public void openMenu(ServerPlayer player) {
         CompoundTag data = new CompoundTag();
@@ -194,11 +212,10 @@ public class DisplayBlockEntity extends BlockEntity implements Bindable, MenuPro
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.saveAdditional(tag, registries);
+    protected void save(CompoundTag tag, HolderLookup.Provider registries) {
         tag.putString("program", program);
         tag.putString("function", function);
-        tag.put("camouflage", camouflage.createTag(registries));
+        tag.put("camouflage", Persist.saveItems(camouflage, registries));
         tag.putBoolean("origin", origin);
         tag.putInt("width", width);
         tag.putInt("height", height);
@@ -210,18 +227,17 @@ public class DisplayBlockEntity extends BlockEntity implements Bindable, MenuPro
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries);
-        program = tag.getString("program");
-        function = tag.getString("function");
-        camouflage.fromTag(tag.getList("camouflage", Tag.TAG_COMPOUND), registries);
-        origin = tag.getBoolean("origin");
-        width = Math.max(1, tag.getInt("width"));
-        height = Math.max(1, tag.getInt("height"));
-        offsetRight = tag.getInt("offsetRight");
-        offsetDown = tag.getInt("offsetDown");
+    protected void load(CompoundTag tag, HolderLookup.Provider registries) {
+        program = Nbt.string(tag, "program");
+        function = Nbt.string(tag, "function");
+        Persist.loadItems(camouflage, Nbt.list(tag, "camouflage", Tag.TAG_COMPOUND), registries);
+        origin = Nbt.bool(tag, "origin");
+        width = Math.max(1, Nbt.integer(tag, "width"));
+        height = Math.max(1, Nbt.integer(tag, "height"));
+        offsetRight = Nbt.integer(tag, "offsetRight");
+        offsetDown = Nbt.integer(tag, "offsetDown");
         screen = origin && tag.contains("screen")
-                ? ScreenNbt.read(tag.getCompound("screen"), width * COLUMNS, height * ROWS, 0)
+                ? ScreenNbt.read(Nbt.compound(tag, "screen"), width * COLUMNS, height * ROWS, 0)
                 : null;
     }
 

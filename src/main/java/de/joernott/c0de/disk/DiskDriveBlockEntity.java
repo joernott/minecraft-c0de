@@ -1,5 +1,8 @@
 package de.joernott.c0de.disk;
 
+import de.joernott.c0de.compat.C0deBlockEntity;
+import de.joernott.c0de.compat.Nbt;
+import de.joernott.c0de.compat.Persist;
 import de.joernott.c0de.content.C0deBlockEntities;
 import de.joernott.c0de.platform.Platform;
 import net.minecraft.core.BlockPos;
@@ -17,7 +20,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
 /** A disk drive: the slot of its disk. */
-public class DiskDriveBlockEntity extends BlockEntity implements MenuProvider {
+public class DiskDriveBlockEntity extends C0deBlockEntity implements MenuProvider {
     private final SimpleContainer disk = new SimpleContainer(1) {
         @Override
         public int getMaxStackSize() {
@@ -44,6 +47,14 @@ public class DiskDriveBlockEntity extends BlockEntity implements MenuProvider {
         Platform.INSTANCE.openMenu(player, this, new CompoundTag());
     }
 
+    /** The drive was removed: the disk drops. */
+    @Override
+    protected void removed() {
+        if (level != null) {
+            net.minecraft.world.Containers.dropContents(level, worldPosition, disk);
+        }
+    }
+
     @Override
     public Component getDisplayName() {
         return getBlockState().getBlock().getName();
@@ -55,14 +66,12 @@ public class DiskDriveBlockEntity extends BlockEntity implements MenuProvider {
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.saveAdditional(tag, registries);
-        tag.put("disk", disk.createTag(registries));
+    protected void save(CompoundTag tag, HolderLookup.Provider registries) {
+        tag.put("disk", Persist.saveItems(disk, registries));
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries);
-        disk.fromTag(tag.getList("disk", Tag.TAG_COMPOUND), registries);
+    protected void load(CompoundTag tag, HolderLookup.Provider registries) {
+        Persist.loadItems(disk, Nbt.list(tag, "disk", Tag.TAG_COMPOUND), registries);
     }
 }

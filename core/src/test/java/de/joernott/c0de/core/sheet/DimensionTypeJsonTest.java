@@ -31,4 +31,12 @@ class DimensionTypeJsonTest {
         assertTrue(json.contains("\"fixed_time\": 6000"), json);
         assertTrue(json.contains("\"effects\": \"c0de:c0de\""), json);
     }
+
+    @Test
+    void jsonWithAttributesHasNoSky() {
+        String json = DimensionTypeJson.createWithAttributes(511);
+        assertTrue(json.contains("\"height\": 528,"), json);
+        assertTrue(json.contains("\"skybox\": \"none\""), json);
+        assertTrue(json.contains("\"minecraft:visual/fog_color\": \"#78a7ff\""), json);
+    }
 }

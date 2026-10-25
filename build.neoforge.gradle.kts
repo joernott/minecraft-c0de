@@ -14,6 +14,10 @@ val requiredJava = when {
 
 val modId = property("mod.id") as String
 
+// The development runs of 1.21.1 keep their directories (run/fabric, run/neoforge); the other versions get
+// their own (e.g. run/fabric-1.21.11), because mods in the mods folders work for one version only
+val runSuffix = if (sc.current.version == "1.21.1") "" else "-${sc.current.version}"
+
 repositories {
     mavenCentral()
     maven("https://maven.blamejared.com") { name = "BlameJared" }
@@ -25,10 +29,10 @@ val patchouliMod: Configuration by configurations.creating {
 }
 
 dependencies {
-    // Patchouli is optional: with it, the guide book of the mod can be crafted and read
-    // Patchouli only goes into the mods folder of the first client (task 11.11.4): on NeoForge, it requires its
+    // Patchouli is optional: with it, the guide book of the mod can be crafted and read. It only goes into the mods folder of the first client (task 11.11.4): on NeoForge, it requires its
     // channels on both sides, so the second client runs without it and can join servers without it
-    patchouliMod("vazkii.patchouli:Patchouli:${sc.properties.get<String>("deps.patchouli")}-NEOFORGE")
+    // Not every Minecraft version has a Patchouli release
+    sc.properties.getOrNull<String>("deps.patchouli")?.let { patchouliMod("vazkii.patchouli:Patchouli:$it-NEOFORGE") }
     // Used by core (TO_YAML, FROM_YAML, FROM_JSON), embedded in the mod jar
     implementation("org.snakeyaml:snakeyaml-engine:3.2")
     jarJar("org.snakeyaml:snakeyaml-engine:[3.2,4.0)") {
@@ -41,6 +45,9 @@ dependencies {
 // The interpreter is compiled into every node
 sourceSets.main {
     java.srcDir(rootProject.file("core/src/main/java"))
+    // Data whose format changed between the Minecraft versions (buildSrc/VersionedResources.kt)
+    versionedResourceDirs(rootProject.file("src/main/versioned")) { sc.current.parsed >= it }
+        .forEach { resources.srcDir(it) }
 }
 
 neoForge {
@@ -61,7 +68,7 @@ neoForge {
 
     runs {
         register("client") {
-            gameDirectory = rootProject.file("run/neoforge")
+            gameDirectory = rootProject.file("run/neoforge$runSuffix")
             client()
             // Fixed user name for multiplayer tests (task 11.11), so that operator rights on the test servers stay
             programArguments.addAll("--username", "Tester1")
@@ -69,13 +76,13 @@ neoForge {
 
         // A second client for multiplayer tests (task 11.11): its own game directory and user name
         register("client2") {
-            gameDirectory = rootProject.file("run/neoforge-client2")
+            gameDirectory = rootProject.file("run/neoforge-client2$runSuffix")
             client()
             programArguments.addAll("--username", "Tester2")
         }
 
         register("server") {
-            gameDirectory = rootProject.file("run/neoforge")
+            gameDirectory = rootProject.file("run/neoforge$runSuffix")
             server()
         }
 
@@ -88,9 +95,12 @@ neoForge {
 }
 
 // Created by ModDevGradle once the NeoForge version is set: libraries for development runs, which are not
-// mods (the jar-in-jar library is only unpacked in production)
-dependencies {
-    "additionalRuntimeClasspath"("org.snakeyaml:snakeyaml-engine:3.2")
+// mods (the jar-in-jar library is only unpacked in production). From 1.21.11 on, the normal runtime classpath
+// is used for them.
+if (sc.current.parsed < "1.21.11") {
+    dependencies {
+        "additionalRuntimeClasspath"("org.snakeyaml:snakeyaml-engine:3.2")
+    }
 }
 
 java {
@@ -132,7 +142,7 @@ tasks {
         group = "c0de"
         description = "Puts Patchouli into the mods folder of the first development client (run/neoforge/mods)"
         from(patchouliMod)
-        into(rootProject.file("run/neoforge/mods"))
+        into(rootProject.file("run/neoforge$runSuffix/mods"))
         // Other mods the player put into the folder stay
         preserve { include("**/*") }
     }
@@ -183,4 +193,9 @@ publishMods {
         minecraftVersions.addAll(sc.properties.get<String>("mod.mc_releases").split(",").map { it.trim() })
         optional("patchouli")
     }
+}
+
+// All compile errors at once, which helps when porting to a new Minecraft version
+tasks.withType<JavaCompile>().configureEach {
+    options.compilerArgs.addAll(listOf("-Xmaxerrs", "2000"))
 }

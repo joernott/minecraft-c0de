@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "pattern": [
+    "AAA",
+    " A ",
+    " B "
+  ],
+  "key": {
+    "A": "minecraft:iron_ingot",
+    "B": "minecraft:red_wool"
+  },
+  "result": {
+    "id": "c0de:hammer",
+    "count": 1
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "pattern": [
+    "  A",
+    " B ",
+    "C  "
+  ],
+  "key": {
+    "A": "minecraft:leather",
+    "B": "minecraft:stick",
+    "C": "minecraft:red_wool"
+  },
+  "result": {
+    "id": "c0de:debug_tool",
+    "count": 1
+  }
+}

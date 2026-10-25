@@ -1,5 +1,7 @@
 package de.joernott.c0de.item;
 
+import de.joernott.c0de.compat.Compat;
+import de.joernott.c0de.compat.Nbt;
 import de.joernott.c0de.io.Terminals;
 import java.util.UUID;
 import net.minecraft.core.component.DataComponents;
@@ -23,7 +25,7 @@ public class TabletItem extends Item {
     public static void open(ServerPlayer player) {
         ItemStack stack = player.getMainHandItem();
         if (stack.getItem() instanceof TabletItem) {
-            Terminals terminals = Terminals.get(player.server);
+            Terminals terminals = Terminals.get(Compat.server(player));
             terminals.open(player, terminals.terminal(terminal(stack)));
         }
     }
@@ -31,10 +33,10 @@ public class TabletItem extends Item {
     /** The ID of the terminal of a tablet; a new tablet gets one when it is first used. */
     public static UUID terminal(ItemStack stack) {
         CompoundTag tag = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag();
-        if (!tag.hasUUID("terminal")) {
-            tag.putUUID("terminal", UUID.randomUUID());
+        if (!Nbt.hasUuid(tag, "terminal")) {
+            Nbt.putUuid(tag, "terminal", UUID.randomUUID());
             stack.set(DataComponents.CUSTOM_DATA, CustomData.of(tag));
         }
-        return tag.getUUID("terminal");
+        return Nbt.uuid(tag, "terminal");
     }
 }

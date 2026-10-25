@@ -1,6 +1,7 @@
 package de.joernott.c0de.blockentity;
 
 import de.joernott.c0de.block.OperatorBlock;
+import de.joernott.c0de.compat.Nbt;
 import de.joernott.c0de.content.C0deBlockEntities;
 import de.joernott.c0de.core.line.Block;
 import de.joernott.c0de.core.line.Operator;
@@ -50,8 +51,8 @@ public class OperatorBlockEntity extends PropertiesBlockEntity {
 
     @Override
     protected Optional<String> check(CompoundTag properties, ServerLevel level) {
-        return parse(properties.getString("operator")) == null
-                ? Optional.of("Unknown operator: " + properties.getString("operator"))
+        return parse(Nbt.string(properties, "operator")) == null
+                ? Optional.of("Unknown operator: " + Nbt.string(properties, "operator"))
                 : Optional.empty();
     }
 
@@ -64,7 +65,7 @@ public class OperatorBlockEntity extends PropertiesBlockEntity {
 
     @Override
     protected void read(CompoundTag tag) {
-        operator = parse(tag.getString("operator"));
+        operator = parse(Nbt.string(tag, "operator"));
     }
 
     @Override

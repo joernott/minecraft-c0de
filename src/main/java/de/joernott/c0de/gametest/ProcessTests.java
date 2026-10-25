@@ -2,6 +2,7 @@ package de.joernott.c0de.gametest;
 
 import de.joernott.c0de.block.OperatorBlock;
 import de.joernott.c0de.blockentity.TriggerBlockEntity;
+import de.joernott.c0de.compat.Nbt;
 import de.joernott.c0de.content.C0deBlocks;
 import de.joernott.c0de.content.C0deItems;
 import de.joernott.c0de.core.cursor.Cursor;
@@ -63,7 +64,7 @@ public final class ProcessTests {
     /** Places a configured trigger block in the test structure with the items in its input inventory. */
     private static TriggerBlockEntity trigger(GameTestHelper helper, String program, ItemStack... inputs) {
         helper.setBlock(BlockPos.ZERO, C0deBlocks.TRIGGER_BLOCK.get());
-        TriggerBlockEntity trigger = (TriggerBlockEntity) helper.getBlockEntity(BlockPos.ZERO);
+        TriggerBlockEntity trigger = (TriggerBlockEntity) TestCompat.blockEntity(helper, BlockPos.ZERO);
         ServerPlayer player = helper.makeMockServerPlayerInLevel();
         helper.assertTrue(
                 trigger.configure(player, program, "twice", 20).isEmpty(), "The trigger block can't be configured");
@@ -89,7 +90,7 @@ public final class ProcessTests {
                 helper.assertTrue(!trigger.isRunning(), "The process is still running");
                 helper.assertTrue(trigger.exitCode() == Cursor.CRASH_EXIT_CODE, "Exit code " + trigger.exitCode());
                 helper.assertTrue(
-                        trigger.error().getString("code").equals("303"), "The error is " + trigger.error());
+                        Nbt.string(trigger.error(), "code").equals("303"), "The error is " + trigger.error());
                 ValueItem.Contents returned = ValueItem.Contents.of(trigger.output().getItem(0));
                 helper.assertTrue(
                         returned.name().equals("value") && returned.value().equals("21"),
@@ -124,7 +125,7 @@ public final class ProcessTests {
                 """);
         SheetValidation.validate(level, 514);
         helper.setBlock(BlockPos.ZERO, C0deBlocks.TRIGGER_BLOCK.get());
-        TriggerBlockEntity trigger = (TriggerBlockEntity) helper.getBlockEntity(BlockPos.ZERO);
+        TriggerBlockEntity trigger = (TriggerBlockEntity) TestCompat.blockEntity(helper, BlockPos.ZERO);
         trigger.configure(helper.makeMockServerPlayerInLevel(), "pairs", "pair", 20);
         trigger.input().setItem(0, new ItemStack(C0deItems.VARIABLE_ITEM.get(), 5));
         trigger.input().setItem(1, variable("spare", "INTEGER", "3"));
@@ -173,8 +174,8 @@ public final class ProcessTests {
         SheetValidation.validate(level, 515);
         helper.setBlock(BlockPos.ZERO, C0deBlocks.TRIGGER_BLOCK.get());
         helper.setBlock(new BlockPos(1, 0, 0), C0deBlocks.TRIGGER_BLOCK.get());
-        TriggerBlockEntity first = (TriggerBlockEntity) helper.getBlockEntity(BlockPos.ZERO);
-        TriggerBlockEntity second = (TriggerBlockEntity) helper.getBlockEntity(new BlockPos(1, 0, 0));
+        TriggerBlockEntity first = (TriggerBlockEntity) TestCompat.blockEntity(helper, BlockPos.ZERO);
+        TriggerBlockEntity second = (TriggerBlockEntity) TestCompat.blockEntity(helper, new BlockPos(1, 0, 0));
         first.configure(helper.makeMockServerPlayerInLevel(), "chained", "pair", 20);
         first.input().setItem(0, new ItemStack(C0deItems.VARIABLE_ITEM.get()));
         first.input().setItem(1, variable("spare", "INTEGER", "3"));
@@ -222,8 +223,8 @@ public final class ProcessTests {
         helper.setBlock(new BlockPos(0, 1, 0), Blocks.HOPPER.defaultBlockState()
                 .setValue(net.minecraft.world.level.block.HopperBlock.FACING, net.minecraft.core.Direction.EAST));
         helper.setBlock(secondPos, C0deBlocks.TRIGGER_BLOCK.get());
-        TriggerBlockEntity first = (TriggerBlockEntity) helper.getBlockEntity(firstPos);
-        TriggerBlockEntity second = (TriggerBlockEntity) helper.getBlockEntity(secondPos);
+        TriggerBlockEntity first = (TriggerBlockEntity) TestCompat.blockEntity(helper, firstPos);
+        TriggerBlockEntity second = (TriggerBlockEntity) TestCompat.blockEntity(helper, secondPos);
         first.configure(helper.makeMockServerPlayerInLevel(), "hopping", "pair", 20);
         first.input().setItem(0, new ItemStack(C0deItems.VARIABLE_ITEM.get()));
         first.input().setItem(1, variable("spare", "INTEGER", "3"));
@@ -260,7 +261,7 @@ public final class ProcessTests {
                         """));
         SheetValidation.validate(level, 517);
         helper.setBlock(BlockPos.ZERO, C0deBlocks.TRIGGER_BLOCK.get());
-        TriggerBlockEntity trigger = (TriggerBlockEntity) helper.getBlockEntity(BlockPos.ZERO);
+        TriggerBlockEntity trigger = (TriggerBlockEntity) TestCompat.blockEntity(helper, BlockPos.ZERO);
         ServerPlayer owner = helper.makeMockServerPlayerInLevel();
         trigger.configure(owner, "aborting", "twice", 20);
         trigger.input().setItem(0, variable("value", "INTEGER", "1"));
@@ -273,7 +274,7 @@ public final class ProcessTests {
                 helper.assertTrue(!trigger.isRunning(), "The process is still running");
                 helper.assertTrue(trigger.exitCode() == Cursor.CRASH_EXIT_CODE, "Exit code " + trigger.exitCode());
                 helper.assertTrue(
-                        trigger.error().getString("code").equals("206"), "The error is " + trigger.error());
+                        Nbt.string(trigger.error(), "code").equals("206"), "The error is " + trigger.error());
                 helper.assertTrue(
                         ValueItem.Contents.of(trigger.output().getItem(0)).name().equals("value"),
                         "The input was not returned");
@@ -329,7 +330,7 @@ public final class ProcessTests {
                 """);
         SheetValidation.validate(level, 518);
         helper.setBlock(BlockPos.ZERO, C0deBlocks.TRIGGER_BLOCK.get());
-        TriggerBlockEntity trigger = (TriggerBlockEntity) helper.getBlockEntity(BlockPos.ZERO);
+        TriggerBlockEntity trigger = (TriggerBlockEntity) TestCompat.blockEntity(helper, BlockPos.ZERO);
         trigger.configure(helper.makeMockServerPlayerInLevel(), "looping", "Test8", 20);
         trigger.input().setItem(0, variable("In", "STRING", "x"));
         trigger.start();

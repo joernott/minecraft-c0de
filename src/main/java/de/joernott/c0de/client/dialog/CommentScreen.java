@@ -1,5 +1,7 @@
 package de.joernott.c0de.client.dialog;
 
+import de.joernott.c0de.client.ClientCompat;
+import de.joernott.c0de.compat.Nbt;
 import de.joernott.c0de.core.edit.PropertyRules;
 import de.joernott.c0de.network.OpenDialogPayload;
 import java.util.Optional;
@@ -24,7 +26,7 @@ public class CommentScreen extends PropertiesScreen {
 
     @Override
     protected void addFields() {
-        text = addRenderableWidget(new MultiLineEditBox(
+        text = addRenderableWidget(ClientCompat.multiLineEditBox(
                 font,
                 left + MARGIN,
                 contentTop(),
@@ -33,7 +35,7 @@ public class CommentScreen extends PropertiesScreen {
                 Component.translatable("dialog.c0de.comment.placeholder"),
                 Component.empty()));
         text.setCharacterLimit(PropertyRules.MAX_TEXT_LENGTH);
-        text.setValue(payload.data().getString("text"));
+        text.setValue(Nbt.string(payload.data(), "text"));
         text.setValueListener(value -> update());
         text.active = !readOnly;
         if (!readOnly) {

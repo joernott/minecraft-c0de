@@ -3,7 +3,6 @@ package de.joernott.c0de.platform.fabric;
 //? if fabric {
 import de.joernott.c0de.blockentity.PropertiesBlockEntity;
 import de.joernott.c0de.client.C0deClient;
-import de.joernott.c0de.client.C0deDimensionEffects;
 import de.joernott.c0de.client.DisplayRenderer;
 import de.joernott.c0de.client.ExtrudedModel;
 import de.joernott.c0de.client.LineNumbers;
@@ -11,7 +10,6 @@ import de.joernott.c0de.client.ProcessRenderers;
 import de.joernott.c0de.client.PropertiesRenderer;
 import de.joernott.c0de.client.TriggerScreen;
 import de.joernott.c0de.content.C0deEntities;
-import de.joernott.c0de.content.C0deItems;
 import de.joernott.c0de.content.C0deMenus;
 import de.joernott.c0de.content.C0deBlockEntities;
 import de.joernott.c0de.content.C0deBlocks;
@@ -19,36 +17,37 @@ import de.joernott.c0de.content.CodeBlockType;
 import de.joernott.c0de.network.ClientReceivers;
 import de.joernott.c0de.platform.Platform;
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
-import net.fabricmc.fabric.api.client.rendering.v1.DimensionRenderingRegistry;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 
 /** Client entry point for Fabric. */
 public class C0deFabricClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
-        DimensionRenderingRegistry.registerDimensionEffects(C0deDimensionEffects.ID, new C0deDimensionEffects());
+        //? if <1.21.11 {
+        net.fabricmc.fabric.api.client.rendering.v1.DimensionRenderingRegistry.registerDimensionEffects(
+                de.joernott.c0de.client.C0deDimensionEffects.ID, new de.joernott.c0de.client.C0deDimensionEffects());
+        //?}
         C0deClient.init();
         Platform.FabricPlatform.CLIENTBOUND.forEach(C0deFabricClient::receive);
         // The symbols on the blocks have transparent pixels; NeoForge reads the render type from the models
         for (CodeBlockType type : CodeBlockType.values()) {
-            BlockRenderLayerMap.INSTANCE.putBlock(C0deBlocks.get(type), RenderType.cutout());
+            cutout(C0deBlocks.get(type));
         }
         // The vanilla registration method is private in 1.21.1
         C0deBlockEntities.all().forEach(C0deFabricClient::renderer);
         for (var block : java.util.List.of(
                 C0deBlocks.TRIGGER_BLOCK, C0deBlocks.TIMER_BLOCK, C0deBlocks.DEBUG_TRIGGER_BLOCK)) {
-            BlockRenderLayerMap.INSTANCE.putBlock(block.get(), RenderType.cutout());
+            cutout(block.get());
         }
         BlockEntityRendererRegistry.register(C0deBlockEntities.TRIGGER.get(), ProcessRenderers.Camouflage::new);
         BlockEntityRendererRegistry.register(C0deBlockEntities.PID.get(), ProcessRenderers.Pid::new);
         BlockEntityRendererRegistry.register(C0deBlockEntities.DISPLAY.get(), DisplayRenderer::new);
-        BlockRenderLayerMap.INSTANCE.putBlock(C0deBlocks.DISPLAY_BLOCK.get(), RenderType.cutout());
+        cutout(C0deBlocks.DISPLAY_BLOCK.get());
         net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry.register(
                 C0deEntities.CURSOR.get(), ProcessRenderers.Cursor::new);
         net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry.register(
@@ -60,20 +59,48 @@ public class C0deFabricClient implements ClientModInitializer {
                 C0deMenus.DISPLAY.get(), de.joernott.c0de.client.DisplayScreen::new);
         net.minecraft.client.gui.screens.MenuScreens.register(
                 C0deMenus.DISK_DRIVE.get(), de.joernott.c0de.client.DiskDriveScreen::new);
+        //? if >=1.21.11 {
+        /*net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin.register(plugin -> plugin
+                .modifyModelOnLoad()
+                .register((model, context) -> ExtrudedModel.wrap(context.id(), model)));
+        // The text marker is colored by the tint of its item definition (assets/c0de/items/marker.json)
+        net.fabricmc.fabric.api.client.rendering.v1.world.WorldRenderEvents.BEFORE_ENTITIES.register(
+                context -> LineNumbers.render(
+                        context.worldState().cameraRenderState.pos,
+                        context.matrices(),
+                        de.joernott.c0de.client.Canvas.of(context.commandQueue())));
+        *///?} else {
         net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin.register(plugin -> plugin
                 .modifyModelAfterBake()
                 .register((model, context) ->
                         context.topLevelId() == null ? model : ExtrudedModel.wrap(context.topLevelId(), model)));
         net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry.ITEM.register(
-                C0deClient::itemColor, C0deItems.MARKER.get());
-        net.fabricmc.fabric.api.event.client.player.ClientPreAttackCallback.EVENT.register(
-                (client, player, clickCount) -> clickCount > 0 && C0deClient.attack());
+                C0deClient::itemColor, de.joernott.c0de.content.C0deItems.MARKER.get());
         net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents.AFTER_ENTITIES.register(
                 context -> LineNumbers.render(context.camera()));
+        //?}
+        net.fabricmc.fabric.api.event.client.player.ClientPreAttackCallback.EVENT.register(
+                (client, player, clickCount) -> clickCount > 0 && C0deClient.attack());
+    }
+
+    /** Draws the block with transparent pixels. */
+    private static void cutout(Block block) {
+        //? if >=1.21.11 {
+        /*net.fabricmc.fabric.api.client.rendering.v1.BlockRenderLayerMap.putBlock(
+                block, net.minecraft.client.renderer.chunk.ChunkSectionLayer.CUTOUT);
+        *///?} else {
+        net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap.INSTANCE.putBlock(
+                block, net.minecraft.client.renderer.RenderType.cutout());
+        //?}
     }
 
     private static <E extends PropertiesBlockEntity> void renderer(BlockEntityType<E> type) {
+        //? if >=1.21.11 {
+        /*BlockEntityRendererProvider<PropertiesBlockEntity, de.joernott.c0de.client.EntityState<PropertiesBlockEntity>>
+                provider = PropertiesRenderer::new;
+        *///?} else {
         BlockEntityRendererProvider<PropertiesBlockEntity> provider = PropertiesRenderer::new;
+        //?}
         BlockEntityRendererRegistry.register(type, provider);
     }
 

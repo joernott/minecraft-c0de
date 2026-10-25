@@ -1,5 +1,8 @@
 package de.joernott.c0de.sheet;
 
+import de.joernott.c0de.compat.C0deSavedData;
+import de.joernott.c0de.compat.Compat;
+import de.joernott.c0de.compat.Nbt;
 import de.joernott.c0de.core.sheet.SheetGeometry;
 import de.joernott.c0de.dimension.C0deDimension;
 import de.joernott.c0de.network.GiveSheetPayload;
@@ -20,9 +23,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.util.datafix.DataFixTypes;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.saveddata.SavedData;
 
 /**
  * The owners of the sheets (docs/concept/01-dimension.md): the player who changed an empty sheet first. Only the
@@ -30,18 +31,13 @@ import net.minecraft.world.level.saveddata.SavedData;
  * the trigger block of an administrator. A sheet whose first line becomes empty holds no program and has no owner
  * any more. Stored with the dimension ({@code dimensions/c0de/c0de/data/c0de_sheet_owners.dat}).
  */
-public class SheetOwners extends SavedData {
+public class SheetOwners extends C0deSavedData {
     /** The permission level of administrators, like for the restricted functions of c0de/minecraft. */
     public static final int ADMIN_LEVEL = 2;
     private static final String NAME = "c0de_sheet_owners";
 
-    // Vanilla (Fabric) can't load saved data without a data fixer type; NeoForge allows null
-    private static final DataFixTypes DATA_FIX_TYPE =
-        /*? if fabric {*/DataFixTypes.SAVED_DATA_COMMAND_STORAGE;
-        /*?} else *///null;
-
-    private static final SavedData.Factory<SheetOwners> FACTORY =
-            new SavedData.Factory<>(SheetOwners::new, SheetOwners::load, DATA_FIX_TYPE);
+    private static final C0deSavedData.Kind<SheetOwners> KIND =
+            new C0deSavedData.Kind<>(NAME, SheetOwners::new, SheetOwners::load);
 
     /** An owner: the UUID, and the name for messages. */
     public record Owner(UUID id, String name) {}
@@ -50,7 +46,7 @@ public class SheetOwners extends SavedData {
 
     /** The owners of the sheets of the c0de dimension. */
     public static SheetOwners get(ServerLevel c0de) {
-        return c0de.getDataStorage().computeIfAbsent(FACTORY, NAME);
+        return KIND.get(c0de.getDataStorage());
     }
 
     public Optional<Owner> owner(int sheet) {
@@ -68,12 +64,12 @@ public class SheetOwners extends SavedData {
         if (owner == null) {
             // Administrators become owners too, so that their sheets are protected like everybody's
             if (claim) {
-                owners.put(sheet, new Owner(player.getUUID(), player.getGameProfile().getName()));
-                changed(player.server);
+                owners.put(sheet, new Owner(player.getUUID(), Compat.name(player.getGameProfile())));
+                changed(Compat.server(player));
             }
             return Optional.empty();
         }
-        if (owner.id().equals(player.getUUID()) || player.hasPermissions(ADMIN_LEVEL)) {
+        if (owner.id().equals(player.getUUID()) || Compat.isAdministrator(player)) {
             return Optional.empty();
         }
         return Optional.of(Component.translatable("message.c0de.sheet_owner", owner.name()));
@@ -94,11 +90,11 @@ public class SheetOwners extends SavedData {
     public Optional<String> give(ServerPlayer player, int sheet, ServerPlayer receiver) {
         Owner owner = owners.get(sheet);
         boolean own = owner != null && owner.id().equals(player.getUUID());
-        if (!own && !player.hasPermissions(ADMIN_LEVEL)) {
+        if (!own && !Compat.isAdministrator(player)) {
             return Optional.of("Only the owner of the sheet and administrators can give it away");
         }
-        owners.put(sheet, new Owner(receiver.getUUID(), receiver.getGameProfile().getName()));
-        changed(player.server);
+        owners.put(sheet, new Owner(receiver.getUUID(), Compat.name(receiver.getGameProfile())));
+        changed(Compat.server(player));
         return Optional.empty();
     }
 
@@ -124,10 +120,10 @@ public class SheetOwners extends SavedData {
         int sheet = pos.getX() / SheetGeometry.SHEET_WIDTH;
         CompoundTag data = new CompoundTag();
         data.putInt("sheet", sheet);
-        data.putString("owner", get(player.serverLevel()).owner(sheet).map(Owner::name).orElse(""));
+        data.putString("owner", get(Compat.level(player)).owner(sheet).map(Owner::name).orElse(""));
         ListTag players = new ListTag();
-        player.server.getPlayerList().getPlayers().stream()
-                .map(online -> online.getGameProfile().getName())
+        Compat.server(player).getPlayerList().getPlayers().stream()
+                .map(online -> Compat.name(online.getGameProfile()))
                 .sorted()
                 .forEach(name -> players.add(StringTag.valueOf(name)));
         data.put("players", players);
@@ -138,8 +134,8 @@ public class SheetOwners extends SavedData {
     public static void register() {
         Platform.INSTANCE.registerClientbound(SheetOwnersPayload.TYPE, SheetOwnersPayload.CODEC);
         Platform.INSTANCE.registerServerbound(GiveSheetPayload.TYPE, GiveSheetPayload.CODEC, (payload, player) -> {
-            ServerLevel c0de = player.server.getLevel(C0deDimension.LEVEL);
-            ServerPlayer receiver = player.server.getPlayerList().getPlayerByName(payload.player());
+            ServerLevel c0de = Compat.server(player).getLevel(C0deDimension.LEVEL);
+            ServerPlayer receiver = Compat.server(player).getPlayerList().getPlayerByName(payload.player());
             Optional<String> problem = c0de == null || receiver == null
                     ? Optional.of("The player " + payload.player() + " is not online")
                     : get(c0de).give(player, payload.sheet(), receiver);
@@ -150,7 +146,7 @@ public class SheetOwners extends SavedData {
                     true);
         });
         Platform.INSTANCE.onPlayerJoin(player -> {
-            ServerLevel c0de = player.server.getLevel(C0deDimension.LEVEL);
+            ServerLevel c0de = Compat.server(player).getLevel(C0deDimension.LEVEL);
             if (c0de != null) {
                 Platform.INSTANCE.sendToPlayer(player, get(c0de).payload());
             }
@@ -172,9 +168,9 @@ public class SheetOwners extends SavedData {
 
     private static SheetOwners load(CompoundTag tag, HolderLookup.Provider registries) {
         SheetOwners result = new SheetOwners();
-        for (Tag element : tag.getList("owners", Tag.TAG_COMPOUND)) {
+        for (Tag element : Nbt.list(tag, "owners", Tag.TAG_COMPOUND)) {
             CompoundTag entry = (CompoundTag) element;
-            result.owners.put(entry.getInt("sheet"), new Owner(entry.getUUID("id"), entry.getString("name")));
+            result.owners.put(Nbt.integer(entry, "sheet"), new Owner(Nbt.uuid(entry, "id"), Nbt.string(entry, "name")));
         }
         return result;
     }
@@ -185,7 +181,7 @@ public class SheetOwners extends SavedData {
         owners.forEach((sheet, owner) -> {
             CompoundTag entry = new CompoundTag();
             entry.putInt("sheet", sheet);
-            entry.putUUID("id", owner.id());
+            Nbt.putUuid(entry, "id", owner.id());
             entry.putString("name", owner.name());
             list.add(entry);
         });

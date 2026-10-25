@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "ingredients": [
+    "c0de:type_integer_block",
+    "minecraft:orange_dye"
+  ],
+  "result": {
+    "id": "c0de:type_float_block",
+    "count": 1
+  }
+}

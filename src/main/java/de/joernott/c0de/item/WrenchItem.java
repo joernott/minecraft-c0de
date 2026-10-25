@@ -1,6 +1,7 @@
 package de.joernott.c0de.item;
 
 import de.joernott.c0de.block.TriggerBlock;
+import de.joernott.c0de.compat.Compat;
 import de.joernott.c0de.dimension.C0deDimension;
 import de.joernott.c0de.sheet.SheetOwners;
 import de.joernott.c0de.tool.ToolActions;
@@ -9,6 +10,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -31,27 +33,35 @@ public class WrenchItem extends Item {
             if (context.getPlayer() instanceof ServerPlayer player) {
                 C0deDimension.enter(player, pos);
             }
-            return InteractionResult.sidedSuccess(level.isClientSide());
+            return Compat.success(level);
         }
         if (SheetOwners.isInfo(level, pos)) {
             // The information of a sheet: give the sheet to another player (task 11.11.7)
             if (context.getPlayer() instanceof ServerPlayer player) {
                 SheetOwners.openGive(player, pos);
             }
-            return InteractionResult.sidedSuccess(level.isClientSide());
+            return Compat.success(level);
         }
         if (!ToolActions.isOnLine(level, pos)) {
             return InteractionResult.PASS;
         }
         if (context.getPlayer() instanceof ServerPlayer player) {
-            ToolActions.wrench(player, player.serverLevel(), pos, true);
+            ToolActions.wrench(player, Compat.level(player), pos, true);
         }
         return InteractionResult.SUCCESS;
     }
 
     /** The wrench doesn't break blocks; its left click moves the marked lines. */
+    //? if >=1.21.5 {
+    /*@Override
+    public boolean canDestroyBlock(
+            ItemStack stack, BlockState state, Level level, BlockPos pos, net.minecraft.world.entity.LivingEntity entity) {
+        return false;
+    }
+    *///?} else {
     @Override
     public boolean canAttackBlock(BlockState state, Level level, BlockPos pos, Player player) {
         return false;
     }
+    //?}
 }

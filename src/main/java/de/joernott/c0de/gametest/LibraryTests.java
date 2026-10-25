@@ -12,7 +12,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.server.players.ServerOpListEntry;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LeverBlock;
@@ -78,7 +77,7 @@ public final class LibraryTests {
                 .setValue(LeverBlock.FACE, AttachFace.FLOOR));
         BlockPos lever = helper.absolutePos(new BlockPos(2, 1, 0));
         helper.setBlock(BlockPos.ZERO, C0deBlocks.TRIGGER_BLOCK.get());
-        TriggerBlockEntity trigger = (TriggerBlockEntity) helper.getBlockEntity(BlockPos.ZERO);
+        TriggerBlockEntity trigger = (TriggerBlockEntity) TestCompat.blockEntity(helper, BlockPos.ZERO);
         trigger.configure(helper.makeMockServerPlayerInLevel(), "worldtest", "run", 20);
         trigger.input().setItem(0, variable(
                 "lever",
@@ -124,13 +123,13 @@ public final class LibraryTests {
         SheetValidation.validate(c0de, 536);
         ServerPlayer author = helper.makeMockServerPlayerInLevel();
         ServerPlayer admin = helper.makeMockServerPlayerInLevel();
-        helper.getLevel().getServer().getPlayerList().getOps().add(new ServerOpListEntry(admin.getGameProfile(), 4, false));
+        TestCompat.op(helper.getLevel().getServer(), admin);
         SheetOwners.get(c0de).check(author, 536, true);
         helper.setBlock(new BlockPos(2, 0, 0), Blocks.STONE);
         helper.setBlock(new BlockPos(2, 1, 0), Blocks.LEVER.defaultBlockState().setValue(LeverBlock.FACE, AttachFace.FLOOR));
         BlockPos lever = helper.absolutePos(new BlockPos(2, 1, 0));
         helper.setBlock(BlockPos.ZERO, C0deBlocks.TRIGGER_BLOCK.get());
-        TriggerBlockEntity trigger = (TriggerBlockEntity) helper.getBlockEntity(BlockPos.ZERO);
+        TriggerBlockEntity trigger = (TriggerBlockEntity) TestCompat.blockEntity(helper, BlockPos.ZERO);
         trigger.configure(admin, "ownprogram", "run", 20);
         trigger.input().setItem(0, variable(
                 "lever",
@@ -155,7 +154,7 @@ public final class LibraryTests {
                 helper.assertTrue(denied.equals("311"), "REMOVE_BLOCK returned " + denied + " instead of 311");
                 helper.assertTrue(helper.getLevel().getBlockState(lever).is(Blocks.LEVER), "The lever was removed");
             } finally {
-                helper.getLevel().getServer().getPlayerList().getOps().remove(admin.getGameProfile());
+                TestCompat.deop(helper.getLevel().getServer(), admin);
                 sheet.clear();
                 SheetValidation.validate(c0de, 536);
             }
@@ -173,13 +172,13 @@ public final class LibraryTests {
         SheetValidation.validate(c0de, 538);
         ServerPlayer admin = helper.makeMockServerPlayerInLevel();
         ServerPlayer player = helper.makeMockServerPlayerInLevel();
-        helper.getLevel().getServer().getPlayerList().getOps().add(new ServerOpListEntry(admin.getGameProfile(), 4, false));
+        TestCompat.op(helper.getLevel().getServer(), admin);
         SheetOwners.get(c0de).check(admin, 538, true);
         helper.setBlock(new BlockPos(2, 0, 0), Blocks.STONE);
         helper.setBlock(new BlockPos(2, 1, 0), Blocks.LEVER.defaultBlockState().setValue(LeverBlock.FACE, AttachFace.FLOOR));
         BlockPos lever = helper.absolutePos(new BlockPos(2, 1, 0));
         helper.setBlock(BlockPos.ZERO, C0deBlocks.TRIGGER_BLOCK.get());
-        TriggerBlockEntity trigger = (TriggerBlockEntity) helper.getBlockEntity(BlockPos.ZERO);
+        TriggerBlockEntity trigger = (TriggerBlockEntity) TestCompat.blockEntity(helper, BlockPos.ZERO);
         trigger.configure(admin, "activators", "run", 20, TriggerBlockEntity.Run.OWNER);
         helper.assertTrue(
                 trigger.configure(player, "activators", "run", 20).isPresent(), "Another player changed the trigger block");
@@ -205,7 +204,7 @@ public final class LibraryTests {
                         trigger.exitCode() == 15, "REMOVE_BLOCK didn't crash the process: exit code " + trigger.exitCode());
                 helper.assertTrue(helper.getLevel().getBlockState(lever).is(Blocks.LEVER), "The lever was removed");
             } finally {
-                helper.getLevel().getServer().getPlayerList().getOps().remove(admin.getGameProfile());
+                TestCompat.deop(helper.getLevel().getServer(), admin);
                 sheet.clear();
                 SheetValidation.validate(c0de, 538);
             }

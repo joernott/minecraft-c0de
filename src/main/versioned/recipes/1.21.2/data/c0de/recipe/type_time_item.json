@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "ingredients": [
+    "c0de:data_item",
+    "minecraft:red_dye",
+    "minecraft:clock"
+  ],
+  "result": {
+    "id": "c0de:type_time_item",
+    "count": 1
+  }
+}

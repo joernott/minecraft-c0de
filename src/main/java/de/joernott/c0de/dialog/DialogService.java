@@ -2,6 +2,8 @@ package de.joernott.c0de.dialog;
 
 import de.joernott.c0de.C0de;
 import de.joernott.c0de.blockentity.PropertiesBlockEntity;
+import de.joernott.c0de.compat.Compat;
+import de.joernott.c0de.compat.Nbt;
 import de.joernott.c0de.core.edit.ItemRules;
 import de.joernott.c0de.core.validation.Validation;
 import de.joernott.c0de.dimension.C0deDimension;
@@ -50,7 +52,7 @@ public final class DialogService {
     /** The programs of the c0de dimension with their functions, for the dialogs of devices. */
     public static CompoundTag programs(ServerPlayer player) {
         CompoundTag programs = new CompoundTag();
-        ServerLevel c0de = player.server.getLevel(C0deDimension.LEVEL);
+        ServerLevel c0de = Compat.server(player).getLevel(C0deDimension.LEVEL);
         if (c0de != null) {
             ProgramRegistry registry = ProgramRegistry.get(c0de);
             for (String name : registry.programs()) {
@@ -106,13 +108,13 @@ public final class DialogService {
     public static Optional<String> saveItem(ServerPlayer player, CompoundTag properties) {
         ItemStack stack = player.getMainHandItem();
         if (stack.getItem() instanceof LiteralItem literal) {
-            return literal.apply(stack, properties.getString("type"), properties.getString("value"));
+            return literal.apply(stack, Nbt.string(properties, "type"), Nbt.string(properties, "value"));
         }
         if (!(stack.getItem() instanceof ValueItem item)) {
             return Optional.of("There is no variable, constant or literal item in the main hand");
         }
         return item.apply(
-                stack, properties.getString("name"), properties.getString("type"), properties.getString("value"));
+                stack, Nbt.string(properties, "name"), Nbt.string(properties, "type"), Nbt.string(properties, "value"));
     }
 
     /** Opens the dialog of the block at the position for a player. */
@@ -125,7 +127,7 @@ public final class DialogService {
 
     /** The payload that opens the dialog, or null if the block has no dialog. */
     public static OpenDialogPayload payload(ServerPlayer player, BlockPos pos) {
-        ServerLevel level = player.serverLevel();
+        ServerLevel level = Compat.level(player);
         if (!(level.getBlockEntity(pos) instanceof PropertiesBlockEntity entity)) {
             return null;
         }
@@ -142,8 +144,8 @@ public final class DialogService {
      * @return the reason if the properties were not changed
      */
     public static Optional<String> save(ServerPlayer player, BlockPos pos, SavePropertiesPayload payload) {
-        ServerLevel level = player.serverLevel();
-        if (!level.isLoaded(pos) || !player.canInteractWithBlock(pos, REACH_TOLERANCE)) {
+        ServerLevel level = Compat.level(player);
+        if (!level.isLoaded(pos) || !Compat.canReach(player, pos, REACH_TOLERANCE)) {
             return Optional.of("The block is too far away");
         }
         Optional<Component> protection = SheetProtection.reason(player, level, pos, true);

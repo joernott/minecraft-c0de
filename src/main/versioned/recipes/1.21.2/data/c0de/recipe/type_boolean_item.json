@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "ingredients": [
+    "c0de:data_item",
+    "minecraft:red_dye",
+    "minecraft:redstone_torch"
+  ],
+  "result": {
+    "id": "c0de:type_boolean_item",
+    "count": 1
+  }
+}

@@ -1,6 +1,7 @@
 package de.joernott.c0de.gametest;
 
 import de.joernott.c0de.blockentity.PropertiesBlockEntity;
+import de.joernott.c0de.compat.ChunkTickets;
 import de.joernott.c0de.content.C0deBlocks;
 import de.joernott.c0de.core.line.Block;
 import de.joernott.c0de.core.line.Line;
@@ -10,12 +11,10 @@ import de.joernott.c0de.sheet.LevelSheet;
 import de.joernott.c0de.sheet.SheetOwners;
 import de.joernott.c0de.sheet.SheetWriter;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.TicketType;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.block.Blocks;
 
@@ -24,13 +23,6 @@ final class SheetBuilder {
     private final ServerLevel level;
     private final int sheet;
     private final List<BlockPos> placed = new ArrayList<>();
-
-    /**
-     * Keeps the chunks of a sheet loaded for a test. Forced chunks made the NeoForge GameTest server hang when
-     * it stopped, so the chunks get a ticket that expires by itself.
-     */
-    private static final TicketType<ChunkPos> TICKET =
-            TicketType.create("c0de_gametest", Comparator.comparingLong(ChunkPos::toLong), 200);
 
     /** Loads the chunks of the first 48 lines of the sheet. */
     SheetBuilder(ServerLevel level, int sheet) {
@@ -41,7 +33,7 @@ final class SheetBuilder {
         int chunkX = SheetGeometry.absoluteX(sheet, 0) >> 4;
         for (int chunkZ = 0; chunkZ < 3; chunkZ++) {
             for (ChunkPos chunk : List.of(new ChunkPos(chunkX, chunkZ), new ChunkPos(chunkX + 1, chunkZ))) {
-                level.getChunkSource().addRegionTicket(TICKET, chunk, 0, chunk);
+                ChunkTickets.addTemporary(level, chunk);
                 level.getChunk(chunk.x, chunk.z);
             }
         }

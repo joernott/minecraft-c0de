@@ -1,6 +1,7 @@
 package de.joernott.c0de.client.dialog;
 
 import de.joernott.c0de.blockentity.OperatorBlockEntity;
+import de.joernott.c0de.compat.Nbt;
 import de.joernott.c0de.core.line.Operator;
 import de.joernott.c0de.network.OpenDialogPayload;
 import java.util.Optional;
@@ -40,7 +41,7 @@ public class OperatorScreen extends PropertiesScreen {
 
     @Override
     protected void addFields() {
-        String current = payload.data().getString("operator");
+        String current = Nbt.string(payload.data(), "operator");
         int gridLeft = left + (WIDTH - COLUMNS * (SIZE + 2)) / 2;
         for (int i = 0; i < OperatorBlockEntity.CHOICES.size(); i++) {
             Operator operator = OperatorBlockEntity.CHOICES.get(i);

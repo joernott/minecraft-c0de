@@ -3,6 +3,7 @@ package de.joernott.c0de.client;
 import de.joernott.c0de.block.TriggerBlock;
 import de.joernott.c0de.blockentity.TriggerBlockEntity;
 import de.joernott.c0de.client.dialog.Panels;
+import de.joernott.c0de.compat.Nbt;
 import de.joernott.c0de.menu.TriggerMenu;
 import de.joernott.c0de.network.TriggerConfigPayload;
 import de.joernott.c0de.platform.Platform;
@@ -55,11 +56,11 @@ public class TriggerScreen extends AbstractContainerScreen<TriggerMenu> {
     public TriggerScreen(TriggerMenu menu, Inventory inventory, Component title) {
         super(menu, inventory, title);
         CompoundTag data = menu.data();
-        programs = data.getCompound("programs");
-        timer = TriggerBlock.Kind.TIMER.name().equals(data.getString("kind"));
-        program = data.getString("program");
-        function = data.getString("function");
-        run = TriggerBlockEntity.Run.of(data.getString("run"));
+        programs = Nbt.compound(data, "programs");
+        timer = TriggerBlock.Kind.TIMER.name().equals(Nbt.string(data, "kind"));
+        program = Nbt.string(data, "program");
+        function = Nbt.string(data, "function");
+        run = TriggerBlockEntity.Run.of(Nbt.string(data, "run"));
         imageWidth = PANEL_X + PANEL_WIDTH;
         imageHeight = TriggerMenu.HOTBAR_Y + 24;
         inventoryLabelY = TriggerMenu.PLAYER_Y - 11;
@@ -86,7 +87,7 @@ public class TriggerScreen extends AbstractContainerScreen<TriggerMenu> {
         if (timer) {
             interval = addRenderableWidget(
                     new EditBox(font, x, topPos + 86, PANEL_WIDTH - 6, 18, Component.empty()));
-            interval.setValue(Integer.toString(menu.data().getInt("interval")));
+            interval.setValue(Integer.toString(Nbt.integer(menu.data(), "interval")));
             interval.setFilter(text -> text.matches("\\d{0,5}"));
         } else {
             // Who may start the block (task 11.11.8); timer blocks start themselves
@@ -111,13 +112,13 @@ public class TriggerScreen extends AbstractContainerScreen<TriggerMenu> {
 
     private int intervalValue() {
         if (interval == null || interval.getValue().isEmpty()) {
-            return menu.data().getInt("interval");
+            return Nbt.integer(menu.data(), "interval");
         }
         return Integer.parseInt(interval.getValue());
     }
 
     private List<String> programNames() {
-        List<String> names = new ArrayList<>(programs.getAllKeys());
+        List<String> names = new ArrayList<>(Nbt.keys(programs));
         names.sort(String::compareTo);
         names.add(0, "");
         return names;
@@ -125,7 +126,7 @@ public class TriggerScreen extends AbstractContainerScreen<TriggerMenu> {
 
     private List<String> functionNames(String name) {
         List<String> names = new ArrayList<>();
-        programs.getList(name, Tag.TAG_STRING).forEach(f -> names.add(f.getAsString()));
+        Nbt.list(programs, name, Tag.TAG_STRING).forEach(f -> names.add(Nbt.text(f)));
         return names;
     }
 
@@ -215,18 +216,18 @@ public class TriggerScreen extends AbstractContainerScreen<TriggerMenu> {
             state.add(Component.translatable("dialog.c0de.trigger.pid", menu.pid()));
         } else if (menu.exitCode() >= 0) {
             state.add(Component.translatable("dialog.c0de.trigger.exit_code", menu.exitCode()));
-            CompoundTag error = menu.data().getCompound("error");
-            if (!error.isEmpty() && menu.exitCode() == menu.data().getInt("exitCode")) {
-                state.add(Component.literal(error.getString("code") + " " + error.getString("message")));
+            CompoundTag error = Nbt.compound(menu.data(), "error");
+            if (!error.isEmpty() && menu.exitCode() == Nbt.integer(menu.data(), "exitCode")) {
+                state.add(Component.literal(Nbt.string(error, "code") + " " + Nbt.string(error, "message")));
                 state.add(Component.translatable(
-                        "dialog.c0de.trigger.error_at", error.getString("context"), error.getString("line")));
+                        "dialog.c0de.trigger.error_at", Nbt.string(error, "context"), Nbt.string(error, "line")));
             }
         }
-        String status = menu.data().getString("status");
+        String status = Nbt.string(menu.data(), "status");
         if (!status.isEmpty() && menu.pid() < 0) {
             state.add(Component.literal(status).withStyle(ChatFormatting.DARK_RED));
         }
-        String owner = menu.data().getString("owner");
+        String owner = Nbt.string(menu.data(), "owner");
         if (!owner.isEmpty()) {
             state.add(Component.translatable("dialog.c0de.trigger.owner", owner));
         }

@@ -76,6 +76,28 @@ public final class DisplayWalls {
         return blocks;
     }
 
+    /** A removed origin of a wall and its screen, between the removal of its block entity and of its block. */
+    private record RemovedOrigin(CompoundTag screen) {}
+
+    private static final java.util.Map<BlockPos, RemovedOrigin> REMOVED_ORIGINS = new java.util.HashMap<>();
+
+    /** The block entity of the origin of a wall is removed: its screen is kept for the wall that remains. */
+    static void originRemoved(BlockPos pos, CompoundTag screen) {
+        REMOVED_ORIGINS.put(pos.immutable(), new RemovedOrigin(screen));
+    }
+
+    /** A display block was removed: the walls around it are rebuilt. */
+    static void removed(ServerLevel level, BlockPos pos) {
+        RemovedOrigin origin = REMOVED_ORIGINS.remove(pos);
+        if (origin != null) {
+            // The wall that remains takes the place of the removed origin in the order of the devices
+            changed(level, pos, pos, origin.screen());
+            IoDevices.get(level.getServer()).remove(level.dimension(), pos);
+        } else {
+            changed(level, pos, null, null);
+        }
+    }
+
     /**
      * Finds the walls around a changed position again; the position may still be a display block or not.
      *

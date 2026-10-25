@@ -291,7 +291,13 @@ A task is done when
 
 | Task | Description | Done |
 |---|---|:---:|
-| 12.1 | Add the node for the last 1.21.x release (1.21.11) and port the API changes (e.g. the reworked recipe system of 1.21.2, item model definitions of 1.21.4, GUI rendering changes). |  |
+| 12.1 | Add the node for the last 1.21.x release (1.21.11) and port the API changes (e.g. the reworked recipe system of 1.21.2, item model definitions of 1.21.4, GUI rendering changes). | ✅ |
+| 12.1.1 | Server side: NBT getters with `Optional`, `ValueInput`/`ValueOutput`, `SavedDataType`, block removal hooks, interaction results, permissions, teleports, chunk tickets (`compat` package). | ✅ |
+| 12.1.2 | Client side: input events of screens, GUI strata, block entity and entity renderers with render states (`Canvas`), extruded models as unbaked geometry, dimension effects as environment attributes. | ✅ |
+| 12.1.3 | Registration with IDs in the block and item properties; item definitions (`assets/c0de/items`). | ✅ |
+| 12.1.4 | Data whose format changed (recipes, biome) in `src/main/versioned`; GameTests with the Fabric annotation of 1.21.5. All 44 GameTests pass on 1.21.1 and 1.21.11 (Fabric). | ✅ |
+| 12.1.5 | NeoForge 1.21.11: platform calls, client registration, model loader `c0de:extruded`, GameTest registration. All GameTests pass on NeoForge 1.21.1 and 1.21.11. | ✅ |
+| 12.1.6 | Item textures of Minecraft in block models are added to the blocks atlas (separate items atlas since 1.21.11); separate run directories per version. | ✅ |
 | 12.2 | Add the nodes for 26.x (unobfuscated, Java 25, Gradle 9.1+) and port the API changes. |  |
 | 12.3 | Extend the CI matrix and the Docker test servers to all nodes. |  |
 | 12.4 | Replace HeadlessMC by Fabric client GameTests where available. |  |

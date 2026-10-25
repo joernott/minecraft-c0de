@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "ingredients": [
+    "c0de:data_item",
+    "minecraft:light_gray_dye"
+  ],
+  "result": {
+    "id": "c0de:literal_item",
+    "count": 2
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "ingredients": [
+    "c0de:structural_base",
+    "minecraft:cobblestone"
+  ],
+  "result": {
+    "id": "c0de:each_block",
+    "count": 1
+  }
+}

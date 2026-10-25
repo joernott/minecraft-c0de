@@ -134,23 +134,47 @@ public abstract class PropertiesScreen extends Screen {
         return hasOkButton();
     }
 
-    @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+    /** Enter saves the input. */
+    private boolean enter(int keyCode) {
         if ((keyCode == GLFW.GLFW_KEY_ENTER || keyCode == GLFW.GLFW_KEY_KP_ENTER) && savesOnEnter() && !readOnly) {
             save();
             return true;
         }
-        return super.keyPressed(keyCode, scanCode, modifiers);
+        return false;
     }
 
+    //? if >=1.21.9 {
+    /*@Override
+    public boolean keyPressed(net.minecraft.client.input.KeyEvent event) {
+        return enter(event.key()) || super.keyPressed(event);
+    }
+    *///?} else {
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        return enter(keyCode) || super.keyPressed(keyCode, scanCode, modifiers);
+    }
+    //?}
+
+    /** A click outside of the panel closes the dialog. */
+    private boolean clickOutside(double mouseX, double mouseY) {
         if (mouseX < left || mouseX >= left + WIDTH || mouseY < top || mouseY >= top + panelHeight()) {
             onClose();
             return true;
         }
-        return super.mouseClicked(mouseX, mouseY, button);
+        return false;
     }
+
+    //? if >=1.21.9 {
+    /*@Override
+    public boolean mouseClicked(net.minecraft.client.input.MouseButtonEvent event, boolean doubleClick) {
+        return clickOutside(event.x(), event.y()) || super.mouseClicked(event, doubleClick);
+    }
+    *///?} else {
+    @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        return clickOutside(mouseX, mouseY) || super.mouseClicked(mouseX, mouseY, button);
+    }
+    //?}
 
     @Override
     public boolean isPauseScreen() {

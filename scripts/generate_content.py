@@ -21,6 +21,12 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import block_models  # noqa: E402
 import generate_book  # noqa: E402
 
+# The recipes in the format of Minecraft 1.21.1 and, converted from them, of 1.21.2 and later (src/main/versioned)
+RECIPES = generate_book.RECIPES
+MODERN_RECIPES = ROOT / "src" / "main" / "versioned" / "recipes" / "1.21.2" / "data" / "c0de" / "recipe"
+# The models of the language blocks; since 1.21.11 they name the model loader of the extruded shapes on NeoForge
+BLOCK_MODELS = ROOT / "src" / "main" / "versioned" / "block-models"
+
 # (name of the CodeBlockType constant, validated, transparent, English name, German name)
 BLOCKS = [
     ("NOOP", False, True, "NOOP Block", "NOOP-Block"),
@@ -392,7 +398,11 @@ def block_files(name: str, validated: bool, transparent: bool) -> None:
         # The item shows the question mark of a placed OPERATOR without symbol
         item_parent = model_ref + "_none"
     else:
-        write(ASSETS / "models" / "block" / (bid + ".json"), block_models.block_model(name, bid, transparent))
+        model = block_models.block_model(name, bid, transparent)
+        write(BLOCK_MODELS / "1.21.1" / "assets" / "c0de" / "models" / "block" / (bid + ".json"), model)
+        write(BLOCK_MODELS / "1.21.11" / "assets" / "c0de" / "models" / "block" / (bid + ".json"),
+              {"loader": "c0de:extruded", "c0de:block": bid, **model,
+               "textures": {k: block_atlas_name(v) for k, v in model.get("textures", {}).items()}})
         # The state of the line doesn't change the look of a block any more; the line numbers show it
         keys = ("valid=true", "valid=false") if validated else ("",)
         write(ASSETS / "blockstates" / (bid + ".json"), {"variants": {key: {"model": model_ref} for key in keys}})
@@ -447,7 +457,7 @@ def devices() -> None:
         "pools": [{"rolls": 1, "entries": [{"type": "minecraft:item", "name": "c0de:display_block"}],
                    "conditions": [{"condition": "minecraft:survives_explosion"}]}],
     })
-    write(DATA / "recipe" / "display_block.json", shaped(
+    write(RECIPES / "display_block.json", shaped(
         ["NNN", "RGN", "NNN"],
         {"N": mc("iron_nugget"), "R": mc("redstone"), "G": mc("glowstone_dust")},
         c0de("display_block"), 8))
@@ -464,7 +474,7 @@ def devices() -> None:
         "pools": [{"rolls": 1, "entries": [{"type": "minecraft:item", "name": "c0de:io_block"}],
                    "conditions": [{"condition": "minecraft:survives_explosion"}]}],
     })
-    write(DATA / "recipe" / "io_block.json", shapeless([c0de("data_item"), mc("hopper")], c0de("io_block")))
+    write(RECIPES / "io_block.json", shapeless([c0de("data_item"), mc("hopper")], c0de("io_block")))
     # The laptop, its screen facing north: the keyboard in front, the lid at the back
     body = "c0de:block/laptop_body"
     write(ASSETS / "models" / "block" / "laptop.json", {
@@ -496,11 +506,11 @@ def devices() -> None:
         "pools": [{"rolls": 1, "entries": [{"type": "minecraft:item", "name": "c0de:laptop"}],
                    "conditions": [{"condition": "minecraft:survives_explosion"}]}],
     })
-    write(DATA / "recipe" / "laptop.json",
+    write(RECIPES / "laptop.json",
           shapeless([c0de("display_block"), c0de("io_block")], c0de("laptop")))
     # A laptop folds into a tablet and back
-    write(DATA / "recipe" / "laptop_from_tablet.json", shapeless([c0de("tablet")], c0de("laptop")))
-    write(DATA / "recipe" / "tablet.json", shapeless([c0de("laptop")], c0de("tablet")))
+    write(RECIPES / "laptop_from_tablet.json", shapeless([c0de("tablet")], c0de("laptop")))
+    write(RECIPES / "tablet.json", shapeless([c0de("laptop")], c0de("tablet")))
     write(ASSETS / "models" / "item" / "tablet.json",
           {"parent": "minecraft:item/generated", "textures": {"layer0": "c0de:item/tablet"}})
     # The disk drive: a 3.5" floppy drive in a beige case, its front facing north
@@ -518,13 +528,65 @@ def devices() -> None:
         "pools": [{"rolls": 1, "entries": [{"type": "minecraft:item", "name": "c0de:disk_drive"}],
                    "conditions": [{"condition": "minecraft:survives_explosion"}]}],
     })
-    write(DATA / "recipe" / "disk_drive.json", shaped(
+    write(RECIPES / "disk_drive.json", shaped(
         ["III", "SRS", "III"],
         {"I": mc("iron_ingot"), "S": mc("smooth_stone_slab"), "R": mc("redstone")},
         c0de("disk_drive"), 1))
     write(ASSETS / "font" / "monocraft.json", {
         "providers": [{"type": "ttf", "file": "c0de:monocraft.ttf", "shift": [0, 0], "size": 9, "oversample": 4.0}],
     })
+
+
+# Since 1.21.11, items have an atlas of their own, which wins for textures that are in both atlases, and block models
+# may only use the blocks atlas. The models of some language blocks show items of Minecraft, so their textures are
+# added to the blocks atlas under names of the mod.
+def block_atlas_name(texture: str) -> str:
+    """The name in the blocks atlas of a texture of Minecraft (minecraft:item/book -> c0de:block/item/book)."""
+    return "c0de:block/" + texture.split(":", 1)[1] if texture.startswith("minecraft:item/") else texture
+
+
+def item_textures_in_block_atlas() -> None:
+    textures = set()
+    for model in (BLOCK_MODELS / "1.21.1").rglob("*.json"):
+        textures |= {t for t in json.loads(model.read_text(encoding="utf-8")).get("textures", {}).values()
+                     if t.startswith("minecraft:item/")}
+    write(ROOT / "src" / "main" / "versioned" / "atlases" / "1.21.11" / "assets" / "minecraft" / "atlases" / "blocks.json",
+          {"sources": [{"type": "minecraft:single", "resource": t, "sprite": block_atlas_name(t)}
+                       for t in sorted(textures)]})
+
+
+def modern_ingredient(value):
+    """An ingredient in the format of 1.21.2 and later: the ID of an item, #tag, or a list of IDs."""
+    if isinstance(value, list):
+        return [modern_ingredient(v) for v in value]
+    if "item" in value:
+        return value["item"]
+    return "#" + value["tag"]
+
+
+def modern_recipes() -> None:
+    """Converts all recipes (also the hand-written ones) to the format of Minecraft 1.21.2 and later."""
+    if MODERN_RECIPES.exists():
+        for old in MODERN_RECIPES.glob("*.json"):
+            old.unlink()
+    for file in sorted(RECIPES.glob("*.json")):
+        recipe = json.loads(file.read_text(encoding="utf-8"))
+        if "key" in recipe:
+            recipe["key"] = {k: modern_ingredient(v) for k, v in recipe["key"].items()}
+        if "ingredients" in recipe:
+            recipe["ingredients"] = [modern_ingredient(v) for v in recipe["ingredients"]]
+        write(MODERN_RECIPES / file.name, recipe)
+
+
+def item_definitions() -> None:
+    """The client item definitions of Minecraft 1.21.4 and later (assets/c0de/items), one for every item model;
+    the older versions ignore them."""
+    for model in sorted((ASSETS / "models" / "item").glob("*.json")):
+        definition = {"type": "minecraft:model", "model": "c0de:item/" + model.stem}
+        if model.stem == "marker":
+            # The yellow of the text marker (C0deClient.MARKER_COLOR in the older versions)
+            definition["tints"] = [{"type": "minecraft:constant", "value": 0xFFD83A}]
+        write(ASSETS / "items" / model.name, {"model": definition})
 
 
 def main() -> None:
@@ -547,6 +609,7 @@ def main() -> None:
                 "conditions": [{"condition": "minecraft:survives_explosion"}],
             }],
         })
+    item_textures_in_block_atlas()
     devices()
     write(RESOURCES / "data" / "minecraft" / "tags" / "block" / "mineable" / "pickaxe.json",
           {"values": ["c0de:" + trigger for trigger, _, _, _, _ in TRIGGERS] + ["c0de:" + d for d in DEVICES]})
@@ -562,8 +625,10 @@ def main() -> None:
         texture = "minecraft:item/feather" if item == "marker" else "c0de:item/" + item
         write(ASSETS / "models" / "item" / (item + ".json"),
               {"parent": "minecraft:item/generated", "textures": {"layer0": texture}})
+    item_definitions()
     for name, recipe in recipes().items():
-        write(DATA / "recipe" / (name + ".json"), recipe)
+        write(RECIPES / (name + ".json"), recipe)
+    modern_recipes()
 
     for language, column in (("en_us", 1), ("de_de", 2)):
         entries = {key: texts[column - 1] for key, *texts in MESSAGES}

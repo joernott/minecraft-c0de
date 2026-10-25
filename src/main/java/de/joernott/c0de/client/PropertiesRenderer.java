@@ -12,11 +12,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.LightTexture;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
@@ -27,7 +26,7 @@ import org.joml.Quaternionf;
  * top of the block, and the text of a COMMENT above the block while a player looks at it. The symbol of an
  * OPERATOR is its block model.
  */
-public class PropertiesRenderer implements BlockEntityRenderer<PropertiesBlockEntity> {
+public class PropertiesRenderer extends C0deBlockEntityRenderer<PropertiesBlockEntity> {
     /** The largest part of the top the text covers. */
     private static final float MAX_TEXT_SIZE = 0.8F;
 
@@ -39,22 +38,15 @@ public class PropertiesRenderer implements BlockEntityRenderer<PropertiesBlockEn
     private static final int COMMENT_WIDTH = 160;
     private static final int COMMENT_LINES = 8;
 
-    private final Font font;
+    private final Font font = Minecraft.getInstance().font;
 
-    public PropertiesRenderer(BlockEntityRendererProvider.Context context) {
-        font = context.getFont();
-    }
+    public PropertiesRenderer(BlockEntityRendererProvider.Context context) {}
 
     @Override
-    public void render(
-            PropertiesBlockEntity entity,
-            float partialTick,
-            PoseStack pose,
-            MultiBufferSource buffers,
-            int light,
-            int overlay) {
+    protected void draw(
+            PropertiesBlockEntity entity, float partialTick, PoseStack pose, Canvas canvas, int light, int overlay) {
         if (entity instanceof CommentBlockEntity comment) {
-            renderComment(comment, pose, buffers);
+            renderComment(comment, pose, canvas);
             return;
         }
         // The model of an OPERATOR is its symbol
@@ -71,14 +63,12 @@ public class PropertiesRenderer implements BlockEntityRenderer<PropertiesBlockEn
         pose.translate(0.5F, (float) (CodeBlockShapes.HEIGHT / 16) + 0.001F, 0.5F);
         pose.mulPose(Axis.XP.rotationDegrees(-90));
         pose.scale(scale, -scale, scale);
-        font.drawInBatch(
-                text,
+        canvas.text(
+                pose,
+                FormattedCharSequence.forward(text, Style.EMPTY),
                 -width / 2,
                 -font.lineHeight / 2.0F + 0.5F,
                 color,
-                false,
-                pose.last().pose(),
-                buffers,
                 Font.DisplayMode.POLYGON_OFFSET,
                 0,
                 topLight);
@@ -98,7 +88,7 @@ public class PropertiesRenderer implements BlockEntityRenderer<PropertiesBlockEn
     }
 
     /** Shows the text of a comment above the block, like the name of an entity, while a player looks at it. */
-    private void renderComment(CommentBlockEntity comment, PoseStack pose, MultiBufferSource buffers) {
+    private void renderComment(CommentBlockEntity comment, PoseStack pose, Canvas canvas) {
         Minecraft minecraft = Minecraft.getInstance();
         if (comment.text().isEmpty()
                 || !(minecraft.hitResult instanceof BlockHitResult hit)
@@ -118,14 +108,12 @@ public class PropertiesRenderer implements BlockEntityRenderer<PropertiesBlockEn
         int background = (int) (minecraft.options.getBackgroundOpacity(0.25F) * 255.0F) << 24;
         for (int i = 0; i < lines.size(); i++) {
             FormattedCharSequence line = lines.get(i);
-            font.drawInBatch(
+            canvas.text(
+                    pose,
                     line,
                     -font.width(line) / 2.0F,
                     i * font.lineHeight,
                     0xFFFFFFFF,
-                    false,
-                    pose.last().pose(),
-                    buffers,
                     // Like the names of entities, without depth test: it is only shown while looking at the block
                     Font.DisplayMode.SEE_THROUGH,
                     background,

@@ -1,6 +1,7 @@
 package de.joernott.c0de.client;
 
 import de.joernott.c0de.client.dialog.Panels;
+import de.joernott.c0de.compat.Nbt;
 import de.joernott.c0de.core.io.TextScreen;
 import de.joernott.c0de.io.ScreenNbt;
 import de.joernott.c0de.io.Terminals;
@@ -53,7 +54,7 @@ public class TerminalScreen extends Screen {
     private TerminalScreen(TerminalPayload payload) {
         super(Component.translatable("dialog.c0de.terminal"));
         id = payload.id();
-        programs = payload.data().getCompound("programs");
+        programs = Nbt.compound(payload.data(), "programs");
         update(payload.data());
     }
 
@@ -68,10 +69,10 @@ public class TerminalScreen extends Screen {
     }
 
     private void update(CompoundTag data) {
-        ScreenNbt.apply(screen, data.getCompound("screen"));
-        program = data.getString("program");
-        function = data.getString("function");
-        prompt = data.getString("prompt");
+        ScreenNbt.apply(screen, Nbt.compound(data, "screen"));
+        program = Nbt.string(data, "program");
+        function = Nbt.string(data, "function");
+        prompt = Nbt.string(data, "prompt");
         if (programButton != null) {
             updateWidgets();
         }
@@ -131,7 +132,7 @@ public class TerminalScreen extends Screen {
     }
 
     private List<String> programNames() {
-        List<String> names = new ArrayList<>(programs.getAllKeys());
+        List<String> names = new ArrayList<>(Nbt.keys(programs));
         names.sort(String::compareTo);
         names.add(0, "");
         return names;
@@ -139,7 +140,7 @@ public class TerminalScreen extends Screen {
 
     private List<String> functionNames(String name) {
         List<String> names = new ArrayList<>();
-        programs.getList(name, Tag.TAG_STRING).forEach(f -> names.add(f.getAsString()));
+        Nbt.list(programs, name, Tag.TAG_STRING).forEach(f -> names.add(Nbt.text(f)));
         return names;
     }
 
@@ -150,10 +151,10 @@ public class TerminalScreen extends Screen {
 
     // ------------------------------------------------------------------ keys
 
-    @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+    /** Handles the keys the terminal uses itself; false passes the key on to the screen. */
+    private boolean terminalKey(int keyCode) {
         if (keyCode == GLFW.GLFW_KEY_ESCAPE) {
-            return super.keyPressed(keyCode, scanCode, modifiers);
+            return false;
         }
         if (!prompt.isEmpty() && (keyCode == GLFW.GLFW_KEY_ENTER || keyCode == GLFW.GLFW_KEY_KP_ENTER)) {
             Platform.INSTANCE.sendToServer(new TerminalActionPayload("line", input.getValue(), ""));
@@ -173,17 +174,41 @@ public class TerminalScreen extends Screen {
                 return true;
             }
         }
-        return super.keyPressed(keyCode, scanCode, modifiers);
+        return false;
     }
 
+    //? if >=1.21.9 {
+    /*@Override
+    public boolean keyPressed(net.minecraft.client.input.KeyEvent event) {
+        return terminalKey(event.key()) || super.keyPressed(event);
+    }
+    *///?} else {
     @Override
-    public boolean charTyped(char character, int modifiers) {
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        return terminalKey(keyCode) || super.keyPressed(keyCode, scanCode, modifiers);
+    }
+    //?}
+
+    /** Sends a typed character to the process if no input field takes it. */
+    private boolean terminalChar(String character) {
         if (prompt.isEmpty() && getFocused() == null) {
-            sendKey(String.valueOf(character));
+            sendKey(character);
             return true;
         }
-        return super.charTyped(character, modifiers);
+        return false;
     }
+
+    //? if >=1.21.9 {
+    /*@Override
+    public boolean charTyped(net.minecraft.client.input.CharacterEvent event) {
+        return terminalChar(event.codepointAsString()) || super.charTyped(event);
+    }
+    *///?} else {
+    @Override
+    public boolean charTyped(char character, int modifiers) {
+        return terminalChar(String.valueOf(character)) || super.charTyped(character, modifiers);
+    }
+    //?}
 
     private void sendKey(String key) {
         Platform.INSTANCE.sendToServer(new TerminalActionPayload("key", key, ""));
@@ -207,23 +232,51 @@ public class TerminalScreen extends Screen {
         return true;
     }
 
-    @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+    /** A click on the scroll bar starts dragging it. */
+    private boolean clickScrollBar(double mouseX, double mouseY) {
         if (onScrollBar(mouseX, mouseY)) {
             draggingScrollBar = true;
             scrollTo(mouseY);
             return true;
         }
-        return super.mouseClicked(mouseX, mouseY, button);
+        return false;
     }
 
-    @Override
-    public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
+    private boolean dragScrollBar(double mouseY) {
         if (draggingScrollBar) {
             scrollTo(mouseY);
             return true;
         }
-        return super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
+        return false;
+    }
+
+    //? if >=1.21.9 {
+    /*@Override
+    public boolean mouseClicked(net.minecraft.client.input.MouseButtonEvent event, boolean doubleClick) {
+        return clickScrollBar(event.x(), event.y()) || super.mouseClicked(event, doubleClick);
+    }
+    *///?} else {
+    @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        return clickScrollBar(mouseX, mouseY) || super.mouseClicked(mouseX, mouseY, button);
+    }
+    //?}
+
+    //? if >=1.21.9 {
+    /*@Override
+    public boolean mouseDragged(net.minecraft.client.input.MouseButtonEvent event, double dragX, double dragY) {
+        return dragScrollBar(event.y()) || super.mouseDragged(event, dragX, dragY);
+    }
+
+    @Override
+    public boolean mouseReleased(net.minecraft.client.input.MouseButtonEvent event) {
+        draggingScrollBar = false;
+        return super.mouseReleased(event);
+    }
+    *///?} else {
+    @Override
+    public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
+        return dragScrollBar(mouseY) || super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
     }
 
     @Override
@@ -231,6 +284,7 @@ public class TerminalScreen extends Screen {
         draggingScrollBar = false;
         return super.mouseReleased(mouseX, mouseY, button);
     }
+    //?}
 
     private int scrollBarX() {
         return left + Terminals.COLUMNS * cellWidth + BORDER / 2;

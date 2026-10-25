@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "ingredients": [
+    "c0de:type_base",
+    [
+      "minecraft:chest",
+      "minecraft:trapped_chest"
+    ]
+  ],
+  "result": {
+    "id": "c0de:type_hash_block",
+    "count": 1
+  }
+}

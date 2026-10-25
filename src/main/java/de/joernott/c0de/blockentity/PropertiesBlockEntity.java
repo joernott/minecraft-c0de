@@ -1,5 +1,6 @@
 package de.joernott.c0de.blockentity;
 
+import de.joernott.c0de.compat.C0deBlockEntity;
 import de.joernott.c0de.core.line.Block;
 import de.joernott.c0de.sheet.SheetValidation;
 import java.time.ZoneId;
@@ -19,7 +20,7 @@ import net.minecraft.world.level.block.state.BlockState;
  * The properties of a LABEL, LITERAL, OPERATOR, COMMENT or TAG block. They are edited in a dialog and
  * synchronized to the clients, which show them on the block.
  */
-public abstract class PropertiesBlockEntity extends BlockEntity {
+public abstract class PropertiesBlockEntity extends C0deBlockEntity {
     protected PropertiesBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
     }
@@ -80,14 +81,12 @@ public abstract class PropertiesBlockEntity extends BlockEntity {
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries);
+    protected void load(CompoundTag tag, HolderLookup.Provider registries) {
         read(tag);
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.saveAdditional(tag, registries);
+    protected void save(CompoundTag tag, HolderLookup.Provider registries) {
         write(tag);
     }
 

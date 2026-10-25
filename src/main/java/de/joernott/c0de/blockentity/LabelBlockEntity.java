@@ -1,5 +1,6 @@
 package de.joernott.c0de.blockentity;
 
+import de.joernott.c0de.compat.Nbt;
 import de.joernott.c0de.content.C0deBlockEntities;
 import de.joernott.c0de.core.edit.LabelContext;
 import de.joernott.c0de.core.edit.LabelKind;
@@ -111,7 +112,7 @@ public class LabelBlockEntity extends PropertiesBlockEntity {
     @Override
     protected Optional<String> check(CompoundTag properties, ServerLevel level) {
         return PropertyRules.label(
-                context(level).mode(), properties.getString("name"), properties.getString("index"));
+                context(level).mode(), Nbt.string(properties, "name"), Nbt.string(properties, "index"));
     }
 
     /** Sets kind and parent from the current position, because the blocks around the label may have changed. */
@@ -122,7 +123,7 @@ public class LabelBlockEntity extends PropertiesBlockEntity {
             return problem;
         }
         LabelContext context = context(level);
-        String entered = properties.getString("name");
+        String entered = Nbt.string(properties, "name");
         kind = context.kind().name();
         if (context.mode() == LabelMode.FUNCTION) {
             List<String> split = PropertyRules.splitFunction(
@@ -137,7 +138,7 @@ public class LabelBlockEntity extends PropertiesBlockEntity {
         }
         // The index is stored in its normalized text form
         index = context.mode().allowsIndex()
-                ? IndexText.format(PropertyRules.index(properties.getString("index")).entries())
+                ? IndexText.format(PropertyRules.index(Nbt.string(properties, "index")).entries())
                 : "";
         changed();
         return Optional.empty();
@@ -145,10 +146,10 @@ public class LabelBlockEntity extends PropertiesBlockEntity {
 
     @Override
     protected void read(CompoundTag tag) {
-        kind = tag.getString("kind");
-        parent = tag.getString("parent");
-        name = tag.getString("name");
-        index = tag.getString("index");
+        kind = Nbt.string(tag, "kind");
+        parent = Nbt.string(tag, "parent");
+        name = Nbt.string(tag, "name");
+        index = Nbt.string(tag, "index");
     }
 
     @Override

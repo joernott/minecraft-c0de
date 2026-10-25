@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "ingredients": [
+    "minecraft:feather",
+    "minecraft:yellow_dye"
+  ],
+  "result": {
+    "id": "c0de:marker",
+    "count": 1
+  }
+}

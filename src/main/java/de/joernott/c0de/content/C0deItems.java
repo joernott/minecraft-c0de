@@ -56,24 +56,19 @@ public final class C0deItems {
     private C0deItems() {}
 
     public static void register() {
-        DISPLAY_BLOCK = register(
-                "display_block", () -> new BlockItem(C0deBlocks.DISPLAY_BLOCK.get(), new Item.Properties()));
-        IO_BLOCK = register("io_block", () -> new BlockItem(C0deBlocks.IO_BLOCK.get(), new Item.Properties()));
-        LAPTOP = register("laptop", () -> new BlockItem(C0deBlocks.LAPTOP.get(), new Item.Properties()));
-        DISK_DRIVE =
-                register("disk_drive", () -> new BlockItem(C0deBlocks.DISK_DRIVE.get(), new Item.Properties()));
-        TABLET = register("tablet", () -> new de.joernott.c0de.item.TabletItem(new Item.Properties().stacksTo(1)));
-        TRIGGER_BLOCK = register(
-                "trigger_block", () -> new BlockItem(C0deBlocks.TRIGGER_BLOCK.get(), new Item.Properties()));
-        TIMER_BLOCK =
-                register("timer_block", () -> new BlockItem(C0deBlocks.TIMER_BLOCK.get(), new Item.Properties()));
-        DEBUG_TRIGGER_BLOCK = register(
-                "debug_trigger_block", () -> new BlockItem(C0deBlocks.DEBUG_TRIGGER_BLOCK.get(), new Item.Properties()));
-        WRENCH = register("wrench", () -> new WrenchItem(new Item.Properties().stacksTo(1)));
-        DEBUG_TOOL = register("debug_tool", () -> new DebugToolItem(new Item.Properties().stacksTo(1)));
-        MARKER = register("marker", () -> new ToolItem(new Item.Properties().stacksTo(1)));
-        HAMMER = register("hammer", () -> new ToolItem(new Item.Properties().stacksTo(1)));
-        DISK = register("c0de_disk", () -> new DiskItem(new Item.Properties().stacksTo(1)));
+        DISPLAY_BLOCK = blockItem("display_block", C0deBlocks.DISPLAY_BLOCK);
+        IO_BLOCK = blockItem("io_block", C0deBlocks.IO_BLOCK);
+        LAPTOP = blockItem("laptop", C0deBlocks.LAPTOP);
+        DISK_DRIVE = blockItem("disk_drive", C0deBlocks.DISK_DRIVE);
+        TABLET = register("tablet", properties -> new de.joernott.c0de.item.TabletItem(properties.stacksTo(1)));
+        TRIGGER_BLOCK = blockItem("trigger_block", C0deBlocks.TRIGGER_BLOCK);
+        TIMER_BLOCK = blockItem("timer_block", C0deBlocks.TIMER_BLOCK);
+        DEBUG_TRIGGER_BLOCK = blockItem("debug_trigger_block", C0deBlocks.DEBUG_TRIGGER_BLOCK);
+        WRENCH = register("wrench", properties -> new WrenchItem(properties.stacksTo(1)));
+        DEBUG_TOOL = register("debug_tool", properties -> new DebugToolItem(properties.stacksTo(1)));
+        MARKER = register("marker", properties -> new ToolItem(properties.stacksTo(1)));
+        HAMMER = register("hammer", properties -> new ToolItem(properties.stacksTo(1)));
+        DISK = register("c0de_disk", properties -> new DiskItem(properties.stacksTo(1)));
         // The floor can be broken in creative mode, so creative players need the blocks to repair it
         // The suppliers of the blocks can't be called before the blocks are registered, so the names are listed
         java.util.Map<String, Supplier<Block>> floor = new java.util.LinkedHashMap<>();
@@ -81,24 +76,18 @@ public final class C0deItems {
         floor.put("light_green_c0de_bedrock", C0deBlocks.LIGHT_GREEN_C0DE_BEDROCK);
         floor.put("black_c0de_bedrock", C0deBlocks.BLACK_C0DE_BEDROCK);
         floor.put("cursor_c0de_bedrock", C0deBlocks.CURSOR_C0DE_BEDROCK);
-        floor.forEach((name, block) ->
-                FLOOR.add(register(name, () -> new BlockItem(block.get(), new Item.Properties()))));
-        DATA_ITEM = register("data_item", () -> new Item(new Item.Properties()));
+        floor.forEach((name, block) -> FLOOR.add(blockItem(name, block)));
+        DATA_ITEM = register("data_item", Item::new);
         for (String type : TYPES) {
-            TYPE_ITEMS.put(
-                    type,
-                    register(
-                            "type_" + type.toLowerCase(java.util.Locale.ROOT) + "_item",
-                            () -> new Item(new Item.Properties())));
+            TYPE_ITEMS.put(type, register("type_" + type.toLowerCase(java.util.Locale.ROOT) + "_item", Item::new));
         }
-        VARIABLE_ITEM = register("variable_item", () -> new ValueItem(new Item.Properties(), false));
-        CONSTANT_ITEM = register("constant_item", () -> new ValueItem(new Item.Properties(), true));
-        LITERAL_ITEM = register("literal_item", () -> new de.joernott.c0de.item.LiteralItem(new Item.Properties()));
-        TYPE_BASE = register("type_base", () -> new Item(new Item.Properties()));
-        STRUCTURAL_BASE = register("structural_base", () -> new Item(new Item.Properties()));
+        VARIABLE_ITEM = register("variable_item", properties -> new ValueItem(properties, false));
+        CONSTANT_ITEM = register("constant_item", properties -> new ValueItem(properties, true));
+        LITERAL_ITEM = register("literal_item", properties -> new de.joernott.c0de.item.LiteralItem(properties));
+        TYPE_BASE = register("type_base", Item::new);
+        STRUCTURAL_BASE = register("structural_base", Item::new);
         for (CodeBlockType type : CodeBlockType.values()) {
-            CODE_BLOCKS.put(
-                    type, register(type.id(), () -> new BlockItem(C0deBlocks.get(type), new Item.Properties())));
+            CODE_BLOCKS.put(type, blockItem(type.id(), () -> C0deBlocks.get(type)));
         }
         TAB = Platform.INSTANCE.register(BuiltInRegistries.CREATIVE_MODE_TAB, "c0de", () -> CreativeModeTab.builder(
                         CreativeModeTab.Row.TOP, 0)
@@ -131,7 +120,22 @@ public final class C0deItems {
                 .build());
     }
 
-    private static Supplier<Item> register(String name, Supplier<Item> factory) {
-        return Platform.INSTANCE.register(BuiltInRegistries.ITEM, name, factory);
+    /** Registers an item; since 1.21.2 the properties contain the ID of the item. */
+    private static Supplier<Item> register(String name, java.util.function.Function<Item.Properties, Item> factory) {
+        Item.Properties properties = new Item.Properties();
+        //? if >=1.21.2 {
+        /*properties.setId(net.minecraft.resources.ResourceKey.create(
+                net.minecraft.core.registries.Registries.ITEM, de.joernott.c0de.C0de.id(name)));
+        *///?}
+        return Platform.INSTANCE.register(BuiltInRegistries.ITEM, name, () -> factory.apply(properties));
+    }
+
+    /** Registers the item of a block, named like the block. */
+    private static Supplier<Item> blockItem(String name, Supplier<Block> block) {
+        //? if >=1.21.2 {
+        /*return register(name, properties -> new BlockItem(block.get(), properties.useBlockDescriptionPrefix()));
+        *///?} else {
+        return register(name, properties -> new BlockItem(block.get(), properties));
+        //?}
     }
 }

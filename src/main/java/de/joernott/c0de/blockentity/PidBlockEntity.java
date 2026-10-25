@@ -1,5 +1,7 @@
 package de.joernott.c0de.blockentity;
 
+import de.joernott.c0de.compat.C0deBlockEntity;
+import de.joernott.c0de.compat.Nbt;
 import de.joernott.c0de.content.C0deBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
@@ -16,7 +18,7 @@ import net.minecraft.world.level.block.state.BlockState;
  * The PID block of a running process: its PID and the trigger block that started it, which are shown on its
  * sides.
  */
-public class PidBlockEntity extends BlockEntity {
+public class PidBlockEntity extends C0deBlockEntity {
     private int pid;
     private String triggerLevel = "";
     private BlockPos triggerPos = BlockPos.ZERO;
@@ -45,19 +47,17 @@ public class PidBlockEntity extends BlockEntity {
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.saveAdditional(tag, registries);
+    protected void save(CompoundTag tag, HolderLookup.Provider registries) {
         tag.putInt("pid", pid);
         tag.putString("triggerLevel", triggerLevel);
         tag.putLong("triggerPos", triggerPos.asLong());
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries);
-        pid = tag.getInt("pid");
-        triggerLevel = tag.getString("triggerLevel");
-        triggerPos = BlockPos.of(tag.getLong("triggerPos"));
+    protected void load(CompoundTag tag, HolderLookup.Provider registries) {
+        pid = Nbt.integer(tag, "pid");
+        triggerLevel = Nbt.string(tag, "triggerLevel");
+        triggerPos = BlockPos.of(Nbt.longValue(tag, "triggerPos"));
     }
 
     @Override

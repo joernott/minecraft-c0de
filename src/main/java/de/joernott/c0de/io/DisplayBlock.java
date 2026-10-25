@@ -1,5 +1,6 @@
 package de.joernott.c0de.io;
 
+import de.joernott.c0de.compat.Compat;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -20,7 +21,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.BlockHitResult;
 
 /**
@@ -29,7 +30,7 @@ import net.minecraft.world.phys.BlockHitResult;
  * sides. The wrench turns it (ToolActions).
  */
 public class DisplayBlock extends BaseEntityBlock {
-    public static final DirectionProperty FACING = BlockStateProperties.FACING;
+    public static final EnumProperty<Direction> FACING = BlockStateProperties.FACING;
     public static final BooleanProperty CAMOUFLAGED = BooleanProperty.create("camouflaged");
     private static final MapCodec<DisplayBlock> CODEC = simpleCodec(DisplayBlock::new);
 
@@ -80,33 +81,30 @@ public class DisplayBlock extends BaseEntityBlock {
         }
     }
 
+    /** What happens after the block was removed: its block entity has already cleaned up (removed). */
+    private void afterRemoval(ServerLevel level, BlockPos pos) {
+        DisplayWalls.removed(level, pos);
+    }
+
+    //? if >=1.21.5 {
+    /*@Override
+    protected void affectNeighborsAfterRemoval(BlockState state, ServerLevel level, BlockPos pos, boolean movedByPiston) {
+        super.affectNeighborsAfterRemoval(state, level, pos, movedByPiston);
+        afterRemoval(level, pos);
+    }
+    *///?} else {
     @Override
     protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
-        if (state.is(newState.getBlock())) {
-            super.onRemove(state, level, pos, newState, movedByPiston);
-            return;
-        }
-        BlockPos removedOrigin = null;
-        CompoundTag removedScreen = null;
-        if (level.getBlockEntity(pos) instanceof DisplayBlockEntity entity) {
-            if (entity.isOrigin()) {
-                removedOrigin = pos;
-                removedScreen = entity.screen() == null ? null : ScreenNbt.write(entity.screen());
-            }
-            Containers.dropContents(level, pos, entity.camouflage());
+        boolean replaced = !state.is(newState.getBlock());
+        if (replaced && level.getBlockEntity(pos) instanceof de.joernott.c0de.compat.C0deBlockEntity entity) {
+            entity.removedBeforeRemoval();
         }
         super.onRemove(state, level, pos, newState, movedByPiston);
-        if (level instanceof ServerLevel serverLevel) {
-            if (removedOrigin != null) {
-                IoDevices devices = IoDevices.get(serverLevel.getServer());
-                // The wall that remains takes the place of the removed origin in the order of the devices
-                DisplayWalls.changed(serverLevel, pos, removedOrigin, removedScreen);
-                devices.remove(serverLevel.dimension(), removedOrigin);
-            } else {
-                DisplayWalls.changed(serverLevel, pos, null, null);
-            }
+        if (replaced && level instanceof ServerLevel serverLevel) {
+            afterRemoval(serverLevel, pos);
         }
     }
+    //?}
 
     @Override
     protected InteractionResult useWithoutItem(
@@ -114,7 +112,7 @@ public class DisplayBlock extends BaseEntityBlock {
         if (player instanceof ServerPlayer serverPlayer && level.getBlockEntity(pos) instanceof DisplayBlockEntity entity) {
             entity.openMenu(serverPlayer);
         }
-        return InteractionResult.sidedSuccess(level.isClientSide());
+        return Compat.success(level);
     }
 
     /** Turns the block around the axis through a face (left click with the wrench). */
@@ -139,7 +137,11 @@ public class DisplayBlock extends BaseEntityBlock {
     }
 
     @Override
+    //? if >=1.21.2 {
+    /*protected boolean propagatesSkylightDown(BlockState state) {
+    *///?} else {
     public boolean propagatesSkylightDown(BlockState state, BlockGetter level, BlockPos pos) {
+    //?}
         return false;
     }
 }

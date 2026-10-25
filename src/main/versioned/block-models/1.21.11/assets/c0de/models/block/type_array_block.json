@@ -1,0 +1,11 @@
+{
+  "loader": "c0de:extruded",
+  "c0de:block": "type_array_block",
+  "parent": "minecraft:block/slab",
+  "textures": {
+    "bottom": "minecraft:block/barrel_top",
+    "top": "c0de:block/type_array_block",
+    "side": "c0de:block/type_array_block_side"
+  },
+  "render_type": "minecraft:cutout"
+}

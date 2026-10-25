@@ -1,5 +1,6 @@
 package de.joernott.c0de.item;
 
+import de.joernott.c0de.compat.Nbt;
 import de.joernott.c0de.core.edit.ItemRules;
 import de.joernott.c0de.core.program.TypeText;
 import de.joernott.c0de.dialog.DialogService;
@@ -12,6 +13,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
+//? if <1.21.2
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -53,7 +55,7 @@ public class ValueItem extends Item {
         public static Contents of(ItemStack stack) {
             CompoundTag tag = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY)
                     .copyTag();
-            return new Contents(tag.getString("name"), tag.getString("type"), tag.getString("value"));
+            return new Contents(Nbt.string(tag, "name"), Nbt.string(tag, "type"), Nbt.string(tag, "value"));
         }
 
         /** True for an item without name, type and value, crafted without a type item or cleared in its dialog. */
@@ -84,17 +86,31 @@ public class ValueItem extends Item {
         return constant && !Contents.of(stack).value().isEmpty();
     }
 
-    @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
-        ItemStack stack = player.getItemInHand(hand);
+    /** True if the dialog of the item opens: right-clicking it in the main hand. */
+    private static boolean openDialog(Player player, InteractionHand hand) {
         if (hand != InteractionHand.MAIN_HAND) {
-            return InteractionResultHolder.pass(stack);
+            return false;
         }
         if (player instanceof ServerPlayer serverPlayer) {
             DialogService.openItem(serverPlayer);
         }
-        return InteractionResultHolder.sidedSuccess(stack, level.isClientSide());
+        return true;
     }
+
+    //? if >=1.21.2 {
+    /*@Override
+    public net.minecraft.world.InteractionResult use(Level level, Player player, InteractionHand hand) {
+        return openDialog(player, hand) ? net.minecraft.world.InteractionResult.SUCCESS : net.minecraft.world.InteractionResult.PASS;
+    }
+    *///?} else {
+    @Override
+    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+        ItemStack stack = player.getItemInHand(hand);
+        return openDialog(player, hand)
+                ? InteractionResultHolder.sidedSuccess(stack, level.isClientSide())
+                : InteractionResultHolder.pass(stack);
+    }
+    //?}
 
     /**
      * Checks the properties entered in the dialog and stores them in the item.
@@ -135,12 +151,11 @@ public class ValueItem extends Item {
                 : Component.translatable(getDescriptionId() + ".named", contents.name());
     }
 
-    @Override
-    public void appendHoverText(
-            ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
+    /** The lines of the tooltip. */
+    private void addTooltip(ItemStack stack, java.util.function.Consumer<Component> tooltip) {
         Contents contents = Contents.of(stack);
         if (!contents.type().isEmpty()) {
-            tooltip.add(Component.translatable("item.c0de.value_item.type", contents.type())
+            tooltip.accept(Component.translatable("item.c0de.value_item.type", contents.type())
                     .withStyle(ChatFormatting.GRAY));
         }
         if (!contents.value().isEmpty()) {
@@ -148,7 +163,24 @@ public class ValueItem extends Item {
             if (value.length() > 64) {
                 value = value.substring(0, 61) + "...";
             }
-            tooltip.add(Component.translatable("item.c0de.value_item.value", value).withStyle(ChatFormatting.GRAY));
+            tooltip.accept(Component.translatable("item.c0de.value_item.value", value).withStyle(ChatFormatting.GRAY));
         }
     }
+
+    //? if >=1.21.5 {
+    /*@Override
+    public void appendHoverText(
+            ItemStack stack,
+            TooltipContext context,
+            net.minecraft.world.item.component.TooltipDisplay display,
+            java.util.function.Consumer<Component> tooltip,
+            TooltipFlag flag) {
+        addTooltip(stack, tooltip);
+    }
+    *///?} else {
+    @Override
+    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
+        addTooltip(stack, tooltip::add);
+    }
+    //?}
 }

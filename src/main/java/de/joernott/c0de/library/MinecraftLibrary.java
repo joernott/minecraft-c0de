@@ -2,6 +2,7 @@ package de.joernott.c0de.library;
 
 import com.mojang.authlib.GameProfile;
 import de.joernott.c0de.C0de;
+import de.joernott.c0de.compat.Compat;
 import de.joernott.c0de.core.config.C0deConfig;
 import de.joernott.c0de.core.error.C0deException;
 import de.joernott.c0de.core.error.ErrorCode;
@@ -47,6 +48,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+//? if <1.21.2
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.Item;
@@ -351,14 +353,7 @@ public final class MinecraftLibrary implements Library {
 
     /** True if the player is an administrator (permission level 2 or higher), online or not. */
     private static boolean isAdministrator(MinecraftServer server, UUID player) {
-        if (player == null) {
-            return false;
-        }
-        ServerPlayer online = server.getPlayerList().getPlayer(player);
-        Optional<GameProfile> profile = online != null
-                ? Optional.of(online.getGameProfile())
-                : server.getProfileCache() == null ? Optional.empty() : server.getProfileCache().get(player);
-        return profile.map(p -> server.getProfilePermissions(p) >= 2).orElse(false);
+        return Compat.isAdministrator(server, player);
     }
 
     /**
@@ -652,7 +647,11 @@ public final class MinecraftLibrary implements Library {
         if (entityType.isEmpty()) {
             throw invalid("There is no entity type " + type);
         }
+        //? if >=1.21.2 {
+        /*Entity entity = entityType.get().spawn(place.level(), place.pos(), net.minecraft.world.entity.EntitySpawnReason.COMMAND);
+        *///?} else {
         Entity entity = entityType.get().spawn(place.level(), place.pos(), MobSpawnType.COMMAND);
+        //?}
         if (entity == null) {
             throw invalid("An entity of the type " + type + " can't be spawned");
         }
@@ -718,7 +717,12 @@ public final class MinecraftLibrary implements Library {
                 place.pos().getZ() + 0.5,
                 Set.of(),
                 entity.getYRot(),
+                //? if >=1.21.2 {
+                /*entity.getXRot(),
+                true);
+                *///?} else {
                 entity.getXRot());
+                //?}
         return NativeResult.none();
     }
 }

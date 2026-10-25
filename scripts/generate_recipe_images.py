@@ -21,7 +21,7 @@ import generate_textures as textures  # noqa: E402
 ROOT = Path(__file__).resolve().parent.parent
 RESOURCES = ROOT / "src" / "main" / "resources"
 ASSETS = RESOURCES / "assets" / "c0de"
-RECIPES = RESOURCES / "data" / "c0de" / "recipe"
+RECIPES = ROOT / "src" / "main" / "versioned" / "recipes" / "1.21.1" / "data" / "c0de" / "recipe"
 OUTPUT = ROOT / "docs" / "reference" / "images"
 CLIENT_JAR = Path(os.path.expanduser("~/.gradle/caches/fabric-loom/1.21.1/minecraft-client.jar"))
 
@@ -71,7 +71,13 @@ def mod_texture(reference: str):
 
 def model(reference: str) -> dict:
     namespace, path = reference.split(":")
-    return json.loads((ASSETS / "models" / (path + ".json")).read_text(encoding="utf-8")) if namespace == "c0de" else {}
+    if namespace != "c0de":
+        return {}
+    file = ASSETS / "models" / (path + ".json")
+    if not file.exists():
+        # The models of the language blocks (generate_content.py, BLOCK_MODELS)
+        file = ROOT / "src" / "main" / "versioned" / "block-models" / "1.21.1" / "assets" / "c0de" / "models" / (path + ".json")
+    return json.loads(file.read_text(encoding="utf-8"))
 
 
 def overlay(base, top):

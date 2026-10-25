@@ -51,6 +51,7 @@ public final class C0de {
         ToolActions.register();
         DiskService.register();
         SheetValidation.register();
+        de.joernott.c0de.compat.ChunkTickets.register();
         ProcessManager.register();
         de.joernott.c0de.process.Activator.register();
         SheetProtection.register();

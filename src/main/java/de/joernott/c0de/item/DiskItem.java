@@ -1,6 +1,8 @@
 package de.joernott.c0de.item;
 
 import de.joernott.c0de.block.CodeBlock;
+import de.joernott.c0de.compat.Compat;
+import de.joernott.c0de.compat.Nbt;
 import de.joernott.c0de.content.CodeBlockType;
 import de.joernott.c0de.disk.DiskService;
 import java.util.List;
@@ -45,7 +47,7 @@ public class DiskItem extends Item {
 
         public static Contents of(ItemStack stack) {
             CompoundTag tag = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag();
-            return new Contents(tag.getString("program"), tag.getString("yaml"));
+            return new Contents(Nbt.string(tag, "program"), Nbt.string(tag, "yaml"));
         }
 
         public void writeTo(ItemStack stack) {
@@ -68,22 +70,39 @@ public class DiskItem extends Item {
             return program ? InteractionResult.SUCCESS : InteractionResult.PASS;
         }
         if (program) {
-            DiskService.copyToDisk(player, player.serverLevel(), context.getClickedPos(), context.getItemInHand());
+            DiskService.copyToDisk(player, Compat.level(player), context.getClickedPos(), context.getItemInHand());
             return InteractionResult.SUCCESS;
         }
-        if (DiskService.isProgramPosition(player.serverLevel(), context.getClickedPos())) {
-            DiskService.build(player, player.serverLevel(), context.getClickedPos(), Contents.of(context.getItemInHand()));
+        if (DiskService.isProgramPosition(Compat.level(player), context.getClickedPos())) {
+            DiskService.build(player, Compat.level(player), context.getClickedPos(), Contents.of(context.getItemInHand()));
             return InteractionResult.SUCCESS;
         }
         return InteractionResult.PASS;
     }
 
-    @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
+    /** The lines of the tooltip. */
+    private void addTooltip(ItemStack stack, java.util.function.Consumer<Component> tooltip) {
         Contents contents = Contents.of(stack);
-        tooltip.add((contents.isEmpty()
+        tooltip.accept((contents.isEmpty()
                         ? Component.translatable("item.c0de.c0de_disk.empty")
                         : Component.translatable("item.c0de.c0de_disk.program", contents.name()))
                 .withStyle(ChatFormatting.GRAY));
     }
+
+    //? if >=1.21.5 {
+    /*@Override
+    public void appendHoverText(
+            ItemStack stack,
+            TooltipContext context,
+            net.minecraft.world.item.component.TooltipDisplay display,
+            java.util.function.Consumer<Component> tooltip,
+            TooltipFlag flag) {
+        addTooltip(stack, tooltip);
+    }
+    *///?} else {
+    @Override
+    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
+        addTooltip(stack, tooltip::add);
+    }
+    //?}
 }

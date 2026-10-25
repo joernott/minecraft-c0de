@@ -1,5 +1,7 @@
 package de.joernott.c0de.sheet;
 
+import de.joernott.c0de.compat.C0deSavedData;
+import de.joernott.c0de.compat.Nbt;
 import de.joernott.c0de.core.validation.Validation;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +15,6 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.datafix.DataFixTypes;
-import net.minecraft.world.level.saveddata.SavedData;
 
 /**
  * The programs on the sheets of the c0de dimension: their names, which are unique in the dimension, and their
@@ -22,22 +22,17 @@ import net.minecraft.world.level.saveddata.SavedData;
  * ({@code dimensions/c0de/c0de/data/c0de_programs.dat}), so that the programs of sheets in unloaded chunks are
  * known too.
  */
-public class ProgramRegistry extends SavedData {
+public class ProgramRegistry extends C0deSavedData {
     private static final String NAME = "c0de_programs";
 
-    // Vanilla (Fabric) can't load saved data without a data fixer type; NeoForge allows null
-    private static final DataFixTypes DATA_FIX_TYPE =
-        /*? if fabric {*/DataFixTypes.SAVED_DATA_COMMAND_STORAGE;
-        /*?} else *///null;
-
-    private static final SavedData.Factory<ProgramRegistry> FACTORY =
-            new SavedData.Factory<>(ProgramRegistry::new, ProgramRegistry::load, DATA_FIX_TYPE);
+    private static final C0deSavedData.Kind<ProgramRegistry> KIND =
+            new C0deSavedData.Kind<>(NAME, ProgramRegistry::new, ProgramRegistry::load);
 
     private final Map<Integer, Entry> sheets = new TreeMap<>();
 
     /** The registry of the c0de dimension. */
     public static ProgramRegistry get(ServerLevel c0de) {
-        return c0de.getDataStorage().computeIfAbsent(FACTORY, NAME);
+        return KIND.get(c0de.getDataStorage());
     }
 
     /** The sheet of the program with this name. */
@@ -106,21 +101,21 @@ public class ProgramRegistry extends SavedData {
 
     private static ProgramRegistry load(CompoundTag tag, HolderLookup.Provider registries) {
         ProgramRegistry registry = new ProgramRegistry();
-        CompoundTag programs = tag.getCompound("sheets");
-        for (String key : programs.getAllKeys()) {
-            CompoundTag program = programs.getCompound(key);
+        CompoundTag programs = Nbt.compound(tag, "sheets");
+        for (String key : Nbt.keys(programs)) {
+            CompoundTag program = Nbt.compound(programs, key);
             List<Validation.Function> functions = new ArrayList<>();
-            for (Tag element : program.getList("functions", Tag.TAG_COMPOUND)) {
+            for (Tag element : Nbt.list(program, "functions", Tag.TAG_COMPOUND)) {
                 CompoundTag f = (CompoundTag) element;
                 functions.add(new Validation.Function(
-                        f.getString("name"),
-                        f.getInt("line"),
-                        strings(f.getList("parameters", Tag.TAG_STRING)),
-                        strings(f.getList("mandatory", Tag.TAG_STRING)),
-                        strings(f.getList("results", Tag.TAG_STRING))));
+                        Nbt.string(f, "name"),
+                        Nbt.integer(f, "line"),
+                        strings(Nbt.list(f, "parameters", Tag.TAG_STRING)),
+                        strings(Nbt.list(f, "mandatory", Tag.TAG_STRING)),
+                        strings(Nbt.list(f, "results", Tag.TAG_STRING))));
             }
             try {
-                registry.sheets.put(Integer.parseInt(key), new Entry(program.getString("name"), functions));
+                registry.sheets.put(Integer.parseInt(key), new Entry(Nbt.string(program, "name"), functions));
             } catch (NumberFormatException e) {
                 // Ignores entries that were not written by this class
             }
@@ -135,7 +130,7 @@ public class ProgramRegistry extends SavedData {
     }
 
     private static List<String> strings(ListTag list) {
-        return list.stream().map(Tag::getAsString).toList();
+        return list.stream().map(Nbt::text).toList();
     }
 
     /** A program: its name and functions. */

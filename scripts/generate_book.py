@@ -20,6 +20,8 @@ ROOT = Path(__file__).resolve().parent.parent
 GUIDE = ROOT / "docs" / "guide"
 REFERENCE = ROOT / "docs" / "reference"
 RESOURCES = ROOT / "src" / "main" / "resources"
+# The recipes in the format of Minecraft 1.21.1; generate_content.py converts them to the newer format
+RECIPES = ROOT / "src" / "main" / "versioned" / "recipes" / "1.21.1" / "data" / "c0de" / "recipe"
 BOOK = "guide"
 CONTENT = RESOURCES / "assets" / "c0de" / "patchouli_books" / BOOK / "en_us"
 
@@ -147,7 +149,7 @@ def book_files(book: str, name: str, landing: str, ingredient: str) -> None:
         "creative_tab": "c0de:c0de",
         "show_progress": False,
     })
-    write(RESOURCES / "data" / "c0de" / "recipe" / (book + "_book.json"), {
+    write(RECIPES / (book + "_book.json"), {
         "fabric:load_conditions": [{"condition": "fabric:all_mods_loaded", "values": ["patchouli"]}],
         "neoforge:conditions": [{"type": "neoforge:mod_loaded", "modid": "patchouli"}],
         "type": "minecraft:crafting_shapeless",
@@ -213,7 +215,7 @@ def parts(lines: list[str]) -> dict[str, list[str]]:
 
 
 def recipe_result(recipe: str) -> str | None:
-    file = RESOURCES / "data" / "c0de" / "recipe" / (recipe + ".json")
+    file = RECIPES / (recipe + ".json")
     if not file.exists():
         return None
     result = json.loads(file.read_text(encoding="utf-8"))["result"]["id"]

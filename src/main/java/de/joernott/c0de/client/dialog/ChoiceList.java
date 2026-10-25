@@ -80,8 +80,20 @@ public class ChoiceList extends AbstractWidget {
         }
     }
 
+    //? if >=1.21.9 {
+    /*@Override
+    public void onClick(net.minecraft.client.input.MouseButtonEvent event, boolean doubleClick) {
+        pick(event.x(), event.y());
+    }
+    *///?} else {
     @Override
     public void onClick(double mouseX, double mouseY) {
+        pick(mouseX, mouseY);
+    }
+    //?}
+
+    /** Picks the clicked choice. */
+    private void pick(double mouseX, double mouseY) {
         int index = scroll + (int) ((mouseY - getY() - 1) / ROW);
         if (index >= 0 && index < shown.size() && mouseX < getX() + width - 1 - SCROLLBAR_WIDTH) {
             picked.accept(shown.get(index));

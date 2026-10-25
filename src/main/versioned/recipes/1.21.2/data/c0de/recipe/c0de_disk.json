@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "ingredients": [
+    "c0de:data_item",
+    "minecraft:iron_ingot",
+    "minecraft:black_dye"
+  ],
+  "result": {
+    "id": "c0de:c0de_disk",
+    "count": 1
+  }
+}

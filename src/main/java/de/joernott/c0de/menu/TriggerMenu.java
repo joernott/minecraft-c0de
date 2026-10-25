@@ -2,6 +2,7 @@ package de.joernott.c0de.menu;
 
 import de.joernott.c0de.block.TriggerBlock;
 import de.joernott.c0de.blockentity.TriggerBlockEntity;
+import de.joernott.c0de.compat.Nbt;
 import de.joernott.c0de.content.C0deMenus;
 import de.joernott.c0de.item.ValueItem;
 import net.minecraft.core.BlockPos;
@@ -93,8 +94,8 @@ public class TriggerMenu extends AbstractContainerMenu {
         this.camouflage = camouflage;
         this.state = state;
         this.data = data;
-        this.pos = trigger != null ? trigger.getBlockPos() : BlockPos.of(data.getLong("pos"));
-        this.editable = trigger != null ? trigger.canConfigure(inventory.player) : data.getBoolean("editable");
+        this.pos = trigger != null ? trigger.getBlockPos() : BlockPos.of(Nbt.longValue(data, "pos"));
+        this.editable = trigger != null ? trigger.canConfigure(inventory.player) : Nbt.bool(data, "editable");
         for (int i = 0; i < TriggerBlockEntity.INVENTORY_SIZE; i++) {
             addSlot(new Slot(input, i, 8 + (i % 9) * SLOT, INPUT_Y + (i / 9) * SLOT) {
                 @Override

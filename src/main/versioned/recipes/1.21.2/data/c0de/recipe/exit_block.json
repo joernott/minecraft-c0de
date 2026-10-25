@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "pattern": [
+    "AAA",
+    "ABA",
+    "AAA"
+  ],
+  "key": {
+    "A": "c0de:noop_block",
+    "B": "minecraft:iron_door"
+  },
+  "result": {
+    "id": "c0de:exit_block",
+    "count": 8
+  }
+}

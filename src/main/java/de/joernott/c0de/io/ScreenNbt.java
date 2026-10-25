@@ -1,5 +1,6 @@
 package de.joernott.c0de.io;
 
+import de.joernott.c0de.compat.Nbt;
 import de.joernott.c0de.core.io.TextScreen;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,17 +37,17 @@ public final class ScreenNbt {
     /** Applies a screen written by {@link #write} or {@link #update} to the screen of a client. */
     public static void apply(TextScreen screen, CompoundTag tag) {
         List<TextScreen.Row> history = new ArrayList<>();
-        if (tag.getBoolean("append")) {
+        if (Nbt.bool(tag, "append")) {
             history.addAll(screen.history());
         }
-        history.addAll(rows(tag.getList("history", Tag.TAG_COMPOUND)));
+        history.addAll(rows(Nbt.list(tag, "history", Tag.TAG_COMPOUND)));
         screen.restore(
-                rows(tag.getList("rows", Tag.TAG_COMPOUND)),
+                rows(Nbt.list(tag, "rows", Tag.TAG_COMPOUND)),
                 history,
-                tag.getInt("row"),
-                tag.getInt("column"),
-                tag.getInt("foreground"),
-                tag.getInt("background"));
+                Nbt.integer(tag, "row"),
+                Nbt.integer(tag, "column"),
+                Nbt.integer(tag, "foreground"),
+                Nbt.integer(tag, "background"));
     }
 
     /** A screen of the given size with the content of the tag; content that doesn't fit is cut off. */
@@ -54,12 +55,12 @@ public final class ScreenNbt {
         TextScreen screen = new TextScreen(width, height, historySize);
         if (tag.contains("rows")) {
             screen.restore(
-                    rows(tag.getList("rows", Tag.TAG_COMPOUND)),
-                    rows(tag.getList("history", Tag.TAG_COMPOUND)),
-                    tag.getInt("row"),
-                    tag.getInt("column"),
-                    tag.contains("foreground") ? tag.getInt("foreground") : TextScreen.DEFAULT_FOREGROUND,
-                    tag.getInt("background"));
+                    rows(Nbt.list(tag, "rows", Tag.TAG_COMPOUND)),
+                    rows(Nbt.list(tag, "history", Tag.TAG_COMPOUND)),
+                    Nbt.integer(tag, "row"),
+                    Nbt.integer(tag, "column"),
+                    tag.contains("foreground") ? Nbt.integer(tag, "foreground") : TextScreen.DEFAULT_FOREGROUND,
+                    Nbt.integer(tag, "background"));
         }
         return screen;
     }
@@ -81,7 +82,7 @@ public final class ScreenNbt {
         for (Tag element : list) {
             CompoundTag entry = (CompoundTag) element;
             rows.add(new TextScreen.Row(
-                    entry.getIntArray("characters"), entry.getByteArray("foregrounds"), entry.getByteArray("backgrounds")));
+                    Nbt.intArray(entry, "characters"), Nbt.byteArray(entry, "foregrounds"), Nbt.byteArray(entry, "backgrounds")));
         }
         return rows;
     }

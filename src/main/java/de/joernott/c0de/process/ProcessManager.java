@@ -3,6 +3,10 @@ package de.joernott.c0de.process;
 import de.joernott.c0de.C0de;
 import de.joernott.c0de.blockentity.PidBlockEntity;
 import de.joernott.c0de.blockentity.TriggerBlockEntity;
+import de.joernott.c0de.compat.C0deSavedData;
+import de.joernott.c0de.compat.ChunkTickets;
+import de.joernott.c0de.compat.Compat;
+import de.joernott.c0de.compat.Nbt;
 import de.joernott.c0de.content.C0deBlocks;
 import de.joernott.c0de.content.C0deEntities;
 import de.joernott.c0de.content.C0deItems;
@@ -38,7 +42,6 @@ import java.time.Clock;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,10 +60,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.server.level.TicketType;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.datafix.DataFixTypes;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
@@ -68,23 +69,14 @@ import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.saveddata.SavedData;
 
 /**
  * The running processes (docs/concept/13-running-programs.md): starts them for trigger blocks, moves their
  * cursors one step per tick, ends them and stores them with the c0de dimension, so that they continue after a
  * restart. The chunks of the sheets and trigger blocks of running processes are kept loaded.
  */
-public class ProcessManager extends SavedData {
+public class ProcessManager extends C0deSavedData {
     private static final String NAME = "c0de_processes";
-
-    // Vanilla (Fabric) can't load saved data without a data fixer type; NeoForge allows null
-    private static final DataFixTypes DATA_FIX_TYPE =
-        /*? if fabric {*/DataFixTypes.SAVED_DATA_COMMAND_STORAGE;
-        /*?} else *///null;
-
-    private static final TicketType<ChunkPos> TICKET =
-            TicketType.create("c0de_process", Comparator.comparingLong(ChunkPos::toLong));
 
     private final Map<UUID, Process> processes = new LinkedHashMap<>();
 
@@ -97,8 +89,8 @@ public class ProcessManager extends SavedData {
     /** The process that goes first in the next tick, because it was skipped in the last one. */
     private UUID first;
 
-    private static final SavedData.Factory<ProcessManager> FACTORY =
-            new SavedData.Factory<>(ProcessManager::new, ProcessManager::load, DATA_FIX_TYPE);
+    private static final C0deSavedData.Kind<ProcessManager> KIND =
+            new C0deSavedData.Kind<>(NAME, ProcessManager::new, ProcessManager::load);
 
     /** The process manager of a server. */
     public static ProcessManager get(MinecraftServer server) {
@@ -106,7 +98,7 @@ public class ProcessManager extends SavedData {
         if (c0de == null) {
             throw new IllegalStateException("The c0de dimension doesn't exist");
         }
-        return c0de.getDataStorage().computeIfAbsent(FACTORY, NAME);
+        return KIND.get(c0de.getDataStorage());
     }
 
     /** Lets the processes run at the end of every server tick. Called once when the mod is initialized. */
@@ -255,7 +247,7 @@ public class ProcessManager extends SavedData {
             pidBlock.setTrigger(pid, triggerLevel.dimension(), trigger.getBlockPos());
         }
         ChunkPos triggerChunk = new ChunkPos(trigger.getBlockPos());
-        triggerLevel.getChunkSource().addRegionTicket(TICKET, triggerChunk, 0, triggerChunk);
+        ChunkTickets.add(triggerLevel, triggerChunk);
         UUID entity = spawnCursor(c0de, id, sheet.getAsInt(), pid, debug);
         List<ItemStack> taken = take(trigger.input(), inputs.keySet(), empty);
         processes.put(
@@ -453,7 +445,7 @@ public class ProcessManager extends SavedData {
 
     /** The first free y coordinate above the PROGRAM line, which becomes the PID, or -1. */
     private static int freePid(ServerLevel c0de, int sheet) {
-        int max = Math.min(C0de.config().get(C0deConfig.MAX_BUILD_HEIGHT), c0de.getMaxBuildHeight() - 1);
+        int max = Math.min(C0de.config().get(C0deConfig.MAX_BUILD_HEIGHT), Compat.maxBuildHeight(c0de) - 1);
         for (int y = 0; y <= max; y++) {
             if (c0de.getBlockState(LevelSheet.pidPos(sheet, y)).isAir()) {
                 return y;
@@ -475,7 +467,7 @@ public class ProcessManager extends SavedData {
             if (z % 16 == 0) {
                 for (int dx = 0; dx < 2; dx++) {
                     ChunkPos chunk = new ChunkPos(chunkX + dx, z >> 4);
-                    c0de.getChunkSource().addRegionTicket(TICKET, chunk, 0, chunk);
+                    ChunkTickets.add(c0de, chunk);
                     c0de.getChunk(chunk.x, chunk.z);
                     chunks.add(chunk);
                 }
@@ -490,7 +482,7 @@ public class ProcessManager extends SavedData {
     }
 
     private static void release(ServerLevel level, List<ChunkPos> chunks) {
-        chunks.forEach(chunk -> level.getChunkSource().removeRegionTicket(TICKET, chunk, 0, chunk));
+        chunks.forEach(chunk -> ChunkTickets.remove(level, chunk));
     }
 
     private static UUID spawnCursor(ServerLevel c0de, UUID process, int sheet, int pid, boolean debug) {
@@ -624,10 +616,10 @@ public class ProcessManager extends SavedData {
         if (process == null) {
             return Component.translatable("message.c0de.no_process", pid);
         }
-        if (!player.getUUID().equals(process.owner()) && !player.hasPermissions(2)) {
+        if (!player.getUUID().equals(process.owner()) && !Compat.isAdministrator(player)) {
             return Component.translatable("message.c0de.not_owner", pid);
         }
-        process.cursor().abort("Aborted by " + player.getGameProfile().getName());
+        process.cursor().abort("Aborted by " + Compat.name(player.getGameProfile()));
         end(server, process, Cursor.CRASH_EXIT_CODE, true);
         return Component.translatable("message.c0de.aborted", process.program(), pid);
     }
@@ -702,7 +694,7 @@ public class ProcessManager extends SavedData {
         release(c0de, process.chunks());
         if (triggerLevel != null) {
             ChunkPos chunk = new ChunkPos(process.triggerPos());
-            triggerLevel.getChunkSource().removeRegionTicket(TICKET, chunk, 0, chunk);
+            ChunkTickets.remove(triggerLevel, chunk);
         }
     }
 
@@ -782,15 +774,15 @@ public class ProcessManager extends SavedData {
 
     private static CompoundTag save(Process process) {
         CompoundTag tag = new CompoundTag();
-        tag.putUUID("id", process.id());
+        Nbt.putUuid(tag, "id", process.id());
         tag.putInt("sheet", process.sheet());
         tag.putInt("pid", process.pid());
         tag.putString("program", process.program());
         tag.putString("function", process.function());
         if (process.owner() != null) {
-            tag.putUUID("owner", process.owner());
+            Nbt.putUuid(tag, "owner", process.owner());
             if (process.cursor().settings().host() instanceof ProcessHost host && host.activator() != null) {
-                tag.putUUID("activator", host.activator());
+                Nbt.putUuid(tag, "activator", host.activator());
             }
         }
         tag.putString("triggerLevel", process.triggerLevel().location().toString());
@@ -806,7 +798,7 @@ public class ProcessManager extends SavedData {
 
     private static ProcessManager load(CompoundTag tag, HolderLookup.Provider registries) {
         ProcessManager manager = new ProcessManager();
-        for (Tag process : tag.getList("processes", Tag.TAG_COMPOUND)) {
+        for (Tag process : Nbt.list(tag, "processes", Tag.TAG_COMPOUND)) {
             manager.pending.add((CompoundTag) process);
         }
         return manager;
@@ -819,35 +811,35 @@ public class ProcessManager extends SavedData {
         for (CompoundTag tag : List.copyOf(pending)) {
             pending.remove(tag);
             try {
-                int sheet = tag.getInt("sheet");
+                int sheet = Nbt.integer(tag, "sheet");
                 List<ChunkPos> chunks = new ArrayList<>();
                 Program program = ProgramParser.parse(load(c0de, sheet, chunks));
-                String function = tag.getString("function");
+                String function = Nbt.string(tag, "function");
                 Statement.FunctionDeclaration declaration = function(program, function);
                 ResourceKey<Level> triggerLevel = ResourceKey.create(
-                        Registries.DIMENSION, ResourceLocation.parse(tag.getString("triggerLevel")));
-                BlockPos triggerPos = BlockPos.of(tag.getLong("triggerPos"));
+                        Registries.DIMENSION, ResourceLocation.parse(Nbt.string(tag, "triggerLevel")));
+                BlockPos triggerPos = BlockPos.of(Nbt.longValue(tag, "triggerPos"));
                 ProcessHost host = new ProcessHost(
                         server,
                         triggerLevel,
                         triggerPos,
-                        tag.hasUUID("owner") ? tag.getUUID("owner") : null,
-                        tag.getString("program"),
+                        Nbt.hasUuid(tag, "owner") ? Nbt.uuid(tag, "owner") : null,
+                        Nbt.string(tag, "program"),
                         function,
-                        tag.getInt("pid"),
-                        tag.hasUUID("activator") ? tag.getUUID("activator") : null);
+                        Nbt.integer(tag, "pid"),
+                        Nbt.hasUuid(tag, "activator") ? Nbt.uuid(tag, "activator") : null);
                 Map<String, Object> data = (Map<String, Object>) SnapshotNbt.fromNbt(tag.get("cursor"));
                 // The random number generator continues from the snapshot, so the seed doesn't matter here
                 Cursor cursor = CursorSnapshot.restore(data, program, settings(0, host));
                 ServerLevel trigger = server.getLevel(triggerLevel);
                 if (trigger != null) {
                     ChunkPos chunk = new ChunkPos(triggerPos);
-                    trigger.getChunkSource().addRegionTicket(TICKET, chunk, 0, chunk);
+                    ChunkTickets.add(trigger, chunk);
                 }
-                UUID id = tag.getUUID("id");
-                int pid = tag.getInt("pid");
-                List<String> parameterNames = tag.getList("parameterNames", Tag.TAG_STRING).stream()
-                        .map(Tag::getAsString)
+                UUID id = Nbt.uuid(tag, "id");
+                int pid = Nbt.integer(tag, "pid");
+                List<String> parameterNames = Nbt.list(tag, "parameterNames", Tag.TAG_STRING).stream()
+                        .map(Nbt::text)
                         .toList();
                 processes.put(
                         id,
@@ -855,20 +847,20 @@ public class ProcessManager extends SavedData {
                                 id,
                                 sheet,
                                 pid,
-                                tag.getString("program"),
+                                Nbt.string(tag, "program"),
                                 function,
-                                tag.hasUUID("owner") ? tag.getUUID("owner") : null,
+                                Nbt.hasUuid(tag, "owner") ? Nbt.uuid(tag, "owner") : null,
                                 triggerLevel,
                                 triggerPos,
                                 cursor,
                                 declaration,
                                 parameterNames,
-                                tag.getInt("parameterItems"),
+                                Nbt.integer(tag, "parameterItems"),
                                 chunks,
-                                spawnCursor(c0de, id, sheet, pid, tag.getBoolean("debug")),
-                                tag.getBoolean("debug")));
+                                spawnCursor(c0de, id, sheet, pid, Nbt.bool(tag, "debug")),
+                                Nbt.bool(tag, "debug")));
             } catch (RuntimeException e) {
-                C0de.LOGGER.error("Can't restore the process {} of {}", tag.getInt("pid"), tag.getString("program"), e);
+                C0de.LOGGER.error("Can't restore the process {} of {}", Nbt.integer(tag, "pid"), Nbt.string(tag, "program"), e);
             }
         }
     }

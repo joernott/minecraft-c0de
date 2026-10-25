@@ -1,5 +1,7 @@
 package de.joernott.c0de.client.dialog;
 
+import de.joernott.c0de.client.ClientCompat;
+import de.joernott.c0de.compat.Nbt;
 import de.joernott.c0de.core.edit.PropertyRules;
 import de.joernott.c0de.network.OpenDialogPayload;
 import java.util.Optional;
@@ -20,7 +22,7 @@ public class TagScreen extends PropertiesScreen {
 
     public TagScreen(OpenDialogPayload payload) {
         super(payload);
-        path = payload.data().getBoolean("path");
+        path = Nbt.bool(payload.data(), "path");
     }
 
     @Override
@@ -30,10 +32,9 @@ public class TagScreen extends PropertiesScreen {
 
     @Override
     protected void addFields() {
-        String initial = payload.data().getString("language");
-        language = addRenderableWidget(CycleButton.<String>builder(Component::literal)
-                .withValues(PropertyRules.TAG_LANGUAGES)
-                .withInitialValue(PropertyRules.TAG_LANGUAGES.contains(initial) ? initial : "json")
+        String initial = Nbt.string(payload.data(), "language");
+        language = addRenderableWidget(ClientCompat.cycleButton(
+                        PropertyRules.TAG_LANGUAGES, PropertyRules.TAG_LANGUAGES.contains(initial) ? initial : "json")
                 .create(
                         left + MARGIN,
                         contentTop(),
@@ -45,7 +46,7 @@ public class TagScreen extends PropertiesScreen {
         name = addRenderableWidget(
                 new EditBox(font, left + MARGIN, contentTop() + ROW + 10, FIELD_WIDTH, 18, Component.empty()));
         name.setMaxLength(PropertyRules.MAX_TEXT_LENGTH);
-        name.setValue(payload.data().getString("name"));
+        name.setValue(Nbt.string(payload.data(), "name"));
         name.setEditable(!readOnly);
         name.setResponder(text -> update());
         setInitialFocus(name);

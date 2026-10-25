@@ -10,6 +10,8 @@ import de.joernott.c0de.blockentity.OperatorBlockEntity;
 import de.joernott.c0de.blockentity.PidBlockEntity;
 import de.joernott.c0de.blockentity.TagBlockEntity;
 import de.joernott.c0de.blockentity.TriggerBlockEntity;
+import de.joernott.c0de.compat.Compat;
+import de.joernott.c0de.compat.Nbt;
 import de.joernott.c0de.content.CodeBlockType;
 import de.joernott.c0de.core.sheet.SheetGeometry;
 import de.joernott.c0de.core.validation.Validation;
@@ -52,7 +54,7 @@ public final class Inspector {
      * @return false if the block is not a c0de block
      */
     public static boolean inspectBlock(ServerPlayer player, BlockPos pos) {
-        ServerLevel level = player.serverLevel();
+        ServerLevel level = Compat.level(player);
         if (!isInspectable(level, pos)) {
             return false;
         }
@@ -86,9 +88,9 @@ public final class Inspector {
             case PidBlockEntity pid -> {
                 lines.add("PID: " + pid.pid());
                 lines.add("trigger: " + pid.trigger());
-                ProcessManager.get(player.server)
+                ProcessManager.get(Compat.server(player))
                         .owner(LevelSheet.sheetOf(pos), pid.pid())
-                        .ifPresent(owner -> lines.add("owner: " + playerName(player.server, owner)));
+                        .ifPresent(owner -> lines.add("owner: " + playerName(Compat.server(player), owner)));
             }
             case TriggerBlockEntity trigger -> {
                 lines.add("program: " + trigger.program());
@@ -127,13 +129,7 @@ public final class Inspector {
 
     /** The name of a player, online or known to the server, or the UUID. */
     private static String playerName(net.minecraft.server.MinecraftServer server, java.util.UUID id) {
-        net.minecraft.server.level.ServerPlayer online = server.getPlayerList().getPlayer(id);
-        if (online != null) {
-            return online.getGameProfile().getName();
-        }
-        return server.getProfileCache() == null
-                ? id.toString()
-                : server.getProfileCache().get(id).map(profile -> profile.getName()).orElse(id.toString());
+        return Compat.knownName(server, id).orElse(id.toString());
     }
 
     /** The validation result of the line of a block. */
@@ -156,15 +152,15 @@ public final class Inspector {
 
     /** Opens the dialog with the properties and the stack of a cursor. */
     public static void inspectCursor(ServerPlayer player, CursorEntity cursor) {
-        ProcessManager.get(player.server).inspect(cursor.process()).ifPresent(data -> {
+        ProcessManager.get(Compat.server(player)).inspect(cursor.process()).ifPresent(data -> {
             List<String> lines = new ArrayList<>();
-            lines.add("program " + data.getString("program") + ", entry function " + data.getString("entry"));
-            lines.add("PID " + data.getInt("pid") + ", line " + data.getInt("line") + ", " + data.getString("state")
-                    + (data.getBoolean("debug") ? " (debug cursor)" : ""));
-            lines.add("function: " + data.getString("function"));
-            lines.add("trigger: " + data.getString("trigger"));
+            lines.add("program " + Nbt.string(data, "program") + ", entry function " + Nbt.string(data, "entry"));
+            lines.add("PID " + Nbt.integer(data, "pid") + ", line " + Nbt.integer(data, "line") + ", " + Nbt.string(data, "state")
+                    + (Nbt.bool(data, "debug") ? " (debug cursor)" : ""));
+            lines.add("function: " + Nbt.string(data, "function"));
+            lines.add("trigger: " + Nbt.string(data, "trigger"));
             lines.add("stack (top first):");
-            data.getList("stack", StringTag.TAG_STRING).forEach(item -> lines.add("  " + item.getAsString()));
+            Nbt.list(data, "stack", StringTag.TAG_STRING).forEach(item -> lines.add("  " + Nbt.text(item)));
             CompoundTag dialog = new CompoundTag();
             dialog.putString("title", cursor.getName().getString());
             dialog.put("lines", strings(lines));

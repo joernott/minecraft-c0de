@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "ingredients": [
+    "c0de:data_item",
+    "minecraft:pink_dye"
+  ],
+  "result": {
+    "id": "c0de:constant_item",
+    "count": 1
+  }
+}

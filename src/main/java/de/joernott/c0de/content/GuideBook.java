@@ -44,9 +44,12 @@ public final class GuideBook {
     /** The guide book, or an empty stack if Patchouli's book item or component doesn't exist. */
     @SuppressWarnings("unchecked")
     private static ItemStack book() {
-        Item item = BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath("patchouli", "guide_book"));
-        DataComponentType<?> component =
-                BuiltInRegistries.DATA_COMPONENT_TYPE.get(ResourceLocation.fromNamespaceAndPath("patchouli", "book"));
+        Item item = BuiltInRegistries.ITEM
+                .getOptional(ResourceLocation.fromNamespaceAndPath("patchouli", "guide_book"))
+                .orElse(Items.AIR);
+        DataComponentType<?> component = BuiltInRegistries.DATA_COMPONENT_TYPE
+                .getOptional(ResourceLocation.fromNamespaceAndPath("patchouli", "book"))
+                .orElse(null);
         if (item == Items.AIR || component == null) {
             return ItemStack.EMPTY;
         }

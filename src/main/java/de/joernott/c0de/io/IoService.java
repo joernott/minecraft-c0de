@@ -1,5 +1,7 @@
 package de.joernott.c0de.io;
 
+import de.joernott.c0de.compat.Compat;
+import de.joernott.c0de.compat.Nbt;
 import de.joernott.c0de.content.C0deItems;
 import de.joernott.c0de.core.edit.ItemRules;
 import de.joernott.c0de.core.error.C0deException;
@@ -55,8 +57,8 @@ public final class IoService {
 
     /** Binds a display or I/O block as chosen in its dialog; returns the reason if it was not bound. */
     private static Optional<String> bind(ServerPlayer player, BindPayload payload) {
-        ServerLevel level = player.serverLevel();
-        if (!level.isLoaded(payload.pos()) || !player.canInteractWithBlock(payload.pos(), REACH_TOLERANCE)) {
+        ServerLevel level = Compat.level(player);
+        if (!level.isLoaded(payload.pos()) || !Compat.canReach(player, payload.pos(), REACH_TOLERANCE)) {
             return Optional.of("The block is too far away");
         }
         if (!(level.getBlockEntity(payload.pos()) instanceof Bindable device)) {
@@ -72,14 +74,13 @@ public final class IoService {
     /** True for an empty program (no binding) or a program with the function. */
     private static boolean hasFunction(ServerPlayer player, String program, String function) {
         return program.isEmpty()
-                || DialogService.programs(player)
-                        .getList(program, net.minecraft.nbt.Tag.TAG_STRING)
+                || Nbt.list(DialogService.programs(player), program, net.minecraft.nbt.Tag.TAG_STRING)
                         .contains(net.minecraft.nbt.StringTag.valueOf(function));
     }
 
     /** What a player did in the terminal they have open. */
     private static void act(ServerPlayer player, TerminalActionPayload payload) {
-        Terminals terminals = Terminals.get(player.server);
+        Terminals terminals = Terminals.get(Compat.server(player));
         Terminals.Terminal terminal = terminals.openBy(player);
         if (terminal == null) {
             return;
@@ -94,7 +95,7 @@ public final class IoService {
             }
             case "bind" -> {
                 if (hasFunction(player, payload.text(), payload.function())) {
-                    terminals.bind(player.server, terminal, payload.text(), payload.function());
+                    terminals.bind(Compat.server(player), terminal, payload.text(), payload.function());
                 }
             }
             default -> {

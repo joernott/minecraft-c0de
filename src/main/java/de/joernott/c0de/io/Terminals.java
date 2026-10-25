@@ -1,5 +1,7 @@
 package de.joernott.c0de.io;
 
+import de.joernott.c0de.compat.C0deSavedData;
+import de.joernott.c0de.compat.Nbt;
 import de.joernott.c0de.core.io.TextScreen;
 import de.joernott.c0de.dialog.DialogService;
 import de.joernott.c0de.network.TerminalPayload;
@@ -21,8 +23,6 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.util.datafix.DataFixTypes;
-import net.minecraft.world.level.saveddata.SavedData;
 
 /**
  * The terminals of laptops and tablets (docs/concept/19-input-output.md), by their ID: binding, screen with
@@ -30,7 +30,7 @@ import net.minecraft.world.level.saveddata.SavedData;
  * ({@code data/c0de_terminals.dat}), so that processes reach tablets in any inventory and laptops in unloaded
  * chunks. The players who have a terminal open get its changes once per tick.
  */
-public class Terminals extends SavedData {
+public class Terminals extends C0deSavedData {
     public static final int COLUMNS = 48;
     public static final int ROWS = 20;
     public static final int HISTORY = 200;
@@ -40,13 +40,8 @@ public class Terminals extends SavedData {
     private static final int PROMPT_TICKS = 3;
     private static final String NAME = "c0de_terminals";
 
-    // Vanilla (Fabric) can't load saved data without a data fixer type; NeoForge allows null
-    private static final DataFixTypes DATA_FIX_TYPE =
-        /*? if fabric {*/DataFixTypes.SAVED_DATA_COMMAND_STORAGE;
-        /*?} else *///null;
-
-    private static final SavedData.Factory<Terminals> FACTORY =
-            new SavedData.Factory<>(Terminals::new, Terminals::load, DATA_FIX_TYPE);
+    private static final C0deSavedData.Kind<Terminals> KIND =
+            new C0deSavedData.Kind<>(NAME, Terminals::new, Terminals::load);
 
     /** A terminal; the changes of its screen are sent with {@link #changed}. */
     public static final class Terminal {
@@ -105,7 +100,7 @@ public class Terminals extends SavedData {
     private long next;
 
     public static Terminals get(MinecraftServer server) {
-        return server.overworld().getDataStorage().computeIfAbsent(FACTORY, NAME);
+        return KIND.get(server.overworld().getDataStorage());
     }
 
     /** Sends the changes of the terminals to their viewers and ends INPUTs that no longer wait. */
@@ -268,14 +263,14 @@ public class Terminals extends SavedData {
 
     private static Terminals load(CompoundTag tag, HolderLookup.Provider registries) {
         Terminals result = new Terminals();
-        result.next = tag.getLong("next");
-        for (Tag element : tag.getList("terminals", Tag.TAG_COMPOUND)) {
+        result.next = Nbt.longValue(tag, "next");
+        for (Tag element : Nbt.list(tag, "terminals", Tag.TAG_COMPOUND)) {
             CompoundTag entry = (CompoundTag) element;
-            Terminal terminal = new Terminal(entry.getUUID("id"));
-            terminal.program = entry.getString("program");
-            terminal.function = entry.getString("function");
-            terminal.order = entry.getLong("order");
-            CompoundTag screen = entry.getCompound("screen");
+            Terminal terminal = new Terminal(Nbt.uuid(entry, "id"));
+            terminal.program = Nbt.string(entry, "program");
+            terminal.function = Nbt.string(entry, "function");
+            terminal.order = Nbt.longValue(entry, "order");
+            CompoundTag screen = Nbt.compound(entry, "screen");
             if (screen.contains("rows")) {
                 ScreenNbt.apply(terminal.screen, screen);
             }
@@ -290,7 +285,7 @@ public class Terminals extends SavedData {
         ListTag list = new ListTag();
         for (Terminal terminal : terminals.values()) {
             CompoundTag entry = new CompoundTag();
-            entry.putUUID("id", terminal.id);
+            Nbt.putUuid(entry, "id", terminal.id);
             entry.putString("program", terminal.program);
             entry.putString("function", terminal.function);
             entry.putLong("order", terminal.order);

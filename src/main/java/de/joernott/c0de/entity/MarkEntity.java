@@ -1,8 +1,8 @@
 package de.joernott.c0de.entity;
 
+import de.joernott.c0de.compat.C0deEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
@@ -12,7 +12,7 @@ import net.minecraft.world.level.Level;
  * over the code area of the line. It stands in the middle of the line and is saved with its chunk; players can't
  * hit it, so clicks go to the blocks of the line.
  */
-public class MarkEntity extends Entity {
+public class MarkEntity extends C0deEntity {
     public MarkEntity(EntityType<? extends MarkEntity> type, Level level) {
         super(type, level);
         noPhysics = true;
@@ -36,17 +36,12 @@ public class MarkEntity extends Entity {
     }
 
     @Override
-    public boolean hurt(DamageSource source, float amount) {
-        return false;
-    }
-
-    @Override
-    protected void readAdditionalSaveData(CompoundTag tag) {
+    protected void loadData(CompoundTag tag) {
         // The position is all a mark needs
     }
 
     @Override
-    protected void addAdditionalSaveData(CompoundTag tag) {
+    protected void saveData(CompoundTag tag) {
         // The position is all a mark needs
     }
 }

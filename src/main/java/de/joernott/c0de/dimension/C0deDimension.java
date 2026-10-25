@@ -1,6 +1,7 @@
 package de.joernott.c0de.dimension;
 
 import de.joernott.c0de.C0de;
+import de.joernott.c0de.compat.Compat;
 import de.joernott.c0de.core.sheet.SheetGeometry;
 import de.joernott.c0de.platform.Platform;
 import java.util.Optional;
@@ -12,7 +13,6 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.portal.DimensionTransition;
 
 /** The c0de dimension: its registration and how players enter and leave it. */
 public final class C0deDimension {
@@ -34,19 +34,20 @@ public final class C0deDimension {
      * dimension.
      */
     public static void enter(ServerPlayer player, BlockPos triggerBlock) {
-        ServerLevel level = player.server.getLevel(LEVEL);
+        ServerLevel level = Compat.server(player).getLevel(LEVEL);
         if (level == null) {
             C0de.LOGGER.error("The c0de dimension {} doesn't exist", LEVEL.location());
             player.sendSystemMessage(Component.translatable("message.c0de.no_dimension"));
             return;
         }
         if (!player.level().dimension().equals(LEVEL)) {
-            ReturnPositions.get(player.server).store(player);
+            ReturnPositions.get(Compat.server(player)).store(player);
         }
         // Trigger blocks can't be configured with a program yet (sprint 8), so the player always goes to
         // the first free sheet.
         int sheet = firstFreeSheet(level);
-        player.teleportTo(
+        Compat.teleport(
+                player,
                 level,
                 SheetGeometry.absoluteX(sheet, SheetGeometry.CODE_MIN_X) + 0.5,
                 SheetGeometry.CODE_Y,
@@ -60,12 +61,13 @@ public final class C0deDimension {
      * respawn point if there is none.
      */
     public static void leave(ServerPlayer player) {
-        Optional<ReturnPositions.Position> stored = ReturnPositions.get(player.server).take(player.getUUID());
+        Optional<ReturnPositions.Position> stored = ReturnPositions.get(Compat.server(player)).take(player.getUUID());
         if (stored.isPresent()) {
             ReturnPositions.Position position = stored.get();
-            ServerLevel level = player.server.getLevel(position.dimension());
+            ServerLevel level = Compat.server(player).getLevel(position.dimension());
             if (level != null) {
-                player.teleportTo(
+                Compat.teleport(
+                        player,
                         level,
                         position.position().x,
                         position.position().y,
@@ -75,9 +77,7 @@ public final class C0deDimension {
                 return;
             }
         }
-        DimensionTransition respawn =
-                player.findRespawnPositionAndUseSpawnBlock(true, DimensionTransition.DO_NOTHING);
-        player.changeDimension(respawn);
+        Compat.respawn(player);
     }
 
     /** The first sheet without a program, i.e. without a block at the position of the PROGRAM statement. */

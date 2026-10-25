@@ -1,5 +1,7 @@
 package de.joernott.c0de.dimension;
 
+import de.joernott.c0de.compat.C0deSavedData;
+import de.joernott.c0de.compat.Nbt;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -11,32 +13,24 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.util.datafix.DataFixTypes;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraft.world.phys.Vec3;
 
 /**
  * The positions players had when they entered the c0de dimension from another dimension. Stored in
  * the save data of the overworld ({@code data/c0de_return_positions.dat}).
  */
-public class ReturnPositions extends SavedData {
+public class ReturnPositions extends C0deSavedData {
     private static final String NAME = "c0de_return_positions";
 
-    // Vanilla (Fabric) can't load saved data without a data fixer type; NeoForge allows null. This type has
-    // no fixes that would touch the data of this class.
-    private static final DataFixTypes DATA_FIX_TYPE =
-        /*? if fabric {*/DataFixTypes.SAVED_DATA_COMMAND_STORAGE;
-        /*?} else *///null;
-
-    private static final SavedData.Factory<ReturnPositions> FACTORY =
-            new SavedData.Factory<>(ReturnPositions::new, ReturnPositions::load, DATA_FIX_TYPE);
+    private static final C0deSavedData.Kind<ReturnPositions> KIND =
+            new C0deSavedData.Kind<>(NAME, ReturnPositions::new, ReturnPositions::load);
 
     private final Map<UUID, Position> positions = new HashMap<>();
 
     /** The return positions of the server. */
     public static ReturnPositions get(MinecraftServer server) {
-        return server.overworld().getDataStorage().computeIfAbsent(FACTORY, NAME);
+        return KIND.get(server.overworld().getDataStorage());
     }
 
     /** Stores the current position of the player. */
@@ -75,10 +69,10 @@ public class ReturnPositions extends SavedData {
 
     private static ReturnPositions load(CompoundTag tag, HolderLookup.Provider registries) {
         ReturnPositions result = new ReturnPositions();
-        CompoundTag players = tag.getCompound("players");
-        for (String key : players.getAllKeys()) {
-            CompoundTag entry = players.getCompound(key);
-            ResourceLocation dimension = ResourceLocation.tryParse(entry.getString("dimension"));
+        CompoundTag players = Nbt.compound(tag, "players");
+        for (String key : Nbt.keys(players)) {
+            CompoundTag entry = Nbt.compound(players, key);
+            ResourceLocation dimension = ResourceLocation.tryParse(Nbt.string(entry, "dimension"));
             if (dimension == null) {
                 continue;
             }
@@ -86,9 +80,9 @@ public class ReturnPositions extends SavedData {
                     UUID.fromString(key),
                     new Position(
                             ResourceKey.create(Registries.DIMENSION, dimension),
-                            new Vec3(entry.getDouble("x"), entry.getDouble("y"), entry.getDouble("z")),
-                            entry.getFloat("yaw"),
-                            entry.getFloat("pitch")));
+                            new Vec3(Nbt.doubleValue(entry, "x"), Nbt.doubleValue(entry, "y"), Nbt.doubleValue(entry, "z")),
+                            Nbt.floatValue(entry, "yaw"),
+                            Nbt.floatValue(entry, "pitch")));
         }
         return result;
     }

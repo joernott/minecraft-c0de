@@ -48,17 +48,17 @@ public final class IoTests {
         BlockPos right = new BlockPos(2, 2, 1);
         helper.setBlock(left, C0deBlocks.DISPLAY_BLOCK.get().defaultBlockState().setValue(DisplayBlock.FACING, Direction.SOUTH));
         helper.setBlock(right, C0deBlocks.DISPLAY_BLOCK.get().defaultBlockState().setValue(DisplayBlock.FACING, Direction.SOUTH));
-        DisplayBlockEntity origin = (DisplayBlockEntity) helper.getBlockEntity(left);
+        DisplayBlockEntity origin = (DisplayBlockEntity) TestCompat.blockEntity(helper, left);
         helper.assertTrue(origin.isOrigin(), "The west block is not the origin of the wall");
         helper.assertTrue(
                 origin.screen().width() == 2 * DisplayBlockEntity.COLUMNS && origin.screen().height() == DisplayBlockEntity.ROWS,
                 "The screen is " + origin.screen().width() + " x " + origin.screen().height());
-        helper.assertTrue(!((DisplayBlockEntity) helper.getBlockEntity(right)).isOrigin(), "Both blocks are origins");
-        ((DisplayBlockEntity) helper.getBlockEntity(right)).bind(helper.getLevel(), "printing", "hello");
+        helper.assertTrue(!((DisplayBlockEntity) TestCompat.blockEntity(helper, right)).isOrigin(), "Both blocks are origins");
+        ((DisplayBlockEntity) TestCompat.blockEntity(helper, right)).bind(helper.getLevel(), "printing", "hello");
         helper.assertTrue(origin.program().equals("printing"), "Binding one block didn't bind the wall");
 
         helper.setBlock(BlockPos.ZERO, C0deBlocks.TRIGGER_BLOCK.get());
-        TriggerBlockEntity trigger = (TriggerBlockEntity) helper.getBlockEntity(BlockPos.ZERO);
+        TriggerBlockEntity trigger = (TriggerBlockEntity) TestCompat.blockEntity(helper, BlockPos.ZERO);
         trigger.configure(helper.makeMockServerPlayerInLevel(), "printing", "hello", 20);
         trigger.start();
         helper.assertTrue(trigger.isRunning(), "The process didn't start: " + trigger.status());
@@ -73,7 +73,7 @@ public final class IoTests {
                 BlockPos third = new BlockPos(3, 2, 1);
                 helper.setBlock(
                         third, C0deBlocks.DISPLAY_BLOCK.get().defaultBlockState().setValue(DisplayBlock.FACING, Direction.SOUTH));
-                DisplayBlockEntity joined = (DisplayBlockEntity) helper.getBlockEntity(third);
+                DisplayBlockEntity joined = (DisplayBlockEntity) TestCompat.blockEntity(helper, third);
                 helper.assertTrue(joined.program().equals("printing"), "The new block didn't take the binding");
                 helper.assertTrue(
                         origin.screen().width() == 3 * DisplayBlockEntity.COLUMNS, "The wall didn't grow");
@@ -111,7 +111,7 @@ public final class IoTests {
         SheetValidation.validate(c0de, 526);
         BlockPos pos = new BlockPos(1, 2, 1);
         helper.setBlock(pos, C0deBlocks.IO_BLOCK.get());
-        IoBlockEntity io = (IoBlockEntity) helper.getBlockEntity(pos);
+        IoBlockEntity io = (IoBlockEntity) TestCompat.blockEntity(helper, pos);
         io.bind(helper.getLevel(), "exchanging", "run");
         ItemStack count = new ItemStack(C0deItems.VARIABLE_ITEM.get());
         new ValueItem.Contents("count", "INTEGER", "20").writeTo(count);
@@ -121,7 +121,7 @@ public final class IoTests {
         io.input().setItem(1, literal);
 
         helper.setBlock(BlockPos.ZERO, C0deBlocks.TRIGGER_BLOCK.get());
-        TriggerBlockEntity trigger = (TriggerBlockEntity) helper.getBlockEntity(BlockPos.ZERO);
+        TriggerBlockEntity trigger = (TriggerBlockEntity) TestCompat.blockEntity(helper, BlockPos.ZERO);
         trigger.configure(helper.makeMockServerPlayerInLevel(), "exchanging", "run", 20);
         trigger.start();
         helper.assertTrue(trigger.isRunning(), "The process didn't start: " + trigger.status());
@@ -188,13 +188,13 @@ public final class IoTests {
         SheetValidation.validate(c0de, 528);
         BlockPos pos = new BlockPos(1, 2, 1);
         helper.setBlock(pos, C0deBlocks.LAPTOP.get());
-        LaptopBlockEntity laptop = (LaptopBlockEntity) helper.getBlockEntity(pos);
+        LaptopBlockEntity laptop = (LaptopBlockEntity) TestCompat.blockEntity(helper, pos);
         Terminals terminals = Terminals.get(helper.getLevel().getServer());
         Terminals.Terminal terminal = terminals.terminal(laptop.terminal());
         terminals.bind(helper.getLevel().getServer(), terminal, "typing", "ask");
 
         helper.setBlock(BlockPos.ZERO, C0deBlocks.TRIGGER_BLOCK.get());
-        TriggerBlockEntity trigger = (TriggerBlockEntity) helper.getBlockEntity(BlockPos.ZERO);
+        TriggerBlockEntity trigger = (TriggerBlockEntity) TestCompat.blockEntity(helper, BlockPos.ZERO);
         trigger.configure(helper.makeMockServerPlayerInLevel(), "typing", "ask", 20);
         trigger.start();
         helper.assertTrue(trigger.isRunning(), "The process didn't start: " + trigger.status());

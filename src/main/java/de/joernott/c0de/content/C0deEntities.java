@@ -22,13 +22,23 @@ public final class C0deEntities {
                 .noSave()
                 .fireImmune()
                 .clientTrackingRange(10)
+                //? if >=1.21.2 {
+                /*.build(net.minecraft.resources.ResourceKey.create(
+                        net.minecraft.core.registries.Registries.ENTITY_TYPE, de.joernott.c0de.C0de.id("cursor"))));
+                *///?} else {
                 .build("cursor"));
+                //?}
         // As wide as the code area of a line, so that marks are drawn whenever a part of the line is visible
         MARK = Platform.INSTANCE.register(BuiltInRegistries.ENTITY_TYPE, "mark", () -> EntityType.Builder.<
                         MarkEntity>of(MarkEntity::new, MobCategory.MISC)
                 .sized(24.0F, 1.0F)
                 .fireImmune()
                 .clientTrackingRange(10)
+                //? if >=1.21.2 {
+                /*.build(net.minecraft.resources.ResourceKey.create(
+                        net.minecraft.core.registries.Registries.ENTITY_TYPE, de.joernott.c0de.C0de.id("mark"))));
+                *///?} else {
                 .build("mark"));
+                //?}
     }
 }

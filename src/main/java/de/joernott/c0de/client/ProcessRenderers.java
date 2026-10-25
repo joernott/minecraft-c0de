@@ -9,15 +9,12 @@ import de.joernott.c0de.entity.MarkEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.renderer.LevelRenderer;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.inventory.InventoryMenu;
+import net.minecraft.network.chat.Style;
+import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.level.block.state.BlockState;
 import org.joml.Matrix4f;
 
@@ -29,7 +26,17 @@ public final class ProcessRenderers {
      * Shows a cursor as a cuboid that slowly pulses between dark green and lime, or between dark red and red for
      * debug cursors.
      */
+    //? if >=1.21.11 {
+    /*public static class Cursor extends EntityRenderer<CursorEntity, Cursor.State> {
+        /^* The render state of a cursor. ^/
+        public static class State extends net.minecraft.client.renderer.entity.state.EntityRenderState {
+            boolean waiting;
+            boolean debug;
+        }
+
+    *///?} else {
     public static class Cursor extends EntityRenderer<CursorEntity> {
+    //?}
         private static final int[] REGULAR = {0x00AA00, 0x55FF55};
         private static final int[] DEBUG = {0xAA0000, 0xFF5555};
         // A waiting cursor (INPUT, WRITE) pulses between black and the dark color
@@ -48,39 +55,71 @@ public final class ProcessRenderers {
             super(context);
         }
 
+        //? if >=1.21.11 {
+        /*@Override
+        public State createRenderState() {
+            return new State();
+        }
+
+        @Override
+        public void extractRenderState(CursorEntity entity, State state, float partialTick) {
+            super.extractRenderState(entity, state, partialTick);
+            state.waiting = entity.isWaiting();
+            state.debug = entity.isDebug();
+        }
+
+        @Override
+        public void submit(
+                State state,
+                PoseStack pose,
+                net.minecraft.client.renderer.SubmitNodeCollector collector,
+                net.minecraft.client.renderer.state.CameraRenderState camera) {
+            draw(state.waiting, state.debug, state.ageInTicks, pose, Canvas.of(collector));
+            super.submit(state, pose, collector, camera);
+        }
+        *///?} else {
         @Override
         public void render(
                 CursorEntity entity,
                 float yaw,
                 float partialTick,
                 PoseStack pose,
-                MultiBufferSource buffers,
+                net.minecraft.client.renderer.MultiBufferSource buffers,
                 int light) {
-            int[] colors = entity.isWaiting()
-                    ? (entity.isDebug() ? DEBUG_WAITING : REGULAR_WAITING)
-                    : (entity.isDebug() ? DEBUG : REGULAR);
-            float time = (entity.tickCount + partialTick) / PULSE_TICKS;
+            draw(entity.isWaiting(), entity.isDebug(), entity.tickCount + partialTick, pose, Canvas.of(buffers));
+            super.render(entity, yaw, partialTick, pose, buffers, light);
+        }
+
+        @Override
+        public net.minecraft.resources.ResourceLocation getTextureLocation(CursorEntity entity) {
+            return net.minecraft.world.inventory.InventoryMenu.BLOCK_ATLAS;
+        }
+        //?}
+
+        /** Draws the cursor; ticks is the age of the cursor in ticks. */
+        private static void draw(boolean waiting, boolean debug, float ticks, PoseStack pose, Canvas canvas) {
+            int[] colors = waiting ? (debug ? DEBUG_WAITING : REGULAR_WAITING) : (debug ? DEBUG : REGULAR);
+            float time = ticks / PULSE_TICKS;
             float mix = 0.5F - 0.5F * (float) Math.cos(time * 2.0 * Math.PI);
             int color = blend(colors[0], colors[1], mix);
             float r = ((color >> 16) & 0xFF) / 255.0F;
             float g = ((color >> 8) & 0xFF) / 255.0F;
             float b = (color & 0xFF) / 255.0F;
-            VertexConsumer quads = buffers.getBuffer(RenderType.debugQuads());
-            Matrix4f matrix = pose.last().pose();
             float x0 = -HALF_WIDTH;
             float x1 = HALF_WIDTH;
             float z0 = -HALF_WIDTH;
             float z1 = HALF_WIDTH;
             float y0 = 0.0F;
             float y1 = HEIGHT;
-            // The sides are slightly darker than the top, like the sides of blocks
-            face(quads, matrix, r, g, b, x0, y1, z0, x0, y1, z1, x1, y1, z1, x1, y1, z0);
-            face(quads, matrix, r * 0.5F, g * 0.5F, b * 0.5F, x0, y0, z0, x1, y0, z0, x1, y0, z1, x0, y0, z1);
-            face(quads, matrix, r * 0.8F, g * 0.8F, b * 0.8F, x0, y0, z0, x0, y1, z0, x1, y1, z0, x1, y0, z0);
-            face(quads, matrix, r * 0.8F, g * 0.8F, b * 0.8F, x0, y0, z1, x1, y0, z1, x1, y1, z1, x0, y1, z1);
-            face(quads, matrix, r * 0.6F, g * 0.6F, b * 0.6F, x0, y0, z0, x0, y0, z1, x0, y1, z1, x0, y1, z0);
-            face(quads, matrix, r * 0.6F, g * 0.6F, b * 0.6F, x1, y0, z0, x1, y1, z0, x1, y1, z1, x1, y0, z1);
-            super.render(entity, yaw, partialTick, pose, buffers, light);
+            canvas.geometry(pose, Canvas.coloredQuads(), (last, matrix, quads) -> {
+                // The sides are slightly darker than the top, like the sides of blocks
+                face(quads, matrix, r, g, b, x0, y1, z0, x0, y1, z1, x1, y1, z1, x1, y1, z0);
+                face(quads, matrix, r * 0.5F, g * 0.5F, b * 0.5F, x0, y0, z0, x1, y0, z0, x1, y0, z1, x0, y0, z1);
+                face(quads, matrix, r * 0.8F, g * 0.8F, b * 0.8F, x0, y0, z0, x0, y1, z0, x1, y1, z0, x1, y0, z0);
+                face(quads, matrix, r * 0.8F, g * 0.8F, b * 0.8F, x0, y0, z1, x1, y0, z1, x1, y1, z1, x0, y1, z1);
+                face(quads, matrix, r * 0.6F, g * 0.6F, b * 0.6F, x0, y0, z0, x0, y0, z1, x0, y1, z1, x0, y1, z0);
+                face(quads, matrix, r * 0.6F, g * 0.6F, b * 0.6F, x1, y0, z0, x1, y1, z0, x1, y1, z1, x1, y0, z1);
+            });
         }
 
         private static int blend(int from, int to, float mix) {
@@ -106,14 +145,15 @@ public final class ProcessRenderers {
             }
         }
 
-        @Override
-        public ResourceLocation getTextureLocation(CursorEntity entity) {
-            return InventoryMenu.BLOCK_ATLAS;
-        }
     }
 
     /** Shows a marked line as a translucent yellow overlay over the code area of the line. */
+    //? if >=1.21.11 {
+    /*public static class Mark
+            extends EntityRenderer<MarkEntity, net.minecraft.client.renderer.entity.state.EntityRenderState> {
+    *///?} else {
     public static class Mark extends EntityRenderer<MarkEntity> {
+    //?}
         /** Half of the width of the code area (x=5 to x=28). */
         private static final float HALF_WIDTH = 12.0F;
 
@@ -123,18 +163,41 @@ public final class ProcessRenderers {
             super(context);
         }
 
+        //? if >=1.21.11 {
+        /*@Override
+        public net.minecraft.client.renderer.entity.state.EntityRenderState createRenderState() {
+            return new net.minecraft.client.renderer.entity.state.EntityRenderState();
+        }
+
+        @Override
+        public void submit(
+                net.minecraft.client.renderer.entity.state.EntityRenderState state,
+                PoseStack pose,
+                net.minecraft.client.renderer.SubmitNodeCollector collector,
+                net.minecraft.client.renderer.state.CameraRenderState camera) {
+            draw(pose, Canvas.of(collector));
+        }
+        *///?} else {
         @Override
         public void render(
                 MarkEntity entity,
                 float yaw,
                 float partialTick,
                 PoseStack pose,
-                MultiBufferSource buffers,
+                net.minecraft.client.renderer.MultiBufferSource buffers,
                 int light) {
+            draw(pose, Canvas.of(buffers));
+        }
+
+        @Override
+        public net.minecraft.resources.ResourceLocation getTextureLocation(MarkEntity entity) {
+            return net.minecraft.world.inventory.InventoryMenu.BLOCK_ATLAS;
+        }
+        //?}
+
+        private static void draw(PoseStack pose, Canvas canvas) {
             // The render type of the rays of the dying ender dragon: it doesn't write depth, so the text on the blocks
             // under the overlay stays visible, and the overlay is added to the colors behind it
-            VertexConsumer quads = buffers.getBuffer(RenderType.dragonRays());
-            Matrix4f matrix = pose.last().pose();
             float x0 = -HALF_WIDTH - INFLATE;
             float x1 = HALF_WIDTH + INFLATE;
             float y0 = -INFLATE;
@@ -145,11 +208,13 @@ public final class ProcessRenderers {
             float g = 0.9F;
             float b = 0.2F;
             float a = 0.3F;
-            side(quads, matrix, r, g, b, a, x0, y1, z0, x0, y1, z1, x1, y1, z1, x1, y1, z0);
-            side(quads, matrix, r, g, b, a, x0, y0, z0, x0, y1, z0, x1, y1, z0, x1, y0, z0);
-            side(quads, matrix, r, g, b, a, x0, y0, z1, x1, y0, z1, x1, y1, z1, x0, y1, z1);
-            side(quads, matrix, r, g, b, a, x0, y0, z0, x0, y0, z1, x0, y1, z1, x0, y1, z0);
-            side(quads, matrix, r, g, b, a, x1, y0, z0, x1, y1, z0, x1, y1, z1, x1, y0, z1);
+            canvas.geometry(pose, Canvas.overlayTriangles(), (last, matrix, quads) -> {
+                side(quads, matrix, r, g, b, a, x0, y1, z0, x0, y1, z1, x1, y1, z1, x1, y1, z0);
+                side(quads, matrix, r, g, b, a, x0, y0, z0, x0, y1, z0, x1, y1, z0, x1, y0, z0);
+                side(quads, matrix, r, g, b, a, x0, y0, z1, x1, y0, z1, x1, y1, z1, x0, y1, z1);
+                side(quads, matrix, r, g, b, a, x0, y0, z0, x0, y0, z1, x0, y1, z1, x0, y1, z0);
+                side(quads, matrix, r, g, b, a, x1, y0, z0, x1, y1, z0, x1, y1, z1, x1, y0, z1);
+            });
         }
 
         /**
@@ -183,32 +248,20 @@ public final class ProcessRenderers {
                     entity.getY() + 1,
                     entity.getZ() + 0.5));
         }
-
-        @Override
-        public ResourceLocation getTextureLocation(MarkEntity entity) {
-            return InventoryMenu.BLOCK_ATLAS;
-        }
     }
 
     /** Shows the PID in green on the north and south sides, the trigger block on the east and west sides. */
-    public static class Pid implements BlockEntityRenderer<PidBlockEntity> {
+    public static class Pid extends C0deBlockEntityRenderer<PidBlockEntity> {
         private static final int PID_COLOR = 0xFF55FF55;
         private static final int TRIGGER_COLOR = 0xFFAAAAAA;
 
-        private final Font font;
+        private final Font font = Minecraft.getInstance().font;
 
-        public Pid(BlockEntityRendererProvider.Context context) {
-            font = context.getFont();
-        }
+        public Pid(BlockEntityRendererProvider.Context context) {}
 
         @Override
-        public void render(
-                PidBlockEntity entity,
-                float partialTick,
-                PoseStack pose,
-                MultiBufferSource buffers,
-                int light,
-                int overlay) {
+        protected void draw(
+                PidBlockEntity entity, float partialTick, PoseStack pose, Canvas canvas, int light, int overlay) {
             if (entity.getLevel() == null) {
                 return;
             }
@@ -228,14 +281,12 @@ public final class ProcessRenderers {
                 pose.scale(scale, -scale, scale);
                 float y = -lines.length * font.lineHeight / 2.0F;
                 for (String line : lines) {
-                    font.drawInBatch(
-                            line,
+                    canvas.text(
+                            pose,
+                            FormattedCharSequence.forward(line, Style.EMPTY),
                             -font.width(line) / 2.0F,
                             y,
                             pid ? PID_COLOR : TRIGGER_COLOR,
-                            false,
-                            pose.last().pose(),
-                            buffers,
                             Font.DisplayMode.POLYGON_OFFSET,
                             0,
                             sideLight);
@@ -247,20 +298,15 @@ public final class ProcessRenderers {
     }
 
     /** Shows the block in the camouflage slot instead of the trigger block. */
-    public static class Camouflage implements BlockEntityRenderer<TriggerBlockEntity> {
+    public static class Camouflage extends C0deBlockEntityRenderer<TriggerBlockEntity> {
         public Camouflage(BlockEntityRendererProvider.Context context) {}
 
         @Override
-        public void render(
-                TriggerBlockEntity entity,
-                float partialTick,
-                PoseStack pose,
-                MultiBufferSource buffers,
-                int light,
-                int overlay) {
+        protected void draw(
+                TriggerBlockEntity entity, float partialTick, PoseStack pose, Canvas canvas, int light, int overlay) {
             BlockState state = entity.camouflageState();
             if (state != null) {
-                Minecraft.getInstance().getBlockRenderer().renderSingleBlock(state, pose, buffers, light, overlay);
+                canvas.block(pose, state, light, overlay);
             }
         }
     }

@@ -1,6 +1,7 @@
 package de.joernott.c0de.gametest;
 
 import de.joernott.c0de.C0de;
+import de.joernott.c0de.compat.Compat;
 import de.joernott.c0de.content.C0deBlocks;
 import de.joernott.c0de.core.config.C0deConfig;
 import de.joernott.c0de.core.sheet.SheetGeometry;
@@ -28,11 +29,11 @@ public final class DimensionTests {
 
     public static void dimensionHasTheRequiredProperties(GameTestHelper helper) {
         ServerLevel level = c0de(helper);
-        helper.assertTrue(level.getMinBuildHeight() == SheetGeometry.MIN_Y, "Bottom is not at y=-16");
+        helper.assertTrue(Compat.minY(level) == SheetGeometry.MIN_Y, "Bottom is not at y=-16");
         int maxBuildHeight = C0de.config().get(C0deConfig.MAX_BUILD_HEIGHT);
         helper.assertTrue(
-                level.getMaxBuildHeight() == maxBuildHeight + 1,
-                "The highest usable y coordinate is " + (level.getMaxBuildHeight() - 1) + " instead of " + maxBuildHeight);
+                Compat.maxBuildHeight(level) == maxBuildHeight + 1,
+                "The highest usable y coordinate is " + (Compat.maxBuildHeight(level) - 1) + " instead of " + maxBuildHeight);
         helper.assertTrue(!level.dimensionType().hasSkyLight(), "The dimension has sky light (and weather)");
         helper.assertTrue(level.dimensionType().hasFixedTime(), "The dimension has a daylight cycle");
         Biome biome = level.getBiome(new BlockPos(5, SheetGeometry.CODE_Y, 5)).value();

@@ -1,5 +1,6 @@
 package de.joernott.c0de.blockentity;
 
+import de.joernott.c0de.compat.Nbt;
 import de.joernott.c0de.content.C0deBlockEntities;
 import de.joernott.c0de.core.edit.PropertyRules;
 import de.joernott.c0de.core.line.Block;
@@ -63,13 +64,13 @@ public class TagBlockEntity extends PropertiesBlockEntity {
 
     @Override
     protected Optional<String> check(CompoundTag properties, ServerLevel level) {
-        return PropertyRules.tag(properties.getString("language"), properties.getString("name"), isPath(level));
+        return PropertyRules.tag(Nbt.string(properties, "language"), Nbt.string(properties, "name"), isPath(level));
     }
 
     @Override
     protected void read(CompoundTag tag) {
-        language = tag.getString("language");
-        name = tag.getString("name");
+        language = Nbt.string(tag, "language");
+        name = Nbt.string(tag, "name");
     }
 
     @Override

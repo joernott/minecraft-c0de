@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "ingredients": [
+    "c0de:structural_base",
+    "minecraft:wheat"
+  ],
+  "result": {
+    "id": "c0de:else_block",
+    "count": 1
+  }
+}

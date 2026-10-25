@@ -46,22 +46,24 @@ public final class C0deBlocks {
     private C0deBlocks() {}
 
     public static void register() {
-        WHITE_C0DE_BEDROCK = register("white_c0de_bedrock", () -> new Block(bedrock(MapColor.SNOW)));
+        WHITE_C0DE_BEDROCK = register("white_c0de_bedrock", Block::new, bedrock(MapColor.SNOW));
         LIGHT_GREEN_C0DE_BEDROCK =
-                register("light_green_c0de_bedrock", () -> new Block(bedrock(MapColor.COLOR_LIGHT_GREEN)));
-        BLACK_C0DE_BEDROCK = register("black_c0de_bedrock", () -> new BlackBedrockBlock(bedrock(MapColor.COLOR_BLACK)));
-        CURSOR_C0DE_BEDROCK = register("cursor_c0de_bedrock", () -> new Block(bedrock(MapColor.COLOR_GRAY)));
-        TRIGGER_BLOCK = register("trigger_block", () -> new TriggerBlock(trigger(), TriggerBlock.Kind.TRIGGER));
-        TIMER_BLOCK = register("timer_block", () -> new TriggerBlock(trigger(), TriggerBlock.Kind.TIMER));
-        DEBUG_TRIGGER_BLOCK =
-                register("debug_trigger_block", () -> new TriggerBlock(trigger(), TriggerBlock.Kind.DEBUG));
-        PID_BLOCK = register("pid_block", () -> new PidBlock(bedrock(MapColor.COLOR_BLACK)));
-        DISPLAY_BLOCK = register("display_block", () -> new de.joernott.c0de.io.DisplayBlock(device()));
-        IO_BLOCK = register("io_block", () -> new de.joernott.c0de.io.IoBlock(device()));
-        LAPTOP = register("laptop", () -> new de.joernott.c0de.io.LaptopBlock(device()));
-        DISK_DRIVE = register("disk_drive", () -> new de.joernott.c0de.disk.DiskDriveBlock(device()));
+                register("light_green_c0de_bedrock", Block::new, bedrock(MapColor.COLOR_LIGHT_GREEN));
+        BLACK_C0DE_BEDROCK = register("black_c0de_bedrock", BlackBedrockBlock::new, bedrock(MapColor.COLOR_BLACK));
+        CURSOR_C0DE_BEDROCK = register("cursor_c0de_bedrock", Block::new, bedrock(MapColor.COLOR_GRAY));
+        TRIGGER_BLOCK = register(
+                "trigger_block", properties -> new TriggerBlock(properties, TriggerBlock.Kind.TRIGGER), trigger());
+        TIMER_BLOCK = register(
+                "timer_block", properties -> new TriggerBlock(properties, TriggerBlock.Kind.TIMER), trigger());
+        DEBUG_TRIGGER_BLOCK = register(
+                "debug_trigger_block", properties -> new TriggerBlock(properties, TriggerBlock.Kind.DEBUG), trigger());
+        PID_BLOCK = register("pid_block", PidBlock::new, bedrock(MapColor.COLOR_BLACK));
+        DISPLAY_BLOCK = register("display_block", de.joernott.c0de.io.DisplayBlock::new, device());
+        IO_BLOCK = register("io_block", de.joernott.c0de.io.IoBlock::new, device());
+        LAPTOP = register("laptop", de.joernott.c0de.io.LaptopBlock::new, device());
+        DISK_DRIVE = register("disk_drive", de.joernott.c0de.disk.DiskDriveBlock::new, device());
         for (CodeBlockType type : CodeBlockType.values()) {
-            CODE_BLOCKS.put(type, register(type.id(), () -> codeBlock(type)));
+            CODE_BLOCKS.put(type, register(type.id(), properties -> codeBlock(type, properties), codeBlock(type)));
         }
     }
 
@@ -70,20 +72,7 @@ public final class C0deBlocks {
         return CODE_BLOCKS.get(type).get();
     }
 
-    private static Block codeBlock(CodeBlockType type) {
-        // Code can't be moved by pistons or destroyed by explosions, so running programs stay unchanged
-        BlockBehaviour.Properties properties = BlockBehaviour.Properties.of()
-                .mapColor(MapColor.COLOR_LIGHT_GRAY)
-                .strength(0.6F, 3600000.0F)
-                .pushReaction(PushReaction.BLOCK)
-                .sound(type == CodeBlockType.NOOP ? SoundType.METAL : SoundType.STONE);
-        // The language blocks are as high as a slab, some have other shapes: none of them hides its neighbors
-        properties = properties
-                .noOcclusion()
-                .isValidSpawn((state, level, pos, entityType) -> false)
-                .isRedstoneConductor((state, level, pos) -> false)
-                .isSuffocating((state, level, pos) -> false)
-                .isViewBlocking((state, level, pos) -> false);
+    private static Block codeBlock(CodeBlockType type, BlockBehaviour.Properties properties) {
         return switch (type) {
             case COMMENT -> new CommentBlock(properties);
             case LABEL -> new PropertyBlock(properties, type, LabelBlockEntity::new);
@@ -92,6 +81,23 @@ public final class C0deBlocks {
             case TAG -> new PropertyBlock(properties, type, TagBlockEntity::new);
             default -> type.isValidated() ? new ValidatedCodeBlock(properties, type) : new CodeBlock(properties, type);
         };
+    }
+
+    /** Properties of the language blocks. */
+    private static BlockBehaviour.Properties codeBlock(CodeBlockType type) {
+        // Code can't be moved by pistons or destroyed by explosions, so running programs stay unchanged
+        BlockBehaviour.Properties properties = BlockBehaviour.Properties.of()
+                .mapColor(MapColor.COLOR_LIGHT_GRAY)
+                .strength(0.6F, 3600000.0F)
+                .pushReaction(PushReaction.BLOCK)
+                .sound(type == CodeBlockType.NOOP ? SoundType.METAL : SoundType.STONE);
+        // The language blocks are as high as a slab, some have other shapes: none of them hides its neighbors
+        return properties
+                .noOcclusion()
+                .isValidSpawn((state, level, pos, entityType) -> false)
+                .isRedstoneConductor((state, level, pos) -> false)
+                .isSuffocating((state, level, pos) -> false)
+                .isViewBlocking((state, level, pos) -> false);
     }
 
     /** Properties of the trigger blocks: transparent copper and glass. */
@@ -137,7 +143,15 @@ public final class C0deBlocks {
                 .sound(SoundType.STONE);
     }
 
-    private static Supplier<Block> register(String name, Supplier<Block> factory) {
-        return Platform.INSTANCE.register(BuiltInRegistries.BLOCK, name, factory);
+    /** Registers a block; since 1.21.2 the properties contain the ID of the block. */
+    private static Supplier<Block> register(
+            String name,
+            java.util.function.Function<BlockBehaviour.Properties, Block> factory,
+            BlockBehaviour.Properties properties) {
+        //? if >=1.21.2 {
+        /*properties.setId(net.minecraft.resources.ResourceKey.create(
+                net.minecraft.core.registries.Registries.BLOCK, de.joernott.c0de.C0de.id(name)));
+        *///?}
+        return Platform.INSTANCE.register(BuiltInRegistries.BLOCK, name, () -> factory.apply(properties));
     }
 }

@@ -2,6 +2,7 @@ package de.joernott.c0de.dimension;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import de.joernott.c0de.compat.Compat;
 import de.joernott.c0de.content.C0deBlocks;
 import de.joernott.c0de.core.sheet.SheetGeometry;
 import java.util.List;
@@ -17,6 +18,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.ChunkGenerator;
+//? if <1.21.2
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.RandomState;
@@ -51,7 +53,11 @@ public class GreenbarChunkGenerator extends ChunkGenerator {
         for (int x = 0; x < 16; x++) {
             for (int z = 0; z < 16; z++) {
                 BlockState state = C0deBlocks.floorBlock(SheetGeometry.floorAt(minX + x, minZ + z));
+                //? if >=1.21.5 {
+                /*chunk.setBlockState(pos.set(x, SheetGeometry.FLOOR_Y, z), state, 0);
+                *///?} else {
                 chunk.setBlockState(pos.set(x, SheetGeometry.FLOOR_Y, z), state, false);
+                //?}
                 oceanFloor.update(x, SheetGeometry.FLOOR_Y, z, state);
                 surface.update(x, SheetGeometry.FLOOR_Y, z, state);
             }
@@ -69,12 +75,12 @@ public class GreenbarChunkGenerator extends ChunkGenerator {
     public NoiseColumn getBaseColumn(int x, int z, LevelHeightAccessor height, RandomState random) {
         BlockState[] column = new BlockState[height.getHeight()];
         for (int i = 0; i < column.length; i++) {
-            int y = height.getMinBuildHeight() + i;
+            int y = Compat.minY(height) + i;
             column[i] = y == SheetGeometry.FLOOR_Y
                     ? C0deBlocks.floorBlock(SheetGeometry.floorAt(x, z))
                     : Blocks.AIR.defaultBlockState();
         }
-        return new NoiseColumn(height.getMinBuildHeight(), column);
+        return new NoiseColumn(Compat.minY(height), column);
     }
 
     @Override
@@ -84,8 +90,12 @@ public class GreenbarChunkGenerator extends ChunkGenerator {
             RandomState random,
             BiomeManager biomeManager,
             StructureManager structureManager,
+            //? if >=1.21.2 {
+            /*ChunkAccess chunk) {}
+            *///?} else {
             ChunkAccess chunk,
             GenerationStep.Carving step) {}
+            //?}
 
     @Override
     public void buildSurface(

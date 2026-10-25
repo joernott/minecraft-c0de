@@ -1,6 +1,7 @@
 package de.joernott.c0de.block;
 
 import de.joernott.c0de.blockentity.LabelBlockEntity;
+import de.joernott.c0de.compat.Compat;
 import de.joernott.c0de.content.CodeBlockType;
 import de.joernott.c0de.dialog.DialogService;
 import java.util.function.BiFunction;
@@ -48,7 +49,7 @@ public class PropertyBlock extends ValidatedCodeBlock implements EntityBlock {
         if (player instanceof ServerPlayer serverPlayer) {
             DialogService.open(serverPlayer, pos);
         }
-        return InteractionResult.sidedSuccess(level.isClientSide());
+        return Compat.success(level);
     }
 
     /** Initializes the kind and parent of a placed LABEL from its position. */

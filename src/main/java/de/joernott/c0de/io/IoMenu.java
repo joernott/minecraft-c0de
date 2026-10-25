@@ -1,5 +1,6 @@
 package de.joernott.c0de.io;
 
+import de.joernott.c0de.compat.Nbt;
 import de.joernott.c0de.content.C0deMenus;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -43,7 +44,7 @@ public class IoMenu extends AbstractContainerMenu {
         super(C0deMenus.IO.get(), id);
         this.block = block;
         this.data = data;
-        this.pos = block != null ? block.getBlockPos() : BlockPos.of(data.getLong("pos"));
+        this.pos = block != null ? block.getBlockPos() : BlockPos.of(Nbt.longValue(data, "pos"));
         for (int i = 0; i < IoBlockEntity.SIZE; i++) {
             addSlot(new Slot(input, i, 8 + i % 9 * SLOT, INPUT_Y + i / 9 * SLOT) {
                 @Override

@@ -1,6 +1,10 @@
 package de.joernott.c0de.blockentity;
 
 import de.joernott.c0de.block.TriggerBlock;
+import de.joernott.c0de.compat.C0deBlockEntity;
+import de.joernott.c0de.compat.Compat;
+import de.joernott.c0de.compat.Nbt;
+import de.joernott.c0de.compat.Persist;
 import de.joernott.c0de.content.C0deBlockEntities;
 import de.joernott.c0de.core.validation.Validation;
 import de.joernott.c0de.dimension.C0deDimension;
@@ -54,7 +58,7 @@ import net.minecraft.world.level.block.state.BlockState;
  * taken out of the output. A hopper above or beside the block fills the input, a hopper below it empties the
  * output, so trigger blocks can be chained.
  */
-public class TriggerBlockEntity extends BlockEntity implements MenuProvider, WorldlyContainer {
+public class TriggerBlockEntity extends C0deBlockEntity implements MenuProvider, WorldlyContainer {
     public static final int INVENTORY_SIZE = 27;
     public static final int MIN_INTERVAL = 1;
     public static final int MAX_INTERVAL = 72_000;
@@ -296,7 +300,7 @@ public class TriggerBlockEntity extends BlockEntity implements MenuProvider, Wor
         data.put("error", error.copy());
         data.putString("status", status);
         CompoundTag programs = new CompoundTag();
-        ServerLevel c0de = player.server.getLevel(C0deDimension.LEVEL);
+        ServerLevel c0de = Compat.server(player).getLevel(C0deDimension.LEVEL);
         if (c0de != null) {
             ProgramRegistry registry = ProgramRegistry.get(c0de);
             for (String name : registry.programs()) {
@@ -323,7 +327,7 @@ public class TriggerBlockEntity extends BlockEntity implements MenuProvider, Wor
 
     /** True if the player may change the configuration and the camouflage: the owner and administrators. */
     public boolean canConfigure(Player player) {
-        return owner == null || owner.equals(player.getUUID()) || player.hasPermissions(SheetOwners.ADMIN_LEVEL);
+        return owner == null || owner.equals(player.getUUID()) || Compat.isAdministrator(player);
     }
 
     /** Changes the configuration and keeps the Run property. */
@@ -354,7 +358,7 @@ public class TriggerBlockEntity extends BlockEntity implements MenuProvider, Wor
         run = newRun;
         countdown = interval;
         owner = player.getUUID();
-        ownerName = player.getGameProfile().getName();
+        ownerName = Compat.name(player.getGameProfile());
         status = "";
         changed();
         return Optional.empty();
@@ -511,6 +515,7 @@ public class TriggerBlockEntity extends BlockEntity implements MenuProvider, Wor
     }
 
     /** The block was removed: ends the process and drops the items. */
+    @Override
     public void removed() {
         if (!(level instanceof ServerLevel serverLevel)) {
             return;
@@ -555,10 +560,9 @@ public class TriggerBlockEntity extends BlockEntity implements MenuProvider, Wor
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.saveAdditional(tag, registries);
+    protected void save(CompoundTag tag, HolderLookup.Provider registries) {
         if (owner != null) {
-            tag.putUUID("owner", owner);
+            Nbt.putUuid(tag, "owner", owner);
         }
         tag.putString("ownerName", ownerName);
         tag.putString("run", run.name());
@@ -567,41 +571,40 @@ public class TriggerBlockEntity extends BlockEntity implements MenuProvider, Wor
         tag.putInt("interval", interval);
         tag.putInt("countdown", countdown);
         if (process != null) {
-            tag.putUUID("process", process);
+            Nbt.putUuid(tag, "process", process);
         }
         tag.putInt("pid", pid);
         tag.putInt("exitCode", exitCode);
         tag.put("error", error);
         tag.putString("status", status);
-        tag.put("input", input.createTag(registries));
-        tag.put("output", output.createTag(registries));
-        tag.put("camouflage", camouflage.createTag(registries));
+        tag.put("input", Persist.saveItems(input, registries));
+        tag.put("output", Persist.saveItems(output, registries));
+        tag.put("camouflage", Persist.saveItems(camouflage, registries));
         ListTag heldItems = new ListTag();
-        held.forEach(item -> heldItems.add(item.save(registries)));
+        held.forEach(item -> heldItems.add(Persist.saveItem(item, registries)));
         tag.put("held", heldItems);
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries);
-        owner = tag.hasUUID("owner") ? tag.getUUID("owner") : null;
-        ownerName = tag.getString("ownerName");
-        run = Run.of(tag.getString("run"));
-        program = tag.getString("program");
-        function = tag.getString("function");
-        interval = tag.contains("interval") ? tag.getInt("interval") : 20;
-        countdown = tag.getInt("countdown");
-        process = tag.hasUUID("process") ? tag.getUUID("process") : null;
-        pid = tag.contains("pid") ? tag.getInt("pid") : -1;
-        exitCode = tag.contains("exitCode") ? tag.getInt("exitCode") : -1;
-        error = tag.getCompound("error");
-        status = tag.getString("status");
-        input.fromTag(tag.getList("input", Tag.TAG_COMPOUND), registries);
-        output.fromTag(tag.getList("output", Tag.TAG_COMPOUND), registries);
-        camouflage.fromTag(tag.getList("camouflage", Tag.TAG_COMPOUND), registries);
+    protected void load(CompoundTag tag, HolderLookup.Provider registries) {
+        owner = Nbt.hasUuid(tag, "owner") ? Nbt.uuid(tag, "owner") : null;
+        ownerName = Nbt.string(tag, "ownerName");
+        run = Run.of(Nbt.string(tag, "run"));
+        program = Nbt.string(tag, "program");
+        function = Nbt.string(tag, "function");
+        interval = tag.contains("interval") ? Nbt.integer(tag, "interval") : 20;
+        countdown = Nbt.integer(tag, "countdown");
+        process = Nbt.hasUuid(tag, "process") ? Nbt.uuid(tag, "process") : null;
+        pid = tag.contains("pid") ? Nbt.integer(tag, "pid") : -1;
+        exitCode = tag.contains("exitCode") ? Nbt.integer(tag, "exitCode") : -1;
+        error = Nbt.compound(tag, "error");
+        status = Nbt.string(tag, "status");
+        Persist.loadItems(input, Nbt.list(tag, "input", Tag.TAG_COMPOUND), registries);
+        Persist.loadItems(output, Nbt.list(tag, "output", Tag.TAG_COMPOUND), registries);
+        Persist.loadItems(camouflage, Nbt.list(tag, "camouflage", Tag.TAG_COMPOUND), registries);
         held.clear();
-        for (Tag item : tag.getList("held", Tag.TAG_COMPOUND)) {
-            ItemStack.parse(registries, item).ifPresent(held::add);
+        for (Tag item : Nbt.list(tag, "held", Tag.TAG_COMPOUND)) {
+            Persist.loadItem(item, registries).ifPresent(held::add);
         }
     }
 
@@ -609,7 +612,7 @@ public class TriggerBlockEntity extends BlockEntity implements MenuProvider, Wor
     @Override
     public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
         CompoundTag tag = new CompoundTag();
-        tag.put("camouflage", camouflage.createTag(registries));
+        tag.put("camouflage", Persist.saveItems(camouflage, registries));
         return tag;
     }
 

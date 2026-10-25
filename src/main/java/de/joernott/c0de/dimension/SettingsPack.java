@@ -43,8 +43,12 @@ public final class SettingsPack {
 
     private static Pack create() {
         int maxBuildHeight = C0de.config().get(C0deConfig.MAX_BUILD_HEIGHT);
-        Map<String, byte[]> files = Map.of(
-                DimensionTypeJson.PATH, DimensionTypeJson.create(maxBuildHeight).getBytes(StandardCharsets.UTF_8));
+        //? if >=1.21.11 {
+        /*String dimensionType = DimensionTypeJson.createWithAttributes(maxBuildHeight);
+        *///?} else {
+        String dimensionType = DimensionTypeJson.create(maxBuildHeight);
+        //?}
+        Map<String, byte[]> files = Map.of(DimensionTypeJson.PATH, dimensionType.getBytes(StandardCharsets.UTF_8));
         PackLocationInfo location =
                 new PackLocationInfo(ID, Component.literal("c0de settings"), PackSource.BUILT_IN, Optional.empty());
         Pack.ResourcesSupplier resources = new Pack.ResourcesSupplier() {
@@ -74,9 +78,14 @@ public final class SettingsPack {
         @Override
         public IoSupplier<InputStream> getRootResource(String... elements) {
             if (String.join("/", elements).equals("pack.mcmeta")) {
-                int format = SharedConstants.getCurrentVersion().getPackVersion(PackType.SERVER_DATA);
-                String json = "{\"pack\":{\"pack_format\":" + format
-                        + ",\"description\":\"Settings of the c0de mod\"}}";
+                // Since 1.21.9, packs declare the range of formats they support
+                //? if >=1.21.9 {
+                /*int major = SharedConstants.getCurrentVersion().packVersion(PackType.SERVER_DATA).major();
+                String formats = "\"min_format\":" + major + ",\"max_format\":" + major;
+                *///?} else {
+                String formats = "\"pack_format\":" + SharedConstants.getCurrentVersion().getPackVersion(PackType.SERVER_DATA);
+                //?}
+                String json = "{\"pack\":{" + formats + ",\"description\":\"Settings of the c0de mod\"}}";
                 return () -> new ByteArrayInputStream(json.getBytes(StandardCharsets.UTF_8));
             }
             return null;

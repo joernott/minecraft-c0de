@@ -1,6 +1,7 @@
 package de.joernott.c0de.block;
 
 import de.joernott.c0de.blockentity.TriggerBlockEntity;
+import de.joernott.c0de.compat.Compat;
 import de.joernott.c0de.process.Activator;
 import de.joernott.c0de.core.sheet.SheetGeometry;
 import de.joernott.c0de.dimension.C0deDimension;
@@ -10,6 +11,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+//? if <1.21.2
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -94,6 +96,21 @@ public class TriggerBlock extends Block implements EntityBlock {
     }
 
     /** The wrench and the debugging tool are used on the block; everything else opens the dialog. */
+    //? if >=1.21.2 {
+    /*@Override
+    protected InteractionResult useItemOn(
+            ItemStack stack,
+            BlockState state,
+            Level level,
+            BlockPos pos,
+            Player player,
+            InteractionHand hand,
+            BlockHitResult hitResult) {
+        return stack.getItem() instanceof WrenchItem || stack.getItem() instanceof de.joernott.c0de.item.DebugToolItem
+                ? InteractionResult.PASS
+                : InteractionResult.TRY_WITH_EMPTY_HAND;
+    }
+    *///?} else {
     @Override
     protected ItemInteractionResult useItemOn(
             ItemStack stack,
@@ -107,6 +124,7 @@ public class TriggerBlock extends Block implements EntityBlock {
                 ? ItemInteractionResult.SKIP_DEFAULT_BLOCK_INTERACTION
                 : ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
     }
+    //?}
 
     @Override
     protected InteractionResult useWithoutItem(
@@ -115,13 +133,23 @@ public class TriggerBlock extends Block implements EntityBlock {
                 && level.getBlockEntity(pos) instanceof TriggerBlockEntity trigger) {
             trigger.openMenu(serverPlayer);
         }
-        return InteractionResult.sidedSuccess(level.isClientSide());
+        return Compat.success(level);
     }
 
     /** A trigger block starts a process on the rising edge of a redstone signal. */
     @Override
+    //? if >=1.21.2 {
+    /*protected void neighborChanged(
+            BlockState state,
+            Level level,
+            BlockPos pos,
+            Block neighbor,
+            net.minecraft.world.level.redstone.Orientation orientation,
+            boolean movedByPiston) {
+    *///?} else {
     protected void neighborChanged(
             BlockState state, Level level, BlockPos pos, Block neighbor, BlockPos neighborPos, boolean movedByPiston) {
+    //?}
         boolean powered = level.hasNeighborSignal(pos);
         if (powered == state.getValue(POWERED)) {
             return;
@@ -146,16 +174,35 @@ public class TriggerBlock extends Block implements EntityBlock {
     }
 
     @Override
+    //? if >=1.21.11 {
+    /*protected int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos, net.minecraft.core.Direction direction) {
+    *///?} else {
     protected int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos) {
+    //?}
         return level.getBlockEntity(pos) instanceof TriggerBlockEntity trigger ? trigger.comparatorSignal() : 0;
     }
 
-    /** Breaking the block ends its running process and drops its items. */
+    /** What happens after the block was removed: its block entity has already cleaned up (removed). */
+    private void afterRemoval(ServerLevel level, BlockPos pos) {
+    }
+
+    //? if >=1.21.5 {
+    /*@Override
+    protected void affectNeighborsAfterRemoval(BlockState state, ServerLevel level, BlockPos pos, boolean movedByPiston) {
+        super.affectNeighborsAfterRemoval(state, level, pos, movedByPiston);
+        afterRemoval(level, pos);
+    }
+    *///?} else {
     @Override
     protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
-        if (!state.is(newState.getBlock()) && level.getBlockEntity(pos) instanceof TriggerBlockEntity trigger) {
-            trigger.removed();
+        boolean replaced = !state.is(newState.getBlock());
+        if (replaced && level.getBlockEntity(pos) instanceof de.joernott.c0de.compat.C0deBlockEntity entity) {
+            entity.removedBeforeRemoval();
         }
         super.onRemove(state, level, pos, newState, movedByPiston);
+        if (replaced && level instanceof ServerLevel serverLevel) {
+            afterRemoval(serverLevel, pos);
+        }
     }
+    //?}
 }

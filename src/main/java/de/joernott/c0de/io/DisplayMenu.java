@@ -1,5 +1,6 @@
 package de.joernott.c0de.io;
 
+import de.joernott.c0de.compat.Nbt;
 import de.joernott.c0de.content.C0deMenus;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -40,7 +41,7 @@ public class DisplayMenu extends AbstractContainerMenu {
         super(C0deMenus.DISPLAY.get(), id);
         this.block = block;
         this.data = data;
-        this.pos = block != null ? block.getBlockPos() : BlockPos.of(data.getLong("pos"));
+        this.pos = block != null ? block.getBlockPos() : BlockPos.of(Nbt.longValue(data, "pos"));
         addSlot(new Slot(camouflage, 0, CAMOUFLAGE_X, CAMOUFLAGE_Y) {
             @Override
             public boolean mayPlace(ItemStack stack) {

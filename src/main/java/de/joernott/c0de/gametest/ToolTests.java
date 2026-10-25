@@ -56,7 +56,7 @@ public final class ToolTests {
                         """);
         SheetValidation.validate(level, 520);
         helper.setBlock(BlockPos.ZERO, C0deBlocks.DEBUG_TRIGGER_BLOCK.get());
-        TriggerBlockEntity trigger = (TriggerBlockEntity) helper.getBlockEntity(BlockPos.ZERO);
+        TriggerBlockEntity trigger = (TriggerBlockEntity) TestCompat.blockEntity(helper, BlockPos.ZERO);
         ServerPlayer player = helper.makeMockServerPlayerInLevel();
         trigger.configure(player, "debugging", "run", 20);
         ItemStack empty = new ItemStack(C0deItems.VARIABLE_ITEM.get());
@@ -286,8 +286,7 @@ public final class ToolTests {
         ServerPlayer other = helper.makeMockServerPlayerInLevel();
         ServerPlayer admin = helper.makeMockServerPlayerInLevel();
         // op() would use the operator level of the GameTest server, which is 0
-        helper.getLevel().getServer().getPlayerList().getOps()
-                .add(new net.minecraft.server.players.ServerOpListEntry(admin.getGameProfile(), 4, false));
+        TestCompat.op(helper.getLevel().getServer(), admin);
         try {
             helper.assertTrue(SheetProtection.reason(owner, level, pos, true).isEmpty(), "The first player was refused");
             helper.assertTrue(
@@ -312,7 +311,7 @@ public final class ToolTests {
                     "The administrator doesn't own the sheet");
             helper.assertTrue(SheetProtection.reason(other, level, pos, true).isPresent(), "Another player may change it");
         } finally {
-            helper.getLevel().getServer().getPlayerList().getOps().remove(admin.getGameProfile());
+            TestCompat.deop(helper.getLevel().getServer(), admin);
             sheet.clear();
             SheetValidation.validate(level, 534);
         }

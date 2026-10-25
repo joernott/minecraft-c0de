@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "ingredients": [
+    "c0de:type_base",
+    "minecraft:oak_planks"
+  ],
+  "result": {
+    "id": "c0de:type_char_block",
+    "count": 1
+  }
+}

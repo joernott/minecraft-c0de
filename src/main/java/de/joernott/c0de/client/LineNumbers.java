@@ -18,6 +18,8 @@ import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
+import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
@@ -48,19 +50,36 @@ public final class LineNumbers {
 
     private LineNumbers() {}
 
-    /** Draws the line numbers around the camera. Called after the entities of the level are rendered. */
+    /** Draws the line numbers around the camera into buffers of their own. */
     public static void render(Camera camera) {
+        renderImmediately(ClientCompat.position(camera), new PoseStack());
+    }
+
+    /**
+     * Draws the line numbers around the camera into buffers of their own.
+     *
+     * @param pose the pose at the camera
+     */
+    public static void renderImmediately(Vec3 position, PoseStack pose) {
+        render(position, pose, Canvas.of(BUFFERS));
+        BUFFERS.endBatch();
+    }
+
+    /**
+     * Draws the line numbers around the camera. Called after the entities of the level are rendered.
+     *
+     * @param pose the pose at the camera
+     */
+    public static void render(Vec3 position, PoseStack pose, Canvas canvas) {
         Minecraft minecraft = Minecraft.getInstance();
         ClientLevel level = minecraft.level;
         if (level == null || !level.dimension().equals(C0deDimension.LEVEL)) {
             return;
         }
-        Vec3 position = camera.getPosition();
         int cameraX = (int) Math.floor(position.x);
         int cameraZ = (int) Math.floor(position.z);
         int firstSheet = Math.max(0, Math.floorDiv(cameraX - RANGE, SheetGeometry.SHEET_WIDTH));
         int lastSheet = Math.floorDiv(cameraX + RANGE, SheetGeometry.SHEET_WIDTH);
-        PoseStack pose = new PoseStack();
         Font font = minecraft.font;
         for (int sheet = firstSheet; sheet <= lastSheet; sheet++) {
             for (int z = Math.max(0, cameraZ - RANGE); z <= cameraZ + RANGE; z++) {
@@ -77,28 +96,26 @@ public final class LineNumbers {
                 // Lying on the floor, readable from the south like the text on the top of the code blocks
                 pose.mulPose(Axis.XP.rotationDegrees(-90));
                 pose.scale(scale, -scale, scale);
-                font.drawInBatch(
-                        text,
+                canvas.text(
+                        pose,
+                        FormattedCharSequence.forward(text, Style.EMPTY),
                         -font.width(text) / 2.0F,
                         -font.lineHeight / 2.0F + 0.5F,
                         color,
-                        false,
-                        pose.last().pose(),
-                        BUFFERS,
                         Font.DisplayMode.POLYGON_OFFSET,
                         0,
                         LevelRenderer.getLightColor(level, floor.above()));
                 pose.popPose();
             }
             if (cameraZ <= RANGE) {
-                renderInfo(level, sheet, pose, font, position);
+                renderInfo(level, sheet, pose, canvas, font, position);
             }
         }
-        BUFFERS.endBatch();
     }
 
     /** The number, coordinates and owner of a sheet, lying on the black floor north of its corner. */
-    private static void renderInfo(ClientLevel level, int sheet, PoseStack pose, Font font, Vec3 position) {
+    private static void renderInfo(
+            ClientLevel level, int sheet, PoseStack pose, Canvas canvas, Font font, Vec3 position) {
         String owner = ClientSheets.owner(sheet);
         List<Component> lines = List.of(
                 Component.translatable("sheet.c0de.info.sheet", sheet),
@@ -118,14 +135,12 @@ public final class LineNumbers {
                     corner.getZ() - (lines.size() - i) * INFO_LINE + 0.05 - position.z);
             pose.mulPose(Axis.XP.rotationDegrees(-90));
             pose.scale(scale, -scale, scale);
-            font.drawInBatch(
-                    lines.get(i),
+            canvas.text(
+                    pose,
+                    lines.get(i).getVisualOrderText(),
                     0,
                     0,
                     INFO_COLOR,
-                    false,
-                    pose.last().pose(),
-                    BUFFERS,
                     Font.DisplayMode.POLYGON_OFFSET,
                     0,
                     light);

@@ -31,6 +31,10 @@ public class GameTestServerMixin {
             Registry<LevelStem> emptyRegistry,
             Operation<WorldDimensions.Complete> original,
             @Local(argsOnly = true) WorldLoader.DataLoadContext context) {
+        //? if >=1.21.2 {
+        /*return original.call(dimensions, context.datapackDimensions().lookupOrThrow(Registries.LEVEL_STEM));
+        *///?} else {
         return original.call(dimensions, context.datapackDimensions().registryOrThrow(Registries.LEVEL_STEM));
+        //?}
     }
 }

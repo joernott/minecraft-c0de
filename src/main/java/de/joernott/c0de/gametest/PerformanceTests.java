@@ -51,7 +51,7 @@ public final class PerformanceTests {
             BlockPos pos = new BlockPos(2 + i % 10, 1, 2 + i / 10);
             positions.add(pos);
             helper.setBlock(pos, C0deBlocks.TRIGGER_BLOCK.get());
-            TriggerBlockEntity trigger = (TriggerBlockEntity) helper.getBlockEntity(pos);
+            TriggerBlockEntity trigger = (TriggerBlockEntity) TestCompat.blockEntity(helper, pos);
             trigger.configure(owner, "busy", "count", 20);
             trigger.input().setItem(0, new ItemStack(C0deItems.VARIABLE_ITEM.get()));
             trigger.start();

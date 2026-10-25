@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "ingredients": [
+    "c0de:noop_block",
+    "minecraft:paper"
+  ],
+  "result": {
+    "id": "c0de:label_block",
+    "count": 1
+  }
+}

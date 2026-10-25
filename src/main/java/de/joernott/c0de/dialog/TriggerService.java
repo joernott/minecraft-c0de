@@ -1,6 +1,7 @@
 package de.joernott.c0de.dialog;
 
 import de.joernott.c0de.blockentity.TriggerBlockEntity;
+import de.joernott.c0de.compat.Compat;
 import de.joernott.c0de.network.TriggerConfigPayload;
 import de.joernott.c0de.platform.Platform;
 import java.util.Optional;
@@ -27,10 +28,10 @@ public final class TriggerService {
      * @return the reason if it was not changed
      */
     public static Optional<String> configure(ServerPlayer player, TriggerConfigPayload payload) {
-        if (!player.serverLevel().isLoaded(payload.pos()) || !player.canInteractWithBlock(payload.pos(), 2.0)) {
+        if (!Compat.level(player).isLoaded(payload.pos()) || !Compat.canReach(player, payload.pos(), 2.0)) {
             return Optional.of("The block is too far away");
         }
-        if (!(player.serverLevel().getBlockEntity(payload.pos()) instanceof TriggerBlockEntity trigger)) {
+        if (!(Compat.level(player).getBlockEntity(payload.pos()) instanceof TriggerBlockEntity trigger)) {
             return Optional.of("The block is not a trigger block");
         }
         return trigger.configure(

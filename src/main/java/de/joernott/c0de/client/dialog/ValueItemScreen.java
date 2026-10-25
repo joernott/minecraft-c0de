@@ -1,6 +1,7 @@
 package de.joernott.c0de.client.dialog;
 
 import de.joernott.c0de.C0de;
+import de.joernott.c0de.compat.Nbt;
 import de.joernott.c0de.core.edit.ItemRules;
 import de.joernott.c0de.core.edit.PropertyRules;
 import de.joernott.c0de.network.OpenDialogPayload;
@@ -41,7 +42,7 @@ public class ValueItemScreen extends PropertiesScreen {
 
     /** True for a literal item: it has no name. */
     private boolean literal() {
-        return payload.data().getBoolean("literal");
+        return Nbt.bool(payload.data(), "literal");
     }
 
     @Override
@@ -50,7 +51,7 @@ public class ValueItemScreen extends PropertiesScreen {
             return Component.translatable("item.c0de.literal_item");
         }
         return Component.translatable(
-                payload.data().getBoolean("constant") ? "item.c0de.constant_item" : "item.c0de.variable_item");
+                Nbt.bool(payload.data(), "constant") ? "item.c0de.constant_item" : "item.c0de.variable_item");
     }
 
     @Override
@@ -62,7 +63,7 @@ public class ValueItemScreen extends PropertiesScreen {
         EditBox box = addRenderableWidget(new EditBox(
                 font, left + MARGIN, contentTop() + 10 + row * (ROW + 10), FIELD_WIDTH, 18, Component.empty()));
         box.setMaxLength(maxLength);
-        box.setValue(payload.data().getString(key));
+        box.setValue(Nbt.string(payload.data(), key));
         box.setEditable(!readOnly);
         box.setResponder(text -> update());
         return box;
@@ -76,7 +77,7 @@ public class ValueItemScreen extends PropertiesScreen {
         name.visible = !literal();
         setInitialFocus(literal() ? type : name);
         List<String> choices = new ArrayList<>();
-        payload.data().getList("types", Tag.TAG_STRING).forEach(type -> choices.add(type.getAsString()));
+        Nbt.list(payload.data(), "types", Tag.TAG_STRING).forEach(type -> choices.add(Nbt.text(type)));
         // The drop-down list is drawn over the value field, so it is drawn and clicked separately
         types = new ChoiceList(font, type.getX(), type.getY() + 19, FIELD_WIDTH, TYPE_ROWS, choices, choice -> {
             type.setValue(choice);
@@ -105,9 +106,18 @@ public class ValueItemScreen extends PropertiesScreen {
     }
 
     private boolean showsTypes() {
-        return types != null && !readOnly && type.isFocused() && !payload.data().getList("types", Tag.TAG_STRING).isEmpty();
+        return types != null && !readOnly && type.isFocused() && !Nbt.list(payload.data(), "types", Tag.TAG_STRING).isEmpty();
     }
 
+    //? if >=1.21.9 {
+    /*@Override
+    public boolean mouseClicked(net.minecraft.client.input.MouseButtonEvent event, boolean doubleClick) {
+        if (showsTypes() && types.isMouseOver(event.x(), event.y())) {
+            return types.mouseClicked(event, doubleClick);
+        }
+        return super.mouseClicked(event, doubleClick);
+    }
+    *///?} else {
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         if (showsTypes() && types.isMouseOver(mouseX, mouseY)) {
@@ -115,6 +125,7 @@ public class ValueItemScreen extends PropertiesScreen {
         }
         return super.mouseClicked(mouseX, mouseY, button);
     }
+    //?}
 
     @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
@@ -128,7 +139,7 @@ public class ValueItemScreen extends PropertiesScreen {
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
         super.render(graphics, mouseX, mouseY, partialTick);
         types.visible = showsTypes();
-        if (!readOnly && !payload.data().getList("types", Tag.TAG_STRING).isEmpty()) {
+        if (!readOnly && !Nbt.list(payload.data(), "types", Tag.TAG_STRING).isEmpty()) {
             // A small triangle at the end of the type field shows that it has a dropdown list
             int right = type.getX() + type.getWidth() - 4;
             int top = type.getY() + 7;
@@ -137,10 +148,15 @@ public class ValueItemScreen extends PropertiesScreen {
             }
         }
         if (types.visible) {
+            //? if >=1.21.6 {
+            /*graphics.nextStratum();
+            types.render(graphics, mouseX, mouseY, partialTick);
+            *///?} else {
             graphics.pose().pushPose();
             graphics.pose().translate(0, 0, 200);
             types.render(graphics, mouseX, mouseY, partialTick);
             graphics.pose().popPose();
+            //?}
         }
         if (!literal()) {
             caption(graphics, Component.translatable("dialog.c0de.item.name"), name.getY());

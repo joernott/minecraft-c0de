@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "pattern": [
+    "ABA",
+    "B B",
+    "ABA"
+  ],
+  "key": {
+    "A": "minecraft:iron_ingot",
+    "B": "minecraft:stick"
+  },
+  "result": {
+    "id": "c0de:noop_block",
+    "count": 64
+  }
+}

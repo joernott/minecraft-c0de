@@ -122,7 +122,7 @@ public final class SheetWriter {
                     if (level.getBlockEntity(pos) instanceof PropertiesBlockEntity entity
                             && entity.apply(properties, level).isPresent()) {
                         // Properties that don't fit their position are kept as they are; the validation shows them
-                        entity.loadWithComponents(properties, level.registryAccess());
+                        de.joernott.c0de.compat.Compat.loadBlockEntity(entity, properties, level.registryAccess());
                         entity.setChanged();
                         level.sendBlockUpdated(pos, entity.getBlockState(), entity.getBlockState(), 2);
                     }

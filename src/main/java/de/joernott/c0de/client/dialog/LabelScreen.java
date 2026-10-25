@@ -1,5 +1,6 @@
 package de.joernott.c0de.client.dialog;
 
+import de.joernott.c0de.compat.Nbt;
 import de.joernott.c0de.core.edit.LabelMode;
 import de.joernott.c0de.core.edit.PropertyRules;
 import de.joernott.c0de.network.OpenDialogPayload;
@@ -31,12 +32,12 @@ public class LabelScreen extends PropertiesScreen {
         super(payload);
         LabelMode parsed;
         try {
-            parsed = LabelMode.valueOf(payload.data().getString("mode"));
+            parsed = LabelMode.valueOf(Nbt.string(payload.data(), "mode"));
         } catch (IllegalArgumentException e) {
             parsed = LabelMode.REFERENCE;
         }
         mode = parsed;
-        payload.data().getList("options", Tag.TAG_STRING).forEach(option -> options.add(option.getAsString()));
+        Nbt.list(payload.data(), "options", Tag.TAG_STRING).forEach(option -> options.add(Nbt.text(option)));
     }
 
     private boolean hasChoices() {
@@ -53,7 +54,7 @@ public class LabelScreen extends PropertiesScreen {
         int y = contentTop() + 10;
         name = addRenderableWidget(new EditBox(font, left + MARGIN, y, FIELD_WIDTH, 18, Component.empty()));
         name.setMaxLength(PropertyRules.MAX_TEXT_LENGTH);
-        name.setValue(payload.data().getString("name"));
+        name.setValue(Nbt.string(payload.data(), "name"));
         name.setEditable(!readOnly);
         name.setResponder(text -> {
             if (choices != null) {
@@ -72,7 +73,7 @@ public class LabelScreen extends PropertiesScreen {
         if (mode.allowsIndex()) {
             index = addRenderableWidget(new EditBox(font, left + MARGIN, y + 10, FIELD_WIDTH, 18, Component.empty()));
             index.setMaxLength(PropertyRules.MAX_TEXT_LENGTH);
-            index.setValue(payload.data().getString("index"));
+            index.setValue(Nbt.string(payload.data(), "index"));
             index.setEditable(!readOnly);
             index.setResponder(text -> update());
         }
