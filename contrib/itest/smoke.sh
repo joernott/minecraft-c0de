@@ -3,8 +3,8 @@
 # and the servers respond to RCON commands.
 #
 # Usage: contrib/itest/smoke.sh [node ...]
-#   Without arguments, all nodes of contrib/docker/compose.yaml are tested. They all start at once: on a machine
-#   with little memory (the VM), test a few nodes at a time. Only the tested servers are reset.
+#   Without arguments, all nodes of contrib/docker/compose.yaml are tested, one server after the other. Only the
+#   tested servers are reset.
 #   The jars must have been built before (./gradlew build).
 #   KEEP_SERVERS=1 leaves the servers running after the test, with the saved programs and operators of the
 #   servers before the test (contrib/itest/backup.sh). To update the mod without resetting the worlds, use
@@ -84,13 +84,14 @@ for service in "${services[@]}"; do
     backup_service "$service"
 done
 remove_services "${services[@]}"
-"${COMPOSE[@]}" up -d "${services[@]}"
 
 status=0
 for i in "${!services[@]}"; do
     service="${services[$i]}"
     node="${NODES[$i]}"
     echo "==> $service"
+    # One server at a time: several servers starting at once on the VM, next to the running ones, are too slow
+    "${COMPOSE[@]}" up -d "$service"
 
     deadline=$((SECONDS + TIMEOUT_SECONDS))
     until grep -q 'Done ([0-9.]*s)! For help' <<<"$(logs "$service")"; do
@@ -177,6 +178,9 @@ for i in "${!services[@]}"; do
         head -5 <<<"$errors"
         echo "::error title=Smoke test::$service logged errors of the c0de mod"
         status=1
+    fi
+    if [ "${KEEP_SERVERS:-0}" != 1 ]; then
+        remove_services "$service"
     fi
 done
 
