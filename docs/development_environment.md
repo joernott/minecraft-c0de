@@ -117,6 +117,13 @@ The script `contrib/setup_dev_vm.sh` (task 1.8) defines the VM environment, like
 | `c0de-1.21.1-fabric` | Fabric (with Fabric API) | 25565 |
 | `c0de-1.21.1-neoforge` | NeoForge | 25566 |
 | `c0de-1.21.1-neoforge-plain` | NeoForge without Patchouli (started by hand) | 25567 |
+| `c0de-1.21.11-fabric`, `c0de-1.21.11-neoforge` | Fabric, NeoForge | 25568, 25569 |
+| `c0de-26.1.2-fabric`, `c0de-26.1.2-neoforge` | Fabric, NeoForge | 25570, 25571 |
+| `c0de-26.2-fabric`, `c0de-26.2-neoforge` | Fabric, NeoForge | 25572, 25573 |
+| `c0de-26.3-fabric`, `c0de-26.3-neoforge` | Fabric, NeoForge | 25574, 25575 |
+
+  - The servers of 26.x use the image with Java 25 (`itzg/minecraft-server:java25`). Patchouli is only on the 1.21.1 servers.
+  - The VM can't run all servers at once (16 GB of memory, about 2 GB per server): start the ones you need, e.g. `docker compose -f contrib/docker/compose.yaml up -d c0de-26.3-fabric c0de-26.3-neoforge`. `smoke.sh` and `deploy.sh` take nodes as arguments; without them, `smoke.sh` tests all nodes and `deploy.sh` updates the running servers. Both only touch the servers they work on, the other servers and their worlds stay.
 
   - Patchouli is installed on the first two servers like in the development clients. On NeoForge, Patchouli requires its network channels on both sides, so clients with Patchouli can't join the server without it and vice versa; so on NeoForge only the first development client (`runClient`, whose mods folder `run/neoforge/mods` gets Patchouli before it starts) has it; the second client (`runClient2`) joins the server without it. Fabric development runs leave it out with `-Ppatchouli=false`.
   - `EULA=TRUE`, `TYPE=FABRIC` or `TYPE=NEOFORGE`, `VERSION=1.21.1`, loader versions pinned like in the build.
@@ -124,7 +131,7 @@ The script `contrib/setup_dev_vm.sh` (task 1.8) defines the VM environment, like
   - RCON is only used inside the containers: `docker compose -f contrib/docker/compose.yaml exec c0de-1.21.1-fabric rcon-cli <command>`.
   - `ONLINE_MODE=false`, so development clients from Windows can connect without a Microsoft account check; the ports are only reachable in the local network.
   - Server data is stored in volumes that the integration tests can reset.
-  - `contrib/itest/deploy.sh` puts newly built jars onto the running servers and keeps their worlds. The smoke test resets the worlds; with `KEEP_SERVERS=1` it restores the programs saved with the c0de disk and the operators afterwards (`contrib/itest/backup.sh`, backups in `contrib/docker/backup/`).
+  - `contrib/itest/deploy.sh` puts newly built jars onto the running servers and keeps their worlds. The smoke test resets the worlds of the tested servers; with `KEEP_SERVERS=1` it restores the programs saved with the c0de disk and the operators afterwards (`contrib/itest/backup.sh`, backups in `contrib/docker/backup/`).
 
 ### Integration and client tests
 

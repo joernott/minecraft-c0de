@@ -79,8 +79,16 @@ process_scenario() {
         read -r x z block <<<"$entry"
         rcon "$service" "execute in c0de:c0de run setblock $x -3 $z $block" >/dev/null
     done
-    sleep 2
-    if ! grep -q "Test passed" <<<"$(rcon "$service" "execute in c0de:c0de if block 5 -3 10 c0de:end_block[valid=true]")"; then
+    # The validation runs a few ticks after the blocks are placed; a server that just started may lag behind
+    local valid=0
+    for _ in $(seq 1 15); do
+        sleep 2
+        if grep -q "Test passed" <<<"$(rcon "$service" "execute in c0de:c0de if block 5 -3 10 c0de:end_block[valid=true]")"; then
+            valid=1
+            break
+        fi
+    done
+    if [ $valid = 0 ]; then
         echo "::error title=Process scenario::The program on $service is not valid"
         return 1
     fi
