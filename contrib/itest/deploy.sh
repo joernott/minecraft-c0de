@@ -3,28 +3,34 @@
 # with the new jars, and the saved programs and operators are backed up before (contrib/itest/backup.sh).
 #
 # Usage: contrib/itest/deploy.sh [node ...]   (the jars must have been built before: ./gradlew build)
+#   Without arguments, the running test servers get the new jars.
 set -euo pipefail
 cd "$(dirname "$0")/../.."
 
 COMPOSE=(docker compose -f contrib/docker/compose.yaml)
+# shellcheck source=contrib/itest/nodes.sh
+source "$(dirname "$0")/nodes.sh"
 NODES=("$@")
 if [ ${#NODES[@]} -eq 0 ]; then
-    NODES=(1.21.1-fabric 1.21.1-neoforge)
+    mapfile -t NODES < <(running_nodes)
+    [ ${#NODES[@]} -gt 0 ] || { echo "No test server is running; name the nodes, e.g. 26.3-fabric" >&2; exit 1; }
 fi
 # shellcheck source=contrib/itest/backup.sh
 source "$(dirname "$0")/backup.sh"
 
 services=()
 for node in "${NODES[@]}"; do
+    # Variants of a server (1.21.1-neoforge-plain) use the jar of their node
+    build="$(cut -d- -f1,2 <<<"$node")"
     jar=""
-    for candidate in versions/"$node"/build/libs/c0de-*.jar; do
+    for candidate in versions/"$build"/build/libs/c0de-*.jar; do
         [[ "$candidate" == *-sources.jar ]] || jar="$candidate"
     done
-    [ -n "$jar" ] && [ -f "$jar" ] || { echo "No mod jar for $node; run ./gradlew build first" >&2; exit 1; }
+    [ -n "$jar" ] && [ -f "$jar" ] || { echo "No mod jar for $build; run ./gradlew build first" >&2; exit 1; }
     backup_service "c0de-$node"
-    mkdir -p "contrib/docker/mods/$node"
-    rm -f "contrib/docker/mods/$node"/*.jar
-    cp "$jar" "contrib/docker/mods/$node/"
+    mkdir -p "contrib/docker/mods/$build"
+    rm -f "contrib/docker/mods/$build"/*.jar
+    cp "$jar" "contrib/docker/mods/$build/"
     services+=("c0de-$node")
 done
 

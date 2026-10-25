@@ -1,4 +1,6 @@
-# Dedicated test servers with the c0de mod, one per Stonecutter node.
+# Dedicated test servers with the c0de mod, one per Stonecutter node (ports in docs/development_environment.md).
+# Not all of them fit into the memory of the VM at once: start the ones you need, e.g.
+#   docker compose -f contrib/docker/compose.yaml up -d c0de-26.3-fabric c0de-26.3-neoforge
 # The mod jars are copied to contrib/docker/mods/<node>/ by contrib/itest/smoke.sh.
 # See https://docker-minecraft-server.readthedocs.io/ and docs/development_environment.md.
 #
@@ -66,7 +68,133 @@ services:
       - ./mods/1.21.1-neoforge:/mods:ro
       - neoforge-plain-1.21.1:/data
 
+  # The newer Minecraft versions (task 12.3); no Patchouli, which has no builds for them on its Maven repository.
+  # 26.x needs Java 25. The ports follow on from the 1.21.1 servers: Fabric, then NeoForge.
+  c0de-1.21.11-fabric:
+    <<: *server
+    image: itzg/minecraft-server:java21
+    environment:
+      <<: *environment
+      VERSION: "1.21.11"
+      TYPE: FABRIC
+      FABRIC_LOADER_VERSION: "0.19.5"
+      MODRINTH_PROJECTS: "fabric-api:0.141.6+1.21.11"
+    ports:
+      - "25568:25565"
+    volumes:
+      - ./mods/1.21.11-fabric:/mods:ro
+      - fabric-1.21.11:/data
+
+  c0de-1.21.11-neoforge:
+    <<: *server
+    image: itzg/minecraft-server:java21
+    environment:
+      <<: *environment
+      VERSION: "1.21.11"
+      TYPE: NEOFORGE
+      NEOFORGE_VERSION: "21.11.48"
+    ports:
+      - "25569:25565"
+    volumes:
+      - ./mods/1.21.11-neoforge:/mods:ro
+      - neoforge-1.21.11:/data
+
+  c0de-26.1.2-fabric:
+    <<: *server
+    image: itzg/minecraft-server:java25
+    environment:
+      <<: *environment
+      VERSION: "26.1.2"
+      TYPE: FABRIC
+      FABRIC_LOADER_VERSION: "0.20.1"
+      MODRINTH_PROJECTS: "fabric-api:0.155.3+26.1.2"
+    ports:
+      - "25570:25565"
+    volumes:
+      - ./mods/26.1.2-fabric:/mods:ro
+      - fabric-26.1.2:/data
+
+  c0de-26.1.2-neoforge:
+    <<: *server
+    image: itzg/minecraft-server:java25
+    environment:
+      <<: *environment
+      VERSION: "26.1.2"
+      TYPE: NEOFORGE
+      NEOFORGE_VERSION: "26.1.2.124"
+    ports:
+      - "25571:25565"
+    volumes:
+      - ./mods/26.1.2-neoforge:/mods:ro
+      - neoforge-26.1.2:/data
+
+  c0de-26.2-fabric:
+    <<: *server
+    image: itzg/minecraft-server:java25
+    environment:
+      <<: *environment
+      VERSION: "26.2"
+      TYPE: FABRIC
+      FABRIC_LOADER_VERSION: "0.20.1"
+      MODRINTH_PROJECTS: "fabric-api:0.161.0+26.2"
+    ports:
+      - "25572:25565"
+    volumes:
+      - ./mods/26.2-fabric:/mods:ro
+      - fabric-26.2:/data
+
+  c0de-26.2-neoforge:
+    <<: *server
+    image: itzg/minecraft-server:java25
+    environment:
+      <<: *environment
+      VERSION: "26.2"
+      TYPE: NEOFORGE
+      NEOFORGE_VERSION: "26.2.0.93"
+    ports:
+      - "25573:25565"
+    volumes:
+      - ./mods/26.2-neoforge:/mods:ro
+      - neoforge-26.2:/data
+
+  c0de-26.3-fabric:
+    <<: *server
+    image: itzg/minecraft-server:java25
+    environment:
+      <<: *environment
+      VERSION: "26.3"
+      TYPE: FABRIC
+      FABRIC_LOADER_VERSION: "0.20.1"
+      MODRINTH_PROJECTS: "fabric-api:0.165.0+26.3"
+    ports:
+      - "25574:25565"
+    volumes:
+      - ./mods/26.3-fabric:/mods:ro
+      - fabric-26.3:/data
+
+  c0de-26.3-neoforge:
+    <<: *server
+    image: itzg/minecraft-server:java25
+    environment:
+      <<: *environment
+      VERSION: "26.3"
+      TYPE: NEOFORGE
+      NEOFORGE_VERSION: "26.3.0.99"
+    ports:
+      - "25575:25565"
+    volumes:
+      - ./mods/26.3-neoforge:/mods:ro
+      - neoforge-26.3:/data
+
 volumes:
   fabric-1.21.1:
   neoforge-1.21.1:
   neoforge-plain-1.21.1:
+  fabric-1.21.11:
+  neoforge-1.21.11:
+  fabric-26.1.2:
+  neoforge-26.1.2:
+  fabric-26.2:
+  neoforge-26.2:
+  fabric-26.3:
+  neoforge-26.3:

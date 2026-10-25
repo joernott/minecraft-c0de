@@ -15,27 +15,42 @@ concurrency:
 
 jobs:
   smoke:
-    name: Smoke test on dedicated servers
+    name: Smoke test ${{ matrix.node }}
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # One dedicated server per job (contrib/docker/compose.yaml); 26.x needs the image with Java 25
+        include:
+          - { node: 1.21.1-fabric, image: java21 }
+          - { node: 1.21.1-neoforge, image: java21 }
+          - { node: 1.21.11-fabric, image: java21 }
+          - { node: 1.21.11-neoforge, image: java21 }
+          - { node: 26.1.2-fabric, image: java25 }
+          - { node: 26.1.2-neoforge, image: java25 }
+          - { node: 26.2-fabric, image: java25 }
+          - { node: 26.2-neoforge, image: java25 }
+          - { node: 26.3-fabric, image: java25 }
+          - { node: 26.3-neoforge, image: java25 }
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-java@v6
         with:
           distribution: temurin
-          # 21 for the toolchain of the 1.21.x nodes, 25 for the Gradle daemon (Loom needs Java 25)
+          # 21 for the toolchain of the 1.21.x nodes, 25 for 26.x and the Gradle daemon (Loom needs Java 25)
           java-version: |
             21
             25
       - uses: gradle/actions/setup-gradle@v6
       - name: Build
-        run: ./gradlew build --console=plain
+        run: ./gradlew :${{ matrix.node }}:build --console=plain
       - name: Pull the server image
-        run: docker pull -q itzg/minecraft-server:java21
+        run: docker pull -q itzg/minecraft-server:${{ matrix.image }}
       - name: Smoke test
-        run: contrib/itest/smoke.sh
+        run: contrib/itest/smoke.sh ${{ matrix.node }}
         env:
           # Keeps the containers for the log output below
           KEEP_SERVERS: 1
       - name: Server logs
         if: failure()
-        run: docker compose -f contrib/docker/compose.yaml logs --tail 200
+        run: docker compose -f contrib/docker/compose.yaml logs --tail 200 c0de-${{ matrix.node }}

@@ -3,7 +3,8 @@
 # and the servers respond to RCON commands.
 #
 # Usage: contrib/itest/smoke.sh [node ...]
-#   Without arguments, all nodes of contrib/docker/compose.yaml are tested.
+#   Without arguments, all nodes of contrib/docker/compose.yaml are tested. They all start at once: on a machine
+#   with little memory (the VM), test a few nodes at a time. Only the tested servers are reset.
 #   The jars must have been built before (./gradlew build).
 #   KEEP_SERVERS=1 leaves the servers running after the test, with the saved programs and operators of the
 #   servers before the test (contrib/itest/backup.sh). To update the mod without resetting the worlds, use
@@ -13,9 +14,11 @@ cd "$(dirname "$0")/../.."
 
 COMPOSE=(docker compose -f contrib/docker/compose.yaml)
 TIMEOUT_SECONDS=${TIMEOUT_SECONDS:-600}
+# shellcheck source=contrib/itest/nodes.sh
+source "$(dirname "$0")/nodes.sh"
 NODES=("$@")
 if [ ${#NODES[@]} -eq 0 ]; then
-    NODES=(1.21.1-fabric 1.21.1-neoforge)
+    mapfile -t NODES < <(all_nodes)
 fi
 
 fail() {
@@ -65,7 +68,7 @@ done
 
 cleanup() {
     if [ "${KEEP_SERVERS:-0}" != 1 ]; then
-        "${COMPOSE[@]}" down -v --remove-orphans >/dev/null 2>&1 || true
+        remove_services "${services[@]}"
         return
     fi
     # The servers stay for manual tests: they get back what players kept on them before
@@ -80,7 +83,7 @@ trap cleanup EXIT
 for service in "${services[@]}"; do
     backup_service "$service"
 done
-"${COMPOSE[@]}" down -v --remove-orphans >/dev/null 2>&1 || true
+remove_services "${services[@]}"
 "${COMPOSE[@]}" up -d "${services[@]}"
 
 status=0
