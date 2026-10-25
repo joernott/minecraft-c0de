@@ -5,7 +5,9 @@
 # Usage: contrib/itest/smoke.sh [node ...]
 #   Without arguments, all nodes of contrib/docker/compose.yaml are tested.
 #   The jars must have been built before (./gradlew build).
-#   KEEP_SERVERS=1 leaves the servers running after the test.
+#   KEEP_SERVERS=1 leaves the servers running after the test, with the saved programs and operators of the
+#   servers before the test (contrib/itest/backup.sh). To update the mod without resetting the worlds, use
+#   contrib/itest/deploy.sh instead.
 set -euo pipefail
 cd "$(dirname "$0")/../.."
 
@@ -45,6 +47,8 @@ diagnose() {
 
 # shellcheck source=contrib/itest/process_scenario.sh
 source "$(dirname "$0")/process_scenario.sh"
+# shellcheck source=contrib/itest/backup.sh
+source "$(dirname "$0")/backup.sh"
 
 services=()
 for node in "${NODES[@]}"; do
@@ -62,10 +66,20 @@ done
 cleanup() {
     if [ "${KEEP_SERVERS:-0}" != 1 ]; then
         "${COMPOSE[@]}" down -v --remove-orphans >/dev/null 2>&1 || true
+        return
     fi
+    # The servers stay for manual tests: they get back what players kept on them before
+    for service in "${services[@]}"; do
+        restore_service "$service"
+    done
+    "${COMPOSE[@]}" restart "${services[@]}" >/dev/null 2>&1 || true
 }
 trap cleanup EXIT
 
+# The test needs new worlds; the saved programs and operators are kept in contrib/docker/backup
+for service in "${services[@]}"; do
+    backup_service "$service"
+done
 "${COMPOSE[@]}" down -v --remove-orphans >/dev/null 2>&1 || true
 "${COMPOSE[@]}" up -d "${services[@]}"
 

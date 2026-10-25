@@ -494,3 +494,23 @@ Answer: Sheet owners (Recommended)
 ## 2026-10-25 – Fixed user names
 
 As I restarted the client, The player in the first instance now has a different name. Can you switch the configs on the first fabrich and Neoforge instance to always usee Tester1 and make Tester1 an admin on both server instances?
+
+## 2026-10-25 – Backups, findings, sheet info, run property, disk drive
+
+Before you delete/redeploy a server, please make sure to backup all saved programs and restore them after you set the new server up.
+
+Findings while testing with Fabric:
+- The comment item in the inventory is not rotated,
+- Test3: I created a program on sheet 3 on the fabric server with Tester1. Then I was able to run it as Tester2. I was also able to break blocks on that sheet.
+
+Regarding Patchouli:
+This should be optional. If patchouli is not installed on both, client and server, c0de should run fine but would not give out the book and the books would not be available.
+
+Improvements:
+-The x=0,z=0 block of a sheet should show the sheet number (x coordinate /32 fixed), its coordinates and owner. There should also be a way to set the sheets owner by clicking it with a wrench. A normal owner can give his own sheet to someone, an admin an give all sheets to someone, no matter who the owner is.
+- The owner of the trigger should be able to set a property "Run", that can be "Only me", "Players", "Mobs" or "Everyone", restricting, if it should run at all. If a non-admin player runs a program, the restricted commands should cause a fatal error.
+- When right clicking the program block or function block with the debug tool, the owner should be shown as well. When right clicking a PID, too
+- Working with indexes led me to revert the decision of not showing an index when referencing a variable. The index should be shown on labels
+- The clients .minecraft folder should contain a folder named c0de. When saving a program, a copy should go to that folder, similar to how schematics behave for the Create mod. Otherwise, saved programs are only accessible for someone with access to the world folder on the server.  Add a disk drive block that should look like a 3.5" disk drive in a case (e.g. like this https://cdn-reichelt.de/bilder/web/artikel_ws/E600%2FSANDBERG_133-50_01.jpg?type=Product&) with an inventory slot for a single disk, a button to save a program on the disk to the local folder and a dialog that lets you choose a program to load onto that disk when you click the load button.  That should replace the option of right clicking a program with a disk item.
+
+Answers: Activator = Interaction only; Rights = The owner's rights (Recommended); Disk flow = Program on the disk (Recommended)

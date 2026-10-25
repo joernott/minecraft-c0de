@@ -300,6 +300,12 @@ public final class ToolTests {
             sheet.clear();
             SheetValidation.validate(level, 534);
             helper.assertTrue(SheetOwners.get(level).owner(534).isEmpty(), "The empty sheet still has an owner");
+            // An administrator who changes an unowned sheet owns it as well
+            helper.assertTrue(SheetProtection.reason(admin, level, pos, true).isEmpty(), "The administrator was refused");
+            helper.assertTrue(
+                    SheetOwners.get(level).owner(534).map(o -> o.id().equals(admin.getUUID())).orElse(false),
+                    "The administrator doesn't own the sheet");
+            helper.assertTrue(SheetProtection.reason(other, level, pos, true).isPresent(), "Another player may change it");
         } finally {
             helper.getLevel().getServer().getPlayerList().getOps().remove(admin.getGameProfile());
             sheet.clear();

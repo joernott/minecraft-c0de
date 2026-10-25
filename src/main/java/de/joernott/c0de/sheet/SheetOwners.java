@@ -55,17 +55,15 @@ public class SheetOwners extends SavedData {
      */
     public Optional<Component> check(ServerPlayer player, int sheet, boolean claim) {
         Owner owner = owners.get(sheet);
-        if (owner != null && owner.id().equals(player.getUUID())) {
-            return Optional.empty();
-        }
-        if (player.hasPermissions(ADMIN_LEVEL)) {
-            return Optional.empty();
-        }
         if (owner == null) {
+            // Administrators become owners too, so that their sheets are protected like everybody's
             if (claim) {
                 owners.put(sheet, new Owner(player.getUUID(), player.getGameProfile().getName()));
                 setDirty();
             }
+            return Optional.empty();
+        }
+        if (owner.id().equals(player.getUUID()) || player.hasPermissions(ADMIN_LEVEL)) {
             return Optional.empty();
         }
         return Optional.of(Component.translatable("message.c0de.sheet_owner", owner.name()));

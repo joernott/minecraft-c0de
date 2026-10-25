@@ -119,6 +119,7 @@ The script `contrib/setup_dev_vm.sh` (task 1.8) defines the VM environment, like
   - RCON is only used inside the containers: `docker compose -f contrib/docker/compose.yaml exec c0de-1.21.1-fabric rcon-cli <command>`.
   - `ONLINE_MODE=false`, so development clients from Windows can connect without a Microsoft account check; the ports are only reachable in the local network.
   - Server data is stored in volumes that the integration tests can reset.
+  - `contrib/itest/deploy.sh` puts newly built jars onto the running servers and keeps their worlds. The smoke test resets the worlds; with `KEEP_SERVERS=1` it restores the programs saved with the c0de disk and the operators afterwards (`contrib/itest/backup.sh`, backups in `contrib/docker/backup/`).
 
 ### Integration and client tests
 

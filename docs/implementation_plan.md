@@ -269,6 +269,14 @@ A task is done when
 | 11.10 | Performance tests: many processes at the same time, large programs, deep recursion; tuning of the scheduler. | ✅ |
 | 11.11 | Multiplayer tests on the Docker servers with several clients (development clients and Modrinth App profiles), including non-operator players and permissions. |  |
 | 11.11.1 | Sheet owners: only the player who built on an empty sheet first and administrators can change it; administrator rights only count for programs on sheets of administrators. Patchouli on the test servers; a second development client (`runClient2` as Tester2; `runClient` as Tester1). | ✅ |
+| 11.11.2 | Administrators also become owners of the sheets they build on; the COMMENT item is turned like the other language block items. |  |
+| 11.11.3 | Redeploying the test servers backs up the saved programs and the operators and restores them. | ✅ |
+| 11.11.4 | Patchouli stays optional: development runs without it (`-Ppatchouli=false`) and a NeoForge test server without it. |  |
+| 11.11.5 | LABEL blocks show the index of the element they refer to. |  |
+| 11.11.6 | The debugging tool shows the owner of a sheet on PROGRAM and FUNCTION blocks and the owner of a process on PID blocks. |  |
+| 11.11.7 | The floor block at x=0, z=0 of a sheet shows its number, coordinates and owner; the wrench gives a sheet to another player (owners their own sheets, administrators every sheet). |  |
+| 11.11.8 | Trigger property Run (Only me, Players, Mobs, Everyone): who may start it, identified by the button, lever or pressure plate touching it; restricted functions are fatal errors for processes started by players who are not administrators. |  |
+| 11.11.9 | Disk drive block: the c0de disk carries a program; the drive saves it to the folder `.minecraft/c0de` of the client and loads programs from there onto the disk. Right-clicking a PROGRAM block copies its program onto the disk, right-clicking the start of an empty sheet builds it. |  |
 | 11.12 | Workflow `release.yml`, Modrinth project, changelog. |  |
 | 11.12.1 | `release.yml`, `publishMods` (Mod Publish Plugin 2.2.1, dry run without token) and `CHANGELOG.md`. | ✅ |
 | 11.12.2 | Modrinth project created, its ID in `publish.modrinth_id` and the secret `MODRINTH_TOKEN` (by the maintainer). | ✅ |
