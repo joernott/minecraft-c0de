@@ -587,3 +587,9 @@ Findings so far:
 ## 2026-10-25 – Displays on 26.3
 
 The text now shows on the display and the line is gone.
+
+## 2026-10-25 – Test servers, client GameTests
+
+no servers should run permanently, just start them as needed for the tests.
+
+Please continue with 12.4

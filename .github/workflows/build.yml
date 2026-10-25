@@ -116,3 +116,33 @@ jobs:
           name: c0de-${{ matrix.node }}
           path: versions/${{ matrix.node }}/build/libs/*.jar
           if-no-files-found: error
+
+  client:
+    name: Client GameTests ${{ matrix.node }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # Fabric API has client GameTests since 1.21.4 (task 12.4)
+        node: [1.21.11-fabric, 26.1.2-fabric, 26.2-fabric, 26.3-fabric]
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: |
+            21
+            25
+      - uses: gradle/actions/setup-gradle@v6
+      - name: Install a virtual display with software rendering
+        run: sudo apt-get update -q && sudo apt-get install -y -q xvfb libgl1-mesa-dri libglx-mesa0
+      - name: Client GameTests
+        # Software rendering in a virtual display
+        run: xvfb-run -a -s "-screen 0 1280x720x24" ./gradlew :${{ matrix.node }}:runClientGameTest --console=plain
+      - name: Upload screenshots
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: client-screenshots-${{ matrix.node }}
+          path: versions/${{ matrix.node }}/build/clientGameTest/screenshots/
+          if-no-files-found: ignore
