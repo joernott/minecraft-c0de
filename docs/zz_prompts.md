@@ -549,3 +549,7 @@ I did the change for the 0.1.0 versions manually as it was required by Modrinth 
 ## 2026-10-25 – Memory of the development runs
 
 I have added the mods JEI and jade to both 1.21.11 instances. The game crashes/freezes on both due to an out of memory error when turning around and a lot of terrain is being generated. Van you increase Xms/Xmx settings for the gradle runs?
+
+## 2026-10-25 – Commands in the 1.21.11 worlds
+
+I ran into a freeze again and that disappeared when I disabled the mods. However, Tester1 does not seem to be an admin, so /give failed
