@@ -2,7 +2,7 @@
   "name": "The NOOP block",
   "icon": "c0de:hammer",
   "category": "c0de:tools",
-  "sortnum": 9,
+  "sortnum": 10,
   "pages": [
     {
       "type": "patchouli:text",

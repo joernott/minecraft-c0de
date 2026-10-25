@@ -114,14 +114,23 @@ A hammer is crafted from red wool and four iron ingots:
 
 ## c0de disk
 
-The c0de disk imports and exports programs as YAML files. It looks like a 3.5" floppy disk, a nod to the Amiga.
+The c0de disk carries one program in the [YAML format](17-yaml-format.md). It looks like a 3.5" floppy disk, a nod to the Amiga; its tooltip shows the name of its program.
 
-  - **Export**: Right-clicking the PROGRAM block of a sheet with the c0de disk writes the program to the file `c0de/programs/<program name>.yaml` in the world folder of the server. If the file already exists, the player is asked to confirm overwriting it. Exporting is also possible while processes of the program are running, as it does not change the sheet.
-  - **Import**: Right-clicking the floor at the position of the PROGRAM statement (x=5, z=0) of an empty sheet with the c0de disk opens a dialog that lists the YAML files in the `c0de/programs` folder. Selecting a file places the program on the sheet (see [YAML format](17-yaml-format.md)), including the properties of all LABEL, LITERAL and OPERATOR blocks. In survival mode, the required blocks are taken from the inventory of the player; if blocks are missing, nothing is placed and the dialog lists the missing blocks. If the file is invalid or a program with the same name already exists, nothing is placed and the dialog shows an error message.
+  - **Copy**: Right-clicking the PROGRAM block of a sheet with the c0de disk copies the program onto the disk; a program on the disk is replaced. Copying is also possible while processes of the program are running, as it does not change the sheet.
+  - **Build**: Right-clicking the floor at the position of the PROGRAM statement (x=5, z=0) of an empty sheet with a c0de disk that carries a program builds the program on the sheet, including the properties of all LABEL, LITERAL and OPERATOR blocks. In survival mode, the required blocks are taken from the inventory of the player; if blocks are missing, nothing is placed and a dialog lists the missing blocks. If a program with the same name already exists, nothing is placed and the dialog shows an error message. The player becomes the owner of the sheet.
+  - **Disk drive**: The [disk drive](#disk-drive) copies programs between disks and the folder `c0de` of the player's own Minecraft installation, so that players can keep and share programs without access to the server.
 
 ### Crafting
 
 A c0de disk is crafted shapelessly from a data item, an iron ingot and black dye.
+
+## Disk drive
+
+The disk drive is a block that looks like a 3.5" floppy drive in a beige case. Its front faces the player who placed it. Right-clicking it opens its dialog: a slot for one c0de disk and two buttons.
+  - **Save** writes the program on the disk into the folder `c0de` of the player's Minecraft installation (next to `saves` and `screenshots`) as `<program name>.yaml`; a file with the same name is replaced. Like the schematics of the mod Create, the files stay on the player's computer.
+  - **Load** lists the programs in that folder; clicking one loads it onto the disk. The program is sent to the server in parts and checked there; a file that isn't a valid program is refused with a message.
+
+Breaking the drive drops the disk. A disk drive is crafted from six iron ingots in the top and bottom rows, and two smooth stone slabs with a redstone dust between them in the middle row.
 
 ## Data item
 

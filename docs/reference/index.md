@@ -24,7 +24,7 @@ Book: crafted from a book and structural base.
 
 Book: crafted from a book and wrench.
 
-- **Editing tools**: [Wrench](tools.md#wrench), [Text marker](tools.md#text-marker), [Hammer](tools.md#hammer), [Debugging tool](tools.md#debugging-tool), [c0de disk](tools.md#c0de-disk)
+- **Editing tools**: [Wrench](tools.md#wrench), [Text marker](tools.md#text-marker), [Hammer](tools.md#hammer), [Debugging tool](tools.md#debugging-tool), [c0de disk](tools.md#c0de-disk), [Disk drive](tools.md#disk-drive)
 - **Items**: [Data item](tools.md#data-item), [Type items](tools.md#type-items), [Variable item](tools.md#variable-item), [Constant item](tools.md#constant-item)
 - **Help**: [Guide book](tools.md#guide-book)
 

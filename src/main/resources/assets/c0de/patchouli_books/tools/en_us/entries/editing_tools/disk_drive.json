@@ -1,0 +1,28 @@
+{
+  "name": "Disk drive",
+  "icon": "c0de:disk_drive",
+  "category": "c0de:editing_tools",
+  "sortnum": 5,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "The disk drive moves programs between c0de disks and your computer."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Right-click it and put a disk into its slot. $(l)Save$() writes the program of the disk into the folder $(1)c0de$() of your Minecraft (next to $(1)saves$() and $(1)screenshots$()). $(l)Load$() lists the programs in that folder; click one to put it onto the disk. Other players can load the files you give them."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:disk_drive"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Iron ingots in the top and bottom rows, and two smooth stone slabs with redstone dust between them in the middle row."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Save the program of a disk on your computer. Send the file $(1)c0de/doorbell.yaml$() to a friend. They put it into their own $(1)c0de$() folder, load it onto a disk with their drive and build it on an empty sheet."
+    }
+  ]
+}

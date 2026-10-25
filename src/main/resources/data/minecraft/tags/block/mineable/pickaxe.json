@@ -5,6 +5,7 @@
     "c0de:debug_trigger_block",
     "c0de:display_block",
     "c0de:io_block",
-    "c0de:laptop"
+    "c0de:laptop",
+    "c0de:disk_drive"
   ]
 }

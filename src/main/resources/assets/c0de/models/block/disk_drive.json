@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/orientable",
+  "textures": {
+    "front": "c0de:block/disk_drive_front",
+    "side": "c0de:block/disk_drive_side",
+    "top": "c0de:block/disk_drive_side",
+    "particle": "c0de:block/disk_drive_side"
+  }
+}

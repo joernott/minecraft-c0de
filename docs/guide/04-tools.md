@@ -47,13 +47,19 @@ Recipe: a red wool block bottom left, a stick in the middle and a leather top ri
 
 ## c0de disk
 
-The c0de disk looks like an old floppy disk. It saves programs as YAML files and loads them again.
+The c0de disk looks like an old floppy disk. It carries one program.
 
-To save, right-click the PROGRAM block with the disk. The file goes to the folder `c0de/programs` in the world folder of the server. Saving also works while the program runs.
+To copy a program onto the disk, right-click the PROGRAM block with it. This also works while the program runs.
 
-To load, right-click the floor at the start of an empty sheet (x=5, line 0). Pick a file from the list. The program is placed on the sheet. In survival mode, the blocks come from your inventory.
+To build the program of a disk, right-click the floor at the start of an empty sheet (x=5, line 0). In survival mode, the blocks come from your inventory.
 
 Recipe: a data item, an iron ingot and black dye, in any shape.
+
+## Disk drive
+
+The disk drive looks like an old floppy drive. Put a disk into its slot. **Save** writes the program of the disk into the folder `c0de` of your Minecraft, next to `saves` and `screenshots`. **Load** puts a program from that folder onto the disk. This way you keep your programs on your own computer and can share them with friends.
+
+Recipe: iron ingots in the top and bottom rows, and two smooth stone slabs with redstone dust between them in the middle row.
 
 ## Data item
 

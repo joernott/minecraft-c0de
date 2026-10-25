@@ -2,7 +2,7 @@
 
 [c0de concept](../concept.md) › YAML format
 
-Programs are exported and imported with the [c0de disk](14-items-and-tools.md#c0de-disk) as YAML files. A file has three top-level keys:
+Programs are copied onto and built from the [c0de disk](14-items-and-tools.md#c0de-disk) in this format, which is also the format of the files the disk drive saves and loads. A file has three top-level keys:
 
 | Key | Content |
 |---|---|
@@ -66,7 +66,7 @@ Labels with an index (`name` of ASSIGN, `target`, `iterable`) use the same notat
 
 On import, the c0de disk lays the program out on the sheet: it computes the indentation and inserts the BEGIN and END lines. Expressions that don't fit into a line are continued on continuation lines. If a line can't be laid out within x=5 to x=28, the import fails with an error message. Optional parts that are not stored in the file, such as the function name after `END FUNCTION`, are not placed.
 
-On export, the program MUST be structurally valid (all BEGIN and END blocks match, every line starts with a known keyword). Otherwise, the export fails and the disk names the first invalid line.
+On export, the program MUST be structurally valid (all BEGIN and END blocks match, every line starts with a known keyword). Otherwise, copying it onto a disk fails and the disk names the first invalid line.
 
 ## Example
 

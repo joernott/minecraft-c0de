@@ -24,6 +24,7 @@ public final class C0deItems {
     public static Supplier<Item> IO_BLOCK;
     public static Supplier<Item> LAPTOP;
     public static Supplier<Item> TABLET;
+    public static Supplier<Item> DISK_DRIVE;
     public static Supplier<Item> LITERAL_ITEM;
     public static Supplier<Item> TIMER_BLOCK;
     public static Supplier<Item> DEBUG_TRIGGER_BLOCK;
@@ -59,6 +60,8 @@ public final class C0deItems {
                 "display_block", () -> new BlockItem(C0deBlocks.DISPLAY_BLOCK.get(), new Item.Properties()));
         IO_BLOCK = register("io_block", () -> new BlockItem(C0deBlocks.IO_BLOCK.get(), new Item.Properties()));
         LAPTOP = register("laptop", () -> new BlockItem(C0deBlocks.LAPTOP.get(), new Item.Properties()));
+        DISK_DRIVE =
+                register("disk_drive", () -> new BlockItem(C0deBlocks.DISK_DRIVE.get(), new Item.Properties()));
         TABLET = register("tablet", () -> new de.joernott.c0de.item.TabletItem(new Item.Properties().stacksTo(1)));
         TRIGGER_BLOCK = register(
                 "trigger_block", () -> new BlockItem(C0deBlocks.TRIGGER_BLOCK.get(), new Item.Properties()));
@@ -114,6 +117,7 @@ public final class C0deItems {
                     output.accept(MARKER.get());
                     output.accept(HAMMER.get());
                     output.accept(DISK.get());
+                    output.accept(DISK_DRIVE.get());
                     output.accept(TYPE_BASE.get());
                     output.accept(STRUCTURAL_BASE.get());
                     CODE_BLOCKS.values().forEach(item -> output.accept(item.get()));

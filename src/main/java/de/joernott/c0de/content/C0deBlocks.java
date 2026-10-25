@@ -38,6 +38,7 @@ public final class C0deBlocks {
     public static Supplier<Block> DISPLAY_BLOCK;
     public static Supplier<Block> IO_BLOCK;
     public static Supplier<Block> LAPTOP;
+    public static Supplier<Block> DISK_DRIVE;
 
     /** The language blocks. */
     public static final Map<CodeBlockType, Supplier<Block>> CODE_BLOCKS = new EnumMap<>(CodeBlockType.class);
@@ -58,6 +59,7 @@ public final class C0deBlocks {
         DISPLAY_BLOCK = register("display_block", () -> new de.joernott.c0de.io.DisplayBlock(device()));
         IO_BLOCK = register("io_block", () -> new de.joernott.c0de.io.IoBlock(device()));
         LAPTOP = register("laptop", () -> new de.joernott.c0de.io.LaptopBlock(device()));
+        DISK_DRIVE = register("disk_drive", () -> new de.joernott.c0de.disk.DiskDriveBlock(device()));
         for (CodeBlockType type : CodeBlockType.values()) {
             CODE_BLOCKS.put(type, register(type.id(), () -> codeBlock(type)));
         }

@@ -2,7 +2,7 @@
   "name": "Variable items",
   "icon": "c0de:hammer",
   "category": "c0de:tools",
-  "sortnum": 7,
+  "sortnum": 8,
   "pages": [
     {
       "type": "patchouli:text",

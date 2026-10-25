@@ -90,11 +90,13 @@ Your program gives a wrong result. Start it with a debug trigger block and step 
 
 ### c0de disk
 
-The c0de disk saves programs as YAML files and loads them again.
+The c0de disk carries one program.
 
-To save, right-click the PROGRAM block with the disk. The file goes to the folder `c0de/programs` in the world folder of the server. If the file exists, you are asked before it is overwritten. Saving also works while the program runs.
+To copy a program onto the disk, right-click its PROGRAM block with the disk. This also works while the program runs. The tooltip of the disk shows the name of its program.
 
-To load, right-click the floor at the start of an empty sheet (x=5, line 0). Pick a file from the list. In survival mode, the blocks come from your inventory. A program with the same name must not exist yet.
+To build the program of a disk, right-click the floor at the start of an empty sheet (x=5, line 0). In survival mode, the blocks come from your inventory. A program with the same name must not exist yet.
+
+To keep a program on your computer or to share it, use a disk drive.
 
 **Recipe**
 
@@ -104,9 +106,25 @@ A data item, an iron ingot and black dye, in any shape.
 
 **Example**
 
-Before a big change, save your program with the disk. If the change goes wrong, delete the program and load the saved file onto an empty sheet.
+Before a big change, copy your program onto a disk. If the change goes wrong, delete the program and build it from the disk on an empty sheet.
 
-The file keeps everything: the blocks and the names, values and symbols of all LABEL, LITERAL and OPERATOR blocks.
+The disk keeps everything: the blocks and the names, values and symbols of all LABEL, LITERAL and OPERATOR blocks.
+
+### Disk drive
+
+The disk drive moves programs between c0de disks and your computer.
+
+Right-click it and put a disk into its slot. **Save** writes the program of the disk into the folder `c0de` of your Minecraft (next to `saves` and `screenshots`). **Load** lists the programs in that folder; click one to put it onto the disk. Other players can load the files you give them.
+
+**Recipe**
+
+![Disk drive recipe](images/disk_drive.png)
+
+Iron ingots in the top and bottom rows, and two smooth stone slabs with redstone dust between them in the middle row.
+
+**Example**
+
+Save the program of a disk on your computer. Send the file `c0de/doorbell.yaml` to a friend. They put it into their own `c0de` folder, load it onto a disk with their drive and build it on an empty sheet.
 
 ## Items
 

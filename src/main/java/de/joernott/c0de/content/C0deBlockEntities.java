@@ -30,6 +30,7 @@ public final class C0deBlockEntities {
     public static Supplier<BlockEntityType<de.joernott.c0de.io.DisplayBlockEntity>> DISPLAY;
     public static Supplier<BlockEntityType<de.joernott.c0de.io.IoBlockEntity>> IO;
     public static Supplier<BlockEntityType<de.joernott.c0de.io.LaptopBlockEntity>> LAPTOP;
+    public static Supplier<BlockEntityType<de.joernott.c0de.disk.DiskDriveBlockEntity>> DISK_DRIVE;
 
     private C0deBlockEntities() {}
 
@@ -69,6 +70,11 @@ public final class C0deBlockEntities {
                 "laptop",
                 () -> Platform.INSTANCE.blockEntityType(
                         de.joernott.c0de.io.LaptopBlockEntity::new, C0deBlocks.LAPTOP.get()));
+        DISK_DRIVE = Platform.INSTANCE.register(
+                BuiltInRegistries.BLOCK_ENTITY_TYPE,
+                "disk_drive",
+                () -> Platform.INSTANCE.blockEntityType(
+                        de.joernott.c0de.disk.DiskDriveBlockEntity::new, C0deBlocks.DISK_DRIVE.get()));
     }
 
     /** All block entity types, e.g. for registering their renderers. */

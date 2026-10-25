@@ -2,7 +2,7 @@
   "name": "Structural blocks",
   "icon": "c0de:hammer",
   "category": "c0de:tools",
-  "sortnum": 13,
+  "sortnum": 14,
   "pages": [
     {
       "type": "patchouli:text",

@@ -13,6 +13,7 @@ public final class C0deMenus {
     public static Supplier<MenuType<TriggerMenu>> TRIGGER;
     public static Supplier<MenuType<IoMenu>> IO;
     public static Supplier<MenuType<DisplayMenu>> DISPLAY;
+    public static Supplier<MenuType<de.joernott.c0de.disk.DiskDriveMenu>> DISK_DRIVE;
 
     private C0deMenus() {}
 
@@ -22,5 +23,9 @@ public final class C0deMenus {
         IO = Platform.INSTANCE.register(BuiltInRegistries.MENU, "io", () -> Platform.INSTANCE.menuType(IoMenu::new));
         DISPLAY = Platform.INSTANCE.register(
                 BuiltInRegistries.MENU, "display", () -> Platform.INSTANCE.menuType(DisplayMenu::new));
+        DISK_DRIVE = Platform.INSTANCE.register(
+                BuiltInRegistries.MENU,
+                "disk_drive",
+                () -> Platform.INSTANCE.menuType(de.joernott.c0de.disk.DiskDriveMenu::new));
     }
 }

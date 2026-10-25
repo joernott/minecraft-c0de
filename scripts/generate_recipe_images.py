@@ -111,6 +111,7 @@ def laptop_icon():
 SPECIAL_ICONS = {
     "io_block": lambda: tinted(jar_texture("item/hopper"), (0x77, 0x77, 0xFF)),
     "laptop": laptop_icon,
+    "disk_drive": lambda: mod_texture("c0de:block/disk_drive_front"),
 }
 
 

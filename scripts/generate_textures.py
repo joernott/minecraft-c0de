@@ -489,6 +489,27 @@ def hopper_top(color: int, seed: str) -> Image:
     return image
 
 
+def disk_drive_front() -> Image:
+    """The front of a 3.5" floppy drive in a beige case: the slot with its flap, the eject button and a green LED."""
+    image = concrete(0xD8D0B8, "disk_drive_front", 2)
+    for x in range(16):
+        image[0][x] = shade(rgb(0xD8D0B8), -25)
+        image[15][x] = shade(rgb(0xD8D0B8), -25)
+    # The bezel of the drive
+    for y in range(5, 11):
+        for x in range(1, 15):
+            image[y][x] = rgb(0x3A3A3A)
+    # The slot with its dark flap
+    for x in range(3, 13):
+        image[7][x] = rgb(0x111111)
+        image[8][x] = rgb(0x1E1E1E)
+    # The eject button and the LED
+    for x in (11, 12):
+        image[9][x] = rgb(0x8A8A8A)
+    image[9][3] = rgb(0x55FF55)
+    return image
+
+
 def laptop_keyboard() -> Image:
     """The top of the lower half of a laptop: rows of keys and a touchpad in front (at the top of the texture)."""
     image = concrete(0x5A5A5E, "laptop_keyboard", 3)
@@ -907,6 +928,8 @@ def main() -> None:
     write_png(blocks / "io_block_inside.png", concrete(darker(0x5555FF, 90), "io_inside", 3))
     write_png(blocks / "laptop_body.png", concrete(0x5A5A5E, "laptop_body", 3))
     write_png(blocks / "laptop_keyboard.png", laptop_keyboard())
+    write_png(blocks / "disk_drive_side.png", concrete(0xD8D0B8, "disk_drive_side", 2))
+    write_png(blocks / "disk_drive_front.png", disk_drive_front())
     write_png(TEXTURES / "item" / "wrench.png", wrench())
     code_block_textures(blocks)
     item_textures()

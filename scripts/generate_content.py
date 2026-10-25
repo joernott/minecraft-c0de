@@ -269,14 +269,20 @@ MESSAGES = [
      "Das Programm %s läuft (PID %s), sein Blatt kann nicht geändert werden"),
     ("message.c0de.exported", "Program %s saved to the disk", "Programm %s auf der Diskette gespeichert"),
     ("message.c0de.imported", "Program %s loaded from the disk", "Programm %s von der Diskette geladen"),
-    ("dialog.c0de.disk.import", "Load a program", "Programm laden"),
-    ("dialog.c0de.disk.overwrite", "Save the program", "Programm speichern"),
-    ("dialog.c0de.disk.exists", "The file of %s exists. Overwrite it?", "Die Datei von %s existiert. Überschreiben?"),
-    ("dialog.c0de.disk.confirm", "Overwrite", "Überschreiben"),
-    ("dialog.c0de.disk.empty", "There are no saved programs", "Es gibt keine gespeicherten Programme"),
     ("block.c0de.display_block", "Display Block", "Anzeigeblock"),
     ("block.c0de.io_block", "I/O Block", "E/A-Block"),
     ("dialog.c0de.io.unbound", "Not bound", "Nicht gebunden"),
+    ("block.c0de.disk_drive", "Disk Drive", "Diskettenlaufwerk"),
+    ("dialog.c0de.disk_drive.save", "Save", "Speichern"),
+    ("dialog.c0de.disk_drive.load", "Load", "Laden"),
+    ("dialog.c0de.disk_drive.saved", "Saved as %s", "Gespeichert als %s"),
+    ("dialog.c0de.disk_drive.no_files", "The folder c0de has no programs", "Der Ordner c0de enthält keine Programme"),
+    ("dialog.c0de.disk_drive.choose", "Choose a program", "Wähle ein Programm"),
+    ("dialog.c0de.disk_drive.loading", "Loading %s onto the disk", "Lade %s auf die Diskette"),
+    ("dialog.c0de.disk_drive.no_disk", "Put a c0de disk into the slot", "Lege eine c0de-Diskette in den Schacht"),
+    ("item.c0de.c0de_disk.empty", "Empty", "Leer"),
+    ("item.c0de.c0de_disk.program", "Program: %s", "Programm: %s"),
+    ("message.c0de.disk_loaded", "The program is on the disk", "Das Programm ist auf der Diskette"),
     ("block.c0de.laptop", "Laptop", "Laptop"),
     ("item.c0de.tablet", "Tablet", "Tablet"),
     ("dialog.c0de.terminal", "Terminal", "Terminal"),
@@ -406,7 +412,7 @@ def block_files(name: str, validated: bool, transparent: bool) -> None:
 
 
 # The devices of input and output (docs/concept/19-input-output.md)
-DEVICES = ["display_block", "io_block", "laptop"]
+DEVICES = ["display_block", "io_block", "laptop", "disk_drive"]
 
 # The rotations of a model whose front faces north, for the six directions of a device
 FACINGS = {"north": {}, "south": {"y": 180}, "west": {"y": 270}, "east": {"y": 90}, "up": {"x": 270}, "down": {"x": 90}}
@@ -495,6 +501,25 @@ def devices() -> None:
     write(DATA / "recipe" / "tablet.json", shapeless([c0de("laptop")], c0de("tablet")))
     write(ASSETS / "models" / "item" / "tablet.json",
           {"parent": "minecraft:item/generated", "textures": {"layer0": "c0de:item/tablet"}})
+    # The disk drive: a 3.5" floppy drive in a beige case, its front facing north
+    write(ASSETS / "models" / "block" / "disk_drive.json", {
+        "parent": "minecraft:block/orientable",
+        "textures": {"front": "c0de:block/disk_drive_front", "side": "c0de:block/disk_drive_side",
+                     "top": "c0de:block/disk_drive_side", "particle": "c0de:block/disk_drive_side"},
+    })
+    write(ASSETS / "blockstates" / "disk_drive.json", {"variants": {
+        "facing=" + facing: dict({"model": "c0de:block/disk_drive"}, **({"y": y} if y else {}))
+        for facing, y in (("north", 0), ("east", 90), ("south", 180), ("west", 270))}})
+    write(ASSETS / "models" / "item" / "disk_drive.json", {"parent": "c0de:block/disk_drive"})
+    write(DATA / "loot_table" / "blocks" / "disk_drive.json", {
+        "type": "minecraft:block",
+        "pools": [{"rolls": 1, "entries": [{"type": "minecraft:item", "name": "c0de:disk_drive"}],
+                   "conditions": [{"condition": "minecraft:survives_explosion"}]}],
+    })
+    write(DATA / "recipe" / "disk_drive.json", shaped(
+        ["III", "SRS", "III"],
+        {"I": mc("iron_ingot"), "S": mc("smooth_stone_slab"), "R": mc("redstone")},
+        c0de("disk_drive"), 1))
     write(ASSETS / "font" / "monocraft.json", {
         "providers": [{"type": "ttf", "file": "c0de:monocraft.ttf", "shift": [0, 0], "size": 9, "oversample": 4.0}],
     })

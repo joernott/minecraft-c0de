@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
-# Backup and restore of what players keep on the test servers: the programs saved with the c0de disk
-# (world/c0de/programs) and the operators (ops.json). Sourced by smoke.sh and deploy.sh, which recreate servers.
+# Backup and restore of what players keep on the test servers outside of the worlds: the program files of
+# earlier versions of the c0de disk (world/c0de/programs; since task 11.11.9 programs are kept on the disks and in
+# the folder c0de of the clients) and the operators (ops.json). Sourced by smoke.sh and deploy.sh, which recreate servers.
 #
 # Needs COMPOSE (the docker compose command as an array). Backups go to contrib/docker/backup/<service>/.
 

@@ -11,6 +11,7 @@ The first alpha for Minecraft 1.21.1, for Fabric and NeoForge.
 - **Running programs**: trigger blocks, timer blocks and debug trigger blocks start processes anywhere in the world; variable and constant items carry values in and out; a debug cursor can be paused and stepped line by line.
 - **Input and output**: PRINT on display walls, laptops and tablets, INPUT from I/O blocks or typed on a terminal, WRITE into I/O blocks, and the screen functions CLS, LOCATE, CSRLIN, POS, COLOR and INKEY of AmigaBASIC.
 - **Libraries**: c0de/math, c0de/strings (with FORMAT, JSON and YAML), c0de/time and c0de/minecraft (sounds, chat, levers, buttons, doors, inventories, blocks, entities). Other mods can add libraries.
-- **Tools**: the wrench, the text marker, the hammer, the debugging tool and the c0de disk, which saves programs as YAML files.
+- **Tools**: the wrench, the text marker, the hammer, the debugging tool, the c0de disk, which carries a program, and the disk drive, which saves programs as YAML files on your computer and loads them.
 - **Documentation**: a player guide and six handbooks, also as books in the game if Patchouli is installed.
+- **Multiplayer**: sheets belong to the player who builds on them first; the floor shows the number and owner of every sheet, and the wrench gives sheets away. Trigger blocks decide who may start them (Run).
 - **Permissions**: functions that change the world are off by default for players without operator rights and can be enabled in `config/c0de.properties`.

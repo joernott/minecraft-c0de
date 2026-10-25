@@ -1,0 +1,16 @@
+{
+  "name": "Disk drive",
+  "icon": "c0de:hammer",
+  "category": "c0de:tools",
+  "sortnum": 5,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "The disk drive looks like an old floppy drive. Put a disk into its slot. $(l)Save$() writes the program of the disk into the folder $(1)c0de$() of your Minecraft, next to $(1)saves$() and $(1)screenshots$(). $(l)Load$() puts a program from that folder onto the disk. This way you keep your programs on your own computer and can share them with friends."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Recipe: iron ingots in the top and bottom rows, and two smooth stone slabs with redstone dust between them in the middle row."
+    }
+  ]
+}

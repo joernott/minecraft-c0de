@@ -17,7 +17,7 @@ c0de is inspired by BASIC and the early Lego Mindstorms. You don't need to know 
 - **Libraries**: math, strings (including FORMAT, JSON and YAML), date and time, and a Minecraft library for sounds, chat messages, levers, buttons, doors, inventories, blocks and entities.
 - **Permissions**: world-changing functions are off by default and can be enabled per server. Programs act on behalf of the trigger block's owner.
 - **Editing tools**: a text marker to select lines, a wrench to move and copy them, a hammer to delete or insert lines.
-- **c0de disk**: save programs as YAML files and load them onto empty sheets.
+- **c0de disk and disk drive**: copy programs onto disks, build them on empty sheets, and keep them as YAML files in the `c0de` folder of your own Minecraft to share them.
 - **Debugging**: a red debug cursor you can pause and step line by line, and you can inspect every block and every cursor.
 
 ## Getting started

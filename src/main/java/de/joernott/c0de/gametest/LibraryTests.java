@@ -119,7 +119,8 @@ public final class LibraryTests {
      */
     public static void administratorsRunOnlyTheirOwnPrograms(GameTestHelper helper) {
         ServerLevel c0de = helper.getLevel().getServer().getLevel(C0deDimension.LEVEL);
-        SheetBuilder sheet = new SheetBuilder(c0de, 536).place(PROGRAM);
+        // Each test has a program of its own name, because tests run at the same time
+        SheetBuilder sheet = new SheetBuilder(c0de, 536).place(PROGRAM.replace("worldtest", "ownprogram"));
         SheetValidation.validate(c0de, 536);
         ServerPlayer author = helper.makeMockServerPlayerInLevel();
         ServerPlayer admin = helper.makeMockServerPlayerInLevel();
@@ -130,7 +131,7 @@ public final class LibraryTests {
         BlockPos lever = helper.absolutePos(new BlockPos(2, 1, 0));
         helper.setBlock(BlockPos.ZERO, C0deBlocks.TRIGGER_BLOCK.get());
         TriggerBlockEntity trigger = (TriggerBlockEntity) helper.getBlockEntity(BlockPos.ZERO);
-        trigger.configure(admin, "worldtest", "run", 20);
+        trigger.configure(admin, "ownprogram", "run", 20);
         trigger.input().setItem(0, variable(
                 "lever",
                 "STRUCT c0de/minecraft/POSITION",
@@ -168,7 +169,7 @@ public final class LibraryTests {
      */
     public static void triggersRunForTheRightActivators(GameTestHelper helper) {
         ServerLevel c0de = helper.getLevel().getServer().getLevel(C0deDimension.LEVEL);
-        SheetBuilder sheet = new SheetBuilder(c0de, 538).place(PROGRAM);
+        SheetBuilder sheet = new SheetBuilder(c0de, 538).place(PROGRAM.replace("worldtest", "activators"));
         SheetValidation.validate(c0de, 538);
         ServerPlayer admin = helper.makeMockServerPlayerInLevel();
         ServerPlayer player = helper.makeMockServerPlayerInLevel();
@@ -179,9 +180,9 @@ public final class LibraryTests {
         BlockPos lever = helper.absolutePos(new BlockPos(2, 1, 0));
         helper.setBlock(BlockPos.ZERO, C0deBlocks.TRIGGER_BLOCK.get());
         TriggerBlockEntity trigger = (TriggerBlockEntity) helper.getBlockEntity(BlockPos.ZERO);
-        trigger.configure(admin, "worldtest", "run", 20, TriggerBlockEntity.Run.OWNER);
+        trigger.configure(admin, "activators", "run", 20, TriggerBlockEntity.Run.OWNER);
         helper.assertTrue(
-                trigger.configure(player, "worldtest", "run", 20).isPresent(), "Another player changed the trigger block");
+                trigger.configure(player, "activators", "run", 20).isPresent(), "Another player changed the trigger block");
         trigger.input().setItem(0, variable(
                 "lever",
                 "STRUCT c0de/minecraft/POSITION",
@@ -194,7 +195,7 @@ public final class LibraryTests {
         helper.assertTrue(!trigger.isRunning(), "A signal without activator started an 'Only me' trigger block");
         trigger.start(Activator.player(player));
         helper.assertTrue(!trigger.isRunning(), "Another player started an 'Only me' trigger block");
-        trigger.configure(admin, "worldtest", "run", 20, TriggerBlockEntity.Run.PLAYERS);
+        trigger.configure(admin, "activators", "run", 20, TriggerBlockEntity.Run.PLAYERS);
         trigger.start(Activator.player(player));
         helper.assertTrue(trigger.isRunning(), "A player can't start a 'Players' trigger block: " + trigger.status());
         helper.runAfterDelay(40, () -> {
