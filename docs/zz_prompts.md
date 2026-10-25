@@ -545,3 +545,7 @@ Please make sure, when modifying versions to modrinth, always set the environmen
 ## 2026-10-25 – Sprint 12
 
 I did the change for the 0.1.0 versions manually as it was required by Modrinth to proceed with a review. Please continue with Sprint 12 and just make sure it is set for future releases.
+
+## 2026-10-25 – Memory of the development runs
+
+I have added the mods JEI and jade to both 1.21.11 instances. The game crashes/freezes on both due to an out of memory error when turning around and a lot of terrain is being generated. Van you increase Xms/Xmx settings for the gradle runs?

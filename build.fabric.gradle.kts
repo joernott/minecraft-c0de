@@ -94,6 +94,8 @@ loom {
         preferGradleTask = true
         generateRunConfig = true
         runDirectory = rootProject.file("run/fabric$runSuffix")
+        // The default heap is too small for 1.21.11 with JEI and Jade while terrain is generated
+        jvmArguments.addAll("-Xms2G", "-Xmx6G")
     }
 
     runs {

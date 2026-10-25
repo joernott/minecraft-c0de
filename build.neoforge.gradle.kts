@@ -67,6 +67,11 @@ neoForge {
     }
 
     runs {
+        // The default heap is too small for 1.21.11 with JEI and Jade while terrain is generated
+        configureEach {
+            jvmArguments.addAll("-Xms2G", "-Xmx6G")
+        }
+
         register("client") {
             gameDirectory = rootProject.file("run/neoforge$runSuffix")
             client()
