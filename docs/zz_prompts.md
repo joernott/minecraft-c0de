@@ -514,3 +514,12 @@ Improvements:
 - The clients .minecraft folder should contain a folder named c0de. When saving a program, a copy should go to that folder, similar to how schematics behave for the Create mod. Otherwise, saved programs are only accessible for someone with access to the world folder on the server.  Add a disk drive block that should look like a 3.5" disk drive in a case (e.g. like this https://cdn-reichelt.de/bilder/web/artikel_ws/E600%2FSANDBERG_133-50_01.jpg?type=Product&) with an inventory slot for a single disk, a button to save a program on the disk to the local folder and a dialog that lets you choose a program to load onto that disk when you click the load button.  That should replace the option of right clicking a program with a disk item.
 
 Answers: Activator = Interaction only; Rights = The owner's rights (Recommended); Disk flow = Program on the disk (Recommended)
+
+## 2026-10-25 – Feedback on owners, triggers, Patchouli
+
+Regarding the comment item, it looks like \ instead of // in the inventory.
+1: The text shows on the block above the sheet but you need to click the corner. This should be changed to clicking the block containing the text.
+2: That works fine
+3: Tester2 can click the buttons in the dialog  trigger block owned by player Tester1 Only when saving, they get a message "Not saved". The buttons and camouflage slot should be greyed out. Permissions work. Levers, buttons, pressure plates around the trigger in cardinal directions work.
+4: I could load a program and save it.
+5: Neoforge client 2 without Patchouli can connect to the server on port 25566 but not on the one on 25567, the same goes for Neoforge client 1, that has the Patchouli mod.  Client 1 gives the error message "Channel of mod "Patchouli" failed to connect: This channel is missing on the server side but required on the client side, when connecting to the server on port 25567

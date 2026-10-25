@@ -139,18 +139,18 @@ public class TriggerScreen extends AbstractContainerScreen<TriggerMenu> {
     @Override
     protected void containerTick() {
         super.containerTick();
-        // The configuration is locked while a process is running
-        boolean running = menu.pid() >= 0;
-        programButton.active = !running;
-        functionButton.active = !running && !program.isEmpty();
+        // The configuration is locked while a process is running and for players who are not the owner
+        boolean locked = menu.pid() >= 0 || !menu.editable();
+        programButton.active = !locked;
+        functionButton.active = !locked && !program.isEmpty();
         if (interval != null) {
-            interval.setEditable(!running);
+            interval.setEditable(!locked);
         }
         if (runButton != null) {
-            runButton.active = !running;
+            runButton.active = !locked;
         }
         int value = interval == null || interval.getValue().isEmpty() ? 1 : Integer.parseInt(interval.getValue());
-        save.active = !running
+        save.active = !locked
                 && !function.isEmpty()
                 && value >= TriggerBlockEntity.MIN_INTERVAL
                 && value <= TriggerBlockEntity.MAX_INTERVAL;
@@ -165,6 +165,12 @@ public class TriggerScreen extends AbstractContainerScreen<TriggerMenu> {
             graphics.fill(x, y, x + 18, y + 18, SLOT_DARK);
             graphics.fill(x + 1, y + 1, x + 18, y + 18, SLOT_LIGHT);
             graphics.fill(x + 1, y + 1, x + 17, y + 17, SLOT_INSIDE);
+        }
+        if (!menu.editable()) {
+            // The camouflage slot is greyed out for players who may not change it
+            int x = leftPos + TriggerMenu.CAMOUFLAGE_X;
+            int y = topPos + TriggerMenu.CAMOUFLAGE_Y;
+            graphics.fill(x - 1, y - 1, x + 17, y + 17, 0x99C6C6C6);
         }
     }
 

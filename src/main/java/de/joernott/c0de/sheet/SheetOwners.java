@@ -104,18 +104,24 @@ public class SheetOwners extends SavedData {
 
     // ------------------------------------------------------------------ clients
 
-    /** True for the corner of a sheet whose floor shows its information (x=0, z=0). */
-    public static boolean isCorner(Level level, BlockPos pos) {
+    /** The width of the floor that shows the information of a sheet, from its x=0. */
+    public static final int INFO_WIDTH = 5;
+
+    /**
+     * True for the floor that shows the information of a sheet: the black floor north of its corner (z=-2 and z=-1,
+     * x=0 to x=4 of the sheet).
+     */
+    public static boolean isInfo(Level level, BlockPos pos) {
         return level.dimension().equals(C0deDimension.LEVEL)
                 && pos.getY() == SheetGeometry.FLOOR_Y
-                && pos.getZ() == 0
+                && (pos.getZ() == -1 || pos.getZ() == -2)
                 && pos.getX() >= 0
-                && SheetGeometry.relativeX(pos.getX()) == 0;
+                && SheetGeometry.relativeX(pos.getX()) < INFO_WIDTH;
     }
 
-    /** Opens the dialog that gives the sheet at the corner to another player (wrench). */
+    /** Opens the dialog that gives the sheet of the information to another player (wrench). */
     public static void openGive(ServerPlayer player, BlockPos pos) {
-        int sheet = LevelSheet.sheetOf(pos);
+        int sheet = pos.getX() / SheetGeometry.SHEET_WIDTH;
         CompoundTag data = new CompoundTag();
         data.putInt("sheet", sheet);
         data.putString("owner", get(player.serverLevel()).owner(sheet).map(Owner::name).orElse(""));

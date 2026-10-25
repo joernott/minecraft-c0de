@@ -115,7 +115,7 @@ The script `contrib/setup_dev_vm.sh` (task 1.8) defines the VM environment, like
 | `c0de-1.21.1-neoforge` | NeoForge | 25566 |
 | `c0de-1.21.1-neoforge-plain` | NeoForge without Patchouli (started by hand) | 25567 |
 
-  - Patchouli is installed on the first two servers like in the development clients. On NeoForge, Patchouli requires its network channels on both sides, so clients with Patchouli can't join the server without it and vice versa; development runs leave it out with `-Ppatchouli=false`, e.g. `.\gradlew :1.21.1-neoforge:runClient -Ppatchouli=false`.
+  - Patchouli is installed on the first two servers like in the development clients. On NeoForge, Patchouli requires its network channels on both sides, so clients with Patchouli can't join the server without it and vice versa; so on NeoForge only the first development client (`runClient`, whose mods folder `run/neoforge/mods` gets Patchouli before it starts) has it; the second client (`runClient2`) joins the server without it. Fabric development runs leave it out with `-Ppatchouli=false`.
   - `EULA=TRUE`, `TYPE=FABRIC` or `TYPE=NEOFORGE`, `VERSION=1.21.1`, loader versions pinned like in the build.
   - `contrib/itest/smoke.sh` copies the built mod jars to `contrib/docker/mods/<node>/`, which is mounted into `/mods`, and starts the servers.
   - RCON is only used inside the containers: `docker compose -f contrib/docker/compose.yaml exec c0de-1.21.1-fabric rcon-cli <command>`.

@@ -40,6 +40,8 @@ public class TriggerMenu extends AbstractContainerMenu {
     private final ContainerData state;
     private final CompoundTag data;
     private final BlockPos pos;
+    /** False for players who may only use the inventories: not the owner, not an administrator. */
+    private final boolean editable;
 
     /** The menu on the server. */
     public TriggerMenu(int id, Inventory inventory, TriggerBlockEntity trigger) {
@@ -91,6 +93,7 @@ public class TriggerMenu extends AbstractContainerMenu {
         this.state = state;
         this.data = data;
         this.pos = trigger != null ? trigger.getBlockPos() : BlockPos.of(data.getLong("pos"));
+        this.editable = trigger != null ? trigger.canConfigure(inventory.player) : data.getBoolean("editable");
         for (int i = 0; i < TriggerBlockEntity.INVENTORY_SIZE; i++) {
             addSlot(new Slot(input, i, 8 + (i % 9) * SLOT, INPUT_Y + (i / 9) * SLOT) {
                 @Override
@@ -110,7 +113,14 @@ public class TriggerMenu extends AbstractContainerMenu {
         addSlot(new Slot(camouflage, 0, CAMOUFLAGE_X, CAMOUFLAGE_Y) {
             @Override
             public boolean mayPlace(ItemStack stack) {
-                return stack.getItem() instanceof BlockItem item && !(item.getBlock() instanceof TriggerBlock);
+                return editable
+                        && stack.getItem() instanceof BlockItem item
+                        && !(item.getBlock() instanceof TriggerBlock);
+            }
+
+            @Override
+            public boolean mayPickup(Player player) {
+                return editable;
             }
 
             @Override
@@ -132,6 +142,11 @@ public class TriggerMenu extends AbstractContainerMenu {
     /** The data sent by the server when the dialog was opened (only on the client). */
     public CompoundTag data() {
         return data;
+    }
+
+    /** True if the player may change the configuration and the camouflage. */
+    public boolean editable() {
+        return editable;
     }
 
     public BlockPos pos() {

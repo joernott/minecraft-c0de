@@ -399,8 +399,10 @@ def block_files(name: str, validated: bool, transparent: bool) -> None:
         item_parent = model_ref
     # The symbols on the top are readable from the south; the inventory shows blocks from the north, so the items
     # are turned by 180 degrees
+    # The steep slashes of COMMENT lean the wrong way from the usual diagonal; at 165 degrees they read as // (11.11.10)
+    gui_yaw = 165 if name == "COMMENT" else 45
     write(ASSETS / "models" / "item" / (bid + ".json"), {"parent": item_parent, "display": {
-        "gui": {"rotation": [30, 45, 0], "translation": [0, 0, 0], "scale": [0.625, 0.625, 0.625]}}})
+        "gui": {"rotation": [30, gui_yaw, 0], "translation": [0, 0, 0], "scale": [0.625, 0.625, 0.625]}}})
     write(DATA / "loot_table" / "blocks" / (bid + ".json"), {
         "type": "minecraft:block",
         "pools": [{

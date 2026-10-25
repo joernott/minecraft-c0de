@@ -291,6 +291,7 @@ public class TriggerBlockEntity extends BlockEntity implements MenuProvider, Wor
         data.putInt("interval", interval);
         data.putString("run", run.name());
         data.putString("owner", ownerName);
+        data.putBoolean("editable", canConfigure(player));
         data.putInt("exitCode", exitCode);
         data.put("error", error.copy());
         data.putString("status", status);
@@ -320,6 +321,11 @@ public class TriggerBlockEntity extends BlockEntity implements MenuProvider, Wor
         return new TriggerMenu(id, inventory, this);
     }
 
+    /** True if the player may change the configuration and the camouflage: the owner and administrators. */
+    public boolean canConfigure(Player player) {
+        return owner == null || owner.equals(player.getUUID()) || player.hasPermissions(SheetOwners.ADMIN_LEVEL);
+    }
+
     /** Changes the configuration and keeps the Run property. */
     public Optional<String> configure(ServerPlayer player, String newProgram, String newFunction, int newInterval) {
         return configure(player, newProgram, newFunction, newInterval, run);
@@ -336,7 +342,7 @@ public class TriggerBlockEntity extends BlockEntity implements MenuProvider, Wor
         if (isRunning()) {
             return Optional.of("A process is running");
         }
-        if (owner != null && !owner.equals(player.getUUID()) && !player.hasPermissions(SheetOwners.ADMIN_LEVEL)) {
+        if (!canConfigure(player)) {
             return Optional.of("Only " + ownerName + " and administrators can change this block");
         }
         if (newInterval < MIN_INTERVAL || newInterval > MAX_INTERVAL) {

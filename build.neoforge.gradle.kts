@@ -19,12 +19,16 @@ repositories {
     maven("https://maven.blamejared.com") { name = "BlameJared" }
 }
 
+// The jar of Patchouli for the mods folder of the first development client
+val patchouliMod: Configuration by configurations.creating {
+    isTransitive = false
+}
+
 dependencies {
     // Patchouli is optional: with it, the guide book of the mod can be crafted and read
-    // Development runs without Patchouli: -Ppatchouli=false (task 11.11.4)
-    if (providers.gradleProperty("patchouli").orNull != "false") {
-        runtimeOnly("vazkii.patchouli:Patchouli:${sc.properties.get<String>("deps.patchouli")}-NEOFORGE")
-    }
+    // Patchouli only goes into the mods folder of the first client (task 11.11.4): on NeoForge, it requires its
+    // channels on both sides, so the second client runs without it and can join servers without it
+    patchouliMod("vazkii.patchouli:Patchouli:${sc.properties.get<String>("deps.patchouli")}-NEOFORGE")
     // Used by core (TO_YAML, FROM_YAML, FROM_JSON), embedded in the mod jar
     implementation("org.snakeyaml:snakeyaml-engine:3.2")
     jarJar("org.snakeyaml:snakeyaml-engine:[3.2,4.0)") {
@@ -122,6 +126,19 @@ tasks {
         filesMatching("META-INF/neoforge.mods.toml") { expand(props) }
 
         exclude("fabric.mod.json", "c0de-fabric.mixins.json")
+    }
+
+    val copyPatchouli = register<Sync>("copyPatchouli") {
+        group = "c0de"
+        description = "Puts Patchouli into the mods folder of the first development client (run/neoforge/mods)"
+        from(patchouliMod)
+        into(rootProject.file("run/neoforge/mods"))
+        // Other mods the player put into the folder stay
+        preserve { include("**/*") }
+    }
+
+    named("runClient") {
+        dependsOn(copyPatchouli)
     }
 
     named("createMinecraftArtifacts") {

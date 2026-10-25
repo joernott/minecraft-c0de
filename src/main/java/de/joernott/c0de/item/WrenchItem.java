@@ -33,8 +33,8 @@ public class WrenchItem extends Item {
             }
             return InteractionResult.sidedSuccess(level.isClientSide());
         }
-        if (SheetOwners.isCorner(level, pos)) {
-            // The corner of a sheet: give the sheet to another player (task 11.11.7)
+        if (SheetOwners.isInfo(level, pos)) {
+            // The information of a sheet: give the sheet to another player (task 11.11.7)
             if (context.getPlayer() instanceof ServerPlayer player) {
                 SheetOwners.openGive(player, pos);
             }
