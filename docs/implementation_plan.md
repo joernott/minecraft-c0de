@@ -282,7 +282,7 @@ A task is done when
 | 11.12 | Workflow `release.yml`, Modrinth project, changelog. |  |
 | 11.12.1 | `release.yml`, `publishMods` (Mod Publish Plugin 2.2.1, dry run without token) and `CHANGELOG.md`. | ✅ |
 | 11.12.2 | Modrinth project created, its ID in `publish.modrinth_id` and the secret `MODRINTH_TOKEN` (by the maintainer). | ✅ |
-| 11.12.3 | Logo: `docs/images/logo.png` (256 × 256, cropped from the picture of the maintainer) and `docs/images/logo.svg` (`scripts/generate_logo.py`), also the icon of the mod. | ✅ |
+| 11.12.3 | Logo: `docs/images/logo.png` (256 × 256, cropped from the picture of the maintainer) and `docs/images/logo.svg` (`scripts/generate_logo.py`: the voxels of the COMMENT model in a projection like the picture), also the icon of the mod. | ✅ |
 | 11.13 | Release 0.1.0 (first alpha). |  |
 
 ## Sprint 12: Newer Minecraft versions

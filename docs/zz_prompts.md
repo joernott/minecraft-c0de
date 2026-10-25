@@ -529,3 +529,7 @@ Regarding the comment item, it looks like \ instead of // in the inventory.
 All four tests are sucessful. I have noticed the error message in a trigger block for error 311 being written slightly over the caption "Camouflage". Suggestion: Put the camouflage inventory where  the checkmark button is, with its caption to the right. Put the checkmark button in the lower right corner and put the messages into a textbox with a scrollbar to prevent overflow.
 
 Also, I have created a "icon.png" image.  Please crop that to a 256x256 pixel image and create a SVG logo based on that icon. It is essentially the comment object placed on the floor and viewed from a slight angle. I want to use that logo with Modrinth
+
+## 2026-10-25 – Logo
+
+The logo svg does not look like the image. There are spaces between the columns
