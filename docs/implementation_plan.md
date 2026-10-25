@@ -268,7 +268,7 @@ A task is done when
 | 11.9 | Tablet: the mobile laptop; left click opens the terminal. Recipes between laptop and tablet. | ✅ |
 | 11.10 | Performance tests: many processes at the same time, large programs, deep recursion; tuning of the scheduler. | ✅ |
 | 11.11 | Multiplayer tests on the Docker servers with several clients (development clients and Modrinth App profiles), including non-operator players and permissions. |  |
-| 11.11.1 | Sheet owners: only the player who built on an empty sheet first and administrators can change it; administrator rights only count for programs on sheets of administrators. Patchouli on the test servers; a second development client (`runClient2`). | ✅ |
+| 11.11.1 | Sheet owners: only the player who built on an empty sheet first and administrators can change it; administrator rights only count for programs on sheets of administrators. Patchouli on the test servers; a second development client (`runClient2` as Tester2; `runClient` as Tester1). | ✅ |
 | 11.12 | Workflow `release.yml`, Modrinth project, changelog. |  |
 | 11.12.1 | `release.yml`, `publishMods` (Mod Publish Plugin 2.2.1, dry run without token) and `CHANGELOG.md`. | ✅ |
 | 11.12.2 | Modrinth project created, its ID in `publish.modrinth_id` and the secret `MODRINTH_TOKEN` (by the maintainer). | ✅ |

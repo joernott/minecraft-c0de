@@ -56,6 +56,8 @@ neoForge {
         register("client") {
             gameDirectory = rootProject.file("run/neoforge")
             client()
+            // Fixed user name for multiplayer tests (task 11.11), so that operator rights on the test servers stay
+            programArguments.addAll("--username", "Tester1")
         }
 
         // A second client for multiplayer tests (task 11.11): its own game directory and user name

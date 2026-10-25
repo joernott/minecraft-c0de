@@ -490,3 +490,7 @@ Tests 1, 2 and 4 were successful on Fabric. Test 3 could be run by Tester2, allo
 I could not start test 5 with either the patchouly mod present or absent in the mods folder of the neoforge client. It complains about patchouli missing on the server.
 
 Answer: Sheet owners (Recommended)
+
+## 2026-10-25 – Fixed user names
+
+As I restarted the client, The player in the first instance now has a different name. Can you switch the configs on the first fabrich and Neoforge instance to always usee Tester1 and make Tester1 an admin on both server instances?
