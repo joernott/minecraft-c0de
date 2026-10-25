@@ -559,3 +559,13 @@ I ran into a freeze again and that disappeared when I disabled the mods. However
 Even with all mods disabled and the world recreated, the fabric instanze freezes shortly after I enter the world and turn around. latest.log shows the logs for that last test.
 
 ok, it just froze
+
+## 2026-10-25 – In-game tests of 1.21.11
+
+Both versions work fine now.
+Back to the requested Tests for 1.21.11
+1: Blocks and item in inventory look OK for both versions
+2: Line numbers and sheet text shows up for both versions
+3: Texts appear for both versions
+5: The cursor pulses and marked lines are highlighted for both versions
+6: The sky looks the same for both versions
