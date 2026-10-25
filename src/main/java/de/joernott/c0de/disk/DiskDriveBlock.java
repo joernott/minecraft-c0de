@@ -28,6 +28,7 @@ import net.minecraft.world.phys.BlockHitResult;
  */
 public class DiskDriveBlock extends BaseEntityBlock {
     public static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;
+    //? if <26.3
     private static final MapCodec<DiskDriveBlock> CODEC = simpleCodec(DiskDriveBlock::new);
 
     public DiskDriveBlock(Properties properties) {
@@ -35,10 +36,12 @@ public class DiskDriveBlock extends BaseEntityBlock {
         registerDefaultState(stateDefinition.any().setValue(FACING, Direction.NORTH));
     }
 
+    //? if <26.3 {
     @Override
     protected MapCodec<? extends BaseEntityBlock> codec() {
         return CODEC;
     }
+    //?}
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {

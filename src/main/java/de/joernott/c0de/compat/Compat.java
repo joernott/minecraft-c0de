@@ -165,6 +165,27 @@ public final class Compat {
         //?}
     }
 
+    /** Gives an item to a player, or drops it if the inventory is full. */
+    public static void give(net.minecraft.world.entity.player.Player player, net.minecraft.world.item.ItemStack stack) {
+        //? if >=26.3 {
+        /*player.getInventory().placeItemBackInInventory(stack, net.minecraft.util.Prediction.SERVER_ONLY);
+        *///?} else {
+        player.getInventory().placeItemBackInInventory(stack);
+        //?}
+    }
+
+    /** Removes items from the inventory and the crafting grid of a player. */
+    public static void removeItems(
+            net.minecraft.world.entity.player.Player player,
+            java.util.function.Predicate<net.minecraft.world.item.ItemStack> items,
+            int count) {
+        //? if >=26.3 {
+        /*player.getInventory().clearOrCountMatchingItems(items, false, count, player.inventoryMenu.getCraftSlots());
+        *///?} else {
+        player.getInventory().clearOrCountMatchingItems(items, count, player.inventoryMenu.getCraftSlots());
+        //?}
+    }
+
     /** The chunk of a position. */
     public static net.minecraft.world.level.ChunkPos chunk(net.minecraft.core.BlockPos pos) {
         //? if >=26.1 {

@@ -8,7 +8,6 @@ import de.joernott.c0de.entity.CursorEntity;
 import de.joernott.c0de.entity.MarkEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -239,7 +238,12 @@ public final class ProcessRenderers {
                 net.minecraft.client.renderer.culling.Frustum frustum,
                 double cameraX,
                 double cameraY,
+                //? if >=26.3 {
+                /*double cameraZ,
+                float partialTick) {
+                *///?} else {
                 double cameraZ) {
+                //?}
             return frustum.isVisible(new net.minecraft.world.phys.AABB(
                     entity.getX() - HALF_WIDTH,
                     entity.getY(),
@@ -268,7 +272,7 @@ public final class ProcessRenderers {
             for (Direction side : Direction.Plane.HORIZONTAL) {
                 boolean pid = side.getAxis() == Direction.Axis.Z;
                 String[] lines = pid ? new String[] {Integer.toString(entity.pid())} : entity.trigger().split(" ", 2);
-                int sideLight = LevelRenderer.getLightColor(entity.getLevel(), entity.getBlockPos().relative(side));
+                int sideLight = ClientCompat.light(entity.getLevel(), entity.getBlockPos().relative(side));
                 int width = 1;
                 for (String line : lines) {
                     width = Math.max(width, font.width(line));
@@ -276,7 +280,7 @@ public final class ProcessRenderers {
                 float scale = Math.min(pid ? 0.05F : 0.02F, 0.8F / width);
                 pose.pushPose();
                 pose.translate(0.5F, 0.5F, 0.5F);
-                pose.mulPose(PropertiesRenderer.rotation(side));
+                ClientCompat.rotate(pose, PropertiesRenderer.rotation(side));
                 pose.translate(0.0F, 0.0F, 0.501F);
                 pose.scale(scale, -scale, scale);
                 float y = -lines.length * font.lineHeight / 2.0F;

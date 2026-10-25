@@ -1,6 +1,5 @@
 package de.joernott.c0de.client;
 
-import com.mojang.blaze3d.vertex.ByteBufferBuilder;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import de.joernott.c0de.block.CodeBlock;
@@ -14,8 +13,6 @@ import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.renderer.LevelRenderer;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
@@ -45,11 +42,15 @@ public final class LineNumbers {
     private static final int INFO_COLOR = 0xFFC0C0C0;
     private static final float INFO_LINE = 0.5F;
 
-    private static final MultiBufferSource.BufferSource BUFFERS =
-            MultiBufferSource.immediate(new ByteBufferBuilder(4096));
+    //? if <26.2 {
+    private static final net.minecraft.client.renderer.MultiBufferSource.BufferSource BUFFERS =
+            net.minecraft.client.renderer.MultiBufferSource.immediate(
+                    new com.mojang.blaze3d.vertex.ByteBufferBuilder(4096));
+    //?}
 
     private LineNumbers() {}
 
+    //? if <26.2 {
     /** Draws the line numbers around the camera into buffers of their own. */
     public static void render(Camera camera) {
         renderImmediately(ClientCompat.position(camera), new PoseStack());
@@ -64,6 +65,7 @@ public final class LineNumbers {
         render(position, pose, Canvas.of(BUFFERS));
         BUFFERS.endBatch();
     }
+    //?}
 
     /**
      * Draws the line numbers around the camera. Called after the entities of the level are rendered.
@@ -94,7 +96,7 @@ public final class LineNumbers {
                 pose.translate(floor.getX() + 0.5 - position.x, floor.getY() + 1.001 - position.y, floor.getZ() + 0.5
                         - position.z);
                 // Lying on the floor, readable from the south like the text on the top of the code blocks
-                pose.mulPose(Axis.XP.rotationDegrees(-90));
+                ClientCompat.rotate(pose, Axis.XP.rotationDegrees(-90));
                 pose.scale(scale, -scale, scale);
                 canvas.text(
                         pose,
@@ -104,7 +106,7 @@ public final class LineNumbers {
                         color,
                         Font.DisplayMode.POLYGON_OFFSET,
                         0,
-                        LevelRenderer.getLightColor(level, floor.above()));
+                        ClientCompat.light(level, floor.above()));
                 pose.popPose();
             }
             if (cameraZ <= RANGE) {
@@ -125,7 +127,7 @@ public final class LineNumbers {
                         : Component.translatable("sheet.c0de.info.owner", owner));
         BlockPos corner = new BlockPos(SheetGeometry.absoluteX(sheet, 0), SheetGeometry.FLOOR_Y, 0);
         float scale = INFO_LINE * 0.8F / font.lineHeight;
-        int light = LevelRenderer.getLightColor(level, corner.above());
+        int light = ClientCompat.light(level, corner.above());
         for (int i = 0; i < lines.size(); i++) {
             pose.pushPose();
             // Readable from the south; the last line ends at the north edge of the corner
@@ -133,7 +135,7 @@ public final class LineNumbers {
                     corner.getX() + 0.1 - position.x,
                     corner.getY() + 1.001 - position.y,
                     corner.getZ() - (lines.size() - i) * INFO_LINE + 0.05 - position.z);
-            pose.mulPose(Axis.XP.rotationDegrees(-90));
+            ClientCompat.rotate(pose, Axis.XP.rotationDegrees(-90));
             pose.scale(scale, -scale, scale);
             canvas.text(
                     pose,

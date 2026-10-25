@@ -24,6 +24,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
  * it opens its inventories; the binding is changed with a button in that dialog.
  */
 public class IoBlock extends BaseEntityBlock {
+    //? if <26.3
     private static final MapCodec<IoBlock> CODEC = simpleCodec(IoBlock::new);
     // The shape of a hopper pointing down
     private static final VoxelShape SHAPE = Shapes.or(
@@ -35,10 +36,12 @@ public class IoBlock extends BaseEntityBlock {
         super(properties);
     }
 
+    //? if <26.3 {
     @Override
     protected MapCodec<? extends BaseEntityBlock> codec() {
         return CODEC;
     }
+    //?}
 
     @Override
     protected RenderShape getRenderShape(BlockState state) {

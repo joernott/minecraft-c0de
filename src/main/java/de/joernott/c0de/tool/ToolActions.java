@@ -343,11 +343,7 @@ public final class ToolActions {
         int end = SheetEditor.endOfFollowingLines(level, sheet, area[1]);
         List<ItemStack> removed = SheetEditor.apply(level, sheet, LineMoves.delete(area[0], area[1], end));
         if (!player.isCreative()) {
-            removed.forEach(stack -> {
-                if (!player.getInventory().add(stack)) {
-                    player.drop(stack, false);
-                }
-            });
+            removed.forEach(stack -> Compat.give(player, stack));
         }
         level.playSound(null, pos, SoundEvents.STONE_BREAK, SoundSource.BLOCKS, 0.8F, 0.8F);
         message(player, "message.c0de.deleted", area[0], area[1]);

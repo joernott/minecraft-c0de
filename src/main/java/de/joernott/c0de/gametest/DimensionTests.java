@@ -87,11 +87,20 @@ public final class DimensionTests {
 
     public static void noMobsSpawn(GameTestHelper helper) {
         ServerLevel level = c0de(helper);
-        Biome biome = level.getBiome(new BlockPos(5, SheetGeometry.CODE_Y, 5)).value();
+        BlockPos pos = new BlockPos(5, SheetGeometry.CODE_Y, 5);
+        //? if >=26.3 {
+        /*var spawns = level.environmentAttributes()
+                .getValue(net.minecraft.world.attribute.EnvironmentAttributes.NATURAL_MOB_SPAWNS, pos);
+        for (MobCategory category : MobCategory.values()) {
+            helper.assertTrue(spawns.getMobsToSpawn(category).isEmpty(), "Mobs of the category " + category + " spawn");
+        }
+        *///?} else {
+        Biome biome = level.getBiome(pos).value();
         for (MobCategory category : MobCategory.values()) {
             helper.assertTrue(
                     biome.getMobSettings().getMobs(category).isEmpty(), "Mobs of the category " + category + " spawn");
         }
+        //?}
         helper.succeed();
     }
 

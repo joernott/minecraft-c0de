@@ -276,6 +276,17 @@ public final class ExtrudedModel {
             uvs[i] = net.minecraft.client.model.geom.builders.UVPair.pack(vertices[i][3], vertices[i][4]);
         }
         // The textures of the language blocks have transparent pixels (the symbols, the book of PROGRAM)
+        //? if >=26.3 {
+        /^var material = new BakedQuad.MaterialInfo(
+                sprite,
+                net.minecraft.client.renderer.chunk.ChunkSectionLayer.CUTOUT,
+                net.minecraft.client.renderer.Sheets.cutoutBlockItemSheet(),
+                net.minecraft.client.renderer.Sheets.cutoutBlockItemGlintSheet(),
+                net.minecraft.client.renderer.Sheets.cutoutBlockItemGlintSpecialSheet(),
+                -1,
+                null,
+                0);
+        ^///?} else {
         var material = new BakedQuad.MaterialInfo(
                 sprite,
                 net.minecraft.client.renderer.chunk.ChunkSectionLayer.CUTOUT,
@@ -283,6 +294,7 @@ public final class ExtrudedModel {
                 -1,
                 true,
                 0);
+        //?}
         return new BakedQuad(
                 positions[0], positions[1], positions[2], positions[3],
                 uvs[0], uvs[1], uvs[2], uvs[3],

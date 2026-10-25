@@ -1,5 +1,6 @@
 package de.joernott.c0de.client.dialog;
 
+import de.joernott.c0de.client.ClientCompat;
 import de.joernott.c0de.C0de;
 import de.joernott.c0de.network.OpenDialogPayload;
 import net.minecraft.client.Minecraft;
@@ -26,6 +27,6 @@ public final class DialogScreens {
             C0de.LOGGER.warn("Unknown dialog {}", payload.dialog());
             return;
         }
-        Minecraft.getInstance().setScreen(screen);
+        ClientCompat.setScreen(screen);
     }
 }

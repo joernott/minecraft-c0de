@@ -58,17 +58,20 @@ public interface Canvas {
 
     /** The backgrounds of text. */
     static RenderType textBackground() {
-        //? if >=1.21.11 {
+        //? if >=26.3 {
+        /*// The render type of text backgrounds was removed; the backgrounds of the screens are fully lit anyway
+        return RenderTypes.debugQuads();
+        *///?} elif >=1.21.11 {
         /*return RenderTypes.textBackground();
         *///?} else {
         return RenderType.textBackground();
         //?}
     }
 
-    /** The render type of a block that is drawn by a renderer. */
+    /** The render type of a block that is drawn by a renderer (DisplayRenderer, before 26.1). */
     static RenderType block(BlockState state) {
         //? if >=26.1 {
-        /*return net.minecraft.client.renderer.Sheets.cutoutBlockSheet();
+        /*throw new UnsupportedOperationException("blocks are submitted");
         *///?} elif >=1.21.11 {
         /*return net.minecraft.client.renderer.ItemBlockRenderTypes.getRenderType(state);
         *///?} else {
@@ -113,6 +116,8 @@ public interface Canvas {
     }
     *///?}
 
+    // Since 26.2, there are no buffers any more
+    //? if <26.2 {
     /** The canvas of buffers. */
     static Canvas of(net.minecraft.client.renderer.MultiBufferSource buffers) {
         return new Canvas() {
@@ -138,4 +143,5 @@ public interface Canvas {
             }
         };
     }
+    //?}
 }

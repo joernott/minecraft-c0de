@@ -32,6 +32,7 @@ import net.minecraft.world.phys.BlockHitResult;
 public class DisplayBlock extends BaseEntityBlock {
     public static final EnumProperty<Direction> FACING = BlockStateProperties.FACING;
     public static final BooleanProperty CAMOUFLAGED = BooleanProperty.create("camouflaged");
+    //? if <26.3
     private static final MapCodec<DisplayBlock> CODEC = simpleCodec(DisplayBlock::new);
 
     public DisplayBlock(Properties properties) {
@@ -39,10 +40,12 @@ public class DisplayBlock extends BaseEntityBlock {
         registerDefaultState(stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(CAMOUFLAGED, false));
     }
 
+    //? if <26.3 {
     @Override
     protected MapCodec<? extends BaseEntityBlock> codec() {
         return CODEC;
     }
+    //?}
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {

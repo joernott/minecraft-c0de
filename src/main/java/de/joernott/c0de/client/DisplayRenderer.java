@@ -7,7 +7,6 @@ import de.joernott.c0de.io.DisplayBlock;
 import de.joernott.c0de.io.DisplayBlockEntity;
 import java.util.ArrayList;
 import java.util.List;
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.renderer.LightTexture;
@@ -39,10 +38,14 @@ public class DisplayRenderer extends C0deBlockEntityRenderer<DisplayBlockEntity>
 
     /** The color of a color number 0 to 15, the colors of Minecraft text. */
     public static int color(int number) {
-        ChatFormatting formatting = ChatFormatting.getById(Math.max(0, Math.min(15, number)));
-        Integer rgb = formatting == null ? null : formatting.getColor();
-        return 0xFF000000 | (rgb == null ? 0xFFFFFF : rgb);
+        return 0xFF000000 | COLORS[Math.max(0, Math.min(15, number))];
     }
+
+    /** The colors of the formatting codes 0 to f of Minecraft. */
+    private static final int[] COLORS = {
+        0x000000, 0x0000AA, 0x00AA00, 0x00AAAA, 0xAA0000, 0xAA00AA, 0xFFAA00, 0xAAAAAA,
+        0x555555, 0x5555FF, 0x55FF55, 0x55FFFF, 0xFF5555, 0xFF55FF, 0xFFFF55, 0xFFFFFF
+    };
 
     @Override
     protected void draw(
@@ -59,7 +62,7 @@ public class DisplayRenderer extends C0deBlockEntityRenderer<DisplayBlockEntity>
         Direction facing = entity.getBlockState().getValue(DisplayBlock.FACING);
         pose.pushPose();
         pose.translate(0.5F, 0.5F, 0.5F);
-        pose.mulPose(PropertiesRenderer.rotation(facing));
+        ClientCompat.rotate(pose, PropertiesRenderer.rotation(facing));
         // The top left corner of the wall, just in front of the faces of the blocks
         pose.translate(-0.5F - entity.offsetRight(), 0.5F + entity.offsetDown(), 0.505F);
         draw(screen, entity.wallWidth(), entity.wallHeight(), pose, canvas, Minecraft.getInstance().font);

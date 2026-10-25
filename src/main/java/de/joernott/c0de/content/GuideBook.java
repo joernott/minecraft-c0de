@@ -1,6 +1,7 @@
 package de.joernott.c0de.content;
 
 import de.joernott.c0de.C0de;
+import de.joernott.c0de.compat.Compat;
 import de.joernott.c0de.platform.Platform;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -35,9 +36,7 @@ public final class GuideBook {
         if (book.isEmpty()) {
             return;
         }
-        if (!player.getInventory().add(book)) {
-            player.drop(book, false);
-        }
+        Compat.give(player, book);
         player.addTag(GIVEN);
     }
 

@@ -35,6 +35,44 @@ public final class ClientCompat {
         //?}
     }
 
+    /** The light at a position, packed for rendering. */
+    public static int light(net.minecraft.world.level.Level level, net.minecraft.core.BlockPos pos) {
+        //? if >=26.2 {
+        /*return net.minecraft.util.LightCoordsUtil.getLightCoords(level, pos);
+        *///?} elif >=26.1 {
+        /*return net.minecraft.client.renderer.LevelRenderer.getLightCoords(level, pos);
+        *///?} else {
+        return net.minecraft.client.renderer.LevelRenderer.getLightColor(level, pos);
+        //?}
+    }
+
+    /** Opens a screen. */
+    public static void setScreen(net.minecraft.client.gui.screens.Screen screen) {
+        //? if >=26.2 {
+        /*net.minecraft.client.Minecraft.getInstance().gui.setScreen(screen);
+        *///?} else {
+        net.minecraft.client.Minecraft.getInstance().setScreen(screen);
+        //?}
+    }
+
+    /** The open screen, or null. */
+    public static net.minecraft.client.gui.screens.Screen screen() {
+        //? if >=26.2 {
+        /*return net.minecraft.client.Minecraft.getInstance().gui.screen();
+        *///?} else {
+        return net.minecraft.client.Minecraft.getInstance().screen;
+        //?}
+    }
+
+    /** Rotates the pose. */
+    public static void rotate(com.mojang.blaze3d.vertex.PoseStack pose, org.joml.Quaternionf rotation) {
+        //? if >=26.3 {
+        /*pose.mulPose(new org.joml.Matrix4f().rotation(rotation));
+        *///?} else {
+        pose.mulPose(rotation);
+        //?}
+    }
+
     /** The position of the camera. */
     public static Vec3 position(Camera camera) {
         //? if >=1.21.11 {

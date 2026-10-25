@@ -63,9 +63,11 @@ public final class C0deNeoForgeClient {
                 });
         //? if >=26.1 {
         /^net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
-                net.neoforged.neoforge.client.event.RenderLevelStageEvent.AfterOpaqueFeatures.class,
-                event -> LineNumbers.renderImmediately(
-                        event.getLevelRenderState().cameraRenderState.pos, event.getPoseStack()));
+                net.neoforged.neoforge.client.event.SubmitCustomGeometryEvent.class,
+                event -> LineNumbers.render(
+                        event.getLevelRenderState().cameraRenderState.pos,
+                        event.getPoseStack(),
+                        de.joernott.c0de.client.Canvas.of(event.getSubmitNodeCollector())));
         ^///?} elif >=1.21.11 {
         /^net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
                 net.neoforged.neoforge.client.event.RenderLevelStageEvent.AfterEntities.class,

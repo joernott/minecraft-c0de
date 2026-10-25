@@ -1,5 +1,6 @@
 package de.joernott.c0de.client.dialog;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import de.joernott.c0de.network.OpenDialogPayload;
 import de.joernott.c0de.network.SavePropertiesPayload;
 import de.joernott.c0de.platform.Platform;
@@ -11,7 +12,6 @@ import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import org.lwjgl.glfw.GLFW;
 
 /**
  * The base of the dialogs of blocks with properties: a panel with the input fields of the block and an OK
@@ -146,7 +146,8 @@ public abstract class PropertiesScreen extends Screen {
 
     /** Enter saves the input. */
     private boolean enter(int keyCode) {
-        if ((keyCode == GLFW.GLFW_KEY_ENTER || keyCode == GLFW.GLFW_KEY_KP_ENTER) && savesOnEnter() && !readOnly) {
+        boolean enter = keyCode == InputConstants.KEY_RETURN || keyCode == InputConstants.KEY_NUMPADENTER;
+        if (enter && savesOnEnter() && !readOnly) {
             save();
             return true;
         }

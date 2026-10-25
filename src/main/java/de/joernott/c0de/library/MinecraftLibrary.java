@@ -643,7 +643,8 @@ public final class MinecraftLibrary implements Library {
         requirePermission(call, C0deConfig.ALLOW_SPAWNING);
         Place place = place(call, "position");
         String type = text(call, "type");
-        Optional<EntityType<?>> entityType = EntityType.byString(type);
+        Optional<EntityType<?>> entityType = Optional.ofNullable(ResourceLocation.tryParse(type))
+                .flatMap(BuiltInRegistries.ENTITY_TYPE::getOptional);
         if (entityType.isEmpty()) {
             throw invalid("There is no entity type " + type);
         }

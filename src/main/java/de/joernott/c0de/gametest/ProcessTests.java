@@ -181,7 +181,8 @@ public final class ProcessTests {
         first.input().setItem(1, variable("spare", "INTEGER", "3"));
         first.start();
         helper.assertTrue(first.isRunning(), "The process didn't start: " + first.status());
-        helper.runAfterDelay(40, () -> {
+        // The tests running at the same time share the steps per tick, so the process may need more ticks
+        helper.runAfterDelay(80, () -> {
             try {
                 helper.assertTrue(!first.isRunning(), "The process is still running");
                 helper.assertTrue(first.output().isEmpty(), "The output was not transferred");

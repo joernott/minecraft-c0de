@@ -13,7 +13,6 @@ import java.util.Set;
 import net.minecraft.SharedConstants;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.AbstractPackResources;
 import net.minecraft.server.packs.PackLocationInfo;
 import net.minecraft.server.packs.PackSelectionConfig;
 import net.minecraft.server.packs.PackType;
@@ -52,6 +51,18 @@ public final class SettingsPack {
         PackLocationInfo location =
                 new PackLocationInfo(ID, Component.literal("c0de settings"), PackSource.BUILT_IN, Optional.empty());
         Pack.ResourcesSupplier resources = new Pack.ResourcesSupplier() {
+            //? if >=26.3 {
+            /*@Override
+            public net.minecraft.server.packs.PackMetadataResources openMetadata(PackLocationInfo info) {
+                return new InMemoryPackResources(info, files);
+            }
+
+            @Override
+            public java.util.stream.Stream<net.minecraft.server.packs.PackResources> openResources(
+                    PackLocationInfo info, Pack.Metadata metadata) {
+                return java.util.stream.Stream.of(new InMemoryPackResources(info, files));
+            }
+            *///?} else {
             @Override
             public net.minecraft.server.packs.PackResources openPrimary(PackLocationInfo info) {
                 return new InMemoryPackResources(info, files);
@@ -61,13 +72,20 @@ public final class SettingsPack {
             public net.minecraft.server.packs.PackResources openFull(PackLocationInfo info, Pack.Metadata metadata) {
                 return new InMemoryPackResources(info, files);
             }
+            //?}
         };
         return Pack.readMetaAndCreate(
                 location, resources, PackType.SERVER_DATA, new PackSelectionConfig(true, Pack.Position.TOP, false));
     }
 
     /** Pack resources whose files are kept in memory. Paths start with the directory of the pack type, e.g. "data/". */
-    private static final class InMemoryPackResources extends AbstractPackResources {
+    //? if >=26.3 {
+    /*private static final class InMemoryPackResources
+            extends net.minecraft.server.packs.AbstractPackMetadataResources
+            implements net.minecraft.server.packs.PackResources {
+    *///?} else {
+    private static final class InMemoryPackResources extends net.minecraft.server.packs.AbstractPackResources {
+    //?}
         private final Map<String, byte[]> files;
 
         InMemoryPackResources(PackLocationInfo location, Map<String, byte[]> files) {

@@ -42,9 +42,28 @@ public class GreenbarChunkGenerator extends ChunkGenerator {
         return CODEC;
     }
 
+    //? if >=26.3 {
+    /*@Override
+    public CompletableFuture<ChunkAccess> buildTerrain(
+            ChunkAccess chunk,
+            Blender blender,
+            RandomState randomState,
+            StructureManager structureManager,
+            BiomeManager biomeManager,
+            WorldGenRegion carverBiomeRegion,
+            java.util.Set<net.minecraft.core.Holder<net.minecraft.world.level.biome.Biome>> possibleBiomes) {
+        return fill(chunk);
+    }
+    *///?} else {
     @Override
     public CompletableFuture<ChunkAccess> fillFromNoise(
             Blender blender, RandomState randomState, StructureManager structureManager, ChunkAccess chunk) {
+        return fill(chunk);
+    }
+    //?}
+
+    /** Places the floor. */
+    private CompletableFuture<ChunkAccess> fill(ChunkAccess chunk) {
         BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
         Heightmap oceanFloor = chunk.getOrCreateHeightmapUnprimed(Heightmap.Types.OCEAN_FLOOR_WG);
         Heightmap surface = chunk.getOrCreateHeightmapUnprimed(Heightmap.Types.WORLD_SURFACE_WG);
@@ -83,6 +102,7 @@ public class GreenbarChunkGenerator extends ChunkGenerator {
         return new NoiseColumn(Compat.minY(height), column);
     }
 
+    //? if <26.3 {
     @Override
     public void applyCarvers(
             WorldGenRegion level,
@@ -100,6 +120,7 @@ public class GreenbarChunkGenerator extends ChunkGenerator {
     @Override
     public void buildSurface(
             WorldGenRegion level, StructureManager structureManager, RandomState random, ChunkAccess chunk) {}
+    //?}
 
     @Override
     public void spawnOriginalMobs(WorldGenRegion level) {}
@@ -119,8 +140,17 @@ public class GreenbarChunkGenerator extends ChunkGenerator {
         return SheetGeometry.MIN_Y;
     }
 
+    //? if >=26.3 {
+    /*@Override
+    public void addDebugScreenInfo(
+            List<String> info,
+            RandomState random,
+            BlockPos pos,
+            net.minecraft.world.level.levelgen.densityfunction.SamplerContext context) {
+    *///?} else {
     @Override
     public void addDebugScreenInfo(List<String> info, RandomState random, BlockPos pos) {
+    //?}
         int sheet = SheetGeometry.sheetIndex(pos.getX(), pos.getZ());
         info.add(sheet == SheetGeometry.NO_SHEET
                 ? "c0de: outside of the sheets"

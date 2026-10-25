@@ -47,11 +47,18 @@ stonecutter parameters {
             replace("net.minecraft.client.resources.model.QuadCollection", "net.minecraft.client.resources.model.geometry.QuadCollection")
             replace("import net.minecraft.client.renderer.LightTexture;", "import net.minecraft.util.LightCoordsUtil;")
             replace("LightTexture.FULL_BRIGHT", "LightCoordsUtil.FULL_BRIGHT")
-            replace("LevelRenderer.getLightColor(", "LevelRenderer.getLightCoords(")
             replace("DimensionDataStorage", "SavedDataStorage")
             replace("chunk.x, chunk.z", "chunk.x(), chunk.z()")
             replace("chunk.z != 0", "chunk.z() != 0")
             replace("player.getTags()", "player.entityTags()")
+        }
+        string(current.parsed >= "26.2") {
+            replace("gameRenderer.getMainCamera()", "gameRenderer.mainCamera()")
+        }
+        string(current.parsed >= "26.3") {
+            replace("PushReaction.BLOCK", "PushReaction.IMMOVEABLE")
+            replace("isViewBlocking((state, level, pos) -> false)", "isViewBlocking((state, level, pos, box) -> false)")
+            replace("setInvulnerable(true)", "setPermanentlyInvulnerable(true)")
         }
         string(current.parsed >= "26.1" && loader == "neoforge") {
             replace("net.neoforged.neoforge.event.level.BlockEvent.BreakEvent.class", "net.neoforged.neoforge.event.level.block.BreakBlockEvent.class")

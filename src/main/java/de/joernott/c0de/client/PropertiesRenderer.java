@@ -10,7 +10,6 @@ import de.joernott.c0de.blockentity.TagBlockEntity;
 import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.core.Direction;
@@ -57,11 +56,11 @@ public class PropertiesRenderer extends C0deBlockEntityRenderer<PropertiesBlockE
         int color = entity instanceof TagBlockEntity ? TAG_COLOR : TEXT_COLOR;
         float width = font.width(text);
         float scale = Math.min(MAX_SCALE, MAX_TEXT_SIZE / Math.max(width, font.lineHeight));
-        int topLight = LevelRenderer.getLightColor(entity.getLevel(), entity.getBlockPos().above());
+        int topLight = ClientCompat.light(entity.getLevel(), entity.getBlockPos().above());
         pose.pushPose();
         // On the top of the slab, readable from the south
         pose.translate(0.5F, (float) (CodeBlockShapes.HEIGHT / 16) + 0.001F, 0.5F);
-        pose.mulPose(Axis.XP.rotationDegrees(-90));
+        ClientCompat.rotate(pose, Axis.XP.rotationDegrees(-90));
         pose.scale(scale, -scale, scale);
         canvas.text(
                 pose,
@@ -103,7 +102,7 @@ public class PropertiesRenderer extends C0deBlockEntityRenderer<PropertiesBlockE
         float scale = 0.025F;
         pose.pushPose();
         pose.translate(0.5F, 0.75F + lines.size() * font.lineHeight * scale, 0.5F);
-        pose.mulPose(minecraft.gameRenderer.getMainCamera().rotation());
+        ClientCompat.rotate(pose, minecraft.gameRenderer.getMainCamera().rotation());
         pose.scale(scale, -scale, scale);
         int background = (int) (minecraft.options.getBackgroundOpacity(0.25F) * 255.0F) << 24;
         for (int i = 0; i < lines.size(); i++) {

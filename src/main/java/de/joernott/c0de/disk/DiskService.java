@@ -179,8 +179,7 @@ public final class DiskService {
                 message.addAll(missing);
                 return show(player, pos, message);
             }
-            needed.forEach((item, count) -> player.getInventory()
-                    .clearOrCountMatchingItems(stack -> stack.is(item), count, player.inventoryMenu.getCraftSlots()));
+            needed.forEach((item, count) -> Compat.removeItems(player, stack -> stack.is(item), count));
         }
         SheetOwners.get(level).check(player, sheet, true);
         SheetWriter.place(level, sheet, lines);

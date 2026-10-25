@@ -1,6 +1,7 @@
 package de.joernott.c0de.sheet;
 
 import de.joernott.c0de.block.CodeBlock;
+import de.joernott.c0de.compat.Compat;
 import de.joernott.c0de.core.edit.LineMoves;
 import de.joernott.c0de.core.sheet.SheetGeometry;
 import java.util.ArrayList;
@@ -105,8 +106,7 @@ public final class SheetEditor {
             if (!missing.isEmpty()) {
                 return missing;
             }
-            needed.forEach((item, count) -> player.getInventory()
-                    .clearOrCountMatchingItems(stack -> stack.is(item), count, player.inventoryMenu.getCraftSlots()));
+            needed.forEach((item, count) -> Compat.removeItems(player, stack -> stack.is(item), count));
         }
         int end = endOfContent(level, sheet, target, lines.size() + 1);
         apply(level, sheet, LineMoves.insert(target, lines.size(), end));

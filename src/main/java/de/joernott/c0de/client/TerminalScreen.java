@@ -1,5 +1,6 @@
 package de.joernott.c0de.client;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import de.joernott.c0de.client.dialog.Panels;
 import de.joernott.c0de.compat.Nbt;
 import de.joernott.c0de.core.io.TextScreen;
@@ -20,7 +21,6 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
-import org.lwjgl.glfw.GLFW;
 
 /**
  * The terminal of a laptop or tablet (docs/concept/19-input-output.md): the binding at the top, the screen with
@@ -62,8 +62,8 @@ public class TerminalScreen extends Screen {
     public static void receive(TerminalPayload payload) {
         Minecraft minecraft = Minecraft.getInstance();
         if (payload.open()) {
-            minecraft.setScreen(new TerminalScreen(payload));
-        } else if (minecraft.screen instanceof TerminalScreen terminal && terminal.id.equals(payload.id())) {
+            ClientCompat.setScreen(new TerminalScreen(payload));
+        } else if (ClientCompat.screen() instanceof TerminalScreen terminal && terminal.id.equals(payload.id())) {
             terminal.update(payload.data());
         }
     }
@@ -153,10 +153,10 @@ public class TerminalScreen extends Screen {
 
     /** Handles the keys the terminal uses itself; false passes the key on to the screen. */
     private boolean terminalKey(int keyCode) {
-        if (keyCode == GLFW.GLFW_KEY_ESCAPE) {
+        if (keyCode == InputConstants.KEY_ESCAPE) {
             return false;
         }
-        if (!prompt.isEmpty() && (keyCode == GLFW.GLFW_KEY_ENTER || keyCode == GLFW.GLFW_KEY_KP_ENTER)) {
+        if (!prompt.isEmpty() && (keyCode == InputConstants.KEY_RETURN || keyCode == InputConstants.KEY_NUMPADENTER)) {
             Platform.INSTANCE.sendToServer(new TerminalActionPayload("line", input.getValue(), ""));
             input.setValue("");
             scroll = 0;
@@ -164,9 +164,9 @@ public class TerminalScreen extends Screen {
         }
         if (prompt.isEmpty() && getFocused() == null) {
             String key = switch (keyCode) {
-                case GLFW.GLFW_KEY_ENTER, GLFW.GLFW_KEY_KP_ENTER -> "\r";
-                case GLFW.GLFW_KEY_BACKSPACE -> "\b";
-                case GLFW.GLFW_KEY_TAB -> "\t";
+                case InputConstants.KEY_RETURN, InputConstants.KEY_NUMPADENTER -> "\r";
+                case InputConstants.KEY_BACKSPACE -> "\b";
+                case InputConstants.KEY_TAB -> "\t";
                 default -> null;
             };
             if (key != null) {

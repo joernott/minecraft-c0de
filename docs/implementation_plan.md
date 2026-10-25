@@ -298,10 +298,10 @@ A task is done when
 | 12.1.4 | Data whose format changed (recipes, biome) in `src/main/versioned`; GameTests with the Fabric annotation of 1.21.5. All 44 GameTests pass on 1.21.1 and 1.21.11 (Fabric). | ✅ |
 | 12.1.5 | NeoForge 1.21.11: platform calls, client registration, model loader `c0de:extruded`, GameTest registration. All GameTests pass on NeoForge 1.21.1 and 1.21.11. | ✅ |
 | 12.1.6 | Item textures of Minecraft in block models are added to the blocks atlas (separate items atlas since 1.21.11); separate run directories per version. | ✅ |
-| 12.2 | Add the nodes for 26.x (unobfuscated, Java 25, Gradle 9.1+) and port the API changes. |  |
+| 12.2 | Add the nodes for 26.x (unobfuscated, Java 25, Gradle 9.1+) and port the API changes. | ✅ |
 | 12.2.1 | Node 26.1.2: GUI renamed to extract methods (replacements and conditional headers), moved classes, messages to players, chunk positions, items, edit boxes, saved data IDs, Fabric menu and networking APIs, NeoForge events; access widener in the namespace "official". All GameTests pass on both loaders. | ✅ |
-| 12.2.2 | Node 26.2. |  |
-| 12.2.3 | Node 26.3. |  |
+| 12.2.2 | Node 26.2: screens and light through `ClientCompat`, no buffers any more (text colors of the displays as a table, line numbers through the submit events). All GameTests pass on both loaders. | ✅ |
+| 12.2.3 | Node 26.3: key codes from `InputConstants` (no GLFW), rotations as matrices, no block codecs, chunk generation in one step, pack resources, items to players and inventories through `Compat`; the recipe category `equipment` instead of the invalid `tools`. All GameTests pass on both loaders. | ✅ |
 | 12.3 | Extend the CI matrix and the Docker test servers to all nodes. |  |
 | 12.4 | Replace HeadlessMC by Fabric client GameTests where available. |  |
 | 12.5 | Release for all versions; document the process for adding future Minecraft versions. |  |

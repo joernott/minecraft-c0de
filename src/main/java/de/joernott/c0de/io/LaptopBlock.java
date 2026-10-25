@@ -32,6 +32,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
  */
 public class LaptopBlock extends BaseEntityBlock {
     public static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;
+    //? if <26.3
     private static final MapCodec<LaptopBlock> CODEC = simpleCodec(LaptopBlock::new);
     private static final Map<Direction, VoxelShape> SHAPES = new EnumMap<>(Direction.class);
 
@@ -48,10 +49,12 @@ public class LaptopBlock extends BaseEntityBlock {
         registerDefaultState(stateDefinition.any().setValue(FACING, Direction.NORTH));
     }
 
+    //? if <26.3 {
     @Override
     protected MapCodec<? extends BaseEntityBlock> codec() {
         return CODEC;
     }
+    //?}
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
