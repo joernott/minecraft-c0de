@@ -29,7 +29,7 @@ fi
 step "Base packages"
 sudo -E apt-get update -qq
 sudo -E apt-get install -y -qq ca-certificates curl gnupg git jq rsync unzip xvfb xauth \
-    libgl1-mesa-dri libglx-mesa0 mesa-utils >/dev/null
+    libgl1-mesa-dri libglx-mesa0 libegl1 libegl-mesa0 mesa-vulkan-drivers mesa-utils >/dev/null
 
 step "Eclipse Temurin JDKs ${JDKS[*]} (Adoptium APT repository)"
 if [ ! -f /etc/apt/keyrings/adoptium.asc ]; then

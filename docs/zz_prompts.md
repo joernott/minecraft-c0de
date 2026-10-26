@@ -593,3 +593,7 @@ The text now shows on the display and the line is gone.
 no servers should run permanently, just start them as needed for the tests.
 
 Please continue with 12.4
+
+## 2026-10-26 – Client GameTest 26.3 stuck in CI
+
+Tve test got stuck at ClientGameTest 26.3 fabric: (log: Failed to create backend OpenGL: Couldn't find matching GLX visual; Failed to create backend Vulkan: Installed Vulkan doesn't implement the VK_KHR_surface extension)

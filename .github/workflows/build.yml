@@ -120,6 +120,8 @@ jobs:
   client:
     name: Client GameTests ${{ matrix.node }}
     runs-on: ubuntu-latest
+    # A client that can't create its window hangs instead of exiting
+    timeout-minutes: 20
     strategy:
       fail-fast: false
       matrix:
@@ -135,10 +137,15 @@ jobs:
             25
       - uses: gradle/actions/setup-gradle@v6
       - name: Install a virtual display with software rendering
-        run: sudo apt-get update -q && sudo apt-get install -y -q xvfb libgl1-mesa-dri libglx-mesa0
+        # OpenGL and Vulkan (lavapipe) in software: 26.3 creates its window with SDL and tries both
+        run: >-
+          sudo apt-get update -q && sudo apt-get install -y -q xvfb libgl1-mesa-dri libglx-mesa0 libegl1
+          libegl-mesa0 mesa-vulkan-drivers mesa-utils
       - name: Client GameTests
         # Software rendering in a virtual display
-        run: xvfb-run -a -s "-screen 0 1280x720x24" ./gradlew :${{ matrix.node }}:runClientGameTest --console=plain
+        run: |
+          xvfb-run -a -s "-screen 0 1280x720x24" glxinfo -B | grep -E "OpenGL (renderer|core profile version)"
+          xvfb-run -a -s "-screen 0 1280x720x24" ./gradlew :${{ matrix.node }}:runClientGameTest --console=plain
       - name: Upload screenshots
         if: always()
         uses: actions/upload-artifact@v7
