@@ -147,6 +147,9 @@ jobs:
           xvfb-run -a -s "-screen 0 1280x720x24" glxinfo -B | grep -E "OpenGL (renderer|core profile version)"
           # Loom starts the client in xvfb-run itself when xvfb is installed
           ./gradlew :${{ matrix.node }}:runClientGameTest --console=plain
+        env:
+          # The software renderer would take both cores of the runner from the chunk generation of the server
+          LP_NUM_THREADS: 1
       - name: Upload screenshots
         if: always()
         uses: actions/upload-artifact@v7
