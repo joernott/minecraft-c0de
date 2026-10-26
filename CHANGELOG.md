@@ -2,6 +2,14 @@
 
 All notable changes of the c0de mod. The section of a version is also its changelog on Modrinth.
 
+## 0.2.0
+
+c0de for all newer Minecraft versions: 1.21.1, 1.21.11, 26.1.2, 26.2 and 26.3, each for Fabric and NeoForge.
+
+- **New Minecraft versions**: the mod works the same on 1.21.11, 26.1.2, 26.2 and 26.3; programs saved with the disk drive can be loaded on every version. 26.x needs Java 25, like Minecraft itself.
+- **Fixed**: the recipe of the wrench had an invalid category; Minecraft 26.3 refused to load it.
+- **Patchouli**: the in-game books are only available on 1.21.1, where Patchouli was tested with the mod.
+
 ## 0.1.0
 
 The first alpha for Minecraft 1.21.1, for Fabric and NeoForge.

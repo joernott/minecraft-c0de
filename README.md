@@ -2,7 +2,7 @@
 
 c0de is a primitive programming language for Minecraft. Programs are written by placing blocks on endless sheets of greenbar paper in a dimension of their own, and they are run by trigger blocks anywhere in the world.
 
-The mod supports Fabric and NeoForge. Development starts with Minecraft 1.21.1; newer versions follow.
+The mod supports Fabric and NeoForge on Minecraft 1.21.1, 1.21.11, 26.1.2, 26.2 and 26.3.
 
 > **Status:** the first alpha (0.1.0) is in preparation. See the [implementation plan](docs/implementation_plan.md) for the progress.
 

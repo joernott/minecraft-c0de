@@ -44,6 +44,6 @@ The player guide explains everything step by step, with example programs:
 
 ## Requirements
 
-- Minecraft 1.21.1
+- Minecraft 1.21.1, 1.21.11, 26.1.2, 26.2 or 26.3 (26.x needs Java 25)
 - **Fabric** with [Fabric API](https://modrinth.com/mod/fabric-api), or **NeoForge**
-- Optional: [Patchouli](https://modrinth.com/mod/patchouli) adds an in-game guide book with the player guide. Every player gets it on the first join; more copies are crafted from a book and a PROGRAM block. Six handbooks (Data, Statements, Tools, Triggers, Devices and Functions) describe every block, item and function on a page of its own. On a NeoForge server, install Patchouli on the server too, otherwise clients with Patchouli can't join.
+- Optional, on Minecraft 1.21.1: [Patchouli](https://modrinth.com/mod/patchouli) adds an in-game guide book with the player guide. Every player gets it on the first join; more copies are crafted from a book and a PROGRAM block. Six handbooks (Data, Statements, Tools, Triggers, Devices and Functions) describe every block, item and function on a page of its own. On a NeoForge server, install Patchouli on the server too, otherwise clients with Patchouli can't join.

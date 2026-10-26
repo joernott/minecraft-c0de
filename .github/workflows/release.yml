@@ -54,12 +54,28 @@ jobs:
             gametest: runGametest
           - node: 1.21.1-neoforge
             gametest: runGameTestServer
+          - node: 1.21.11-fabric
+            gametest: runGametest
+          - node: 1.21.11-neoforge
+            gametest: runGameTestServer
+          - node: 26.1.2-fabric
+            gametest: runGametest
+          - node: 26.1.2-neoforge
+            gametest: runGameTestServer
+          - node: 26.2-fabric
+            gametest: runGametest
+          - node: 26.2-neoforge
+            gametest: runGameTestServer
+          - node: 26.3-fabric
+            gametest: runGametest
+          - node: 26.3-neoforge
+            gametest: runGameTestServer
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-java@v6
         with:
           distribution: temurin
-          # 21 for the toolchain of the 1.21.x nodes, 25 for the Gradle daemon (Loom needs Java 25)
+          # 21 for the toolchain of the 1.21.x nodes, 25 for 26.x and the Gradle daemon (Loom needs Java 25)
           java-version: |
             21
             25
@@ -101,7 +117,8 @@ jobs:
             echo "::error title=Modrinth::The secret MODRINTH_TOKEN is missing"
             exit 1
           fi
-          ./gradlew :1.21.1-fabric:publishMods :1.21.1-neoforge:publishMods --console=plain
+          # Every node publishes its jars (one Modrinth version per node)
+          ./gradlew publishMods --console=plain
       - uses: actions/download-artifact@v8
         with:
           path: jars

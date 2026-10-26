@@ -3,7 +3,7 @@
 mod.id = "c0de"
 mod.name = "c0de"
 mod.group = "de.joernott.c0de"
-mod.version = "0.1.0"
+mod.version = "0.2.0"
 mod.description = "A primitive programming language you write by placing blocks in a dimension of greenbar paper."
 mod.authors = "Jörn Ott"
 mod.license = "BSD-3-Clause"

@@ -597,3 +597,7 @@ Please continue with 12.4
 ## 2026-10-26 – Client GameTest 26.3 stuck in CI
 
 Tve test got stuck at ClientGameTest 26.3 fabric: (log: Failed to create backend OpenGL: Couldn't find matching GLX visual; Failed to create backend Vulkan: Installed Vulkan doesn't implement the VK_KHR_surface extension)
+
+## 2026-10-26 – Release
+
+please go ahead

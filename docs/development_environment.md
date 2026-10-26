@@ -159,6 +159,26 @@ The jars are published with the [Mod Publish Plugin](https://modmuss50.github.io
   2. Set `mod.version` in `stonecutter.properties.toml` and add the section `## <version>` to `CHANGELOG.md`; it becomes the changelog on Modrinth and the notes of the GitHub release.
   3. Fast-forward `main`, then tag and push: `git tag v<version> && git push origin v<version>`. `release.yml` checks that the tag matches `mod.version`, builds and tests all nodes, publishes them to Modrinth and creates the GitHub release (a pre-release for 0.x versions).
 
+### Adding a Minecraft version
+
+Every new Minecraft release becomes a new node (task 12.5). The steps, in the order that worked for 1.21.11 and 26.x:
+
+  1. **Versions.** Look up the versions for the release: Fabric Loader and Fabric API (https://fabricmc.net/develop/), NeoForge (https://projects.neoforged.net/neoforged/neoforge), Parchment for obfuscated versions (none needed since 26.1) and, optionally, Patchouli on its Maven repository (`maven.blamejared.com`; leave `deps.patchouli` out if there is no build there).
+  2. **Node.** Add `match("<version>", "fabric", "neoforge")` in `settings.gradle.kts` and the tables `["<version>"]`, `[fabric."<version>"]` and `[neoforge."<version>"]` in `stonecutter.properties.toml` (`mod.mc_releases`, `mod.mc_compat`, `deps.*`; a newer Fabric Loader goes into the version table).
+  3. **Compile.** `./gradlew :<version>-fabric:compileJava` lists all errors at once (`-Xmaxerrs`). For the new API, decompile Minecraft with `./gradlew :<version>-fabric:genSources` (the sources jar is in `.gradle/loom-cache/minecraftMaven`) and read the sources of NeoForge (`neoforge-<version>-sources.jar` in the Gradle cache) and the class files of Fabric API.
+  4. **Port.** Keep the version differences in few places:
+     - renamed classes, packages and methods: Stonecutter replacements in `stonecutter.gradle.kts` (they work in both directions, so the strings must be unique, e.g. `graphics.drawString(` instead of `drawString(`),
+     - changed calls: a method in `compat/Compat`, `client/ClientCompat` or `gametest/TestCompat` with a `//? if >=<version> {` block,
+     - changed overrides: a conditional method header (see the screens and `C0deBlockEntityRenderer`),
+     - rendering: the renderers draw on a `Canvas`; a new way of drawing is a new implementation of it.
+     Conditions inside a block that is already disabled use `/^ ... ^/` instead of `/* ... */`.
+  5. **Data.** Data whose format changed goes into `src/main/versioned/<topic>/<first version>/`, written by `scripts/generate_content.py` (recipes, biome, block models, atlases, the access widener). The dimension type is generated in `DimensionTypeJson` and `SettingsPack`.
+  6. **Test.** GameTests on both loaders (`runGametest`, `runGameTestServer`), the Fabric client GameTests (`runClientGameTest`) and the smoke test on the VM (`contrib/itest/smoke.sh <version>-fabric <version>-neoforge`); then the development clients: the c0de dimension, the shapes of the blocks, the line numbers, displays, terminals and dialogs.
+  7. **CI and servers.** Add the nodes to the matrices of `build.yml` (also `client` for Fabric), `integration.yml` and `release.yml`, and the servers to `contrib/docker/compose.yaml` (the next free ports, the Java image of the version).
+  8. **Release.** Add the version to `README.md` and `docs/modrinth.md`, then release as described above.
+
+Found while porting to 1.21.11 and 26.x, worth checking first in a new version: the dimension can turn dark (ambient light), item textures in block models (separate atlases), the GameTest framework, the GUI and input APIs, and how the client creates its window (software rendering in CI).
+
 ## Setup steps
 
 1. ~~Increase the VM disk~~ (done: 128 GB).

@@ -205,7 +205,8 @@ publishMods {
         environment = CLIENT_AND_SERVER
         minecraftVersions.addAll(sc.properties.get<String>("mod.mc_releases").split(",").map { it.trim() })
         requires("fabric-api")
-        optional("patchouli")
+        // Patchouli only where the mod was tested with it (deps.patchouli)
+        if (sc.properties.getOrNull<String>("deps.patchouli") != null) optional("patchouli")
     }
 }
 
