@@ -601,3 +601,7 @@ Tve test got stuck at ClientGameTest 26.3 fabric: (log: Failed to create backend
 ## 2026-10-26 – Release
 
 please go ahead
+
+## 2026-10-26 – Release 0.2.0
+
+please go on and do the release
