@@ -306,8 +306,8 @@ A task is done when
 | 12.3.1 | GameTests and smoke tests on all nodes in GitHub Actions (one job per node); test servers for all nodes in `compose.yaml`; `smoke.sh` and `deploy.sh` only touch the servers they work on; the smoke test starts one server after the other. All nodes pass in GitHub Actions and on the VM. | ✅ |
 | 12.4 | Replace HeadlessMC by Fabric client GameTests where available. | ✅ |
 | 12.4.1 | Client GameTests on Fabric 1.21.11 and 26.x: light of the c0de dimension, textures of the blocks, trigger dialog, terminal; in GitHub Actions in a virtual display with software rendering, screenshots as artifacts. | ✅ |
-| 12.5 | Release for all versions; document the process for adding future Minecraft versions. |  |
-| 12.5.1 | Release workflow for all nodes; Patchouli only as optional dependency where it was tested (1.21.1); version 0.2.0; the steps to add a Minecraft version in `docs/development_environment.md`. | ✅ |
+| 12.5 | Release for all versions; document the process for adding future Minecraft versions. | ✅ |
+| 12.5.1 | Release workflow for all nodes; Patchouli only as optional dependency where it was tested (1.21.1); version 0.2.0, released on 2026-10-26 (GitHub pre-release and ten Modrinth versions); the steps to add a Minecraft version in `docs/development_environment.md`. | ✅ |
 
 After sprint 12, every new Minecraft release is added as a new node in its own small sprint.
 
