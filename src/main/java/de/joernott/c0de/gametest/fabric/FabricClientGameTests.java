@@ -23,6 +23,11 @@ public class FabricClientGameTests implements FabricClientGameTest {
 
     @Override
     public void runTest(ClientGameTestContext context) {
+        // Few chunks: the virtual display of GitHub Actions renders in software, and loading the world has a timeout
+        context.runOnClient(client -> {
+            client.options.renderDistance().set(4);
+            client.options.simulationDistance().set(5);
+        });
         try (TestSingleplayerContext world = context.worldBuilder().create()) {
             // No fall damage while the tests teleport the player around
             world.getServer().runCommand("gamemode creative @a");
