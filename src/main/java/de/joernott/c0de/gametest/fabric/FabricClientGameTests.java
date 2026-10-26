@@ -23,10 +23,12 @@ public class FabricClientGameTests implements FabricClientGameTest {
 
     @Override
     public void runTest(ClientGameTestContext context) {
-        // Few chunks: the virtual display of GitHub Actions renders in software, and loading the world has a timeout
+        // GitHub Actions renders in software; the server waits for each frame of the client, and loading the world has
+        // a timeout: few chunks and no blur behind screens (the blur of the loading screen is very slow in software)
         context.runOnClient(client -> {
             client.options.renderDistance().set(4);
             client.options.simulationDistance().set(5);
+            client.options.menuBackgroundBlurriness().set(0);
         });
         try (TestSingleplayerContext world = context.worldBuilder().create()) {
             // No fall damage while the tests teleport the player around
