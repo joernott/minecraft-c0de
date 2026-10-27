@@ -605,3 +605,14 @@ please go ahead
 ## 2026-10-26 – Release 0.2.0
 
 please go on and do the release
+
+## 2026-10-27 – Sprint 13
+
+Let's resume previous session for minecraft-code, I have some new features I want to go into a new sprint:
+First of all I encountered a problemwotking with a timer trigger: The initial delay 20 is too fast. As soon as it is configured, there is basically no chance to change anything, because timer always starts a new process faster than I can react.. To fix that, Timers should be disabled while receiving a redstone signal.
+
+Then I have a few more changes I want to introduce:
+- Disk drive: The dynamic texts, e.g. "Saved as" are cut off by the GUI elements. Reserve 2 proper lines in a text box for those messages and make the dialog a bit larger. Also, it would be cool if the drive makes a short sound when reading/writing to a disk, similar to the video https://www.youtube.com/watch?v=ZnFQZa8SKP8 after 7:30.
+- Struct Sheet made available (ro)
+- Struct PID made available (ro)
+- Colors on screen should be supported, some pre defined constants should allow easy access
