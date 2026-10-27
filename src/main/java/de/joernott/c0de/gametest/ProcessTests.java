@@ -183,9 +183,11 @@ public final class ProcessTests {
         helper.assertTrue(
                 timer.configure(helper.makeMockServerPlayerInLevel(), "timed", "pair", 1).isEmpty(),
                 "The timer block can't be configured");
-        helper.assertTrue(
-                timer.getBlockState().getValue(TriggerBlock.POWERED), "The timer block placed at a signal is unpowered");
         helper.runAfterDelay(10, () -> {
+            // The block placed without a player checks the signal in its first tick
+            helper.assertTrue(
+                    timer.getBlockState().getValue(TriggerBlock.POWERED),
+                    "The timer block placed at a signal is unpowered");
             helper.assertTrue(
                     !timer.isRunning() && timer.exitCode() < 0, "The paused timer block started a process");
             helper.setBlock(signal, Blocks.AIR);

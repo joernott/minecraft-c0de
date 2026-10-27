@@ -9,12 +9,14 @@ import de.joernott.c0de.item.WrenchItem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 //? if <1.21.2
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
@@ -165,13 +167,29 @@ public class TriggerBlock extends Block implements EntityBlock {
 
     /**
      * A block placed next to a redstone signal that is already on is powered from the start: a timer block is
-     * paused, a trigger block waits for the next rising edge.
+     * paused, a trigger block waits for the next rising edge (task 13.1).
+     */
+    @Override
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        return defaultBlockState().setValue(POWERED, context.getLevel().hasNeighborSignal(context.getClickedPos()));
+    }
+
+    /**
+     * Blocks placed without a player (commands, structures) check the signal in the next tick: changing the state
+     * while it is placed would leave the block entity with the state from before.
      */
     @Override
     protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
         super.onPlace(state, level, pos, oldState, movedByPiston);
+        if (!oldState.is(state.getBlock())) {
+            level.scheduleTick(pos, this, 1);
+        }
+    }
+
+    @Override
+    protected void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         boolean powered = level.hasNeighborSignal(pos);
-        if (!oldState.is(state.getBlock()) && powered != state.getValue(POWERED)) {
+        if (powered != state.getValue(POWERED)) {
             level.setBlock(pos, state.setValue(POWERED, powered), Block.UPDATE_CLIENTS);
         }
     }
