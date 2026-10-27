@@ -10,7 +10,7 @@ A program on a sheet does nothing by itself. Trigger blocks start it, feed it da
 
 Trigger blocks work in every dimension. In the c0de dimension, you can only place them on the black floor outside the sheets.
 
-A redstone signal pauses a timer block. Use a lever to switch it off.
+A redstone signal pauses a timer block. Use a lever to switch it off. As a sheet is protected while its program runs, pause a fast timer before you change the program; its dialog then shows "Paused by redstone".
 
 ## The trigger dialog
 

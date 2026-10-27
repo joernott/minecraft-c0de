@@ -166,6 +166,11 @@ public class NeoForgeGameTests {
         ProcessTests.processesTakeOnlyTheItemsTheyUse(helper);
     }
 
+    @GameTest(template = "empty", timeoutTicks = 120)
+    public static void redstonePausesTimers(GameTestHelper helper) {
+        ProcessTests.redstonePausesTimers(helper);
+    }
+
     @GameTest(template = "empty")
     public static void triggerBlocksCanBeChained(GameTestHelper helper) {
         ProcessTests.triggerBlocksCanBeChained(helper);

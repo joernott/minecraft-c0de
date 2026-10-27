@@ -17,7 +17,7 @@ A trigger block can't start a process if
   - the input inventory does not contain an item for every parameter of the function that has no default value,
   - the function has more results than parameters and the input inventory does not contain enough empty variable items to make up the difference,
   - its output inventory has not enough empty slots for the items the process returns (one per result, one empty variable item per parameter item without result, and the initialized items it passes through), or
-  - (timer block only) it receives a redstone signal. A redstone signal pauses a timer block.
+  - (timer block only) it receives a redstone signal. A redstone signal pauses a timer block. A trigger or timer block placed next to a signal that is already on counts as powered from the start (a trigger block waits for the next rising edge). The dialog of a paused timer block says so.
 
 Each trigger block has an owner (the player who configured it last, see [Owner and permissions](12-lib-minecraft.md#owner-and-permissions)), a property that contains the PID while a process is running, two properties that specify the program and the function to run, and a property that contains the exit code and the error of the last process. A timer block also has a property specifying the interval between activations. The user can set these properties in a dialog that opens when the block is right-clicked; once a trigger block has an owner, only the owner and administrators can change its configuration. The dialog has the following elements:
   - a display of the PID of the currently running process

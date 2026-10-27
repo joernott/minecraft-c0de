@@ -1,6 +1,7 @@
 package de.joernott.c0de.gametest;
 
 import de.joernott.c0de.block.OperatorBlock;
+import de.joernott.c0de.block.TriggerBlock;
 import de.joernott.c0de.blockentity.TriggerBlockEntity;
 import de.joernott.c0de.compat.Nbt;
 import de.joernott.c0de.content.C0deBlocks;
@@ -156,6 +157,50 @@ public final class ProcessTests {
                 SheetValidation.validate(level, 514);
             }
             helper.succeed();
+        });
+    }
+
+    /**
+     * A timer block placed next to a redstone signal is paused and starts no process; it starts again when the
+     * signal goes off (task 13.1).
+     */
+    public static void redstonePausesTimers(GameTestHelper helper) {
+        ServerLevel level = c0de(helper);
+        SheetBuilder sheet = new SheetBuilder(level, 535).place("""
+                PROGRAM timed
+                NOOP
+                FUNCTION pair
+                    RESULT first INTEGER
+                BEGIN
+                    ASSIGN first 1 ;
+                END FUNCTION
+                """);
+        SheetValidation.validate(level, 535);
+        BlockPos signal = new BlockPos(1, 0, 0);
+        helper.setBlock(signal, Blocks.REDSTONE_BLOCK);
+        helper.setBlock(BlockPos.ZERO, C0deBlocks.TIMER_BLOCK.get());
+        TriggerBlockEntity timer = (TriggerBlockEntity) TestCompat.blockEntity(helper, BlockPos.ZERO);
+        helper.assertTrue(
+                timer.configure(helper.makeMockServerPlayerInLevel(), "timed", "pair", 1).isEmpty(),
+                "The timer block can't be configured");
+        helper.assertTrue(
+                timer.getBlockState().getValue(TriggerBlock.POWERED), "The timer block placed at a signal is unpowered");
+        helper.runAfterDelay(10, () -> {
+            helper.assertTrue(
+                    !timer.isRunning() && timer.exitCode() < 0, "The paused timer block started a process");
+            helper.setBlock(signal, Blocks.AIR);
+            TestCompat.await(helper, () -> timer.isRunning() || timer.exitCode() >= 0, () -> {
+                try {
+                    helper.assertTrue(
+                            timer.isRunning() || timer.exitCode() >= 0, "The timer block didn't start without signal");
+                } finally {
+                    // Removing the timer block stops its process and its interval
+                    helper.setBlock(BlockPos.ZERO, Blocks.AIR);
+                    sheet.clear();
+                    SheetValidation.validate(level, 535);
+                }
+                helper.succeed();
+            });
         });
     }
 

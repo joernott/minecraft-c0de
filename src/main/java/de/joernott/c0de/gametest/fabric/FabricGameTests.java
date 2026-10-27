@@ -165,6 +165,11 @@ public class FabricGameTests {
         ProcessTests.processesTakeOnlyTheItemsTheyUse(helper);
     }
 
+    @GameTest(template = SmokeTests.EMPTY_STRUCTURE, timeoutTicks = 120)
+    public void redstonePausesTimers(GameTestHelper helper) {
+        ProcessTests.redstonePausesTimers(helper);
+    }
+
     @GameTest(template = SmokeTests.EMPTY_STRUCTURE, timeoutTicks = 100)
     public void triggerBlocksCanBeChained(GameTestHelper helper) {
         ProcessTests.triggerBlocksCanBeChained(helper);

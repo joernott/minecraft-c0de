@@ -163,6 +163,19 @@ public class TriggerBlock extends Block implements EntityBlock {
         }
     }
 
+    /**
+     * A block placed next to a redstone signal that is already on is powered from the start: a timer block is
+     * paused, a trigger block waits for the next rising edge.
+     */
+    @Override
+    protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
+        super.onPlace(state, level, pos, oldState, movedByPiston);
+        boolean powered = level.hasNeighborSignal(pos);
+        if (!oldState.is(state.getBlock()) && powered != state.getValue(POWERED)) {
+            level.setBlock(pos, state.setValue(POWERED, powered), Block.UPDATE_CLIENTS);
+        }
+    }
+
     @Override
     protected RenderShape getRenderShape(BlockState state) {
         return state.getValue(CAMOUFLAGED) ? RenderShape.INVISIBLE : RenderShape.MODEL;

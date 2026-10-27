@@ -10,16 +10,19 @@ import de.joernott.c0de.platform.Platform;
 import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.level.block.state.BlockState;
 
 /**
  * The dialog of a trigger block (docs/concept/13-running-programs.md): the input and output inventories on the
@@ -249,6 +252,9 @@ public class TriggerScreen extends AbstractContainerScreen<TriggerMenu> {
                         "dialog.c0de.trigger.error_at", Nbt.string(error, "context"), Nbt.string(error, "line")));
             }
         }
+        if (timer && paused()) {
+            state.add(Component.translatable("dialog.c0de.trigger.paused").withStyle(ChatFormatting.DARK_BLUE));
+        }
         String status = Nbt.string(menu.data(), "status");
         if (!status.isEmpty() && menu.pid() < 0) {
             state.add(Component.literal(status).withStyle(ChatFormatting.DARK_RED));
@@ -258,6 +264,16 @@ public class TriggerScreen extends AbstractContainerScreen<TriggerMenu> {
             state.add(Component.translatable("dialog.c0de.trigger.owner", owner));
         }
         return state;
+    }
+
+    /** True if a redstone signal pauses the timer block (task 13.1). */
+    private boolean paused() {
+        ClientLevel level = Minecraft.getInstance().level;
+        if (level == null) {
+            return false;
+        }
+        BlockState state = level.getBlockState(menu.pos());
+        return state.hasProperty(TriggerBlock.POWERED) && state.getValue(TriggerBlock.POWERED);
     }
 
     /** The lines of the messages, wrapped to the width of the message box. */

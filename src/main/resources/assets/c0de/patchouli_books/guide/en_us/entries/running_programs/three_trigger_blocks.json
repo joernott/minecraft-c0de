@@ -10,7 +10,11 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Trigger blocks work in every dimension. In the c0de dimension, you can only place them on the black floor outside the sheets.$(br2)A redstone signal pauses a timer block. Use a lever to switch it off."
+      "text": "Trigger blocks work in every dimension. In the c0de dimension, you can only place them on the black floor outside the sheets."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "A redstone signal pauses a timer block. Use a lever to switch it off. As a sheet is protected while its program runs, pause a fast timer before you change the program; its dialog then shows \"Paused by redstone\"."
     }
   ]
 }

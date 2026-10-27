@@ -10,7 +10,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "A redstone signal pauses the timer block. Use a lever to switch it off and on. Like the trigger block, it can be camouflaged with any block in the camouflage slot."
+      "text": "A redstone signal pauses the timer block. Use a lever to switch it off and on. A sheet can't be changed while a process of its program runs, so pause a fast timer before you change its program; the dialog then shows \"Paused by redstone\". A timer block placed next to a signal that is already on starts paused. Like the trigger block, it can be camouflaged with any block in the camouflage slot."
     },
     {
       "type": "patchouli:crafting",

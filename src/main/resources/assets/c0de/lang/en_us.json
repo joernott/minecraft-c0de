@@ -67,6 +67,7 @@
   "dialog.c0de.trigger.exit_code": "Exit code %s",
   "dialog.c0de.trigger.error_at": "in %s, line %s",
   "dialog.c0de.trigger.owner": "Owner: %s",
+  "dialog.c0de.trigger.paused": "Paused by redstone",
   "item.c0de.wrench": "Wrench",
   "message.c0de.no_dimension": "The c0de dimension doesn't exist in this world.",
   "message.c0de.not_saved": "Not saved: %s",
