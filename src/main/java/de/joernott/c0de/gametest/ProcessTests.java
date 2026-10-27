@@ -176,10 +176,12 @@ public final class ProcessTests {
                 END FUNCTION
                 """);
         SheetValidation.validate(level, 535);
-        BlockPos signal = new BlockPos(1, 0, 0);
+        // Away from the structure block of the test: next to it, the test hung on NeoForge 1.21.1
+        BlockPos at = new BlockPos(4, 0, 4);
+        BlockPos signal = at.above();
         helper.setBlock(signal, Blocks.REDSTONE_BLOCK);
-        helper.setBlock(BlockPos.ZERO, C0deBlocks.TIMER_BLOCK.get());
-        TriggerBlockEntity timer = (TriggerBlockEntity) TestCompat.blockEntity(helper, BlockPos.ZERO);
+        helper.setBlock(at, C0deBlocks.TIMER_BLOCK.get());
+        TriggerBlockEntity timer = (TriggerBlockEntity) TestCompat.blockEntity(helper, at);
         helper.assertTrue(
                 timer.configure(helper.makeMockServerPlayerInLevel(), "timed", "pair", 1).isEmpty(),
                 "The timer block can't be configured");
@@ -202,7 +204,7 @@ public final class ProcessTests {
                                     + ", status " + timer.status());
                 } finally {
                     // Removing the timer block stops its process and its interval
-                    helper.setBlock(BlockPos.ZERO, Blocks.AIR);
+                    helper.setBlock(at, Blocks.AIR);
                     sheet.clear();
                     SheetValidation.validate(level, 535);
                 }
