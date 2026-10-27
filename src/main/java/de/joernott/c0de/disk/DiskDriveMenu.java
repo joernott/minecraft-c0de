@@ -1,9 +1,11 @@
 package de.joernott.c0de.disk;
 
 import de.joernott.c0de.content.C0deMenus;
+import de.joernott.c0de.content.C0deSounds;
 import de.joernott.c0de.item.DiskItem;
 import java.util.Optional;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -15,9 +17,15 @@ import net.minecraft.world.item.ItemStack;
 /** The dialog of a disk drive: the slot of the disk and the player inventory. */
 public class DiskDriveMenu extends AbstractContainerMenu {
     public static final int SLOT = 18;
-    public static final int DISK_X = 80;
+    /** The width of the dialog (task 13.2), with the player inventory in the middle. */
+    public static final int WIDTH = 200;
+    public static final int INVENTORY_X = (WIDTH - 9 * SLOT) / 2;
+    public static final int DISK_X = (WIDTH - 16) / 2;
     public static final int DISK_Y = 24;
-    public static final int PLAYER_Y = 74;
+    /** The box of the messages: two lines below the name of the disk. */
+    public static final int MESSAGES_Y = 58;
+    public static final int MESSAGES_HEIGHT = 24;
+    public static final int PLAYER_Y = MESSAGES_Y + MESSAGES_HEIGHT + 14;
     public static final int HOTBAR_Y = PLAYER_Y + 3 * SLOT + 4;
 
     private final DiskDriveBlockEntity drive;
@@ -50,11 +58,11 @@ public class DiskDriveMenu extends AbstractContainerMenu {
         });
         for (int row = 0; row < 3; row++) {
             for (int column = 0; column < 9; column++) {
-                addSlot(new Slot(inventory, column + row * 9 + 9, 8 + column * SLOT, PLAYER_Y + row * SLOT));
+                addSlot(new Slot(inventory, column + row * 9 + 9, INVENTORY_X + column * SLOT, PLAYER_Y + row * SLOT));
             }
         }
         for (int column = 0; column < 9; column++) {
-            addSlot(new Slot(inventory, column, 8 + column * SLOT, HOTBAR_Y));
+            addSlot(new Slot(inventory, column, INVENTORY_X + column * SLOT, HOTBAR_Y));
         }
     }
 
@@ -80,7 +88,16 @@ public class DiskDriveMenu extends AbstractContainerMenu {
         }
         disk.setChanged();
         broadcastChanges();
+        sound();
         return Optional.empty();
+    }
+
+    /** Lets the drive sound as it reads or writes its disk, for the players around it (on the server). */
+    public void sound() {
+        if (drive != null && drive.getLevel() != null) {
+            drive.getLevel()
+                    .playSound(null, drive.getBlockPos(), C0deSounds.DISK_DRIVE.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+        }
     }
 
     @Override

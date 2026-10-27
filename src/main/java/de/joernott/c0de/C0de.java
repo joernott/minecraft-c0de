@@ -4,6 +4,7 @@ import de.joernott.c0de.content.C0deBlockEntities;
 import de.joernott.c0de.content.C0deBlocks;
 import de.joernott.c0de.content.C0deEntities;
 import de.joernott.c0de.content.C0deMenus;
+import de.joernott.c0de.content.C0deSounds;
 import de.joernott.c0de.content.GuideBook;
 import de.joernott.c0de.content.C0deItems;
 import de.joernott.c0de.core.config.C0deConfig;
@@ -45,6 +46,7 @@ public final class C0de {
         C0deItems.register();
         C0deEntities.register();
         C0deMenus.register();
+        C0deSounds.register();
         DialogService.register();
         TriggerService.register();
         de.joernott.c0de.io.IoService.register();

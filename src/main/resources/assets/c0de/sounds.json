@@ -1,0 +1,9 @@
+{
+  "disk_drive": {
+    "subtitle": "subtitles.c0de.disk_drive",
+    "sounds": [
+      "c0de:disk_drive1",
+      "c0de:disk_drive2"
+    ]
+  }
+}

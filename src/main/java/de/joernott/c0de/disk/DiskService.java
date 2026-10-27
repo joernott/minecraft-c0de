@@ -7,6 +7,7 @@ import de.joernott.c0de.core.line.Sheet;
 import de.joernott.c0de.core.sheet.SheetGeometry;
 import de.joernott.c0de.core.yaml.ProgramYaml;
 import de.joernott.c0de.item.DiskItem;
+import de.joernott.c0de.network.DiskSavedPayload;
 import de.joernott.c0de.network.DiskUploadPayload;
 import de.joernott.c0de.network.OpenDialogPayload;
 import de.joernott.c0de.platform.Platform;
@@ -47,6 +48,12 @@ public final class DiskService {
     /** Registers the payload of the disk drive. Called once when the mod is initialized. */
     public static void register() {
         Platform.INSTANCE.registerServerbound(DiskUploadPayload.TYPE, DiskUploadPayload.CODEC, DiskService::upload);
+        Platform.INSTANCE.registerServerbound(
+                DiskSavedPayload.TYPE, DiskSavedPayload.CODEC, (payload, player) -> {
+                    if (player.containerMenu instanceof DiskDriveMenu menu && menu.disk().getItem() instanceof DiskItem) {
+                        menu.sound();
+                    }
+                });
     }
 
     /** A part of a program for the disk in the drive the player has open; the last part writes it onto the disk. */

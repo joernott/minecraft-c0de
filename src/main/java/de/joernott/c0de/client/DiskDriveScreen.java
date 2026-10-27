@@ -3,6 +3,7 @@ package de.joernott.c0de.client;
 import de.joernott.c0de.client.dialog.Panels;
 import de.joernott.c0de.disk.DiskDriveMenu;
 import de.joernott.c0de.item.DiskItem;
+import de.joernott.c0de.network.DiskSavedPayload;
 import de.joernott.c0de.network.DiskUploadPayload;
 import de.joernott.c0de.platform.Platform;
 import java.io.IOException;
@@ -12,6 +13,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
 
@@ -25,6 +27,8 @@ public class DiskDriveScreen extends AbstractContainerScreen<DiskDriveMenu> {
     private static final int SLOT_DARK = 0xFF373737;
     private static final int SLOT_LIGHT = 0xFFFFFFFF;
     private static final int SLOT_INSIDE = 0xFF8B8B8B;
+    private static final int MESSAGES_BACKGROUND = 0xFFDADADA;
+    private static final int MESSAGES_LINES = 2;
     private static final int PAGE_SIZE = 5;
 
     private Button save;
@@ -36,12 +40,13 @@ public class DiskDriveScreen extends AbstractContainerScreen<DiskDriveMenu> {
 
     public DiskDriveScreen(DiskDriveMenu menu, Inventory inventory, Component title) {
         //? if >=26.1 {
-        /*super(menu, inventory, title, 176, DiskDriveMenu.HOTBAR_Y + 24);
+        /*super(menu, inventory, title, DiskDriveMenu.WIDTH, DiskDriveMenu.HOTBAR_Y + 24);
         *///?} else {
         super(menu, inventory, title);
-        imageWidth = 176;
+        imageWidth = DiskDriveMenu.WIDTH;
         imageHeight = DiskDriveMenu.HOTBAR_Y + 24;
         //?}
+        inventoryLabelX = DiskDriveMenu.INVENTORY_X;
         inventoryLabelY = DiskDriveMenu.PLAYER_Y - 11;
     }
 
@@ -64,6 +69,7 @@ public class DiskDriveScreen extends AbstractContainerScreen<DiskDriveMenu> {
         DiskItem.Contents contents = DiskItem.Contents.of(menu.disk());
         try {
             LocalPrograms.write(contents.name(), contents.yaml());
+            Platform.INSTANCE.sendToServer(new DiskSavedPayload());
             message = Component.translatable("dialog.c0de.disk_drive.saved", "c0de/" + contents.name() + ".yaml")
                     .withStyle(ChatFormatting.DARK_GREEN);
         } catch (IOException e) {
@@ -156,6 +162,10 @@ public class DiskDriveScreen extends AbstractContainerScreen<DiskDriveMenu> {
             graphics.fill(x + 1, y + 1, x + 18, y + 18, SLOT_LIGHT);
             graphics.fill(x + 1, y + 1, x + 17, y + 17, SLOT_INSIDE);
         }
+        int left = leftPos + 8;
+        int top = topPos + DiskDriveMenu.MESSAGES_Y;
+        graphics.fill(left - 1, top - 1, leftPos + imageWidth - 7, top + DiskDriveMenu.MESSAGES_HEIGHT + 1, SLOT_DARK);
+        graphics.fill(left, top, leftPos + imageWidth - 8, top + DiskDriveMenu.MESSAGES_HEIGHT, MESSAGES_BACKGROUND);
     }
 
     //? if >=26.1 {
@@ -174,9 +184,10 @@ public class DiskDriveScreen extends AbstractContainerScreen<DiskDriveMenu> {
                         ? Component.translatable("item.c0de.c0de_disk.empty")
                         : Component.translatable("item.c0de.c0de_disk.program", contents.name());
         graphics.drawString(font, disk, (imageWidth - font.width(disk)) / 2, DiskDriveMenu.DISK_Y + 22, dark, false);
-        List<net.minecraft.util.FormattedCharSequence> lines = font.split(message, imageWidth - 16);
-        if (!lines.isEmpty()) {
-            graphics.drawString(font, lines.get(0), 8, DiskDriveMenu.DISK_Y + 34, dark, false);
+        // Two lines in the message box; a longer message is cut after the second line
+        List<FormattedCharSequence> lines = font.split(message, imageWidth - 20);
+        for (int i = 0; i < Math.min(MESSAGES_LINES, lines.size()); i++) {
+            graphics.drawString(font, lines.get(i), 10, DiskDriveMenu.MESSAGES_Y + 3 + i * 10, dark, false);
         }
         graphics.drawString(font, playerInventoryTitle, inventoryLabelX, inventoryLabelY, dark, false);
     }

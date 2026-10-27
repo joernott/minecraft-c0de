@@ -68,6 +68,7 @@
   "dialog.c0de.trigger.error_at": "in %s, Zeile %s",
   "dialog.c0de.trigger.owner": "Besitzer: %s",
   "dialog.c0de.trigger.paused": "Durch Redstone angehalten",
+  "subtitles.c0de.disk_drive": "Diskettenlaufwerk rattert",
   "item.c0de.wrench": "Schraubenschlüssel",
   "message.c0de.no_dimension": "Die c0de-Dimension existiert in dieser Welt nicht.",
   "message.c0de.not_saved": "Nicht gespeichert: %s",
