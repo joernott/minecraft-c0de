@@ -27,7 +27,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Your program gives a wrong result. Start it with a debug trigger block and step through it line by line. Right-click the cursor to see the values on its stack."
+      "text": "Your program gives a wrong result. Start it with a debug trigger block and step through it line by line. Right-click the cursor to see the values on its stack and how many of its slots are used. If a deep recursion comes close to the size of the stack, the process crashes with STACK_OVERFLOW."
     }
   ]
 }

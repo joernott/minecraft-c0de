@@ -159,7 +159,9 @@ public final class Inspector {
                     + (Nbt.bool(data, "debug") ? " (debug cursor)" : ""));
             lines.add("function: " + Nbt.string(data, "function"));
             lines.add("trigger: " + Nbt.string(data, "trigger"));
-            lines.add("stack (top first):");
+            // The used stack shows how close a deep recursion is to STACK_OVERFLOW (task 13.8)
+            lines.add("stack: " + Nbt.integer(data, "stackUsed") + " of " + Nbt.integer(data, "stackSize")
+                    + " slots used (top first):");
             Nbt.list(data, "stack", StringTag.TAG_STRING).forEach(item -> lines.add("  " + Nbt.text(item)));
             CompoundTag dialog = new CompoundTag();
             dialog.putString("title", cursor.getName().getString());

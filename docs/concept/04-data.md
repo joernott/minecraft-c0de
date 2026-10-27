@@ -145,6 +145,7 @@ Every program knows the following constants without an INCLUDE. Their names can'
   - `COLOR_BLACK` to `COLOR_WHITE` (INTEGER): the numbers 0 to 15 of the colors of [COLOR](19-input-output.md#screen-functions).
   - `SHEET` of the built-in struct type `SHEET_INFO`: the sheet of the program the process runs.
   - `PID` of the built-in struct type `PID_INFO`: the process itself.
+  - `CURSOR` of the built-in struct type `CURSOR_INFO`: the cursor at the moment the constant is read.
 
 SHEET and PID are filled when a process starts and keep their values while it runs, also across a restart of the server. During validation and without a process (e.g. in tests of the interpreter), they contain the default values of their types. Like every constant, they can't be changed; they can be copied into a variable of their type, e.g. `VARIABLE info STRUCT SHEET_INFO`.
 
@@ -166,6 +167,16 @@ SHEET and PID are filled when a process starts and keep their values while it ru
 | dimension | STRING | The dimension of the trigger block, e.g. `minecraft:overworld`. |
 | debug | BOOLEAN | True for a process of a debug trigger block. |
 | started | INTEGER | The game time of the dimension of the trigger block when the process started, in ticks (see TICKS of [c0de/minecraft](12-lib-minecraft.md)). |
+
+Unlike the other constants, CURSOR changes while the process runs: every time it is read, it describes the cursor as it is in that moment. It can't be changed by the program either.
+
+| Element of CURSOR_INFO | Type | Content |
+|---|---|---|
+| line | INTEGER | The line the cursor processes, i.e. the line that reads CURSOR. |
+| function | STRING | The function the cursor is in. |
+| depth | INTEGER | The number of functions on the stack: 1 in the entry function, 2 in a function it called, and so on. |
+| stack_used | INTEGER | The number of used slots of the stack (variables, functions, code blocks and loops). |
+| stack_size | INTEGER | The number of slots of the stack (setting `stackSize`); a process that needs more crashes with STACK_OVERFLOW. |
 
 ## Variables, constants and literals
 

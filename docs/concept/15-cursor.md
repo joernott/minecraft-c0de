@@ -12,7 +12,7 @@ There are two kinds of cursors: a regular cursor and a debug cursor. The regular
 
   - A regular cursor moves to the next line every tick, if it is allowed to. If the steps of all processes take longer than the `tickBudget` of the configuration (20 ms), the remaining cursors wait for the next tick, in which they go first; measured, a step of 100 processes takes about 0.6 ms (task 11.10).
   - A debug cursor starts in the PAUSED state. Shift-left-clicking it with a debugging tool switches it to the RUNNING state, in which it moves every tick like a regular cursor; shift-left-clicking it again pauses it. Left-clicking a paused debug cursor with a debugging tool moves it by one line.
-  - Right-clicking any cursor with a debugging tool opens a dialog that shows its properties and the content of its stack.
+  - Right-clicking any cursor with a debugging tool opens a dialog that shows its properties, how many slots of its stack are used, and the content of its stack.
 
 When a cursor arrives on a new line, it reads all blocks of the line (and of its continuation lines) and processes them. It is not allowed to move on before the processing is complete.
 
@@ -62,7 +62,7 @@ A function raises a user-defined error by assigning a code of 1000 or higher to 
 
 ### When a cursor is created
 
-When a cursor is created, the list of available functions is initialized with the built-in functions, the list of types with the built-in types and the list of constants with the [built-in constants](04-data.md#built-in-constants) (the names of all [error codes](16-error-codes.md), the colors, and SHEET and PID with the values of the process). The PROGRAM statement has already been validated by the trigger block, so the cursor starts in the line directly after it, which MUST contain a NOOP statement.
+When a cursor is created, the list of available functions is initialized with the built-in functions, the list of types with the built-in types and the list of constants with the [built-in constants](04-data.md#built-in-constants) (the names of all [error codes](16-error-codes.md), the colors, SHEET and PID with the values of the process, and CURSOR, which the cursor computes whenever it is read). The PROGRAM statement has already been validated by the trigger block, so the cursor starts in the line directly after it, which MUST contain a NOOP statement.
 
 ### When a cursor reaches a new line
 

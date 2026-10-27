@@ -14,9 +14,10 @@ import java.util.Map;
 
 /**
  * The built-in struct types and constants of the language (docs/concept/08-builtin-functions.md), like the names of
- * the error codes: SHEET and PID, which describe the sheet and the process a program runs in (tasks 13.4, 13.5), and
- * the names of the colors of COLOR (task 13.6). Without a process, e.g. during validation, SHEET and PID contain
- * default values; the mod passes the real ones in the settings of the cursor.
+ * the error codes: SHEET and PID, which describe the sheet and the process a program runs in (tasks 13.4, 13.5),
+ * CURSOR, which describes the cursor at the moment it is read (task 13.7), and the names of the colors of COLOR
+ * (task 13.6). Without a process, e.g. during validation, SHEET and PID contain default values; the mod passes the
+ * real ones in the settings of the cursor. The cursor computes CURSOR itself.
  */
 public final class BuiltinConstants {
     /** The type of SHEET. */
@@ -45,6 +46,16 @@ public final class BuiltinConstants {
                     element("dimension", Type.Str.UNLIMITED),
                     element("debug", Type.Simple.BOOLEAN),
                     element("started", Type.Simple.INTEGER)));
+
+    /** The type of CURSOR. */
+    public static final StructDefinition CURSOR_INFO = new StructDefinition(
+            "CURSOR_INFO",
+            List.of(
+                    element("line", Type.Simple.INTEGER),
+                    element("function", Type.Str.UNLIMITED),
+                    element("depth", Type.Simple.INTEGER),
+                    element("stack_used", Type.Simple.INTEGER),
+                    element("stack_size", Type.Simple.INTEGER)));
 
     /** The 16 colors of Minecraft text in the order of their numbers 0 to 15, without the prefix COLOR_. */
     public static final List<String> COLORS = List.of(
@@ -77,7 +88,7 @@ public final class BuiltinConstants {
         return TYPES;
     }
 
-    /** The built-in constants with their default values: SHEET, PID and COLOR_BLACK to COLOR_WHITE. */
+    /** The built-in constants with their default values: SHEET, PID, CURSOR and COLOR_BLACK to COLOR_WHITE. */
     public static Map<String, Value> defaults() {
         return CONSTANTS;
     }
@@ -86,6 +97,7 @@ public final class BuiltinConstants {
         Map<String, StructDefinition> types = new LinkedHashMap<>();
         types.put("SHEET_INFO", SHEET_INFO);
         types.put("PID_INFO", PID_INFO);
+        types.put("CURSOR_INFO", CURSOR_INFO);
         return Collections.unmodifiableMap(types);
     }
 
@@ -93,6 +105,7 @@ public final class BuiltinConstants {
         Map<String, Value> constants = new LinkedHashMap<>();
         constants.put("SHEET", new StructValue(SHEET_INFO));
         constants.put("PID", new StructValue(PID_INFO));
+        constants.put("CURSOR", new StructValue(CURSOR_INFO));
         for (int i = 0; i < COLORS.size(); i++) {
             constants.put("COLOR_" + COLORS.get(i), new IntegerValue(i));
         }
@@ -148,6 +161,25 @@ public final class BuiltinConstants {
         value.set("debug", BooleanValue.of(debug));
         value.set("started", new IntegerValue(started));
         return value;
+    }
+
+    /**
+     * The value of CURSOR.
+     *
+     * @param line the line the cursor processes
+     * @param function the function the cursor is in, or the empty string in the global scope
+     * @param depth the number of functions on the stack: 1 in the entry function
+     * @param stackUsed the number of used slots of the stack
+     * @param stackSize the number of slots of the stack
+     */
+    public static StructValue cursor(long line, String function, long depth, long stackUsed, long stackSize) {
+        StructValue cursor = new StructValue(CURSOR_INFO);
+        cursor.set("line", new IntegerValue(line));
+        cursor.set("function", new StringValue(function));
+        cursor.set("depth", new IntegerValue(depth));
+        cursor.set("stack_used", new IntegerValue(stackUsed));
+        cursor.set("stack_size", new IntegerValue(stackSize));
+        return cursor;
     }
 
     private static StructDefinition.Element element(String name, Type type) {

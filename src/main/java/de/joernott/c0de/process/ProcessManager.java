@@ -691,6 +691,8 @@ public class ProcessManager extends C0deSavedData {
         data.putInt("line", cursor.line());
         data.putString("state", cursor.state().name());
         data.putString("function", cursor.currentFunction());
+        data.putInt("stackUsed", cursor.stackUsed());
+        data.putInt("stackSize", cursor.settings().stackSize());
         data.putBoolean("debug", process.debug());
         data.putString("trigger", process.triggerLevel().location() + " " + process.triggerPos().getX() + " "
                 + process.triggerPos().getY() + " " + process.triggerPos().getZ());

@@ -47,7 +47,7 @@ A task is done when
 | 10 | c0de/minecraft and c0de disk | Programs interact with the world; programs are imported and exported as YAML | ✅ |
 | 11 | Release 0.1.0 for 1.21.1 | Polished, documented and published first alpha of the mod |  |
 | 12 | Newer Minecraft versions | The mod is released for 1.21.x and 26.x |  |
-| 13 | Usability, process information and colors (0.3.0) | Pausable timers, a better disk drive, the built-in constants SHEET, PID and COLOR_* |  |
+| 13 | Usability, process information and colors (0.3.0) | Pausable timers, a better disk drive, the built-in constants SHEET, PID, CURSOR and COLOR_*, the used stack in the cursor dialog |  |
 
 ## Sprint 0: Concept and plan
 
@@ -324,7 +324,9 @@ After sprint 12, every new Minecraft release is added as a new node in its own s
 | 13.4 | Built-in constant SHEET of the built-in struct type SHEET_INFO: number, x, y, z (of the start of the sheet), owner and program of the sheet the process runs on. Read-only like every constant. |  |
 | 13.5 | Built-in constant PID of the built-in struct type PID_INFO: pid, program, function, owner, activator, the position of the trigger block (x, y, z, dimension), debug and the start time in ticks. Kept when the process is restored after a restart. |  |
 | 13.6 | Built-in INTEGER constants COLOR_BLACK … COLOR_WHITE with the names of the 16 Minecraft text colors for COLOR; concept, handbook and guide example. |  |
-| 13.7 | Release 0.3.0 for all Minecraft versions. |  |
+| 13.7 | Built-in constant CURSOR of the built-in struct type CURSOR_INFO: line, function, depth of the calls, used slots and size of the stack, computed whenever it is read. Read-only like every constant. |  |
+| 13.8 | The cursor dialog of the debugging tool shows how many slots of the stack are used. |  |
+| 13.9 | Release 0.3.0 for all Minecraft versions. |  |
 
 ## Risks
 

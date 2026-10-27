@@ -36,7 +36,7 @@ Conventions:
 
 The input and output functions PRINT, WRITE and INPUT and the screen functions CLS, LOCATE, CSRLIN, POS, COLOR and INKEY are built-in functions too; they are described in [Input and output](19-input-output.md).
 
-Besides the functions, every program has [built-in constants](04-data.md#built-in-constants): the names of the error codes, the color numbers `COLOR_BLACK` to `COLOR_WHITE`, and `SHEET` and `PID` with information about the sheet and the process.
+Besides the functions, every program has [built-in constants](04-data.md#built-in-constants): the names of the error codes, the color numbers `COLOR_BLACK` to `COLOR_WHITE`, `SHEET` and `PID` with information about the sheet and the process, and `CURSOR` with the state of the cursor.
 
 ## Built-in functions
 

@@ -249,7 +249,7 @@ class ValidatorTest {
         assertTrue(inLoop.function("main").isPresent(), "recursion");
         assertTrue(inLoop.function("c0de/math/SIN").isPresent());
         assertTrue(inLoop.function("LEN").isPresent());
-        assertEquals(List.of("SHEET_INFO", "PID_INFO", "point"), inLoop.structTypes());
+        assertEquals(List.of("SHEET_INFO", "PID_INFO", "CURSOR_INFO", "point"), inLoop.structTypes());
 
         List<String> afterLoop = Validator.visibleAt(Notation.parse(program), LIBRARIES, 17).symbols().stream()
                 .map(Symbol::name)

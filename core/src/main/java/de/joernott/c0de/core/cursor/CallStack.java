@@ -12,24 +12,29 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 /**
  * The stack of a cursor. It resolves names lexically: the variables of the current function (from the top
  * down to the function item), then the global variables declared before the current function, then the
- * constants of included libraries and the built-in constants.
+ * constants that are computed when they are read (CURSOR), the constants of included libraries and the built-in
+ * constants.
  */
 final class CallStack implements Scope {
     private final List<StackItem> items = new ArrayList<>();
     private final int limit;
     private final Map<String, Value> constants;
+    private final Map<String, Supplier<Value>> computed;
 
     /**
      * @param limit the number of slots
      * @param constants the constants of libraries (with qualified names) and the built-in constants
+     * @param computed the constants whose values are computed when they are read
      */
-    CallStack(int limit, Map<String, Value> constants) {
+    CallStack(int limit, Map<String, Value> constants, Map<String, Supplier<Value>> computed) {
         this.limit = limit;
         this.constants = constants;
+        this.computed = computed;
     }
 
     /** Pushes an item. Crashes with STACK_OVERFLOW if the stack is full. */
@@ -97,6 +102,16 @@ final class CallStack implements Scope {
         return items.size();
     }
 
+    /** The number of slots. */
+    int limit() {
+        return limit;
+    }
+
+    /** The number of function items: the depth of the calls. */
+    int depth() {
+        return (int) items.stream().filter(FunctionFrame.class::isInstance).count();
+    }
+
     List<StackItem> items() {
         return items;
     }
@@ -124,7 +139,8 @@ final class CallStack implements Scope {
                 return Optional.of(variable.variable());
             }
         }
-        Value constant = constants.get(name);
+        Supplier<Value> value = computed.get(name);
+        Value constant = value != null ? value.get() : constants.get(name);
         if (constant != null) {
             return Optional.of(new Variable(name, constant.type(), constant, true, Map.of()));
         }

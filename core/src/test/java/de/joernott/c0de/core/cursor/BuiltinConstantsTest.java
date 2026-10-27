@@ -16,6 +16,7 @@ import de.joernott.c0de.core.line.Notation;
 import de.joernott.c0de.core.validation.Validation;
 import de.joernott.c0de.core.validation.Validator;
 import de.joernott.c0de.core.value.BooleanValue;
+import de.joernott.c0de.core.value.IntegerValue;
 import de.joernott.c0de.core.value.Value;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
@@ -105,6 +106,51 @@ class BuiltinConstantsTest {
                 program(text), "main", Map.of(), settings(new LibraryRegistry()).withConstants(process()));
         cursor.run(1_000);
         assertEquals(integer(1424), finished(cursor).get("x"));
+    }
+
+    @Test
+    void cursorDescribesTheCursorWhenItIsRead() {
+        // The header takes the lines 0 and 1, so the ASSIGN in inner is line 5
+        Map<String, Value> results = finished(run("""
+                FUNCTION inner
+                    RESULT info STRUCT CURSOR_INFO
+                BEGIN
+                    ASSIGN info CURSOR ;
+                END FUNCTION
+                NOOP
+                FUNCTION main
+                    RESULT line INTEGER
+                    RESULT function STRING
+                    RESULT depth INTEGER
+                    RESULT used INTEGER
+                    RESULT size INTEGER
+                BEGIN
+                    VARIABLE info STRUCT CURSOR_INFO
+                    CALL inner
+                        RESULT info info
+                    ASSIGN line info.line ;
+                    ASSIGN function info.function ;
+                    ASSIGN depth info.depth ;
+                    ASSIGN used info.stack_used ;
+                    ASSIGN size info.stack_size ;
+                END FUNCTION
+                """, "main"));
+        assertEquals(integer(5), results.get("line"));
+        assertEquals(string("inner"), results.get("function"));
+        assertEquals(integer(2), results.get("depth"));
+        long used = ((IntegerValue) results.get("used")).value();
+        assertTrue(used > 2 && used < 20, () -> "stack used: " + used);
+        assertEquals(integer(CursorSettings.DEFAULT_STACK_SIZE), results.get("size"));
+    }
+
+    @Test
+    void cursorIsReadOnly() {
+        assertEquals(Map.of(4, ErrorCode.SYNTAX_ERROR_ASSIGN), problems("""
+                        FUNCTION main
+                        BEGIN
+                            ASSIGN CURSOR.line 1 ;
+                        END FUNCTION
+                        """));
     }
 
     @Test

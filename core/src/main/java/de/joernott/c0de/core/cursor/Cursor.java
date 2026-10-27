@@ -90,7 +90,7 @@ public final class Cursor {
         this.inputs = Map.copyOf(inputs);
         this.settings = settings;
         this.random = new C0deRandom(settings.randomSeed());
-        this.stack = new CallStack(settings.stackSize(), constants);
+        this.stack = new CallStack(settings.stackSize(), constants, Map.of("CURSOR", this::cursorInfo));
         constants.putAll(ErrorCode.builtinConstants());
         BuiltinConstants.types().forEach(types::add);
         constants.putAll(BuiltinConstants.defaults());
@@ -142,6 +142,16 @@ public final class Cursor {
     /** The number of steps the cursor still waits (SLEEP). */
     public int waitSteps() {
         return waitSteps;
+    }
+
+    /** The number of used slots of the stack (shown by the debugging tool, task 13.8). */
+    public int stackUsed() {
+        return stack.size();
+    }
+
+    /** The value of the built-in constant CURSOR (task 13.7): the cursor as it is now. */
+    private Value cursorInfo() {
+        return BuiltinConstants.cursor(line, currentFunction(), stack.depth(), stack.size(), stack.limit());
     }
 
     /** The name of the function the cursor is in, or the empty string in the global scope. */

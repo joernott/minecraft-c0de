@@ -18,7 +18,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Every program also has a few constants it doesn't declare. $(1)SHEET$() describes its sheet, e.g. $(1)SHEET.number$() and $(1)SHEET.owner$(). $(1)PID$() describes the running process, e.g. $(1)PID.pid$(), $(1)PID.activator$() (who started it) and $(1)PID.x$(), $(1)PID.y$(), $(1)PID.z$() (where its trigger block is). The names of the errors and of the colors are constants too."
+      "text": "Every program also has a few constants it doesn't declare. $(1)SHEET$() describes its sheet, e.g. $(1)SHEET.number$() and $(1)SHEET.owner$(). $(1)PID$() describes the running process, e.g. $(1)PID.pid$(), $(1)PID.activator$() (who started it) and $(1)PID.x$(), $(1)PID.y$(), $(1)PID.z$() (where its trigger block is). $(1)CURSOR$() describes the cursor right now: $(1)CURSOR.line$(), $(1)CURSOR.function$(), $(1)CURSOR.depth$() and how much of its stack is used, $(1)CURSOR.stack_used$() of $(1)CURSOR.stack_size$(). The names of the errors and of the colors are constants too."
     }
   ]
 }
