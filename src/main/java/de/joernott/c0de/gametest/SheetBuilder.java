@@ -24,14 +24,14 @@ final class SheetBuilder {
     private final int sheet;
     private final List<BlockPos> placed = new ArrayList<>();
 
-    /** Loads the chunks of the first 48 lines of the sheet. */
+    /** Loads the chunks of the first 96 lines of the sheet. */
     SheetBuilder(ServerLevel level, int sheet) {
         this.level = level;
         this.sheet = sheet;
         // The mock players of earlier runs, which may have claimed the sheet, don't exist any more
         SheetOwners.get(level).release(level.getServer(), sheet);
         int chunkX = SheetGeometry.absoluteX(sheet, 0) >> 4;
-        for (int chunkZ = 0; chunkZ < 3; chunkZ++) {
+        for (int chunkZ = 0; chunkZ < 6; chunkZ++) {
             for (ChunkPos chunk : List.of(new ChunkPos(chunkX, chunkZ), new ChunkPos(chunkX + 1, chunkZ))) {
                 ChunkTickets.addTemporary(level, chunk);
                 level.getChunk(chunk.x, chunk.z);
