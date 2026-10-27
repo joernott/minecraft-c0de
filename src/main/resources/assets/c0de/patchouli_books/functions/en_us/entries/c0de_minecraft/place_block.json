@@ -6,15 +6,23 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "Places a block at a position.$(br2)The position must hold air or a replaceable block like grass or water, otherwise INVALID_ARGUMENT is raised. This needs allowBlockChanges or an administrator as owner, otherwise PERMISSION_DENIED is raised."
+      "text": "Places a block at a position."
     },
     {
       "type": "patchouli:text",
-      "text": "$(li)$(1)position$() STRUCT c0de/minecraft/POSITION: where the block goes$(li)$(1)id$() STRING: the block ID, e.g. minecraft:stone$(li)$(1)properties$() HASH STRING: block states such as facing (optional, default empty)"
+      "text": "The position must hold air or a replaceable block like grass or water, otherwise INVALID_ARGUMENT is raised. Without $(1)inventory$(), this needs allowBlockChanges or an administrator as owner, otherwise PERMISSION_DENIED is raised."
     },
     {
       "type": "patchouli:text",
-      "text": "$(1)CALL c0de/minecraft/PLACE_BLOCK$(br)  PARAMETER position spot ;$(br)  PARAMETER id \"minecraft:torch\" ;$()"
+      "text": "With $(1)inventory$(), the block is taken from that inventory, like a player places a block from theirs, and every owner may do that. If the inventory doesn't contain the block, ITEM_MISSING is raised."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)position$() STRUCT c0de/minecraft/POSITION: where the block goes$(li)$(1)id$() STRING: the block ID, e.g. minecraft:stone$(li)$(1)properties$() HASH STRING: block states such as facing (optional, default empty)$(li)$(1)inventory$() STRUCT c0de/minecraft/POSITION: a chest or another block with an inventory that the block is taken from (optional)"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/minecraft/PLACE_BLOCK$(br)  PARAMETER position spot ;$(br)  PARAMETER id \"minecraft:torch\" ;$(br)  PARAMETER inventory chest ;$()"
     }
   ]
 }

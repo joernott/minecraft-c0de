@@ -160,6 +160,11 @@ Programs act on behalf of the owner of the trigger block. The world-changing fun
 
 Otherwise they raise PERMISSION_DENIED. Players can only be teleported if the owner is an operator.
 
+Two functions work for every owner, because they only do what a player can do:
+
+- MINE_BLOCK breaks a block with the best tool from a chest (`tool_inventory`). The tool wears out and it takes as long as for a player. The drops go into another chest (`output_inventory`), or fall on the ground. If that chest is full, it raises INVENTORY_FULL.
+- PLACE_BLOCK with the parameter `inventory` takes the block from a chest. If the chest doesn't contain it, it raises ITEM_MISSING.
+
 ## Making music
 
 A short example: play a bell note at the trigger block.

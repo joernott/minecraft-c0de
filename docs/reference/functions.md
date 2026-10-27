@@ -1551,13 +1551,16 @@ CALL c0de/minecraft/DELETE_ITEMS
 
 Places a block at a position.
 
-The position must hold air or a replaceable block like grass or water, otherwise INVALID_ARGUMENT is raised. This needs allowBlockChanges or an administrator as owner, otherwise PERMISSION_DENIED is raised.
+The position must hold air or a replaceable block like grass or water, otherwise INVALID_ARGUMENT is raised. Without `inventory`, this needs allowBlockChanges or an administrator as owner, otherwise PERMISSION_DENIED is raised.
+
+With `inventory`, the block is taken from that inventory, like a player places a block from theirs, and every owner may do that. If the inventory doesn't contain the block, ITEM_MISSING is raised.
 
 **Parameters and results**
 
 - `position` STRUCT c0de/minecraft/POSITION: where the block goes
 - `id` STRING: the block ID, e.g. minecraft:stone
 - `properties` HASH STRING: block states such as facing (optional, default empty)
+- `inventory` STRUCT c0de/minecraft/POSITION: a chest or another block with an inventory that the block is taken from (optional)
 
 **Example**
 
@@ -1565,6 +1568,7 @@ The position must hold air or a replaceable block like grass or water, otherwise
 CALL c0de/minecraft/PLACE_BLOCK
     PARAMETER position spot ;
     PARAMETER id "minecraft:torch" ;
+    PARAMETER inventory chest ;
 ```
 
 ### REMOVE_BLOCK
@@ -1584,6 +1588,29 @@ With `drop`, the block drops as an item like when it is mined. This needs allowB
 CALL c0de/minecraft/REMOVE_BLOCK
     PARAMETER position spot ;
     PARAMETER drop FALSE ;
+```
+
+### MINE_BLOCK
+
+Breaks a block like a player, with a tool from an inventory.
+
+It takes the most suitable tool of `tool_inventory`: first a tool that gets the block and is faster (a pickaxe for cobblestone, shears for leaves), then an item that gets the block, then a faster tool, and otherwise bare hands. Of several equally suitable tools it takes the first one, e.g. the iron pickaxe in slot 0 before the diamond pickaxe in slot 2 for cobblestone; for obsidian it takes the diamond pickaxe.
+
+The tool is damaged as if a player used it, and the program waits as long as a player would need to break the block. The drops go into `output_inventory`; without it, they fall on the ground. If they don't fit into the output inventory, INVENTORY_FULL is raised and the block stays. Bedrock and fluids can't be mined (INVALID_ARGUMENT). Every owner may use MINE_BLOCK, because it only does what players can do.
+
+**Parameters and results**
+
+- `position` STRUCT c0de/minecraft/POSITION: where the block is
+- `tool_inventory` STRUCT c0de/minecraft/POSITION: the block whose inventory holds the tools, e.g. a chest
+- `output_inventory` STRUCT c0de/minecraft/POSITION: the block whose inventory gets the drops (optional)
+
+**Example**
+
+```c0de
+CALL c0de/minecraft/MINE_BLOCK
+    PARAMETER position spot ;
+    PARAMETER tool_inventory tools ;
+    PARAMETER output_inventory chest ;
 ```
 
 ### SPAWN_ITEM

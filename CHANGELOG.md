@@ -12,6 +12,9 @@ Feedback from playing 0.2.0, for all Minecraft versions of 0.2.0.
 - **CURSOR**: a built-in constant that tells a program where its cursor is (line, function, depth) and how much of its stack it uses.
 - **Debugging tool**: the cursor dialog shows how many slots of the stack are used.
 - **Colors**: the constants COLOR_BLACK to COLOR_WHITE name the 16 colors of COLOR.
+- **MINE_BLOCK**: a new function of c0de/minecraft breaks a block with the most suitable tool from an inventory, as fast as a player and with the same wear, and puts the drops into another inventory. Every owner may use it.
+- **PLACE_BLOCK**: the new parameter `inventory` takes the block from an inventory; with it, every owner may place blocks.
+- **Error codes**: INVENTORY_FULL (312) and ITEM_MISSING (313).
 - **Note**: the names SHEET, PID, CURSOR, SHEET_INFO, PID_INFO, CURSOR_INFO and COLOR_BLACK to COLOR_WHITE are now reserved; a program that declares one of them must rename it.
 
 ## 0.2.0

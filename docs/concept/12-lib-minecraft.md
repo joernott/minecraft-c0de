@@ -22,6 +22,19 @@ The library provides the following struct types:
 | `c0de/minecraft/ITEM_STACK` | id STRING, count INTEGER | The content of an inventory slot. An empty slot has the id `""` and the count 0. |
 | `c0de/minecraft/ENTITY` | uuid STRING, type STRING, name STRING, position STRUCT `c0de/minecraft/POSITION` | An entity. `position` is the block position the entity is in. |
 
+## Mining
+
+MINE_BLOCK chooses the tool a player would choose. It sorts the items of the tool inventory into four groups and takes the first item (lowest slot) of the best group:
+
+1. Tools that obtain the block and break it faster than bare hands: a pickaxe for cobblestone, a shovel for dirt, shears for leaves.
+2. Items that obtain the block when bare hands don't, e.g. a pickaxe with Silk Touch for glass. If bare hands obtain the block, they are used instead of these items.
+3. Tools that break the block faster without obtaining it, if bare hands don't obtain it either: a stone pickaxe for obsidian.
+4. Bare hands.
+
+A tool obtains a block if mining it with the tool drops something: for blocks that need the correct tool (stone, ores, obsidian) that tool, for other blocks the block's own item (leaves with shears, dirt with bare hands). So for cobblestone, an iron pickaxe in slot 0 is taken before a stone pickaxe in slot 1 and a diamond pickaxe in slot 2; for obsidian, the diamond pickaxe, the only one that obtains it.
+
+The time is that of a player standing on the ground without effects: 30 ticks (100 ticks without the correct tool) times the hardness of the block, divided by the speed of the tool including Efficiency, rounded up; blocks that break at once take no time. Enchantments such as Fortune, Silk Touch and Unbreaking work as for players; the experience of ores drops at the block.
+
 ## Owner and permissions
 
 Every trigger block has an owner: the player who configured it last. All functions of the library act on behalf of this player.
@@ -31,7 +44,7 @@ Functions that change the world are restricted. A function of a restricted group
 | Configuration key | Default | Functions |
 |---|---|---|
 | `allowInventoryChanges` | false | MOVE_ITEMS, DELETE_ITEMS |
-| `allowBlockChanges` | false | PLACE_BLOCK, REMOVE_BLOCK |
+| `allowBlockChanges` | false | PLACE_BLOCK (without `inventory`), REMOVE_BLOCK |
 | `allowSpawning` | false | SPAWN_ITEM, SPAWN_ENTITY |
 | `allowTeleporting` | false | TELEPORT |
 
@@ -62,8 +75,9 @@ Note: the current implementation makes the changes directly in the level, not as
 | SET_OPEN | position POSITION, open BOOLEAN | – | Opens or closes the door, trapdoor or fence gate at `position`. Iron doors and iron trapdoors, which players can't open by hand, require the permission `allowBlockChanges`. A block on the sheets of the c0de dimension raises PERMISSION_DENIED. | – |
 | MOVE_ITEMS | from POSITION, to POSITION, id STRING, count INTEGER | result INTEGER | Moves up to `count` items with the ID `id` from the inventory at `from` to the inventory at `to`. Returns the number of items that were moved. Restricted. | – |
 | DELETE_ITEMS | position POSITION, id STRING, count INTEGER | result INTEGER | Removes up to `count` items with the ID `id` from the inventory at `position`. Returns the number of removed items. Restricted. | – |
-| PLACE_BLOCK | position POSITION, id STRING, properties HASH STRING (default empty) | – | Places the block `id` with the given block state properties at `position`, which MUST contain air or a replaceable block such as grass or water, otherwise INVALID_ARGUMENT is raised. An unknown block, a property the block does not have or an invalid property value raises INVALID_ARGUMENT. Restricted. | – |
+| PLACE_BLOCK | position POSITION, id STRING, properties HASH STRING (default empty), inventory POSITION (optional) | – | Places the block `id` with the given block state properties at `position`, which MUST contain air or a replaceable block such as grass or water, otherwise INVALID_ARGUMENT is raised. An unknown block, a property the block does not have or an invalid property value raises INVALID_ARGUMENT. With `inventory`, the block is taken from the first stack of its item in that inventory, like a player places a block from their inventory: ITEM_MISSING is raised if there is none, and INVALID_ARGUMENT for blocks without item (e.g. fire). Restricted, unless `inventory` is given. | – |
 | REMOVE_BLOCK | position POSITION, drop BOOLEAN (default true) | – | Removes the block at `position`. If `drop` is true, the block drops as an item like when it is mined. Restricted. | – |
+| MINE_BLOCK | position POSITION, tool_inventory POSITION, output_inventory POSITION (optional) | – | Breaks the block at `position` like a player with the most suitable tool of `tool_inventory` (see below). The tool takes the damage it takes when a player uses it, and the cursor waits as many ticks as a player needs to break the block with it. The drops go into `output_inventory`, or onto the ground without it; if they don't fit, INVENTORY_FULL is raised before anything changes. Air is skipped; unbreakable blocks (bedrock), fluids and the blocks that hold one of the two inventories raise INVALID_ARGUMENT. Not restricted, because it only does what a player can do. | – |
 | SPAWN_ITEM | position POSITION, id STRING, count INTEGER | result STRING | Spawns an item entity with `count` items of `id` at `position` and returns its UUID. `count` MUST be between 1 and 64, otherwise INVALID_ARGUMENT is raised. Restricted. | – |
 | SPAWN_ENTITY | position POSITION, type STRING | result STRING | Spawns an entity of the type `type` (e.g. `minecraft:pig`) at `position` and returns its UUID. An unknown type or a type that can't be spawned raises INVALID_ARGUMENT. Restricted. | – |
 | FIND_ENTITIES | position POSITION, radius INTEGER, type STRING (default empty) | result ARRAY STRUCT ENTITY | All entities (including items) within `radius` blocks of `position`, optionally only those of the type `type` (a full ID such as `minecraft:pig`). `radius` MUST be between 1 and 64, otherwise INVALID_ARGUMENT is raised. The cursor and mark entities of c0de are not returned. | – |

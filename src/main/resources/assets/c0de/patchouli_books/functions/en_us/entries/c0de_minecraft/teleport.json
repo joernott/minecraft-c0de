@@ -2,7 +2,7 @@
   "name": "TELEPORT",
   "icon": "minecraft:book",
   "category": "c0de:c0de_minecraft",
-  "sortnum": 20,
+  "sortnum": 21,
   "pages": [
     {
       "type": "patchouli:text",

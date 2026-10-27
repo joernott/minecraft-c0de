@@ -1,0 +1,28 @@
+{
+  "name": "MINE_BLOCK",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_minecraft",
+  "sortnum": 17,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Breaks a block like a player, with a tool from an inventory."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "It takes the most suitable tool of $(1)tool_inventory$(): first a tool that gets the block and is faster (a pickaxe for cobblestone, shears for leaves), then an item that gets the block, then a faster tool, and otherwise bare hands. Of several equally suitable tools it takes the first one, e.g. the iron pickaxe in slot 0 before the diamond pickaxe in slot 2 for cobblestone; for obsidian it takes the diamond pickaxe."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "The tool is damaged as if a player used it, and the program waits as long as a player would need to break the block. The drops go into $(1)output_inventory$(); without it, they fall on the ground. If they don't fit into the output inventory, INVENTORY_FULL is raised and the block stays. Bedrock and fluids can't be mined (INVALID_ARGUMENT). Every owner may use MINE_BLOCK, because it only does what players can do."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)position$() STRUCT c0de/minecraft/POSITION: where the block is$(li)$(1)tool_inventory$() STRUCT c0de/minecraft/POSITION: the block whose inventory holds the tools, e.g. a chest$(li)$(1)output_inventory$() STRUCT c0de/minecraft/POSITION: the block whose inventory gets the drops (optional)"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/minecraft/MINE_BLOCK$(br)  PARAMETER position spot ;$(br)  PARAMETER tool_inventory tools ;$(br)  PARAMETER output_inventory chest ;$()"
+    }
+  ]
+}

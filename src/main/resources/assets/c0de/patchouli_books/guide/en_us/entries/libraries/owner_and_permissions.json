@@ -10,7 +10,11 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Otherwise they raise PERMISSION_DENIED. Players can only be teleported if the owner is an operator."
+      "text": "Otherwise they raise PERMISSION_DENIED. Players can only be teleported if the owner is an operator.$(br2)Two functions work for every owner, because they only do what a player can do:"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)MINE_BLOCK breaks a block with the best tool from a chest ($(1)tool_inventory$()). The tool wears out and it takes as long as for a player. The drops go into another chest ($(1)output_inventory$()), or fall on the ground. If that chest is full, it raises INVENTORY_FULL.$(li)PLACE_BLOCK with the parameter $(1)inventory$() takes the block from a chest. If the chest doesn't contain it, it raises ITEM_MISSING."
     }
   ]
 }

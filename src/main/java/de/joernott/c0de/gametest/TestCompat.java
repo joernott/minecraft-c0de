@@ -27,7 +27,8 @@ final class TestCompat {
         await(helper, condition, checks, MAX_WAIT);
     }
 
-    private static void await(
+    /** Like {@link #await(GameTestHelper, java.util.function.BooleanSupplier, Runnable)}, for slower tests. */
+    static void await(
             GameTestHelper helper, java.util.function.BooleanSupplier condition, Runnable checks, int ticksLeft) {
         if (condition.getAsBoolean() || ticksLeft <= 0) {
             checks.run();

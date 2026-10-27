@@ -183,6 +183,8 @@ public final class ProcessTests {
         helper.assertTrue(
                 timer.configure(helper.makeMockServerPlayerInLevel(), "timed", "pair", 1).isEmpty(),
                 "The timer block can't be configured");
+        // The value item for the result
+        timer.input().setItem(0, new ItemStack(C0deItems.VARIABLE_ITEM.get()));
         helper.runAfterDelay(10, () -> {
             // The block placed without a player checks the signal in its first tick
             helper.assertTrue(
@@ -194,7 +196,10 @@ public final class ProcessTests {
             TestCompat.await(helper, () -> timer.isRunning() || timer.exitCode() >= 0, () -> {
                 try {
                     helper.assertTrue(
-                            timer.isRunning() || timer.exitCode() >= 0, "The timer block didn't start without signal");
+                            timer.isRunning() || timer.exitCode() >= 0,
+                            "The timer block didn't start without signal: powered "
+                                    + timer.getBlockState().getValue(TriggerBlock.POWERED)
+                                    + ", status " + timer.status());
                 } finally {
                     // Removing the timer block stops its process and its interval
                     helper.setBlock(BlockPos.ZERO, Blocks.AIR);
@@ -441,7 +446,7 @@ public final class ProcessTests {
     /** A process reads its sheet and its PID from the built-in constants SHEET and PID (tasks 13.4, 13.5). */
     public static void processesKnowTheirSheetAndPid(GameTestHelper helper) {
         ServerLevel level = c0de(helper);
-        SheetBuilder sheet = new SheetBuilder(level, 536).place("""
+        SheetBuilder sheet = new SheetBuilder(level, 542).place("""
                 PROGRAM informed
                 NOOP
                 FUNCTION twice
@@ -451,7 +456,7 @@ public final class ProcessTests {
                     ASSIGN result result * 1000 + PID.y ;
                 END FUNCTION
                 """);
-        SheetValidation.validate(level, 536);
+        SheetValidation.validate(level, 542);
         TriggerBlockEntity trigger = trigger(helper, "informed", new ItemStack(C0deItems.VARIABLE_ITEM.get()));
         trigger.start();
         helper.assertTrue(trigger.isRunning(), "The process didn't start: " + trigger.status());
@@ -459,12 +464,12 @@ public final class ProcessTests {
         TestCompat.await(helper, () -> !trigger.isRunning(), () -> {
             try {
                 helper.assertTrue(trigger.exitCode() == 0, "Exit code " + trigger.exitCode());
-                String expected = Long.toString((536L * 1000 + pid) * 1000 + trigger.getBlockPos().getY());
+                String expected = Long.toString((542L * 1000 + pid) * 1000 + trigger.getBlockPos().getY());
                 ValueItem.Contents result = ValueItem.Contents.of(trigger.output().getItem(0));
                 helper.assertTrue(result.value().equals(expected), "The result is " + result + ", not " + expected);
             } finally {
                 sheet.clear();
-                SheetValidation.validate(level, 536);
+                SheetValidation.validate(level, 542);
             }
             helper.succeed();
         });

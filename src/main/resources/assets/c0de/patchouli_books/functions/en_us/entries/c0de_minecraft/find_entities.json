@@ -2,7 +2,7 @@
   "name": "FIND_ENTITIES",
   "icon": "minecraft:book",
   "category": "c0de:c0de_minecraft",
-  "sortnum": 19,
+  "sortnum": 20,
   "pages": [
     {
       "type": "patchouli:text",

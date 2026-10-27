@@ -42,7 +42,9 @@ public enum ErrorCode {
     INVALID_LOOP_STEP(308, Handling.RAISE),
     INVALID_ARGUMENT(309, Handling.RAISE),
     CHUNK_NOT_LOADED(310, Handling.RAISE),
-    PERMISSION_DENIED(311, Handling.RAISE);
+    PERMISSION_DENIED(311, Handling.RAISE),
+    INVENTORY_FULL(312, Handling.RAISE),
+    ITEM_MISSING(313, Handling.RAISE);
 
     /** Lowest code of user-defined errors. */
     public static final int FIRST_USER_CODE = 1000;

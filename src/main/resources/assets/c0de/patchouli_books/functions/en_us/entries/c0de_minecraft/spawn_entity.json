@@ -2,7 +2,7 @@
   "name": "SPAWN_ENTITY",
   "icon": "minecraft:book",
   "category": "c0de:c0de_minecraft",
-  "sortnum": 18,
+  "sortnum": 19,
   "pages": [
     {
       "type": "patchouli:text",

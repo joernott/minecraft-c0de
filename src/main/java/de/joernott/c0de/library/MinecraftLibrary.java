@@ -46,6 +46,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Container;
+import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 //? if <1.21.2
@@ -62,6 +63,7 @@ import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.FenceGateBlock;
 import net.minecraft.world.level.block.LeverBlock;
 import net.minecraft.world.level.block.TrapDoorBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
@@ -134,6 +136,10 @@ public final class MinecraftLibrary implements Library {
         return NativeFunction.Parameter.required(name, NAME + "/POSITION", A_POSITION);
     }
 
+    private static NativeFunction.Parameter optionalPosition(String name) {
+        return NativeFunction.Parameter.optional(name, NAME + "/POSITION", A_POSITION);
+    }
+
     private static NativeFunction.Parameter integer(String name) {
         return NativeFunction.Parameter.required(name, "INTEGER", INTEGER);
     }
@@ -189,7 +195,8 @@ public final class MinecraftLibrary implements Library {
                             position("position"),
                             text("id"),
                             NativeFunction.Parameter.withDefault(
-                                    "properties", "HASH STRING", HASH_OF_STRINGS, new HashValue(Type.Str.UNLIMITED))),
+                                    "properties", "HASH STRING", HASH_OF_STRINGS, new HashValue(Type.Str.UNLIMITED)),
+                            optionalPosition("inventory")),
                     MinecraftLibrary::placeBlock),
             function(
                     "REMOVE_BLOCK",
@@ -197,6 +204,10 @@ public final class MinecraftLibrary implements Library {
                             position("position"),
                             NativeFunction.Parameter.withDefault("drop", "BOOLEAN", BOOLEAN, BooleanValue.TRUE)),
                     MinecraftLibrary::removeBlock),
+            function(
+                    "MINE_BLOCK",
+                    List.of(position("position"), position("tool_inventory"), optionalPosition("output_inventory")),
+                    MinecraftLibrary::mineBlock),
             function(
                     "SPAWN_ITEM",
                     List.of(position("position"), text("id"), integer("count")),
@@ -217,7 +228,7 @@ public final class MinecraftLibrary implements Library {
         List<String> results = switch (name) {
             case "GET_BLOCK" -> List.of("id", "properties", "power", "has_inventory");
             case "BEEP", "SOUND", "SAY", "SET_LEVER", "PRESS_BUTTON", "SET_OPEN", "PLACE_BLOCK", "REMOVE_BLOCK",
-                    "TELEPORT" -> List.of();
+                    "MINE_BLOCK", "TELEPORT" -> List.of();
             default -> List.of("result");
         };
         return new NativeFunction(name, parameters, results, implementation);
@@ -587,8 +598,15 @@ public final class MinecraftLibrary implements Library {
         return NativeResult.of(new IntegerValue(removed));
     }
 
+    /**
+     * PLACE_BLOCK: with an inventory, the block is taken from it like a player places a block from theirs, so it
+     * isn't restricted (task 13.11).
+     */
     private static NativeResult placeBlock(NativeCall call) {
-        requirePermission(call, C0deConfig.ALLOW_BLOCK_CHANGES);
+        Container inventory = call.provided("inventory") ? container(place(call, "inventory")) : null;
+        if (inventory == null) {
+            requirePermission(call, C0deConfig.ALLOW_BLOCK_CHANGES);
+        }
         Place place = changeable(call, "position");
         String id = text(call, "id");
         ResourceLocation key = ResourceLocation.tryParse(id);
@@ -608,8 +626,28 @@ public final class MinecraftLibrary implements Library {
         if (!place.level().getBlockState(place.pos()).canBeReplaced()) {
             throw invalid("The block at " + place.pos().toShortString() + " can't be replaced");
         }
+        if (inventory != null) {
+            takeItem(inventory, block.get(), id);
+        }
         place.level().setBlockAndUpdate(place.pos(), state);
         return NativeResult.none();
+    }
+
+    /** Takes one item of a block from the first stack of it in an inventory; raises ITEM_MISSING if there is none. */
+    private static void takeItem(Container inventory, Block block, String id) {
+        Item item = block.asItem();
+        if (item == net.minecraft.world.item.Items.AIR) {
+            throw invalid(id + " has no item and can't be taken from an inventory");
+        }
+        for (int i = 0; i < inventory.getContainerSize(); i++) {
+            ItemStack stack = inventory.getItem(i);
+            if (stack.is(item)) {
+                stack.shrink(1);
+                inventory.setChanged();
+                return;
+            }
+        }
+        throw C0deException.of(ErrorCode.ITEM_MISSING, "The inventory contains no " + id);
     }
 
     private static <T extends Comparable<T>> BlockState withValue(BlockState state, Property<T> property, String text) {
@@ -623,6 +661,191 @@ public final class MinecraftLibrary implements Library {
         Place place = changeable(call, "position");
         place.level().destroyBlock(place.pos(), bool(call, "drop"));
         return NativeResult.none();
+    }
+
+    /**
+     * MINE_BLOCK (task 13.10): breaks a block like a player with the best tool of an inventory. The tool takes
+     * damage, the drops go into the output inventory or onto the ground, and the cursor waits as long as a player
+     * would need to break the block. It isn't restricted, because it only does what players can do.
+     */
+    private static NativeResult mineBlock(NativeCall call) {
+        Place place = changeable(call, "position");
+        ServerLevel level = place.level();
+        BlockPos pos = place.pos();
+        Place toolPlace = place(call, "tool_inventory");
+        Container tools = container(toolPlace);
+        Place outputPlace = call.provided("output_inventory") ? place(call, "output_inventory") : null;
+        Container output = outputPlace == null ? null : container(outputPlace);
+        if (isSamePlace(place, toolPlace) || (outputPlace != null && isSamePlace(place, outputPlace))) {
+            throw invalid("The block at " + pos.toShortString() + " holds an inventory of MINE_BLOCK");
+        }
+        BlockState state = level.getBlockState(pos);
+        if (state.isAir()) {
+            return NativeResult.none();
+        }
+        float hardness = state.getDestroySpeed(level, pos);
+        if (hardness < 0 || state.getBlock() instanceof net.minecraft.world.level.block.LiquidBlock) {
+            throw invalid("The block at " + pos.toShortString() + " can't be mined");
+        }
+        BlockEntity blockEntity = level.getBlockEntity(pos);
+        ItemStack tool = bestTool(level, pos, state, blockEntity, tools);
+        List<ItemStack> drops = Block.getDrops(state, level, pos, blockEntity, null, tool);
+        if (output != null && !fits(output, drops)) {
+            throw C0deException.of(ErrorCode.INVENTORY_FULL, "The drops of the block don't fit into the inventory");
+        }
+        int ticks = miningTicks(state, hardness, tool);
+        if (!tool.isEmpty()) {
+            net.minecraft.world.item.component.Tool component =
+                    tool.get(net.minecraft.core.component.DataComponents.TOOL);
+            if (component != null && hardness != 0) {
+                tool.hurtAndBreak(component.damagePerBlock(), level, null, item -> {});
+            }
+            tools.setChanged();
+        }
+        level.destroyBlock(pos, false);
+        state.spawnAfterBreak(level, pos, tool, true);
+        for (ItemStack drop : drops) {
+            ItemStack rest = output == null ? drop : insert(output, drop);
+            if (!rest.isEmpty()) {
+                Block.popResource(level, pos, rest);
+            }
+        }
+        if (output != null) {
+            output.setChanged();
+        }
+        return NativeResult.waitSteps(ticks);
+    }
+
+    private static boolean isSamePlace(Place a, Place b) {
+        return a.level() == b.level() && a.pos().equals(b.pos());
+    }
+
+    /**
+     * The tool a player would choose (task 13.10), the first of the best group in the inventory:
+     *
+     * <ol>
+     *   <li>tools that obtain the block and break it faster than bare hands, e.g. a pickaxe for cobblestone or
+     *       shears for leaves,
+     *   <li>items that obtain the block when bare hands don't, e.g. a pickaxe with silk touch for glass,
+     *   <li>tools that break the block faster without obtaining it, e.g. a stone pickaxe for obsidian,
+     *   <li>bare hands.
+     * </ol>
+     *
+     * Bare hands go before other items in the second group if they obtain the block, too.
+     */
+    private static ItemStack bestTool(
+            ServerLevel level, BlockPos pos, BlockState state, BlockEntity blockEntity, Container tools) {
+        boolean handObtains = obtains(level, pos, state, blockEntity, ItemStack.EMPTY);
+        ItemStack best = ItemStack.EMPTY;
+        int bestGroup = handObtains ? 2 : 4;
+        for (int i = 0; i < tools.getContainerSize() && bestGroup > 1; i++) {
+            ItemStack stack = tools.getItem(i);
+            if (stack.isEmpty()) {
+                continue;
+            }
+            boolean faster = stack.getDestroySpeed(state) > 1.0F;
+            boolean obtains = obtains(level, pos, state, blockEntity, stack);
+            int group;
+            if (obtains && faster) {
+                group = 1;
+            } else if (obtains && !handObtains) {
+                group = 2;
+            } else if (faster && !handObtains) {
+                group = 3;
+            } else {
+                continue;
+            }
+            if (group < bestGroup) {
+                best = stack;
+                bestGroup = group;
+            }
+        }
+        return best;
+    }
+
+    /**
+     * True if mining the block with the tool obtains it: blocks that need the correct tool for drops (stone, ores,
+     * obsidian) are obtained with that tool, other blocks if they drop their own item (leaves with shears).
+     */
+    private static boolean obtains(
+            ServerLevel level, BlockPos pos, BlockState state, BlockEntity blockEntity, ItemStack tool) {
+        if (state.requiresCorrectToolForDrops()) {
+            return tool.isCorrectToolForDrops(state);
+        }
+        Item own = state.getBlock().asItem();
+        return Block.getDrops(state, level, pos, blockEntity, null, tool).stream().anyMatch(drop -> drop.is(own));
+    }
+
+    /**
+     * The ticks a player on the ground needs to break the block with the tool, like {@code getDestroyProgress}:
+     * the hardness times 30 ticks (100 ticks without the correct tool for drops), divided by the speed of the tool
+     * with efficiency.
+     */
+    private static int miningTicks(BlockState state, float hardness, ItemStack tool) {
+        if (hardness == 0) {
+            return 0;
+        }
+        float speed = tool.getDestroySpeed(state);
+        if (speed > 1.0F) {
+            double[] efficiency = {0};
+            net.minecraft.world.item.enchantment.EnchantmentHelper.forEachModifier(
+                    tool, net.minecraft.world.entity.EquipmentSlot.MAINHAND, (attribute, modifier) -> {
+                        if (attribute.value()
+                                == net.minecraft.world.entity.ai.attributes.Attributes.MINING_EFFICIENCY.value()) {
+                            efficiency[0] += modifier.amount();
+                        }
+                    });
+            speed += (float) efficiency[0];
+        }
+        boolean harvest = !state.requiresCorrectToolForDrops() || tool.isCorrectToolForDrops(state);
+        float progress = speed / hardness / (harvest ? 30 : 100);
+        return progress >= 1.0F ? 0 : (int) Math.ceil(1.0F / progress);
+    }
+
+    /** True if all stacks fit into the inventory. */
+    private static boolean fits(Container inventory, List<ItemStack> stacks) {
+        SimpleContainer copy = new SimpleContainer(inventory.getContainerSize()) {
+            @Override
+            public int getMaxStackSize() {
+                return inventory.getMaxStackSize();
+            }
+
+            @Override
+            public boolean canPlaceItem(int slot, ItemStack stack) {
+                return inventory.canPlaceItem(slot, stack);
+            }
+        };
+        for (int i = 0; i < inventory.getContainerSize(); i++) {
+            copy.setItem(i, inventory.getItem(i).copy());
+        }
+        for (ItemStack stack : stacks) {
+            if (!insert(copy, stack.copy()).isEmpty()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /** Puts a stack into an inventory, first onto stacks of the same item; returns what doesn't fit. */
+    private static ItemStack insert(Container inventory, ItemStack stack) {
+        for (int pass = 0; pass < 2 && !stack.isEmpty(); pass++) {
+            for (int i = 0; i < inventory.getContainerSize() && !stack.isEmpty(); i++) {
+                ItemStack target = inventory.getItem(i);
+                if (pass == 0 && !target.isEmpty() && ItemStack.isSameItemSameComponents(stack, target)) {
+                    int amount = Math.min(
+                            stack.getCount(),
+                            Math.min(target.getMaxStackSize(), inventory.getMaxStackSize()) - target.getCount());
+                    if (amount > 0) {
+                        target.grow(amount);
+                        stack.shrink(amount);
+                    }
+                } else if (pass == 1 && target.isEmpty() && inventory.canPlaceItem(i, stack)) {
+                    int amount = Math.min(stack.getCount(), Math.min(stack.getMaxStackSize(), inventory.getMaxStackSize()));
+                    inventory.setItem(i, stack.split(amount));
+                }
+            }
+        }
+        return stack;
     }
 
     private static NativeResult spawnItem(NativeCall call) {

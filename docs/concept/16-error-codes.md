@@ -39,4 +39,6 @@
 | 309 | INVALID_ARGUMENT | raise | A built-in or library function received a parameter value outside of its valid range (e.g. a negative length, an unknown instrument, item or dimension), or a parameter it needs in this case is missing (e.g. `index` or `key` of REMOVE). |
 | 310 | CHUNK_NOT_LOADED | raise | A library function accessed a position in a chunk that is not loaded. |
 | 311 | PERMISSION_DENIED | raise | A library function is not permitted for the owner of the trigger block, or it would change a block on the sheets of the c0de dimension. |
+| 312 | INVENTORY_FULL | raise | A library function can't put items into an inventory because there is no room, e.g. the drops of MINE_BLOCK. |
+| 313 | ITEM_MISSING | raise | A library function needs an item that is not in the inventory, e.g. the block of PLACE_BLOCK. |
 | ≥1000 | user-defined | raise | Errors raised by programs. |
