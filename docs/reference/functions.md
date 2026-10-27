@@ -292,6 +292,8 @@ Sets the colors of the text printed from now on.
 
 The colors are the 16 colors of Minecraft text, from 0 (black) to 15 (white). Background 0 is the color of the screen. A number outside 0 to 15 raises INVALID_ARGUMENT.
 
+Every program has a constant for each color: COLOR_BLACK, COLOR_DARK_BLUE, COLOR_DARK_GREEN, COLOR_DARK_AQUA, COLOR_DARK_RED, COLOR_DARK_PURPLE, COLOR_GOLD, COLOR_GRAY, COLOR_DARK_GRAY, COLOR_BLUE, COLOR_GREEN, COLOR_AQUA, COLOR_RED, COLOR_LIGHT_PURPLE, COLOR_YELLOW and COLOR_WHITE.
+
 **Parameters and results**
 
 - `foreground` INTEGER: the color of the letters, 0 to 15
@@ -301,8 +303,8 @@ The colors are the 16 colors of Minecraft text, from 0 (black) to 15 (white). Ba
 
 ```c0de
 CALL COLOR
-    PARAMETER foreground 14 ;
-    PARAMETER background 1 ;
+    PARAMETER foreground COLOR_YELLOW ;
+    PARAMETER background COLOR_DARK_BLUE ;
 ```
 
 ### INKEY

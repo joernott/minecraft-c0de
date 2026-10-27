@@ -9,6 +9,7 @@ import de.joernott.c0de.core.eval.Variable;
 import de.joernott.c0de.core.library.Library;
 import de.joernott.c0de.core.library.LibraryRegistry;
 import de.joernott.c0de.core.library.NativeFunction;
+import de.joernott.c0de.core.library.standard.BuiltinConstants;
 import de.joernott.c0de.core.line.IndexEntry;
 import de.joernott.c0de.core.program.Expression;
 import de.joernott.c0de.core.program.LabelRef;
@@ -90,6 +91,8 @@ final class ProgramAnalyzer {
         Library builtins = libraries.builtins();
         addFunctions("", builtins);
         ErrorCode.builtinConstants().forEach((name, value) -> addConstant(name, value));
+        BuiltinConstants.types().forEach(types::add);
+        BuiltinConstants.defaults().forEach(this::addConstant);
         builtins.constants().forEach(this::addConstant);
         for (Statement statement : program.statements()) {
             capture(statement);

@@ -102,6 +102,26 @@ A process can also talk to players while it runs. Three built-in functions do th
 
 The devices for this are display blocks, laptops, tablets and I/O blocks. Bind each of them to a program and function, like a trigger block. Display blocks next to each other form one big screen.
 
+COLOR changes the colors of the text that follows. The constants COLOR_BLACK to COLOR_WHITE name the 16 colors:
+
+```c0de
+PROGRAM hello
+NOOP
+FUNCTION greet
+BEGIN
+    CALL CLS
+    CALL COLOR
+        PARAMETER foreground COLOR_YELLOW ;
+        PARAMETER background COLOR_DARK_BLUE ;
+    CALL PRINT
+        PARAMETER value "Process " ;
+    CALL PRINT
+        PARAMETER value PID.pid ;
+    CALL COLOR
+        PARAMETER foreground COLOR_WHITE ;
+END FUNCTION
+```
+
 INPUT takes a matching item from an I/O block first. Otherwise it waits until a player types a line on a laptop or tablet. The handbooks Functions and Devices describe all of them.
 
 ## Protected programs

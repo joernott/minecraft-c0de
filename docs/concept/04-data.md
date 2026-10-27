@@ -138,6 +138,35 @@ User-defined error codes MUST be 1000 or higher. Codes below 1000 are reserved f
 
 A TYPE_ERROR block is a red slab; lying on its top, as if in an invisible item frame, is a burning campfire. It can be crafted shapelessly from a type base and a campfire.
 
+### Built-in constants
+
+Every program knows the following constants without an INCLUDE. Their names can't be used for other declarations.
+  - The names of all [error codes](16-error-codes.md), e.g. `DIVISION_BY_ZERO` (INTEGER).
+  - `COLOR_BLACK` to `COLOR_WHITE` (INTEGER): the numbers 0 to 15 of the colors of [COLOR](19-input-output.md#screen-functions).
+  - `SHEET` of the built-in struct type `SHEET_INFO`: the sheet of the program the process runs.
+  - `PID` of the built-in struct type `PID_INFO`: the process itself.
+
+SHEET and PID are filled when a process starts and keep their values while it runs, also across a restart of the server. During validation and without a process (e.g. in tests of the interpreter), they contain the default values of their types. Like every constant, they can't be changed; they can be copied into a variable of their type, e.g. `VARIABLE info STRUCT SHEET_INFO`.
+
+| Element of SHEET_INFO | Type | Content |
+|---|---|---|
+| number | INTEGER | The number of the sheet (0 for the sheet at x=0 to 31). |
+| program | STRING | The name of the program. |
+| owner | STRING | The name of the owner of the sheet, empty if it has none. |
+| x, y, z | INTEGER | The position of the floor block at relative x=0, z=0 of the sheet, which shows its information. |
+
+| Element of PID_INFO | Type | Content |
+|---|---|---|
+| pid | INTEGER | The PID of the process. |
+| program | STRING | The name of the program. |
+| function | STRING | The name of the entry function. |
+| owner | STRING | The name of the owner of the trigger block, on whose behalf c0de/minecraft acts. |
+| activator | STRING | The name of the player who started the process (pressed the button, stood on the pressure plate, clicked with the debugging tool), empty for redstone, mobs and timer blocks. |
+| x, y, z | INTEGER | The position of the trigger block. |
+| dimension | STRING | The dimension of the trigger block, e.g. `minecraft:overworld`. |
+| debug | BOOLEAN | True for a process of a debug trigger block. |
+| started | INTEGER | The game time of the dimension of the trigger block when the process started, in ticks (see TICKS of [c0de/minecraft](12-lib-minecraft.md)). |
+
 ## Variables, constants and literals
 
 ### Variable

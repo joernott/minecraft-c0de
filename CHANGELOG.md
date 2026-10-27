@@ -2,6 +2,16 @@
 
 All notable changes of the c0de mod. The section of a version is also its changelog on Modrinth.
 
+## 0.3.0 (unreleased)
+
+Feedback from playing 0.2.0, for all Minecraft versions of 0.2.0.
+
+- **Timer blocks**: a redstone signal pauses them, also when they are placed next to a signal that is already on; their dialog shows "Paused by redstone". Pause a fast timer before you change its program.
+- **Disk drive**: a larger dialog that shows its messages completely, and the sound of a floppy drive when it reads or writes a disk.
+- **SHEET and PID**: two new built-in constants tell a program about its sheet (number, owner, position) and its process (PID, function, owner, the player who started it, the trigger block, start time).
+- **Colors**: the constants COLOR_BLACK to COLOR_WHITE name the 16 colors of COLOR.
+- **Note**: the names SHEET, PID, SHEET_INFO, PID_INFO and COLOR_BLACK to COLOR_WHITE are now reserved; a program that declares one of them must rename it.
+
 ## 0.2.0
 
 c0de for all newer Minecraft versions: 1.21.1, 1.21.11, 26.1.2, 26.2 and 26.3, each for Fabric and NeoForge.

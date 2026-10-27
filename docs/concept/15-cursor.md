@@ -62,7 +62,7 @@ A function raises a user-defined error by assigning a code of 1000 or higher to 
 
 ### When a cursor is created
 
-When a cursor is created, the list of available functions is initialized with the built-in functions, the list of types with the built-in types and the list of constants with the built-in constants (among them the names of all [error codes](16-error-codes.md)). The PROGRAM statement has already been validated by the trigger block, so the cursor starts in the line directly after it, which MUST contain a NOOP statement.
+When a cursor is created, the list of available functions is initialized with the built-in functions, the list of types with the built-in types and the list of constants with the [built-in constants](04-data.md#built-in-constants) (the names of all [error codes](16-error-codes.md), the colors, and SHEET and PID with the values of the process). The PROGRAM statement has already been validated by the trigger block, so the cursor starts in the line directly after it, which MUST contain a NOOP statement.
 
 ### When a cursor reaches a new line
 

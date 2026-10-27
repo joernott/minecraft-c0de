@@ -20,6 +20,7 @@ import de.joernott.c0de.core.edit.ItemRules;
 import de.joernott.c0de.core.error.C0deException;
 import de.joernott.c0de.core.eval.Declarations;
 import de.joernott.c0de.core.eval.TypeRegistry;
+import de.joernott.c0de.core.library.standard.BuiltinConstants;
 import de.joernott.c0de.core.library.standard.JsonValues;
 import de.joernott.c0de.core.line.Line;
 import de.joernott.c0de.core.line.Sheet;
@@ -28,6 +29,7 @@ import de.joernott.c0de.core.program.ProgramParser;
 import de.joernott.c0de.core.program.Statement;
 import de.joernott.c0de.core.program.TypeText;
 import de.joernott.c0de.core.sheet.SheetGeometry;
+import de.joernott.c0de.core.value.IntegerValue;
 import de.joernott.c0de.core.value.StructValue;
 import de.joernott.c0de.core.value.Value;
 import de.joernott.c0de.dimension.C0deDimension;
@@ -38,6 +40,7 @@ import de.joernott.c0de.library.ProcessHost;
 import de.joernott.c0de.platform.Platform;
 import de.joernott.c0de.sheet.LevelSheet;
 import de.joernott.c0de.sheet.ProgramRegistry;
+import de.joernott.c0de.sheet.SheetOwners;
 import java.time.Clock;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -235,7 +238,8 @@ public class ProcessManager extends C0deSavedData {
                 trigger.function(),
                 pid,
                 activator.player());
-        CursorSettings settings = settings(c0de.getRandom().nextLong(), host);
+        CursorSettings settings = settings(c0de.getRandom().nextLong(), host)
+                .withConstants(constants(c0de, sheet.getAsInt(), host, debug, triggerLevel.getGameTime()));
         Cursor cursor = new Cursor(program, trigger.function(), inputs, settings);
         if (debug) {
             // A debug cursor starts paused (docs/concept/15-cursor.md)
@@ -359,6 +363,49 @@ public class ProcessManager extends C0deSavedData {
                 ZoneId.systemDefault(),
                 host,
                 seed);
+    }
+
+    /** The values of the built-in constants SHEET and PID of a process (tasks 13.4, 13.5). */
+    private static Map<String, Value> constants(
+            ServerLevel c0de, int sheet, ProcessHost host, boolean debug, long started) {
+        MinecraftServer server = c0de.getServer();
+        String sheetOwner = SheetOwners.get(c0de).owner(sheet).map(SheetOwners.Owner::name).orElse("");
+        BlockPos trigger = host.triggerPos();
+        return Map.of(
+                "SHEET",
+                BuiltinConstants.sheet(
+                        sheet,
+                        host.program(),
+                        sheetOwner,
+                        SheetGeometry.absoluteX(sheet, 0),
+                        SheetGeometry.FLOOR_Y,
+                        0),
+                "PID",
+                BuiltinConstants.pid(
+                        host.pid(),
+                        host.program(),
+                        host.function(),
+                        playerName(server, host.owner()),
+                        playerName(server, host.activator()),
+                        trigger.getX(),
+                        trigger.getY(),
+                        trigger.getZ(),
+                        host.triggerLevel().location().toString(),
+                        debug,
+                        started));
+    }
+
+    /** The name of a player known to the server, the UUID if the name is unknown, or the empty string for none. */
+    private static String playerName(MinecraftServer server, UUID player) {
+        return player == null ? "" : Compat.knownName(server, player).orElse(player.toString());
+    }
+
+    /** The game time at which a process started, the element {@code started} of its constant PID. */
+    private static long started(Process process) {
+        return process.cursor().settings().constants().get("PID") instanceof StructValue pid
+                        && pid.get("started") instanceof IntegerValue started
+                ? started.value()
+                : 0;
     }
 
     private static Statement.FunctionDeclaration function(Program program, String name) {
@@ -789,6 +836,7 @@ public class ProcessManager extends C0deSavedData {
         tag.putLong("triggerPos", process.triggerPos().asLong());
         tag.putInt("parameterItems", process.parameterItems());
         tag.putBoolean("debug", process.debug());
+        tag.putLong("started", started(process));
         ListTag names = new ListTag();
         process.parameterNames().forEach(name -> names.add(net.minecraft.nbt.StringTag.valueOf(name)));
         tag.put("parameterNames", names);
@@ -830,7 +878,10 @@ public class ProcessManager extends C0deSavedData {
                         Nbt.hasUuid(tag, "activator") ? Nbt.uuid(tag, "activator") : null);
                 Map<String, Object> data = (Map<String, Object>) SnapshotNbt.fromNbt(tag.get("cursor"));
                 // The random number generator continues from the snapshot, so the seed doesn't matter here
-                Cursor cursor = CursorSnapshot.restore(data, program, settings(0, host));
+                boolean debug = Nbt.bool(tag, "debug");
+                long started = tag.contains("started") ? Nbt.longValue(tag, "started") : 0;
+                Cursor cursor = CursorSnapshot.restore(
+                        data, program, settings(0, host).withConstants(constants(c0de, sheet, host, debug, started)));
                 ServerLevel trigger = server.getLevel(triggerLevel);
                 if (trigger != null) {
                     ChunkPos chunk = Compat.chunk(triggerPos);

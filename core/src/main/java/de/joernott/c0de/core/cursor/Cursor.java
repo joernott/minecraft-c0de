@@ -21,6 +21,7 @@ import de.joernott.c0de.core.library.NativeCall;
 import de.joernott.c0de.core.library.NativeFunction;
 import de.joernott.c0de.core.library.NativeResult;
 import de.joernott.c0de.core.library.ProcessContext;
+import de.joernott.c0de.core.library.standard.BuiltinConstants;
 import de.joernott.c0de.core.program.Expression;
 import de.joernott.c0de.core.program.LabelRef;
 import de.joernott.c0de.core.program.Program;
@@ -91,6 +92,9 @@ public final class Cursor {
         this.random = new C0deRandom(settings.randomSeed());
         this.stack = new CallStack(settings.stackSize(), constants);
         constants.putAll(ErrorCode.builtinConstants());
+        BuiltinConstants.types().forEach(types::add);
+        constants.putAll(BuiltinConstants.defaults());
+        constants.putAll(settings.constants());
         Library builtins = settings.libraries().builtins();
         constants.putAll(builtins.constants());
         builtins.functions().forEach((name, function) -> functions.put(name, new LibraryFunction(name, function)));

@@ -14,7 +14,15 @@
     },
     {
       "type": "patchouli:text",
-      "text": "The devices for this are display blocks, laptops, tablets and I/O blocks. Bind each of them to a program and function, like a trigger block. Display blocks next to each other form one big screen."
+      "text": "The devices for this are display blocks, laptops, tablets and I/O blocks. Bind each of them to a program and function, like a trigger block. Display blocks next to each other form one big screen.$(br2)COLOR changes the colors of the text that follows. The constants COLOR_BLACK to COLOR_WHITE name the 16 colors:"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)PROGRAM hello$(br)NOOP$(br)FUNCTION greet$(br)BEGIN$(br)  CALL CLS$(br)  CALL COLOR$(br)    PARAMETER foreground COLOR_YELLOW ;$(br)    PARAMETER background COLOR_DARK_BLUE ;$(br)  CALL PRINT$(br)    PARAMETER value \"Process \" ;$(br)  CALL PRINT$(br)    PARAMETER value PID.pid ;$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)  CALL COLOR$(br)    PARAMETER foreground COLOR_WHITE ;$(br)END FUNCTION$()"
     },
     {
       "type": "patchouli:text",

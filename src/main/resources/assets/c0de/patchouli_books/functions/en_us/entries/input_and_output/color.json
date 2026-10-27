@@ -10,11 +10,15 @@
     },
     {
       "type": "patchouli:text",
+      "text": "Every program has a constant for each color: COLOR_BLACK, COLOR_DARK_BLUE, COLOR_DARK_GREEN, COLOR_DARK_AQUA, COLOR_DARK_RED, COLOR_DARK_PURPLE, COLOR_GOLD, COLOR_GRAY, COLOR_DARK_GRAY, COLOR_BLUE, COLOR_GREEN, COLOR_AQUA, COLOR_RED, COLOR_LIGHT_PURPLE, COLOR_YELLOW and COLOR_WHITE."
+    },
+    {
+      "type": "patchouli:text",
       "text": "$(li)$(1)foreground$() INTEGER: the color of the letters, 0 to 15$(li)$(1)background$() INTEGER: the color behind the letters, 0 to 15 (optional, default 0)"
     },
     {
       "type": "patchouli:text",
-      "text": "$(1)CALL COLOR$(br)  PARAMETER foreground 14 ;$(br)  PARAMETER background 1 ;$()"
+      "text": "$(1)CALL COLOR$(br)  PARAMETER foreground COLOR_YELLOW ;$(br)  PARAMETER background COLOR_DARK_BLUE ;$()"
     }
   ]
 }

@@ -56,8 +56,21 @@ These built-in functions are taken from AmigaBASIC. They work on all bound scree
 | LOCATE | row INTEGER, column INTEGER (default 0) | – | Moves the cursor of the screens. Positions outside a screen are moved to its nearest edge. | LOCATE |
 | CSRLIN | – | result INTEGER | The row of the cursor. | CSRLIN |
 | POS | – | result INTEGER | The column of the cursor. | POS |
-| COLOR | foreground INTEGER, background INTEGER (default 0) | – | The colors of the text printed from now on: the 16 colors of Minecraft text, 0 (black) to 15 (white). Background 0 is the screen color. A number outside 0 to 15 raises INVALID_ARGUMENT. | COLOR |
+| COLOR | foreground INTEGER, background INTEGER (default 0) | – | The colors of the text printed from now on: the 16 colors of Minecraft text, 0 (black) to 15 (white), also available as the built-in constants below. Background 0 is the screen color. A number outside 0 to 15 raises INVALID_ARGUMENT. | COLOR |
 | INKEY | – | result STRING | The oldest key a player typed on a bound laptop or tablet while no INPUT was waiting, or the empty string. Doesn't wait. | INKEY$ |
+
+The [built-in constants](04-data.md#built-in-constants) `COLOR_` plus the name of a Minecraft text color give the numbers of the colors:
+
+| Number | Constant | Number | Constant |
+|---|---|---|---|
+| 0 | COLOR_BLACK | 8 | COLOR_DARK_GRAY |
+| 1 | COLOR_DARK_BLUE | 9 | COLOR_BLUE |
+| 2 | COLOR_DARK_GREEN | 10 | COLOR_GREEN |
+| 3 | COLOR_DARK_AQUA | 11 | COLOR_AQUA |
+| 4 | COLOR_DARK_RED | 12 | COLOR_RED |
+| 5 | COLOR_DARK_PURPLE | 13 | COLOR_LIGHT_PURPLE |
+| 6 | COLOR_GOLD | 14 | COLOR_YELLOW |
+| 7 | COLOR_GRAY | 15 | COLOR_WHITE |
 
 ## Screens
 

@@ -9,6 +9,10 @@
       "text": "A CONSTANT line makes a constant: a named value that never changes.$(br2)It looks like a VARIABLE line, but it must have a value. You can't ASSIGN to a constant, and it can't receive a CALL result."
     },
     {
+      "type": "patchouli:text",
+      "text": "Some constants exist in every program. The names of the errors, like $(1)DIVISION_BY_ZERO$(), hold their codes. $(1)COLOR_BLACK$() to $(1)COLOR_WHITE$() are the colors for COLOR. $(1)SHEET$() tells a program about its sheet: $(1)number$(), $(1)program$(), $(1)owner$() and the position $(1)x$(), $(1)y$(), $(1)z$() of its first floor block. $(1)PID$() tells it about its process: $(1)pid$(), $(1)program$(), $(1)function$(), $(1)owner$(), $(1)activator$() (the player who started it), the position $(1)x$(), $(1)y$(), $(1)z$() and $(1)dimension$() of the trigger block, $(1)debug$() and the tick it $(1)started$(). Their types are SHEET_INFO and PID_INFO."
+    },
+    {
       "type": "patchouli:crafting",
       "recipe": "c0de:constant_block",
       "text": "Craft a type base and three bones, or turn a VARIABLE block into a CONSTANT block."

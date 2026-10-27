@@ -436,6 +436,38 @@ public final class ProcessTests {
         });
     }
 
+    /** A process reads its sheet and its PID from the built-in constants SHEET and PID (tasks 13.4, 13.5). */
+    public static void processesKnowTheirSheetAndPid(GameTestHelper helper) {
+        ServerLevel level = c0de(helper);
+        SheetBuilder sheet = new SheetBuilder(level, 536).place("""
+                PROGRAM informed
+                NOOP
+                FUNCTION twice
+                    RESULT result INTEGER
+                BEGIN
+                    ASSIGN result SHEET.number * 1000 + PID.pid ;
+                    ASSIGN result result * 1000 + PID.y ;
+                END FUNCTION
+                """);
+        SheetValidation.validate(level, 536);
+        TriggerBlockEntity trigger = trigger(helper, "informed", new ItemStack(C0deItems.VARIABLE_ITEM.get()));
+        trigger.start();
+        helper.assertTrue(trigger.isRunning(), "The process didn't start: " + trigger.status());
+        int pid = trigger.pid();
+        TestCompat.await(helper, () -> !trigger.isRunning(), () -> {
+            try {
+                helper.assertTrue(trigger.exitCode() == 0, "Exit code " + trigger.exitCode());
+                String expected = Long.toString((536L * 1000 + pid) * 1000 + trigger.getBlockPos().getY());
+                ValueItem.Contents result = ValueItem.Contents.of(trigger.output().getItem(0));
+                helper.assertTrue(result.value().equals(expected), "The result is " + result + ", not " + expected);
+            } finally {
+                sheet.clear();
+                SheetValidation.validate(level, 536);
+            }
+            helper.succeed();
+        });
+    }
+
     /** A trigger block doesn't start without the inputs of the entry function. */
     public static void missingInputsPreventTheStart(GameTestHelper helper) {
         ServerLevel level = c0de(helper);

@@ -321,6 +321,8 @@ A CONSTANT line makes a constant: a named value that never changes.
 
 It looks like a VARIABLE line, but it must have a value. You can't ASSIGN to a constant, and it can't receive a CALL result.
 
+Some constants exist in every program. The names of the errors, like `DIVISION_BY_ZERO`, hold their codes. `COLOR_BLACK` to `COLOR_WHITE` are the colors for COLOR. `SHEET` tells a program about its sheet: `number`, `program`, `owner` and the position `x`, `y`, `z` of its first floor block. `PID` tells it about its process: `pid`, `program`, `function`, `owner`, `activator` (the player who started it), the position `x`, `y`, `z` and `dimension` of the trigger block, `debug` and the tick it `started`. Their types are SHEET_INFO and PID_INFO.
+
 **Recipe**
 
 ![CONSTANT recipe](images/constant_block.png)

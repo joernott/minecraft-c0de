@@ -15,6 +15,10 @@
     {
       "type": "patchouli:text",
       "text": "A variable of this type is declared as $(1)VARIABLE p STRUCT point$(). Its elements are reached with an index, like $(1)p.x$()."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Every program also has a few constants it doesn't declare. $(1)SHEET$() describes its sheet, e.g. $(1)SHEET.number$() and $(1)SHEET.owner$(). $(1)PID$() describes the running process, e.g. $(1)PID.pid$(), $(1)PID.activator$() (who started it) and $(1)PID.x$(), $(1)PID.y$(), $(1)PID.z$() (where its trigger block is). The names of the errors and of the colors are constants too."
     }
   ]
 }

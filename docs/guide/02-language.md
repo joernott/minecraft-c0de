@@ -101,6 +101,8 @@ END STRUCT
 
 A variable of this type is declared as `VARIABLE p STRUCT point`. Its elements are reached with an index, like `p.x`.
 
+Every program also has a few constants it doesn't declare. `SHEET` describes its sheet, e.g. `SHEET.number` and `SHEET.owner`. `PID` describes the running process, e.g. `PID.pid`, `PID.activator` (who started it) and `PID.x`, `PID.y`, `PID.z` (where its trigger block is). The names of the errors and of the colors are constants too.
+
 ## Literals
 
 A LITERAL block holds a fixed value. In its dialog you pick the type and enter the value. The text notation writes them like this:
