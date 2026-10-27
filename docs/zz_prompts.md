@@ -616,3 +616,7 @@ Then I have a few more changes I want to introduce:
 - Struct Sheet made available (ro)
 - Struct PID made available (ro)
 - Colors on screen should be supported, some pre defined constants should allow easy access
+
+## 2026-10-27 – CURSOR constant, stack in the cursor dialog
+
+The VPN has been turned off. Please also add another constant with red only access to the cursor. Also, the used stack size should be visible in the cursor dialog
