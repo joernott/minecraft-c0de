@@ -47,7 +47,7 @@ A task is done when
 | 10 | c0de/minecraft and c0de disk | Programs interact with the world; programs are imported and exported as YAML | ✅ |
 | 11 | Release 0.1.0 for 1.21.1 | Polished, documented and published first alpha of the mod |  |
 | 12 | Newer Minecraft versions | The mod is released for 1.21.x and 26.x |  |
-| 13 | Usability, process information and colors (0.3.0) | Pausable timers, a better disk drive, the built-in constants SHEET, PID, CURSOR and COLOR_*, the used stack in the cursor dialog, mining and placing blocks with items from inventories, boots and pliers |  |
+| 13 | Usability, process information and colors (0.3.0) | Pausable timers, a better disk drive, the built-in constants SHEET, PID, CURSOR and COLOR_*, the used stack in the cursor dialog, mining and placing blocks with items from inventories, boots and pliers | ✅ |
 
 ## Sprint 0: Concept and plan
 
@@ -331,7 +331,7 @@ After sprint 12, every new Minecraft release is added as a new node in its own s
 | 13.11 | PLACE_BLOCK of c0de/minecraft: optional parameter `inventory` that the block is taken from (ITEM_MISSING if it isn't there); with it, PLACE_BLOCK is not restricted. GameTest. || ✅ |
 | 13.12 | Boots: a left click with any boots on the FUNCTION block of a FUNCTION line teleports the player next to the END FUNCTION line of the function and back; a right click on a FUNCTION block teleports them next to the PROGRAM line. Unit tests and GameTest. || ✅ |
 | 13.13 | Pliers (shapeless from shears and a stick): a left click moves a line, or the marked area that contains it, one block to the left, a right click to the right; nothing moves if a block would leave the code area. Unit tests and GameTest. || ✅ |
-| 13.14 | Release 0.3.0 for all Minecraft versions. |  |
+| 13.14 | Release 0.3.0 for all Minecraft versions, released on 2026-10-28 (GitHub pre-release and ten Modrinth versions, environment "client and server"). | ✅ |
 
 ## Risks
 

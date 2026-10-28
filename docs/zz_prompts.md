@@ -637,3 +637,7 @@ The tests for mining and placing blocks were fine. The sound for the drive is go
 There are two more features I want to implement:
 - Left clicking a function block with any type of boots will teleport the player next to its counterpart function block. If you click at the block thats start a function, you'll move to its end, if you click on the function block behind end, you'll teleport the player to its start. Right clicking a function block with boots will teleport the player to the program block.
 - I want a new Indentation tool that looks like some pliers. when left clicking on a block, the whole line will move to the left, when right clicking, it will move to the right. If applied to a marked section, this applies to the whole section. The pliers can be crafted shapelessly from shears and a stick.
+
+## 2026-10-28 – Release 0.3.0
+
+please start the release

@@ -2,7 +2,7 @@
 
 All notable changes of the c0de mod. The section of a version is also its changelog on Modrinth.
 
-## 0.3.0 (unreleased)
+## 0.3.0
 
 Feedback from playing 0.2.0, for all Minecraft versions of 0.2.0.
 
