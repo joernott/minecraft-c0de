@@ -54,7 +54,7 @@ A text marker is crafted shapelessly from a feather and yellow dye.
 
 Every decent tech mod needs a wrench. This is the c0de wrench. Right-clicking a trigger block with the wrench [teleports the player into the c0de dimension](01-dimension.md#entering-and-leaving-the-dimension). On a sheet, the wrench moves and copies marked code. The marked lines of the sheet are the selection; they don't need to be consecutive. Left-clicking a line that is not marked moves the marked lines in front of (north of) that line, in their order; the other lines close the gaps. Right-clicking a line copies the marked lines in front of it; that line and all lines after it move south. In survival mode, the blocks of the copies are taken from the inventory of the player; if blocks are missing, nothing is copied and the player gets a list of the missing blocks. The marks move with their lines.
 
-Clicking the floor of a line works like clicking a block of the line, for the marker, the wrench and the hammer.
+Clicking the floor of a line works like clicking a block of the line, for the marker, the wrench, the hammer and the pliers.
 
 ### Crafting
 
@@ -86,7 +86,7 @@ Every decent tech mod needs a hammer. This is the c0de hammer. It is used to del
 
 Empty lines can be deleted too: left-clicking an empty line removes it, and the lines after it move up. Right-clicking a line with the hammer inserts an empty line in front of it: the clicked line and all lines after it move south, up to the next gap of two empty lines, so they don't join the lines after the gap. The marks move with their lines.
 
-The wrench and the hammer can't be used on a sheet while a process of its program is running (see [Protection of running programs](13-running-programs.md#protection-of-running-programs)).
+The wrench, the hammer and the pliers can't be used on a sheet while a process of its program is running (see [Protection of running programs](13-running-programs.md#protection-of-running-programs)).
 
 ### Crafting
 
@@ -111,6 +111,43 @@ A hammer is crafted from red wool and four iron ingots:
   }
 }
 ```
+
+## Pliers
+
+The pliers change the indentation of code. They look like a pair of pliers with red handles. Left-clicking a line moves all its blocks one block to the left (west), right-clicking it moves them one block to the right (east). If the clicked line belongs to a marked area, the whole area moves. Empty lines in the area stay empty. The blocks keep their properties (names, values, symbols).
+
+Nothing moves if a block of one of the lines would leave the code area (x=5 to x=28); the player gets the number of the first line that can't move. The pliers don't check the indentation rules: a line can be moved to a place where it is invalid, and the validation shows it.
+
+### Crafting
+
+Pliers are crafted shapelessly from shears and a stick:
+
+```json
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "ingredients": [
+    {
+      "item": "minecraft:shears"
+    },
+    {
+      "item": "minecraft:stick"
+    }
+  ],
+  "result": {
+    "id": "c0de:pliers",
+    "count": 1
+  }
+}
+```
+
+## Boots
+
+Any boots of Minecraft take a player through long programs. With boots in the main hand, left-clicking the FUNCTION block of a FUNCTION line (at x=5) teleports the player next to the END FUNCTION line of the function, and left-clicking the FUNCTION block behind the END block of an END FUNCTION line (at x=6) teleports them next to the FUNCTION line. The counterpart is searched up to the next empty line, as a function contains no empty line. If there is none (the function is not finished), the player stays and gets a message.
+
+Right-clicking any FUNCTION block with boots teleports the player next to the PROGRAM line of the sheet.
+
+The player lands in the margin west of the cursor rail (relative x=3) of the line, looking east at it. Boots don't break or place blocks on these FUNCTION blocks and are not put on; on other blocks they behave as usual. They also work on sheets whose program is running, as they change nothing.
 
 ## c0de disk
 

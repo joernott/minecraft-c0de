@@ -41,9 +41,9 @@ The chunks of a sheet with a running process MUST stay loaded until the process 
 While at least one process of a program is running, its sheet MUST NOT be changed. In particular,
   - no block can be placed on or removed from the sheet (x=0 to x=31, from the floor up to the maximum build height), neither by players nor by any other means such as pistons, explosions, fluids, commands of other mods or block-placing entities,
   - the dialogs of LABEL, LITERAL and OPERATOR blocks on the sheet open read-only,
-  - the wrench and the hammer can't be used on the sheet.
+  - the wrench, the hammer and the pliers can't be used on the sheet.
 
-The text marker can still be used, as it does not change the program. Players who try to change a protected sheet get a message that names the running processes (program name and PIDs).
+The text marker and boots can still be used, as they do not change the program. Players who try to change a protected sheet get a message that names the running processes (program name and PIDs).
 
 ## Exchanging data with a process
 

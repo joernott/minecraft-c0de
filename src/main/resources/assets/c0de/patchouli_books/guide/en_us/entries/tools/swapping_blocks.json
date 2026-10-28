@@ -2,7 +2,7 @@
   "name": "Swapping blocks",
   "icon": "c0de:hammer",
   "category": "c0de:tools",
-  "sortnum": 15,
+  "sortnum": 17,
   "pages": [
     {
       "type": "patchouli:text",

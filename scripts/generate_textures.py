@@ -878,6 +878,35 @@ def hammer() -> Image:
     return image
 
 
+def pliers() -> Image:
+    """Pliers: iron jaws with their tips together, an iron joint and two red handles that spread below it."""
+    rows = [
+        "................",
+        ".......LL.......",
+        "......LWWL......",
+        ".....LW..WL.....",
+        ".....LW..WL.....",
+        ".....LW..WL.....",
+        "......LWWL......",
+        ".......JJ.......",
+        "......JKKJ......",
+        "......RDDR......",
+        ".....RD..RD.....",
+        ".....RD..RD.....",
+        "....RD....RD....",
+        "....RD....RD....",
+        "...RD......RD...",
+        "...RD......RD...",
+    ]
+    colors = {"L": 0x8C8C8C, "W": 0xD0D0D0, "J": 0x6E6E6E, "K": 0x3C3C3C, "R": 0xB02E26, "D": 0x6E1A16}
+    image = blank()
+    for y, row in enumerate(rows):
+        for x, char in enumerate(row):
+            if char in colors:
+                image[y][x] = rgb(colors[char])
+    return image
+
+
 def disk() -> Image:
     """A black floppy disk with a metal shutter and a white label."""
     image = blank()
@@ -935,6 +964,7 @@ def main() -> None:
     item_textures()
     write_png(TEXTURES / "item" / "debug_tool.png", debug_tool())
     write_png(TEXTURES / "item" / "hammer.png", hammer())
+    write_png(TEXTURES / "item" / "pliers.png", pliers())
     write_png(TEXTURES / "item" / "c0de_disk.png", disk())
     write_png(TEXTURES / "item" / "tablet.png", tablet())
     write_png(TEXTURES / "gui" / "trash.png", trash())

@@ -13,8 +13,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
 /**
- * The text marker and the hammer: tools whose left and right clicks act on lines of a sheet instead of breaking
- * and placing blocks (see {@link ToolActions}).
+ * The text marker, the hammer and the pliers: tools whose left and right clicks act on lines of a sheet instead of
+ * breaking and placing blocks (see {@link ToolActions}).
  */
 public class ToolItem extends Item {
     public ToolItem(Properties properties) {

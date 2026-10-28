@@ -10,7 +10,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Right-click a line to insert an empty line in front of it. The clicked line and the lines after it move south.$(br2)Clicking the floor of a line works like clicking a block of the line. This is true for the marker, the wrench and the hammer."
+      "text": "Right-click a line to insert an empty line in front of it. The clicked line and the lines after it move south.$(br2)Clicking the floor of a line works like clicking a block of the line. This is true for the marker, the wrench, the hammer and the pliers."
     },
     {
       "type": "patchouli:text",

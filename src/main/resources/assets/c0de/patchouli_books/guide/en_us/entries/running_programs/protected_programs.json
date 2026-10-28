@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "While a process runs, its sheet is locked. Nobody can place or break blocks on it, not even pistons or explosions. The wrench and the hammer don't work there."
+      "text": "While a process runs, its sheet is locked. Nobody can place or break blocks on it, not even pistons or explosions. The wrench, the hammer and the pliers don't work there."
     },
     {
       "type": "patchouli:text",

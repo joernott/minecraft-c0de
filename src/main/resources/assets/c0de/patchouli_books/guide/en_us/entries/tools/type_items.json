@@ -2,7 +2,7 @@
   "name": "Type items",
   "icon": "c0de:hammer",
   "category": "c0de:tools",
-  "sortnum": 7,
+  "sortnum": 9,
   "pages": [
     {
       "type": "patchouli:text",

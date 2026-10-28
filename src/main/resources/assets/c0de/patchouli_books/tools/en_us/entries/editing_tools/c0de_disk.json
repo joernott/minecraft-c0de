@@ -2,7 +2,7 @@
   "name": "c0de disk",
   "icon": "c0de:c0de_disk",
   "category": "c0de:editing_tools",
-  "sortnum": 4,
+  "sortnum": 6,
   "pages": [
     {
       "type": "patchouli:text",

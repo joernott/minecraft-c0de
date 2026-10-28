@@ -2,7 +2,7 @@
   "name": "Guide book",
   "icon": "c0de:hammer",
   "category": "c0de:tools",
-  "sortnum": 17,
+  "sortnum": 19,
   "pages": [
     {
       "type": "patchouli:text",

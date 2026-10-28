@@ -28,9 +28,23 @@ Left-click a line with the hammer to delete it. If you click a marked area, the 
 
 Right-click a line to insert an empty line in front of it. The clicked line and the lines after it move south.
 
-Clicking the floor of a line works like clicking a block of the line. This is true for the marker, the wrench and the hammer.
+Clicking the floor of a line works like clicking a block of the line. This is true for the marker, the wrench, the hammer and the pliers.
 
 Recipe: three iron ingots in a row, one iron ingot below the middle and a red wool block below that.
+
+## Pliers
+
+The pliers change the indentation of your code. Left-click a line to move it one block to the left. Right-click it to move it one block to the right. If the line is part of a marked area, the whole area moves.
+
+Nothing moves if a block would leave the code area. The message tells you which line is in the way. The pliers don't check whether the new indentation is right, but the line numbers show it.
+
+Recipe: shears and a stick, in any shape.
+
+## Boots
+
+Any boots help you find your way through long programs. Hold them in your main hand and left-click the FUNCTION block at the start of a function. You land next to its END FUNCTION line. Left-click the FUNCTION block behind END to go back to the start.
+
+Right-click any FUNCTION block with boots to go to the PROGRAM line at the top of the sheet.
 
 ## Debugging tool
 

@@ -7,6 +7,7 @@ import de.joernott.c0de.core.sheet.SheetGeometry;
 import de.joernott.c0de.dialog.SheetProtection;
 import de.joernott.c0de.sheet.LevelSheet;
 import de.joernott.c0de.sheet.SheetValidation;
+import de.joernott.c0de.tool.ToolActions;
 import java.util.Optional;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -111,7 +112,7 @@ public class CodeBlock extends Block {
 
     /**
      * Right-clicking with an item uses the item, e.g. places a block next to this one. Only an empty hand
-     * interacts with the block itself.
+     * interacts with the block itself, and boots on a FUNCTION block teleport the player to the PROGRAM block.
      */
     //? if >=1.21.2 {
     /*@Override
@@ -123,6 +124,9 @@ public class CodeBlock extends Block {
             Player player,
             InteractionHand hand,
             BlockHitResult hitResult) {
+        if (ToolActions.useBoots(player, level, pos, stack)) {
+            return Compat.itemSuccess(level);
+        }
         return stack.isEmpty()
                 ? net.minecraft.world.InteractionResult.TRY_WITH_EMPTY_HAND
                 : net.minecraft.world.InteractionResult.PASS;
@@ -137,6 +141,9 @@ public class CodeBlock extends Block {
             Player player,
             InteractionHand hand,
             BlockHitResult hitResult) {
+        if (ToolActions.useBoots(player, level, pos, stack)) {
+            return Compat.itemSuccess(level);
+        }
         return stack.isEmpty()
                 ? ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION
                 : ItemInteractionResult.SKIP_DEFAULT_BLOCK_INTERACTION;

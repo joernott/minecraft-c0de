@@ -236,6 +236,11 @@ public class NeoForgeGameTests {
         ToolTests.markerAndHammerRightClicks(helper);
     }
 
+    @GameTest(template = "empty")
+    public static void bootsJumpAndPliersIndent(GameTestHelper helper) {
+        ToolTests.bootsJumpAndPliersIndent(helper);
+    }
+
     @GameTest(template = "empty", timeoutTicks = 400)
     public static void programsMineWithTools(GameTestHelper helper) {
         LibraryTests.programsMineWithTools(helper);

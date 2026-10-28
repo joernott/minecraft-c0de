@@ -2,7 +2,7 @@
   "name": "Disk drive",
   "icon": "c0de:hammer",
   "category": "c0de:tools",
-  "sortnum": 5,
+  "sortnum": 7,
   "pages": [
     {
       "type": "patchouli:text",

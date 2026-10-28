@@ -235,6 +235,11 @@ public class FabricGameTests {
         ToolTests.markerAndHammerRightClicks(helper);
     }
 
+    @GameTest(template = SmokeTests.EMPTY_STRUCTURE, timeoutTicks = 100)
+    public void bootsJumpAndPliersIndent(GameTestHelper helper) {
+        ToolTests.bootsJumpAndPliersIndent(helper);
+    }
+
     @GameTest(template = SmokeTests.EMPTY_STRUCTURE, timeoutTicks = 400)
     public void programsMineWithTools(GameTestHelper helper) {
         LibraryTests.programsMineWithTools(helper);

@@ -47,7 +47,7 @@ A task is done when
 | 10 | c0de/minecraft and c0de disk | Programs interact with the world; programs are imported and exported as YAML | ✅ |
 | 11 | Release 0.1.0 for 1.21.1 | Polished, documented and published first alpha of the mod |  |
 | 12 | Newer Minecraft versions | The mod is released for 1.21.x and 26.x |  |
-| 13 | Usability, process information and colors (0.3.0) | Pausable timers, a better disk drive, the built-in constants SHEET, PID, CURSOR and COLOR_*, the used stack in the cursor dialog, mining and placing blocks with items from inventories |  |
+| 13 | Usability, process information and colors (0.3.0) | Pausable timers, a better disk drive, the built-in constants SHEET, PID, CURSOR and COLOR_*, the used stack in the cursor dialog, mining and placing blocks with items from inventories, boots and pliers |  |
 
 ## Sprint 0: Concept and plan
 
@@ -314,7 +314,7 @@ After sprint 12, every new Minecraft release is added as a new node in its own s
 
 ## Sprint 13: Usability, process information and colors
 
-**Goal:** feedback from playing 0.2.0: timers can be stopped while their program is changed, the disk drive shows its messages completely and sounds like a floppy drive, programs can read information about their sheet and process, screen colors have names, and programs mine and place blocks with the tools and blocks of inventories. Released as 0.3.0.
+**Goal:** feedback from playing 0.2.0: timers can be stopped while their program is changed, the disk drive shows its messages completely and sounds like a floppy drive, programs can read information about their sheet and process, screen colors have names, programs mine and place blocks with the tools and blocks of inventories, boots take players through long programs and pliers indent code. Released as 0.3.0.
 
 | Task | Description | Done |
 |---|---|:---:|
@@ -326,10 +326,12 @@ After sprint 12, every new Minecraft release is added as a new node in its own s
 | 13.6 | Built-in INTEGER constants COLOR_BLACK … COLOR_WHITE with the names of the 16 Minecraft text colors for COLOR; concept, handbook and guide example. | ✅ |
 | 13.7 | Built-in constant CURSOR of the built-in struct type CURSOR_INFO: line, function, depth of the calls, used slots and size of the stack, computed whenever it is read. Read-only like every constant. | ✅ |
 | 13.8 | The cursor dialog of the debugging tool shows how many slots of the stack are used. | ✅ |
-| 13.9 | Error codes INVENTORY_FULL (312) and ITEM_MISSING (313) for library functions that work with inventories. |  |
-| 13.10 | MINE_BLOCK of c0de/minecraft: breaks a block with the most suitable tool of an inventory (the first of the best group: tools that obtain the block and are faster, items that obtain it, faster tools, bare hands), damages the tool, waits as long as a player needs, puts the drops into an optional output inventory (INVENTORY_FULL if they don't fit) or drops them. Not restricted. GameTest. |  |
-| 13.11 | PLACE_BLOCK of c0de/minecraft: optional parameter `inventory` that the block is taken from (ITEM_MISSING if it isn't there); with it, PLACE_BLOCK is not restricted. GameTest. |  |
-| 13.12 | Release 0.3.0 for all Minecraft versions. |  |
+| 13.9 | Error codes INVENTORY_FULL (312) and ITEM_MISSING (313) for library functions that work with inventories. || ✅ |
+| 13.10 | MINE_BLOCK of c0de/minecraft: breaks a block with the most suitable tool of an inventory (the first of the best group: tools that obtain the block and are faster, items that obtain it, faster tools, bare hands), damages the tool, waits as long as a player needs, puts the drops into an optional output inventory (INVENTORY_FULL if they don't fit) or drops them. Not restricted. GameTest. || ✅ |
+| 13.11 | PLACE_BLOCK of c0de/minecraft: optional parameter `inventory` that the block is taken from (ITEM_MISSING if it isn't there); with it, PLACE_BLOCK is not restricted. GameTest. || ✅ |
+| 13.12 | Boots: a left click with any boots on the FUNCTION block of a FUNCTION line teleports the player next to the END FUNCTION line of the function and back; a right click on a FUNCTION block teleports them next to the PROGRAM line. Unit tests and GameTest. |  |
+| 13.13 | Pliers (shapeless from shears and a stick): a left click moves a line, or the marked area that contains it, one block to the left, a right click to the right; nothing moves if a block would leave the code area. Unit tests and GameTest. |  |
+| 13.14 | Release 0.3.0 for all Minecraft versions. |  |
 
 ## Risks
 

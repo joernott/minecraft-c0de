@@ -2,7 +2,7 @@
   "name": "NOOP plus one",
   "icon": "c0de:hammer",
   "category": "c0de:tools",
-  "sortnum": 12,
+  "sortnum": 14,
   "pages": [
     {
       "type": "patchouli:text",

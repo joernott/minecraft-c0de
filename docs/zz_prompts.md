@@ -629,3 +629,11 @@ I have two more changes I want to implement:
 - c0de/minecraft/MINE_BLOCK works similarly to REMOVE_BLOCK but has an additional parameter "tool_inventory" of type c0de/minecraft/position. When removing a blocks, it scans through the inventory at those coordinates to use items provided in that inventory to mine the given block. It first looks for the most suitable type, e.g. a shovel, if there is no shovel, it would take the next suitable (none) to break the block. It always prefers tools that obtain a block (e.g. shears over bare hands) for leaves and if there are multiple items, it takes the first in order, e.g. if the target is a cobblestone block, it'll take the iron pick in slot 0 instead of the stone pick in slot 1 or diamond pick in slot 2. If it were obsidian, it would pick the diamond pick, as the two others are not suitable. This function will degrade the used tool and take the same amount of time, a normal player would take for the task and thus is not restricted. It also has an optional parameter "output_inventory" used to store blocks being mined. It should raise an error when the inventory is full and a block can't be  put into it.
 
 - c0de/minecraft/PLACE_BLOCK should get an optional parameter "inventory" that will be used to take items from. If that parameter is set, the function will work also for non-privileged players. It will raise an error if the item that should be placed is not in the inventory.
+
+## 2026-10-28 – Boots and pliers
+
+The tests for mining and placing blocks were fine. The sound for the drive is good, too.
+
+There are two more features I want to implement:
+- Left clicking a function block with any type of boots will teleport the player next to its counterpart function block. If you click at the block thats start a function, you'll move to its end, if you click on the function block behind end, you'll teleport the player to its start. Right clicking a function block with boots will teleport the player to the program block.
+- I want a new Indentation tool that looks like some pliers. when left clicking on a block, the whole line will move to the left, when right clicking, it will move to the right. If applied to a marked section, this applies to the whole section. The pliers can be crafted shapelessly from shears and a stick.

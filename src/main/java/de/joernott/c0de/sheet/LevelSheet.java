@@ -44,6 +44,14 @@ public final class LevelSheet {
         };
     }
 
+    /**
+     * A view of the code layer of a sheet that loads the chunks it reads, for tools that follow the code beyond the
+     * loaded chunks.
+     */
+    public static SheetView loadingView(Level level, int sheet) {
+        return (x, z) -> x < 0 || x >= SheetGeometry.SHEET_WIDTH || z < 0 ? null : toCore(level, codePos(sheet, x, z));
+    }
+
     /** The index of the sheet that contains the position. */
     public static int sheetOf(BlockPos pos) {
         return SheetGeometry.sheetIndex(pos.getX(), pos.getZ());

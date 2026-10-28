@@ -88,6 +88,7 @@ ITEMS = [
     ("debug_tool", "Debugging Tool", "Debugging-Werkzeug"),
     ("marker", "Text Marker", "Textmarker"),
     ("hammer", "Hammer", "Hammer"),
+    ("pliers", "Pliers", "Zange"),
     ("c0de_disk", "c0de Disk", "c0de-Diskette"),
 ]
 
@@ -209,6 +210,7 @@ def recipes() -> dict[str, dict]:
     r["marker"] = shapeless([mc("feather"), mc("yellow_dye")], c0de("marker"))
     r["hammer"] = shaped(
         ["AAA", " A ", " B "], {"A": mc("iron_ingot"), "B": mc("red_wool")}, c0de("hammer"))
+    r["pliers"] = shapeless([mc("shears"), mc("stick")], c0de("pliers"))
     r["c0de_disk"] = shapeless([c0de("data_item"), mc("iron_ingot"), mc("black_dye")], c0de("c0de_disk"))
     r["data_item"] = shapeless([mc("paper"), mc("white_dye"), mc("yellow_dye")], c0de("data_item"), 4)
     # Uninitialized items have no type: result targets for results without a parameter
@@ -261,6 +263,14 @@ MESSAGES = [
      "Nur der Besitzer seines Auslöserblocks oder ein Operator kann Prozess %s abbrechen"),
     ("message.c0de.cursor_line", "Line %s: ", "Zeile %s: "),
     ("message.c0de.inserted", "Empty line inserted in front of line %s", "Leere Zeile vor Zeile %s eingefügt"),
+    ("message.c0de.indented_left", "Lines %s to %s moved to the left", "Zeilen %s bis %s nach links verschoben"),
+    ("message.c0de.indented_right", "Lines %s to %s moved to the right", "Zeilen %s bis %s nach rechts verschoben"),
+    ("message.c0de.not_indented_left", "Line %s can't move further to the left",
+     "Zeile %s kann nicht weiter nach links"),
+    ("message.c0de.not_indented_right", "Line %s can't move further to the right",
+     "Zeile %s kann nicht weiter nach rechts"),
+    ("message.c0de.no_counterpart", "This function has no END FUNCTION line or no FUNCTION line",
+     "Diese Funktion hat keine END-FUNCTION-Zeile oder keine FUNCTION-Zeile"),
     ("message.c0de.no_last_mark", "Mark or unmark a line on this sheet with a left click first",
      "Markiere zuerst eine Zeile auf diesem Blatt mit einem Linksklick oder entferne ihre Markierung"),
     ("message.c0de.sheet_given", "Sheet %s now belongs to %s", "Blatt %s gehört jetzt %s"),

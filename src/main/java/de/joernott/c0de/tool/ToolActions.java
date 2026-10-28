@@ -5,7 +5,11 @@ import de.joernott.c0de.block.TriggerBlock;
 import de.joernott.c0de.blockentity.TriggerBlockEntity;
 import de.joernott.c0de.compat.Compat;
 import de.joernott.c0de.content.C0deItems;
+import de.joernott.c0de.content.CodeBlockType;
+import de.joernott.c0de.core.edit.FunctionJumps;
+import de.joernott.c0de.core.edit.Indentation;
 import de.joernott.c0de.core.edit.LineMoves;
+import de.joernott.c0de.core.edit.SheetView;
 import de.joernott.c0de.core.line.Notation;
 import de.joernott.c0de.core.sheet.SheetGeometry;
 import de.joernott.c0de.core.validation.Validation;
@@ -29,6 +33,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.OptionalInt;
 import java.util.UUID;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -38,6 +43,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -55,6 +61,9 @@ import net.minecraft.world.level.Level;
  *       {@link #wrench})
  *   <li>hammer: deletes a marked area or a single line, the following lines move up; a right click inserts an
  *       empty line, the clicked line and the following lines move south
+ *   <li>pliers: move a marked area or a single line one block to the left (a right click: to the right)
+ *   <li>boots: a left click on a FUNCTION block teleports the player to the other FUNCTION block of the function, a
+ *       right click to the PROGRAM block
  * </ul>
  */
 public final class ToolActions {
@@ -95,11 +104,26 @@ public final class ToolActions {
         return item instanceof DebugToolItem
                 || item == C0deItems.MARKER.get()
                 || item == C0deItems.HAMMER.get()
+                || item == C0deItems.PLIERS.get()
                 || item instanceof WrenchItem;
     }
 
+    /** True for boots of any kind, which teleport between the FUNCTION blocks of a function. */
+    public static boolean isBoots(ItemStack stack) {
+        return stack.is(ItemTags.FOOT_ARMOR);
+    }
+
+    /** True for a FUNCTION block on the code layer of a sheet. */
+    public static boolean isFunctionBlock(Level level, BlockPos pos) {
+        return isOnLine(level, pos)
+                && pos.getY() == SheetGeometry.CODE_Y
+                && level.getBlockState(pos).getBlock() instanceof CodeBlock block
+                && block.type() == CodeBlockType.FUNCTION;
+    }
+
     private static boolean attackBlock(Player player, Level level, BlockPos pos, net.minecraft.core.Direction face) {
-        if (!isTool(player.getMainHandItem().getItem())) {
+        ItemStack stack = player.getMainHandItem();
+        if (!isTool(stack.getItem()) && !(isBoots(stack) && isFunctionBlock(level, pos))) {
             return false;
         }
         if (level.isClientSide()) {
@@ -228,6 +252,12 @@ public final class ToolActions {
             LaptopBlock.turn(level, pos);
             return;
         }
+        if (isBoots(player.getMainHandItem())) {
+            if (isFunctionBlock(level, pos)) {
+                jump(player, level, pos);
+            }
+            return;
+        }
         if (!isOnLine(level, pos)) {
             return;
         }
@@ -241,17 +271,19 @@ public final class ToolActions {
             wrench(player, level, pos, false);
         } else if (item == C0deItems.HAMMER.get()) {
             hammer(player, level, pos, sheet, z);
+        } else if (item == C0deItems.PLIERS.get()) {
+            indent(player, level, pos, sheet, z, -1);
         }
     }
 
     /**
-     * Executes a right click of the text marker or the hammer on a line.
+     * Executes a right click of the text marker, the hammer or the pliers on a line.
      *
      * @return false if the item has no right click
      */
     public static boolean rightClick(ServerPlayer player, ServerLevel level, BlockPos pos) {
         Item item = player.getMainHandItem().getItem();
-        if (item != C0deItems.MARKER.get() && item != C0deItems.HAMMER.get()) {
+        if (item != C0deItems.MARKER.get() && item != C0deItems.HAMMER.get() && item != C0deItems.PLIERS.get()) {
             return false;
         }
         long now = level.getGameTime();
@@ -264,10 +296,89 @@ public final class ToolActions {
         int z = pos.getZ();
         if (item == C0deItems.MARKER.get()) {
             markRange(player, level, sheet, z);
-        } else {
+        } else if (item == C0deItems.HAMMER.get()) {
             insertLine(player, level, pos, sheet, z);
+        } else {
+            indent(player, level, pos, sheet, z, 1);
         }
         return true;
+    }
+
+    /**
+     * A right click with boots on a FUNCTION block teleports the player to the PROGRAM block of the sheet. Called by
+     * the code blocks on the client and the server.
+     *
+     * @return false if the item is no boots or the block no FUNCTION block
+     */
+    public static boolean useBoots(Player player, Level level, BlockPos pos, ItemStack stack) {
+        if (!isBoots(stack) || !isFunctionBlock(level, pos)) {
+            return false;
+        }
+        if (player instanceof ServerPlayer serverPlayer && level instanceof ServerLevel serverLevel) {
+            teleportToLine(serverPlayer, serverLevel, LevelSheet.sheetOf(pos), 0);
+        }
+        return true;
+    }
+
+    /** Teleports the player from a FUNCTION block to the other FUNCTION block of its function. */
+    private static void jump(ServerPlayer player, ServerLevel level, BlockPos pos) {
+        OptionalInt target = jumpTarget(level, pos);
+        if (target.isEmpty()) {
+            message(player, "message.c0de.no_counterpart");
+            return;
+        }
+        teleportToLine(player, level, LevelSheet.sheetOf(pos), target.getAsInt());
+    }
+
+    /**
+     * The line that boots take a player to from a FUNCTION block: the END FUNCTION line of a FUNCTION line or the
+     * other way round.
+     *
+     * @return the line, or empty if the block is no such FUNCTION block or its function is not complete
+     */
+    public static OptionalInt jumpTarget(ServerLevel level, BlockPos pos) {
+        return FunctionJumps.counterpart(
+                LevelSheet.loadingView(level, LevelSheet.sheetOf(pos)), SheetGeometry.relativeX(pos.getX()), pos.getZ());
+    }
+
+    /**
+     * Teleports the player next to the start of a line: into the margin west of the cursor rail, looking east at
+     * the line.
+     */
+    private static void teleportToLine(ServerPlayer player, ServerLevel level, int sheet, int z) {
+        Compat.teleport(
+                player,
+                level,
+                SheetGeometry.absoluteX(sheet, SheetGeometry.CURSOR_X - 1) + 0.5,
+                SheetGeometry.CODE_Y,
+                z + 0.5,
+                -90.0F, // facing east
+                35.0F);
+        level.playSound(null, player.blockPosition(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 0.5F, 1.2F);
+    }
+
+    /**
+     * Moves the marked area that contains the line, or the line itself, by one block: to the left (west) for
+     * {@code dx} = -1, to the right (east) for 1. Nothing moves if a block would leave the code area.
+     */
+    private static void indent(ServerPlayer player, ServerLevel level, BlockPos pos, int sheet, int z, int dx) {
+        if (isProtected(player, level, pos)) {
+            return;
+        }
+        int[] area = SheetMarks.area(level, sheet, z).orElse(new int[] {z, z});
+        SheetView view = LevelSheet.loadingView(level, sheet);
+        if (Indentation.isEmpty(view, area[0], area[1])) {
+            return;
+        }
+        String direction = dx < 0 ? "left" : "right";
+        OptionalInt blocked = Indentation.blocked(view, area[0], area[1], dx);
+        if (blocked.isPresent()) {
+            message(player, "message.c0de.not_indented_" + direction, blocked.getAsInt());
+            return;
+        }
+        SheetEditor.shift(level, sheet, area[0], area[1], dx);
+        level.playSound(null, pos, SoundEvents.PISTON_CONTRACT, SoundSource.BLOCKS, 0.5F, 1.5F);
+        message(player, "message.c0de.indented_" + direction, area[0], area[1]);
     }
 
     /**

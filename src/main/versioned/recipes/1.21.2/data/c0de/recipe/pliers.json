@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "ingredients": [
+    "minecraft:shears",
+    "minecraft:stick"
+  ],
+  "result": {
+    "id": "c0de:pliers",
+    "count": 1
+  }
+}

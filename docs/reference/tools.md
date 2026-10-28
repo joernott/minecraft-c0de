@@ -68,6 +68,34 @@ You need room for a new statement in the middle of a function. Right-click the l
 
 Clicking the floor of a line works like clicking a block of the line. The hammer does not work while the program runs.
 
+### Pliers
+
+The pliers change the indentation of lines.
+
+Left-click a line to move all its blocks one block to the left. Right-click it to move them one block to the right. If the line is part of a marked area, the whole area moves. Nothing moves if a block would leave the code area; the message tells you which line is in the way.
+
+**Recipe**
+
+![Pliers recipe](images/pliers.png)
+
+Shears and a stick, in any shape.
+
+**Example**
+
+You put a few statements into a new IF block, so they need one more level of indentation. Mark them with the text marker, then right-click one of them with the pliers. All marked lines move one block to the right.
+
+The pliers do not work while the program runs.
+
+### Boots
+
+Any boots of Minecraft take you through long programs.
+
+Hold boots in your main hand and left-click the FUNCTION block at the start of a function. You land next to its END FUNCTION line. Left-click the FUNCTION block behind END to go back to the start. Right-click either FUNCTION block to go to the PROGRAM line of the sheet.
+
+**Example**
+
+Your main function is long, and you want to add a statement in front of its END FUNCTION line. Left-click its FUNCTION block with boots to jump there. Right-click the FUNCTION block behind END to get back to the top of the sheet.
+
 ### Debugging tool
 
 The debugging tool lets you look inside blocks and cursors and run a program step by step.

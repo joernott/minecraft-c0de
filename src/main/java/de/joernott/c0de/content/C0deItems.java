@@ -32,6 +32,7 @@ public final class C0deItems {
     public static Supplier<Item> DEBUG_TOOL;
     public static Supplier<Item> MARKER;
     public static Supplier<Item> HAMMER;
+    public static Supplier<Item> PLIERS;
     public static Supplier<Item> DISK;
     public static Supplier<Item> TYPE_BASE;
     public static Supplier<Item> DATA_ITEM;
@@ -68,6 +69,7 @@ public final class C0deItems {
         DEBUG_TOOL = register("debug_tool", properties -> new DebugToolItem(properties.stacksTo(1)));
         MARKER = register("marker", properties -> new ToolItem(properties.stacksTo(1)));
         HAMMER = register("hammer", properties -> new ToolItem(properties.stacksTo(1)));
+        PLIERS = register("pliers", properties -> new ToolItem(properties.stacksTo(1)));
         DISK = register("c0de_disk", properties -> new DiskItem(properties.stacksTo(1)));
         // The floor can be broken in creative mode, so creative players need the blocks to repair it
         // The suppliers of the blocks can't be called before the blocks are registered, so the names are listed
@@ -105,6 +107,7 @@ public final class C0deItems {
                     output.accept(DEBUG_TOOL.get());
                     output.accept(MARKER.get());
                     output.accept(HAMMER.get());
+                    output.accept(PLIERS.get());
                     output.accept(DISK.get());
                     output.accept(DISK_DRIVE.get());
                     output.accept(TYPE_BASE.get());

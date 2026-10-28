@@ -2,7 +2,7 @@
   "name": "Eight around one",
   "icon": "c0de:hammer",
   "category": "c0de:tools",
-  "sortnum": 11,
+  "sortnum": 13,
   "pages": [
     {
       "type": "patchouli:text",

@@ -5,6 +5,7 @@ import de.joernott.c0de.compat.Compat;
 import de.joernott.c0de.core.edit.LineMoves;
 import de.joernott.c0de.core.sheet.SheetGeometry;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -22,8 +23,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
 /**
- * Moves and deletes lines of a sheet for the wrench and the hammer (tasks 9.4 and 9.5). Only c0de blocks in the
- * code area of the code layer are moved, with their properties.
+ * Moves and deletes lines of a sheet for the wrench, the hammer and the pliers (tasks 9.4, 9.5 and 13.13). Only c0de
+ * blocks in the code area of the code layer are moved, with their properties.
  */
 public final class SheetEditor {
     private SheetEditor() {}
@@ -39,24 +40,7 @@ public final class SheetEditor {
      * @return the items of the removed blocks
      */
     public static List<ItemStack> apply(ServerLevel level, int sheet, Map<Integer, Integer> moves) {
-        Map<Integer, Map<Integer, Cell>> lines = new HashMap<>();
-        for (int z : moves.keySet()) {
-            Map<Integer, Cell> cells = new HashMap<>();
-            for (int x = SheetGeometry.CODE_MIN_X; x <= SheetGeometry.CODE_MAX_X; x++) {
-                BlockPos pos = LevelSheet.codePos(sheet, x, z);
-                BlockState state = level.getBlockState(pos);
-                if (state.getBlock() instanceof CodeBlock) {
-                    BlockEntity entity = level.getBlockEntity(pos);
-                    cells.put(
-                            x,
-                            new Cell(state, entity == null ? null : entity.saveWithoutMetadata(level.registryAccess())));
-                }
-            }
-            lines.put(z, cells);
-        }
-        // All lines are taken away first, because the moved lines take each other's places
-        lines.forEach((z, cells) -> cells.keySet()
-                .forEach(x -> level.setBlock(LevelSheet.codePos(sheet, x, z), Blocks.AIR.defaultBlockState(), Block.UPDATE_ALL)));
+        Map<Integer, Map<Integer, Cell>> lines = take(level, sheet, moves.keySet());
         List<ItemStack> removed = new ArrayList<>();
         moves.forEach((z, target) -> lines.get(z).forEach((x, cell) -> {
             if (target == LineMoves.DELETED) {
@@ -115,6 +99,46 @@ public final class SheetEditor {
             copies.get(i).forEach((x, cell) -> place(level, LevelSheet.codePos(sheet, x, z), cell));
         }
         return Map.of();
+    }
+
+    /**
+     * Moves all blocks of the lines from {@code from} to {@code to} (inclusive) by {@code dx} blocks in x direction,
+     * for the pliers. The caller checks that they stay in the code area.
+     */
+    public static void shift(ServerLevel level, int sheet, int from, int to, int dx) {
+        List<Integer> lines = new ArrayList<>();
+        for (int z = from; z <= to; z++) {
+            lines.add(z);
+        }
+        take(level, sheet, lines).forEach((z, cells) ->
+                cells.forEach((x, cell) -> place(level, LevelSheet.codePos(sheet, x + dx, z), cell)));
+    }
+
+    /**
+     * Takes the c0de blocks of lines away, with the data of their block entities. All lines are taken away before
+     * the caller places blocks again, because moved lines take each other's places.
+     *
+     * @return the blocks of every line by their x coordinate
+     */
+    private static Map<Integer, Map<Integer, Cell>> take(ServerLevel level, int sheet, Collection<Integer> zs) {
+        Map<Integer, Map<Integer, Cell>> lines = new HashMap<>();
+        for (int z : zs) {
+            Map<Integer, Cell> cells = new HashMap<>();
+            for (int x = SheetGeometry.CODE_MIN_X; x <= SheetGeometry.CODE_MAX_X; x++) {
+                BlockPos pos = LevelSheet.codePos(sheet, x, z);
+                BlockState state = level.getBlockState(pos);
+                if (state.getBlock() instanceof CodeBlock) {
+                    BlockEntity entity = level.getBlockEntity(pos);
+                    cells.put(
+                            x,
+                            new Cell(state, entity == null ? null : entity.saveWithoutMetadata(level.registryAccess())));
+                }
+            }
+            lines.put(z, cells);
+        }
+        lines.forEach((z, cells) -> cells.keySet()
+                .forEach(x -> level.setBlock(LevelSheet.codePos(sheet, x, z), Blocks.AIR.defaultBlockState(), Block.UPDATE_ALL)));
+        return lines;
     }
 
     private static void place(ServerLevel level, BlockPos pos, Cell cell) {

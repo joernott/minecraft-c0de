@@ -15,15 +15,18 @@ import de.joernott.c0de.sheet.SheetMarks;
 import de.joernott.c0de.sheet.SheetOwners;
 import de.joernott.c0de.sheet.SheetValidation;
 import de.joernott.c0de.tool.Inspector;
+import de.joernott.c0de.tool.ToolActions;
 import java.util.List;
+import java.util.OptionalInt;
 import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 
-/** GameTests of the debugging tool, the text marker, the wrench and the hammer (sprint 9). */
+/** GameTests of the debugging tool, the text marker, the wrench, the hammer, the pliers and boots. */
 public final class ToolTests {
     private ToolTests() {}
 
@@ -245,6 +248,77 @@ public final class ToolTests {
             }
         }
         helper.succeed();
+    }
+
+    /**
+     * Boots find the other FUNCTION block of a function (task 13.12). The pliers move a line or a marked area one
+     * block to the left or the right with its properties, unless a block would leave the code area (task 13.13).
+     */
+    public static void bootsJumpAndPliersIndent(GameTestHelper helper) {
+        ServerLevel level = c0de(helper);
+        SheetBuilder sheet = new SheetBuilder(level, 544).place("""
+                PROGRAM jumping
+                NOOP
+                FUNCTION run
+                BEGIN
+                ASSIGN total 1 ;
+                ASSIGN total 2 ;
+                END FUNCTION run
+                """);
+        ServerPlayer player = helper.makeMockServerPlayerInLevel();
+        try {
+            helper.assertTrue(
+                    ToolActions.jumpTarget(level, sheet.pos(5, 2)).equals(OptionalInt.of(6)),
+                    "FUNCTION jumps to " + ToolActions.jumpTarget(level, sheet.pos(5, 2)));
+            helper.assertTrue(
+                    ToolActions.jumpTarget(level, sheet.pos(6, 6)).equals(OptionalInt.of(2)),
+                    "END FUNCTION jumps to " + ToolActions.jumpTarget(level, sheet.pos(6, 6)));
+            helper.assertTrue(ToolActions.jumpTarget(level, sheet.pos(5, 6)).isEmpty(), "The END block jumps");
+            helper.assertTrue(
+                    ToolActions.isFunctionBlock(level, sheet.pos(6, 6))
+                            && !ToolActions.isFunctionBlock(level, sheet.pos(5, 6))
+                            && !ToolActions.isFunctionBlock(level, sheet.pos(5, 2).below()),
+                    "Wrong FUNCTION blocks");
+            helper.assertTrue(
+                    ToolActions.isBoots(new ItemStack(Items.LEATHER_BOOTS))
+                            && ToolActions.isBoots(new ItemStack(Items.NETHERITE_BOOTS))
+                            && !ToolActions.isBoots(new ItemStack(Items.IRON_HELMET)),
+                    "Wrong boots");
+
+            player.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND, new ItemStack(C0deItems.PLIERS.get()));
+            rightClick(helper, player, sheet.pos(5, 4));
+            assertAssign(helper, level, sheet, 4, 6, "after the right click");
+            assertAssign(helper, level, sheet, 5, 5, "without a click");
+            // The marked area moves as a whole: line 5 can't move to the left, so line 4 doesn't move either
+            SheetMarks.set(level, 544, 4, true);
+            SheetMarks.set(level, 544, 5, true);
+            click(helper, player, sheet.pos(6, 4));
+            assertAssign(helper, level, sheet, 4, 6, "after the blocked left click");
+            rightClick(helper, player, sheet.pos(9, 5).below());
+            assertAssign(helper, level, sheet, 4, 7, "after the right click on the area");
+            assertAssign(helper, level, sheet, 5, 6, "after the right click on the area");
+            click(helper, player, sheet.pos(7, 4));
+            assertAssign(helper, level, sheet, 4, 6, "after the left click on the area");
+            assertAssign(helper, level, sheet, 5, 5, "after the left click on the area");
+        } finally {
+            for (int z = 0; z < 8; z++) {
+                for (int x = 5; x < 12; x++) {
+                    level.setBlockAndUpdate(sheet.pos(x, z), Blocks.AIR.defaultBlockState());
+                }
+                SheetMarks.set(level, 544, z, false);
+            }
+        }
+        helper.succeed();
+    }
+
+    /** Checks that a line holds ASSIGN at x and the label "total" behind it, and nothing in front of it. */
+    private static void assertAssign(GameTestHelper helper, ServerLevel level, SheetBuilder sheet, int z, int x, String when) {
+        helper.assertTrue(
+                level.getBlockState(sheet.pos(x, z)).is(C0deBlocks.get(CodeBlockType.ASSIGN))
+                        && level.getBlockEntity(sheet.pos(x + 1, z)) instanceof LabelBlockEntity label
+                        && "total".equals(label.name())
+                        && level.getBlockState(sheet.pos(x - 1, z)).isAir(),
+                "Line " + z + " doesn't start at x=" + x + " " + when);
     }
 
     /** The cooldown of the tools lets the first click through and blocks repeats within 6 ticks. */

@@ -2,7 +2,7 @@
   "name": "c0de disk",
   "icon": "c0de:hammer",
   "category": "c0de:tools",
-  "sortnum": 4,
+  "sortnum": 6,
   "pages": [
     {
       "type": "patchouli:text",

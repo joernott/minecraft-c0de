@@ -126,7 +126,7 @@ INPUT takes a matching item from an I/O block first. Otherwise it waits until a 
 
 ## Protected programs
 
-While a process runs, its sheet is locked. Nobody can place or break blocks on it, not even pistons or explosions. The wrench and the hammer don't work there.
+While a process runs, its sheet is locked. Nobody can place or break blocks on it, not even pistons or explosions. The wrench, the hammer and the pliers don't work there.
 
 Dialogs of blocks on the sheet open read-only. The text marker still works, because it changes nothing. If you try to change a locked sheet, you get a message naming the running processes.
 

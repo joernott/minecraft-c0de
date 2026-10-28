@@ -2,7 +2,7 @@
   "name": "Debugging tool",
   "icon": "c0de:hammer",
   "category": "c0de:tools",
-  "sortnum": 3,
+  "sortnum": 5,
   "pages": [
     {
       "type": "patchouli:text",
