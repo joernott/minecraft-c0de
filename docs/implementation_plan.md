@@ -329,8 +329,8 @@ After sprint 12, every new Minecraft release is added as a new node in its own s
 | 13.9 | Error codes INVENTORY_FULL (312) and ITEM_MISSING (313) for library functions that work with inventories. || ✅ |
 | 13.10 | MINE_BLOCK of c0de/minecraft: breaks a block with the most suitable tool of an inventory (the first of the best group: tools that obtain the block and are faster, items that obtain it, faster tools, bare hands), damages the tool, waits as long as a player needs, puts the drops into an optional output inventory (INVENTORY_FULL if they don't fit) or drops them. Not restricted. GameTest. || ✅ |
 | 13.11 | PLACE_BLOCK of c0de/minecraft: optional parameter `inventory` that the block is taken from (ITEM_MISSING if it isn't there); with it, PLACE_BLOCK is not restricted. GameTest. || ✅ |
-| 13.12 | Boots: a left click with any boots on the FUNCTION block of a FUNCTION line teleports the player next to the END FUNCTION line of the function and back; a right click on a FUNCTION block teleports them next to the PROGRAM line. Unit tests and GameTest. |  |
-| 13.13 | Pliers (shapeless from shears and a stick): a left click moves a line, or the marked area that contains it, one block to the left, a right click to the right; nothing moves if a block would leave the code area. Unit tests and GameTest. |  |
+| 13.12 | Boots: a left click with any boots on the FUNCTION block of a FUNCTION line teleports the player next to the END FUNCTION line of the function and back; a right click on a FUNCTION block teleports them next to the PROGRAM line. Unit tests and GameTest. || ✅ |
+| 13.13 | Pliers (shapeless from shears and a stick): a left click moves a line, or the marked area that contains it, one block to the left, a right click to the right; nothing moves if a block would leave the code area. Unit tests and GameTest. || ✅ |
 | 13.14 | Release 0.3.0 for all Minecraft versions. |  |
 
 ## Risks
