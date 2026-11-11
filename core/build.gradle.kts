@@ -40,6 +40,31 @@ tasks.test {
     systemProperty("c0de.version", modVersion)
 }
 
+// The program runner (task 14.1): the interpreter with SnakeYAML Engine in one jar, attached to the GitHub releases
+// as c0de-runner-<version>.jar. `java -jar c0de-runner.jar program.c0de` (see runner/Main.java).
+val runnerJar = tasks.register<Jar>("runnerJar") {
+    group = "build"
+    description = "Builds the program runner c0de-runner-<version>.jar"
+    archiveFileName = "c0de-runner-$modVersion.jar"
+    destinationDirectory = layout.buildDirectory.dir("runner")
+    manifest {
+        attributes(
+            "Main-Class" to "de.joernott.c0de.core.runner.Main",
+            "Implementation-Title" to "c0de-runner",
+            "Implementation-Version" to modVersion,
+        )
+    }
+    from(sourceSets.main.map { it.output })
+    from(configurations.runtimeClasspath.map { classpath -> classpath.map { zipTree(it) } }) {
+        exclude("META-INF/*.SF", "META-INF/*.DSA", "META-INF/*.RSA", "META-INF/versions/*/module-info.class", "module-info.class")
+    }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+tasks.assemble {
+    dependsOn(runnerJar)
+}
+
 // Formatting: `./gradlew spotlessCheck` (part of `check`) and `./gradlew spotlessApply`
 spotless {
     // The interpreter is formatted completely

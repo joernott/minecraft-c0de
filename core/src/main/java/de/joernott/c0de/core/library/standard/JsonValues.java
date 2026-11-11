@@ -37,4 +37,32 @@ public final class JsonValues {
         Object tree = DataFormats.parse(json, DataFormats.JSON);
         return DataFormats.read(tree, type.defaultValue(), type, NO_TAGS);
     }
+
+    /** The value as a tree of maps, lists, strings, numbers and booleans, as TO_YAML writes it (program runner). */
+    public static Object tree(Value value) {
+        return DataFormats.toTree(value, NO_TAGS);
+    }
+
+    /**
+     * Reads a value of a type from a tree, as FROM_YAML does (program runner).
+     *
+     * @throws de.joernott.c0de.core.error.C0deException TYPE_MISMATCH if the tree doesn't fit the type
+     */
+    public static Value read(Object tree, Type type) {
+        return DataFormats.read(tree, type.defaultValue(), type, NO_TAGS);
+    }
+
+    /**
+     * Parses YAML (or JSON) into maps, lists, strings, numbers, booleans and null.
+     *
+     * @throws de.joernott.c0de.core.error.C0deException INVALID_ARGUMENT for invalid YAML
+     */
+    public static Object parseYaml(String yaml) {
+        return DataFormats.parse(yaml, DataFormats.YAML);
+    }
+
+    /** A tree as YAML in block style. */
+    public static String writeYaml(Object tree) {
+        return DataFormats.writeYaml(tree);
+    }
 }

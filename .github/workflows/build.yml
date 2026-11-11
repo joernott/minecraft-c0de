@@ -42,6 +42,10 @@ jobs:
       - name: Report failed unit tests
         if: failure()
         run: scripts/ci/report-junit.sh core/build/test-results/test
+      - name: Program runner
+        run: |
+          ./gradlew :core:runnerJar --console=plain
+          java -jar core/build/runner/c0de-runner-*.jar --version
 
   core-windows:
     name: Interpreter tests on Windows

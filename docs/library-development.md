@@ -190,3 +190,7 @@ If the function waits for something it can't predict, it returns `NativeResult.w
 `call.process().host()` is a `de.joernott.c0de.library.ProcessHost` for processes that trigger blocks started: the server, the level and position of the trigger block, the UUID of its owner (the player who configured it), the program and the PID. Functions that change the world SHOULD check permissions like c0de/minecraft does: such changes are only allowed if the owner is an operator or a setting of your mod allows them, and blocks on the sheets of the c0de dimension MUST NOT be changed (PERMISSION_DENIED).
 
 Functions can't access chunks that are not loaded; raise CHUNK_NOT_LOADED instead of loading them.
+
+## The program runner
+
+The [program runner](runner.md) runs c0de programs without Minecraft, e.g. to test the examples of your documentation. To make your library available there, publish a small jar with a class that implements `de.joernott.c0de.core.library.LibraryProvider` and adds your library and constants to the registry, named in `META-INF/services/de.joernott.c0de.core.library.LibraryProvider`. Such a library can only use the interpreter (`core`), not Minecraft.

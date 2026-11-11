@@ -340,8 +340,8 @@ After sprint 12, every new Minecraft release is added as a new node in its own s
 
 | Task | Description | Done |
 |---|---|:---:|
-| 14.1 | Program runner: a command-line entry point of `core` that reads a program in the text notation of the guide, validates it, runs a function with parameters from a YAML file and prints the results and the error as YAML. Programs that include c0de/minecraft are validated only, like in GuideExamplesTest; other libraries (c0de net) are added to the class path. Unit tests. |  |
-| 14.2 | The release attaches the runner as `c0de-runner-<version>.jar` to the GitHub release, so the CI of www-c0de can test the programs of its tutorials against the tag in its `sources.yaml` (a program file with an `.expected.yaml` of its results). |  |
+| 14.1 | Program runner: a command-line entry point of `core` that reads a program in the text notation of the guide, validates it, runs a function with parameters from a YAML file and prints the results and the error as YAML. Programs that include c0de/minecraft are validated only, like in GuideExamplesTest; other libraries (c0de net) are added to the class path. Unit tests. | ✅ |
+| 14.2 | The release attaches the runner as `c0de-runner-<version>.jar` to the GitHub release, so the CI of www-c0de can test the programs of its tutorials against the tag in its `sources.yaml` (a program file with an `.expected.yaml` of its results). | ✅ |
 | 14.3 | German translation of the guide: `docs/de/guide/*.md` with the same file names and the same `##` and `###` headings in the same order as the English chapters (the import of c0de.at matches sections by position). Names in programs stay English, comments and texts are translated. |  |
 | 14.4 | German translation of the handbooks: `docs/de/reference/*.md`, with the same rules; the images are shared with the English files. |  |
 | 14.5 | Tests of the translations: GuideExamplesTest also validates the programs of `docs/de`, and a test checks that every translated file has the headings of its English original in the same order and levels. |  |

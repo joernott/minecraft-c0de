@@ -2,6 +2,13 @@
 
 All notable changes of the c0de mod. The section of a version is also its changelog on Modrinth.
 
+## Unreleased
+
+Documentation: for the tutorials of c0de.at and for players who read German.
+
+- **C0DE_VERSION**: a built-in constant with the version of the mod. Other mods can register built-in constants of their own, like C0DE_NET_VERSION of c0de net.
+- **Program runner**: `c0de-runner-<version>.jar`, attached to the GitHub release, runs and tests c0de programs without Minecraft (see docs/runner.md).
+
 ## 0.3.0
 
 Feedback from playing 0.2.0, for all Minecraft versions of 0.2.0.

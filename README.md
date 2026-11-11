@@ -11,6 +11,7 @@ The mod supports Fabric and NeoForge on Minecraft 1.21.1, 1.21.11, 26.1.2, 26.2 
   - [Guide](docs/guide/01-getting-started.md): how to write and run programs, for players
   - [Reference](docs/reference/index.md): handbooks with a page for every block, item and function
   - [Writing libraries](docs/library-development.md): how other mods add c0de libraries
+  - [Program runner](docs/runner.md): runs and tests programs without Minecraft
   - [Concept](docs/concept.md): the language, the dimension, the blocks and how programs are run
   - [Implementation plan](docs/implementation_plan.md): sprints and tasks
   - [Development environment](docs/development_environment.md): tools, VM, CI
