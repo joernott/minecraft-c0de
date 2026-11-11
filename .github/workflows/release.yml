@@ -1,8 +1,8 @@
 name: Release
 
 # Publishes a version (task 11.12): pushing a tag v<mod.version> builds and tests every node, publishes the jars
-# to Modrinth and creates a GitHub release with the jars, the program runner c0de-runner-<version>.jar (task 14.2)
-# and the section of the version in CHANGELOG.md.
+# to Modrinth and creates a GitHub release with the jars, the program runner c0de-runner-<version>.jar (task 14.2),
+# the 3D models of the blocks c0de-models-<version>.zip (task 14.8) and the section of the version in CHANGELOG.md.
 #
 # Needs the repository secret MODRINTH_TOKEN (a Modrinth personal access token with the scopes to create
 # versions) and publish.modrinth_id in stonecutter.properties.toml.
@@ -112,11 +112,16 @@ jobs:
         run: |
           ./gradlew :core:test :core:runnerJar --console=plain
           java -jar core/build/runner/c0de-runner-${{ needs.version.outputs.version }}.jar --version
-      - name: Upload the runner
+          python3 scripts/export_models.py --zip
+          # One folder, so the files land next to the jars of the nodes when the artifacts are merged
+          mkdir dist
+          cp core/build/runner/c0de-runner-${{ needs.version.outputs.version }}.jar dist/
+          cp build/c0de-models-${{ needs.version.outputs.version }}.zip dist/
+      - name: Upload the runner and the models
         uses: actions/upload-artifact@v7
         with:
           name: c0de-runner
-          path: core/build/runner/c0de-runner-${{ needs.version.outputs.version }}.jar
+          path: dist/*
           if-no-files-found: error
 
   publish:
@@ -161,4 +166,4 @@ jobs:
           ' CHANGELOG.md > notes.md
           prerelease=""
           case "$VERSION" in 0.*) prerelease="--prerelease" ;; esac
-          gh release create "$GITHUB_REF_NAME" jars/*.jar --title "c0de $VERSION" --notes-file notes.md $prerelease
+          gh release create "$GITHUB_REF_NAME" jars/*.jar jars/*.zip --title "c0de $VERSION" --notes-file notes.md $prerelease

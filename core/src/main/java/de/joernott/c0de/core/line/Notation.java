@@ -263,7 +263,8 @@ public final class Notation {
         return text.toString().stripTrailing();
     }
 
-    private static String format(Block block) {
+    /** The notation of one block, e.g. {@code PROGRAM}, {@code count}, {@code "Hello"} or {@code +}. */
+    public static String format(Block block) {
         return switch (block) {
             case KeywordBlock keyword -> keyword.keyword().name();
             case LabelBlock label -> label.name() == null ? "LABEL" : label.name() + IndexText.format(label.index());

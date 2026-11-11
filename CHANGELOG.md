@@ -8,6 +8,7 @@ Documentation: for the tutorials of c0de.at and for players who read German.
 
 - **C0DE_VERSION**: a built-in constant with the version of the mod. Other mods can register built-in constants of their own, like C0DE_NET_VERSION of c0de net.
 - **Program runner**: `c0de-runner-<version>.jar`, attached to the GitHub release, runs and tests c0de programs without Minecraft (see docs/runner.md).
+- **3D models**: `c0de-models-<version>.zip`, attached to the GitHub release, has every block of the mod as a glTF model, for the 3D views of programs on c0de.at.
 
 ## 0.3.0
 

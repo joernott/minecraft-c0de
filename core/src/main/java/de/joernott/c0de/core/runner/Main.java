@@ -16,7 +16,11 @@ import java.util.Map;
  *
  * <pre>
  * java -jar c0de-runner.jar [--options options.yaml] [--expected expected.yaml] program.c0de
+ * java -jar c0de-runner.jar --layout program.c0de
  * </pre>
+ *
+ * <p>With {@code --layout}, it prints the blocks of the program as they lie on the sheet instead of running it
+ * ({@link ProgramRunner#layout}), for the 3D views of the website.
  *
  * <p>It prints the report of {@link ProgramRunner} as YAML. The exit code is 0 if the program is valid and ran to
  * its end (or was only validated) and matches the expected values, 1 if not, and 2 for a wrong command line or a
@@ -25,7 +29,8 @@ import java.util.Map;
  */
 public final class Main {
     private static final String USAGE =
-            "Usage: c0de-runner [--options options.yaml] [--expected expected.yaml] program.c0de";
+            "Usage: c0de-runner [--options options.yaml] [--expected expected.yaml] program.c0de\n"
+                    + "       c0de-runner --layout program.c0de";
 
     private Main() {}
 
@@ -40,6 +45,7 @@ public final class Main {
         Path options = null;
         Path expected = null;
         Path program = null;
+        boolean layout = false;
         for (int i = 0; i < args.length; i++) {
             switch (args[i]) {
                 case "--options", "--expected" -> {
@@ -54,6 +60,7 @@ public final class Main {
                         expected = file;
                     }
                 }
+                case "--layout" -> layout = true;
                 case "--version" -> {
                     out.println("c0de-runner " + StandardLibraries.version());
                     return 0;
@@ -76,6 +83,11 @@ public final class Main {
             return 2;
         }
         try {
+            if (layout) {
+                out.print(JsonValues.writeYaml(
+                        ProgramRunner.layout(read(program), ProgramRunner.libraries(), java.time.ZoneOffset.UTC)));
+                return 0;
+            }
             ProgramRunner.Options settings =
                     options == null ? ProgramRunner.Options.DEFAULT : ProgramRunner.Options.of(yaml(options));
             Map<String, Object> report = ProgramRunner.run(read(program), settings, ProgramRunner.libraries());

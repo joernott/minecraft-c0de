@@ -13,6 +13,9 @@ import de.joernott.c0de.core.library.LibraryProvider;
 import de.joernott.c0de.core.library.LibraryRegistry;
 import de.joernott.c0de.core.library.standard.JsonValues;
 import de.joernott.c0de.core.library.standard.StandardLibraries;
+import de.joernott.c0de.core.line.Block;
+import de.joernott.c0de.core.line.Keyword;
+import de.joernott.c0de.core.line.Line;
 import de.joernott.c0de.core.line.Notation;
 import de.joernott.c0de.core.line.Sheet;
 import de.joernott.c0de.core.program.Program;
@@ -33,6 +36,7 @@ import java.util.ArrayList;
 import java.util.Deque;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -254,6 +258,73 @@ public final class ProgramRunner {
         report.put("screen", console.screen());
         report.put("written", console.written);
         return report;
+    }
+
+    /**
+     * The blocks of a program as they lie on the sheet, for the 3D views of the website (task 14.7): every line
+     * with the state of its line number and its blocks with their position, the ID of the block of the mod, the
+     * block state (operators) and their text in the notation. Lines that use c0de/minecraft count as valid.
+     */
+    public static Map<String, Object> layout(String text, LibraryRegistry libraries, ZoneId zone) {
+        Sheet sheet = Notation.parse(text, zone);
+        Program program = ProgramParser.parse(sheet);
+        Validation validation = Validator.validate(sheet, libraries);
+        if (includes(program, MINECRAFT) && libraries.find(MINECRAFT).isEmpty()) {
+            Map<Integer, Problem> problems = new LinkedHashMap<>(validation.problems());
+            problems.values().removeIf(ProgramRunner::ofMinecraft);
+            validation =
+                    new Validation(validation.programName(), validation.endLine(), problems, validation.functions());
+        }
+        List<Map<String, Object>> lines = new ArrayList<>();
+        for (Line line : sheet.lines()) {
+            if (line.isEmpty()) {
+                continue;
+            }
+            Map<String, Object> entry = new LinkedHashMap<>();
+            entry.put("z", line.z());
+            Block first = line.cells().getFirst().block();
+            boolean neutral = first instanceof Block.CommentBlock
+                    || first instanceof Block.KeywordBlock keyword && keyword.keyword() == Keyword.NOOP;
+            entry.put(
+                    "state",
+                    neutral ? "neutral" : validation.state(line.z()).name().toLowerCase(Locale.ROOT));
+            List<Map<String, Object>> blocks = new ArrayList<>();
+            for (Line.Cell cell : line.cells()) {
+                Map<String, Object> block = new LinkedHashMap<>();
+                block.put("x", cell.x());
+                block.put("block", "c0de:" + blockId(cell.block()));
+                if (cell.block() instanceof Block.OperatorBlock operator) {
+                    block.put(
+                            "state",
+                            "operator="
+                                    + (operator.operator() == null
+                                            ? "none"
+                                            : operator.operator().name().toLowerCase(Locale.ROOT)));
+                }
+                block.put("text", Notation.format(cell.block()));
+                blocks.add(block);
+            }
+            entry.put("blocks", blocks);
+            lines.add(entry);
+        }
+        Map<String, Object> layout = new LinkedHashMap<>();
+        layout.put("program", program.name());
+        layout.put("lines", lines);
+        return layout;
+    }
+
+    /** The ID of the block of the mod that holds a block of the line model (CodeBlockType#id). */
+    private static String blockId(Block block) {
+        return switch (block) {
+            case Block.KeywordBlock keyword ->
+                (keyword.keyword().isType() ? "type_" : "")
+                        + keyword.keyword().name().toLowerCase(Locale.ROOT) + "_block";
+            case Block.LabelBlock label -> "label_block";
+            case Block.LiteralBlock literal -> "literal_block";
+            case Block.OperatorBlock operator -> "operator_block";
+            case Block.CommentBlock comment -> "comment_block";
+            case Block.TagBlock tag -> "tag_block";
+        };
     }
 
     /** True if the report is of a program that is valid and ran to its end, or that was only validated. */

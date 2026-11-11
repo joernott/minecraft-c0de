@@ -46,6 +46,8 @@ jobs:
         run: |
           ./gradlew :core:runnerJar --console=plain
           java -jar core/build/runner/c0de-runner-*.jar --version
+      - name: 3D models of the blocks
+        run: python3 scripts/export_models.py --zip
 
   core-windows:
     name: Interpreter tests on Windows

@@ -71,6 +71,7 @@ YAML (for TO_YAML/FROM_YAML and the c0de disk) needs SnakeYAML Engine (YAML 1.2)
   - Stonecutter selects the *active* node (e.g. `1.21.1-fabric`), whose sources are shown in the IDE. `./gradlew "Set active project to 1.21.1-neoforge"` switches it.
   - `runClient` and `runServer` of each node start Minecraft with the mod in development mode. Two client instances (one per loader) can be connected to the test servers on the VM.
   - `py scripts/generate_content.py` writes the block states, models, loot tables, recipes and language files of the language blocks, and `py scripts/generate_textures.py` writes the placeholder textures. Both loaders use the same generated files. After adding a block to `CodeBlockType`, add it to both scripts and commit the generated files; CI fails if the JSON files are not up to date.
+  - `py scripts/export_models.py [--zip]` exports every block as a glTF model into `build/models/` (and `build/c0de-models-<version>.zip`) for the 3D views of c0de.at; the textures of Minecraft are replaced by stand-ins drawn by the script. It fails if a registered block has no block state. `./gradlew :core:runnerJar` builds the [program runner](runner.md).
   - To test a built jar like a player, add it to a Fabric or NeoForge 1.21.1 profile in the Modrinth App ("Add content" → from file). This also shows how the mod behaves together with other mods from Modrinth.
 
 ## Development VM

@@ -95,6 +95,30 @@ error:
   line: 9
 ```
 
+## The layout of a program
+
+`--layout` prints the blocks of the program as they lie on the sheet, instead of running it. The website uses it with the 3D models of the blocks (`c0de-models-<version>.zip`, made by `scripts/export_models.py`) to show programs in 3D.
+
+```
+java -jar c0de-runner-<version>.jar --layout program.c0de
+```
+
+```yaml
+program: doubler
+lines:
+- z: 0                        # the line, counted from the north end of the sheet
+  state: valid                # the color of the line number: valid, incomplete, invalid or neutral (NOOP, COMMENT)
+  blocks:
+  - x: 5                      # the relative x coordinate on the sheet (5 to 28)
+    block: c0de:program_block # the ID of the block, a key of "blocks" in index.json of the models
+    text: PROGRAM             # the block in the notation
+  - x: 6
+    block: c0de:label_block
+    text: doubler
+```
+
+Operators also have the `state` of their block (e.g. `operator=add`), which selects their model. Lines that use c0de/minecraft count as valid.
+
 ## Libraries of other mods
 
 A mod can bring its libraries and built-in constants to the runner with a jar of its own that implements `de.joernott.c0de.core.library.LibraryProvider` and names it in `META-INF/services/de.joernott.c0de.core.library.LibraryProvider`. Put it on the class path next to the runner:

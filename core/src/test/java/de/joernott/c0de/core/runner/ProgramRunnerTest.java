@@ -239,6 +239,40 @@ class ProgramRunnerTest {
         assertEquals(2, Main.run(new String[] {folder.resolve("missing.c0de").toString()}, stdout, stderr));
     }
 
+    @Test
+    void theLayoutHasTheBlocksOfTheMod() {
+        Map<String, Object> layout = ProgramRunner.layout("""
+                PROGRAM chime
+                NOOP
+                INCLUDE c0de/minecraft
+                NOOP
+                STRUCT point
+                BEGIN
+                    x INTEGER
+                END STRUCT
+                NOOP
+                FUNCTION ring
+                BEGIN
+                    CALL c0de/minecraft/BEEP
+                    VARIABLE n INTEGER 1 + 2
+                END FUNCTION
+                """, StandardLibraries.registry(), java.time.ZoneOffset.UTC);
+        assertEquals("chime", layout.get("program"));
+        List<?> lines = (List<?>) layout.get("lines");
+        assertEquals(14, lines.size());
+        Map<?, ?> noop = (Map<?, ?>) lines.get(1);
+        assertEquals("neutral", noop.get("state"));
+        Map<?, ?> struct = (Map<?, ?>) lines.get(4);
+        assertEquals("c0de:type_struct_block", ((Map<?, ?>) ((List<?>) struct.get("blocks")).get(0)).get("block"));
+        Map<?, ?> call = (Map<?, ?>) lines.get(11);
+        assertEquals("valid", call.get("state"));
+        List<?> variable = (List<?>) ((Map<?, ?>) lines.get(12)).get("blocks");
+        assertEquals(Map.of("x", 6, "block", "c0de:variable_block", "text", "VARIABLE"), variable.get(0));
+        assertEquals(
+                Map.of("x", 10, "block", "c0de:operator_block", "state", "operator=add", "text", "+"), variable.get(4));
+        assertEquals("c0de:type_integer_block", ((Map<?, ?>) variable.get(2)).get("block"));
+    }
+
     private static String[] concat(String[] base, String... more) {
         String[] all = new String[base.length + more.length];
         System.arraycopy(base, 0, all, 0, base.length);
