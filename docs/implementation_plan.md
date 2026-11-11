@@ -48,6 +48,7 @@ A task is done when
 | 11 | Release 0.1.0 for 1.21.1 | Polished, documented and published first alpha of the mod |  |
 | 12 | Newer Minecraft versions | The mod is released for 1.21.x and 26.x |  |
 | 13 | Usability, process information and colors (0.3.0) | Pausable timers, a better disk drive, the built-in constants SHEET, PID, CURSOR and COLOR_*, the used stack in the cursor dialog, mining and placing blocks with items from inventories, boots and pliers | ✅ |
+| 14 | Documentation | The guide and the handbooks in German, a runner that tests the programs of the tutorials of c0de.at, and 3D models of all blocks for the website |  |
 
 ## Sprint 0: Concept and plan
 
@@ -332,6 +333,22 @@ After sprint 12, every new Minecraft release is added as a new node in its own s
 | 13.12 | Boots: a left click with any boots on the FUNCTION block of a FUNCTION line teleports the player next to the END FUNCTION line of the function and back; a right click on a FUNCTION block teleports them next to the PROGRAM line. Unit tests and GameTest. || ✅ |
 | 13.13 | Pliers (shapeless from shears and a stick): a left click moves a line, or the marked area that contains it, one block to the left, a right click to the right; nothing moves if a block would leave the code area. Unit tests and GameTest. || ✅ |
 | 13.14 | Release 0.3.0 for all Minecraft versions, released on 2026-10-28 (GitHub pre-release and ten Modrinth versions, environment "client and server"). | ✅ |
+
+## Sprint 14: Documentation
+
+**Goal:** the documentation reaches players who don't read English and works on the website c0de.at: the guide and the handbooks are translated into German, the programs of the tutorials on c0de.at are tested with every release of c0de, and the website can show programs as 3D models. Planned on 2026-11-11 from the tutorial plan of www-c0de (`docs/tutorials.md` there).
+
+| Task | Description | Done |
+|---|---|:---:|
+| 14.1 | Program runner: a command-line entry point of `core` that reads a program in the text notation of the guide, validates it, runs a function with parameters from a YAML file and prints the results and the error as YAML. Programs that include c0de/minecraft are validated only, like in GuideExamplesTest; other libraries (c0de net) are added to the class path. Unit tests. |  |
+| 14.2 | The release attaches the runner as `c0de-runner-<version>.jar` to the GitHub release, so the CI of www-c0de can test the programs of its tutorials against the tag in its `sources.yaml` (a program file with an `.expected.yaml` of its results). |  |
+| 14.3 | German translation of the guide: `docs/de/guide/*.md` with the same file names and the same `##` and `###` headings in the same order as the English chapters (the import of c0de.at matches sections by position). Names in programs stay English, comments and texts are translated. |  |
+| 14.4 | German translation of the handbooks: `docs/de/reference/*.md`, with the same rules; the images are shared with the English files. |  |
+| 14.5 | Tests of the translations: GuideExamplesTest also validates the programs of `docs/de`, and a test checks that every translated file has the headings of its English original in the same order and levels. |  |
+| 14.6 | The Patchouli books in German: generate_book.py also writes the `de_de` pages from `docs/de`, so the books follow the language of the game. |  |
+| 14.7 | 3D models of all blocks: a script exports every block of the mod (language blocks, type blocks, devices, triggers, the floor of a sheet with the cursor rail and the line numbers) with its textures as glTF 2.0, including the shapes that ExtrudedModel computes. An index file maps the block ids to the files. A test checks that every registered block has a model. |  |
+| 14.8 | The release attaches the models as `c0de-models-<version>.zip`; www-c0de builds 3D views of example programs from them with `<model-viewer>`, with screenshots as a fallback. |  |
+| 14.9 | Release with the translations, the runner and the models for all Minecraft versions. |  |
 
 ## Risks
 

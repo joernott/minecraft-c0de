@@ -641,3 +641,13 @@ There are two more features I want to implement:
 ## 2026-10-28 – Release 0.3.0
 
 please start the release
+
+## 2026-11-11 – Documentation sprint for the tutorials of c0de.at
+
+To answer the questions:
+T1, T2: The proposals make sense
+T3: The proposal makes sense, please add a new sprint in the implementation plans for minecraft-c0de and minecraft-code-net, labeled documentation. Add this as task to these sprints, also add a task to generate the german translation to the existing documentation to these sprints.
+T4: Add another step to the documentation sprint of minecraft-c0de to extract every block as a 3d models and use something like https://modelviewer.dev/ here to display the examples as 3d models. Screenshots still make sense though as a fallback and for displaying outputs.
+T5: The proposal is fine, maybe also implement a version checker for c0de by checking the latest release version on github for the minecraft-c0de project.
+T6: Yes, this should be stated somewhere explicitly.
+T7: The proposal makes sense
