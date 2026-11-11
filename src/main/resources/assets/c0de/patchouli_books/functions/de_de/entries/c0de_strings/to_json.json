@@ -1,0 +1,24 @@
+{
+  "name": "TO_JSON",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_strings",
+  "sortnum": 16,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Wandelt einen Wert in ein JSON-Dokument um."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Mit $(1)indent$() 0 ist das Dokument eine Zeile. Wenn $(1)value$() eine einzelne Variable mit einem json-Tag ist, wird der Wert am Pfad des Tags abgelegt. $(1)indent$() außerhalb von 0 bis 16 löst INVALID_ARGUMENT aus."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)value$() beliebiger Typ: der Wert, der umgewandelt wird$(li)$(1)indent$() INTEGER: Leerzeichen pro Ebene, 0 bis 16 (optional, Standard 0)$(li)Ergebnis $(1)result$() STRING: das JSON-Dokument"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/strings/TO_JSON$(br)  PARAMETER value config ;$(br)  PARAMETER indent 2 ;$(br)  RESULT result json$()"
+    }
+  ]
+}

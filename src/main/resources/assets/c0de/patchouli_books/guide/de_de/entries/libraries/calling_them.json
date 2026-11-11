@@ -1,0 +1,20 @@
+{
+  "name": "Aufrufen",
+  "icon": "c0de:include_block",
+  "category": "c0de:libraries",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Alle diese Funktionen werden mit CALL aufgerufen, wie deine eigenen Funktionen. Eingebaute Funktionen benutzen ihren einfachen Namen. Bibliotheksfunktionen benutzen ihren vollen Namen, zum Beispiel $(1)c0de/strings/MID$()."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/strings/MID$(br)  PARAMETER text name ;$(br)  PARAMETER start 2 ;$(br)  PARAMETER length 3 ;$(br)  RESULT result part$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Eine Funktion mit einem Ergebnis nennt es $(1)result$(). Positionen in Texten und Listen beginnen bei 0."
+    }
+  ]
+}

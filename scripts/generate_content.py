@@ -310,6 +310,7 @@ MESSAGES = [
     ("dialog.c0de.trigger.program", "Program", "Programm"),
     ("dialog.c0de.trigger.function", "Function", "Funktion"),
     ("dialog.c0de.trigger.interval", "Interval in ticks", "Intervall in Ticks"),
+    ("dialog.c0de.trigger.paused", "Paused by redstone", "Durch Redstone pausiert"),
     ("dialog.c0de.trigger.run", "Run", "Starten durch"),
     ("dialog.c0de.trigger.run.owner", "Only me", "Nur mich"),
     ("dialog.c0de.trigger.run.players", "Players", "Spieler"),
@@ -653,6 +654,9 @@ def main() -> None:
                 type_name + (" Type Item" if column == 1 else "-Typkarte"))
         for operator, english, german in OPERATORS:
             entries["dialog.c0de.operator." + operator.lower()] = english if column == 1 else german
+        # The names and landing texts of the Patchouli books; untranslated books keep their English texts
+        entries.update(generate_book.TRANSLATIONS["en_us"])
+        entries.update(generate_book.TRANSLATIONS[language])
         write(ASSETS / "lang" / (language + ".json"), entries)
 
 

@@ -1,0 +1,6 @@
+{
+  "name": "Programme ausführen",
+  "description": "Ein Programm auf einem Blatt tut von selbst nichts. Auslöserblöcke starten es, versorgen es mit Daten und sammeln seine Ergebnisse ein. Ein laufendes Programm heißt $(l)Prozess$().",
+  "icon": "c0de:trigger_block",
+  "sortnum": 2
+}

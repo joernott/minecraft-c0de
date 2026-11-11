@@ -1,0 +1,29 @@
+{
+  "name": "INCLUDE",
+  "icon": "c0de:include_block",
+  "category": "c0de:program_structure",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Eine INCLUDE-Zeile lädt eine Bibliothek."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Auf den Block folgt ein LABEL mit dem Bibliotheksnamen, zum Beispiel $(1)c0de/math$(). INCLUDE-Zeilen beginnen bei x=5, direkt nach dem NOOP in Zeile 1. Sie stehen vor allen Strukturen, Variablen, Konstanten und Funktionen."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:include_block",
+      "text": "Stelle einen NOOP-Block und eine leere Karte zusammen her."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)PROGRAM math$(br)NOOP$(br)INCLUDE c0de/math$(br)INCLUDE c0de/strings$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Jetzt kann das Programm Funktionen wie $(1)c0de/math/ROUND$() aufrufen."
+    }
+  ]
+}

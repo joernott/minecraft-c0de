@@ -1,0 +1,16 @@
+{
+  "name": "Die Beispiele lesen",
+  "icon": "c0de:wrench",
+  "category": "c0de:getting_started",
+  "sortnum": 6,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Diese Anleitung schreibt Programme als Text. Jede Textzeile ist eine Zeile auf dem Blatt. Vier Leerzeichen bedeuten einen Block weiter östlich (nach rechts)."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Wörter in Großbuchstaben wie $(1)FUNCTION$() sind Schlüsselwortblöcke. Kleingeschriebene Namen sind LABEL-Blöcke. Zahlen und Text in Anführungszeichen sind LITERAL-Blöcke. Zeichen wie $(1)+$(), $(1)⊕$() und $(1);$() sind OPERATOR-Blöcke.$(br2)$(1)//$() steht für einen COMMENT-Block. Der Text danach ist der Kommentar."
+    }
+  ]
+}

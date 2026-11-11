@@ -1,0 +1,16 @@
+{
+  "name": "EACH-Schleifen",
+  "icon": "c0de:program_block",
+  "category": "c0de:language",
+  "sortnum": 16,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "EACH geht durch ein Array oder einen Hash. Bei einem Array bekommt die Schleifenvariable jedes Element. Bei einem Hash bekommt sie jeden Schlüssel in alphabetischer Reihenfolge."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)EACH key h$(br)BEGIN$(br)  ASSIGN keys keys ⊕ key ⊕ \"=\" ⊕ h[key] ⊕ \" \" ;$(br)END EACH$()"
+    }
+  ]
+}

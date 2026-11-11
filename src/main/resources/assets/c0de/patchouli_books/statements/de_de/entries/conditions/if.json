@@ -1,0 +1,29 @@
+{
+  "name": "IF",
+  "icon": "c0de:if_block",
+  "category": "c0de:conditions",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "IF führt seinen Codeblock nur aus, wenn sein Ausdruck wahr ist.$(br2)Der Ausdruck muss ein BOOLEAN ergeben und endet mit $(1);$(). Danach folgt ein Codeblock. Auf das letzte END der Bedingung folgt ein IF-Block."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Es gibt kein ELSE IF. Setze stattdessen ein weiteres IF in den ELSE-Codeblock."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:if_block",
+      "text": "Stelle eine Strukturbasis und Weizenkörner zusammen her, oder verwandle einen ELSE-Block in einen IF-Block."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:if_block_from_else_block"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)IF candidate \\ divisor = 0 ;$(br)BEGIN$(br)  ASSIGN prime FALSE ;$(br)END IF$()"
+    }
+  ]
+}

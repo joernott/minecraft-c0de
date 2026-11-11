@@ -1,0 +1,16 @@
+{
+  "name": "Stiefel",
+  "icon": "c0de:hammer",
+  "category": "c0de:tools",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Mit beliebigen Stiefeln findest du dich in langen Programmen zurecht. Halte sie in der Haupthand und linksklicke auf den FUNCTION-Block am Anfang einer Funktion. Du landest neben ihrer END-FUNCTION-Zeile. Linksklicke auf den FUNCTION-Block hinter END, um zurück zum Anfang zu gehen."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Rechtsklicke mit Stiefeln auf einen beliebigen FUNCTION-Block, um zur PROGRAM-Zeile oben auf dem Blatt zu gehen."
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "name": "c0de/math",
+  "description": "Die Mathematik-Bibliothek hat Zahlenfunktionen und Zufallszahlen und braucht INCLUDE c0de/math.",
+  "icon": "c0de:function_block",
+  "sortnum": 2
+}

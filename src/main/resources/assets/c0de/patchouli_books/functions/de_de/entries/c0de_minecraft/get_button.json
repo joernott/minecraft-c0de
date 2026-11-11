@@ -1,0 +1,20 @@
+{
+  "name": "GET_BUTTON",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_minecraft",
+  "sortnum": 8,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Prüft, ob ein Knopf gedrückt ist.$(br2)Ein Block, der kein Knopf ist, löst INVALID_ARGUMENT aus."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)position$() STRUCT c0de/minecraft/POSITION: wo der Knopf ist$(li)Ergebnis $(1)result$() BOOLEAN: wahr, wenn der Knopf gedrückt ist"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/minecraft/GET_BUTTON$(br)  PARAMETER position button ;$(br)  RESULT result pressed$()"
+    }
+  ]
+}

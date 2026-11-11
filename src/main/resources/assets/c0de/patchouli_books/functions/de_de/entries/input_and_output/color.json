@@ -1,0 +1,24 @@
+{
+  "name": "COLOR",
+  "icon": "minecraft:book",
+  "category": "c0de:input_and_output",
+  "sortnum": 7,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Legt die Farben für den Text fest, der ab jetzt ausgegeben wird.$(br2)Die Farben sind die 16 Farben von Minecraft-Text, von 0 (Schwarz) bis 15 (Weiß). Hintergrund 0 ist die Farbe des Bildschirms. Eine Zahl außerhalb von 0 bis 15 löst INVALID_ARGUMENT aus."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Jedes Programm hat für jede Farbe eine Konstante: COLOR_BLACK, COLOR_DARK_BLUE, COLOR_DARK_GREEN, COLOR_DARK_AQUA, COLOR_DARK_RED, COLOR_DARK_PURPLE, COLOR_GOLD, COLOR_GRAY, COLOR_DARK_GRAY, COLOR_BLUE, COLOR_GREEN, COLOR_AQUA, COLOR_RED, COLOR_LIGHT_PURPLE, COLOR_YELLOW und COLOR_WHITE."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)foreground$() INTEGER: die Farbe der Buchstaben, 0 bis 15$(li)$(1)background$() INTEGER: die Farbe hinter den Buchstaben, 0 bis 15 (optional, Standard 0)"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL COLOR$(br)  PARAMETER foreground COLOR_YELLOW ;$(br)  PARAMETER background COLOR_DARK_BLUE ;$()"
+    }
+  ]
+}

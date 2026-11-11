@@ -1,0 +1,24 @@
+{
+  "name": "Zahlen addieren",
+  "icon": "c0de:function_block",
+  "category": "c0de:examples",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(1)PROGRAM adder$(br)NOOP$(br)NOOP$(br)FUNCTION sum$(br)  PARAMETER n INTEGER$(br)  RESULT result INTEGER$(br)BEGIN$(br)  IF n = 0 ;$(br)  BEGIN$(br)    RETURN$(br)  END IF$(br)  CALL sum$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)    PARAMETER n n - 1 ;$(br)    RESULT result result$(br)  ASSIGN result result + n ;$(br)END FUNCTION$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Diese Funktion addiert alle Zahlen von 1 bis $(1)n$(). Sie ruft sich selbst mit $(1)n - 1$() auf, bis $(1)n$() 0 ist, und addiert dann auf dem Rückweg $(1)n$(). Für $(1)n$() = 10 ist das Ergebnis 55."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Zum Ausprobieren legst du eine INTEGER-Variablenkarte mit dem Namen $(1)n$() hinein. Jeder Aufruf braucht Platz auf dem Stack des Cursors, deshalb können sehr große Zahlen ihn abstürzen lassen."
+    }
+  ]
+}

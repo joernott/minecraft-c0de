@@ -1,0 +1,33 @@
+{
+  "name": "EXIT",
+  "icon": "c0de:exit_block",
+  "category": "c0de:program_structure",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "EXIT beendet sofort den ganzen Prozess."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Das funktioniert, egal wie tief der Cursor in Funktionen und Codeblöcken steckt. Danach folgt ein Ausdruck mit einer Zahl von 0 bis 15: der Exit-Code. Ein Komparator neben dem Auslöserblock kann ihn auslesen. EXIT funktioniert nur innerhalb von Funktionen."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Exit-Code 15 bedeutet, dass das Programm abgestürzt ist. Du kannst $(1)EXIT 15 ;$() auch für ein schwerwiegendes Problem verwenden."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:exit_block",
+      "text": "Lege eine Eisentür in die Mitte und acht NOOP-Blöcke darum herum. Du bekommst acht EXIT-Blöcke."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)EXIT 3 ;$(br)ASSIGN value 0 ;$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Die ASSIGN-Zeile läuft nie, weil EXIT den Prozess vorher beendet."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "name": "Namen",
+  "icon": "c0de:program_block",
+  "category": "c0de:language",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "LABEL-Blöcke enthalten Namen. Ein Name besteht aus den Buchstaben a-z und A-Z, den Ziffern 0-9 und dem Unterstrich. Er muss mit einem Buchstaben beginnen."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Schlüsselwörter in Großbuchstaben sind reserviert: $(1)RESULT$() ist kein gültiger Name, aber $(1)result$() und $(1)Result$() sind es. Bibliotheksnamen verwenden Schrägstriche, zum Beispiel $(1)c0de/math/PI$()."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Ein Label kann mit einem $(l)Index$() in einen Wert hineinzeigen, zum Beispiel $(1)list[0]$(), $(1)stock[\"gold\"]$() oder $(1)problem.code$(). Den Index gibst du als Text im LABEL-Dialog ein."
+    }
+  ]
+}

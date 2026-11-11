@@ -1,0 +1,6 @@
+{
+  "name": "Eingebaute Funktionen",
+  "description": "Eingebaute Funktionen arbeiten mit Arrays, Hashes und Fehlern und brauchen kein INCLUDE.",
+  "icon": "c0de:function_block",
+  "sortnum": 0
+}

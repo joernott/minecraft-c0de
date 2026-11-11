@@ -1,0 +1,16 @@
+{
+  "name": "Diskettenlaufwerk",
+  "icon": "c0de:hammer",
+  "category": "c0de:tools",
+  "sortnum": 7,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Das Diskettenlaufwerk sieht aus wie ein altes Diskettenlaufwerk. Steck eine Diskette in seinen Schlitz. $(l)Speichern$() schreibt das Programm der Diskette in den Ordner $(1)c0de$() deines Minecraft, neben $(1)saves$() und $(1)screenshots$(). $(l)Laden$() holt ein Programm aus diesem Ordner auf die Diskette. So behältst du deine Programme auf deinem eigenen Computer und kannst sie mit Freunden teilen."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Rezept: Eisenbarren in der oberen und unteren Reihe, und in der mittleren Reihe zwei glatte Steinstufen mit Redstone-Staub dazwischen."
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "name": "Variablenkarten",
+  "icon": "c0de:wrench",
+  "category": "c0de:getting_started",
+  "sortnum": 10,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Programme bekommen und liefern Daten als $(l)Variablenkarten$(). Unsere Funktion hat ein Ergebnis und keine Parameter, also braucht sie eine leere Karte, in die sie ihr Ergebnis schreibt."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Stelle eine nicht initialisierte Variablenkarte aus einer $(l)Datenkarte$() und $(l)hellblauem Farbstoff$() her. Lege sie in das Eingabeinventar des Auslöserblocks."
+    }
+  ]
+}

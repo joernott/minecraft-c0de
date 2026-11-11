@@ -1,0 +1,6 @@
+{
+  "name": "c0de/strings",
+  "description": "Die String-Bibliothek hat Textfunktionen, Zahlenumwandlungen, JSON und YAML und braucht INCLUDE c0de/strings.",
+  "icon": "c0de:function_block",
+  "sortnum": 3
+}

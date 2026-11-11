@@ -1,0 +1,20 @@
+{
+  "name": "Die Welt verändern",
+  "icon": "c0de:include_block",
+  "category": "c0de:libraries",
+  "sortnum": 11,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Manche Funktionen verändern die Welt stärker:"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)MOVE_ITEMS, DELETE_ITEMS: Gegenstände in Behältern verschieben oder entfernen$(li)PLACE_BLOCK, REMOVE_BLOCK: Blöcke setzen oder abbauen$(li)SPAWN_ITEM, SPAWN_ENTITY: Gegenstände und Kreaturen erschaffen$(li)TELEPORT: ein Objekt bewegen"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Positionen werden als Struktur $(1)c0de/minecraft/POSITION$() mit x, y, z und einer optionalen Dimension angegeben. Programme können die Blöcke auf den Blättern der c0de-Dimension niemals verändern."
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "name": "SAY",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_minecraft",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Schreibt eine Nachricht in den Chat."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Die Nachricht beginnt mit dem Programmnamen und der PID. Mit $(1)player$() bekommt nur dieser Spieler sie; wenn er nicht online ist, wird INVALID_ARGUMENT ausgelöst. Sonst bekommen sie alle Spieler in der Nähe des Auslöserblocks (standardmäßig 64 Blöcke)."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)message$() STRING: die Nachricht$(li)$(1)player$() STRING: der Name eines Spielers (optional, Standard leer für alle Spieler in der Nähe)"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/minecraft/SAY$(br)  PARAMETER message \"The farm is full!\" ;$(br)  PARAMETER player \"Alex\" ;$()"
+    }
+  ]
+}

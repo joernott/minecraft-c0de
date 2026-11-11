@@ -1,0 +1,24 @@
+{
+  "name": "Fehler",
+  "icon": "c0de:program_block",
+  "category": "c0de:language",
+  "sortnum": 20,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Wenn etwas schiefgeht, zum Beispiel eine Division durch null, hält die Funktion an und $(l)löst$() einen Fehler $(l)aus$(). Der Fehler geht an den Aufrufer und dann weiter nach oben an dessen Aufrufer."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Wenn der Fehler die Einstiegsfunktion erreicht, $(l)stürzt$() der Prozess $(l)ab$(). Fehler im Programm selbst, zum Beispiel eine falsche Einrückung, lassen ihn sofort abstürzen."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Um einen Fehler abzufangen, füge der CALL-Zeile eine Variable vom Typ ERROR hinzu. Der Aufrufer macht dann weiter, und du kannst $(1)code$(), $(1)message$(), $(1)context$() und $(1)line$() des Fehlers prüfen."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)VARIABLE problem ERROR$(br)CALL fail problem$(br)ASSIGN code problem.code ;$()"
+    }
+  ]
+}

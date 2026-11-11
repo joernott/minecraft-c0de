@@ -1,0 +1,20 @@
+{
+  "name": "SET_LEVER",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_minecraft",
+  "sortnum": 7,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Schaltet einen Hebel an oder aus.$(br2)Ein Block, der kein Hebel ist, löst INVALID_ARGUMENT aus. Hebel auf den Blättern der c0de-Dimension können nicht verändert werden (PERMISSION_DENIED)."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)position$() STRUCT c0de/minecraft/POSITION: wo der Hebel ist$(li)$(1)on$() BOOLEAN: wahr zum Anschalten, falsch zum Ausschalten"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/minecraft/SET_LEVER$(br)  PARAMETER position lever ;$(br)  PARAMETER on TRUE ;$()"
+    }
+  ]
+}

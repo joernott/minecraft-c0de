@@ -62,6 +62,7 @@
   "dialog.c0de.trigger.program": "Program",
   "dialog.c0de.trigger.function": "Function",
   "dialog.c0de.trigger.interval": "Interval in ticks",
+  "dialog.c0de.trigger.paused": "Paused by redstone",
   "dialog.c0de.trigger.run": "Run",
   "dialog.c0de.trigger.run.owner": "Only me",
   "dialog.c0de.trigger.run.players": "Players",
@@ -193,5 +194,19 @@
   "dialog.c0de.operator.or": "Logical OR",
   "dialog.c0de.operator.open": "Opening parenthesis",
   "dialog.c0de.operator.close": "Closing parenthesis",
-  "dialog.c0de.operator.end_of_expression": "End of the expression"
+  "dialog.c0de.operator.end_of_expression": "End of the expression",
+  "book.c0de.guide.name": "c0de Guide",
+  "book.c0de.guide.landing_text": "Programs built from blocks, written on the greenbar paper of the c0de dimension and run by trigger blocks. This guide shows how to write and run them.",
+  "book.c0de.data.name": "c0de Data",
+  "book.c0de.data.landing_text": "This book lists the blocks that describe data. Type blocks say what kind of value something holds. LABEL, LITERAL, VARIABLE, CONSTANT and TAG name values, hold them and store them. Each page shows what a block does, how to craft it and a short example. The examples use the text notation of the guide: one text line is one line on the sheet, and four spaces mean one block further east.",
+  "book.c0de.statements.name": "c0de Statements",
+  "book.c0de.statements.landing_text": "This book lists the keyword blocks of c0de. A keyword block starts a line and decides what the line does. Some of them, like PARAMETER or ELSE, only work together with others. Each page shows what a block does, how to craft it and a short example. The examples use the text notation of the guide: one text line is one line on the sheet, and four spaces mean one block further east.",
+  "book.c0de.tools.name": "c0de Tools",
+  "book.c0de.tools.landing_text": "This book lists the tools and items of c0de. Tools help you write, test and save programs. Items carry data into and out of your programs. Each page shows what a tool or item does, how to craft it and how it is typically used.",
+  "book.c0de.triggers.name": "c0de Triggers",
+  "book.c0de.triggers.landing_text": "A program on a sheet does nothing by itself. Trigger blocks start it, feed it data and collect its results. A running program is called a $(l)process$(). This book shows the three trigger blocks that start processes and the PID block that marks a running process.",
+  "book.c0de.devices.name": "c0de Devices",
+  "book.c0de.devices.landing_text": "This book shows the devices that let programs talk to players. Screens show what PRINT writes. Items carry values into INPUT and out of WRITE. Every device is bound to a program and one of its functions, like a trigger block. A process uses all devices bound to its program and its entry function. The device bound first comes first. Binding a device again clears its screen.",
+  "book.c0de.functions.name": "c0de Functions",
+  "book.c0de.functions.landing_text": "A function call runs a function with a CALL line. The PARAMETER lines below it give the values the function needs. The RESULT lines name the variables that receive what the function returns. Results you don't list are thrown away. Built-in functions work everywhere. Library functions need an INCLUDE line for their library first, e.g. $(1)INCLUDE c0de/math$(). Then you call them by their full name, e.g. $(1)c0de/math/SIN$(). If a call fails and has no error label, the error is raised."
 }

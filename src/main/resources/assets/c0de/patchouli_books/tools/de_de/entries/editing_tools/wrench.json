@@ -1,0 +1,33 @@
+{
+  "name": "Schraubenschlüssel",
+  "icon": "c0de:wrench",
+  "category": "c0de:editing_tools",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Der Schraubenschlüssel bringt dich in die c0de-Dimension und verschiebt oder kopiert markierte Zeilen."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Klicke einen beliebigen Auslöserblock mit dem Schraubenschlüssel mit rechts an. Du landest vor dem Programm dieses Auslöserblocks oder vor dem ersten freien Blatt. Zum Verlassen klickst du den schwarzen Boden mit leerer Hand mit rechts an."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Klicke auf einem Blatt mit links auf eine Zeile, die nicht markiert ist: Die markierten Zeilen werden vor sie verschoben. Klicke eine Zeile mit rechts an, um die markierten Zeilen davor zu kopieren. Im Überlebensmodus kommen die kopierten Blöcke aus deinem Inventar."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:wrench",
+      "text": "Drei Eisenbarren in V-Form (oben links, oben rechts, Mitte) über einem roten Wollblock."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Du hast am Ende deines Programms eine Hilfsfunktion gebaut, willst sie aber oben haben. Markiere ihre Zeilen mit dem Textmarker. Klicke dann mit dem Schraubenschlüssel mit links auf die erste Zeile deiner Hauptfunktion. Die Hilfsfunktion wird davor verschoben."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Der Schraubenschlüssel funktioniert nicht auf einem Blatt, während ein Prozess seines Programms läuft."
+    }
+  ]
+}

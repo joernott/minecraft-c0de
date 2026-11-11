@@ -1,0 +1,20 @@
+{
+  "name": "STR",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_strings",
+  "sortnum": 11,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Wandelt einen Wert in Text um.$(br2)Der Text ist derselbe, den der Operator ⊕ erzeugt."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)value$() BOOLEAN|INTEGER|FLOAT|CHAR|TIME: der Wert$(li)Ergebnis $(1)result$() STRING: der Wert als Text"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/strings/STR$(br)  PARAMETER value score ;$(br)  RESULT result scoreText$()"
+    }
+  ]
+}

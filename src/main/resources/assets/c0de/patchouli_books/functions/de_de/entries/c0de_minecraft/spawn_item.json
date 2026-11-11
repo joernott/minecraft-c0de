@@ -1,0 +1,20 @@
+{
+  "name": "SPAWN_ITEM",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_minecraft",
+  "sortnum": 18,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Erzeugt Gegenstände auf dem Boden an einer Position.$(br2)$(1)count$() muss 1 bis 64 sein. Das Ergebnis ist die UUID des neuen Gegenstandsobjekts. Das braucht allowSpawning oder einen Administrator als Besitzer, sonst wird PERMISSION_DENIED ausgelöst."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)position$() STRUCT c0de/minecraft/POSITION: wo die Gegenstände erscheinen$(li)$(1)id$() STRING: die Gegenstands-ID, z. B. minecraft:bread$(li)$(1)count$() INTEGER: die Anzahl der Gegenstände, 1 bis 64$(li)Ergebnis $(1)result$() STRING: die UUID des Gegenstandsobjekts"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/minecraft/SPAWN_ITEM$(br)  PARAMETER position spot ;$(br)  PARAMETER id \"minecraft:bread\" ;$(br)  PARAMETER count 3 ;$(br)  RESULT result itemId$()"
+    }
+  ]
+}

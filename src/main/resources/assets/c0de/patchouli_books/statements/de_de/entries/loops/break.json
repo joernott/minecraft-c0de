@@ -1,0 +1,25 @@
+{
+  "name": "BREAK",
+  "icon": "c0de:break_block",
+  "category": "c0de:loops",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "BREAK verlässt sofort die innerste Schleife.$(br2)Es funktioniert in FOR-, EACH-, WHILE- und REPEAT-Schleifen. Es darf eine Bedingung haben: Dann verlässt es die Schleife nur, wenn die Bedingung wahr ist. Ein BREAK außerhalb einer Schleife ist ein Fehler."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:break_block",
+      "text": "Stelle einen NOOP-Block und einen Stock zusammen her."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)FOR divisor INTEGER 2 ; candidate - 1 ;$(br)BEGIN$(br)  BREAK candidate \\ divisor = 0 ;$(br)END FOR$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Die Schleife stoppt, sobald ein Teiler gefunden ist."
+    }
+  ]
+}

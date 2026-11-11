@@ -1,0 +1,20 @@
+{
+  "name": "Was ein Prozess nimmt",
+  "icon": "c0de:trigger_block",
+  "category": "c0de:running_programs",
+  "sortnum": 5,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Wenn ein Prozess startet, nimmt er aus dem Eingabeinventar:"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)eine Karte für jeden Parameter, für den es eine Karte gibt,$(li)eine nicht initialisierte Karte für jedes zusätzliche Ergebnis,$(li)alle anderen initialisierten Variablen- und Konstantenkarten."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Diese anderen Karten werden nicht verwendet. Sie werden unverändert in das Ausgabeinventar weitergereicht, wenn der Prozess endet."
+    }
+  ]
+}

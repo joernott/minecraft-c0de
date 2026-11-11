@@ -1,0 +1,25 @@
+{
+  "name": "TYPE_TIME",
+  "icon": "c0de:type_time_block",
+  "category": "c0de:types",
+  "sortnum": 9,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "TYPE_TIME steht für den Typ TIME: einen Zeitpunkt.$(br2)Eine neue TIME enthält den Beginn des Jahres 1970 (UTC). Du kannst Millisekunden als INTEGER addieren oder abziehen. Zieht man zwei Zeiten voneinander ab, erhält man den Unterschied in Millisekunden."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:type_time_block",
+      "text": "Stelle eine Typbasis und eine Uhr zusammen her."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)VARIABLE start TIME @2026-10-19T12:05:09Z$(br)VARIABLE later TIME$(br)ASSIGN later start + 60000 ;$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Jetzt liegt $(1)later$() eine Minute nach $(1)start$()."
+    }
+  ]
+}

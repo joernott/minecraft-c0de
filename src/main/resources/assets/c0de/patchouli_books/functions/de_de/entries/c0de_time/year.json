@@ -1,0 +1,20 @@
+{
+  "name": "YEAR",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_time",
+  "sortnum": 7,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Gibt das Jahr einer Zeit zurück, z. B. 2026.$(br2)Ohne $(1)time$() nimmt die Funktion die aktuelle Zeit. Sie verwendet die Zeitzone des Servers."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)time$() TIME: die Zeit (optional, Standard jetzt)$(li)Ergebnis $(1)result$() INTEGER: das Jahr"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/time/YEAR$(br)  RESULT result year$()"
+    }
+  ]
+}

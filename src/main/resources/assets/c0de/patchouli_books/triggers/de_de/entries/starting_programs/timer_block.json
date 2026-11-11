@@ -1,0 +1,33 @@
+{
+  "name": "Zeitgeberblock",
+  "icon": "c0de:timer_block",
+  "category": "c0de:starting_programs",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Der Zeitgeberblock startet einen Prozess immer wieder, in einem Intervall, das du einstellst."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Sein Dialog funktioniert wie der eines Auslöserblocks, mit einem zusätzlichen Feld: dem Intervall in Ticks. 20 Ticks sind eine Sekunde. Ein neuer Prozess startet erst, wenn der letzte beendet ist."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Ein Redstone-Signal pausiert den Zeitgeberblock. Mit einem Hebel schaltest du ihn aus und ein. Ein Blatt kann nicht geändert werden, während ein Prozess seines Programms läuft. Pausiere also einen schnellen Zeitgeber, bevor du sein Programm änderst; der Dialog zeigt dann „Durch Redstone pausiert“. Ein Zeitgeberblock, der neben ein Signal gesetzt wird, das schon an ist, startet pausiert. Wie der Auslöserblock kann er mit einem beliebigen Block im Tarnungsplatz getarnt werden."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:timer_block",
+      "text": "Kupferbarren in den Ecken, Glas an den Kanten und eine Uhr in der Mitte ergeben acht Zeitgeberblöcke."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Stelle einen Zeitgeberblock auf die Funktion $(1)ring$() und ein Intervall von 20 Ticks ein. Er spielt jede Sekunde einen Glockenton. Setze einen Hebel daneben, um das Läuten zu stoppen."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)PROGRAM chime$(br)NOOP$(br)INCLUDE c0de/minecraft$(br)NOOP$(br)FUNCTION ring$(br)BEGIN$(br)  CALL c0de/minecraft/SOUND$(br)    PARAMETER note 12 ;$(br)    PARAMETER instrument \"bell\" ;$(br)END FUNCTION$()"
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "name": "Anzeigeblock",
+  "icon": "c0de:display_block",
+  "category": "c0de:screens",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Der Anzeigeblock zeigt den Text von PRINT auf seiner Vorderseite."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Ein Anzeigeblock hat 16 Spalten und 8 Zeilen. Anzeigeblöcke, die nebeneinander ein flaches Rechteck bilden und alle in dieselbe Richtung zeigen, ergeben eine Anzeigewand mit einem großen Bildschirm. Eine Wand aus 4 × 2 Blöcken hat 64 Spalten und 16 Zeilen. Eine Wand kann aufrecht stehen oder flach liegen."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Klicke einen Anzeigeblock mit leerer Hand mit rechts an, um seinen Dialog zu öffnen. Klicke auf die Knöpfe Programm und Funktion, bis sie dein Programm und deine Funktion zeigen. Klicke dann auf ✔, um den Block zu binden. Bindest du einen Block, ist die ganze Wand gebunden. Ein neuer Block, der zu einer Wand dazukommt, übernimmt ihre Bindung."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Der Dialog hat auch einen Platz für die Tarnung. Lege einen vollen Block hinein, und die Seiten des Anzeigeblocks nehmen sein Aussehen an. Nimm ihn wieder heraus, um die Tarnung zu entfernen. Jeder Block einer Wand hat seine eigene Tarnung. Klicke einen Anzeigeblock mit dem Schraubenschlüssel mit links an, um ihn zu drehen."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:display_block"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Sieben Eisenklumpen um einen Glowstonestaub in der Mitte, mit einem Redstone-Staub links davon, ergeben acht Anzeigeblöcke."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Baue eine Wand aus 2 × 1 Anzeigeblöcken und binde sie an die Funktion $(1)welcome$(). Starte die Funktion mit einem Auslöserblock. Die Wand zeigt \"Welcome!\" in Gelb."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)PROGRAM sign$(br)NOOP$(br)NOOP$(br)FUNCTION welcome$(br)BEGIN$(br)  CALL CLS$(br)  CALL COLOR$(br)    PARAMETER foreground 14 ;$(br)  CALL PRINT$(br)    PARAMETER value \"Welcome!\" ;$(br)END FUNCTION$()"
+    }
+  ]
+}

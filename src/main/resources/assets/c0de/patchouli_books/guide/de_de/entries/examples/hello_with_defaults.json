@@ -1,0 +1,20 @@
+{
+  "name": "Hallo mit Standardwerten",
+  "icon": "c0de:function_block",
+  "category": "c0de:examples",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(1)PROGRAM greeting$(br)NOOP$(br)NOOP$(br)FUNCTION greet$(br)  PARAMETER name STRING \"World\"$(br)  PARAMETER mark CHAR '!'$(br)  RESULT result STRING$(br)BEGIN$(br)  ASSIGN result \"Hello, \" ⊕ name ⊕ mark ;$(br)END FUNCTION$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Die Funktion fügt mit $(1)⊕$() drei Teile zu einem Text zusammen. Beide Parameter haben Standardwerte, deshalb darf ein Aufrufer sie weglassen. Mit dem Namen \"c0de\" aufgerufen, ist das Ergebnis \"Hello, c0de!\"."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Zum Ausprobieren stellst du den Auslöserblock auf $(1)greet$(). Leg eine STRING-Variablenkarte mit dem Namen $(1)name$() und deinem Namen als Wert hinein."
+    }
+  ]
+}

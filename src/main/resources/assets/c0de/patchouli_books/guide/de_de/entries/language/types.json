@@ -1,0 +1,24 @@
+{
+  "name": "Typen",
+  "icon": "c0de:program_block",
+  "category": "c0de:language",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Ein Typblock folgt auf den Namen einer Variablen, einer Konstanten, eines Parameters oder eines Ergebnisses. Einfache Typen:"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)BOOLEAN: wahr oder falsch$(li)INTEGER: ganze Zahlen$(li)FLOAT: Zahlen mit Nachkommastellen$(li)CHAR: ein Zeichen$(li)TIME: ein Zeitpunkt$(br2)Komplexe Typen:"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)STRING: Text, wahlweise mit einer Längenbegrenzung$(li)ARRAY: eine Liste, von 0 an nummeriert$(li)HASH: Werte, die unter Textschlüsseln gespeichert sind$(li)STRUCT: dein eigener Typ mit benannten Elementen$(li)ERROR: ein Fehler mit Code, Meldung, Kontext und Zeile"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Auf ARRAY und HASH folgt der Typ ihres Inhalts, zum Beispiel $(1)ARRAY INTEGER$(). Auf einen STRUCT-Typ folgt ein LABEL mit dem Namen der Struktur. Arrays und Hashes wachsen und schrumpfen von selbst."
+    }
+  ]
+}

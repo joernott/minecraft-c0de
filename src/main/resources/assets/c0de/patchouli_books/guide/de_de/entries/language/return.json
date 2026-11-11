@@ -1,0 +1,24 @@
+{
+  "name": "RETURN",
+  "icon": "c0de:program_block",
+  "category": "c0de:language",
+  "sortnum": 13,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "RETURN beendet die Funktion sofort. Es kann eine Variable vom Typ ERROR nennen, um dem Aufrufer ein Problem zu melden."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)FUNCTION sum$(br)  PARAMETER n INTEGER$(br)  RESULT result INTEGER$(br)BEGIN$(br)  IF n = 0 ;$(br)  BEGIN$(br)    RETURN$(br)  END IF$(br)  CALL sum$(br)    PARAMETER n n - 1 ;$(br)    RESULT result result$(br)  ASSIGN result result + n ;$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)END FUNCTION$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Diese Funktion ruft sich selbst auf. Sie addiert alle Zahlen von 1 bis n."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "name": "SWAP",
+  "icon": "minecraft:book",
+  "category": "c0de:built_in_functions",
+  "sortnum": 5,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Vertauscht zwei Werte.$(br2)Beide Werte müssen denselben Typ haben, sonst wird TYPE_MISMATCH ausgelöst. Um zwei Variablen zu vertauschen, nimm sie als Parameter und als Ziele der Ergebnisse."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)a$() beliebiger Typ: der erste Wert$(li)$(1)b$() der Typ von $(1)a$(): der zweite Wert$(li)Ergebnis $(1)a$(): der Wert von $(1)b$()$(li)Ergebnis $(1)b$(): der Wert von $(1)a$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL SWAP$(br)  PARAMETER a left ;$(br)  PARAMETER b right ;$(br)  RESULT a left$(br)  RESULT b right$()"
+    }
+  ]
+}

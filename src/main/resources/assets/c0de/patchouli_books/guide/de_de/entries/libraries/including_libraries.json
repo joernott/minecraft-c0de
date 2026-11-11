@@ -1,0 +1,20 @@
+{
+  "name": "Bibliotheken einbinden",
+  "icon": "c0de:include_block",
+  "category": "c0de:libraries",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "INCLUDE-Zeilen kommen direkt nach dem NOOP in Zeile 1, vor jeder anderen Anweisung. Sie beginnen bei x=5, wie die PROGRAM-Zeile."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)PROGRAM math$(br)NOOP$(br)INCLUDE c0de/math$(br)INCLUDE c0de/strings$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Der LABEL-Dialog neben einem INCLUDE-Block zeigt alle Bibliotheken, aus denen du wählen kannst."
+    }
+  ]
+}

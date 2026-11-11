@@ -1,0 +1,20 @@
+{
+  "name": "CALL",
+  "icon": "c0de:program_block",
+  "category": "c0de:language",
+  "sortnum": 12,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "CALL führt eine Funktion aus. PARAMETER-Zeilen geben ihr Werte, RESULT-Zeilen sagen, welche Variable welches Ergebnis bekommt. Ergebnisse, die du nicht aufführst, werden verworfen."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL greet$(br)  PARAMETER name \"c0de\" ;$(br)  RESULT result greeting$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Hier wird $(1)greeting$() zu \"Hello, c0de!\". Eine Funktion kann nur Funktionen aufrufen, die über ihr definiert sind, oder sich selbst."
+    }
+  ]
+}

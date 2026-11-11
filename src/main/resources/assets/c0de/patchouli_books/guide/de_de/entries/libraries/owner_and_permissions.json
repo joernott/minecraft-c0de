@@ -1,0 +1,20 @@
+{
+  "name": "Besitzer und Berechtigungen",
+  "icon": "c0de:include_block",
+  "category": "c0de:libraries",
+  "sortnum": 12,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Programme handeln im Namen des Besitzers des Auslöserblocks. Die weltverändernden Funktionen oben funktionieren nur, wenn der Besitzer ein Operator ist oder wenn der Server sie in der Datei $(1)config/c0de.properties$() erlaubt."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Sonst lösen sie PERMISSION_DENIED aus. Spieler können nur teleportiert werden, wenn der Besitzer ein Operator ist.$(br2)Zwei Funktionen funktionieren für jeden Besitzer, weil sie nur tun, was auch ein Spieler kann:"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)MINE_BLOCK baut einen Block mit dem besten Werkzeug aus einer Truhe ab ($(1)tool_inventory$()). Das Werkzeug nutzt sich ab, und es dauert so lange wie bei einem Spieler. Was dabei herausfällt, kommt in eine andere Truhe ($(1)output_inventory$()) oder fällt auf den Boden. Ist diese Truhe voll, löst die Funktion INVENTORY_FULL aus.$(li)PLACE_BLOCK mit dem Parameter $(1)inventory$() nimmt den Block aus einer Truhe. Enthält die Truhe ihn nicht, löst die Funktion ITEM_MISSING aus."
+    }
+  ]
+}

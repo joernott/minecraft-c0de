@@ -1,0 +1,45 @@
+{
+  "name": "Laptop",
+  "icon": "c0de:laptop",
+  "category": "c0de:screens",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Ein Laptop ist ein Block mit Bildschirm und Tastatur. Spieler tippen darauf die Werte für INPUT ein."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Klicke ihn mit rechts an, um sein Terminal zu öffnen. Klicke ihn mit dem Schraubenschlüssel mit links an, um ihn zu drehen. Der Bildschirm hat 48 Spalten und 20 Zeilen. Zeilen, die oben hinausrollen, bleiben in einem Verlauf von 200 Zeilen erhalten. Scrolle mit dem Mausrad oder der Bildlaufleiste."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Oben wählen zwei Knöpfe das Programm und die Funktion. ✔ bindet den Laptop und schließt das Terminal. Unter dem Bildschirm ist die Eingabezeile. Sie funktioniert nur, während ein INPUT wartet, und sie zeigt, was INPUT abfragt, zum Beispiel $(1)INPUT count (INTEGER):$()."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Drücke Enter, um die Zeile abzuschicken. Die Zeile erscheint auf dem Bildschirm. Text, der nicht zum Typ passt, wird mit einer Zeile abgelehnt, die mit $(1)? $() beginnt, und INPUT wartet weiter. Tasten, die du tippst, während kein INPUT wartet, werden für INKEY aufbewahrt. Enter kommt dort als CHR 13 an."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Ein Laptop nimmt an WRITE nicht teil. Wenn du einen Laptop abbaust, wird sein Terminal gelöscht."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:laptop",
+      "text": "Stelle einen Anzeigeblock und einen E/A-Block zusammen her, oder verwandle ein Tablet in einen Laptop."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:laptop_from_tablet"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Binde einen Laptop an die Funktion $(1)ask$() und starte sie. Die Eingabezeile zeigt $(1)INPUT count (INTEGER):$(). Tippe 21 und drücke Enter. Der Bildschirm zeigt 42."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)PROGRAM typing$(br)NOOP$(br)NOOP$(br)FUNCTION ask$(br)BEGIN$(br)  VARIABLE count INTEGER$(br)  CALL INPUT$(br)    PARAMETER variable count ;$(br)  CALL PRINT$(br)    PARAMETER value count * 2 ;$(br)END FUNCTION$()"
+    }
+  ]
+}

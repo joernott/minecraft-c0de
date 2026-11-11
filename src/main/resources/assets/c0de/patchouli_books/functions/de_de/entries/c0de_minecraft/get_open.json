@@ -1,0 +1,20 @@
+{
+  "name": "GET_OPEN",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_minecraft",
+  "sortnum": 11,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Prüft, ob eine Tür, Falltür oder ein Zauntor offen ist.$(br2)Jeder andere Block löst INVALID_ARGUMENT aus."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)position$() STRUCT c0de/minecraft/POSITION: wo die Tür ist$(li)Ergebnis $(1)result$() BOOLEAN: wahr, wenn sie offen ist"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/minecraft/GET_OPEN$(br)  PARAMETER position door ;$(br)  RESULT result isOpen$()"
+    }
+  ]
+}

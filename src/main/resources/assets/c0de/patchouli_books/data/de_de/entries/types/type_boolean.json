@@ -1,0 +1,21 @@
+{
+  "name": "TYPE_BOOLEAN",
+  "icon": "c0de:type_boolean_block",
+  "category": "c0de:types",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "TYPE_BOOLEAN steht für den Typ BOOLEAN: einen Wert, der wahr oder falsch ist.$(br2)Ein neuer BOOLEAN enthält false. Du verwendest Booleans für Ja-Nein-Fragen, zum Beispiel für die Bedingung eines IF oder eines WHILE."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:type_boolean_block",
+      "text": "Stelle eine Typbasis und eine Redstone-Fackel zusammen her."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)VARIABLE done BOOLEAN$(br)VARIABLE ready BOOLEAN TRUE$()"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "name": "Datenkarte",
+  "icon": "c0de:data_item",
+  "category": "c0de:items",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Die Datenkarte ist eine leere Lochkarte und die Grundlage aller Karten, die Daten tragen.$(br2)Du brauchst Datenkarten, um Typkarten, Variablenkarten, Konstantenkarten und die c0de-Diskette herzustellen."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:data_item",
+      "text": "Ein Papier, weißer Farbstoff und gelber Farbstoff, in beliebiger Anordnung, ergeben vier Datenkarten."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Stelle einen Stapel Datenkarten her, bevor du ein neues Programm beginnst. Die meisten Programme brauchen ein paar Variablenkarten, und jede davon beginnt als Datenkarte."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "name": "SET_OPEN",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_minecraft",
+  "sortnum": 12,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Öffnet oder schließt eine Tür, Falltür oder ein Zauntor.$(br2)Jeder andere Block löst INVALID_ARGUMENT aus. Eisentüren und Eisenfalltüren brauchen die Berechtigung allowBlockChanges oder einen Administrator als Besitzer, sonst wird PERMISSION_DENIED ausgelöst."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)position$() STRUCT c0de/minecraft/POSITION: wo die Tür ist$(li)$(1)open$() BOOLEAN: wahr zum Öffnen, falsch zum Schließen"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/minecraft/SET_OPEN$(br)  PARAMETER position door ;$(br)  PARAMETER open TRUE ;$()"
+    }
+  ]
+}

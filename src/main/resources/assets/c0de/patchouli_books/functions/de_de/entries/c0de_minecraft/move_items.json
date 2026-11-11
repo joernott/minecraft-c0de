@@ -1,0 +1,24 @@
+{
+  "name": "MOVE_ITEMS",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_minecraft",
+  "sortnum": 13,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Verschiebt Gegenstände von einem Inventar in ein anderes."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Die Funktion verschiebt bis zu $(1)count$() Gegenstände und gibt zurück, wie viele verschoben wurden. Das braucht allowInventoryChanges oder einen Administrator als Besitzer, sonst wird PERMISSION_DENIED ausgelöst. Blöcke ohne Inventar lösen INVALID_ARGUMENT aus."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)from$() STRUCT c0de/minecraft/POSITION: der Block, aus dem Gegenstände genommen werden$(li)$(1)to$() STRUCT c0de/minecraft/POSITION: der Block, in den Gegenstände gelegt werden$(li)$(1)id$() STRING: die Gegenstands-ID, z. B. minecraft:wheat$(li)$(1)count$() INTEGER: die höchste Anzahl an Gegenständen, die verschoben wird$(li)Ergebnis $(1)result$() INTEGER: die Anzahl der verschobenen Gegenstände"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/minecraft/MOVE_ITEMS$(br)  PARAMETER from farmChest ;$(br)  PARAMETER to storage ;$(br)  PARAMETER id \"minecraft:wheat\" ;$(br)  PARAMETER count 64 ;$(br)  RESULT result moved$()"
+    }
+  ]
+}

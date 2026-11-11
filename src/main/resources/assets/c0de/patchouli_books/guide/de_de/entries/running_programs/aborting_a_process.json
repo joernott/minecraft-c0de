@@ -1,0 +1,16 @@
+{
+  "name": "Einen Prozess abbrechen",
+  "icon": "c0de:trigger_block",
+  "category": "c0de:running_programs",
+  "sortnum": 15,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Klicke einen PID-Block mit dem Debugging-Werkzeug bei gedrückter Umschalttaste mit rechts an, um seinen Prozess anzuhalten. Der Prozess stürzt mit dem Fehler PROCESS_ABORTED ab, und seine Karten gehen in das Ausgabeinventar."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Nur der Besitzer des Auslöserblocks und Server-Operatoren können das tun."
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "name": "Runden",
+  "icon": "c0de:include_block",
+  "category": "c0de:libraries",
+  "sortnum": 5,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "INT rundet ab: -12.85 ergibt -13. FIX schneidet einfach die Nachkommastellen ab: -12.85 ergibt -12. ROUND geht zur nächsten ganzen Zahl. Ein .5 geht zum geraden Nachbarn, also ergibt 12.5 die 12 und 13.5 die 14."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/math/ROUND$(br)  PARAMETER value 12.5 ;$(br)  RESULT result rounded$()"
+    }
+  ]
+}

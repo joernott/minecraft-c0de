@@ -1,0 +1,20 @@
+{
+  "name": "MID",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_strings",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Gibt einen Teil eines Texts zurück.$(br2)Positionen beginnen bei 0. Kurz vor dem Ende bekommst du weniger Zeichen. Ein Start hinter dem Ende ergibt einen leeren Text. Ein negativer Start oder eine negative Länge löst INVALID_ARGUMENT aus."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)text$() STRING: der Text$(li)$(1)start$() INTEGER: die Position des ersten Zeichens$(li)$(1)length$() INTEGER: die Anzahl der Zeichen (optional, Standard der Rest des Texts)$(li)Ergebnis $(1)result$() STRING: der Teil des Texts"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/strings/MID$(br)  PARAMETER text name ;$(br)  PARAMETER start 2 ;$(br)  PARAMETER length 3 ;$(br)  RESULT result part$()"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "name": "GET_BLOCK",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_minecraft",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Liest den Block an einer Position."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Du bekommst seine ID, seine Blockzustände als Text, die Redstone-Stärke, die er empfängt, und ob er ein Inventar hat. Ein nicht geladener Chunk löst CHUNK_NOT_LOADED aus. Eine leere $(1)dimension$() in der Position bedeutet die Dimension des Auslöserblocks."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)position$() STRUCT c0de/minecraft/POSITION: wo der Block ist$(li)Ergebnis $(1)id$() STRING: die Block-ID, z. B. minecraft:oak_door$(li)Ergebnis $(1)properties$() HASH STRING: die Blockzustände, z. B. facing ist north$(li)Ergebnis $(1)power$() INTEGER: die Redstone-Stärke, die er empfängt, 0 bis 15$(li)Ergebnis $(1)has_inventory$() BOOLEAN: wahr für Blöcke mit Inventar, z. B. Truhen; GET_INVENTORY, MOVE_ITEMS und DELETE_ITEMS funktionieren mit ihnen"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/minecraft/GET_BLOCK$(br)  PARAMETER position spot ;$(br)  RESULT id blockId$(br)  RESULT properties states$(br)  RESULT power power$(br)  RESULT has_inventory isChest$()"
+    }
+  ]
+}

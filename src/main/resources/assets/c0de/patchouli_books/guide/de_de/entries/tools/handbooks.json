@@ -1,0 +1,16 @@
+{
+  "name": "Handbücher",
+  "icon": "c0de:hammer",
+  "category": "c0de:tools",
+  "sortnum": 20,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Mit Patchouli gibt es fünf weitere rote Bücher: Handbücher mit einer Seite pro Block, Gegenstand oder Funktion. Jede Seite hat eine kurze Beschreibung, das Rezept und ein Beispiel."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(l)Daten$(): hergestellt aus einem Buch und einer Typbasis$(li)$(l)Anweisungen$(): ein Buch und eine Strukturbasis$(li)$(l)Werkzeuge$(): ein Buch und ein Schraubenschlüssel$(li)$(l)Auslöser$(): ein Buch und ein Auslöserblock$(li)$(l)Funktionen$(): ein Buch und ein FUNCTION-Block"
+    }
+  ]
+}

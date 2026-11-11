@@ -1,0 +1,28 @@
+{
+  "name": "Tablet",
+  "icon": "c0de:tablet",
+  "category": "c0de:screens",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Ein Tablet ist ein Laptop, den du als Gegenstand mit dir trägst."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Halte es in deiner Haupthand und klicke mit links, um sein Terminal zu öffnen. Alles andere funktioniert wie bei einem Laptop. Das Tablet behält seine Bindung, seinen Bildschirm und seinen Verlauf, auch während es in einer Truhe liegt."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:tablet"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Verwandle einen Laptop in ein Tablet. Das hergestellte Gerät bekommt ein neues Terminal, das noch nicht gebunden ist."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Binde dein Tablet an ein Quiz-Programm und nimm es mit. Wenn das Programm eine Frage stellt, öffne das Tablet, wo immer du bist, und tippe deine Antwort ein."
+    }
+  ]
+}

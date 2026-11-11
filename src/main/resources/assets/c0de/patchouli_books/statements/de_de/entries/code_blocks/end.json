@@ -1,0 +1,25 @@
+{
+  "name": "END",
+  "icon": "c0de:end_block",
+  "category": "c0de:code_blocks",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "END schließt einen Codeblock."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Er hat dasselbe x wie sein BEGIN. Danach folgt das Schlüsselwort, das den Block geöffnet hat, zum Beispiel $(1)END FUNCTION$() oder $(1)END WHILE$(). Bei einem IF mit ELSE steht das erste END allein. Nach $(1)END REPEAT$() kommt die Schleifenbedingung."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:end_block",
+      "text": "Verwandle einen BEGIN-Block in einen END-Block."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)FUNCTION answer$(br)  RESULT result INTEGER$(br)BEGIN$(br)  ASSIGN result 42 ;$(br)END FUNCTION$()"
+    }
+  ]
+}

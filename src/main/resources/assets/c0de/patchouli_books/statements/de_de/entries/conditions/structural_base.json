@@ -1,0 +1,21 @@
+{
+  "name": "Strukturbasis",
+  "icon": "c0de:structural_base",
+  "category": "c0de:conditions",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Die Strukturbasis ist der Gegenstand, aus dem du Bedingungen und Schleifen herstellst.$(br2)Sie ist ein Gegenstand, kein Block, du kannst sie also nicht platzieren. IF, ELSE, FOR, EACH, WHILE und REPEAT werden alle aus ihr hergestellt."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:structural_base",
+      "text": "Lege grüne Wolle in die Mitte und acht NOOP-Blöcke darum herum. Du bekommst acht Strukturbasen."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Kombiniere eine Strukturbasis mit Weizenkörnern, und du bekommst einen IF-Block. Mit Erde bekommst du stattdessen einen FOR-Block."
+    }
+  ]
+}

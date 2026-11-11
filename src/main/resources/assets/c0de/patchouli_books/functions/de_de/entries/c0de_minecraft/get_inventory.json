@@ -1,0 +1,20 @@
+{
+  "name": "GET_INVENTORY",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_minecraft",
+  "sortnum": 5,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Liest das Inventar eines Blocks, z. B. einer Truhe.$(br2)Du bekommst einen ITEM_STACK (id, count) pro Slot. Ein leerer Slot hat die id \"\" und die Anzahl 0. Ein Block ohne Inventar löst INVALID_ARGUMENT aus."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)position$() STRUCT c0de/minecraft/POSITION: wo der Block ist$(li)Ergebnis $(1)result$() ARRAY STRUCT c0de/minecraft/ITEM_STACK: die Slots"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/minecraft/GET_INVENTORY$(br)  PARAMETER position chest ;$(br)  RESULT result slots$()"
+    }
+  ]
+}

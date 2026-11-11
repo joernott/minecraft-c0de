@@ -1,0 +1,20 @@
+{
+  "name": "Ein absichtlicher Absturz",
+  "icon": "c0de:function_block",
+  "category": "c0de:examples",
+  "sortnum": 5,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(1)PROGRAM errors$(br)NOOP$(br)NOOP$(br)FUNCTION divide$(br)  PARAMETER a INTEGER$(br)  PARAMETER b INTEGER$(br)  RESULT result INTEGER$(br)BEGIN$(br)  VARIABLE quotient FLOAT$(br)  ASSIGN quotient a / b ;$(br)END FUNCTION$(br)NOOP$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)FUNCTION main$(br)BEGIN$(br)  CALL divide$(br)    PARAMETER a 1 ;$(br)    PARAMETER b 0 ;$(br)END FUNCTION$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Die Division durch null löst in $(1)divide$() den Fehler DIVISION_BY_ZERO aus. Der CALL in $(1)main$() hat keine ERROR-Variable, die ihn abfängt, also wandert der Fehler nach oben. In der Einstiegsfunktion lässt er den Prozess abstürzen. Der Auslöserdialog zeigt den Fehler und Zeile 9, und ein Komparator liest 15."
+    }
+  ]
+}

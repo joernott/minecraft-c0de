@@ -1,0 +1,24 @@
+{
+  "name": "INPUT",
+  "icon": "minecraft:book",
+  "category": "c0de:input_and_output",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Liest einen Wert in eine Variable ein."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)variable$() muss der Name einer deklarierten Variablen sein, ohne Index. Eine Konstante oder Schleifenvariable geht nicht. Die Funktion schreibt direkt in die Variable. Sie sucht zuerst in den gebundenen E/A-Blöcken nach einer Karte mit demselben Namen und Typ oder nach einer Literalkarte des passenden Typs. Sonst wartet sie, bis ein Spieler auf einem gebundenen Laptop oder Tablet eine Zeile eintippt."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)variable$() Variable: die Variable, die den Wert bekommt$(li)keine Ergebnisse"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)PROGRAM typing$(br)NOOP$(br)NOOP$(br)FUNCTION ask$(br)BEGIN$(br)  VARIABLE count INTEGER$(br)  CALL INPUT$(br)    PARAMETER variable count ;$(br)  CALL PRINT$(br)    PARAMETER value count * 2 ;$(br)END FUNCTION$()"
+    }
+  ]
+}

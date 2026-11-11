@@ -1,0 +1,16 @@
+{
+  "name": "Operatoren",
+  "icon": "c0de:program_block",
+  "category": "c0de:language",
+  "sortnum": 9,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(li)Rechnen: $(1)+$() $(1)-$() $(1)*$() $(1)/$() $(1)^$() (Potenz) $(1)\\$() (Rest)$(li)Vergleichen: $(1)=$() $(1)≠$() $(1)<$() $(1)>$() $(1)≤$() $(1)≥$()$(li)Logik: $(1)NOT$() $(1)AND$() $(1)OR$() $(1)XOR$()$(li)Text: $(1)⊕$() verbindet zwei Werte zu einem Text$(li)Bits: $(1)&$() $(1)|$() $(1)⊻$() $(1)¬$() $(1)←$() $(1)→$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)=$() vergleicht nur. Um einen Wert zu speichern, verwende ASSIGN. $(1)⊕$() macht aus Zahlen und Listen Text, also ergibt $(1)'a' ⊕ 1 ⊕ \"b\"$() den Wert $(1)\"a1b\"$()."
+    }
+  ]
+}

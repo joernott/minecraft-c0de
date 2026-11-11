@@ -1,0 +1,6 @@
+{
+  "name": "Karten",
+  "description": "Diese Karten tragen Daten in einen Prozess hinein und aus ihm heraus.",
+  "icon": "c0de:data_item",
+  "sortnum": 1
+}

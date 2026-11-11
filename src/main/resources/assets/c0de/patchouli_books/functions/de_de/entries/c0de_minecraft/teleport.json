@@ -1,0 +1,24 @@
+{
+  "name": "TELEPORT",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_minecraft",
+  "sortnum": 21,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Teleportiert ein Objekt oder einen Gegenstand an eine Position."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Das braucht allowTeleporting oder einen Administrator als Besitzer. Nur Administratoren können Spieler teleportieren. Beides löst sonst PERMISSION_DENIED aus. Ein Objekt, das nicht geladen ist, löst INVALID_ARGUMENT aus."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)uuid$() STRING: die UUID des Objekts$(li)$(1)position$() STRUCT c0de/minecraft/POSITION: das Ziel"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/minecraft/TELEPORT$(br)  PARAMETER uuid pigId ;$(br)  PARAMETER position barn ;$()"
+    }
+  ]
+}

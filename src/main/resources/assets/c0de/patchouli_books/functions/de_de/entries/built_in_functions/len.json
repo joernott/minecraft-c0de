@@ -1,0 +1,20 @@
+{
+  "name": "LEN",
+  "icon": "minecraft:book",
+  "category": "c0de:built_in_functions",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Zählt die Zeichen eines Strings oder die Elemente eines Arrays oder Hashs."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)value$() STRING|ARRAY|HASH: der String, das Array oder der Hash, der gezählt wird$(li)Ergebnis $(1)result$() INTEGER: die Anzahl der Zeichen oder Elemente"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL LEN$(br)  PARAMETER value names ;$(br)  RESULT result count$()"
+    }
+  ]
+}

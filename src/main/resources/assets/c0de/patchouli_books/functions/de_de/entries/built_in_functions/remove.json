@@ -1,0 +1,24 @@
+{
+  "name": "REMOVE",
+  "icon": "minecraft:book",
+  "category": "c0de:built_in_functions",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Entfernt ein Element aus einem Array oder einem Hash."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Nimm $(1)index$() für ein Array und $(1)key$() für einen Hash. Die folgenden Elemente des Arrays rücken um eins nach unten. Ein fehlender Index löst INDEX_OUT_OF_BOUNDS aus, ein fehlender Schlüssel löst UNKNOWN_KEY aus. Wenn du $(1)index$() oder $(1)key$() weglässt, wird INVALID_ARGUMENT ausgelöst."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)container$() ARRAY|HASH: das Array oder der Hash$(li)$(1)index$() INTEGER: Position des Elements, das entfernt wird (optional, nötig für Arrays)$(li)$(1)key$() STRING: Schlüssel des Elements, das entfernt wird (optional, nötig für Hashes)$(li)Ergebnis $(1)result$() wie $(1)container$(): das Array oder der Hash ohne das Element"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL REMOVE$(br)  PARAMETER container list ;$(br)  PARAMETER index 1 ;$(br)  RESULT result list$()"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "name": "Die Dimension betreten",
+  "icon": "c0de:wrench",
+  "category": "c0de:getting_started",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Stelle einen $(l)Auslöserblock$() und einen $(l)Schraubenschlüssel$() her (siehe das Kapitel über Werkzeuge). Platziere den Auslöserblock irgendwo. Dann klicke ihn mit dem Schraubenschlüssel mit rechts an."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Du wirst in die c0de-Dimension teleportiert. Wenn der Auslöserblock noch nicht eingerichtet ist, landest du vor dem ersten freien Blatt. Sonst landest du vor dem Programm, das er ausführt."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Die Dimension hat keine Mobs, kein Wetter und keine Nacht. Der Himmel ist immer blau. Um sie zu verlassen, klicke mit leerer Hand mit rechts auf den schwarzen Boden. Du kehrst an den Ort zurück, an dem du sie betreten hast."
+    }
+  ]
+}

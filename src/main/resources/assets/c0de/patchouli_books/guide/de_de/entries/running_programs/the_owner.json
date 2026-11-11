@@ -1,0 +1,12 @@
+{
+  "name": "Der Besitzer",
+  "icon": "c0de:trigger_block",
+  "category": "c0de:running_programs",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Der Spieler, der einen Auslöserblock zuletzt eingerichtet hat, ist sein $(l)Besitzer$(). Seine Programme handeln im Namen dieses Spielers. Das ist wichtig für die Bibliothek c0de/minecraft und für das Abbrechen von Prozessen."
+    }
+  ]
+}

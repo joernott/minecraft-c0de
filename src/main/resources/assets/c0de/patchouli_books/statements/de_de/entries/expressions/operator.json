@@ -1,0 +1,33 @@
+{
+  "name": "OPERATOR",
+  "icon": "c0de:operator_block",
+  "category": "c0de:expressions",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Ein OPERATOR-Block enthält ein Symbol eines Ausdrucks."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Klicke ihn mit leerer Hand mit rechts an und klicke auf ein Symbol. Das kann ein Operator sein, $(1)($(), $(1))$() oder das $(1);$(), das jeden Ausdruck beendet. Ein neuer Block zeigt ein Fragezeichen."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)Rechnen: $(1)+$() $(1)-$() $(1)*$() $(1)/$() $(1)^$() (Potenz) $(1)\\$() (Rest)$(li)Vergleichen: $(1)=$() $(1)≠$() $(1)<$() $(1)>$() $(1)≤$() $(1)≥$()$(li)Logik: $(1)NOT$() $(1)AND$() $(1)OR$() $(1)XOR$(), Text: $(1)⊕$(), Bits: $(1)&$() $(1)|$() $(1)⊻$() $(1)¬$() $(1)←$() $(1)→$()"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:operator_block",
+      "text": "Lege rote Wolle in die Mitte und acht NOOP-Blöcke darum herum. Du bekommst acht OPERATOR-Blöcke."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)*$() kommt vor $(1)+$(), und $(1)($() und $(1))$() fassen zusammen. $(1)=$() vergleicht nur; um einen Wert zu speichern, verwende ASSIGN."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)ASSIGN arithmetic 1 + 2 * ( 3 + 3 ) \\ 10 * 2 + 10 ;$()"
+    }
+  ]
+}

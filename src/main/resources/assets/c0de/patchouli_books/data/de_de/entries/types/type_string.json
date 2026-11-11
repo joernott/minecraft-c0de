@@ -1,0 +1,25 @@
+{
+  "name": "TYPE_STRING",
+  "icon": "c0de:type_string_block",
+  "category": "c0de:types",
+  "sortnum": 5,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "TYPE_STRING steht für den Typ STRING: einen Text.$(br2)Ein neuer STRING ist leer. Du kannst hinter den Typ ein INTEGER-Literal setzen, um die Länge zu begrenzen. Ein einzelnes Zeichen liest du mit einem Index, der bei 0 beginnt, zum Beispiel $(1)name[0]$()."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:type_string_block",
+      "text": "Stelle eine Typbasis und einen Faden zusammen her."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)VARIABLE greeting STRING \"Hello\"$(br)VARIABLE short STRING 3$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Die zweite Zeile erzeugt einen Text mit höchstens 3 Zeichen."
+    }
+  ]
+}

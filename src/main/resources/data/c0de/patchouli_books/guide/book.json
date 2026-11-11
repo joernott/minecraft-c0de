@@ -1,6 +1,6 @@
 {
-  "name": "c0de Guide",
-  "landing_text": "Programs built from blocks, written on the greenbar paper of the c0de dimension and run by trigger blocks. This guide shows how to write and run them.",
+  "name": "book.c0de.guide.name",
+  "landing_text": "book.c0de.guide.landing_text",
   "version": 1,
   "use_resource_pack": true,
   "model": "patchouli:book_red",

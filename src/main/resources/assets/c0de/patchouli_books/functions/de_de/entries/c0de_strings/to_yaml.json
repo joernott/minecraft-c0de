@@ -1,0 +1,20 @@
+{
+  "name": "TO_YAML",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_strings",
+  "sortnum": 17,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Wandelt einen Wert in ein YAML-Dokument um.$(br2)Das Dokument verwendet den Blockstil mit zwei Leerzeichen Einrückung. Wenn $(1)value$() eine einzelne Variable mit einem yaml-Tag ist, wird der Wert am Pfad des Tags abgelegt."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)value$() beliebiger Typ: der Wert, der umgewandelt wird$(li)Ergebnis $(1)result$() STRING: das YAML-Dokument"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/strings/TO_YAML$(br)  PARAMETER value config ;$(br)  RESULT result yaml$()"
+    }
+  ]
+}

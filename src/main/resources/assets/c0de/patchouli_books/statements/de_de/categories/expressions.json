@@ -1,0 +1,6 @@
+{
+  "name": "Ausdrücke",
+  "description": "Diese Blöcke berechnen Werte und speichern sie.",
+  "icon": "c0de:assign_block",
+  "sortnum": 3
+}

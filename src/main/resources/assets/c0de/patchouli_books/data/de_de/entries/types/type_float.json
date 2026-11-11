@@ -1,0 +1,32 @@
+{
+  "name": "TYPE_FLOAT",
+  "icon": "c0de:type_float_block",
+  "category": "c0de:types",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "TYPE_FLOAT steht für den Typ FLOAT: eine Zahl mit Nachkommastellen.$(br2)Ein neuer FLOAT enthält 0.0. Du darfst einen INTEGER in einem FLOAT speichern, aber nicht umgekehrt. Eine Division mit $(1)/$() ergibt immer einen FLOAT."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:type_float_block"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:type_float_block_from_type_integer_block"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Stelle eine Typbasis und einen roten Sandblock zusammen her, oder verwandle einen TYPE_INTEGER-Block mit orangem Farbstoff in einen TYPE_FLOAT-Block."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)VARIABLE half FLOAT$(br)ASSIGN half 1 / 2 ;$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Jetzt enthält $(1)half$() den Wert 0.5."
+    }
+  ]
+}

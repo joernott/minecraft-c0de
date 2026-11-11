@@ -1,0 +1,24 @@
+{
+  "name": "RAISE",
+  "icon": "minecraft:book",
+  "category": "c0de:built_in_functions",
+  "sortnum": 6,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Gibt deinen eigenen Fehler an den Aufrufer der Funktion zurück."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Der Aufrufer löst den Fehler aus oder speichert ihn im Fehler-Label seiner CALL-Zeile. $(1)code$() muss 1000 oder größer sein, sonst wird INVALID_ARGUMENT ausgelöst. Der Fehler bekommt den Kontext und die Zeile der CALL-Anweisung."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)code$() INTEGER: der Fehlercode, 1000 oder größer$(li)$(1)message$() STRING: die Fehlermeldung (optional, Standard leer)"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL RAISE$(br)  PARAMETER code 1001 ;$(br)  PARAMETER message \"too big\" ;$()"
+    }
+  ]
+}

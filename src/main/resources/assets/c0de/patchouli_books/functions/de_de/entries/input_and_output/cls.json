@@ -1,0 +1,20 @@
+{
+  "name": "CLS",
+  "icon": "minecraft:book",
+  "category": "c0de:input_and_output",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Löscht die Bildschirme.$(br2)Der Cursor der Bildschirme springt auf Zeile 0, Spalte 0. CLS wirkt auf alle Bildschirme, die an das Programm und die Funktion gebunden sind."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)keine Parameter und keine Ergebnisse"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL CLS$()"
+    }
+  ]
+}

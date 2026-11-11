@@ -1,0 +1,20 @@
+{
+  "name": "FOR-Schleifen",
+  "icon": "c0de:program_block",
+  "category": "c0de:language",
+  "sortnum": 15,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "FOR zählt. Es hat eine Schleifenvariable, ihren Typ (INTEGER oder FLOAT), einen Startwert und einen Endwert. Ein optionaler dritter Wert ist die Schrittweite, die 1 ist, wenn du sie weglässt."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Der Endwert ist eingeschlossen. Du kannst die Schleifenvariable nicht selbst ändern."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)FOR i INTEGER 1 ; 10 ; 2 ;$(br)BEGIN$(br)  NOOP$(br)END FOR$()"
+    }
+  ]
+}

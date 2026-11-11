@@ -1,0 +1,16 @@
+{
+  "name": "JSON und YAML",
+  "icon": "c0de:include_block",
+  "category": "c0de:libraries",
+  "sortnum": 8,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "c0de/strings kann außerdem jeden Wert mit TO_JSON und TO_YAML in JSON- oder YAML-Text verwandeln. FROM_JSON und FROM_YAML lesen solchen Text zurück in eine Variable."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "TAG-Blöcke am Ende einer VARIABLE-Zeile oder eines Strukturelements legen die Schlüsselnamen fest, die in JSON oder YAML verwendet werden."
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "name": "FOR",
+  "icon": "c0de:for_block",
+  "category": "c0de:loops",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "FOR zählt mit einer Schleifenvariable."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Danach folgen ein Name, ein Typ (INTEGER oder FLOAT), ein Startwert und ein Endwert. Ein optionaler dritter Wert ist die Schrittweite. Ohne ihn ist die Schrittweite 1. Die Schrittweite darf nicht 0 sein, und eine negative Schrittweite zählt rückwärts."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Der Endwert gehört dazu. Die Werte werden einmal berechnet, bevor die Schleife beginnt. Du kannst die Schleifenvariable nicht selbst ändern."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:for_block",
+      "text": "Stelle eine Strukturbasis und einen Erdblock zusammen her, oder verwandle einen EACH-Block in einen FOR-Block."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:for_block_from_each_block"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)FOR i INTEGER 1 ; 10 ; 2 ;$(br)BEGIN$(br)  ASSIGN sum sum + i ;$(br)END FOR$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Die Schleife läuft mit i = 1, 3, 5, 7 und 9."
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "name": "COMMENT",
+  "icon": "c0de:comment_block",
+  "category": "c0de:program_structure",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Ein COMMENT-Block enthält eine Notiz für Menschen.$(br2)Setze ihn ans Ende einer Zeile. Der Cursor ignoriert den COMMENT und jeden Block danach. Ein COMMENT vor Blöcken schaltet sie also ab."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Eine Zeile, die mit einem COMMENT beginnt, ist eine Kommentarzeile. Sie wird wie eine NOOP-Zeile übersprungen. Klicke den Block mit leerer Hand mit rechts an, um seinen Text zu schreiben."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:comment_block",
+      "text": "Lege einen Glasblock in die Mitte und acht NOOP-Blöcke darum herum. Du bekommst acht COMMENT-Blöcke."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Die Textschreibweise schreibt einen COMMENT-Block als $(1)//$() gefolgt von seinem Text."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)// Eine Kommentarzeile wird komplett übersprungen$(br)VARIABLE time INTEGER 1 // ein Kommentar am Ende$()"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "name": "Variablen und Konstanten",
+  "icon": "c0de:program_block",
+  "category": "c0de:language",
+  "sortnum": 5,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Eine VARIABLE-Zeile hat einen Namen, einen Typ und einen optionalen Startwert. Ohne Startwert enthält sie den Standardwert: false, 0, 0.0, ein Leerzeichen, einen leeren Text oder eine leere Liste."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Eine CONSTANT-Zeile sieht genauso aus, muss aber einen Wert haben. Du kannst ihn später nicht ändern."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)VARIABLE b BOOLEAN TRUE$(br)VARIABLE i INTEGER$(br)CONSTANT BASE INTEGER 42$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Listen, Hashes und Strukturen bekommen ihre Startwerte in einem Codeblock. Jede Zeile enthält Literale oder einen Schlüssel und einen Wert:"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)VARIABLE list ARRAY INTEGER$(br)BEGIN$(br)  1 2 3$(br)END VARIABLE$(br)VARIABLE stock HASH INTEGER$(br)BEGIN$(br)  gold 1$(br)END VARIABLE$()"
+    }
+  ]
+}

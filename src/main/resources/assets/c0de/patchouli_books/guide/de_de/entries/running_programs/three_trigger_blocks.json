@@ -1,0 +1,20 @@
+{
+  "name": "Drei Auslöserblöcke",
+  "icon": "c0de:trigger_block",
+  "category": "c0de:running_programs",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(l)Auslöserblock$(): startet einen Prozess, wenn er einen Redstone-Impuls bekommt.$(li)$(l)Zeitgeberblock$(): startet einen Prozess immer wieder, in einem Abstand, den du einstellst.$(li)$(l)Debug-Auslöserblock$(): startet einen Prozess, wenn du ihn mit dem Debugging-Werkzeug schlägst."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Auslöserblöcke funktionieren in jeder Dimension. In der c0de-Dimension kannst du sie nur auf den schwarzen Boden außerhalb der Blätter setzen."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Ein Redstone-Signal pausiert einen Zeitgeberblock. Verwende einen Hebel, um ihn abzuschalten. Da ein Blatt geschützt ist, solange sein Programm läuft, pausiere einen schnellen Zeitgeber, bevor du das Programm änderst; sein Dialog zeigt dann „Durch Redstone pausiert“."
+    }
+  ]
+}

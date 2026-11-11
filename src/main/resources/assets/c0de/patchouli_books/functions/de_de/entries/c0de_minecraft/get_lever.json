@@ -1,0 +1,20 @@
+{
+  "name": "GET_LEVER",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_minecraft",
+  "sortnum": 6,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Prüft, ob ein Hebel an ist.$(br2)Ein Block, der kein Hebel ist, löst INVALID_ARGUMENT aus."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)position$() STRUCT c0de/minecraft/POSITION: wo der Hebel ist$(li)Ergebnis $(1)result$() BOOLEAN: wahr, wenn der Hebel an ist"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/minecraft/GET_LEVER$(br)  PARAMETER position lever ;$(br)  RESULT result isOn$()"
+    }
+  ]
+}

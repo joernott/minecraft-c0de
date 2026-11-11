@@ -1,0 +1,20 @@
+{
+  "name": "c0de/minecraft",
+  "icon": "c0de:include_block",
+  "category": "c0de:libraries",
+  "sortnum": 10,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Mit dieser Bibliothek können Programme die Welt rund um den Auslöserblock berühren:"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)TICKS: die Spielzeit$(li)BEEP, SOUND: Töne spielen wie ein Notenblock$(li)SAY: eine Nachricht in den Chat schreiben$(li)GET_BLOCK: einen Block und seine Redstone-Stärke lesen$(li)GET_INVENTORY: die Gegenstände in einer Truhe oder einem anderen Behälter lesen"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)GET_LEVER, SET_LEVER: Hebel lesen oder umlegen$(li)GET_BUTTON, PRESS_BUTTON: Knöpfe lesen oder drücken$(li)GET_PRESSURE_PLATE: Druckplatten lesen$(li)GET_OPEN, SET_OPEN: Türen, Falltüren und Zauntore$(li)FIND_ENTITIES: Kreaturen und Gegenstände in der Nähe finden"
+    }
+  ]
+}

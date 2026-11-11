@@ -1,0 +1,25 @@
+{
+  "name": "Typbasis",
+  "icon": "c0de:type_base",
+  "category": "c0de:types",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Die Typbasis ist der Gegenstand, aus dem du alle Typblöcke herstellst."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Sie ist ein Gegenstand, kein Block, du kannst sie also nicht platzieren. Sie sieht aus wie ein roter Würfel mit einem schwarzen Fragezeichen. Auch der VARIABLE-Block und der CONSTANT-Block werden aus ihr hergestellt."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:type_base",
+      "text": "Lege einen roten Teppich in die Mitte und acht NOOP-Blöcke darum herum. Du bekommst acht Typbasen."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Kombiniere eine Typbasis mit einer Redstone-Fackel, und du bekommst einen TYPE_BOOLEAN-Block. Jeder Typblock braucht seinen eigenen zusätzlichen Gegenstand, zum Beispiel Sand für TYPE_INTEGER oder eine Uhr für TYPE_TIME."
+    }
+  ]
+}

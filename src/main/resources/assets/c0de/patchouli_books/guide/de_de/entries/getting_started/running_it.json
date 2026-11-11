@@ -1,0 +1,16 @@
+{
+  "name": "Ausführen",
+  "icon": "c0de:wrench",
+  "category": "c0de:getting_started",
+  "sortnum": 11,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Gib dem Auslöserblock einen Redstone-Impuls, zum Beispiel mit einem Knopf. Das Programm läuft auf seinem Blatt in der c0de-Dimension. Während es läuft, stehen ein PID-Block und ein Cursor auf der Cursorschiene."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Wenn es fertig ist, enthält das Ausgabeinventar eine Variablenkarte. Nimm sie heraus und klicke mit rechts, während du sie hältst. Der Dialog zeigt den Namen $(1)result$(), den Typ INTEGER und den Wert 42.$(br2)Glückwunsch, du hast dein erstes c0de-Programm geschrieben!"
+    }
+  ]
+}

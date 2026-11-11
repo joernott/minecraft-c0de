@@ -1,0 +1,20 @@
+{
+  "name": "EXIT",
+  "icon": "c0de:program_block",
+  "category": "c0de:language",
+  "sortnum": 19,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "EXIT beendet sofort den ganzen Prozess, egal wie tief der Cursor steckt. Es braucht eine Zahl von 0 bis 15: den $(l)Exit-Code$(). Ein Komparator neben dem Auslöserblock kann ihn lesen."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)EXIT 3 ;$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Exit-Code 15 bedeutet, dass das Programm abgestürzt ist. Du darfst $(1)EXIT 15 ;$() auch für ein schweres Problem verwenden."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "name": "c0de/strings",
+  "icon": "c0de:include_block",
+  "category": "c0de:libraries",
+  "sortnum": 6,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Text und Zeichen:"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)LEFT, RIGHT, MID: Teile eines Texts$(li)REPLACE: einen Teil eines Texts überschreiben$(li)INSTR: einen Text in einem Text finden, -1, wenn er nicht gefunden wird$(li)UCASE, LCASE: Groß- und Kleinbuchstaben$(li)SPACE, FILL: ein Text aus Leerzeichen oder aus einem Zeichen$(li)ASC, CHR: Zeichen und ihre Codenummern"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Umwandlungen:$(br2)$(li)STR: ein beliebiger einfacher Wert als Text$(li)FORMAT: ein Wert als Text in einem Format deiner Wahl$(li)VAL: ein Text als Zahl$(li)HEX, OCT: eine Zahl hexadezimal oder oktal"
+    }
+  ]
+}

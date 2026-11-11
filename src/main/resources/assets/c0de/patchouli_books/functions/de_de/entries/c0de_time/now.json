@@ -1,0 +1,20 @@
+{
+  "name": "NOW",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_time",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Gibt die aktuelle Zeit zurück.$(br2)Der TIME-Wert ist ein Unix-Zeitstempel in Millisekunden. Nimm FORMAT, um ihn in Text umzuwandeln."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)Ergebnis $(1)result$() TIME: die aktuelle Zeit"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/time/NOW$(br)  RESULT result now$()"
+    }
+  ]
+}

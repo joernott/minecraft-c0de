@@ -1,0 +1,16 @@
+{
+  "name": "Ergebnisse",
+  "icon": "c0de:trigger_block",
+  "category": "c0de:running_programs",
+  "sortnum": 6,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Wenn ein Prozess normal endet, bekommt das Ausgabeinventar eine Variablenkarte pro Ergebnis der Einstiegsfunktion. Jede Karte trägt den Namen, den Typ und den Wert ihres Ergebnisses."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Wenn die Funktion weniger Ergebnisse als Parameter hat, bekommst du auch leere Variablenkarten zurück. So ist die Zahl der Karten, die hinein- und herausgehen, gleich."
+    }
+  ]
+}

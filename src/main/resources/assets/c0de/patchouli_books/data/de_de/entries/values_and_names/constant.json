@@ -1,0 +1,36 @@
+{
+  "name": "CONSTANT",
+  "icon": "c0de:constant_block",
+  "category": "c0de:values_and_names",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Eine CONSTANT-Zeile erzeugt eine Konstante: einen benannten Wert, der sich nie ändert."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Sie sieht aus wie eine VARIABLE-Zeile, muss aber einen Wert haben. Du kannst einer Konstante nichts mit ASSIGN zuweisen, und sie kann kein Ergebnis eines CALL aufnehmen."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Einige Konstanten gibt es in jedem Programm. Die Namen der Fehler, zum Beispiel $(1)DIVISION_BY_ZERO$(), enthalten ihre Codes. $(1)COLOR_BLACK$() bis $(1)COLOR_WHITE$() sind die Farben für COLOR. $(1)SHEET$() erzählt einem Programm von seinem Blatt: $(1)number$(), $(1)program$(), $(1)owner$() und die Position $(1)x$(), $(1)y$(), $(1)z$() seines ersten Bodenblocks. $(1)PID$() erzählt ihm von seinem Prozess: $(1)pid$(), $(1)program$(), $(1)function$(), $(1)owner$(), $(1)activator$() (der Spieler, der ihn gestartet hat), die Position $(1)x$(), $(1)y$(), $(1)z$() und $(1)dimension$() des Auslöserblocks, $(1)debug$() und der Tick, in dem er gestartet ist ($(1)started$()). $(1)CURSOR$() erzählt ihm, wo sein Cursor gerade steht: die Zeile ($(1)line$()), die Funktion ($(1)function$()), die Tiefe der Aufrufe ($(1)depth$()) und wie viele Plätze des Stacks belegt sind ($(1)stack_used$()) von $(1)stack_size$(). Ihre Typen sind SHEET_INFO, PID_INFO und CURSOR_INFO. $(1)C0DE_VERSION$() ist die Version von c0de als Text, zum Beispiel \"0.4.0\". Andere Mods können eigene Konstanten hinzufügen, zum Beispiel $(1)C0DE_NET_VERSION$() von c0de net."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:constant_block"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:constant_block_from_variable_block"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Stelle eine Typbasis und drei Knochen zusammen her, oder verwandle einen VARIABLE-Block in einen CONSTANT-Block."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CONSTANT BASE INTEGER 42$(br)CONSTANT ORIGIN STRUCT point$(br)BEGIN$(br)  x 3$(br)END CONSTANT$()"
+    }
+  ]
+}

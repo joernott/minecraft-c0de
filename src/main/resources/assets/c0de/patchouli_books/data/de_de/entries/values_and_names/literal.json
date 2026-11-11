@@ -1,0 +1,29 @@
+{
+  "name": "LITERAL",
+  "icon": "c0de:literal_block",
+  "category": "c0de:values_and_names",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Ein LITERAL-Block enthält einen festen Wert."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Klicke ihn mit leerer Hand mit rechts an. Wähle den Typ und gib den Wert ein. Ein Literal kann ein BOOLEAN, INTEGER, FLOAT, CHAR, STRING oder TIME sein. Der Block ist ein Achteck, so kannst du ihn von einem LABEL unterscheiden."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:literal_block",
+      "text": "Lege einen weißen Wollblock in die Mitte und acht NOOP-Blöcke darum herum. Du bekommst acht LITERAL-Blöcke."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Die Textschreibweise schreibt Literale so: $(1)TRUE$(), $(1)42$(), $(1)3.14$(), $(1)'a'$(), $(1)\"Hello\"$() und $(1)@2026-10-19T12:05:09Z$()."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)ASSIGN text \"Hello, \" ⊕ name ;$()"
+    }
+  ]
+}

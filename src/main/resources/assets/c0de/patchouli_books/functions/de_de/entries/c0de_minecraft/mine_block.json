@@ -1,0 +1,28 @@
+{
+  "name": "MINE_BLOCK",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_minecraft",
+  "sortnum": 17,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Baut einen Block ab wie ein Spieler, mit einem Werkzeug aus einem Inventar."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Die Funktion nimmt das passendste Werkzeug aus $(1)tool_inventory$(): zuerst ein Werkzeug, das den Block droppen lässt und schneller ist (eine Spitzhacke für Bruchstein, eine Schere für Laub), dann einen Gegenstand, der den Block droppen lässt, dann ein schnelleres Werkzeug und sonst die bloßen Hände. Von mehreren gleich passenden Werkzeugen nimmt sie das erste, z. B. bei Bruchstein die Eisenspitzhacke in Slot 0 vor der Diamantspitzhacke in Slot 2; bei Obsidian nimmt sie die Diamantspitzhacke."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Das Werkzeug nutzt sich ab, als hätte ein Spieler es benutzt, und das Programm wartet so lange, wie ein Spieler zum Abbauen des Blocks bräuchte. Die Drops kommen in $(1)output_inventory$(); ohne dieses fallen sie auf den Boden. Wenn sie nicht in das Ausgabeinventar passen, wird INVENTORY_FULL ausgelöst und der Block bleibt stehen. Grundgestein und Flüssigkeiten können nicht abgebaut werden (INVALID_ARGUMENT). Jeder Besitzer darf MINE_BLOCK verwenden, weil es nur tut, was Spieler auch können."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)position$() STRUCT c0de/minecraft/POSITION: wo der Block ist$(li)$(1)tool_inventory$() STRUCT c0de/minecraft/POSITION: der Block, dessen Inventar die Werkzeuge enthält, z. B. eine Truhe$(li)$(1)output_inventory$() STRUCT c0de/minecraft/POSITION: der Block, dessen Inventar die Drops bekommt (optional)"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/minecraft/MINE_BLOCK$(br)  PARAMETER position spot ;$(br)  PARAMETER tool_inventory tools ;$(br)  PARAMETER output_inventory chest ;$()"
+    }
+  ]
+}

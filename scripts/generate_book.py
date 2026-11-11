@@ -1,12 +1,17 @@
 """Generates the Patchouli books of the mod from the documentation: the guide (docs/guide) and the handbooks
-(docs/reference), and the index of the handbooks (docs/reference/index.md).
+(docs/reference), and the index of the handbooks (docs/reference/index.md). The German translation (docs/de, task
+14.6) becomes the de_de pages of the same books and docs/de/reference/index.md; Patchouli shows the pages in the
+language of the game and falls back to English.
 
 Guide: every file docs/guide/NN-name.md becomes a category, every "## " section an entry. Handbooks: every file
 docs/reference/<book>.md becomes a book, every "## " section a category and every "### " element an entry with
 the same parts: a description, the recipes (crafting pages; for functions, the parameters and results) and an
 example. The paragraphs are distributed over text pages; program examples get pages of their own. The books,
 their recipes (only loaded if Patchouli is installed) and the pages are generated files; generate_content.py
-calls this script.
+calls this script and writes the names and landing texts of the books (TRANSLATIONS) into the language files.
+
+A translation has the same headings in the same order as the English file. The IDs of its categories and entries
+are those of the English headings at the same position, so a page of the translation replaces the English page.
 
 Usage: python scripts/generate_book.py
 """
@@ -17,13 +22,65 @@ import shutil
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-GUIDE = ROOT / "docs" / "guide"
-REFERENCE = ROOT / "docs" / "reference"
+DOCS = ROOT / "docs"
+GUIDE = DOCS / "guide"
+REFERENCE = DOCS / "reference"
 RESOURCES = ROOT / "src" / "main" / "resources"
+BOOKS = RESOURCES / "assets" / "c0de" / "patchouli_books"
 # The recipes in the format of Minecraft 1.21.1; generate_content.py converts them to the newer format
 RECIPES = ROOT / "src" / "main" / "versioned" / "recipes" / "1.21.1" / "data" / "c0de" / "recipe"
 BOOK = "guide"
-CONTENT = RESOURCES / "assets" / "c0de" / "patchouli_books" / BOOK / "en_us"
+CONTENT = BOOKS / BOOK / "en_us"
+
+# The languages of the books and the folders of their documentation
+LANGUAGES = {"en_us": DOCS, "de_de": DOCS / "de"}
+
+# The names and landing texts of the books by language, as translation keys of the language files
+TRANSLATIONS: dict[str, dict[str, str]] = {language: {} for language in LANGUAGES}
+
+# The texts of the generated parts by language
+TEXTS = {
+    "en_us": {
+        "guide": "c0de Guide",
+        "landing": "Programs built from blocks, written on the greenbar paper of the c0de dimension and run by"
+                   " trigger blocks. This guide shows how to write and run them.",
+        "index_title": "# Reference",
+        "index_intro": "The handbooks of c0de: one page per block, item and function, each with a description, its"
+                       " recipe and an example. The [guide](../guide/01-getting-started.md) explains how to write"
+                       " and run programs. With the mod Patchouli, every handbook is also a red book in the game"
+                       " (crafted from a book and the item named below).",
+        "crafted": "Book: crafted from a book and {}.",
+    },
+    "de_de": {
+        "guide": "c0de-Anleitung",
+        "landing": "Programme aus Blöcken, geschrieben auf das Endlospapier der c0de-Dimension und gestartet von"
+                   " Auslöserblöcken. Diese Anleitung zeigt, wie du sie schreibst und startest.",
+        "index_title": "# Handbücher",
+        "index_intro": "Die Handbücher von c0de: eine Seite für jeden Block, jeden Gegenstand und jede Funktion,"
+                       " jeweils mit Beschreibung, Rezept und Beispiel. Die [Anleitung](../guide/01-getting-started.md)"
+                       " erklärt, wie du Programme schreibst und startest. Mit der Mod Patchouli ist jedes Handbuch"
+                       " auch ein rotes Buch im Spiel (hergestellt aus einem Buch und dem unten genannten"
+                       " Gegenstand).",
+        "crafted": "Buch: hergestellt aus einem Buch und {}.",
+    },
+}
+
+# The German names of the items the handbooks are crafted from (en: the ID with spaces)
+INGREDIENTS_DE = {
+    "c0de:type_base": "einer Typbasis",
+    "c0de:structural_base": "einer Strukturbasis",
+    "c0de:wrench": "einem Schraubenschlüssel",
+    "c0de:trigger_block": "einem Auslöserblock",
+    "c0de:display_block": "einem Anzeigeblock",
+    "c0de:function_block": "einem FUNCTION-Block",
+}
+
+# The labels of the parts of a handbook element, in all languages
+MARKERS = {
+    "**Recipe**": "recipe", "**Rezept**": "recipe",
+    "**Parameters and results**": "parameters", "**Parameter und Ergebnisse**": "parameters",
+    "**Example**": "example", "**Beispiel**": "example",
+}
 
 # The handbooks: (file in docs/reference without .md, the item that is crafted with a book into the handbook)
 HANDBOOKS = [
@@ -34,7 +91,8 @@ HANDBOOKS = [
     ("devices", "c0de:display_block"),
     ("functions", "c0de:function_block"),
 ]
-IMAGE = re.compile(r"!\[[^\]]*\]\(images/([a-z0-9_]+)\.png\)")
+# Images of recipes; translations in docs/de/reference use the images of the English folder
+IMAGE = re.compile(r"!\[[^\]]*\]\((?:\.\./\.\./reference/)?images/([a-z0-9_]+)\.png\)")
 
 # The number of characters that fit on a text page; the first page of an entry also shows its title
 PAGE_CHARACTERS = 320
@@ -137,11 +195,16 @@ def pages(section: list[str]) -> list[dict]:
     return result
 
 
-def book_files(book: str, name: str, landing: str, ingredient: str) -> None:
-    """The book definition and its recipe from a book and an ingredient, only loaded if Patchouli is installed."""
+def book_files(book: str, language: str, name: str, landing: str, ingredient: str) -> None:
+    """The book definition and its recipe from a book and an ingredient, only loaded if Patchouli is installed.
+    Name and landing text are translation keys; their texts go into TRANSLATIONS of the language."""
+    TRANSLATIONS[language]["book.c0de." + book + ".name"] = name
+    TRANSLATIONS[language]["book.c0de." + book + ".landing_text"] = landing
+    if language != "en_us":
+        return
     write(RESOURCES / "data" / "c0de" / "patchouli_books" / book / "book.json", {
-        "name": name,
-        "landing_text": landing,
+        "name": "book.c0de." + book + ".name",
+        "landing_text": "book.c0de." + book + ".landing_text",
         "version": 1,
         "use_resource_pack": True,
         "model": "patchouli:book_red",
@@ -159,34 +222,53 @@ def book_files(book: str, name: str, landing: str, ingredient: str) -> None:
     })
 
 
-def guide() -> None:
-    book_files(BOOK, "c0de Guide", "Programs built from blocks, written on the greenbar paper of the c0de dimension"
-               " and run by trigger blocks. This guide shows how to write and run them.", "c0de:program_block")
+def guide_structure(path: Path) -> tuple[str, list[str], list[tuple[str, list[str]]]]:
+    """The title, the introduction and the "## " sections of a chapter of the guide."""
+    lines = path.read_text(encoding="utf-8").splitlines()
+    title = next(line[2:].strip() for line in lines if line.startswith("# "))
+    intro: list[str] = []
+    sections: list[tuple[str, list[str]]] = []
+    for line in lines:
+        if line.startswith("# "):
+            continue
+        if line.startswith("## "):
+            sections.append((line[3:].strip(), []))
+        elif sections:
+            sections[-1][1].append(line)
+        else:
+            intro.append(line)
+    return title, intro, sections
+
+
+def matching(translation: list, original: list, what: str) -> None:
+    if len(translation) != len(original):
+        raise ValueError(f"{what}: {len(translation)} sections, the English file has {len(original)}")
+
+
+def guide(language: str) -> None:
+    texts = TEXTS[language]
+    book_files(BOOK, language, texts["guide"], texts["landing"], "c0de:program_block")
+    content = BOOKS / BOOK / language
+    if content.exists():
+        shutil.rmtree(content)
     for number, path in enumerate(sorted(GUIDE.glob("[0-9][0-9]-*.md"))):
         name = path.stem[3:]
-        lines = path.read_text(encoding="utf-8").splitlines()
-        title = next(line[2:].strip() for line in lines if line.startswith("# "))
-        intro: list[str] = []
-        sections: list[tuple[str, list[str]]] = []
-        for line in lines:
-            if line.startswith("# "):
-                continue
-            if line.startswith("## "):
-                sections.append((line[3:].strip(), []))
-            elif sections:
-                sections[-1][1].append(line)
-            else:
-                intro.append(line)
+        _, _, english = guide_structure(path)
+        source = LANGUAGES[language] / "guide" / path.name
+        if not source.exists():
+            continue
+        title, intro, sections = guide_structure(source)
+        matching(sections, english, str(source))
         category = slug(name)
         description = " ".join(kind_text for kind, kind_text in blocks(intro) if kind == "text")
-        write(CONTENT / "categories" / (category + ".json"), {
+        write(content / "categories" / (category + ".json"), {
             "name": title,
             "description": description,
             "icon": ICONS.get(name, "c0de:noop_block"),
             "sortnum": number,
         })
         for index, (heading, section) in enumerate(sections):
-            write(CONTENT / "entries" / category / (slug(heading) + ".json"), {
+            write(content / "entries" / category / (slug(english[index][0]) + ".json"), {
                 "name": heading,
                 "icon": ICONS.get(name, "c0de:noop_block"),
                 "category": "c0de:" + category,
@@ -201,16 +283,11 @@ def parts(lines: list[str]) -> dict[str, list[str]]:
     current = "description"
     for line in lines:
         marker = line.strip()
-        if marker == "**Recipe**":
-            current = "recipe"
-        elif marker == "**Parameters and results**":
-            current = "parameters"
-        elif marker == "**Example**":
-            current = "example"
+        if marker in MARKERS:
+            current = MARKERS[marker]
+            result.setdefault(current, [])
         else:
             result.setdefault(current, []).append(line)
-            continue
-        result.setdefault(current, [])
     return result
 
 
@@ -248,53 +325,61 @@ def element_pages(lines: list[str]) -> tuple[list[dict], str | None]:
 
 
 def anchor(heading: str) -> str:
-    """The anchor GitHub gives a heading."""
-    return re.sub(r"[^a-z0-9 _-]", "", heading.lower()).replace(" ", "-")
+    """The anchor GitHub gives a heading: lower case, without punctuation (letters like ä stay), spaces to -."""
+    return re.sub(r"[^\w -]", "", heading.lower()).replace(" ", "-")
 
 
-def handbooks() -> None:
-    index = ["# Reference", "",
-             "The handbooks of c0de: one page per block, item and function, each with a description, its recipe"
-             " and an example. The [guide](../guide/01-getting-started.md) explains how to write and run programs."
-             " With the mod Patchouli, every handbook is also a red book in the game (crafted from a book and the"
-             " item named below).", ""]
+def handbook_structure(path: Path) -> tuple[str, list[str], list[tuple[str, list[str], list[tuple[str, list[str]]]]]]:
+    """The title, the introduction and the categories ("## ") with their elements ("### ") of a handbook."""
+    lines = path.read_text(encoding="utf-8").splitlines()
+    title = next(line[2:].strip() for line in lines if line.startswith("# "))
+    intro: list[str] = []
+    categories: list[tuple[str, list[str], list[tuple[str, list[str]]]]] = []
+    for line in lines:
+        if line.startswith("# "):
+            continue
+        if line.startswith("## "):
+            categories.append((line[3:].strip(), [], []))
+        elif line.startswith("### "):
+            categories[-1][2].append((line[4:].strip(), []))
+        elif categories and categories[-1][2]:
+            categories[-1][2][-1][1].append(line)
+        elif categories:
+            categories[-1][1].append(line)
+        else:
+            intro.append(line)
+    return title, intro, categories
+
+
+def handbooks(language: str) -> None:
+    texts = TEXTS[language]
+    index = [texts["index_title"], "", texts["index_intro"], ""]
+    folder = LANGUAGES[language] / "reference"
     for book, ingredient in HANDBOOKS:
-        path = REFERENCE / (book + ".md")
+        path = folder / (book + ".md")
         if not path.exists():
             continue
-        lines = path.read_text(encoding="utf-8").splitlines()
-        title = next(line[2:].strip() for line in lines if line.startswith("# "))
-        content = RESOURCES / "assets" / "c0de" / "patchouli_books" / book / "en_us"
+        _, _, english = handbook_structure(REFERENCE / (book + ".md"))
+        title, intro, categories = handbook_structure(path)
+        matching(categories, english, str(path))
+        content = BOOKS / book / language
         if content.exists():
             shutil.rmtree(content)
-        intro: list[str] = []
-        categories: list[tuple[str, list[str], list[tuple[str, list[str]]]]] = []
-        for line in lines:
-            if line.startswith("# "):
-                continue
-            if line.startswith("## "):
-                categories.append((line[3:].strip(), [], []))
-            elif line.startswith("### "):
-                categories[-1][2].append((line[4:].strip(), []))
-            elif categories and categories[-1][2]:
-                categories[-1][2][-1][1].append(line)
-            elif categories:
-                categories[-1][1].append(line)
-            else:
-                intro.append(line)
         landing = " ".join(text for kind, text in blocks(intro) if kind == "text")
-        book_files(book, "c0de " + title, landing, ingredient)
-        index += ["## [" + title + "](" + book + ".md)", "",
-                  "Book: crafted from a book and " + ingredient.split(":")[1].replace("_", " ") + ".", ""]
+        book_files(book, language, "c0de " + title, landing, ingredient)
+        item = ingredient.split(":")[1].replace("_", " ") if language == "en_us" else INGREDIENTS_DE[ingredient]
+        index += ["## [" + title + "](" + book + ".md)", "", texts["crafted"].format(item), ""]
         for number, (category_title, description, elements) in enumerate(categories):
-            category = slug(category_title)
+            english_elements = english[number][2]
+            matching(elements, english_elements, f"{path}, {category_title}")
+            category = slug(english[number][0])
             category_icon = None
             index.append("- **" + category_title + "**: " + ", ".join(
                 "[" + name + "](" + book + ".md#" + anchor(name) + ")" for name, _ in elements))
             for position, (name, element) in enumerate(elements):
                 element_page_list, icon = element_pages(element)
                 category_icon = category_icon or icon
-                write(content / "entries" / category / (slug(name) + ".json"), {
+                write(content / "entries" / category / (slug(english_elements[position][0]) + ".json"), {
                     "name": name,
                     "icon": icon or "minecraft:book",
                     "category": "c0de:" + category,
@@ -308,15 +393,15 @@ def handbooks() -> None:
                 "sortnum": number,
             })
         index.append("")
-    (REFERENCE / "index.md").write_text("\n".join(index), encoding="utf-8", newline="\n")
+    if folder.exists():
+        (folder / "index.md").write_text("\n".join(index), encoding="utf-8", newline="\n")
 
 
 def main() -> None:
     # The pages are generated anew, so that pages of removed sections don't stay
-    if CONTENT.exists():
-        shutil.rmtree(CONTENT)
-    guide()
-    handbooks()
+    for language in LANGUAGES:
+        guide(language)
+        handbooks(language)
 
 
 if __name__ == "__main__":

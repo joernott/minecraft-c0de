@@ -1,0 +1,20 @@
+{
+  "name": "ASSIGN",
+  "icon": "c0de:program_block",
+  "category": "c0de:language",
+  "sortnum": 10,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "ASSIGN speichert den Wert eines Ausdrucks in einer Variablen. Der Wert muss zum Typ der Variablen passen. Ein INTEGER darf in ein FLOAT und ein CHAR in einen STRING."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)ASSIGN arithmetic 1 + 2 * ( 3 + 3 ) \\ 10 * 2 + 10 ;$(br)ASSIGN list[0] 10 ;$(br)ASSIGN list[1] 20 ;$(br)ASSIGN list[2] list[0] + list[1] ;$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Eine Zuweisung an den Index direkt nach dem Ende einer Liste fügt ein neues Element hinzu. Ein neuer Schlüssel fügt einem Hash ein neues Element hinzu."
+    }
+  ]
+}

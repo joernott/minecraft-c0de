@@ -1,0 +1,16 @@
+{
+  "name": "Typkarten",
+  "icon": "c0de:hammer",
+  "category": "c0de:tools",
+  "sortnum": 9,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Eine Typkarte sieht aus wie eine Datenkarte mit rotem Rand. Sie steht für einen Datentyp und wird gebraucht, um Variablen- und Konstantenkarten dieses Typs herzustellen."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Rezept: eine Datenkarte, roter Farbstoff und der Gegenstand des Typs, in beliebiger Form:$(br2)$(li)BOOLEAN: Redstone-Fackel$(li)INTEGER: Sand$(li)FLOAT: roter Sand$(li)CHAR: Eichenholzbretter$(li)STRING: Faden$(li)ARRAY: Fass$(li)HASH: Truhe$(li)STRUCT: Gerüst$(li)TIME: Uhr$(li)ERROR: Lagerfeuer"
+    }
+  ]
+}

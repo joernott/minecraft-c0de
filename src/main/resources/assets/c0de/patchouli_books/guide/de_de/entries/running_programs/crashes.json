@@ -1,0 +1,16 @@
+{
+  "name": "Abstürze",
+  "icon": "c0de:trigger_block",
+  "category": "c0de:running_programs",
+  "sortnum": 9,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Wenn ein Prozess abstürzt, spielt der Auslöserblock einen tiefen Ton. Sein Dialog zeigt den Fehlercode, die Meldung, die Funktion und die Zeile, in der es passiert ist."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Ein abgestürzter Prozess erzeugt keine Ergebnisse. Alle Karten, die er genommen hat, gehen unverändert in das Ausgabeinventar."
+    }
+  ]
+}

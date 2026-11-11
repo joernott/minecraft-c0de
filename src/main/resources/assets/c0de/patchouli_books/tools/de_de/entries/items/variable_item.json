@@ -1,0 +1,40 @@
+{
+  "name": "Variablenkarte",
+  "icon": "c0de:variable_item",
+  "category": "c0de:items",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Eine Variablenkarte trägt einen Namen, einen Typ und einen Wert in einen Prozess hinein oder aus ihm heraus."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Sie hat einen blauen Rand. Halte sie in deiner Haupthand und klicke mit rechts, um ihren Namen, Typ und Wert zu bearbeiten. Der Mülleimer-Knopf leert alle Felder. Wenn du mit allen Feldern leer speicherst, wird sie zu einer nicht initialisierten Karte."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Eine nicht initialisierte Variablenkarte hat keinen Namen, keinen Typ und keinen Wert. Ein Prozess schreibt ein Ergebnis in sie hinein. Du brauchst eine für jedes Ergebnis, an dessen Stelle keine Parameterkarte tritt."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:variable_item_boolean"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:variable_item_uninitialized"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Eine Datenkarte, eine Typkarte und hellblauer Farbstoff ergeben zwei Variablenkarten; eine Datenkarte und hellblauer Farbstoff ergeben eine nicht initialisierte Karte."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Diese Funktion verdoppelt eine Zahl. Lege eine INTEGER-Variablenkarte namens $(1)n$() mit dem Wert 21 in den Auslöserblock. Nach dem Lauf enthält die Ausgabe eine Karte namens $(1)result$() mit dem Wert 42."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)PROGRAM doubler$(br)NOOP$(br)NOOP$(br)FUNCTION double$(br)  PARAMETER n INTEGER$(br)  RESULT result INTEGER$(br)BEGIN$(br)  ASSIGN result n * 2 ;$(br)END FUNCTION$()"
+    }
+  ]
+}

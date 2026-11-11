@@ -23,8 +23,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
 /**
- * The complete programs of the player guide and the handbooks (docs/guide, docs/reference: the code blocks that
- * start with PROGRAM) are valid.
+ * The complete programs of the player guide and the handbooks (docs/guide, docs/reference and their German
+ * translations in docs/de: the code blocks that start with PROGRAM) are valid.
  * Programs that include c0de/minecraft are only checked apart from that library, which is part of the mod.
  */
 class GuideExamplesTest {
@@ -34,7 +34,14 @@ class GuideExamplesTest {
 
     static Stream<String> programs() throws IOException {
         List<String> programs = new ArrayList<>();
-        for (Path folder : List.of(Path.of("..", "docs", "guide"), Path.of("..", "docs", "reference"))) {
+        for (Path folder : List.of(
+                Path.of("..", "docs", "guide"),
+                Path.of("..", "docs", "reference"),
+                Path.of("..", "docs", "de", "guide"),
+                Path.of("..", "docs", "de", "reference"))) {
+            if (!Files.isDirectory(folder)) {
+                continue;
+            }
             List<Path> files;
             try (Stream<Path> listed = Files.list(folder)) {
                 files = listed.filter(file -> file.toString().endsWith(".md"))
@@ -46,7 +53,7 @@ class GuideExamplesTest {
                         Files.readString(file, StandardCharsets.UTF_8).replace("\r\n", "\n"));
                 while (matcher.find()) {
                     if (matcher.group(1).startsWith("PROGRAM")) {
-                        programs.add(file.getFileName() + ": " + matcher.group(1));
+                        programs.add(file + ": " + matcher.group(1));
                     }
                 }
             }

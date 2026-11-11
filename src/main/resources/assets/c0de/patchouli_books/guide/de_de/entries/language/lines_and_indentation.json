@@ -1,0 +1,20 @@
+{
+  "name": "Zeilen und Einrückung",
+  "icon": "c0de:program_block",
+  "category": "c0de:language",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Globale Zeilen beginnen bei x=5: PROGRAM, INCLUDE, STRUCT, FUNCTION sowie globale VARIABLE- und CONSTANT-Zeilen. Zeilen in einem Codeblock stehen einen Block weiter östlich als sein BEGIN."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Ein Codeblock beginnt mit BEGIN und endet mit END. Auf END folgt das Schlüsselwort, das den Block geöffnet hat, zum Beispiel $(1)END FUNCTION$() oder $(1)END WHILE$(). Ein Codeblock darf nicht leer sein."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Variablen und Konstanten, die in einem Codeblock angelegt werden, leben nur darin. Sie werden vergessen, wenn der Block endet."
+    }
+  ]
+}

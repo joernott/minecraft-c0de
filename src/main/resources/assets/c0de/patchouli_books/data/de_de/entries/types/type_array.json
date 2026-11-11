@@ -1,0 +1,29 @@
+{
+  "name": "TYPE_ARRAY",
+  "icon": "c0de:type_array_block",
+  "category": "c0de:types",
+  "sortnum": 6,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "TYPE_ARRAY steht für den Typ ARRAY: eine Liste von Werten."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Ein Array ist ab 0 nummeriert. Es wächst und schrumpft von selbst. Hinter ARRAY steht der Typ seines Inhalts, zum Beispiel $(1)ARRAY INTEGER$(). Arrays aus Arrays sind erlaubt, bis zu 8 Ebenen tief."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:type_array_block",
+      "text": "Stelle eine Typbasis und ein Fass zusammen her."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)VARIABLE list ARRAY INTEGER$(br)BEGIN$(br)  1 2 3$(br)END VARIABLE$(br)ASSIGN list[3] 4 ;$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Eine Zuweisung an den Index direkt hinter dem Ende fügt ein neues Element hinzu."
+    }
+  ]
+}

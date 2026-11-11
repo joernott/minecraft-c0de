@@ -1,0 +1,24 @@
+{
+  "name": "FROM_YAML",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_strings",
+  "sortnum": 19,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Liest ein YAML-Dokument in eine Variable ein."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)destination$() muss ein einzelner Variablenname sein; die Funktion schreibt direkt in die Variable. Nur das erste Dokument wird gelesen. Bei einem Fehler (TYPE_MISMATCH, INVALID_ARGUMENT, UNKNOWN_KEY, STRING_TOO_LONG) bleibt die Variable unverändert."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)source$() STRING: das YAML-Dokument$(li)$(1)destination$() Variable: die Variable, die die Werte bekommt$(li)keine Ergebnisse"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/strings/FROM_YAML readError$(br)  PARAMETER source config ;$(br)  PARAMETER destination settings ;$()"
+    }
+  ]
+}

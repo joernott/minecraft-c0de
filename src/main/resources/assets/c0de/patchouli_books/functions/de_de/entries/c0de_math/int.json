@@ -1,0 +1,20 @@
+{
+  "name": "INT",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_math",
+  "sortnum": 9,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Rundet eine Zahl auf eine ganze Zahl ab.$(br2)Aus -12.85 wird -13. Eine Zahl, die für einen INTEGER zu groß ist, löst NUMERIC_OVERFLOW aus."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)value$() INTEGER|FLOAT: die Zahl$(li)Ergebnis $(1)result$() INTEGER: die größte ganze Zahl, die nicht größer als $(1)value$() ist"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/math/INT$(br)  PARAMETER value height ;$(br)  RESULT result blocks$()"
+    }
+  ]
+}

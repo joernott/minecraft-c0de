@@ -1,0 +1,33 @@
+{
+  "name": "LABEL",
+  "icon": "c0de:label_block",
+  "category": "c0de:values_and_names",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Ein LABEL-Block enthält einen Namen."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Labels benennen Programme, Funktionen, Variablen und mehr. Ein Name besteht aus a-z, A-Z, 0-9 und dem Unterstrich, und er beginnt mit einem Buchstaben. Schlüsselwörter in Großbuchstaben sind reserviert: $(1)RESULT$() ist kein gültiger Name, $(1)result$() aber schon."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Ein Label kann mit einem Index in einen Wert zeigen, zum Beispiel $(1)list[0]$(), $(1)stock[\"gold\"]$() oder $(1)problem.code$(). Klicke den Block mit leerer Hand mit rechts an, um den Namen und den Index einzugeben."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:label_block",
+      "text": "Stelle einen NOOP-Block und ein Papier zusammen her."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)VARIABLE score INTEGER$(br)ASSIGN score score + 1 ;$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Alle drei $(1)score$()-Blöcke sind LABEL-Blöcke. Der erste benennt die Variable, die anderen verweisen auf sie."
+    }
+  ]
+}

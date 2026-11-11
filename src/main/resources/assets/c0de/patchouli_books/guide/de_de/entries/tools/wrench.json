@@ -1,0 +1,20 @@
+{
+  "name": "Schraubenschlüssel",
+  "icon": "c0de:hammer",
+  "category": "c0de:tools",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Rechtsklicke mit dem Schraubenschlüssel auf einen Auslöserblock, um die c0de-Dimension zu betreten. Du landest vor dem Programm dieses Auslöserblocks oder vor dem ersten freien Blatt."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Auf einem Blatt verschiebt und kopiert der Schraubenschlüssel Zeilen, die du mit dem Textmarker markiert hast. Linksklicke auf eine Zeile, die nicht markiert ist: Die markierten Zeilen wandern vor sie. Die Lücken schließen sich von selbst."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Rechtsklicke auf eine Zeile, um die markierten Zeilen vor sie zu kopieren. Diese Zeile und alle Zeilen danach rücken nach Süden. Im Überlebensmodus kommen die kopierten Blöcke aus deinem Inventar.$(br2)Rezept: drei Eisenbarren in V-Form (oben links, oben rechts, Mitte) über einem Block roter Wolle."
+    }
+  ]
+}

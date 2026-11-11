@@ -1,0 +1,32 @@
+{
+  "name": "Debug-Auslöserblock",
+  "icon": "c0de:debug_trigger_block",
+  "category": "c0de:starting_programs",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Der Debug-Auslöserblock startet einen Prozess mit einem roten Debug-Cursor, wenn du ihn mit dem Debugging-Werkzeug schlägst."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Sein Dialog funktioniert wie der eines Auslöserblocks. Der Debug-Cursor startet pausiert. Klicke ihn mit dem Debugging-Werkzeug mit links an, um eine Zeile weiterzugehen, und klicke ihn mit gedrückter Umschalttaste mit links an, um ihn laufen zu lassen oder wieder zu pausieren."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Jeder Linksklick auf den Cursor zeigt seine aktuelle Zeile in deinem Chat. Klicke den Cursor mit rechts an, um seine Eigenschaften und seinen Stack zu sehen."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:debug_trigger_block"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Kupferbarren in den Ecken, Glas an den Kanten und ein Redstone-Block in der Mitte ergeben einen Debug-Auslöserblock."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Dein Programm liefert ein falsches Ergebnis. Platziere einen Debug-Auslöserblock neben dem Blatt und stelle ihn auf dieselbe Funktion ein. Fülle seine Eingabe wie beim echten Auslöserblock. Gehe dann Schritt für Schritt durch das Programm und sieh zu, wie sich die Werte ändern."
+    }
+  ]
+}

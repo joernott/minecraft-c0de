@@ -62,6 +62,7 @@
   "dialog.c0de.trigger.program": "Programm",
   "dialog.c0de.trigger.function": "Funktion",
   "dialog.c0de.trigger.interval": "Intervall in Ticks",
+  "dialog.c0de.trigger.paused": "Durch Redstone pausiert",
   "dialog.c0de.trigger.run": "Starten durch",
   "dialog.c0de.trigger.run.owner": "Nur mich",
   "dialog.c0de.trigger.run.players": "Spieler",
@@ -193,5 +194,19 @@
   "dialog.c0de.operator.or": "Logisches ODER",
   "dialog.c0de.operator.open": "Öffnende Klammer",
   "dialog.c0de.operator.close": "Schließende Klammer",
-  "dialog.c0de.operator.end_of_expression": "Ende des Ausdrucks"
+  "dialog.c0de.operator.end_of_expression": "Ende des Ausdrucks",
+  "book.c0de.guide.name": "c0de-Anleitung",
+  "book.c0de.guide.landing_text": "Programme aus Blöcken, geschrieben auf das Endlospapier der c0de-Dimension und gestartet von Auslöserblöcken. Diese Anleitung zeigt, wie du sie schreibst und startest.",
+  "book.c0de.data.name": "c0de Daten",
+  "book.c0de.data.landing_text": "Dieses Buch zeigt die Blöcke, die Daten beschreiben. Typblöcke sagen, welche Art von Wert etwas enthält. LABEL, LITERAL, VARIABLE, CONSTANT und TAG benennen Werte, enthalten sie und speichern sie. Jede Seite zeigt, was ein Block tut, wie du ihn herstellst, und ein kurzes Beispiel. Die Beispiele verwenden die Textschreibweise der Anleitung: Eine Textzeile ist eine Zeile auf dem Blatt, und vier Leerzeichen bedeuten einen Block weiter nach Osten.",
+  "book.c0de.statements.name": "c0de Anweisungen",
+  "book.c0de.statements.landing_text": "Dieses Buch listet die Schlüsselwortblöcke von c0de auf. Ein Schlüsselwortblock steht am Anfang einer Zeile und bestimmt, was die Zeile tut. Einige davon, wie PARAMETER oder ELSE, funktionieren nur zusammen mit anderen. Jede Seite zeigt, was ein Block tut, wie du ihn herstellst, und ein kurzes Beispiel. Die Beispiele verwenden die Textschreibweise der Anleitung: Eine Textzeile ist eine Zeile auf dem Blatt, und vier Leerzeichen bedeuten einen Block weiter östlich.",
+  "book.c0de.tools.name": "c0de Werkzeuge",
+  "book.c0de.tools.landing_text": "Dieses Buch listet die Werkzeuge und Gegenstände von c0de auf. Werkzeuge helfen dir, Programme zu schreiben, zu testen und zu speichern. Gegenstände tragen Daten in deine Programme hinein und aus ihnen heraus. Jede Seite zeigt, was ein Werkzeug oder Gegenstand tut, wie du es herstellst und wie es typischerweise verwendet wird.",
+  "book.c0de.triggers.name": "c0de Auslöser",
+  "book.c0de.triggers.landing_text": "Ein Programm auf einem Blatt tut von selbst nichts. Auslöserblöcke starten es, versorgen es mit Daten und sammeln seine Ergebnisse ein. Ein laufendes Programm heißt $(l)Prozess$(). Dieses Buch zeigt die drei Auslöserblöcke, die Prozesse starten, und den PID-Block, der einen laufenden Prozess markiert.",
+  "book.c0de.devices.name": "c0de Geräte",
+  "book.c0de.devices.landing_text": "Dieses Buch zeigt die Geräte, mit denen Programme mit Spielern sprechen. Bildschirme zeigen, was PRINT schreibt. Gegenstände bringen Werte zu INPUT und von WRITE wieder heraus. Jedes Gerät ist an ein Programm und eine seiner Funktionen gebunden, wie ein Auslöserblock. Ein Prozess verwendet alle Geräte, die an sein Programm und seine Einstiegsfunktion gebunden sind. Das zuerst gebundene Gerät kommt zuerst. Wenn du ein Gerät neu bindest, wird sein Bildschirm gelöscht.",
+  "book.c0de.functions.name": "c0de Funktionen",
+  "book.c0de.functions.landing_text": "Ein Funktionsaufruf führt eine Funktion mit einer CALL-Zeile aus. Die PARAMETER-Zeilen darunter geben die Werte an, die die Funktion braucht. Die RESULT-Zeilen nennen die Variablen, die bekommen, was die Funktion zurückgibt. Ergebnisse, die du nicht aufführst, werden verworfen. Eingebaute Funktionen funktionieren überall. Bibliotheksfunktionen brauchen zuerst eine INCLUDE-Zeile für ihre Bibliothek, z. B. $(1)INCLUDE c0de/math$(). Dann rufst du sie mit ihrem vollen Namen auf, z. B. $(1)c0de/math/SIN$(). Wenn ein Aufruf fehlschlägt und kein Fehler-Label hat, wird der Fehler ausgelöst."
 }

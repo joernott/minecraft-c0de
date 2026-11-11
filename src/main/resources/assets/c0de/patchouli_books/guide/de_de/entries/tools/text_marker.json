@@ -1,0 +1,20 @@
+{
+  "name": "Textmarker",
+  "icon": "c0de:hammer",
+  "category": "c0de:tools",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Der Textmarker sieht aus wie eine gelbe Feder. Linksklicke auf eine Zeile, um sie zu markieren, und linksklicke noch einmal, um die Markierung zu entfernen. Markierte Zeilen bekommen eine gelbe Überlagerung."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Rechtsklicke auf eine andere Zeile desselben Blatts, um alles von der zuletzt linksgeklickten Zeile bis zu dieser zu markieren. Hat der letzte Linksklick eine Markierung entfernt, entfernt der Rechtsklick stattdessen die Markierungen."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Auch jeder Rechtsklick wird gemerkt, so kannst du eine Auswahl Schritt für Schritt vergrößern.$(br2)Rezept: eine Feder und gelber Farbstoff, in beliebiger Form."
+    }
+  ]
+}

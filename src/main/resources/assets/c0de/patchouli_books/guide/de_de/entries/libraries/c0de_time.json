@@ -1,0 +1,20 @@
+{
+  "name": "c0de/time",
+  "icon": "c0de:include_block",
+  "category": "c0de:libraries",
+  "sortnum": 9,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Echte Uhrzeit und echtes Datum, in der Zeitzone des Servers:"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)NOW: die aktuelle Zeit als TIME-Wert$(li)YEAR, MONTH, DAY: Teile des Datums$(li)HOUR, MINUTE, SECOND, MILLISECOND: Teile der Uhrzeit$(li)WEEKDAY: 1 für Montag bis 7 für Sonntag$(li)WEEK: die Kalenderwoche$(li)TIMER: Sekunden seit Mitternacht$(li)SLEEP: eine Anzahl von Spielticks warten"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Die Datums- und Zeitfunktionen benutzen die aktuelle Zeit oder einen TIME-Wert, den du als $(1)time$() übergibst. SLEEP wartet zwischen 1 und 72000 Ticks."
+    }
+  ]
+}

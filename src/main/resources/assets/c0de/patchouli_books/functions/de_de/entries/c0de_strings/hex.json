@@ -1,0 +1,20 @@
+{
+  "name": "HEX",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_strings",
+  "sortnum": 14,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Gibt den Hexadezimaltext einer ganzen Zahl zurück.$(br2)Buchstaben sind groß. Negative Zahlen verwenden das Zweierkomplement, also wird -1 zu FFFFFFFFFFFFFFFF."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)value$() INTEGER: die Zahl$(li)Ergebnis $(1)result$() STRING: der Hexadezimaltext"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/strings/HEX$(br)  PARAMETER value 255 ;$(br)  RESULT result hexText$()"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "name": "TYPE_CHAR",
+  "icon": "c0de:type_char_block",
+  "category": "c0de:types",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "TYPE_CHAR steht für den Typ CHAR: ein einzelnes Zeichen.$(br2)Ein neuer CHAR enthält ein Leerzeichen. Du darfst einen CHAR in einem STRING speichern. Text, der mit $(1)⊕$() verbunden wird, kann Zeichen und Strings mischen."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:type_char_block",
+      "text": "Stelle eine Typbasis und Eichenholzbretter zusammen her."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)VARIABLE mark CHAR '!'$()"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "name": "E/A-Block",
+  "icon": "c0de:io_block",
+  "category": "c0de:items",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Der E/A-Block nimmt Werte für INPUT an und gibt Werte von WRITE aus."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Klicke ihn mit rechts an, um seinen Dialog zu öffnen. Er hat 18 Eingabeplätze und 18 Ausgabeplätze. Die Eingabe nimmt nur Variablen-, Konstanten- und Literalkarten an. Aus der Ausgabe kannst du Gegenstände nur herausnehmen. Die Knöpfe Programm und Funktion und ✔ binden den Block, wie bei einem Anzeigeblock."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Trichter füllen die Eingabe und leeren die Ausgabe. Ein Komparator liest, wie voll die Ausgabe ist."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:io_block",
+      "text": "Stelle eine Datenkarte und einen Trichter zusammen her."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Binde einen E/A-Block an die Funktion $(1)double$(). Lege eine INTEGER-Variablenkarte namens $(1)number$() mit dem Wert 21 und eine nicht initialisierte Variablenkarte in seine Eingabe. Starte die Funktion: Die Ausgabe bekommt eine Karte namens $(1)output$() mit dem Wert 42."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)PROGRAM doubling$(br)NOOP$(br)NOOP$(br)FUNCTION double$(br)BEGIN$(br)  VARIABLE number INTEGER$(br)  CALL INPUT$(br)    PARAMETER variable number ;$(br)  CALL WRITE$(br)    PARAMETER value number * 2 ;$(br)END FUNCTION$()"
+    }
+  ]
+}

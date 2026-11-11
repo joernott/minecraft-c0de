@@ -1,0 +1,20 @@
+{
+  "name": "LCASE",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_strings",
+  "sortnum": 6,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Wandelt einen Text in Kleinbuchstaben um."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)text$() STRING: der Text$(li)Ergebnis $(1)result$() STRING: der Text in Kleinbuchstaben"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/strings/LCASE$(br)  PARAMETER text answer ;$(br)  RESULT result answer$()"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "name": "ELSE",
+  "icon": "c0de:else_block",
+  "category": "c0de:conditions",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "ELSE führt seinen Codeblock aus, wenn die IF-Bedingung falsch war.$(br2)Die ELSE-Zeile enthält nur den ELSE-Block, beim selben x wie ihr IF. Sie kommt direkt nach dem ersten END, das dann allein steht. Der zweite Codeblock endet mit $(1)END IF$()."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:else_block",
+      "text": "Stelle eine Strukturbasis und Weizen zusammen her, oder verwandle einen IF-Block in einen ELSE-Block."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:else_block_from_if_block"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)IF prime ;$(br)BEGIN$(br)  ASSIGN primes primes ⊕ candidate ⊕ \" \" ;$(br)END$(br)ELSE$(br)BEGIN$(br)  NOOP$(br)END IF$()"
+    }
+  ]
+}

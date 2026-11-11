@@ -1,0 +1,12 @@
+{
+  "name": "Auslöserblöcke",
+  "icon": "c0de:hammer",
+  "category": "c0de:tools",
+  "sortnum": 18,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Alle drei Auslöserblöcke haben dasselbe Muster: Kupferbarren in den Ecken, Glas an den Kanten und ein Gegenstand in der Mitte.$(br2)$(li)Auslöserblock: Goldbarren, ergibt 8$(li)Zeitgeberblock: Uhr, ergibt 8$(li)Debug-Auslöserblock: Redstone-Block, ergibt 1"
+    }
+  ]
+}

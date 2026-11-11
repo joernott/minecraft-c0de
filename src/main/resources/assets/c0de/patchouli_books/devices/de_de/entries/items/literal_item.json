@@ -1,0 +1,29 @@
+{
+  "name": "Literalkarte",
+  "icon": "c0de:literal_item",
+  "category": "c0de:items",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Eine Literalkarte enthält einen Typ und einen Wert, aber keinen Namen."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Sie ist eine Karte mit grauem Rand. Klicke mit ihr mit rechts, um ihren Typ und ihren Wert festzulegen. INPUT nimmt die erste Literalkarte mit dem passenden Typ aus einem E/A-Block, egal wie die Variable heißt."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Nach INPUT landet die Literalkarte ohne ihren Wert in der Ausgabe. Sie behält ihren Typ, so kannst du sie wieder füllen."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:literal_item",
+      "text": "Eine Datenkarte und hellgrauer Farbstoff ergeben zwei Literalkarten."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Lege drei INTEGER-Literalkarten mit 1, 2 und 3 in einen E/A-Block. Jedes INPUT einer INTEGER-Variable nimmt die nächste, vom ersten Platz an."
+    }
+  ]
+}

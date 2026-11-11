@@ -1,0 +1,24 @@
+{
+  "name": "SOUND",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_minecraft",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Spielt am Auslöserblock einen Ton wie ein Notenblock."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)note$() ist 0 bis 24, wie die Klicks auf einem Notenblock. Instrumente sind Notenblock-Instrumente wie harp, bass, bell oder flute. Ein falscher Ton oder ein falsches Instrument löst INVALID_ARGUMENT aus."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)note$() INTEGER: der Ton, 0 bis 24$(li)$(1)instrument$() STRING: das Instrument (optional, Standard \"harp\")"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/minecraft/SOUND$(br)  PARAMETER note 12 ;$(br)  PARAMETER instrument \"bell\" ;$()"
+    }
+  ]
+}

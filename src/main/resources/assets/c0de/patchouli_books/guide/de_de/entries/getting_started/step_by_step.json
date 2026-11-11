@@ -1,0 +1,20 @@
+{
+  "name": "Schritt für Schritt",
+  "icon": "c0de:wrench",
+  "category": "c0de:getting_started",
+  "sortnum": 8,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(li)Zeile 0: ein PROGRAM-Block bei x=5, dann ein LABEL mit dem Namen $(1)first$().$(li)Zeile 1: ein NOOP-Block bei x=5. Jedes Programm braucht ihn hier.$(li)Zeile 2: noch ein NOOP. Eine FUNCTION braucht immer direkt darüber eine NOOP-Zeile.$(li)Zeile 3: ein FUNCTION-Block bei x=5, dann ein LABEL mit dem Namen $(1)answer$()."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)Zeile 4: ein RESULT-Block bei x=6, ein LABEL mit dem Namen $(1)result$() und ein INTEGER-Typblock.$(li)Zeile 5: ein BEGIN-Block bei x=5.$(li)Zeile 6: ein ASSIGN-Block bei x=6, ein LABEL $(1)result$(), ein LITERAL 42 und ein OPERATOR $(1);$().$(li)Zeile 7: ein END-Block bei x=5, gefolgt von einem FUNCTION-Block."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Wenn alle Zeilennummern dunkelgrün oder blass sind, ist das Programm fertig. Lass die Zeile nach dem END leer. Die erste leere Zeile beendet das Programm."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "name": "Hammer",
+  "icon": "c0de:hammer",
+  "category": "c0de:tools",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Linksklicke mit dem Hammer auf eine Zeile, um sie zu löschen. Klickst du in einen markierten Bereich, wird der ganze Bereich gelöscht. Die Zeilen darunter rücken nach oben und schließen die Lücke. Im Überlebensmodus kommen die Blöcke in dein Inventar."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Rechtsklicke auf eine Zeile, um eine leere Zeile davor einzufügen. Die angeklickte Zeile und die Zeilen danach rücken nach Süden.$(br2)Ein Klick auf den Boden einer Zeile wirkt wie ein Klick auf einen Block der Zeile. Das gilt für den Textmarker, den Schraubenschlüssel, den Hammer und die Zange."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Rezept: drei Eisenbarren in einer Reihe, ein Eisenbarren unter dem mittleren und darunter ein Block roter Wolle."
+    }
+  ]
+}

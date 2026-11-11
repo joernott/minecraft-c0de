@@ -1,0 +1,36 @@
+{
+  "name": "VARIABLE",
+  "icon": "c0de:variable_block",
+  "category": "c0de:values_and_names",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Eine VARIABLE-Zeile erzeugt eine Variable: einen benannten Platz für einen Wert, der sich ändern kann."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Auf den Block folgen ein Name und ein Typ. Ein Literal kann den Startwert angeben. Ohne Literal enthält die Variable den Standardwert ihres Typs. Arrays, Hashes und Strukturen bekommen ihre Startwerte in einem Codeblock."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Eine Variable, die in einem Codeblock erzeugt wird, lebt nur in diesem Block. Eine Variable bei x=5 ist global."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:variable_block"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:variable_block_from_constant_block"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Stelle eine Typbasis und einen Knochenblock zusammen her, oder verwandle einen CONSTANT-Block in einen VARIABLE-Block."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)VARIABLE i INTEGER$(br)VARIABLE name STRING \"Steve\"$(br)VARIABLE list ARRAY INTEGER$(br)BEGIN$(br)  1 2 3$(br)END VARIABLE$()"
+    }
+  ]
+}

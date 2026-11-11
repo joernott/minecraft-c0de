@@ -1,0 +1,6 @@
+{
+  "name": "Bedingungen",
+  "description": "Ein IF führt seinen Codeblock nur aus, wenn eine Bedingung wahr ist.",
+  "icon": "c0de:structural_base",
+  "sortnum": 4
+}

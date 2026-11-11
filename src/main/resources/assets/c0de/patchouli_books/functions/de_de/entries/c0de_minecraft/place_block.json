@@ -1,0 +1,28 @@
+{
+  "name": "PLACE_BLOCK",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_minecraft",
+  "sortnum": 15,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Setzt einen Block an eine Position."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "An der Position muss Luft oder ein ersetzbarer Block wie Gras oder Wasser sein, sonst wird INVALID_ARGUMENT ausgelöst. Ohne $(1)inventory$() braucht das allowBlockChanges oder einen Administrator als Besitzer, sonst wird PERMISSION_DENIED ausgelöst."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Mit $(1)inventory$() wird der Block aus diesem Inventar genommen, so wie ein Spieler einen Block aus seinem Inventar setzt, und das darf jeder Besitzer. Wenn das Inventar den Block nicht enthält, wird ITEM_MISSING ausgelöst."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)position$() STRUCT c0de/minecraft/POSITION: wohin der Block kommt$(li)$(1)id$() STRING: die Block-ID, z. B. minecraft:stone$(li)$(1)properties$() HASH STRING: Blockzustände wie facing (optional, Standard leer)$(li)$(1)inventory$() STRUCT c0de/minecraft/POSITION: eine Truhe oder ein anderer Block mit Inventar, aus dem der Block genommen wird (optional)"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/minecraft/PLACE_BLOCK$(br)  PARAMETER position spot ;$(br)  PARAMETER id \"minecraft:torch\" ;$(br)  PARAMETER inventory chest ;$()"
+    }
+  ]
+}

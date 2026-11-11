@@ -1,0 +1,6 @@
+{
+  "name": "Gegenstände",
+  "description": "Diese Gegenstände bringen Werte zwischen Spielern und Programmen hin und her.",
+  "icon": "c0de:io_block",
+  "sortnum": 1
+}

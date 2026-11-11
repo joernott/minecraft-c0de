@@ -1,0 +1,25 @@
+{
+  "name": "ASSIGN",
+  "icon": "c0de:assign_block",
+  "category": "c0de:expressions",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "ASSIGN speichert den Wert eines Ausdrucks in einer Variable."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Danach folgt ein LABEL mit der Variable, dann der Ausdruck. Er endet mit $(1);$(). Der Wert muss zum Typ passen: Ein INTEGER darf in ein FLOAT, und ein CHAR in einen STRING. Listen und andere zusammengesetzte Werte werden kopiert."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:assign_block",
+      "text": "Lege türkise Wolle in die Mitte und acht NOOP-Blöcke darum herum. Du bekommst acht ASSIGN-Blöcke."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)ASSIGN list[0] 10 ;$(br)ASSIGN list[1] 20 ;$(br)ASSIGN list[2] list[0] + list[1] ;$()"
+    }
+  ]
+}

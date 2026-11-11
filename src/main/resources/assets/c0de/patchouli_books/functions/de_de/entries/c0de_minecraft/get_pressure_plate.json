@@ -1,0 +1,20 @@
+{
+  "name": "GET_PRESSURE_PLATE",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_minecraft",
+  "sortnum": 10,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Liest die Signalstärke einer Druckplatte.$(br2)Druckplatten können nur gelesen werden; Lebewesen und Objekte drücken sie. Ein Block, der keine Druckplatte ist, löst INVALID_ARGUMENT aus."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)position$() STRUCT c0de/minecraft/POSITION: wo die Druckplatte ist$(li)Ergebnis $(1)result$() INTEGER: die Signalstärke, 0 bis 15"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/minecraft/GET_PRESSURE_PLATE$(br)  PARAMETER position plate ;$(br)  RESULT result strength$()"
+    }
+  ]
+}

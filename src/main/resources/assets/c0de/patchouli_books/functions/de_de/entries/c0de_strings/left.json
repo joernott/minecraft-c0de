@@ -1,0 +1,20 @@
+{
+  "name": "LEFT",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_strings",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Gibt die ersten Zeichen eines Texts zurück.$(br2)Wenn der Text kürzer ist, bekommst du den ganzen Text. Eine negative Länge löst INVALID_ARGUMENT aus."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)text$() STRING: der Text$(li)$(1)length$() INTEGER: die Anzahl der Zeichen$(li)Ergebnis $(1)result$() STRING: die ersten $(1)length$() Zeichen"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/strings/LEFT$(br)  PARAMETER text name ;$(br)  PARAMETER length 3 ;$(br)  RESULT result short$()"
+    }
+  ]
+}

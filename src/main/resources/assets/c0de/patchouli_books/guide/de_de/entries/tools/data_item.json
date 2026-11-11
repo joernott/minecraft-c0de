@@ -1,0 +1,12 @@
+{
+  "name": "Datenkarte",
+  "icon": "c0de:hammer",
+  "category": "c0de:tools",
+  "sortnum": 8,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Die Datenkarte sieht aus wie eine leere Lochkarte. Sie ist die Grundlage für alle Gegenstände, die Daten tragen.$(br2)Rezept: ein Papier, weißer Farbstoff und gelber Farbstoff, in beliebiger Form. Du bekommst vier Datenkarten."
+    }
+  ]
+}

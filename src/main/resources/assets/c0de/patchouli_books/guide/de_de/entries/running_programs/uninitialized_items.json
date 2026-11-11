@@ -1,0 +1,16 @@
+{
+  "name": "Nicht initialisierte Karten",
+  "icon": "c0de:trigger_block",
+  "category": "c0de:running_programs",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Eine $(l)nicht initialisierte$() Variablenkarte hat keinen Namen, keinen Typ und keinen Wert. Ein Prozess schreibt ein Ergebnis hinein."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Du brauchst eine für jedes Ergebnis, das keine Parameterkarte hat, die seinen Platz einnimmt. Eine Funktion mit einem Ergebnis und ohne Parameter braucht eine nicht initialisierte Karte.$(br2)Übrige nicht initialisierte Karten bleiben im Eingabeinventar. So kannst du dort mehrere davon für viele Durchläufe stapeln."
+    }
+  ]
+}

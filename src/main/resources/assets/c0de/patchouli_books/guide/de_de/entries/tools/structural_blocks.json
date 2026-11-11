@@ -1,0 +1,12 @@
+{
+  "name": "Strukturblöcke",
+  "icon": "c0de:hammer",
+  "category": "c0de:tools",
+  "sortnum": 16,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Bedingungen und Schleifen werden aus einer Strukturbasis und einem Gegenstand hergestellt, in beliebiger Form:$(br2)$(li)IF: Weizenkörner$(li)ELSE: Weizen$(li)FOR: Erde$(li)EACH: Bruchstein$(li)WHILE: Diorit$(li)REPEAT: Granit"
+    }
+  ]
+}

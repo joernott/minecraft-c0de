@@ -1,0 +1,20 @@
+{
+  "name": "Zeilennummern",
+  "icon": "c0de:wrench",
+  "category": "c0de:getting_started",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Bei x=2 zeigt der Boden die Nummer jeder Zeile, die Blöcke enthält. Ihre Farbe sagt dir, wie es um die Zeile steht:"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)blass: eine NOOP- oder COMMENT-Zeile$(li)dunkelgrün: die Zeile ist korrekt$(li)dunkelgelb: bis hierher korrekt, aber die Anweisung ist noch nicht fertig$(li)dunkelrot: etwas stimmt nicht"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Dunkelgelb ist beim Bauen normal. Ein BEGIN ohne sein END bleibt dunkelgelb, bis du das END platzierst. Das Debugging-Werkzeug sagt dir, was mit einer roten Zeile nicht stimmt."
+    }
+  ]
+}

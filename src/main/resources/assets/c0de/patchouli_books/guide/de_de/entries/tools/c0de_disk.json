@@ -1,0 +1,16 @@
+{
+  "name": "c0de-Diskette",
+  "icon": "c0de:hammer",
+  "category": "c0de:tools",
+  "sortnum": 6,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Die c0de-Diskette sieht aus wie eine alte Diskette. Sie trägt ein Programm.$(br2)Um ein Programm auf die Diskette zu kopieren, rechtsklicke damit auf den PROGRAM-Block. Das geht auch, während das Programm läuft."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Um das Programm einer Diskette zu bauen, rechtsklicke auf den Boden am Anfang eines leeren Blatts (x=5, Zeile 0). Im Überlebensmodus kommen die Blöcke aus deinem Inventar.$(br2)Rezept: eine Datenkarte, ein Eisenbarren und schwarzer Farbstoff, in beliebiger Form."
+    }
+  ]
+}

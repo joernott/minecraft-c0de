@@ -1,0 +1,6 @@
+{
+  "name": "Bildschirme",
+  "description": "Bildschirme zeigen Text. Jeder Bildschirm hat Zeilen und Spalten aus Zeichen und einen Cursor, an dem der nächste Text erscheint.",
+  "icon": "c0de:display_block",
+  "sortnum": 0
+}

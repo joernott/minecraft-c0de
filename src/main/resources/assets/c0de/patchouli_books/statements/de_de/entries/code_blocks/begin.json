@@ -1,0 +1,32 @@
+{
+  "name": "BEGIN",
+  "icon": "c0de:begin_block",
+  "category": "c0de:code_blocks",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "BEGIN beginnt einen Codeblock."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Er hat dasselbe x wie die Zeile, die den Codeblock braucht. Die Zeilen darin stehen einen Block weiter östlich. Variablen, die in einem Codeblock angelegt werden, leben nur dort. Ein Codeblock darf nicht leer sein: Eine NOOP-Zeile reicht."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:begin_block"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:begin_block_from_end_block"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Lege gelbe Wolle in die Mitte und acht NOOP-Blöcke darum herum für acht BEGIN-Blöcke, oder verwandle einen END-Block in einen BEGIN-Block."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)WHILE n > 0 ;$(br)BEGIN$(br)  ASSIGN n n - 1 ;$(br)END WHILE$()"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "name": "NOOP plus eins",
+  "icon": "c0de:hammer",
+  "category": "c0de:tools",
+  "sortnum": 14,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Diese Blöcke werden aus einem NOOP-Block und einem Gegenstand hergestellt, in beliebiger Form:$(br2)$(li)LABEL: Papier$(li)PROGRAM: Buch$(li)INCLUDE: leere Karte$(li)FUNCTION: Stein$(li)CALL: glatter Stein$(li)BREAK: Stock"
+    }
+  ]
+}

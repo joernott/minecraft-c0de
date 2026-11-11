@@ -1,0 +1,21 @@
+{
+  "name": "Anleitungsbuch",
+  "icon": "minecraft:book",
+  "category": "c0de:help",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Das Anleitungsbuch ist die c0de-Anleitung für Spieler als Buch im Spiel.$(br2)Es braucht die Mod Patchouli. Du bekommst das Buch einmal, wenn du zum ersten Mal einer Welt mit c0de beitrittst. Ohne Patchouli gibt es kein Buch und kein Rezept."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:guide_book",
+      "text": "Ein Buch und ein PROGRAM-Block, in beliebiger Anordnung."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Du hast vergessen, mit welchem Gegenstand man einen FLOAT-Typblock herstellt. Öffne das Anleitungsbuch und schlag es im Kapitel über Werkzeuge nach, ohne das Spiel zu verlassen."
+    }
+  ]
+}

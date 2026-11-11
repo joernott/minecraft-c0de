@@ -1,0 +1,12 @@
+{
+  "name": "Der NOOP-Block",
+  "icon": "c0de:hammer",
+  "category": "c0de:tools",
+  "sortnum": 12,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Der NOOP-Block ist die Grundlage fast jedes Sprachblocks. Er ist ein durchsichtiger Rahmen mit Metallecken.$(br2)Rezept: Eisenbarren in den vier Ecken und Stöcke an den vier Kanten, die Mitte bleibt leer. Du bekommst 64 NOOP-Blöcke."
+    }
+  ]
+}

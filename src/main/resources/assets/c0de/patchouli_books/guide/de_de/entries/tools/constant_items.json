@@ -1,0 +1,16 @@
+{
+  "name": "Konstantenkarten",
+  "icon": "c0de:hammer",
+  "category": "c0de:tools",
+  "sortnum": 11,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Eine Konstantenkarte hat einen rosa Rand. Sie funktioniert wie eine Variablenkarte, aber sobald sie einen Wert hat, kann er nicht mehr geändert werden."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Rezept: eine Datenkarte, eine Typkarte und rosa Farbstoff ergeben zwei Konstantenkarten. Eine Datenkarte und rosa Farbstoff ergeben eine nicht initialisierte Konstantenkarte."
+    }
+  ]
+}

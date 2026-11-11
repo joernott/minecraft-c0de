@@ -1,0 +1,20 @@
+{
+  "name": "Der Auslöser-Dialog",
+  "icon": "c0de:trigger_block",
+  "category": "c0de:running_programs",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Klicke einen Auslöserblock mit leerer Hand mit rechts an, um seinen Dialog zu öffnen. Er zeigt:"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)die PID des laufenden Prozesses$(li)den Exit-Code des letzten Prozesses und seinen Fehler, falls er abgestürzt ist$(li)eine Liste zur Auswahl des Programms$(li)eine Liste zur Auswahl der auszuführenden Funktion$(li)bei Zeitgeberblöcken den Abstand in Ticks"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Der Dialog hat außerdem ein Eingabeinventar, ein Ausgabeinventar und einen Platz für Tarnung. Lege einen beliebigen Block in diesen Platz, und der Auslöserblock nimmt sein Aussehen an.$(br2)Die Programm- und die Funktionsliste sind gesperrt, solange ein Prozess läuft."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "name": "ATN",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_math",
+  "sortnum": 8,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Gibt den Arkustangens einer Zahl zurück.$(br2)Das Ergebnis ist ein Winkel im Bogenmaß."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)value$() INTEGER|FLOAT: der Tangens$(li)Ergebnis $(1)result$() FLOAT: der Winkel im Bogenmaß"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/math/ATN$(br)  PARAMETER value slope ;$(br)  RESULT result angle$()"
+    }
+  ]
+}

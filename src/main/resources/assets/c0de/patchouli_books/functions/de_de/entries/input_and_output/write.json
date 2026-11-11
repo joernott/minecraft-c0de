@@ -1,0 +1,28 @@
+{
+  "name": "WRITE",
+  "icon": "minecraft:book",
+  "category": "c0de:input_and_output",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Legt einen Wert als Variablenkarte in die E/A-Blöcke."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Jeder gebundene E/A-Block mit einer nicht initialisierten Variablenkarte in seiner Eingabe bekommt den Wert. Die Karte wandert in die Ausgabe. Sie wird nach $(1)name$() benannt. Ohne $(1)name$() wird sie nach der Variablen benannt, z. B. $(1)count$() bei $(1)PARAMETER value count ;$(). Sonst heißt sie $(1)output$()."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Wenn kein gebundener E/A-Block eine nicht initialisierte Variablenkarte hat, wartet der Cursor, bis ein Spieler eine hineinlegt. Laptops und Tablets nehmen an WRITE nicht teil."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)value$() beliebiger Typ: der Wert, der geschrieben wird$(li)$(1)name$() STRING: der Name der Karte (optional)"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL WRITE$(br)  PARAMETER value count + step ;$(br)  PARAMETER name \"total\" ;$()"
+    }
+  ]
+}

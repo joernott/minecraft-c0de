@@ -1,0 +1,20 @@
+{
+  "name": "SPAWN_ENTITY",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_minecraft",
+  "sortnum": 19,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Erzeugt ein Objekt, z. B. ein Schwein, an einer Position.$(br2)Das Ergebnis ist die UUID des neuen Objekts. Das braucht allowSpawning oder einen Administrator als Besitzer, sonst wird PERMISSION_DENIED ausgelöst. Ein unbekannter Typ löst INVALID_ARGUMENT aus."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)position$() STRUCT c0de/minecraft/POSITION: wo das Objekt erscheint$(li)$(1)type$() STRING: der Objekttyp, z. B. minecraft:pig$(li)Ergebnis $(1)result$() STRING: die UUID des Objekts"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/minecraft/SPAWN_ENTITY$(br)  PARAMETER position pen ;$(br)  PARAMETER type \"minecraft:pig\" ;$(br)  RESULT result pigId$()"
+    }
+  ]
+}

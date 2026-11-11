@@ -1,0 +1,16 @@
+{
+  "name": "Eingebaute Funktionen",
+  "icon": "c0de:include_block",
+  "category": "c0de:libraries",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Diese funktionieren ohne INCLUDE:"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)LEN: die Länge eines Texts, Arrays oder Hashs$(li)HAS_KEY: wahr, wenn ein Hash einen Schlüssel hat$(li)REMOVE: ein Array oder Hash ohne ein Element$(li)INSERT: ein Array mit einem neuen Element an einer Position$(li)CLEAR: ein leeres Array oder ein leerer Hash$(li)SWAP: tauscht zwei Werte$(li)RAISE: löst deinen eigenen Fehler aus, Code 1000 oder höher"
+    }
+  ]
+}

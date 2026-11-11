@@ -1,0 +1,20 @@
+{
+  "name": "DELETE_ITEMS",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_minecraft",
+  "sortnum": 14,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Entfernt Gegenstände aus einem Inventar.$(br2)Die Funktion entfernt bis zu $(1)count$() Gegenstände und gibt zurück, wie viele entfernt wurden. Das braucht allowInventoryChanges oder einen Administrator als Besitzer, sonst wird PERMISSION_DENIED ausgelöst."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)position$() STRUCT c0de/minecraft/POSITION: der Block mit dem Inventar$(li)$(1)id$() STRING: die Gegenstands-ID, z. B. minecraft:rotten_flesh$(li)$(1)count$() INTEGER: die höchste Anzahl an Gegenständen, die entfernt wird$(li)Ergebnis $(1)result$() INTEGER: die Anzahl der entfernten Gegenstände"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/minecraft/DELETE_ITEMS$(br)  PARAMETER position trashChest ;$(br)  PARAMETER id \"minecraft:rotten_flesh\" ;$(br)  PARAMETER count 64 ;$(br)  RESULT result removed$()"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "name": "Funktionen",
+  "icon": "c0de:program_block",
+  "category": "c0de:language",
+  "sortnum": 11,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Eine FUNCTION-Zeile beginnt bei x=5 mit dem Namen der Funktion. PARAMETER-Zeilen darunter benennen die Eingaben, RESULT-Zeilen die Ausgaben. Dann folgt der Codeblock."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Ein Parameter darf einen Standardwert haben. Ein Aufrufer kann einen solchen Parameter weglassen. Ergebnisse beginnen mit dem Standardwert ihres Typs."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)FUNCTION greet$(br)  PARAMETER name STRING \"World\"$(br)  PARAMETER mark CHAR '!'$(br)  RESULT result STRING$(br)BEGIN$(br)  ASSIGN result \"Hello, \" ⊕ name ⊕ mark ;$(br)END FUNCTION$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Wenn die Funktion endet, gehen die letzten Werte ihrer Ergebnisse an den Aufrufer zurück."
+    }
+  ]
+}

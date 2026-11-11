@@ -1,0 +1,24 @@
+{
+  "name": "INKEY",
+  "icon": "minecraft:book",
+  "category": "c0de:input_and_output",
+  "sortnum": 8,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Gibt die älteste Taste zurück, die ein Spieler auf einem Laptop oder Tablet gedrückt hat."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Es zählen nur Tasten, die gedrückt wurden, während kein INPUT wartet. Enter kommt als CHR 13 an. Wenn keine Taste wartet, ist das Ergebnis der leere String. INKEY wartet nicht."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)Ergebnis $(1)result$() STRING: die Taste oder der leere String"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL INKEY$(br)  RESULT result key$()"
+    }
+  ]
+}

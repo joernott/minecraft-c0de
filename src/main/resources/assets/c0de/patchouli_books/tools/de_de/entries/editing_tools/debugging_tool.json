@@ -1,0 +1,33 @@
+{
+  "name": "Debugging-Werkzeug",
+  "icon": "c0de:debug_tool",
+  "category": "c0de:editing_tools",
+  "sortnum": 5,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Mit dem Debugging-Werkzeug kannst du in Blöcke und Cursor hineinschauen und ein Programm Schritt für Schritt ausführen."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Klicke einen beliebigen c0de-Block oder Cursor mit rechts an, um seine Eigenschaften zu sehen. Schlage auf einen Debug-Auslöserblock, um einen Prozess mit einem roten Debug-Cursor zu starten. Er startet pausiert. Klicke ihn mit links an, um eine Zeile weiterzugehen. Klicke ihn mit Shift und links an, um ihn laufen zu lassen oder wieder anzuhalten."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Jeder Linksklick auf einen Cursor zeigt außerdem seine aktuelle Zeile in deinem Chat. Eine falsche Zeile wird rot angezeigt, eine unvollständige Anweisung golden. Klicke einen PID-Block mit Shift und rechts an, um seinen Prozess abzubrechen. Das können nur der Besitzer des Auslöserblocks und Operatoren."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:debug_tool",
+      "text": "Ein roter Wollblock unten links, ein Stock in der Mitte und ein Leder oben rechts."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Eine Zeilennummer ist rot, und du weißt nicht, warum. Klicke einen Block der Zeile mit dem Debugging-Werkzeug mit rechts an. Der Dialog sagt dir, was falsch ist."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Dein Programm liefert ein falsches Ergebnis. Starte es mit einem Debug-Auslöserblock und gehe es Zeile für Zeile durch. Klicke den Cursor mit rechts an, um die Werte auf seinem Stack zu sehen und wie viele seiner Plätze belegt sind. Wenn eine tiefe Rekursion der Größe des Stacks nahe kommt, stürzt der Prozess mit STACK_OVERFLOW ab."
+    }
+  ]
+}

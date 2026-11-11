@@ -1,0 +1,20 @@
+{
+  "name": "REMOVE_BLOCK",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_minecraft",
+  "sortnum": 16,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Entfernt den Block an einer Position.$(br2)Mit $(1)drop$() fällt der Block als Gegenstand heraus, wie beim Abbauen. Das braucht allowBlockChanges oder einen Administrator als Besitzer, sonst wird PERMISSION_DENIED ausgelöst."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)position$() STRUCT c0de/minecraft/POSITION: wo der Block ist$(li)$(1)drop$() BOOLEAN: wahr, damit der Block als Gegenstand herausfällt (optional, Standard TRUE)"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/minecraft/REMOVE_BLOCK$(br)  PARAMETER position spot ;$(br)  PARAMETER drop FALSE ;$()"
+    }
+  ]
+}

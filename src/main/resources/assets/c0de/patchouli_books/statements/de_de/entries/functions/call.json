@@ -1,0 +1,29 @@
+{
+  "name": "CALL",
+  "icon": "c0de:call_block",
+  "category": "c0de:functions",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Eine CALL-Zeile führt eine Funktion aus."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Danach folgt ein LABEL mit dem Funktionsnamen. PARAMETER-Zeilen geben ihr Werte, RESULT-Zeilen fangen ihre Ergebnisse auf. Ein zweites LABEL in der CALL-Zeile darf eine ERROR-Variable nennen. Sie fängt einen Fehler ab, und deine Funktion läuft weiter."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Ohne diese ERROR-Variable stoppt ein Fehler auch deine Funktion und geht weiter an ihren Aufrufer. Du kannst keine Funktion innerhalb eines Ausdrucks aufrufen."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:call_block",
+      "text": "Stelle einen NOOP-Block und einen glatten Stein zusammen her."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)VARIABLE problem ERROR$(br)CALL c0de/math/DIV problem$(br)  PARAMETER dividend -7 ;$(br)  PARAMETER divisor 2 ;$(br)  RESULT result quotient$()"
+    }
+  ]
+}

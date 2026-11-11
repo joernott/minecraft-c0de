@@ -1,0 +1,24 @@
+{
+  "name": "Debugging-Werkzeug",
+  "icon": "c0de:hammer",
+  "category": "c0de:tools",
+  "sortnum": 5,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Das Debugging-Werkzeug sieht aus wie eine Fliegenklatsche. Rechtsklicke damit auf einen beliebigen c0de-Block, um alle seine Eigenschaften zu sehen. Bei einer roten Zeilennummer sagt es dir, was falsch ist."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Schlage damit auf einen Debug-Auslöserblock, um einen Prozess mit einem roten $(l)Debug-Cursor$() zu starten. Der Debug-Cursor startet pausiert."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)Linksklick auf den pausierten Cursor: Er geht eine Zeile weiter.$(li)Shift-Linksklick auf den Cursor: Er läuft von selbst oder pausiert wieder.$(li)Rechtsklick auf einen beliebigen Cursor: Zeigt seine Eigenschaften und seinen Stack.$(li)Shift-Rechtsklick auf einen PID-Block: Bricht den Prozess ab."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Rezept: ein Block roter Wolle unten links, ein Stock in der Mitte und ein Leder oben rechts."
+    }
+  ]
+}

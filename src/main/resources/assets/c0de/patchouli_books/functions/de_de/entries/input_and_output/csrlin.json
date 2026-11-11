@@ -1,0 +1,20 @@
+{
+  "name": "CSRLIN",
+  "icon": "minecraft:book",
+  "category": "c0de:input_and_output",
+  "sortnum": 5,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Gibt die Zeile des Cursors zurück.$(br2)Es gilt der Bildschirm des zuerst gebundenen Geräts. Ohne Bildschirm ist das Ergebnis 0."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)Ergebnis $(1)result$() INTEGER: die Zeile des Cursors"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL CSRLIN$(br)  RESULT result row$()"
+    }
+  ]
+}

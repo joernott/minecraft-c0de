@@ -1,0 +1,20 @@
+{
+  "name": "DIV",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_math",
+  "sortnum": 13,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Teilt zwei ganze Zahlen und rundet in Richtung 0.$(br2)-7 geteilt durch 2 ist -3. Ein Teiler von 0 löst DIVISION_BY_ZERO aus."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)dividend$() INTEGER: die Zahl, die geteilt wird$(li)$(1)divisor$() INTEGER: die Zahl, durch die geteilt wird, nicht 0$(li)Ergebnis $(1)result$() INTEGER: der Quotient ohne Rest"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/math/DIV$(br)  PARAMETER dividend items ;$(br)  PARAMETER divisor 64 ;$(br)  RESULT result stacks$()"
+    }
+  ]
+}

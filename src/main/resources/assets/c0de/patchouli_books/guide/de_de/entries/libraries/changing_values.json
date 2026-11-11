@@ -1,0 +1,20 @@
+{
+  "name": "Werte ändern",
+  "icon": "c0de:include_block",
+  "category": "c0de:libraries",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Funktionen bekommen Kopien ihrer Parameter. Eine Funktion, die einen Text, eine Liste oder einen Hash ändert, gibt die geänderte Kopie als $(1)result$() zurück."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Um eine Variable zu ändern, benutze sie sowohl als Parameter als auch als Ziel des Ergebnisses:"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL INSERT$(br)  PARAMETER array list ;$(br)  PARAMETER index 0 ;$(br)  PARAMETER value 0 ;$(br)  RESULT result list$()"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "name": "RETURN",
+  "icon": "c0de:return_block",
+  "category": "c0de:functions",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "RETURN beendet die Funktion sofort.$(br2)Es darf eine Variable vom Typ ERROR nennen, um dem Aufrufer ein Problem zu melden. Ohne Namen gibt die Funktion „kein Fehler“ zurück. Die Ergebnisse behalten die Werte, die sie in diesem Moment haben."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:return_block",
+      "text": "Lege eine Fichtentür in die Mitte und acht NOOP-Blöcke darum herum. Du bekommst acht RETURN-Blöcke."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)FUNCTION fail$(br)BEGIN$(br)  VARIABLE e ERROR$(br)  ASSIGN e.code 1000 ;$(br)  RETURN e$(br)END FUNCTION$()"
+    }
+  ]
+}

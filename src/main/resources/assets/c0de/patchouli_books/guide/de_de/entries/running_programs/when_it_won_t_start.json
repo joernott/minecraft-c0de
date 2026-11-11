@@ -1,0 +1,16 @@
+{
+  "name": "Wenn er nicht startet",
+  "icon": "c0de:trigger_block",
+  "category": "c0de:running_programs",
+  "sortnum": 7,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Ein Auslöserblock startet keinen Prozess, wenn:"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)er noch kein Programm oder keine Funktion hat,$(li)sein letzter Prozess noch läuft,$(li)eine Karte für einen Parameter ohne Standardwert fehlt,$(li)eine nicht initialisierte Karte für ein Ergebnis fehlt,$(li)das Ausgabeinventar zu wenige freie Plätze hat."
+    }
+  ]
+}

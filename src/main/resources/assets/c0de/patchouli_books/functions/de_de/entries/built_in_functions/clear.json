@@ -1,0 +1,20 @@
+{
+  "name": "CLEAR",
+  "icon": "minecraft:book",
+  "category": "c0de:built_in_functions",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Gibt ein leeres Array oder einen leeren Hash desselben Typs zurück."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)container$() ARRAY|HASH: das Array oder der Hash$(li)Ergebnis $(1)result$() wie $(1)container$(): ein leeres Array oder ein leerer Hash"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL CLEAR$(br)  PARAMETER container stock ;$(br)  RESULT result stock$()"
+    }
+  ]
+}

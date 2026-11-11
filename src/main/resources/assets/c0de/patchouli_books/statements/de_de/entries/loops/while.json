@@ -1,0 +1,32 @@
+{
+  "name": "WHILE",
+  "icon": "c0de:while_block",
+  "category": "c0de:loops",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "WHILE führt seinen Codeblock aus, solange seine Bedingung wahr ist.$(br2)Es prüft die Bedingung vor jeder Runde. Ist sie gleich zu Beginn falsch, läuft der Codeblock nie. Die Bedingung muss ein BOOLEAN ergeben und endet mit $(1);$()."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:while_block"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:while_block_from_repeat_block"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Stelle eine Strukturbasis und einen Dioritblock zusammen her, oder verwandle einen REPEAT-Block in einen WHILE-Block."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)VARIABLE n INTEGER 3$(br)WHILE n > 0 ;$(br)BEGIN$(br)  ASSIGN countdown countdown ⊕ n ⊕ \" \" ;$(br)  ASSIGN n n - 1 ;$(br)END WHILE$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Jetzt ist $(1)countdown$() \"3 2 1 \"."
+    }
+  ]
+}

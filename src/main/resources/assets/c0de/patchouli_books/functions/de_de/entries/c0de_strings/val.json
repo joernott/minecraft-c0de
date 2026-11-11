@@ -1,0 +1,20 @@
+{
+  "name": "VAL",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_strings",
+  "sortnum": 13,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Wandelt einen Text in eine Zahl um.$(br2)$(1)isInteger$() ist wahr, wenn der Text eine ganze Zahl ist. Nimm dann FIX, um den Wert in einen INTEGER zu verwandeln. Ein Text, der keine Zahl ist, löst INVALID_ARGUMENT aus."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)text$() STRING: der Text, z. B. \"42\" oder \"3.5\"$(li)Ergebnis $(1)value$() FLOAT: die Zahl$(li)Ergebnis $(1)isInteger$() BOOLEAN: wahr, wenn der Text eine ganze Zahl ist"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/strings/VAL$(br)  PARAMETER text input ;$(br)  RESULT value number$(br)  RESULT isInteger whole$()"
+    }
+  ]
+}

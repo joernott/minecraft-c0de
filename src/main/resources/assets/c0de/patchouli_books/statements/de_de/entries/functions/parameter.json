@@ -1,0 +1,36 @@
+{
+  "name": "PARAMETER",
+  "icon": "c0de:parameter_block",
+  "category": "c0de:functions",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Eine PARAMETER-Zeile ist eine Eingabe einer Funktion."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Unter einer FUNCTION hat sie einen Namen, einen Typ und einen optionalen Standardwert. Unter einem CALL hat sie den Namen eines Parameters und einen Ausdruck mit seinem Wert. PARAMETER-Zeilen stehen einen Block weiter östlich als ihre FUNCTION oder ihr CALL."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Ein Aufrufer darf Parameter mit Standardwert weglassen. Parameter sind Kopien: Wenn du sie änderst, ändern sich die Variablen des Aufrufers nicht."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:parameter_block"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:parameter_block_from_result_block"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Lege einen Trichter in die Mitte und acht NOOP-Blöcke darum herum für acht PARAMETER-Blöcke, oder verwandle einen RESULT-Block in einen PARAMETER-Block."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL greet$(br)  PARAMETER name \"c0de\" ;$(br)  RESULT result greeting$()"
+    }
+  ]
+}

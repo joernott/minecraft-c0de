@@ -1,0 +1,20 @@
+{
+  "name": "RANDOM",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_math",
+  "sortnum": 14,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Gibt eine Zufallszahl zwischen 0 und 1 zurück.$(br2)0 ist möglich, 1 nicht. Jeder Prozess hat seinen eigenen Zufallszahlengenerator."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)Ergebnis $(1)result$() FLOAT: eine Zufallszahl von 0 bis unter 1"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/math/RANDOM$(br)  RESULT result chance$()"
+    }
+  ]
+}

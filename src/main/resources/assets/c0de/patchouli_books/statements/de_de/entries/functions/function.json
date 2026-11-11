@@ -1,0 +1,25 @@
+{
+  "name": "FUNCTION",
+  "icon": "c0de:function_block",
+  "category": "c0de:functions",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Eine FUNCTION-Zeile beginnt eine Funktion.$(br2)Sie steht bei x=5, direkt unter einer NOOP-Zeile. Danach folgt ein LABEL mit dem Funktionsnamen. Als Nächstes können PARAMETER- und RESULT-Zeilen kommen, dann der Codeblock. Sie endet mit $(1)END FUNCTION$()."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Eine Funktion kann nur Funktionen über ihr aufrufen, oder sich selbst. Struktur- und Funktionsdeklarationen sind innerhalb einer Funktion nicht erlaubt."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:function_block",
+      "text": "Stelle einen NOOP-Block und einen Steinblock zusammen her."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)NOOP$(br)FUNCTION greet$(br)  PARAMETER name STRING \"World\"$(br)  PARAMETER mark CHAR '!'$(br)  RESULT result STRING$(br)BEGIN$(br)  ASSIGN result \"Hello, \" ⊕ name ⊕ mark ;$(br)END FUNCTION$()"
+    }
+  ]
+}

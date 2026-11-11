@@ -1,0 +1,20 @@
+{
+  "name": "RIGHT",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_strings",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Gibt die letzten Zeichen eines Texts zurück.$(br2)Wenn der Text kürzer ist, bekommst du den ganzen Text. Eine negative Länge löst INVALID_ARGUMENT aus."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)text$() STRING: der Text$(li)$(1)length$() INTEGER: die Anzahl der Zeichen$(li)Ergebnis $(1)result$() STRING: die letzten $(1)length$() Zeichen"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/strings/RIGHT$(br)  PARAMETER text name ;$(br)  PARAMETER length 3 ;$(br)  RESULT result ending$()"
+    }
+  ]
+}

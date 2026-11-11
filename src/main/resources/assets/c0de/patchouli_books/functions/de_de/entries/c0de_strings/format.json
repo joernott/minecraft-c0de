@@ -1,0 +1,24 @@
+{
+  "name": "FORMAT",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_strings",
+  "sortnum": 12,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Formatiert einen Wert mit einem Format-String als Text."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Umwandlungen beginnen mit $(1)%$(), z. B. $(1)%5d$() (ganze Zahl, 5 Zeichen breit), $(1)%.2f$() (2 Nachkommastellen), $(1)%s$() (beliebiger Wert), $(1)%tF$() und $(1)%tT$() (Datum und Uhrzeit). Ein falscher Typ löst TYPE_MISMATCH aus, ein ungültiger Format-String INVALID_ARGUMENT."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)value$() BOOLEAN|INTEGER|FLOAT|CHAR|STRING|TIME: der Wert$(li)$(1)format$() STRING: der Format-String$(li)Ergebnis $(1)result$() STRING: der formatierte Text"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/strings/FORMAT$(br)  PARAMETER value now ;$(br)  PARAMETER format \"%tF %tT\" ;$(br)  RESULT result text$()"
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "name": "REPEAT",
+  "icon": "c0de:repeat_block",
+  "category": "c0de:loops",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "REPEAT führt seinen Codeblock aus und prüft danach seine Bedingung."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Die REPEAT-Zeile enthält nur den REPEAT-Block. Die Bedingung kommt nach $(1)END REPEAT$(). Der Codeblock läuft erneut, solange die Bedingung wahr ist, und er läuft immer mindestens einmal."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:repeat_block"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:repeat_block_from_while_block"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Stelle eine Strukturbasis und einen Granitblock zusammen her, oder verwandle einen WHILE-Block in einen REPEAT-Block."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)REPEAT$(br)BEGIN$(br)  ASSIGN repeats repeats + 1 ;$(br)END REPEAT n > 0 ;$()"
+    }
+  ]
+}

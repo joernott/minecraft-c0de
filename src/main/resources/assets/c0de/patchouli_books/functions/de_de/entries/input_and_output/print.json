@@ -1,0 +1,24 @@
+{
+  "name": "PRINT",
+  "icon": "minecraft:book",
+  "category": "c0de:input_and_output",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Schreibt einen Wert auf die Bildschirme und beginnt eine neue Zeile."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Der Text erscheint auf jeder Anzeige, jedem Laptop und jedem Tablet, das an das Programm und die Funktion gebunden ist. Strings werden ohne Anführungszeichen ausgegeben, BOOLEAN-Werte als $(1)TRUE$() und $(1)FALSE$(). Arrays, Hashes und Strukturen werden als JSON ausgegeben. Um mehrere Werte in einer Zeile auszugeben, verbinde sie mit ⊕. Ohne gebundenen Bildschirm macht PRINT nichts."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)value$() beliebiger Typ: der Wert, der ausgegeben wird"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL PRINT$(br)  PARAMETER value \"Hello\" ;$()"
+    }
+  ]
+}

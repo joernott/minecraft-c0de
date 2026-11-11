@@ -1,0 +1,36 @@
+{
+  "name": "Mit Spielern sprechen",
+  "icon": "c0de:trigger_block",
+  "category": "c0de:running_programs",
+  "sortnum": 11,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Ein Prozess kann auch mit Spielern sprechen, während er läuft. Drei eingebaute Funktionen tun das, aufgerufen mit CALL wie jede andere Funktion:"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(l)PRINT$() schreibt Text auf Bildschirme.$(li)$(l)INPUT$() liest einen Wert in eine Variable.$(li)$(l)WRITE$() legt einen Wert als Variablenkarte in einen E/A-Block."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Die Geräte dafür sind Anzeigeblöcke, Laptops, Tablets und E/A-Blöcke. Verbinde jedes davon mit einem Programm und einer Funktion, wie einen Auslöserblock. Anzeigeblöcke nebeneinander bilden einen großen Bildschirm."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "COLOR ändert die Farben des Texts, der danach kommt. Die Konstanten COLOR_BLACK bis COLOR_WHITE benennen die 16 Farben:"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)PROGRAM hello$(br)NOOP$(br)FUNCTION greet$(br)BEGIN$(br)  CALL CLS$(br)  CALL COLOR$(br)    PARAMETER foreground COLOR_YELLOW ;$(br)    PARAMETER background COLOR_DARK_BLUE ;$(br)  CALL PRINT$(br)    PARAMETER value \"Process \" ;$(br)  CALL PRINT$(br)    PARAMETER value PID.pid ;$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)  CALL COLOR$(br)    PARAMETER foreground COLOR_WHITE ;$(br)END FUNCTION$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "INPUT nimmt zuerst eine passende Karte aus einem E/A-Block. Sonst wartet es, bis ein Spieler auf einem Laptop oder Tablet eine Zeile eintippt. Die Handbücher Funktionen und Geräte beschreiben sie alle."
+    }
+  ]
+}

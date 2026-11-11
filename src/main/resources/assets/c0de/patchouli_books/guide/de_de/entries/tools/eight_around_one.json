@@ -1,0 +1,20 @@
+{
+  "name": "Acht um eins",
+  "icon": "c0de:hammer",
+  "category": "c0de:tools",
+  "sortnum": 13,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Viele Blöcke werden aus acht NOOP-Blöcken um einen Gegenstand herum hergestellt. Du bekommst acht Blöcke:"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)COMMENT: Glas$(li)LITERAL: weiße Wolle$(li)OPERATOR: rote Wolle$(li)ASSIGN: türkise Wolle$(li)TAG: braune Wolle$(li)BEGIN: gelbe Wolle$(li)EXIT: Eisentür$(li)PARAMETER: Trichter$(li)RETURN: Fichtenholztür"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Die $(l)Typbasis$() (roter Teppich) und die $(l)Strukturbasis$() (grüne Wolle) werden genauso hergestellt. Sie sind Gegenstände zum Herstellen anderer Blöcke."
+    }
+  ]
+}

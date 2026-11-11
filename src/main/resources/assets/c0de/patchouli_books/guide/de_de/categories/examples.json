@@ -1,0 +1,6 @@
+{
+  "name": "Beispiele",
+  "description": "Hier sind ein paar vollständige Programme zum Bauen und Ausprobieren. Sie stammen aus der Testsuite der Mod, sie funktionieren also nachweislich. Bau sie auf einem leeren Blatt nach, oder ändere sie und schau, was passiert.",
+  "icon": "c0de:function_block",
+  "sortnum": 5
+}

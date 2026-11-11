@@ -1,0 +1,20 @@
+{
+  "name": "Der Aufbau eines Blatts",
+  "icon": "c0de:wrench",
+  "category": "c0de:getting_started",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Ein Programm beginnt am Nordende eines Blatts und verläuft nach Süden. Jede Reihe von Blöcken quer über das Blatt ist eine $(l)Zeile$(). Die erste Zeile ist Zeile 0."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Innerhalb eines Blatts zählt x vom Westrand aus. Sprachblöcke kommen zwischen x=5 und x=28, also hat eine Zeile höchstens 24 Blöcke. So bleiben Zeilen kurz und gut lesbar."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Bei x=4 liegt eine graue Schiene: die $(l)Cursorschiene$(). Wenn ein Programm läuft, bewegt sich ein leuchtender Cursor darauf entlang und zeigt, welche Zeile gerade arbeitet."
+    }
+  ]
+}

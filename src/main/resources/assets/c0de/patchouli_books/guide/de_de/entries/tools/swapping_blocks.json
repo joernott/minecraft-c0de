@@ -1,0 +1,16 @@
+{
+  "name": "Blöcke tauschen",
+  "icon": "c0de:hammer",
+  "category": "c0de:tools",
+  "sortnum": 17,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Manche Blöcke lassen sich in ihren Partner verwandeln. Leg einen allein ins Herstellungsfeld:"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)BEGIN und END$(li)PARAMETER und RESULT$(li)VARIABLE und CONSTANT$(li)IF und ELSE, FOR und EACH, WHILE und REPEAT$(li)INTEGER und FLOAT, mit gelbem oder orangem Farbstoff"
+    }
+  ]
+}

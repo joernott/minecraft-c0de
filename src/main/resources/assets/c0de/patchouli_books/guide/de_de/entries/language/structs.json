@@ -1,0 +1,24 @@
+{
+  "name": "Strukturen",
+  "icon": "c0de:program_block",
+  "category": "c0de:language",
+  "sortnum": 6,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Ein STRUCT deklariert deinen eigenen Typ. Jede Zeile in seinem Codeblock ist ein Element: ein Name und ein Typ."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)STRUCT point$(br)BEGIN$(br)  x INTEGER$(br)  y INTEGER$(br)END STRUCT$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Eine Variable dieses Typs wird als $(1)VARIABLE p STRUCT point$() deklariert. Ihre Elemente erreichst du mit einem Index, zum Beispiel $(1)p.x$()."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Jedes Programm hat außerdem ein paar Konstanten, die es nicht deklariert. $(1)SHEET$() beschreibt sein Blatt, z. B. $(1)SHEET.number$() und $(1)SHEET.owner$(). $(1)PID$() beschreibt den laufenden Prozess, z. B. $(1)PID.pid$(), $(1)PID.activator$() (wer ihn gestartet hat) und $(1)PID.x$(), $(1)PID.y$(), $(1)PID.z$() (wo sein Auslöserblock steht). $(1)CURSOR$() beschreibt den Cursor im Moment: $(1)CURSOR.line$(), $(1)CURSOR.function$(), $(1)CURSOR.depth$() und wie viel von seinem Stack belegt ist, $(1)CURSOR.stack_used$() von $(1)CURSOR.stack_size$(). $(1)C0DE_VERSION$() enthält die Version von c0de, z. B. \"0.4.0\". Auch die Namen der Fehler und der Farben sind Konstanten."
+    }
+  ]
+}

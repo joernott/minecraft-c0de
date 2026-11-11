@@ -1,0 +1,6 @@
+{
+  "name": "Codeblöcke",
+  "description": "Ein Codeblock ist eine Gruppe von Zeilen zwischen BEGIN und END.",
+  "icon": "c0de:begin_block",
+  "sortnum": 1
+}

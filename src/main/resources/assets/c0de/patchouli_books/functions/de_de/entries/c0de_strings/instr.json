@@ -1,0 +1,20 @@
+{
+  "name": "INSTR",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_strings",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Findet einen Text in einem anderen Text.$(br2)Das Ergebnis ist die Position des ersten Treffers oder -1, wenn es keinen gibt."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)text$() STRING: der Text, in dem gesucht wird$(li)$(1)search$() STRING: der gesuchte Text$(li)$(1)start$() INTEGER: wo die Suche beginnt (optional, Standard 0)$(li)Ergebnis $(1)result$() INTEGER: die Position oder -1"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/strings/INSTR$(br)  PARAMETER text message ;$(br)  PARAMETER search \"diamond\" ;$(br)  RESULT result position$()"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "name": "TYPE_HASH",
+  "icon": "c0de:type_hash_block",
+  "category": "c0de:types",
+  "sortnum": 7,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "TYPE_HASH steht für den Typ HASH: Werte, die unter Textschlüsseln gespeichert sind.$(br2)Ein Hash wächst und schrumpft von selbst. Hinter HASH steht der Typ seines Inhalts, zum Beispiel $(1)HASH INTEGER$(). Ein neuer Schlüssel fügt ein neues Element hinzu."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:type_hash_block",
+      "text": "Stelle eine Typbasis und eine Truhe zusammen her. Eine Redstone-Truhe geht auch."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)VARIABLE stock HASH INTEGER$(br)BEGIN$(br)  gold 10$(br)END VARIABLE$(br)ASSIGN stock[\"diamond\"] 3 ;$()"
+    }
+  ]
+}

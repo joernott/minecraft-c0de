@@ -1,0 +1,28 @@
+{
+  "name": "TYPE_INTEGER",
+  "icon": "c0de:type_integer_block",
+  "category": "c0de:types",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "TYPE_INTEGER steht für den Typ INTEGER: eine ganze Zahl.$(br2)Ganze Zahlen haben keine Nachkommastellen, zum Beispiel 42 oder -7. Ein neuer INTEGER enthält 0. Ganze Zahlen können sehr groß sein: bis etwa neun Trillionen."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:type_integer_block"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:type_integer_block_from_type_float_block"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Stelle eine Typbasis und einen Sandblock zusammen her, oder verwandle einen TYPE_FLOAT-Block mit gelbem Farbstoff in einen TYPE_INTEGER-Block."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)VARIABLE count INTEGER$(br)CONSTANT BASE INTEGER 42$()"
+    }
+  ]
+}

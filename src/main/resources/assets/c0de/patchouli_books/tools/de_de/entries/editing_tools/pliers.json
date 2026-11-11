@@ -1,0 +1,29 @@
+{
+  "name": "Zange",
+  "icon": "c0de:pliers",
+  "category": "c0de:editing_tools",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Die Zange ändert die Einrückung von Zeilen."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Klicke eine Zeile mit links an, um alle ihre Blöcke einen Block nach links zu verschieben. Klicke sie mit rechts an, um sie einen Block nach rechts zu verschieben. Wenn die Zeile Teil eines markierten Bereichs ist, wird der ganze Bereich verschoben. Nichts wird verschoben, wenn ein Block den Codebereich verlassen würde; die Meldung sagt dir, welche Zeile im Weg ist."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:pliers",
+      "text": "Eine Schere und ein Stock, in beliebiger Anordnung."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Du hast ein paar Anweisungen in einen neuen IF-Block gesetzt, also brauchen sie eine Einrückungsebene mehr. Markiere sie mit dem Textmarker und klicke dann eine davon mit der Zange mit rechts an. Alle markierten Zeilen werden einen Block nach rechts verschoben."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Die Zange funktioniert nicht, während das Programm läuft."
+    }
+  ]
+}

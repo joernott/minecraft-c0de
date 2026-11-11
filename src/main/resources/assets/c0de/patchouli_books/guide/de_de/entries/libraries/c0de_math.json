@@ -1,0 +1,16 @@
+{
+  "name": "c0de/math",
+  "icon": "c0de:include_block",
+  "category": "c0de:libraries",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Zahlen und Zufallswerte. Sie hat auch die Konstante $(1)c0de/math/PI$()."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)ABS, SGN: Betrag und Vorzeichen einer Zahl$(li)SQR, EXP, LOG: Quadratwurzel, e hoch, Logarithmus$(li)SIN, COS, TAN, ATN: Winkel im Bogenmaß$(li)INT, FIX, ROUND: machen aus einem FLOAT einen INTEGER$(li)TO_FLOAT: macht aus einem INTEGER einen FLOAT$(li)DIV: ganzzahlige Division$(li)RANDOM: ein zufälliger FLOAT von 0 bis unter 1$(li)RANDOMIZE: legt den Startwert der Zufallszahlen fest"
+    }
+  ]
+}

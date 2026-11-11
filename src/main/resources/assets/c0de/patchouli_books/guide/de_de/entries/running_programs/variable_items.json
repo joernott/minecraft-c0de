@@ -1,0 +1,20 @@
+{
+  "name": "Variablenkarten",
+  "icon": "c0de:trigger_block",
+  "category": "c0de:running_programs",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Daten kommen als $(l)Variablenkarten$() und $(l)Konstantenkarten$() im Eingabeinventar in einen Prozess. Nur diese Gegenstände passen dort hinein."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Jede Karte hat einen Namen, einen Typ und einen Wert. Eine Karte geht an den Parameter der Einstiegsfunktion mit demselben Namen. Ihr Typ muss zum Typ des Parameters passen."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Um eine Variablenkarte zu bearbeiten, halte sie in deiner Haupthand und klicke mit rechts. Im Dialog kannst du ihren Namen, ihren Typ und ihren Wert einstellen. Eine Konstantenkarte kann nur bearbeitet werden, bis sie einen Wert hat."
+    }
+  ]
+}

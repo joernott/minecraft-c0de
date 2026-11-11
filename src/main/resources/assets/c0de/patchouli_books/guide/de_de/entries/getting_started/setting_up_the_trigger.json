@@ -1,0 +1,12 @@
+{
+  "name": "Den Auslöser einrichten",
+  "icon": "c0de:wrench",
+  "category": "c0de:getting_started",
+  "sortnum": 9,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Verlasse die Dimension und geh zurück zu deinem Auslöserblock. Klicke ihn mit leerer Hand mit rechts an, um seinen Dialog zu öffnen.$(br2)Wähle dein Programm $(1)first$() in der Programmliste. Dann wähle die Funktion $(1)answer$() in der Funktionsliste."
+    }
+  ]
+}

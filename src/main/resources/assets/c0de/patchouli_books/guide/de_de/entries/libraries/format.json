@@ -1,0 +1,20 @@
+{
+  "name": "FORMAT",
+  "icon": "c0de:include_block",
+  "category": "c0de:libraries",
+  "sortnum": 7,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "FORMAT macht aus einem Wert mit einem Formatstring einen Text. $(1)%d$() ist eine ganze Zahl, $(1)%f$() eine Dezimalzahl und $(1)%s$() ein beliebiger Wert. Eine Zahl zwischen $(1)%$() und dem Buchstaben legt die Breite fest."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)[%4d]$() macht aus 42 $(1)[  42]$()$(li)$(1)%05d$() macht aus 42 $(1)00042$()$(li)$(1)%.2f$() macht aus 3.14159 $(1)3.14$()$(li)$(1)%,d$() macht aus 1234567 $(1)1,234,567$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Für TIME-Werte ergibt $(1)%tF$() das Datum und $(1)%tT$() die Uhrzeit, zum Beispiel $(1)2026-10-19$() und $(1)14:05:09$(). Es gibt noch viele weitere Codes, etwa $(1)%tA$() für den Namen des Wochentags."
+    }
+  ]
+}

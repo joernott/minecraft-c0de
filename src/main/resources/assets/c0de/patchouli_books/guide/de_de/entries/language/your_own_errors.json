@@ -1,0 +1,16 @@
+{
+  "name": "Eigene Fehler",
+  "icon": "c0de:program_block",
+  "category": "c0de:language",
+  "sortnum": 21,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Du kannst eigene Fehler auslösen. Ihre Codes müssen 1000 oder höher sein. Setze den Code einer ERROR-Variablen und gib sie zurück, oder verwende die eingebaute Funktion RAISE."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)FUNCTION fail$(br)BEGIN$(br)  VARIABLE e ERROR$(br)  ASSIGN e.code 1000 ;$(br)  RETURN e$(br)END FUNCTION$()"
+    }
+  ]
+}

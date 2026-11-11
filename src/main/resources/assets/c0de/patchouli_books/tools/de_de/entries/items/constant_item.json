@@ -1,0 +1,36 @@
+{
+  "name": "Konstantenkarte",
+  "icon": "c0de:constant_item",
+  "category": "c0de:items",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Eine Konstantenkarte funktioniert wie eine Variablenkarte, aber sobald sie einen Wert hat, kann er nicht mehr geändert werden."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Sie hat einen rosa Rand. Halte sie und klicke mit rechts, um ihren Namen und Wert festzulegen. Das funktioniert nur, solange sie noch keinen Wert hat."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:constant_item_boolean"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:constant_item_uninitialized"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Eine Datenkarte, eine Typkarte und rosa Farbstoff ergeben zwei Konstantenkarten; eine Datenkarte und rosa Farbstoff ergeben eine nicht initialisierte Konstantenkarte."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Verwende eine Konstantenkarte für einen Wert, der fest bleiben muss, zum Beispiel eine Grenze für eine Schleife. Niemand kann ihn im Dialog versehentlich ändern."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "In einer Kette von Auslöserblöcken gehen Karten, die ein Prozess nicht verwendet, unverändert hindurch. So kann eine Konstantenkarte durch die ganze Kette wandern."
+    }
+  ]
+}

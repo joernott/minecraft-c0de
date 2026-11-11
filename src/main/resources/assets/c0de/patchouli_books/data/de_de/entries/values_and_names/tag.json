@@ -1,0 +1,33 @@
+{
+  "name": "TAG",
+  "icon": "c0de:tag_block",
+  "category": "c0de:values_and_names",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Ein TAG-Block legt den Namen eines Werts in JSON- oder YAML-Text fest."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Klicke ihn mit leerer Hand mit rechts an. Wähle die Sprache, $(1)json$() oder $(1)yaml$(), und gib den Namen ein. Tags kommen ans Ende einer Zeile mit einem Strukturelement oder einer VARIABLE- oder CONSTANT-Zeile. Pro Sprache passt nur ein Tag in eine Zeile."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Bei einem Strukturelement ersetzt der Tag den Namen des Elements. Der Name $(1)-$() überspringt das Element. Bei einer Variable ist der Name ein Pfad mit Punkten, zum Beispiel $(1)server.port$()."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:tag_block",
+      "text": "Lege einen braunen Wollblock in die Mitte und acht NOOP-Blöcke darum herum. Du bekommst acht TAG-Blöcke."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)STRUCT player$(br)BEGIN$(br)  playerName STRING TAG(json: \"name\")$(br)END STRUCT$(br)VARIABLE port INTEGER 25565 TAG(json: \"server.port\")$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "TO_JSON macht aus $(1)port$() den Text $(1){\"server\": {\"port\": 25565}}$()."
+    }
+  ]
+}

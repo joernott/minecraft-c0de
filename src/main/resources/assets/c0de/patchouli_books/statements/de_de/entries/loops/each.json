@@ -1,0 +1,36 @@
+{
+  "name": "EACH",
+  "icon": "c0de:each_block",
+  "category": "c0de:loops",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "EACH geht durch ein Array oder einen Hash."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Danach folgen ein Name für die Schleifenvariable und ein LABEL mit dem Array oder Hash. Bei einem Array bekommt die Schleifenvariable der Reihe nach jedes Element. Bei einem Hash bekommt sie jeden Schlüssel in alphabetischer Reihenfolge."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Die Schleife arbeitet mit einer Kopie, wenn du also die Liste in der Schleife änderst, ändert sich die Schleife nicht. Du kannst die Schleifenvariable nicht selbst ändern."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:each_block"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:each_block_from_for_block"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Stelle eine Strukturbasis und einen Bruchsteinblock zusammen her, oder verwandle einen FOR-Block in einen EACH-Block."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)EACH key h$(br)BEGIN$(br)  ASSIGN keys keys ⊕ key ⊕ \"=\" ⊕ h[key] ⊕ \" \" ;$(br)END EACH$()"
+    }
+  ]
+}

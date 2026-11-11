@@ -1,0 +1,16 @@
+{
+  "name": "Ausdrücke",
+  "icon": "c0de:program_block",
+  "category": "c0de:language",
+  "sortnum": 8,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Ein Ausdruck berechnet einen Wert aus Literalen, Variablen, Konstanten und Operatoren. Er endet immer mit einem OPERATOR-Block, der $(1);$() zeigt. Ein Ausdruck darf in der nächsten Zeile weitergehen, einen Block weiter östlich."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Rechnungen folgen den üblichen Regeln: $(1)*$() vor $(1)+$(). Verwende $(1)($() und $(1))$() zum Gruppieren. Eine Division mit $(1)/$() ergibt immer ein FLOAT.$(br2)Du kannst in einem Ausdruck keine Funktion aufrufen. Verwende stattdessen eine CALL-Anweisung."
+    }
+  ]
+}

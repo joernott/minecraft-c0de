@@ -1,0 +1,16 @@
+{
+  "name": "WHILE und REPEAT",
+  "icon": "c0de:program_block",
+  "category": "c0de:language",
+  "sortnum": 17,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "WHILE prüft seine Bedingung zuerst. Ist sie gleich zu Beginn falsch, läuft der Block nie. REPEAT prüft am Ende, also läuft sein Block mindestens einmal. Seine Bedingung kommt nach $(1)END REPEAT$()."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)WHILE n > 0 ;$(br)BEGIN$(br)  ASSIGN countdown countdown ⊕ n ⊕ \" \" ;$(br)  ASSIGN n n - 1 ;$(br)END WHILE$(br)REPEAT$(br)BEGIN$(br)  ASSIGN repeats repeats + 1 ;$(br)END REPEAT n > 0 ;$()"
+    }
+  ]
+}

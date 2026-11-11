@@ -1,0 +1,33 @@
+{
+  "name": "c0de-Diskette",
+  "icon": "c0de:c0de_disk",
+  "category": "c0de:editing_tools",
+  "sortnum": 6,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Die c0de-Diskette trägt ein Programm.$(br2)Um ein Programm auf die Diskette zu kopieren, klicke seinen PROGRAM-Block mit der Diskette mit rechts an. Das funktioniert auch, während das Programm läuft. Der Tooltip der Diskette zeigt den Namen ihres Programms."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Um das Programm einer Diskette zu bauen, klicke mit rechts auf den Boden am Anfang eines leeren Blatts (x=5, Zeile 0). Im Überlebensmodus kommen die Blöcke aus deinem Inventar. Ein Programm mit demselben Namen darf noch nicht existieren."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Um ein Programm auf deinem Computer aufzubewahren oder es weiterzugeben, verwende ein Diskettenlaufwerk."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:c0de_disk",
+      "text": "Eine Datenkarte, ein Eisenbarren und schwarzer Farbstoff, in beliebiger Anordnung."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Kopiere dein Programm vor einer großen Änderung auf eine Diskette. Wenn die Änderung schiefgeht, lösche das Programm und baue es auf einem leeren Blatt von der Diskette neu."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Die Diskette bewahrt alles: die Blöcke und die Namen, Werte und Symbole aller LABEL-, LITERAL- und OPERATOR-Blöcke."
+    }
+  ]
+}

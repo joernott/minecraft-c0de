@@ -1,0 +1,29 @@
+{
+  "name": "TYPE_STRUCT",
+  "icon": "c0de:type_struct_block",
+  "category": "c0de:types",
+  "sortnum": 8,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "TYPE_STRUCT steht für den Typ STRUCT: deinen eigenen Typ mit benannten Elementen."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Bei x=5 beginnt der Block eine Struktur-Deklaration. Ein LABEL mit dem Typnamen folgt, und ein Codeblock zählt die Elemente auf. An anderen Stellen verwendet er eine Struktur: Ein LABEL mit dem Namen der Struktur folgt ihm."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "c0de:type_struct_block",
+      "text": "Stelle eine Typbasis und ein Gerüst zusammen her."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)STRUCT point$(br)BEGIN$(br)  x INTEGER$(br)  y INTEGER$(br)END STRUCT$(br)VARIABLE p STRUCT point$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Die Elemente erreichst du mit einem Index, zum Beispiel $(1)p.x$()."
+    }
+  ]
+}
