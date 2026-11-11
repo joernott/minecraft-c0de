@@ -671,3 +671,7 @@ Ipushed the tag and the workflows completed successfully
 ## 2026-11-11 – Dependabot pull request
 
 After that, also merge the open pull request into main. It provides some version updates found by Dependabot
+
+## 2026-11-11 – Feedback from the tutorials
+
+(No prompt of its own: the lessons of c0de.at found two deviations from the concept while the user asked to start sprint 6 of www-c0de.)

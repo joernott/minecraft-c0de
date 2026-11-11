@@ -49,6 +49,7 @@ A task is done when
 | 12 | Newer Minecraft versions | The mod is released for 1.21.x and 26.x |  |
 | 13 | Usability, process information and colors (0.3.0) | Pausable timers, a better disk drive, the built-in constants SHEET, PID, CURSOR and COLOR_*, the used stack in the cursor dialog, mining and placing blocks with items from inventories, boots and pliers | ✅ |
 | 14 | Documentation (0.4.0) | The guide and the handbooks in German, a runner that tests the programs of the tutorials of c0de.at, and 3D models of all blocks for the website | ✅ |
+| 15 | Feedback from the tutorials | Deviations from the concept that the tutorials of c0de.at found |  |
 
 ## Sprint 0: Concept and plan
 
@@ -351,6 +352,15 @@ After sprint 12, every new Minecraft release is added as a new node in its own s
 | 14.8 | The release attaches the models as `c0de-models-<version>.zip`; www-c0de builds 3D views of example programs from them with `<model-viewer>`, with screenshots as a fallback. | ✅ |
 | 14.9 | Built-in STRING constant C0DE_VERSION with the version of the installed mod (e.g. "0.4.0"), read-only like every constant, also in the program runner. Other mods can register built-in constants of their own through the library API (for C0DE_NET_VERSION of c0de net). Concept, handbook and guide; unit tests and GameTest. Needed by the tutorial recipe "Is my c0de up to date?" of c0de.at. | ✅ |
 | 14.10 | Release with the translations, the runner, the models and C0DE_VERSION for all Minecraft versions, released on 2026-11-11 as 0.4.0 (GitHub pre-release with c0de-runner-0.4.0.jar and c0de-models-0.4.0.zip, Modrinth). | ✅ |
+
+## Sprint 15: Feedback from the tutorials
+
+**Goal:** the programs of the tutorials of c0de.at (www-c0de sprint 6), tested with the program runner of 0.4.0, found places where the implementation differs from the concept. Planned on 2026-11-11; the release is planned when the sprint starts.
+
+| Task | Description | Done |
+|---|---|:---:|
+| 15.1 | PRINT writes BOOLEAN values as `TRUE` and `FALSE`, as the concept (19-input-output.md) and the handbook say; today it writes `true` and `false` like `⊕` (whose `true`/`false` stays, concept 05-expressions.md). Unit test. |  |
+| 15.2 | An error with a code below 1000 that a function returns with `RETURN` raises INVALID_ARGUMENT, like RAISE does; the concept says user-defined codes MUST be 1000 or higher (04-data.md), but only RAISE checks it today. Unit test. |  |
 
 ## Risks
 
