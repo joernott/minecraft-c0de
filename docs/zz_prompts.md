@@ -667,3 +667,7 @@ yes, please prepare v0.4.0
 ## 2026-11-11 – Release 0.4.0 is out
 
 Ipushed the tag and the workflows completed successfully
+
+## 2026-11-11 – Dependabot pull request
+
+After that, also merge the open pull request into main. It provides some version updates found by Dependabot
