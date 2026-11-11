@@ -348,7 +348,7 @@ After sprint 12, every new Minecraft release is added as a new node in its own s
 | 14.6 | The Patchouli books in German: generate_book.py also writes the `de_de` pages from `docs/de`, so the books follow the language of the game. |  |
 | 14.7 | 3D models of all blocks: a script exports every block of the mod (language blocks, type blocks, devices, triggers, the floor of a sheet with the cursor rail and the line numbers) with its textures as glTF 2.0, including the shapes that ExtrudedModel computes. An index file maps the block ids to the files. A test checks that every registered block has a model. |  |
 | 14.8 | The release attaches the models as `c0de-models-<version>.zip`; www-c0de builds 3D views of example programs from them with `<model-viewer>`, with screenshots as a fallback. |  |
-| 14.9 | Built-in STRING constant C0DE_VERSION with the version of the installed mod (e.g. "0.4.0"), read-only like every constant, also in the program runner. Other mods can register built-in constants of their own through the library API (for C0DE_NET_VERSION of c0de net). Concept, handbook and guide; unit tests and GameTest. Needed by the tutorial recipe "Is my c0de up to date?" of c0de.at. |  |
+| 14.9 | Built-in STRING constant C0DE_VERSION with the version of the installed mod (e.g. "0.4.0"), read-only like every constant, also in the program runner. Other mods can register built-in constants of their own through the library API (for C0DE_NET_VERSION of c0de net). Concept, handbook and guide; unit tests and GameTest. Needed by the tutorial recipe "Is my c0de up to date?" of c0de.at. | ✅ |
 | 14.10 | Release with the translations, the runner, the models and C0DE_VERSION for all Minecraft versions. |  |
 
 ## Risks

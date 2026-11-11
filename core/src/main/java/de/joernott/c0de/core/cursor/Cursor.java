@@ -94,6 +94,7 @@ public final class Cursor {
         constants.putAll(ErrorCode.builtinConstants());
         BuiltinConstants.types().forEach(types::add);
         constants.putAll(BuiltinConstants.defaults());
+        constants.putAll(settings.libraries().constants());
         constants.putAll(settings.constants());
         Library builtins = settings.libraries().builtins();
         constants.putAll(builtins.constants());

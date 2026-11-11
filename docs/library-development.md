@@ -137,6 +137,16 @@ BEGIN
 END FUNCTION
 ```
 
+## Built-in constants
+
+Constants of a library are qualified with its name and need its INCLUDE. A mod can also register **built-in constants**, which every program reads without INCLUDE, like `C0DE_VERSION` of c0de. Use them sparingly, for things like the version of your mod:
+
+```java
+ModLibraries.registerConstant("MYMOD_VERSION", new StringValue("1.2.0"));
+```
+
+The name is written in upper case and starts with the ID of your mod in upper case. Names of c0de (the error codes, the colors, SHEET, PID, CURSOR, C0DE_VERSION) and names that are already registered are refused with an `IllegalArgumentException`. Register the constants while your mod is initialized, like the libraries.
+
 ## Functions
 
 A `NativeFunction` has a name (without library), its parameters, the names of its results and its implementation.

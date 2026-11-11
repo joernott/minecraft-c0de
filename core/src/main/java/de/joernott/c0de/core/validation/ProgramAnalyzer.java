@@ -93,6 +93,7 @@ final class ProgramAnalyzer {
         ErrorCode.builtinConstants().forEach((name, value) -> addConstant(name, value));
         BuiltinConstants.types().forEach(types::add);
         BuiltinConstants.defaults().forEach(this::addConstant);
+        libraries.constants().forEach(this::addConstant);
         builtins.constants().forEach(this::addConstant);
         for (Statement statement : program.statements()) {
             capture(statement);

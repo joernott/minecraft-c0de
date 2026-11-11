@@ -170,6 +170,11 @@ public class FabricGameTests {
         ProcessTests.processesKnowTheirSheetAndPid(helper);
     }
 
+    @GameTest(template = SmokeTests.EMPTY_STRUCTURE, timeoutTicks = 100)
+    public void processesKnowTheVersion(GameTestHelper helper) {
+        ProcessTests.processesKnowTheVersion(helper);
+    }
+
     @GameTest(template = SmokeTests.EMPTY_STRUCTURE, timeoutTicks = 120)
     public void redstonePausesTimers(GameTestHelper helper) {
         ProcessTests.redstonePausesTimers(helper);

@@ -1,17 +1,26 @@
 package de.joernott.c0de.library;
 
 import de.joernott.c0de.C0de;
+import de.joernott.c0de.core.error.ErrorCode;
 import de.joernott.c0de.core.library.Library;
 import de.joernott.c0de.core.library.LibraryRegistry;
+import de.joernott.c0de.core.library.standard.BuiltinConstants;
 import de.joernott.c0de.core.library.standard.StandardLibraries;
 import de.joernott.c0de.core.program.Names;
+import de.joernott.c0de.core.value.StringValue;
+import de.joernott.c0de.core.value.Value;
+import java.util.Locale;
 
 /**
  * The libraries that programs in the game can include: the standard libraries, c0de/minecraft and the libraries
  * of other mods, which register them with {@link #register} while they are initialized (docs/library-development.md).
+ * Also the built-in constants that every program can read without INCLUDE: C0DE_VERSION and the constants of other
+ * mods, registered with {@link #registerConstant} (task 14.9).
  */
 public final class ModLibraries {
-    private static final LibraryRegistry REGISTRY = StandardLibraries.registry().add(new MinecraftLibrary());
+    private static final LibraryRegistry REGISTRY = StandardLibraries.registry()
+            .addConstant(StandardLibraries.VERSION_CONSTANT, new StringValue(C0de.VERSION))
+            .add(new MinecraftLibrary());
 
     private ModLibraries() {}
 
@@ -39,5 +48,26 @@ public final class ModLibraries {
         }
         REGISTRY.add(library);
         C0de.LOGGER.info("Registered the c0de library {}", name);
+    }
+
+    /**
+     * Registers a built-in constant of another mod, which every program can read without INCLUDE, e.g.
+     * {@code C0DE_NET_VERSION}. Its name starts with the ID of the mod in upper case; names of c0de (the error
+     * codes, the colors, SHEET, PID, CURSOR, C0DE_VERSION) and names that are already registered are refused. Call
+     * it while the mod is initialized, before worlds are loaded.
+     *
+     * @throws IllegalArgumentException if the name is not valid or already used
+     */
+    public static synchronized void registerConstant(String name, Value value) {
+        if (!Names.isValid(name) || !name.equals(name.toUpperCase(Locale.ROOT))) {
+            throw new IllegalArgumentException("Not a constant name (upper case): " + name);
+        }
+        if (REGISTRY.constants().containsKey(name)
+                || BuiltinConstants.defaults().containsKey(name)
+                || ErrorCode.builtinConstants().containsKey(name)) {
+            throw new IllegalArgumentException("The constant " + name + " is already defined");
+        }
+        REGISTRY.addConstant(name, value);
+        C0de.LOGGER.info("Registered the c0de constant {}", name);
     }
 }

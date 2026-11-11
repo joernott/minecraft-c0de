@@ -146,6 +146,8 @@ Every program knows the following constants without an INCLUDE. Their names can'
   - `SHEET` of the built-in struct type `SHEET_INFO`: the sheet of the program the process runs.
   - `PID` of the built-in struct type `PID_INFO`: the process itself.
   - `CURSOR` of the built-in struct type `CURSOR_INFO`: the cursor at the moment the constant is read.
+  - `C0DE_VERSION` (STRING): the version of the installed mod, e.g. `"0.4.0"`; in the program runner, the version of the runner.
+  - The built-in constants of other mods, e.g. `C0DE_NET_VERSION` of c0de net. Their names start with the ID of the mod in upper case; a mod registers them with `ModLibraries.registerConstant` (see [library development](../library-development.md)).
 
 SHEET and PID are filled when a process starts and keep their values while it runs, also across a restart of the server. During validation and without a process (e.g. in tests of the interpreter), they contain the default values of their types. Like every constant, they can't be changed; they can be copied into a variable of their type, e.g. `VARIABLE info STRUCT SHEET_INFO`.
 

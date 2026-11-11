@@ -1,5 +1,6 @@
 package de.joernott.c0de.gametest;
 
+import de.joernott.c0de.C0de;
 import de.joernott.c0de.block.OperatorBlock;
 import de.joernott.c0de.block.TriggerBlock;
 import de.joernott.c0de.blockentity.TriggerBlockEntity;
@@ -22,6 +23,7 @@ import de.joernott.c0de.process.ProcessManager;
 import de.joernott.c0de.process.SnapshotNbt;
 import de.joernott.c0de.sheet.LevelSheet;
 import de.joernott.c0de.sheet.SheetValidation;
+import java.util.List;
 import java.util.Map;
 import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTestHelper;
@@ -472,6 +474,48 @@ public final class ProcessTests {
             } finally {
                 sheet.clear();
                 SheetValidation.validate(level, 542);
+            }
+            helper.succeed();
+        });
+    }
+
+    /**
+     * A process reads the version of the mod from C0DE_VERSION; other mods can't register the names of c0de as
+     * their constants (task 14.9).
+     */
+    public static void processesKnowTheVersion(GameTestHelper helper) {
+        for (String name : List.of("C0DE_VERSION", "COLOR_RED", "PID", "DIVISION_BY_ZERO", "lower", "C0DE/X")) {
+            try {
+                ModLibraries.registerConstant(name, new IntegerValue(1));
+                helper.fail("The constant " + name + " was registered");
+            } catch (IllegalArgumentException expected) {
+                // refused
+            }
+        }
+        ServerLevel level = c0de(helper);
+        SheetBuilder sheet = new SheetBuilder(level, 545).place("""
+                PROGRAM versioned
+                NOOP
+                FUNCTION twice
+                    RESULT result STRING
+                BEGIN
+                    ASSIGN result C0DE_VERSION ;
+                END FUNCTION
+                """);
+        SheetValidation.validate(level, 545);
+        TriggerBlockEntity trigger = trigger(helper, "versioned", new ItemStack(C0deItems.VARIABLE_ITEM.get()));
+        trigger.start();
+        helper.assertTrue(trigger.isRunning(), "The process didn't start: " + trigger.status());
+        TestCompat.await(helper, () -> !trigger.isRunning(), () -> {
+            try {
+                helper.assertTrue(trigger.exitCode() == 0, "Exit code " + trigger.exitCode());
+                ValueItem.Contents result = ValueItem.Contents.of(trigger.output().getItem(0));
+                helper.assertTrue(
+                        result.type().equals("STRING") && result.value().contains(C0de.VERSION),
+                        "The result is " + result + ", not " + C0de.VERSION);
+            } finally {
+                sheet.clear();
+                SheetValidation.validate(level, 545);
             }
             helper.succeed();
         });

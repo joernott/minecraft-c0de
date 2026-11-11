@@ -30,8 +30,14 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
+// The version of the mod, the value of C0DE_VERSION (task 14.9)
+val modVersion = Regex("""(?m)^mod\.version\s*=\s*"([^"]+)"""")
+    .find(rootProject.file("stonecutter.properties.toml").readText())!!
+    .groupValues[1]
+
 tasks.test {
     useJUnitPlatform()
+    systemProperty("c0de.version", modVersion)
 }
 
 // Formatting: `./gradlew spotlessCheck` (part of `check`) and `./gradlew spotlessApply`
