@@ -659,3 +659,7 @@ Add a task to the sprints on c0de and c0de-net to provide a constant C0DE_VERSIO
 ## 2026-11-11 – Sprint 14
 
 Please start implementing sprint14 in minecraft-c0de as this is a prerequisite for implementing the tutorials.
+
+## 2026-11-11 – Release 0.4.0
+
+yes, please prepare v0.4.0

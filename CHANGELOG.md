@@ -2,7 +2,7 @@
 
 All notable changes of the c0de mod. The section of a version is also its changelog on Modrinth.
 
-## Unreleased
+## 0.4.0
 
 Documentation: for the tutorials of c0de.at and for players who read German.
 
