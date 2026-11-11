@@ -663,3 +663,7 @@ Please start implementing sprint14 in minecraft-c0de as this is a prerequisite f
 ## 2026-11-11 – Release 0.4.0
 
 yes, please prepare v0.4.0
+
+## 2026-11-11 – Release 0.4.0 is out
+
+Ipushed the tag and the workflows completed successfully

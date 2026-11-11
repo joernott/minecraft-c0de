@@ -48,7 +48,7 @@ A task is done when
 | 11 | Release 0.1.0 for 1.21.1 | Polished, documented and published first alpha of the mod |  |
 | 12 | Newer Minecraft versions | The mod is released for 1.21.x and 26.x |  |
 | 13 | Usability, process information and colors (0.3.0) | Pausable timers, a better disk drive, the built-in constants SHEET, PID, CURSOR and COLOR_*, the used stack in the cursor dialog, mining and placing blocks with items from inventories, boots and pliers | ✅ |
-| 14 | Documentation (0.4.0) | The guide and the handbooks in German, a runner that tests the programs of the tutorials of c0de.at, and 3D models of all blocks for the website |  |
+| 14 | Documentation (0.4.0) | The guide and the handbooks in German, a runner that tests the programs of the tutorials of c0de.at, and 3D models of all blocks for the website | ✅ |
 
 ## Sprint 0: Concept and plan
 
@@ -350,7 +350,7 @@ After sprint 12, every new Minecraft release is added as a new node in its own s
 | 14.7.1 | The runner prints the layout of a program (`--layout`): every line with the state of its line number and its blocks with their position, block ID, block state and text, so the website places the models without parsing the notation itself. | ✅ |
 | 14.8 | The release attaches the models as `c0de-models-<version>.zip`; www-c0de builds 3D views of example programs from them with `<model-viewer>`, with screenshots as a fallback. | ✅ |
 | 14.9 | Built-in STRING constant C0DE_VERSION with the version of the installed mod (e.g. "0.4.0"), read-only like every constant, also in the program runner. Other mods can register built-in constants of their own through the library API (for C0DE_NET_VERSION of c0de net). Concept, handbook and guide; unit tests and GameTest. Needed by the tutorial recipe "Is my c0de up to date?" of c0de.at. | ✅ |
-| 14.10 | Release with the translations, the runner, the models and C0DE_VERSION for all Minecraft versions. |  |
+| 14.10 | Release with the translations, the runner, the models and C0DE_VERSION for all Minecraft versions, released on 2026-11-11 as 0.4.0 (GitHub pre-release with c0de-runner-0.4.0.jar and c0de-models-0.4.0.zip, Modrinth). | ✅ |
 
 ## Risks
 
