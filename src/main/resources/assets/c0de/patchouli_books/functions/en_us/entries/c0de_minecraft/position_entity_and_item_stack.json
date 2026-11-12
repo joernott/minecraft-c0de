@@ -1,0 +1,36 @@
+{
+  "name": "POSITION, ENTITY and ITEM_STACK",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_minecraft",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "The three struct types of the library. Declare variables of them like of any struct, e.g. $(1)VARIABLE spot STRUCT c0de/minecraft/POSITION$()."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(l)POSITION$() is a block: $(1)x$(), $(1)y$() and $(1)z$() are INTEGERs, $(1)dimension$() is a STRING. In every function, an empty $(1)dimension$() means the dimension of the trigger block. Otherwise it holds an ID like $(1)minecraft:the_nether$(); an unknown ID raises INVALID_ARGUMENT."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(l)ENTITY$() is an entity found by FIND_ENTITIES: $(1)uuid$() (STRING, for TELEPORT), $(1)type$() (STRING, like $(1)minecraft:sheep$()), $(1)name$() (STRING) and $(1)position$() (POSITION). The name is the name of a player, the name from a name tag, or else the name of the type."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "The $(1)position$() of an ENTITY is the block the entity is in: its coordinates are rounded down, so x = -0.5 is block -1. Its $(1)dimension$() is empty in the dimension of the trigger block. Compare $(1)type$(), not $(1)name$(): a name can be in the language of the game."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(l)ITEM_STACK$() is one slot of an inventory, from GET_INVENTORY: $(1)id$() (STRING, like $(1)minecraft:wheat$()) and $(1)count$() (INTEGER). An empty slot has the id \"\" and the count 0."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)VARIABLE spot STRUCT c0de/minecraft/POSITION$(br)BEGIN$(br)  x 10$(br)  y 64$(br)  z -20$(br)END VARIABLE$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)dimension$() is left out, so it stays empty: the dimension of the trigger block."
+    }
+  ]
+}

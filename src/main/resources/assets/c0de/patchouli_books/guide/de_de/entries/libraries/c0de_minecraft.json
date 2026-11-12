@@ -10,7 +10,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "$(li)TICKS: die Spielzeit$(li)BEEP, SOUND: Töne spielen wie ein Notenblock$(li)SAY: eine Nachricht in den Chat schreiben$(li)GET_BLOCK: einen Block und seine Redstone-Stärke lesen$(li)GET_INVENTORY: die Gegenstände in einer Truhe oder einem anderen Behälter lesen"
+      "text": "$(li)TICKS: die Spielzeit der Welt, nicht die Tageszeit$(li)BEEP, SOUND: Töne spielen wie ein Notenblock$(li)SAY: eine Nachricht in den Chat schreiben$(li)GET_BLOCK: einen Block und seine Redstone-Stärke lesen$(li)GET_INVENTORY: die Gegenstände in einer Truhe oder einem anderen Behälter lesen"
     },
     {
       "type": "patchouli:text",

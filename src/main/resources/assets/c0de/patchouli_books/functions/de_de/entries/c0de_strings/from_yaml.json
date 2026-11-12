@@ -14,6 +14,10 @@
     },
     {
       "type": "patchouli:text",
+      "text": "Wie bei FROM_JSON behält ein Element einer Struktur bei einem fehlenden oder $(1)null$()-Schlüssel seinen aktuellen Wert. UNKNOWN_KEY kommt nur, wenn die Variable einen TAG für $(1)yaml$() hat und das Dokument an seinem Pfad keinen Wert hat."
+    },
+    {
+      "type": "patchouli:text",
       "text": "$(li)$(1)source$() STRING: das YAML-Dokument$(li)$(1)destination$() Variable: die Variable, die die Werte bekommt$(li)keine Ergebnisse"
     },
     {

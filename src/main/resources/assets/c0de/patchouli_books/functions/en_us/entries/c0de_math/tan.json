@@ -2,7 +2,7 @@
   "name": "TAN",
   "icon": "minecraft:book",
   "category": "c0de:c0de_math",
-  "sortnum": 7,
+  "sortnum": 8,
   "pages": [
     {
       "type": "patchouli:text",

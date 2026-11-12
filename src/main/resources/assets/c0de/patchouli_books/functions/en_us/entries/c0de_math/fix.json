@@ -2,7 +2,7 @@
   "name": "FIX",
   "icon": "minecraft:book",
   "category": "c0de:c0de_math",
-  "sortnum": 10,
+  "sortnum": 11,
   "pages": [
     {
       "type": "patchouli:text",

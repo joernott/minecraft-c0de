@@ -57,13 +57,13 @@ Diese funktionieren ohne INCLUDE:
 
 ## c0de/math
 
-Zahlen und Zufallswerte. Sie hat auch die Konstante `c0de/math/PI`.
+Zahlen und Zufallswerte. Sie hat auch die Konstante `c0de/math/PI`, die du in einem Ausdruck wie eine Variable verwendest, ohne CALL.
 
 - ABS, SGN: Betrag und Vorzeichen einer Zahl
 - SQR, EXP, LOG: Quadratwurzel, e hoch, Logarithmus
 - SIN, COS, TAN, ATN: Winkel im Bogenmaß
 - INT, FIX, ROUND: machen aus einem FLOAT einen INTEGER
-- TO_FLOAT: macht aus einem INTEGER einen FLOAT
+- TO_FLOAT: macht aus einem INTEGER einen FLOAT, gegen NUMERIC_OVERFLOW bei großen Rechnungen
 - DIV: ganzzahlige Division
 - RANDOM: ein zufälliger FLOAT von 0 bis unter 1
 - RANDOMIZE: legt den Startwert der Zufallszahlen fest
@@ -107,6 +107,8 @@ FORMAT macht aus einem Wert mit einem Formatstring einen Text. `%d` ist eine gan
 
 Für TIME-Werte ergibt `%tF` das Datum und `%tT` die Uhrzeit, zum Beispiel `2026-10-19` und `14:05:09`. Es gibt noch viele weitere Codes, etwa `%tA` für den Namen des Wochentags.
 
+Alle Codes verwenden denselben Wert, `"%tF %tT"` zeigt also Datum und Uhrzeit auf einmal. `%f` nimmt auch einen INTEGER, aber `%d` nimmt kein FLOAT. Der Text ist immer englisch: `.` und `,` in Zahlen, englische Namen der Wochentage und Monate, in der Zeitzone des Servers.
+
 ## JSON und YAML
 
 c0de/strings kann außerdem jeden Wert mit TO_JSON und TO_YAML in JSON- oder YAML-Text verwandeln. FROM_JSON und FROM_YAML lesen solchen Text zurück in eine Variable.
@@ -127,11 +129,13 @@ Echte Uhrzeit und echtes Datum, in der Zeitzone des Servers:
 
 Die Datums- und Zeitfunktionen benutzen die aktuelle Zeit oder einen TIME-Wert, den du als `time` übergibst. SLEEP wartet zwischen 1 und 72000 Ticks.
 
+TIMER beginnt um Mitternacht bei 0. WEEK liefert die ISO-Woche: Am 1. Januar kann noch Woche 52 oder 53 des Vorjahres sein, und keine Funktion liefert dieses Jahr.
+
 ## c0de/minecraft
 
 Mit dieser Bibliothek können Programme die Welt rund um den Auslöserblock berühren:
 
-- TICKS: die Spielzeit
+- TICKS: die Spielzeit der Welt, nicht die Tageszeit
 - BEEP, SOUND: Töne spielen wie ein Notenblock
 - SAY: eine Nachricht in den Chat schreiben
 - GET_BLOCK: einen Block und seine Redstone-Stärke lesen
@@ -152,7 +156,7 @@ Manche Funktionen verändern die Welt stärker:
 - SPAWN_ITEM, SPAWN_ENTITY: Gegenstände und Kreaturen erschaffen
 - TELEPORT: ein Objekt bewegen
 
-Positionen werden als Struktur `c0de/minecraft/POSITION` mit x, y, z und einer optionalen Dimension angegeben. Programme können die Blöcke auf den Blättern der c0de-Dimension niemals verändern.
+Positionen werden als Struktur `c0de/minecraft/POSITION` mit x, y, z und einer optionalen Dimension angegeben. Eine leere Dimension bedeutet die Dimension des Auslöserblocks. Programme können die Blöcke auf den Blättern der c0de-Dimension niemals verändern.
 
 ## Besitzer und Berechtigungen
 

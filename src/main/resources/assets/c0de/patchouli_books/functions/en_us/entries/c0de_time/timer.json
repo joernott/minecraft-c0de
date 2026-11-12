@@ -10,6 +10,10 @@
     },
     {
       "type": "patchouli:text",
+      "text": "TIMER starts at 0.0 at midnight in the time zone of the server and counts up to below 86400, with the milliseconds as decimals. On the days the clocks change for summer time, it follows the clock."
+    },
+    {
+      "type": "patchouli:text",
       "text": "$(li)result $(1)result$() FLOAT: the seconds since midnight"
     },
     {

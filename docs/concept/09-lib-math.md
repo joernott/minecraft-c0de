@@ -10,6 +10,8 @@ The library `c0de/math` contains the numeric functions and constants. It MUST be
 |---|---|---|---|
 | `c0de/math/PI` | FLOAT | 3.141592653589793 | The ratio of the circumference of a circle to its diameter (π). |
 
+A constant of a library is used in expressions by its qualified name, like a built-in constant, e.g. `2 * c0de/math/PI * r`; it is not a function and can't be called.
+
 ## Functions
 
 | Function | Parameters | Results | Description | AmigaBASIC |
@@ -26,7 +28,7 @@ The library `c0de/math` contains the numeric functions and constants. It MUST be
 | INT | value INTEGER\|FLOAT | result INTEGER | Largest integer less than or equal to `value` (rounds down: -12.85 → -13). An INTEGER is returned unchanged; a FLOAT too big for an INTEGER (or NaN) raises NUMERIC_OVERFLOW. | INT |
 | FIX | value INTEGER\|FLOAT | result INTEGER | Removes the decimal places without rounding (-12.85 → -12). An INTEGER is returned unchanged; a FLOAT too big for an INTEGER (or NaN) raises NUMERIC_OVERFLOW. | FIX |
 | ROUND | value INTEGER\|FLOAT | result INTEGER | Rounds to the nearest integer, .5 to the nearest even integer (12.5 → 12, 13.5 → 14). An INTEGER is returned unchanged; a FLOAT too big for an INTEGER (or NaN) raises NUMERIC_OVERFLOW. | CINT, CLNG |
-| TO_FLOAT | value INTEGER\|FLOAT | result FLOAT | Converts a number to a float. | CDBL, CSNG |
+| TO_FLOAT | value INTEGER\|FLOAT | result FLOAT | Converts a number to a float. It is rarely needed, as INTEGERs are converted to FLOAT wherever a FLOAT is expected (assignments, parameters, results, the functions of this library, `%f` of FORMAT) and `/` always returns a FLOAT. It is needed to calculate with FLOATs where all operands are INTEGERs, e.g. to avoid NUMERIC_OVERFLOW in `+`, `-`, `*` and `^`, or to get the text representation of a FLOAT (`8.0` instead of `8`). | CDBL, CSNG |
 | DIV | dividend INTEGER, divisor INTEGER | result INTEGER | Integer division, rounded towards 0. A divisor of 0 raises DIVISION_BY_ZERO. The smallest INTEGER divided by -1 raises NUMERIC_OVERFLOW. | – |
 | RANDOM | – | result FLOAT | Next random number between 0 (inclusive) and 1 (exclusive). Each process has its own random number generator. | RND |
 | RANDOMIZE | seed INTEGER | – | Sets the seed of the random number generator of the process, so that the same seed always produces the same sequence. | RANDOMIZE |

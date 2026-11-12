@@ -2,11 +2,15 @@
   "name": "PRESS_BUTTON",
   "icon": "minecraft:book",
   "category": "c0de:c0de_minecraft",
-  "sortnum": 9,
+  "sortnum": 10,
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "Presses a button like a player would.$(br2)A block that is not a button raises INVALID_ARGUMENT. Buttons on the sheets of the c0de dimension can't be pressed (PERMISSION_DENIED)."
+      "text": "Presses a button like a player would."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "A block that is not a button raises INVALID_ARGUMENT. Buttons on the sheets of the c0de dimension can't be pressed (PERMISSION_DENIED). An empty $(1)dimension$() in the position means the dimension of the trigger block."
     },
     {
       "type": "patchouli:text",

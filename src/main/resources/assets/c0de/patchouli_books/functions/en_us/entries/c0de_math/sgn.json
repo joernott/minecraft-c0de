@@ -2,7 +2,7 @@
   "name": "SGN",
   "icon": "minecraft:book",
   "category": "c0de:c0de_math",
-  "sortnum": 1,
+  "sortnum": 2,
   "pages": [
     {
       "type": "patchouli:text",

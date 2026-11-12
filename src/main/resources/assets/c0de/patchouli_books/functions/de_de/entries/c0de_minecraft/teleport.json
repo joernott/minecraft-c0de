@@ -2,7 +2,7 @@
   "name": "TELEPORT",
   "icon": "minecraft:book",
   "category": "c0de:c0de_minecraft",
-  "sortnum": 21,
+  "sortnum": 22,
   "pages": [
     {
       "type": "patchouli:text",
@@ -11,6 +11,10 @@
     {
       "type": "patchouli:text",
       "text": "Das braucht allowTeleporting oder einen Administrator als Besitzer. Nur Administratoren können Spieler teleportieren. Beides löst sonst PERMISSION_DENIED aus. Ein Objekt, das nicht geladen ist, löst INVALID_ARGUMENT aus."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Das Objekt darf in jeder Dimension sein, und $(1)position$() darf in einer anderen liegen: Es kommt dorthin. Der Chunk von $(1)position$() muss geladen sein, sonst wird CHUNK_NOT_LOADED ausgelöst und nichts passiert. Das Objekt landet in der Mitte des Blocks, auf seinem Boden. Eine leere $(1)dimension$() in der Position bedeutet die Dimension des Auslöserblocks."
     },
     {
       "type": "patchouli:text",

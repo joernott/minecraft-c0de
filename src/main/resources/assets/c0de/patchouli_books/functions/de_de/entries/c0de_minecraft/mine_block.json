@@ -2,7 +2,7 @@
   "name": "MINE_BLOCK",
   "icon": "minecraft:book",
   "category": "c0de:c0de_minecraft",
-  "sortnum": 17,
+  "sortnum": 18,
   "pages": [
     {
       "type": "patchouli:text",
@@ -15,6 +15,10 @@
     {
       "type": "patchouli:text",
       "text": "Das Werkzeug nutzt sich ab, als hätte ein Spieler es benutzt, und das Programm wartet so lange, wie ein Spieler zum Abbauen des Blocks bräuchte. Die Drops kommen in $(1)output_inventory$(); ohne dieses fallen sie auf den Boden. Wenn sie nicht in das Ausgabeinventar passen, wird INVENTORY_FULL ausgelöst und der Block bleibt stehen. Grundgestein und Flüssigkeiten können nicht abgebaut werden (INVALID_ARGUMENT). Jeder Besitzer darf MINE_BLOCK verwenden, weil es nur tut, was Spieler auch können."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Bei Luft tut MINE_BLOCK nichts: Kein Werkzeug wird benutzt, und das Programm wartet nicht. Die Positionen werden trotzdem zuerst geprüft, also lösen ein nicht geladener Chunk (CHUNK_NOT_LOADED), ein $(1)tool_inventory$() ohne Inventar (INVALID_ARGUMENT) oder ein Block auf einem Blatt (PERMISSION_DENIED) ihre Fehler aus. Eine leere $(1)dimension$() in einer Position bedeutet die Dimension des Auslöserblocks."
     },
     {
       "type": "patchouli:text",

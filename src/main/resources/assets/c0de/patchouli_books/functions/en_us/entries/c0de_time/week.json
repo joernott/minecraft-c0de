@@ -6,7 +6,15 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "Returns the ISO 8601 week of the year (1 to 53).$(br2)Week 1 contains the first Thursday of the year. So days around New Year can belong to week 52 or 53 of the old year or week 1 of the new one. Without $(1)time$() the current time is used."
+      "text": "Returns the ISO 8601 week of the year (1 to 53)."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Week 1 contains the first Thursday of the year. So days around New Year can belong to week 52 or 53 of the old year or week 1 of the new one. Without $(1)time$() the current time is used. It uses the time zone of the server."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "There is no function for the year a week belongs to. On 1 January 2027, WEEK gives 53, the last week of 2026, but YEAR gives 2027. So if WEEK is 52 or 53 in January, the week belongs to the year before; if it is 1 in December, to the year after."
     },
     {
       "type": "patchouli:text",

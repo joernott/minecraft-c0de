@@ -2,11 +2,15 @@
   "name": "SPAWN_ITEM",
   "icon": "minecraft:book",
   "category": "c0de:c0de_minecraft",
-  "sortnum": 18,
+  "sortnum": 19,
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "Erzeugt Gegenstände auf dem Boden an einer Position.$(br2)$(1)count$() muss 1 bis 64 sein. Das Ergebnis ist die UUID des neuen Gegenstandsobjekts. Das braucht allowSpawning oder einen Administrator als Besitzer, sonst wird PERMISSION_DENIED ausgelöst."
+      "text": "Erzeugt Gegenstände auf dem Boden an einer Position."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)count$() muss 1 bis 64 sein. Das Ergebnis ist die UUID des neuen Gegenstandsobjekts. Das braucht allowSpawning oder einen Administrator als Besitzer, sonst wird PERMISSION_DENIED ausgelöst. Eine leere $(1)dimension$() in der Position bedeutet die Dimension des Auslöserblocks."
     },
     {
       "type": "patchouli:text",

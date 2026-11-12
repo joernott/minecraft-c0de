@@ -2,7 +2,7 @@
   "name": "RANDOM",
   "icon": "minecraft:book",
   "category": "c0de:c0de_math",
-  "sortnum": 14,
+  "sortnum": 15,
   "pages": [
     {
       "type": "patchouli:text",

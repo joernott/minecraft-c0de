@@ -2,11 +2,15 @@
   "name": "GET_PRESSURE_PLATE",
   "icon": "minecraft:book",
   "category": "c0de:c0de_minecraft",
-  "sortnum": 10,
+  "sortnum": 11,
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "Liest die Signalstärke einer Druckplatte.$(br2)Druckplatten können nur gelesen werden; Lebewesen und Objekte drücken sie. Ein Block, der keine Druckplatte ist, löst INVALID_ARGUMENT aus."
+      "text": "Liest die Signalstärke einer Druckplatte."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Druckplatten können nur gelesen werden; Lebewesen und Objekte drücken sie. Ein Block, der keine Druckplatte ist, löst INVALID_ARGUMENT aus. Eine leere $(1)dimension$() in der Position bedeutet die Dimension des Auslöserblocks."
     },
     {
       "type": "patchouli:text",

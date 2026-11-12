@@ -2,7 +2,7 @@
   "name": "DIV",
   "icon": "minecraft:book",
   "category": "c0de:c0de_math",
-  "sortnum": 13,
+  "sortnum": 14,
   "pages": [
     {
       "type": "patchouli:text",

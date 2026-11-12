@@ -2,11 +2,15 @@
   "name": "PRESS_BUTTON",
   "icon": "minecraft:book",
   "category": "c0de:c0de_minecraft",
-  "sortnum": 9,
+  "sortnum": 10,
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "Drückt einen Knopf, wie es ein Spieler tun würde.$(br2)Ein Block, der kein Knopf ist, löst INVALID_ARGUMENT aus. Knöpfe auf den Blättern der c0de-Dimension können nicht gedrückt werden (PERMISSION_DENIED)."
+      "text": "Drückt einen Knopf, wie es ein Spieler tun würde."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Ein Block, der kein Knopf ist, löst INVALID_ARGUMENT aus. Knöpfe auf den Blättern der c0de-Dimension können nicht gedrückt werden (PERMISSION_DENIED). Eine leere $(1)dimension$() in der Position bedeutet die Dimension des Auslöserblocks."
     },
     {
       "type": "patchouli:text",

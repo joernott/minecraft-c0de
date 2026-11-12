@@ -2,7 +2,7 @@
   "name": "PLACE_BLOCK",
   "icon": "minecraft:book",
   "category": "c0de:c0de_minecraft",
-  "sortnum": 15,
+  "sortnum": 16,
   "pages": [
     {
       "type": "patchouli:text",
@@ -10,7 +10,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "The position must hold air or a replaceable block like grass or water, otherwise INVALID_ARGUMENT is raised. Without $(1)inventory$(), this needs allowBlockChanges or an administrator as owner, otherwise PERMISSION_DENIED is raised."
+      "text": "The position must hold air or a replaceable block like grass or water, otherwise INVALID_ARGUMENT is raised. Without $(1)inventory$(), this needs allowBlockChanges or an administrator as owner, otherwise PERMISSION_DENIED is raised. An empty $(1)dimension$() in a position means the dimension of the trigger block."
     },
     {
       "type": "patchouli:text",

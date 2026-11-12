@@ -2,11 +2,15 @@
   "name": "GET_INVENTORY",
   "icon": "minecraft:book",
   "category": "c0de:c0de_minecraft",
-  "sortnum": 5,
+  "sortnum": 6,
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "Reads the inventory of a block, such as a chest.$(br2)You get one ITEM_STACK (id, count) per slot. An empty slot has the id \"\" and the count 0. A block without inventory raises INVALID_ARGUMENT."
+      "text": "Reads the inventory of a block, such as a chest."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "You get one ITEM_STACK (id, count) per slot. An empty slot has the id \"\" and the count 0. A block without inventory raises INVALID_ARGUMENT. An empty $(1)dimension$() in the position means the dimension of the trigger block."
     },
     {
       "type": "patchouli:text",

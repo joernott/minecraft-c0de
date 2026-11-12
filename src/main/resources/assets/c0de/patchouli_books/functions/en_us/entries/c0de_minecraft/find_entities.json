@@ -2,11 +2,15 @@
   "name": "FIND_ENTITIES",
   "icon": "minecraft:book",
   "category": "c0de:c0de_minecraft",
-  "sortnum": 20,
+  "sortnum": 21,
   "pages": [
     {
       "type": "patchouli:text",
       "text": "Finds all entities near a position.$(br2)Items count as entities too. Each ENTITY has uuid, type, name and position. $(1)radius$() must be 1 to 64, otherwise INVALID_ARGUMENT is raised."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "It searches a sphere, not a cube: it finds the entities whose feet are at most $(1)radius$() blocks away from the middle of the block at $(1)position$(), in the dimension of $(1)position$(). $(1)type$() must be the full ID, like $(1)minecraft:sheep$(). An empty $(1)dimension$() in the position means the dimension of the trigger block."
     },
     {
       "type": "patchouli:text",

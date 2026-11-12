@@ -57,13 +57,13 @@ These work without INCLUDE:
 
 ## c0de/math
 
-Numbers and random values. It also has the constant `c0de/math/PI`.
+Numbers and random values. It also has the constant `c0de/math/PI`, which you use in an expression like a variable, without CALL.
 
 - ABS, SGN: size and sign of a number
 - SQR, EXP, LOG: square root, e to the power, logarithm
 - SIN, COS, TAN, ATN: angles in radians
 - INT, FIX, ROUND: turn a FLOAT into an INTEGER
-- TO_FLOAT: turn an INTEGER into a FLOAT
+- TO_FLOAT: turn an INTEGER into a FLOAT, against NUMERIC_OVERFLOW in big calculations
 - DIV: whole-number division
 - RANDOM: a random FLOAT from 0 to below 1
 - RANDOMIZE: set the start of the random numbers
@@ -107,6 +107,8 @@ FORMAT turns a value into text with a format string. `%d` is a whole number, `%f
 
 For TIME values, `%tF` gives the date and `%tT` the time, like `2026-10-19` and `14:05:09`. Many more codes exist, such as `%tA` for the name of the weekday.
 
+All codes use the same value, so `"%tF %tT"` shows date and time at once. `%f` also takes an INTEGER, but `%d` doesn't take a FLOAT. The text is always English: `.` and `,` in numbers, English names of weekdays and months, in the time zone of the server.
+
 ## JSON and YAML
 
 c0de/strings can also turn any value into JSON or YAML text with TO_JSON and TO_YAML. FROM_JSON and FROM_YAML read such text back into a variable.
@@ -127,11 +129,13 @@ Real-world time and date, in the time zone of the server:
 
 The date and time functions use the current time, or a TIME value you pass as `time`. SLEEP waits between 1 and 72000 ticks.
 
+TIMER starts at 0 at midnight. WEEK gives the ISO week: on 1 January it can still be week 52 or 53 of the year before, and no function gives that year.
+
 ## c0de/minecraft
 
 This library lets programs touch the world around the trigger block:
 
-- TICKS: the game time
+- TICKS: the game time of the world, not the time of day
 - BEEP, SOUND: play notes like a note block
 - SAY: write a message to the chat
 - GET_BLOCK: read a block and its redstone power
@@ -152,7 +156,7 @@ Some functions change the world more:
 - SPAWN_ITEM, SPAWN_ENTITY: create items and mobs
 - TELEPORT: move an entity
 
-Positions are given as a `c0de/minecraft/POSITION` struct with x, y, z and an optional dimension. Programs can never change the blocks on the sheets of the c0de dimension.
+Positions are given as a `c0de/minecraft/POSITION` struct with x, y, z and an optional dimension. An empty dimension means the dimension of the trigger block. Programs can never change the blocks on the sheets of the c0de dimension.
 
 ## Owner and permissions
 

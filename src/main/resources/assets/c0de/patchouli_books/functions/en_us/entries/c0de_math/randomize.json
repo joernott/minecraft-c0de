@@ -2,7 +2,7 @@
   "name": "RANDOMIZE",
   "icon": "minecraft:book",
   "category": "c0de:c0de_math",
-  "sortnum": 15,
+  "sortnum": 16,
   "pages": [
     {
       "type": "patchouli:text",

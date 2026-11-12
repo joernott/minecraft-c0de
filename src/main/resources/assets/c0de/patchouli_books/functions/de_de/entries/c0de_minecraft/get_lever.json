@@ -2,11 +2,11 @@
   "name": "GET_LEVER",
   "icon": "minecraft:book",
   "category": "c0de:c0de_minecraft",
-  "sortnum": 6,
+  "sortnum": 7,
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "Prüft, ob ein Hebel an ist.$(br2)Ein Block, der kein Hebel ist, löst INVALID_ARGUMENT aus."
+      "text": "Prüft, ob ein Hebel an ist.$(br2)Ein Block, der kein Hebel ist, löst INVALID_ARGUMENT aus. Eine leere $(1)dimension$() in der Position bedeutet die Dimension des Auslöserblocks."
     },
     {
       "type": "patchouli:text",

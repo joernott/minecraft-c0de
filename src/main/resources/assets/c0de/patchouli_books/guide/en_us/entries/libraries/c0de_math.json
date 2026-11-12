@@ -6,11 +6,11 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "Numbers and random values. It also has the constant $(1)c0de/math/PI$()."
+      "text": "Numbers and random values. It also has the constant $(1)c0de/math/PI$(), which you use in an expression like a variable, without CALL."
     },
     {
       "type": "patchouli:text",
-      "text": "$(li)ABS, SGN: size and sign of a number$(li)SQR, EXP, LOG: square root, e to the power, logarithm$(li)SIN, COS, TAN, ATN: angles in radians$(li)INT, FIX, ROUND: turn a FLOAT into an INTEGER$(li)TO_FLOAT: turn an INTEGER into a FLOAT$(li)DIV: whole-number division$(li)RANDOM: a random FLOAT from 0 to below 1$(li)RANDOMIZE: set the start of the random numbers"
+      "text": "$(li)ABS, SGN: size and sign of a number$(li)SQR, EXP, LOG: square root, e to the power, logarithm$(li)SIN, COS, TAN, ATN: angles in radians$(li)INT, FIX, ROUND: turn a FLOAT into an INTEGER$(li)TO_FLOAT: turn an INTEGER into a FLOAT, against NUMERIC_OVERFLOW in big calculations$(li)DIV: whole-number division$(li)RANDOM: a random FLOAT from 0 to below 1$(li)RANDOMIZE: set the start of the random numbers"
     }
   ]
 }

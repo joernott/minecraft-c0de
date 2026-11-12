@@ -2,11 +2,15 @@
   "name": "REMOVE_BLOCK",
   "icon": "minecraft:book",
   "category": "c0de:c0de_minecraft",
-  "sortnum": 16,
+  "sortnum": 17,
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "Entfernt den Block an einer Position.$(br2)Mit $(1)drop$() fällt der Block als Gegenstand heraus, wie beim Abbauen. Das braucht allowBlockChanges oder einen Administrator als Besitzer, sonst wird PERMISSION_DENIED ausgelöst."
+      "text": "Entfernt den Block an einer Position."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Mit $(1)drop$() fällt der Block als Gegenstand heraus, wie beim Abbauen. Das braucht allowBlockChanges oder einen Administrator als Besitzer, sonst wird PERMISSION_DENIED ausgelöst. Eine leere $(1)dimension$() in der Position bedeutet die Dimension des Auslöserblocks."
     },
     {
       "type": "patchouli:text",

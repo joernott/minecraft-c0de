@@ -2,11 +2,11 @@
   "name": "GET_OPEN",
   "icon": "minecraft:book",
   "category": "c0de:c0de_minecraft",
-  "sortnum": 11,
+  "sortnum": 12,
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "Prüft, ob eine Tür, Falltür oder ein Zauntor offen ist.$(br2)Jeder andere Block löst INVALID_ARGUMENT aus."
+      "text": "Prüft, ob eine Tür, Falltür oder ein Zauntor offen ist.$(br2)Jeder andere Block löst INVALID_ARGUMENT aus. Eine leere $(1)dimension$() in der Position bedeutet die Dimension des Auslöserblocks."
     },
     {
       "type": "patchouli:text",

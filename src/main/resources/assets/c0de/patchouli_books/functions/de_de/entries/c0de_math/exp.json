@@ -2,7 +2,7 @@
   "name": "EXP",
   "icon": "minecraft:book",
   "category": "c0de:c0de_math",
-  "sortnum": 3,
+  "sortnum": 4,
   "pages": [
     {
       "type": "patchouli:text",

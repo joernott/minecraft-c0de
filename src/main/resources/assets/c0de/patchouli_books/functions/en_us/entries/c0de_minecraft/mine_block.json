@@ -2,7 +2,7 @@
   "name": "MINE_BLOCK",
   "icon": "minecraft:book",
   "category": "c0de:c0de_minecraft",
-  "sortnum": 17,
+  "sortnum": 18,
   "pages": [
     {
       "type": "patchouli:text",
@@ -15,6 +15,10 @@
     {
       "type": "patchouli:text",
       "text": "The tool is damaged as if a player used it, and the program waits as long as a player would need to break the block. The drops go into $(1)output_inventory$(); without it, they fall on the ground. If they don't fit into the output inventory, INVENTORY_FULL is raised and the block stays. Bedrock and fluids can't be mined (INVALID_ARGUMENT). Every owner may use MINE_BLOCK, because it only does what players can do."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "On air, MINE_BLOCK does nothing: no tool is used and the program doesn't wait. The positions are still checked first, so an unloaded chunk (CHUNK_NOT_LOADED), a $(1)tool_inventory$() without inventory (INVALID_ARGUMENT) or a block on a sheet (PERMISSION_DENIED) raise their errors. An empty $(1)dimension$() in a position means the dimension of the trigger block."
     },
     {
       "type": "patchouli:text",

@@ -2,11 +2,15 @@
   "name": "SPAWN_ENTITY",
   "icon": "minecraft:book",
   "category": "c0de:c0de_minecraft",
-  "sortnum": 19,
+  "sortnum": 20,
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "Erzeugt ein Objekt, z. B. ein Schwein, an einer Position.$(br2)Das Ergebnis ist die UUID des neuen Objekts. Das braucht allowSpawning oder einen Administrator als Besitzer, sonst wird PERMISSION_DENIED ausgelöst. Ein unbekannter Typ löst INVALID_ARGUMENT aus."
+      "text": "Erzeugt ein Objekt, z. B. ein Schwein, an einer Position."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Das Ergebnis ist die UUID des neuen Objekts. Das braucht allowSpawning oder einen Administrator als Besitzer, sonst wird PERMISSION_DENIED ausgelöst. Ein unbekannter Typ löst INVALID_ARGUMENT aus. Eine leere $(1)dimension$() in der Position bedeutet die Dimension des Auslöserblocks."
     },
     {
       "type": "patchouli:text",

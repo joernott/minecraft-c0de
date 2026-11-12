@@ -2,7 +2,7 @@
   "name": "MOVE_ITEMS",
   "icon": "minecraft:book",
   "category": "c0de:c0de_minecraft",
-  "sortnum": 13,
+  "sortnum": 14,
   "pages": [
     {
       "type": "patchouli:text",
@@ -10,7 +10,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Die Funktion verschiebt bis zu $(1)count$() Gegenstände und gibt zurück, wie viele verschoben wurden. Das braucht allowInventoryChanges oder einen Administrator als Besitzer, sonst wird PERMISSION_DENIED ausgelöst. Blöcke ohne Inventar lösen INVALID_ARGUMENT aus."
+      "text": "Die Funktion verschiebt bis zu $(1)count$() Gegenstände und gibt zurück, wie viele verschoben wurden. Das braucht allowInventoryChanges oder einen Administrator als Besitzer, sonst wird PERMISSION_DENIED ausgelöst. Blöcke ohne Inventar lösen INVALID_ARGUMENT aus. Eine leere $(1)dimension$() in einer Position bedeutet die Dimension des Auslöserblocks."
     },
     {
       "type": "patchouli:text",

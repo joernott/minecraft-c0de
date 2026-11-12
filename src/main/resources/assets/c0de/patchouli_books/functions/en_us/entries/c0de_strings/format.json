@@ -14,6 +14,18 @@
     },
     {
       "type": "patchouli:text",
+      "text": "All conversions use the same value, so one value can feed several of them: $(1)\"%tF %tT\"$() shows date and time, and $(1)\"%d = 0x%X\"$() turns 255 into $(1)255 = 0xFF$(). For two values, call FORMAT twice and join the texts with $(1)⊕$()."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)%f$(), $(1)%e$() and $(1)%g$() take INTEGERs and FLOATs. $(1)%d$(), $(1)%x$() and $(1)%o$() only take INTEGERs, so round a FLOAT first with ROUND or INT of c0de/math."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "The text is always English, whatever language the game or the server uses: $(1).$() is the decimal point, $(1),$() the thousands separator ($(1)%,d$() turns 1234567 into $(1)1,234,567$()), and the names of weekdays and months are English ($(1)%tA$() gives $(1)Monday$()). The $(1)%t$() codes use the time zone of the server."
+    },
+    {
+      "type": "patchouli:text",
       "text": "$(li)$(1)value$() BOOLEAN|INTEGER|FLOAT|CHAR|STRING|TIME: the value$(li)$(1)format$() STRING: the format string$(li)result $(1)result$() STRING: the formatted text"
     },
     {

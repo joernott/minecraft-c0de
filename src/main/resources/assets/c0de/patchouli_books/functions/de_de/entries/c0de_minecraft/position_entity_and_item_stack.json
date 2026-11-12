@@ -1,0 +1,36 @@
+{
+  "name": "POSITION, ENTITY und ITEM_STACK",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_minecraft",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Die drei Strukturtypen der Bibliothek. Du deklarierst Variablen von ihnen wie bei jeder Struktur, z. B. $(1)VARIABLE spot STRUCT c0de/minecraft/POSITION$()."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(l)POSITION$() ist ein Block: $(1)x$(), $(1)y$() und $(1)z$() sind INTEGERs, $(1)dimension$() ist ein STRING. In jeder Funktion bedeutet eine leere $(1)dimension$() die Dimension des Auslöserblocks. Sonst enthält sie eine ID wie $(1)minecraft:the_nether$(); eine unbekannte ID löst INVALID_ARGUMENT aus."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(l)ENTITY$() ist ein Objekt, das FIND_ENTITIES gefunden hat: $(1)uuid$() (STRING, für TELEPORT), $(1)type$() (STRING, wie $(1)minecraft:sheep$()), $(1)name$() (STRING) und $(1)position$() (POSITION). Der Name ist der Name eines Spielers, der Name von einem Namensschild oder sonst der Name des Typs."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Die $(1)position$() eines ENTITY ist der Block, in dem das Objekt ist: Seine Koordinaten werden abgerundet, x = -0.5 ist also Block -1. Ihre $(1)dimension$() ist in der Dimension des Auslöserblocks leer. Vergleiche $(1)type$(), nicht $(1)name$(): Ein Name kann in der Sprache des Spiels sein."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(l)ITEM_STACK$() ist ein Slot eines Inventars, von GET_INVENTORY: $(1)id$() (STRING, wie $(1)minecraft:wheat$()) und $(1)count$() (INTEGER). Ein leerer Slot hat die id \"\" und die Anzahl 0."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)VARIABLE spot STRUCT c0de/minecraft/POSITION$(br)BEGIN$(br)  x 10$(br)  y 64$(br)  z -20$(br)END VARIABLE$()"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)dimension$() fehlt, sie bleibt also leer: die Dimension des Auslöserblocks."
+    }
+  ]
+}

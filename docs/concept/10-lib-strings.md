@@ -77,7 +77,7 @@ TIME values are formatted with conversions that start with `%t`. They use the ti
 | `%tT` | time, the same as `%tH:%tM:%tS` | `14:05:09` |
 | `%tR` | hour and minute, the same as `%tH:%tM` | `14:05` |
 
-Names of months and days of the week are written in English.
+Names of months and days of the week, and `am`/`pm`, are written in English. Numbers are formatted independent of the language of the game and of the server, too: the decimal separator is always `.` and the grouping separator of the flag `,` always `,`. There is no conversion for the week-based year of ISO 8601 (the year `%tV` belongs to).
 
 A conversion that does not fit the type of `value` raises TYPE_MISMATCH, an invalid format string raises INVALID_ARGUMENT.
 
@@ -127,7 +127,7 @@ If the parameter `value` of TO_JSON or TO_YAML is provided by an expression that
 ### Reading values
 
 The parameter `destination` of FROM_JSON and FROM_YAML is an exception to the rule that parameters are passed by value: it MUST be provided by a single LABEL without index that refers to a previously declared variable. Constants and loop variables are not allowed. The function writes the result directly into that variable; it has no result. The type of the variable determines how the document is read:
-  - If the variable has a [tag](04-data.md#tags-of-variables-and-constants) for the language, only the value at exactly the path of the tag is read. If the document has no value at that path, UNKNOWN_KEY is raised.
+  - If the variable has a [tag](04-data.md#tags-of-variables-and-constants) for the language, only the value at exactly the path of the tag is read. If the document has no value at that path, UNKNOWN_KEY is raised. A `null` at that path keeps the current value. UNKNOWN_KEY is raised in no other case; missing keys inside the value are handled as described below.
   - The tags of struct elements translate the keys of the document to element names.
   - Keys of the document that don't belong to an element of a struct are ignored.
   - Elements of a struct that are missing in the document or that are `null` keep their current value. So the current value of the variable provides the default values.

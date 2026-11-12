@@ -2,7 +2,7 @@
   "name": "LOG",
   "icon": "minecraft:book",
   "category": "c0de:c0de_math",
-  "sortnum": 4,
+  "sortnum": 5,
   "pages": [
     {
       "type": "patchouli:text",

@@ -2,11 +2,19 @@
   "name": "TICKS",
   "icon": "minecraft:book",
   "category": "c0de:c0de_minecraft",
-  "sortnum": 0,
+  "sortnum": 1,
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "Gibt die Spielzeit in Ticks zurück.$(br2)Es ist die Spielzeit der Dimension des Auslöserblocks."
+      "text": "Gibt die Spielzeit der Welt in Ticks zurück."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Sie zählt alle Ticks, seit die Welt erschaffen wurde, 20 pro Sekunde, solange die Welt läuft, und sie ist in jeder Dimension gleich. Schlafen, $(1)/time set$() und die Spielregel doDaylightCycle ändern sie nicht. Sie ist also nicht die Tageszeit."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Es gibt keine Funktion für die Tageszeit. $(1)TICKS \\ 24000$() ergibt sie nur in einer Welt, in der nie jemand geschlafen oder $(1)/time set$() verwendet hat (0 ist Sonnenaufgang, 6000 Mittag, 18000 Mitternacht). Ein Tageslichtsensor unterscheidet Tag und Nacht: GET_BLOCK liefert sein Signal als Text in $(1)properties[\"power\"]$(), nachts 0."
     },
     {
       "type": "patchouli:text",

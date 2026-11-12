@@ -2,15 +2,19 @@
   "name": "SOUND",
   "icon": "minecraft:book",
   "category": "c0de:c0de_minecraft",
-  "sortnum": 2,
+  "sortnum": 3,
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "Spielt am Auslöserblock einen Ton wie ein Notenblock."
+      "text": "Spielt am Auslöserblock einen Ton wie ein Notenblock.$(br2)$(1)note$() ist 0 bis 24, wie die Klicks auf einem Notenblock. Ein falscher Ton oder ein falsches Instrument löst INVALID_ARGUMENT aus. Groß- und Kleinschreibung im Namen des Instruments sind egal."
     },
     {
       "type": "patchouli:text",
-      "text": "$(1)note$() ist 0 bis 24, wie die Klicks auf einem Notenblock. Instrumente sind Notenblock-Instrumente wie harp, bass, bell oder flute. Ein falscher Ton oder ein falsches Instrument löst INVALID_ARGUMENT aus."
+      "text": "Die Instrumente, mit dem Block unter einem Notenblock, der sie spielt: harp (andere Blöcke), basedrum (Stein), snare (Sand), hat (Glas), bass (Holz), flute (Ton), bell (Goldblock), guitar (Wolle), chime (Packeis), xylophone (Knochenblock), iron_xylophone (Eisenblock), cow_bell (Seelensand), didgeridoo (Kürbis), bit (Smaragdblock), banjo (Heuballen), pling (Leuchtstein)."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Die Köpfe von Mobs spielen deren Geräusche: zombie, skeleton, creeper, dragon, wither_skeleton und piglin. custom_head klickt nur. Seit Minecraft 26.1 gibt es auch trumpet, trumpet_exposed, trumpet_weathered und trumpet_oxidized."
     },
     {
       "type": "patchouli:text",

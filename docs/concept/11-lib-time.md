@@ -19,8 +19,8 @@ The functions that return a part of a date or time have an optional parameter `t
 | MONTH | time TIME (default: now) | result INTEGER | The month (1–12). | – |
 | YEAR | time TIME (default: now) | result INTEGER | The year, e.g. 2026. | – |
 | WEEKDAY | time TIME (default: now) | result INTEGER | The day of the week according to ISO 8601, from 1 (Monday) to 7 (Sunday). | – |
-| WEEK | time TIME (default: now) | result INTEGER | The week of the year according to ISO 8601 (1–53). The first week of a year is the week that contains the first Thursday of the year, so the days around New Year's Day can belong to week 52 or 53 of the previous year or to week 1 of the next year. | – |
-| TIMER | – | result FLOAT | Seconds since midnight (real time of the server). | TIMER |
+| WEEK | time TIME (default: now) | result INTEGER | The week of the year according to ISO 8601 (1–53). The first week of a year is the week that contains the first Thursday of the year, so the days around New Year's Day can belong to week 52 or 53 of the previous year or to week 1 of the next year. There is no function for the week-based year: YEAR returns the calendar year (e.g. 2027 for 2027-01-01, which is in week 53 of 2026). | – |
+| TIMER | – | result FLOAT | Seconds since midnight (real time of the server): 0.0 at midnight in the time zone of the server, up to below 86400, with milliseconds as decimal places. It follows the local clock, so it jumps when daylight saving time starts or ends. | TIMER |
 | SLEEP | ticks INTEGER | – | Pauses the cursor for `ticks` game ticks. `ticks` MUST be between 1 and 72000 (one hour). | SLEEP |
 
 The AmigaBASIC functions DATE$ and TIME$ are replaced by FORMAT:

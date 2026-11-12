@@ -2,11 +2,19 @@
   "name": "TICKS",
   "icon": "minecraft:book",
   "category": "c0de:c0de_minecraft",
-  "sortnum": 0,
+  "sortnum": 1,
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "Returns the game time in ticks.$(br2)It is the game time of the dimension of the trigger block."
+      "text": "Returns the game time of the world in ticks."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "It counts all ticks since the world was created, 20 per second while the world runs, and it is the same in every dimension. Sleeping, $(1)/time set$() and the gamerule doDaylightCycle don't change it. So it is not the time of day."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "There is no function for the time of day. $(1)TICKS \\ 24000$() only gives it in a world where nobody ever slept or used $(1)/time set$() (0 is sunrise, 6000 noon, 18000 midnight). A daylight detector tells day from night: GET_BLOCK gives its signal as text in $(1)properties[\"power\"]$(), 0 at night."
     },
     {
       "type": "patchouli:text",

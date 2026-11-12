@@ -2,11 +2,15 @@
   "name": "FIND_ENTITIES",
   "icon": "minecraft:book",
   "category": "c0de:c0de_minecraft",
-  "sortnum": 20,
+  "sortnum": 21,
   "pages": [
     {
       "type": "patchouli:text",
       "text": "Findet alle Objekte in der Nähe einer Position.$(br2)Gegenstände zählen auch als Objekte. Jedes ENTITY hat uuid, type, name und position. $(1)radius$() muss 1 bis 64 sein, sonst wird INVALID_ARGUMENT ausgelöst."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Sie sucht in einer Kugel, nicht in einem Würfel: Sie findet die Objekte, deren Füße höchstens $(1)radius$() Blöcke von der Mitte des Blocks bei $(1)position$() entfernt sind, in der Dimension von $(1)position$(). $(1)type$() muss die volle ID sein, wie $(1)minecraft:sheep$(). Eine leere $(1)dimension$() in der Position bedeutet die Dimension des Auslöserblocks."
     },
     {
       "type": "patchouli:text",

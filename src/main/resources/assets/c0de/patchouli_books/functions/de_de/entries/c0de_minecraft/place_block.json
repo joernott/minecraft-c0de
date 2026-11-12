@@ -2,7 +2,7 @@
   "name": "PLACE_BLOCK",
   "icon": "minecraft:book",
   "category": "c0de:c0de_minecraft",
-  "sortnum": 15,
+  "sortnum": 16,
   "pages": [
     {
       "type": "patchouli:text",
@@ -10,7 +10,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "An der Position muss Luft oder ein ersetzbarer Block wie Gras oder Wasser sein, sonst wird INVALID_ARGUMENT ausgelöst. Ohne $(1)inventory$() braucht das allowBlockChanges oder einen Administrator als Besitzer, sonst wird PERMISSION_DENIED ausgelöst."
+      "text": "An der Position muss Luft oder ein ersetzbarer Block wie Gras oder Wasser sein, sonst wird INVALID_ARGUMENT ausgelöst. Ohne $(1)inventory$() braucht das allowBlockChanges oder einen Administrator als Besitzer, sonst wird PERMISSION_DENIED ausgelöst. Eine leere $(1)dimension$() in einer Position bedeutet die Dimension des Auslöserblocks."
     },
     {
       "type": "patchouli:text",

@@ -2,7 +2,7 @@
   "name": "SAY",
   "icon": "minecraft:book",
   "category": "c0de:c0de_minecraft",
-  "sortnum": 3,
+  "sortnum": 4,
   "pages": [
     {
       "type": "patchouli:text",
@@ -10,7 +10,11 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Die Nachricht beginnt mit dem Programmnamen und der PID. Mit $(1)player$() bekommt nur dieser Spieler sie; wenn er nicht online ist, wird INVALID_ARGUMENT ausgelöst. Sonst bekommen sie alle Spieler in der Nähe des Auslöserblocks (standardmäßig 64 Blöcke)."
+      "text": "Der Chat zeigt $(1)[program/PID] message$(), z. B. $(1)[farm/3] The farm is full!$(), ohne den Namen eines Spielers davor. Mit $(1)player$() bekommt nur dieser Spieler sie, in jeder Dimension; wenn er nicht online ist, wird INVALID_ARGUMENT ausgelöst."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Ohne $(1)player$() bekommen sie alle Spieler in der Dimension des Auslöserblocks, die höchstens 64 Blöcke von ihm entfernt sind. Der Server kann die Entfernung mit der Einstellung sayRadius ändern."
     },
     {
       "type": "patchouli:text",

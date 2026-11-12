@@ -2,11 +2,11 @@
   "name": "GET_OPEN",
   "icon": "minecraft:book",
   "category": "c0de:c0de_minecraft",
-  "sortnum": 11,
+  "sortnum": 12,
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "Checks if a door, trapdoor or fence gate is open.$(br2)Any other block raises INVALID_ARGUMENT."
+      "text": "Checks if a door, trapdoor or fence gate is open.$(br2)Any other block raises INVALID_ARGUMENT. An empty $(1)dimension$() in the position means the dimension of the trigger block."
     },
     {
       "type": "patchouli:text",

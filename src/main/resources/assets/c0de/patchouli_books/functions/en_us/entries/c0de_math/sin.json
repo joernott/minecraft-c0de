@@ -2,7 +2,7 @@
   "name": "SIN",
   "icon": "minecraft:book",
   "category": "c0de:c0de_math",
-  "sortnum": 5,
+  "sortnum": 6,
   "pages": [
     {
       "type": "patchouli:text",

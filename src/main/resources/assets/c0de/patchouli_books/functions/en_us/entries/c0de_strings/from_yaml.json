@@ -14,6 +14,10 @@
     },
     {
       "type": "patchouli:text",
+      "text": "Like FROM_JSON, missing or $(1)null$() keys keep the current value of a struct element. UNKNOWN_KEY only comes when the variable has a TAG for $(1)yaml$() and the document has no value at its path."
+    },
+    {
+      "type": "patchouli:text",
       "text": "$(li)$(1)source$() STRING: the YAML document$(li)$(1)destination$() variable: the variable that receives the values$(li)no results"
     },
     {

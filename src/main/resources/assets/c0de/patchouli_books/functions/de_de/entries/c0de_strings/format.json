@@ -14,6 +14,18 @@
     },
     {
       "type": "patchouli:text",
+      "text": "Alle Umwandlungen verwenden denselben Wert, ein Wert kann also mehrere von ihnen füllen: $(1)\"%tF %tT\"$() zeigt Datum und Uhrzeit, und $(1)\"%d = 0x%X\"$() macht aus 255 den Text $(1)255 = 0xFF$(). Für zwei Werte rufst du FORMAT zweimal auf und verbindest die Texte mit $(1)⊕$()."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)%f$(), $(1)%e$() und $(1)%g$() nehmen INTEGERs und FLOATs. $(1)%d$(), $(1)%x$() und $(1)%o$() nehmen nur INTEGERs, runde ein FLOAT also zuerst mit ROUND oder INT aus c0de/math."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Der Text ist immer englisch, egal welche Sprache das Spiel oder der Server verwendet: $(1).$() ist das Dezimalzeichen, $(1),$() das Tausendertrennzeichen ($(1)%,d$() macht aus 1234567 den Text $(1)1,234,567$()), und die Namen der Wochentage und Monate sind englisch ($(1)%tA$() ergibt $(1)Monday$()). Die $(1)%t$()-Codes verwenden die Zeitzone des Servers."
+    },
+    {
+      "type": "patchouli:text",
       "text": "$(li)$(1)value$() BOOLEAN|INTEGER|FLOAT|CHAR|STRING|TIME: der Wert$(li)$(1)format$() STRING: der Format-String$(li)Ergebnis $(1)result$() STRING: der formatierte Text"
     },
     {

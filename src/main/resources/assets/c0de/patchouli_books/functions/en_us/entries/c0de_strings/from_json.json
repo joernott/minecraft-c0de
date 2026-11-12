@@ -14,6 +14,14 @@
     },
     {
       "type": "patchouli:text",
+      "text": "An element of a struct whose key is missing in the document, or $(1)null$(), keeps its current value. So the value the variable had before gives the defaults. Arrays and hashes are replaced completely."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "UNKNOWN_KEY only comes when the variable has a TAG for $(1)json$() and the document has no value at the path of that tag. A missing key inside the value never raises it."
+    },
+    {
+      "type": "patchouli:text",
       "text": "$(li)$(1)source$() STRING: the JSON document$(li)$(1)destination$() variable: the variable that receives the values$(li)no results"
     },
     {

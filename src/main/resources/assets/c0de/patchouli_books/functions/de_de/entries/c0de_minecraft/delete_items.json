@@ -2,11 +2,15 @@
   "name": "DELETE_ITEMS",
   "icon": "minecraft:book",
   "category": "c0de:c0de_minecraft",
-  "sortnum": 14,
+  "sortnum": 15,
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "Entfernt Gegenstände aus einem Inventar.$(br2)Die Funktion entfernt bis zu $(1)count$() Gegenstände und gibt zurück, wie viele entfernt wurden. Das braucht allowInventoryChanges oder einen Administrator als Besitzer, sonst wird PERMISSION_DENIED ausgelöst."
+      "text": "Entfernt Gegenstände aus einem Inventar."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Die Funktion entfernt bis zu $(1)count$() Gegenstände und gibt zurück, wie viele entfernt wurden. Das braucht allowInventoryChanges oder einen Administrator als Besitzer, sonst wird PERMISSION_DENIED ausgelöst. Eine leere $(1)dimension$() in der Position bedeutet die Dimension des Auslöserblocks."
     },
     {
       "type": "patchouli:text",

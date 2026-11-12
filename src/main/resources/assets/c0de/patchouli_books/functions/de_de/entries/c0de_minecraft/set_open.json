@@ -2,11 +2,15 @@
   "name": "SET_OPEN",
   "icon": "minecraft:book",
   "category": "c0de:c0de_minecraft",
-  "sortnum": 12,
+  "sortnum": 13,
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "Öffnet oder schließt eine Tür, Falltür oder ein Zauntor.$(br2)Jeder andere Block löst INVALID_ARGUMENT aus. Eisentüren und Eisenfalltüren brauchen die Berechtigung allowBlockChanges oder einen Administrator als Besitzer, sonst wird PERMISSION_DENIED ausgelöst."
+      "text": "Öffnet oder schließt eine Tür, Falltür oder ein Zauntor."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Jeder andere Block löst INVALID_ARGUMENT aus. Eisentüren und Eisenfalltüren brauchen die Berechtigung allowBlockChanges oder einen Administrator als Besitzer, sonst wird PERMISSION_DENIED ausgelöst. Eine leere $(1)dimension$() in der Position bedeutet die Dimension des Auslöserblocks."
     },
     {
       "type": "patchouli:text",

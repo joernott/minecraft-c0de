@@ -2,11 +2,15 @@
   "name": "SET_LEVER",
   "icon": "minecraft:book",
   "category": "c0de:c0de_minecraft",
-  "sortnum": 7,
+  "sortnum": 8,
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "Schaltet einen Hebel an oder aus.$(br2)Ein Block, der kein Hebel ist, löst INVALID_ARGUMENT aus. Hebel auf den Blättern der c0de-Dimension können nicht verändert werden (PERMISSION_DENIED)."
+      "text": "Schaltet einen Hebel an oder aus."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Ein Block, der kein Hebel ist, löst INVALID_ARGUMENT aus. Hebel auf den Blättern der c0de-Dimension können nicht verändert werden (PERMISSION_DENIED). Eine leere $(1)dimension$() in der Position bedeutet die Dimension des Auslöserblocks."
     },
     {
       "type": "patchouli:text",

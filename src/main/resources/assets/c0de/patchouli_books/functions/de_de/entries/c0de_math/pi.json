@@ -1,0 +1,20 @@
+{
+  "name": "PI",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_math",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Die Zahl π: 3.141592653589793.$(br2)PI ist eine Konstante, keine Funktion, du rufst sie also nicht mit CALL auf. Nach $(1)INCLUDE c0de/math$() verwendest du ihren vollen Namen $(1)c0de/math/PI$() in einem Ausdruck, wie eine Variable. Sie ist ein FLOAT."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "SIN, COS und TAN nehmen Winkel im Bogenmaß: Ein ganzer Kreis ist 2 × PI, ein rechter Winkel PI / 2. Um Grad ins Bogenmaß umzurechnen, multipliziere mit PI / 180."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)ASSIGN circumference 2 * c0de/math/PI * radius ;$()"
+    }
+  ]
+}

@@ -14,6 +14,14 @@
     },
     {
       "type": "patchouli:text",
+      "text": "Ein Element einer Struktur, dessen Schlüssel im Dokument fehlt oder $(1)null$() ist, behält seinen aktuellen Wert. Der Wert, den die Variable vorher hatte, liefert also die Standardwerte. Arrays und Hashes werden ganz ersetzt."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "UNKNOWN_KEY kommt nur, wenn die Variable einen TAG für $(1)json$() hat und das Dokument am Pfad dieses Tags keinen Wert hat. Ein fehlender Schlüssel innerhalb des Werts löst ihn nie aus."
+    },
+    {
+      "type": "patchouli:text",
       "text": "$(li)$(1)source$() STRING: das JSON-Dokument$(li)$(1)destination$() Variable: die Variable, die die Werte bekommt$(li)keine Ergebnisse"
     },
     {

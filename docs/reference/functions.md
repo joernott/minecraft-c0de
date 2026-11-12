@@ -328,6 +328,20 @@ CALL INKEY
 
 The math library has number functions and random numbers and needs INCLUDE c0de/math.
 
+### PI
+
+The number π: 3.141592653589793.
+
+PI is a constant, not a function, so you don't CALL it. After `INCLUDE c0de/math`, use its full name `c0de/math/PI` in an expression, like a variable. It is a FLOAT.
+
+SIN, COS and TAN take angles in radians: a full circle is 2 × PI, a right angle PI / 2. To turn degrees into radians, multiply by PI / 180.
+
+**Example**
+
+```c0de
+ASSIGN circumference 2 * c0de/math/PI * radius ;
+```
+
 ### ABS
 
 Returns the absolute value of a number.
@@ -557,6 +571,10 @@ CALL c0de/math/ROUND
 ### TO_FLOAT
 
 Converts a number to a FLOAT.
+
+You rarely need it. An INTEGER goes into a FLOAT variable, parameter or result by itself, `/` always gives a FLOAT, and the math functions and `%f` of FORMAT take INTEGERs too.
+
+Use it when a calculation with INTEGERs gets too big: `+`, `*` and `^` of two INTEGERs raise NUMERIC_OVERFLOW above 9223372036854775807, with a FLOAT they don't. Or when a text should show a FLOAT: `⊕` writes the INTEGER 8 as `8` and the FLOAT as `8.0`.
 
 **Parameters and results**
 
@@ -875,6 +893,12 @@ Formats a value as text with a format string.
 
 Conversions start with `%`, e.g. `%5d` (integer, 5 wide), `%.2f` (2 decimal places), `%s` (any value), `%tF` and `%tT` (date and time). A wrong type raises TYPE_MISMATCH, a bad format string INVALID_ARGUMENT.
 
+All conversions use the same value, so one value can feed several of them: `"%tF %tT"` shows date and time, and `"%d = 0x%X"` turns 255 into `255 = 0xFF`. For two values, call FORMAT twice and join the texts with `⊕`.
+
+`%f`, `%e` and `%g` take INTEGERs and FLOATs. `%d`, `%x` and `%o` only take INTEGERs, so round a FLOAT first with ROUND or INT of c0de/math.
+
+The text is always English, whatever language the game or the server uses: `.` is the decimal point, `,` the thousands separator (`%,d` turns 1234567 into `1,234,567`), and the names of weekdays and months are English (`%tA` gives `Monday`). The `%t` codes use the time zone of the server.
+
 **Parameters and results**
 
 - `value` BOOLEAN|INTEGER|FLOAT|CHAR|STRING|TIME: the value
@@ -995,6 +1019,10 @@ Reads a JSON document into a variable.
 
 `destination` must be a single variable name; the function writes into it directly. The document must fit the type of the variable. On an error (TYPE_MISMATCH, INVALID_ARGUMENT, UNKNOWN_KEY, STRING_TOO_LONG) the variable stays unchanged.
 
+An element of a struct whose key is missing in the document, or `null`, keeps its current value. So the value the variable had before gives the defaults. Arrays and hashes are replaced completely.
+
+UNKNOWN_KEY only comes when the variable has a TAG for `json` and the document has no value at the path of that tag. A missing key inside the value never raises it.
+
 **Parameters and results**
 
 - `source` STRING: the JSON document
@@ -1014,6 +1042,8 @@ CALL c0de/strings/FROM_JSON readError
 Reads a YAML document into a variable.
 
 `destination` must be a single variable name; the function writes into it directly. Only the first document is read. On an error (TYPE_MISMATCH, INVALID_ARGUMENT, UNKNOWN_KEY, STRING_TOO_LONG) the variable stays unchanged.
+
+Like FROM_JSON, missing or `null` keys keep the current value of a struct element. UNKNOWN_KEY only comes when the variable has a TAG for `yaml` and the document has no value at its path.
 
 **Parameters and results**
 
@@ -1203,7 +1233,9 @@ CALL c0de/time/WEEKDAY
 
 Returns the ISO 8601 week of the year (1 to 53).
 
-Week 1 contains the first Thursday of the year. So days around New Year can belong to week 52 or 53 of the old year or week 1 of the new one. Without `time` the current time is used.
+Week 1 contains the first Thursday of the year. So days around New Year can belong to week 52 or 53 of the old year or week 1 of the new one. Without `time` the current time is used. It uses the time zone of the server.
+
+There is no function for the year a week belongs to. On 1 January 2027, WEEK gives 53, the last week of 2026, but YEAR gives 2027. So if WEEK is 52 or 53 in January, the week belongs to the year before; if it is 1 in December, to the year after.
 
 **Parameters and results**
 
@@ -1222,6 +1254,8 @@ CALL c0de/time/WEEK
 Returns the seconds since midnight.
 
 This is the real time of the server, not the game time. Use TICKS from c0de/minecraft for the game time.
+
+TIMER starts at 0.0 at midnight in the time zone of the server and counts up to below 86400, with the milliseconds as decimals. On the days the clocks change for summer time, it follows the clock.
 
 **Parameters and results**
 
@@ -1255,11 +1289,38 @@ CALL c0de/time/SLEEP
 
 The Minecraft library acts in the world for the owner of the trigger block, uses the struct type c0de/minecraft/POSITION (x, y, z, dimension) for places and needs INCLUDE c0de/minecraft.
 
+### POSITION, ENTITY and ITEM_STACK
+
+The three struct types of the library. Declare variables of them like of any struct, e.g. `VARIABLE spot STRUCT c0de/minecraft/POSITION`.
+
+**POSITION** is a block: `x`, `y` and `z` are INTEGERs, `dimension` is a STRING. In every function, an empty `dimension` means the dimension of the trigger block. Otherwise it holds an ID like `minecraft:the_nether`; an unknown ID raises INVALID_ARGUMENT.
+
+**ENTITY** is an entity found by FIND_ENTITIES: `uuid` (STRING, for TELEPORT), `type` (STRING, like `minecraft:sheep`), `name` (STRING) and `position` (POSITION). The name is the name of a player, the name from a name tag, or else the name of the type.
+
+The `position` of an ENTITY is the block the entity is in: its coordinates are rounded down, so x = -0.5 is block -1. Its `dimension` is empty in the dimension of the trigger block. Compare `type`, not `name`: a name can be in the language of the game.
+
+**ITEM_STACK** is one slot of an inventory, from GET_INVENTORY: `id` (STRING, like `minecraft:wheat`) and `count` (INTEGER). An empty slot has the id "" and the count 0.
+
+**Example**
+
+```c0de
+VARIABLE spot STRUCT c0de/minecraft/POSITION
+BEGIN
+    x 10
+    y 64
+    z -20
+END VARIABLE
+```
+
+`dimension` is left out, so it stays empty: the dimension of the trigger block.
+
 ### TICKS
 
-Returns the game time in ticks.
+Returns the game time of the world in ticks.
 
-It is the game time of the dimension of the trigger block.
+It counts all ticks since the world was created, 20 per second while the world runs, and it is the same in every dimension. Sleeping, `/time set` and the gamerule doDaylightCycle don't change it. So it is not the time of day.
+
+There is no function for the time of day. `TICKS \ 24000` only gives it in a world where nobody ever slept or used `/time set` (0 is sunrise, 6000 noon, 18000 midnight). A daylight detector tells day from night: GET_BLOCK gives its signal as text in `properties["power"]`, 0 at night.
 
 **Parameters and results**
 
@@ -1290,7 +1351,11 @@ CALL c0de/minecraft/BEEP
 
 Plays a note at the trigger block like a note block.
 
-`note` is 0 to 24, like the clicks on a note block. Instruments are note block instruments such as harp, bass, bell or flute. A wrong note or instrument raises INVALID_ARGUMENT.
+`note` is 0 to 24, like the clicks on a note block. A wrong note or instrument raises INVALID_ARGUMENT. Capitals don't matter in the name of the instrument.
+
+The instruments, with the block under a note block that plays them: harp (other blocks), basedrum (stone), snare (sand), hat (glass), bass (wood), flute (clay), bell (gold block), guitar (wool), chime (packed ice), xylophone (bone block), iron_xylophone (iron block), cow_bell (soul sand), didgeridoo (pumpkin), bit (emerald block), banjo (hay bale), pling (glowstone).
+
+The heads of mobs play their sounds: zombie, skeleton, creeper, dragon, wither_skeleton and piglin. custom_head only clicks. Since Minecraft 26.1, there are also trumpet, trumpet_exposed, trumpet_weathered and trumpet_oxidized.
 
 **Parameters and results**
 
@@ -1309,7 +1374,9 @@ CALL c0de/minecraft/SOUND
 
 Writes a message to the chat.
 
-The message starts with the program name and PID. With `player`, only that player gets it; if they are not online, INVALID_ARGUMENT is raised. Otherwise all players near the trigger block get it (64 blocks by default).
+The chat shows `[program/PID] message`, e.g. `[farm/3] The farm is full!`, without the name of a player in front. With `player`, only that player gets it, in any dimension; if they are not online, INVALID_ARGUMENT is raised.
+
+Without `player`, all players in the dimension of the trigger block get it who are at most 64 blocks away from it. The server can change the distance with the setting sayRadius.
 
 **Parameters and results**
 
@@ -1353,7 +1420,7 @@ CALL c0de/minecraft/GET_BLOCK
 
 Reads the inventory of a block, such as a chest.
 
-You get one ITEM_STACK (id, count) per slot. An empty slot has the id "" and the count 0. A block without inventory raises INVALID_ARGUMENT.
+You get one ITEM_STACK (id, count) per slot. An empty slot has the id "" and the count 0. A block without inventory raises INVALID_ARGUMENT. An empty `dimension` in the position means the dimension of the trigger block.
 
 **Parameters and results**
 
@@ -1372,7 +1439,7 @@ CALL c0de/minecraft/GET_INVENTORY
 
 Checks if a lever is on.
 
-A block that is not a lever raises INVALID_ARGUMENT.
+A block that is not a lever raises INVALID_ARGUMENT. An empty `dimension` in the position means the dimension of the trigger block.
 
 **Parameters and results**
 
@@ -1391,7 +1458,7 @@ CALL c0de/minecraft/GET_LEVER
 
 Switches a lever on or off.
 
-A block that is not a lever raises INVALID_ARGUMENT. Levers on the sheets of the c0de dimension can't be changed (PERMISSION_DENIED).
+A block that is not a lever raises INVALID_ARGUMENT. Levers on the sheets of the c0de dimension can't be changed (PERMISSION_DENIED). An empty `dimension` in the position means the dimension of the trigger block.
 
 **Parameters and results**
 
@@ -1410,7 +1477,7 @@ CALL c0de/minecraft/SET_LEVER
 
 Checks if a button is pressed.
 
-A block that is not a button raises INVALID_ARGUMENT.
+A block that is not a button raises INVALID_ARGUMENT. An empty `dimension` in the position means the dimension of the trigger block.
 
 **Parameters and results**
 
@@ -1429,7 +1496,7 @@ CALL c0de/minecraft/GET_BUTTON
 
 Presses a button like a player would.
 
-A block that is not a button raises INVALID_ARGUMENT. Buttons on the sheets of the c0de dimension can't be pressed (PERMISSION_DENIED).
+A block that is not a button raises INVALID_ARGUMENT. Buttons on the sheets of the c0de dimension can't be pressed (PERMISSION_DENIED). An empty `dimension` in the position means the dimension of the trigger block.
 
 **Parameters and results**
 
@@ -1446,7 +1513,7 @@ CALL c0de/minecraft/PRESS_BUTTON
 
 Reads the signal strength of a pressure plate.
 
-Pressure plates can only be read; entities press them. A block that is not a pressure plate raises INVALID_ARGUMENT.
+Pressure plates can only be read; entities press them. A block that is not a pressure plate raises INVALID_ARGUMENT. An empty `dimension` in the position means the dimension of the trigger block.
 
 **Parameters and results**
 
@@ -1465,7 +1532,7 @@ CALL c0de/minecraft/GET_PRESSURE_PLATE
 
 Checks if a door, trapdoor or fence gate is open.
 
-Any other block raises INVALID_ARGUMENT.
+Any other block raises INVALID_ARGUMENT. An empty `dimension` in the position means the dimension of the trigger block.
 
 **Parameters and results**
 
@@ -1484,7 +1551,7 @@ CALL c0de/minecraft/GET_OPEN
 
 Opens or closes a door, trapdoor or fence gate.
 
-Any other block raises INVALID_ARGUMENT. Iron doors and iron trapdoors need the permission allowBlockChanges or an administrator as owner, otherwise PERMISSION_DENIED is raised.
+Any other block raises INVALID_ARGUMENT. Iron doors and iron trapdoors need the permission allowBlockChanges or an administrator as owner, otherwise PERMISSION_DENIED is raised. An empty `dimension` in the position means the dimension of the trigger block.
 
 **Parameters and results**
 
@@ -1503,7 +1570,7 @@ CALL c0de/minecraft/SET_OPEN
 
 Moves items from one inventory to another.
 
-It moves up to `count` items and returns how many were moved. This needs allowInventoryChanges or an administrator as owner, otherwise PERMISSION_DENIED is raised. Blocks without inventory raise INVALID_ARGUMENT.
+It moves up to `count` items and returns how many were moved. This needs allowInventoryChanges or an administrator as owner, otherwise PERMISSION_DENIED is raised. Blocks without inventory raise INVALID_ARGUMENT. An empty `dimension` in a position means the dimension of the trigger block.
 
 **Parameters and results**
 
@@ -1528,7 +1595,7 @@ CALL c0de/minecraft/MOVE_ITEMS
 
 Removes items from an inventory.
 
-It removes up to `count` items and returns how many were removed. This needs allowInventoryChanges or an administrator as owner, otherwise PERMISSION_DENIED is raised.
+It removes up to `count` items and returns how many were removed. This needs allowInventoryChanges or an administrator as owner, otherwise PERMISSION_DENIED is raised. An empty `dimension` in the position means the dimension of the trigger block.
 
 **Parameters and results**
 
@@ -1551,7 +1618,7 @@ CALL c0de/minecraft/DELETE_ITEMS
 
 Places a block at a position.
 
-The position must hold air or a replaceable block like grass or water, otherwise INVALID_ARGUMENT is raised. Without `inventory`, this needs allowBlockChanges or an administrator as owner, otherwise PERMISSION_DENIED is raised.
+The position must hold air or a replaceable block like grass or water, otherwise INVALID_ARGUMENT is raised. Without `inventory`, this needs allowBlockChanges or an administrator as owner, otherwise PERMISSION_DENIED is raised. An empty `dimension` in a position means the dimension of the trigger block.
 
 With `inventory`, the block is taken from that inventory, like a player places a block from theirs, and every owner may do that. If the inventory doesn't contain the block, ITEM_MISSING is raised.
 
@@ -1575,7 +1642,7 @@ CALL c0de/minecraft/PLACE_BLOCK
 
 Removes the block at a position.
 
-With `drop`, the block drops as an item like when it is mined. This needs allowBlockChanges or an administrator as owner, otherwise PERMISSION_DENIED is raised.
+With `drop`, the block drops as an item like when it is mined. This needs allowBlockChanges or an administrator as owner, otherwise PERMISSION_DENIED is raised. An empty `dimension` in the position means the dimension of the trigger block.
 
 **Parameters and results**
 
@@ -1598,6 +1665,8 @@ It takes the most suitable tool of `tool_inventory`: first a tool that gets the 
 
 The tool is damaged as if a player used it, and the program waits as long as a player would need to break the block. The drops go into `output_inventory`; without it, they fall on the ground. If they don't fit into the output inventory, INVENTORY_FULL is raised and the block stays. Bedrock and fluids can't be mined (INVALID_ARGUMENT). Every owner may use MINE_BLOCK, because it only does what players can do.
 
+On air, MINE_BLOCK does nothing: no tool is used and the program doesn't wait. The positions are still checked first, so an unloaded chunk (CHUNK_NOT_LOADED), a `tool_inventory` without inventory (INVALID_ARGUMENT) or a block on a sheet (PERMISSION_DENIED) raise their errors. An empty `dimension` in a position means the dimension of the trigger block.
+
 **Parameters and results**
 
 - `position` STRUCT c0de/minecraft/POSITION: where the block is
@@ -1617,7 +1686,7 @@ CALL c0de/minecraft/MINE_BLOCK
 
 Spawns items on the ground at a position.
 
-`count` must be 1 to 64. The result is the UUID of the new item entity. This needs allowSpawning or an administrator as owner, otherwise PERMISSION_DENIED is raised.
+`count` must be 1 to 64. The result is the UUID of the new item entity. This needs allowSpawning or an administrator as owner, otherwise PERMISSION_DENIED is raised. An empty `dimension` in the position means the dimension of the trigger block.
 
 **Parameters and results**
 
@@ -1640,7 +1709,7 @@ CALL c0de/minecraft/SPAWN_ITEM
 
 Spawns an entity, such as a pig, at a position.
 
-The result is the UUID of the new entity. This needs allowSpawning or an administrator as owner, otherwise PERMISSION_DENIED is raised. An unknown type raises INVALID_ARGUMENT.
+The result is the UUID of the new entity. This needs allowSpawning or an administrator as owner, otherwise PERMISSION_DENIED is raised. An unknown type raises INVALID_ARGUMENT. An empty `dimension` in the position means the dimension of the trigger block.
 
 **Parameters and results**
 
@@ -1662,6 +1731,8 @@ CALL c0de/minecraft/SPAWN_ENTITY
 Finds all entities near a position.
 
 Items count as entities too. Each ENTITY has uuid, type, name and position. `radius` must be 1 to 64, otherwise INVALID_ARGUMENT is raised.
+
+It searches a sphere, not a cube: it finds the entities whose feet are at most `radius` blocks away from the middle of the block at `position`, in the dimension of `position`. `type` must be the full ID, like `minecraft:sheep`. An empty `dimension` in the position means the dimension of the trigger block.
 
 **Parameters and results**
 
@@ -1685,6 +1756,8 @@ CALL c0de/minecraft/FIND_ENTITIES
 Teleports an entity or item to a position.
 
 This needs allowTeleporting or an administrator as owner. Only administrators can teleport players. Both raise PERMISSION_DENIED otherwise. An entity that is not loaded raises INVALID_ARGUMENT.
+
+The entity may be in any dimension, and `position` may be in another one: it goes there. The chunk of `position` must be loaded, otherwise CHUNK_NOT_LOADED is raised and nothing happens. The entity lands in the middle of the block, at its bottom. An empty `dimension` in the position means the dimension of the trigger block.
 
 **Parameters and results**
 

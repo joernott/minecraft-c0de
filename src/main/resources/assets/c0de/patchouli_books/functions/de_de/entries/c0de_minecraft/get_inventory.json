@@ -2,11 +2,15 @@
   "name": "GET_INVENTORY",
   "icon": "minecraft:book",
   "category": "c0de:c0de_minecraft",
-  "sortnum": 5,
+  "sortnum": 6,
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "Liest das Inventar eines Blocks, z. B. einer Truhe.$(br2)Du bekommst einen ITEM_STACK (id, count) pro Slot. Ein leerer Slot hat die id \"\" und die Anzahl 0. Ein Block ohne Inventar löst INVALID_ARGUMENT aus."
+      "text": "Liest das Inventar eines Blocks, z. B. einer Truhe."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Du bekommst einen ITEM_STACK (id, count) pro Slot. Ein leerer Slot hat die id \"\" und die Anzahl 0. Ein Block ohne Inventar löst INVALID_ARGUMENT aus. Eine leere $(1)dimension$() in der Position bedeutet die Dimension des Auslöserblocks."
     },
     {
       "type": "patchouli:text",

@@ -10,7 +10,11 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Woche 1 enthält den ersten Donnerstag des Jahres. Deshalb können Tage um Neujahr zur Woche 52 oder 53 des alten Jahres oder zur Woche 1 des neuen Jahres gehören. Ohne $(1)time$() wird die aktuelle Zeit genommen."
+      "text": "Woche 1 enthält den ersten Donnerstag des Jahres. Deshalb können Tage um Neujahr zur Woche 52 oder 53 des alten Jahres oder zur Woche 1 des neuen Jahres gehören. Ohne $(1)time$() wird die aktuelle Zeit genommen. Die Funktion verwendet die Zeitzone des Servers."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Es gibt keine Funktion für das Jahr, zu dem eine Woche gehört. Am 1. Januar 2027 ergibt WEEK 53, die letzte Woche von 2026, aber YEAR ergibt 2027. Ist WEEK im Januar also 52 oder 53, gehört die Woche zum Jahr davor; ist sie im Dezember 1, zum Jahr danach."
     },
     {
       "type": "patchouli:text",

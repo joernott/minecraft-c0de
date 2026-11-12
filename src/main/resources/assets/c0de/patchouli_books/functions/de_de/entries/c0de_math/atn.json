@@ -2,7 +2,7 @@
   "name": "ATN",
   "icon": "minecraft:book",
   "category": "c0de:c0de_math",
-  "sortnum": 8,
+  "sortnum": 9,
   "pages": [
     {
       "type": "patchouli:text",

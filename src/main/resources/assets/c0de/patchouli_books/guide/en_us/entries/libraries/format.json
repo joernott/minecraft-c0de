@@ -15,6 +15,10 @@
     {
       "type": "patchouli:text",
       "text": "For TIME values, $(1)%tF$() gives the date and $(1)%tT$() the time, like $(1)2026-10-19$() and $(1)14:05:09$(). Many more codes exist, such as $(1)%tA$() for the name of the weekday."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "All codes use the same value, so $(1)\"%tF %tT\"$() shows date and time at once. $(1)%f$() also takes an INTEGER, but $(1)%d$() doesn't take a FLOAT. The text is always English: $(1).$() and $(1),$() in numbers, English names of weekdays and months, in the time zone of the server."
     }
   ]
 }

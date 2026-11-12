@@ -2,7 +2,7 @@
   "name": "BEEP",
   "icon": "minecraft:book",
   "category": "c0de:c0de_minecraft",
-  "sortnum": 1,
+  "sortnum": 2,
   "pages": [
     {
       "type": "patchouli:text",

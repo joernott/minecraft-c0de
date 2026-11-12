@@ -2,11 +2,19 @@
   "name": "SOUND",
   "icon": "minecraft:book",
   "category": "c0de:c0de_minecraft",
-  "sortnum": 2,
+  "sortnum": 3,
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "Plays a note at the trigger block like a note block.$(br2)$(1)note$() is 0 to 24, like the clicks on a note block. Instruments are note block instruments such as harp, bass, bell or flute. A wrong note or instrument raises INVALID_ARGUMENT."
+      "text": "Plays a note at the trigger block like a note block.$(br2)$(1)note$() is 0 to 24, like the clicks on a note block. A wrong note or instrument raises INVALID_ARGUMENT. Capitals don't matter in the name of the instrument."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "The instruments, with the block under a note block that plays them: harp (other blocks), basedrum (stone), snare (sand), hat (glass), bass (wood), flute (clay), bell (gold block), guitar (wool), chime (packed ice), xylophone (bone block), iron_xylophone (iron block), cow_bell (soul sand), didgeridoo (pumpkin), bit (emerald block), banjo (hay bale), pling (glowstone)."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "The heads of mobs play their sounds: zombie, skeleton, creeper, dragon, wither_skeleton and piglin. custom_head only clicks. Since Minecraft 26.1, there are also trumpet, trumpet_exposed, trumpet_weathered and trumpet_oxidized."
     },
     {
       "type": "patchouli:text",

@@ -2,11 +2,11 @@
   "name": "GET_PRESSURE_PLATE",
   "icon": "minecraft:book",
   "category": "c0de:c0de_minecraft",
-  "sortnum": 10,
+  "sortnum": 11,
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "Reads the signal strength of a pressure plate.$(br2)Pressure plates can only be read; entities press them. A block that is not a pressure plate raises INVALID_ARGUMENT."
+      "text": "Reads the signal strength of a pressure plate.$(br2)Pressure plates can only be read; entities press them. A block that is not a pressure plate raises INVALID_ARGUMENT. An empty $(1)dimension$() in the position means the dimension of the trigger block."
     },
     {
       "type": "patchouli:text",

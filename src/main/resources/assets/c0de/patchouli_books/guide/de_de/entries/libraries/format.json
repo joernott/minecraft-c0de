@@ -15,6 +15,10 @@
     {
       "type": "patchouli:text",
       "text": "Für TIME-Werte ergibt $(1)%tF$() das Datum und $(1)%tT$() die Uhrzeit, zum Beispiel $(1)2026-10-19$() und $(1)14:05:09$(). Es gibt noch viele weitere Codes, etwa $(1)%tA$() für den Namen des Wochentags."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Alle Codes verwenden denselben Wert, $(1)\"%tF %tT\"$() zeigt also Datum und Uhrzeit auf einmal. $(1)%f$() nimmt auch einen INTEGER, aber $(1)%d$() nimmt kein FLOAT. Der Text ist immer englisch: $(1).$() und $(1),$() in Zahlen, englische Namen der Wochentage und Monate, in der Zeitzone des Servers."
     }
   ]
 }

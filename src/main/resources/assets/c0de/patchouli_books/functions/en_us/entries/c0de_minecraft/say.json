@@ -2,11 +2,19 @@
   "name": "SAY",
   "icon": "minecraft:book",
   "category": "c0de:c0de_minecraft",
-  "sortnum": 3,
+  "sortnum": 4,
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "Writes a message to the chat.$(br2)The message starts with the program name and PID. With $(1)player$(), only that player gets it; if they are not online, INVALID_ARGUMENT is raised. Otherwise all players near the trigger block get it (64 blocks by default)."
+      "text": "Writes a message to the chat."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "The chat shows $(1)[program/PID] message$(), e.g. $(1)[farm/3] The farm is full!$(), without the name of a player in front. With $(1)player$(), only that player gets it, in any dimension; if they are not online, INVALID_ARGUMENT is raised."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Without $(1)player$(), all players in the dimension of the trigger block get it who are at most 64 blocks away from it. The server can change the distance with the setting sayRadius."
     },
     {
       "type": "patchouli:text",

@@ -2,7 +2,7 @@
   "name": "ROUND",
   "icon": "minecraft:book",
   "category": "c0de:c0de_math",
-  "sortnum": 11,
+  "sortnum": 12,
   "pages": [
     {
       "type": "patchouli:text",

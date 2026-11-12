@@ -328,6 +328,20 @@ CALL INKEY
 
 Die Mathematik-Bibliothek hat Zahlenfunktionen und Zufallszahlen und braucht INCLUDE c0de/math.
 
+### PI
+
+Die Zahl π: 3.141592653589793.
+
+PI ist eine Konstante, keine Funktion, du rufst sie also nicht mit CALL auf. Nach `INCLUDE c0de/math` verwendest du ihren vollen Namen `c0de/math/PI` in einem Ausdruck, wie eine Variable. Sie ist ein FLOAT.
+
+SIN, COS und TAN nehmen Winkel im Bogenmaß: Ein ganzer Kreis ist 2 × PI, ein rechter Winkel PI / 2. Um Grad ins Bogenmaß umzurechnen, multipliziere mit PI / 180.
+
+**Beispiel**
+
+```c0de
+ASSIGN circumference 2 * c0de/math/PI * radius ;
+```
+
 ### ABS
 
 Gibt den Betrag einer Zahl zurück.
@@ -557,6 +571,10 @@ CALL c0de/math/ROUND
 ### TO_FLOAT
 
 Wandelt eine Zahl in einen FLOAT um.
+
+Du brauchst sie selten. Ein INTEGER kommt von selbst in eine FLOAT-Variable, einen FLOAT-Parameter oder ein FLOAT-Ergebnis, `/` ergibt immer ein FLOAT, und die Mathematikfunktionen und `%f` von FORMAT nehmen auch INTEGERs.
+
+Verwende sie, wenn eine Rechnung mit INTEGERs zu groß wird: `+`, `*` und `^` von zwei INTEGERs lösen über 9223372036854775807 NUMERIC_OVERFLOW aus, mit einem FLOAT nicht. Oder wenn ein Text ein FLOAT zeigen soll: `⊕` schreibt den INTEGER 8 als `8` und das FLOAT als `8.0`.
 
 **Parameter und Ergebnisse**
 
@@ -875,6 +893,12 @@ Formatiert einen Wert mit einem Format-String als Text.
 
 Umwandlungen beginnen mit `%`, z. B. `%5d` (ganze Zahl, 5 Zeichen breit), `%.2f` (2 Nachkommastellen), `%s` (beliebiger Wert), `%tF` und `%tT` (Datum und Uhrzeit). Ein falscher Typ löst TYPE_MISMATCH aus, ein ungültiger Format-String INVALID_ARGUMENT.
 
+Alle Umwandlungen verwenden denselben Wert, ein Wert kann also mehrere von ihnen füllen: `"%tF %tT"` zeigt Datum und Uhrzeit, und `"%d = 0x%X"` macht aus 255 den Text `255 = 0xFF`. Für zwei Werte rufst du FORMAT zweimal auf und verbindest die Texte mit `⊕`.
+
+`%f`, `%e` und `%g` nehmen INTEGERs und FLOATs. `%d`, `%x` und `%o` nehmen nur INTEGERs, runde ein FLOAT also zuerst mit ROUND oder INT aus c0de/math.
+
+Der Text ist immer englisch, egal welche Sprache das Spiel oder der Server verwendet: `.` ist das Dezimalzeichen, `,` das Tausendertrennzeichen (`%,d` macht aus 1234567 den Text `1,234,567`), und die Namen der Wochentage und Monate sind englisch (`%tA` ergibt `Monday`). Die `%t`-Codes verwenden die Zeitzone des Servers.
+
 **Parameter und Ergebnisse**
 
 - `value` BOOLEAN|INTEGER|FLOAT|CHAR|STRING|TIME: der Wert
@@ -995,6 +1019,10 @@ Liest ein JSON-Dokument in eine Variable ein.
 
 `destination` muss ein einzelner Variablenname sein; die Funktion schreibt direkt in die Variable. Das Dokument muss zum Typ der Variablen passen. Bei einem Fehler (TYPE_MISMATCH, INVALID_ARGUMENT, UNKNOWN_KEY, STRING_TOO_LONG) bleibt die Variable unverändert.
 
+Ein Element einer Struktur, dessen Schlüssel im Dokument fehlt oder `null` ist, behält seinen aktuellen Wert. Der Wert, den die Variable vorher hatte, liefert also die Standardwerte. Arrays und Hashes werden ganz ersetzt.
+
+UNKNOWN_KEY kommt nur, wenn die Variable einen TAG für `json` hat und das Dokument am Pfad dieses Tags keinen Wert hat. Ein fehlender Schlüssel innerhalb des Werts löst ihn nie aus.
+
 **Parameter und Ergebnisse**
 
 - `source` STRING: das JSON-Dokument
@@ -1014,6 +1042,8 @@ CALL c0de/strings/FROM_JSON readError
 Liest ein YAML-Dokument in eine Variable ein.
 
 `destination` muss ein einzelner Variablenname sein; die Funktion schreibt direkt in die Variable. Nur das erste Dokument wird gelesen. Bei einem Fehler (TYPE_MISMATCH, INVALID_ARGUMENT, UNKNOWN_KEY, STRING_TOO_LONG) bleibt die Variable unverändert.
+
+Wie bei FROM_JSON behält ein Element einer Struktur bei einem fehlenden oder `null`-Schlüssel seinen aktuellen Wert. UNKNOWN_KEY kommt nur, wenn die Variable einen TAG für `yaml` hat und das Dokument an seinem Pfad keinen Wert hat.
 
 **Parameter und Ergebnisse**
 
@@ -1203,7 +1233,9 @@ CALL c0de/time/WEEKDAY
 
 Gibt die Kalenderwoche nach ISO 8601 zurück (1 bis 53).
 
-Woche 1 enthält den ersten Donnerstag des Jahres. Deshalb können Tage um Neujahr zur Woche 52 oder 53 des alten Jahres oder zur Woche 1 des neuen Jahres gehören. Ohne `time` wird die aktuelle Zeit genommen.
+Woche 1 enthält den ersten Donnerstag des Jahres. Deshalb können Tage um Neujahr zur Woche 52 oder 53 des alten Jahres oder zur Woche 1 des neuen Jahres gehören. Ohne `time` wird die aktuelle Zeit genommen. Die Funktion verwendet die Zeitzone des Servers.
+
+Es gibt keine Funktion für das Jahr, zu dem eine Woche gehört. Am 1. Januar 2027 ergibt WEEK 53, die letzte Woche von 2026, aber YEAR ergibt 2027. Ist WEEK im Januar also 52 oder 53, gehört die Woche zum Jahr davor; ist sie im Dezember 1, zum Jahr danach.
 
 **Parameter und Ergebnisse**
 
@@ -1222,6 +1254,8 @@ CALL c0de/time/WEEK
 Gibt die Sekunden seit Mitternacht zurück.
 
 Das ist die echte Uhrzeit des Servers, nicht die Spielzeit. Nimm TICKS aus c0de/minecraft für die Spielzeit.
+
+TIMER beginnt um Mitternacht in der Zeitzone des Servers bei 0.0 und zählt bis unter 86400, mit den Millisekunden als Nachkommastellen. An den Tagen, an denen die Uhren auf Sommerzeit oder zurück gestellt werden, folgt er der Uhr.
 
 **Parameter und Ergebnisse**
 
@@ -1255,11 +1289,38 @@ CALL c0de/time/SLEEP
 
 Die Minecraft-Bibliothek handelt in der Welt für den Besitzer des Auslöserblocks, verwendet den Strukturtyp c0de/minecraft/POSITION (x, y, z, dimension) für Orte und braucht INCLUDE c0de/minecraft.
 
+### POSITION, ENTITY und ITEM_STACK
+
+Die drei Strukturtypen der Bibliothek. Du deklarierst Variablen von ihnen wie bei jeder Struktur, z. B. `VARIABLE spot STRUCT c0de/minecraft/POSITION`.
+
+**POSITION** ist ein Block: `x`, `y` und `z` sind INTEGERs, `dimension` ist ein STRING. In jeder Funktion bedeutet eine leere `dimension` die Dimension des Auslöserblocks. Sonst enthält sie eine ID wie `minecraft:the_nether`; eine unbekannte ID löst INVALID_ARGUMENT aus.
+
+**ENTITY** ist ein Objekt, das FIND_ENTITIES gefunden hat: `uuid` (STRING, für TELEPORT), `type` (STRING, wie `minecraft:sheep`), `name` (STRING) und `position` (POSITION). Der Name ist der Name eines Spielers, der Name von einem Namensschild oder sonst der Name des Typs.
+
+Die `position` eines ENTITY ist der Block, in dem das Objekt ist: Seine Koordinaten werden abgerundet, x = -0.5 ist also Block -1. Ihre `dimension` ist in der Dimension des Auslöserblocks leer. Vergleiche `type`, nicht `name`: Ein Name kann in der Sprache des Spiels sein.
+
+**ITEM_STACK** ist ein Slot eines Inventars, von GET_INVENTORY: `id` (STRING, wie `minecraft:wheat`) und `count` (INTEGER). Ein leerer Slot hat die id "" und die Anzahl 0.
+
+**Beispiel**
+
+```c0de
+VARIABLE spot STRUCT c0de/minecraft/POSITION
+BEGIN
+    x 10
+    y 64
+    z -20
+END VARIABLE
+```
+
+`dimension` fehlt, sie bleibt also leer: die Dimension des Auslöserblocks.
+
 ### TICKS
 
-Gibt die Spielzeit in Ticks zurück.
+Gibt die Spielzeit der Welt in Ticks zurück.
 
-Es ist die Spielzeit der Dimension des Auslöserblocks.
+Sie zählt alle Ticks, seit die Welt erschaffen wurde, 20 pro Sekunde, solange die Welt läuft, und sie ist in jeder Dimension gleich. Schlafen, `/time set` und die Spielregel doDaylightCycle ändern sie nicht. Sie ist also nicht die Tageszeit.
+
+Es gibt keine Funktion für die Tageszeit. `TICKS \ 24000` ergibt sie nur in einer Welt, in der nie jemand geschlafen oder `/time set` verwendet hat (0 ist Sonnenaufgang, 6000 Mittag, 18000 Mitternacht). Ein Tageslichtsensor unterscheidet Tag und Nacht: GET_BLOCK liefert sein Signal als Text in `properties["power"]`, nachts 0.
 
 **Parameter und Ergebnisse**
 
@@ -1290,7 +1351,11 @@ CALL c0de/minecraft/BEEP
 
 Spielt am Auslöserblock einen Ton wie ein Notenblock.
 
-`note` ist 0 bis 24, wie die Klicks auf einem Notenblock. Instrumente sind Notenblock-Instrumente wie harp, bass, bell oder flute. Ein falscher Ton oder ein falsches Instrument löst INVALID_ARGUMENT aus.
+`note` ist 0 bis 24, wie die Klicks auf einem Notenblock. Ein falscher Ton oder ein falsches Instrument löst INVALID_ARGUMENT aus. Groß- und Kleinschreibung im Namen des Instruments sind egal.
+
+Die Instrumente, mit dem Block unter einem Notenblock, der sie spielt: harp (andere Blöcke), basedrum (Stein), snare (Sand), hat (Glas), bass (Holz), flute (Ton), bell (Goldblock), guitar (Wolle), chime (Packeis), xylophone (Knochenblock), iron_xylophone (Eisenblock), cow_bell (Seelensand), didgeridoo (Kürbis), bit (Smaragdblock), banjo (Heuballen), pling (Leuchtstein).
+
+Die Köpfe von Mobs spielen deren Geräusche: zombie, skeleton, creeper, dragon, wither_skeleton und piglin. custom_head klickt nur. Seit Minecraft 26.1 gibt es auch trumpet, trumpet_exposed, trumpet_weathered und trumpet_oxidized.
 
 **Parameter und Ergebnisse**
 
@@ -1309,7 +1374,9 @@ CALL c0de/minecraft/SOUND
 
 Schreibt eine Nachricht in den Chat.
 
-Die Nachricht beginnt mit dem Programmnamen und der PID. Mit `player` bekommt nur dieser Spieler sie; wenn er nicht online ist, wird INVALID_ARGUMENT ausgelöst. Sonst bekommen sie alle Spieler in der Nähe des Auslöserblocks (standardmäßig 64 Blöcke).
+Der Chat zeigt `[program/PID] message`, z. B. `[farm/3] The farm is full!`, ohne den Namen eines Spielers davor. Mit `player` bekommt nur dieser Spieler sie, in jeder Dimension; wenn er nicht online ist, wird INVALID_ARGUMENT ausgelöst.
+
+Ohne `player` bekommen sie alle Spieler in der Dimension des Auslöserblocks, die höchstens 64 Blöcke von ihm entfernt sind. Der Server kann die Entfernung mit der Einstellung sayRadius ändern.
 
 **Parameter und Ergebnisse**
 
@@ -1353,7 +1420,7 @@ CALL c0de/minecraft/GET_BLOCK
 
 Liest das Inventar eines Blocks, z. B. einer Truhe.
 
-Du bekommst einen ITEM_STACK (id, count) pro Slot. Ein leerer Slot hat die id "" und die Anzahl 0. Ein Block ohne Inventar löst INVALID_ARGUMENT aus.
+Du bekommst einen ITEM_STACK (id, count) pro Slot. Ein leerer Slot hat die id "" und die Anzahl 0. Ein Block ohne Inventar löst INVALID_ARGUMENT aus. Eine leere `dimension` in der Position bedeutet die Dimension des Auslöserblocks.
 
 **Parameter und Ergebnisse**
 
@@ -1372,7 +1439,7 @@ CALL c0de/minecraft/GET_INVENTORY
 
 Prüft, ob ein Hebel an ist.
 
-Ein Block, der kein Hebel ist, löst INVALID_ARGUMENT aus.
+Ein Block, der kein Hebel ist, löst INVALID_ARGUMENT aus. Eine leere `dimension` in der Position bedeutet die Dimension des Auslöserblocks.
 
 **Parameter und Ergebnisse**
 
@@ -1391,7 +1458,7 @@ CALL c0de/minecraft/GET_LEVER
 
 Schaltet einen Hebel an oder aus.
 
-Ein Block, der kein Hebel ist, löst INVALID_ARGUMENT aus. Hebel auf den Blättern der c0de-Dimension können nicht verändert werden (PERMISSION_DENIED).
+Ein Block, der kein Hebel ist, löst INVALID_ARGUMENT aus. Hebel auf den Blättern der c0de-Dimension können nicht verändert werden (PERMISSION_DENIED). Eine leere `dimension` in der Position bedeutet die Dimension des Auslöserblocks.
 
 **Parameter und Ergebnisse**
 
@@ -1410,7 +1477,7 @@ CALL c0de/minecraft/SET_LEVER
 
 Prüft, ob ein Knopf gedrückt ist.
 
-Ein Block, der kein Knopf ist, löst INVALID_ARGUMENT aus.
+Ein Block, der kein Knopf ist, löst INVALID_ARGUMENT aus. Eine leere `dimension` in der Position bedeutet die Dimension des Auslöserblocks.
 
 **Parameter und Ergebnisse**
 
@@ -1429,7 +1496,7 @@ CALL c0de/minecraft/GET_BUTTON
 
 Drückt einen Knopf, wie es ein Spieler tun würde.
 
-Ein Block, der kein Knopf ist, löst INVALID_ARGUMENT aus. Knöpfe auf den Blättern der c0de-Dimension können nicht gedrückt werden (PERMISSION_DENIED).
+Ein Block, der kein Knopf ist, löst INVALID_ARGUMENT aus. Knöpfe auf den Blättern der c0de-Dimension können nicht gedrückt werden (PERMISSION_DENIED). Eine leere `dimension` in der Position bedeutet die Dimension des Auslöserblocks.
 
 **Parameter und Ergebnisse**
 
@@ -1446,7 +1513,7 @@ CALL c0de/minecraft/PRESS_BUTTON
 
 Liest die Signalstärke einer Druckplatte.
 
-Druckplatten können nur gelesen werden; Lebewesen und Objekte drücken sie. Ein Block, der keine Druckplatte ist, löst INVALID_ARGUMENT aus.
+Druckplatten können nur gelesen werden; Lebewesen und Objekte drücken sie. Ein Block, der keine Druckplatte ist, löst INVALID_ARGUMENT aus. Eine leere `dimension` in der Position bedeutet die Dimension des Auslöserblocks.
 
 **Parameter und Ergebnisse**
 
@@ -1465,7 +1532,7 @@ CALL c0de/minecraft/GET_PRESSURE_PLATE
 
 Prüft, ob eine Tür, Falltür oder ein Zauntor offen ist.
 
-Jeder andere Block löst INVALID_ARGUMENT aus.
+Jeder andere Block löst INVALID_ARGUMENT aus. Eine leere `dimension` in der Position bedeutet die Dimension des Auslöserblocks.
 
 **Parameter und Ergebnisse**
 
@@ -1484,7 +1551,7 @@ CALL c0de/minecraft/GET_OPEN
 
 Öffnet oder schließt eine Tür, Falltür oder ein Zauntor.
 
-Jeder andere Block löst INVALID_ARGUMENT aus. Eisentüren und Eisenfalltüren brauchen die Berechtigung allowBlockChanges oder einen Administrator als Besitzer, sonst wird PERMISSION_DENIED ausgelöst.
+Jeder andere Block löst INVALID_ARGUMENT aus. Eisentüren und Eisenfalltüren brauchen die Berechtigung allowBlockChanges oder einen Administrator als Besitzer, sonst wird PERMISSION_DENIED ausgelöst. Eine leere `dimension` in der Position bedeutet die Dimension des Auslöserblocks.
 
 **Parameter und Ergebnisse**
 
@@ -1503,7 +1570,7 @@ CALL c0de/minecraft/SET_OPEN
 
 Verschiebt Gegenstände von einem Inventar in ein anderes.
 
-Die Funktion verschiebt bis zu `count` Gegenstände und gibt zurück, wie viele verschoben wurden. Das braucht allowInventoryChanges oder einen Administrator als Besitzer, sonst wird PERMISSION_DENIED ausgelöst. Blöcke ohne Inventar lösen INVALID_ARGUMENT aus.
+Die Funktion verschiebt bis zu `count` Gegenstände und gibt zurück, wie viele verschoben wurden. Das braucht allowInventoryChanges oder einen Administrator als Besitzer, sonst wird PERMISSION_DENIED ausgelöst. Blöcke ohne Inventar lösen INVALID_ARGUMENT aus. Eine leere `dimension` in einer Position bedeutet die Dimension des Auslöserblocks.
 
 **Parameter und Ergebnisse**
 
@@ -1528,7 +1595,7 @@ CALL c0de/minecraft/MOVE_ITEMS
 
 Entfernt Gegenstände aus einem Inventar.
 
-Die Funktion entfernt bis zu `count` Gegenstände und gibt zurück, wie viele entfernt wurden. Das braucht allowInventoryChanges oder einen Administrator als Besitzer, sonst wird PERMISSION_DENIED ausgelöst.
+Die Funktion entfernt bis zu `count` Gegenstände und gibt zurück, wie viele entfernt wurden. Das braucht allowInventoryChanges oder einen Administrator als Besitzer, sonst wird PERMISSION_DENIED ausgelöst. Eine leere `dimension` in der Position bedeutet die Dimension des Auslöserblocks.
 
 **Parameter und Ergebnisse**
 
@@ -1551,7 +1618,7 @@ CALL c0de/minecraft/DELETE_ITEMS
 
 Setzt einen Block an eine Position.
 
-An der Position muss Luft oder ein ersetzbarer Block wie Gras oder Wasser sein, sonst wird INVALID_ARGUMENT ausgelöst. Ohne `inventory` braucht das allowBlockChanges oder einen Administrator als Besitzer, sonst wird PERMISSION_DENIED ausgelöst.
+An der Position muss Luft oder ein ersetzbarer Block wie Gras oder Wasser sein, sonst wird INVALID_ARGUMENT ausgelöst. Ohne `inventory` braucht das allowBlockChanges oder einen Administrator als Besitzer, sonst wird PERMISSION_DENIED ausgelöst. Eine leere `dimension` in einer Position bedeutet die Dimension des Auslöserblocks.
 
 Mit `inventory` wird der Block aus diesem Inventar genommen, so wie ein Spieler einen Block aus seinem Inventar setzt, und das darf jeder Besitzer. Wenn das Inventar den Block nicht enthält, wird ITEM_MISSING ausgelöst.
 
@@ -1575,7 +1642,7 @@ CALL c0de/minecraft/PLACE_BLOCK
 
 Entfernt den Block an einer Position.
 
-Mit `drop` fällt der Block als Gegenstand heraus, wie beim Abbauen. Das braucht allowBlockChanges oder einen Administrator als Besitzer, sonst wird PERMISSION_DENIED ausgelöst.
+Mit `drop` fällt der Block als Gegenstand heraus, wie beim Abbauen. Das braucht allowBlockChanges oder einen Administrator als Besitzer, sonst wird PERMISSION_DENIED ausgelöst. Eine leere `dimension` in der Position bedeutet die Dimension des Auslöserblocks.
 
 **Parameter und Ergebnisse**
 
@@ -1598,6 +1665,8 @@ Die Funktion nimmt das passendste Werkzeug aus `tool_inventory`: zuerst ein Werk
 
 Das Werkzeug nutzt sich ab, als hätte ein Spieler es benutzt, und das Programm wartet so lange, wie ein Spieler zum Abbauen des Blocks bräuchte. Die Drops kommen in `output_inventory`; ohne dieses fallen sie auf den Boden. Wenn sie nicht in das Ausgabeinventar passen, wird INVENTORY_FULL ausgelöst und der Block bleibt stehen. Grundgestein und Flüssigkeiten können nicht abgebaut werden (INVALID_ARGUMENT). Jeder Besitzer darf MINE_BLOCK verwenden, weil es nur tut, was Spieler auch können.
 
+Bei Luft tut MINE_BLOCK nichts: Kein Werkzeug wird benutzt, und das Programm wartet nicht. Die Positionen werden trotzdem zuerst geprüft, also lösen ein nicht geladener Chunk (CHUNK_NOT_LOADED), ein `tool_inventory` ohne Inventar (INVALID_ARGUMENT) oder ein Block auf einem Blatt (PERMISSION_DENIED) ihre Fehler aus. Eine leere `dimension` in einer Position bedeutet die Dimension des Auslöserblocks.
+
 **Parameter und Ergebnisse**
 
 - `position` STRUCT c0de/minecraft/POSITION: wo der Block ist
@@ -1617,7 +1686,7 @@ CALL c0de/minecraft/MINE_BLOCK
 
 Erzeugt Gegenstände auf dem Boden an einer Position.
 
-`count` muss 1 bis 64 sein. Das Ergebnis ist die UUID des neuen Gegenstandsobjekts. Das braucht allowSpawning oder einen Administrator als Besitzer, sonst wird PERMISSION_DENIED ausgelöst.
+`count` muss 1 bis 64 sein. Das Ergebnis ist die UUID des neuen Gegenstandsobjekts. Das braucht allowSpawning oder einen Administrator als Besitzer, sonst wird PERMISSION_DENIED ausgelöst. Eine leere `dimension` in der Position bedeutet die Dimension des Auslöserblocks.
 
 **Parameter und Ergebnisse**
 
@@ -1640,7 +1709,7 @@ CALL c0de/minecraft/SPAWN_ITEM
 
 Erzeugt ein Objekt, z. B. ein Schwein, an einer Position.
 
-Das Ergebnis ist die UUID des neuen Objekts. Das braucht allowSpawning oder einen Administrator als Besitzer, sonst wird PERMISSION_DENIED ausgelöst. Ein unbekannter Typ löst INVALID_ARGUMENT aus.
+Das Ergebnis ist die UUID des neuen Objekts. Das braucht allowSpawning oder einen Administrator als Besitzer, sonst wird PERMISSION_DENIED ausgelöst. Ein unbekannter Typ löst INVALID_ARGUMENT aus. Eine leere `dimension` in der Position bedeutet die Dimension des Auslöserblocks.
 
 **Parameter und Ergebnisse**
 
@@ -1662,6 +1731,8 @@ CALL c0de/minecraft/SPAWN_ENTITY
 Findet alle Objekte in der Nähe einer Position.
 
 Gegenstände zählen auch als Objekte. Jedes ENTITY hat uuid, type, name und position. `radius` muss 1 bis 64 sein, sonst wird INVALID_ARGUMENT ausgelöst.
+
+Sie sucht in einer Kugel, nicht in einem Würfel: Sie findet die Objekte, deren Füße höchstens `radius` Blöcke von der Mitte des Blocks bei `position` entfernt sind, in der Dimension von `position`. `type` muss die volle ID sein, wie `minecraft:sheep`. Eine leere `dimension` in der Position bedeutet die Dimension des Auslöserblocks.
 
 **Parameter und Ergebnisse**
 
@@ -1685,6 +1756,8 @@ CALL c0de/minecraft/FIND_ENTITIES
 Teleportiert ein Objekt oder einen Gegenstand an eine Position.
 
 Das braucht allowTeleporting oder einen Administrator als Besitzer. Nur Administratoren können Spieler teleportieren. Beides löst sonst PERMISSION_DENIED aus. Ein Objekt, das nicht geladen ist, löst INVALID_ARGUMENT aus.
+
+Das Objekt darf in jeder Dimension sein, und `position` darf in einer anderen liegen: Es kommt dorthin. Der Chunk von `position` muss geladen sein, sonst wird CHUNK_NOT_LOADED ausgelöst und nichts passiert. Das Objekt landet in der Mitte des Blocks, auf seinem Boden. Eine leere `dimension` in der Position bedeutet die Dimension des Auslöserblocks.
 
 **Parameter und Ergebnisse**
 

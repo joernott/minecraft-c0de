@@ -2,11 +2,15 @@
   "name": "TELEPORT",
   "icon": "minecraft:book",
   "category": "c0de:c0de_minecraft",
-  "sortnum": 21,
+  "sortnum": 22,
   "pages": [
     {
       "type": "patchouli:text",
       "text": "Teleports an entity or item to a position.$(br2)This needs allowTeleporting or an administrator as owner. Only administrators can teleport players. Both raise PERMISSION_DENIED otherwise. An entity that is not loaded raises INVALID_ARGUMENT."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "The entity may be in any dimension, and $(1)position$() may be in another one: it goes there. The chunk of $(1)position$() must be loaded, otherwise CHUNK_NOT_LOADED is raised and nothing happens. The entity lands in the middle of the block, at its bottom. An empty $(1)dimension$() in the position means the dimension of the trigger block."
     },
     {
       "type": "patchouli:text",

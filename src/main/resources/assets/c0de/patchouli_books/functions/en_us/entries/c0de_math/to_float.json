@@ -2,11 +2,15 @@
   "name": "TO_FLOAT",
   "icon": "minecraft:book",
   "category": "c0de:c0de_math",
-  "sortnum": 12,
+  "sortnum": 13,
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "Converts a number to a FLOAT."
+      "text": "Converts a number to a FLOAT.$(br2)You rarely need it. An INTEGER goes into a FLOAT variable, parameter or result by itself, $(1)/$() always gives a FLOAT, and the math functions and $(1)%f$() of FORMAT take INTEGERs too."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Use it when a calculation with INTEGERs gets too big: $(1)+$(), $(1)*$() and $(1)^$() of two INTEGERs raise NUMERIC_OVERFLOW above 9223372036854775807, with a FLOAT they don't. Or when a text should show a FLOAT: $(1)⊕$() writes the INTEGER 8 as $(1)8$() and the FLOAT as $(1)8.0$()."
     },
     {
       "type": "patchouli:text",

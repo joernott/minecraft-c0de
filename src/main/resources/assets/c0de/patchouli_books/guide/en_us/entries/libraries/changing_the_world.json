@@ -10,7 +10,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Positions are given as a $(1)c0de/minecraft/POSITION$() struct with x, y, z and an optional dimension. Programs can never change the blocks on the sheets of the c0de dimension."
+      "text": "Positions are given as a $(1)c0de/minecraft/POSITION$() struct with x, y, z and an optional dimension. An empty dimension means the dimension of the trigger block. Programs can never change the blocks on the sheets of the c0de dimension."
     }
   ]
 }

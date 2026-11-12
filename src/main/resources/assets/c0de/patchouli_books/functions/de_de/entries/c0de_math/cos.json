@@ -2,7 +2,7 @@
   "name": "COS",
   "icon": "minecraft:book",
   "category": "c0de:c0de_math",
-  "sortnum": 6,
+  "sortnum": 7,
   "pages": [
     {
       "type": "patchouli:text",

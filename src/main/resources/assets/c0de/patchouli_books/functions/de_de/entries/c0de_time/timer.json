@@ -10,6 +10,10 @@
     },
     {
       "type": "patchouli:text",
+      "text": "TIMER beginnt um Mitternacht in der Zeitzone des Servers bei 0.0 und zählt bis unter 86400, mit den Millisekunden als Nachkommastellen. An den Tagen, an denen die Uhren auf Sommerzeit oder zurück gestellt werden, folgt er der Uhr."
+    },
+    {
+      "type": "patchouli:text",
       "text": "$(li)Ergebnis $(1)result$() FLOAT: die Sekunden seit Mitternacht"
     },
     {

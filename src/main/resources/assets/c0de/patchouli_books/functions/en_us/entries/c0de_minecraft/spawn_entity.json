@@ -2,11 +2,15 @@
   "name": "SPAWN_ENTITY",
   "icon": "minecraft:book",
   "category": "c0de:c0de_minecraft",
-  "sortnum": 19,
+  "sortnum": 20,
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "Spawns an entity, such as a pig, at a position.$(br2)The result is the UUID of the new entity. This needs allowSpawning or an administrator as owner, otherwise PERMISSION_DENIED is raised. An unknown type raises INVALID_ARGUMENT."
+      "text": "Spawns an entity, such as a pig, at a position."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "The result is the UUID of the new entity. This needs allowSpawning or an administrator as owner, otherwise PERMISSION_DENIED is raised. An unknown type raises INVALID_ARGUMENT. An empty $(1)dimension$() in the position means the dimension of the trigger block."
     },
     {
       "type": "patchouli:text",
