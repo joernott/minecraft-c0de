@@ -50,6 +50,7 @@
   "dialog.c0de.disk_drive.no_disk": "Lege eine c0de-Diskette in den Schacht",
   "item.c0de.c0de_disk.empty": "Leer",
   "item.c0de.c0de_disk.program": "Programm: %s",
+  "item.c0de.c0de_disk.invalid_name": "Ein Programm mit ungültigem Namen: %s",
   "message.c0de.disk_loaded": "Das Programm ist auf der Diskette",
   "block.c0de.laptop": "Laptop",
   "item.c0de.tablet": "Tablet",

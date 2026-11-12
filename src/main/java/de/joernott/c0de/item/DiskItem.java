@@ -3,6 +3,7 @@ package de.joernott.c0de.item;
 import de.joernott.c0de.block.CodeBlock;
 import de.joernott.c0de.compat.Compat;
 import de.joernott.c0de.compat.Nbt;
+import de.joernott.c0de.core.program.Names;
 import de.joernott.c0de.content.CodeBlockType;
 import de.joernott.c0de.disk.DiskService;
 import java.util.List;
@@ -83,6 +84,12 @@ public class DiskItem extends Item {
     /** The lines of the tooltip. */
     private void addTooltip(ItemStack stack, java.util.function.Consumer<Component> tooltip) {
         Contents contents = Contents.of(stack);
+        if (!contents.isEmpty() && !Names.isValid(contents.name())) {
+            // A disk of an older version whose name isn't valid any more (task 15.7): shown, but not as a name
+            tooltip.accept(Component.translatable("item.c0de.c0de_disk.invalid_name", Names.shown(contents.name()))
+                    .withStyle(ChatFormatting.RED));
+            return;
+        }
         tooltip.accept((contents.isEmpty()
                         ? Component.translatable("item.c0de.c0de_disk.empty")
                         : Component.translatable("item.c0de.c0de_disk.program", contents.name()))

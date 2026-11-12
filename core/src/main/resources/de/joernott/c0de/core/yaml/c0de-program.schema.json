@@ -1,0 +1,1117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/joernott/minecraft-c0de/blob/main/core/src/main/resources/de/joernott/c0de/core/yaml/c0de-program.schema.json",
+  "title": "c0de program",
+  "description": "A c0de program as the disk drive saves and loads it (docs/concept/17-yaml-format.md).",
+  "type": "object",
+  "properties": {
+    "PROGRAM": {
+      "$ref": "#/$defs/name"
+    },
+    "INCLUDE": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/library"
+      }
+    },
+    "code": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/statement"
+      }
+    }
+  },
+  "required": [
+    "PROGRAM",
+    "code"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "name": {
+      "description": "A valid name: letters, digits and _, starting with a letter, not a keyword (02-language-basics.md).",
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9_]*$",
+      "not": {
+        "enum": [
+          "NOOP",
+          "PROGRAM",
+          "INCLUDE",
+          "EXIT",
+          "BEGIN",
+          "END",
+          "BREAK",
+          "VARIABLE",
+          "CONSTANT",
+          "ASSIGN",
+          "FUNCTION",
+          "PARAMETER",
+          "RESULT",
+          "RETURN",
+          "CALL",
+          "IF",
+          "ELSE",
+          "FOR",
+          "EACH",
+          "WHILE",
+          "REPEAT",
+          "BOOLEAN",
+          "INTEGER",
+          "FLOAT",
+          "CHAR",
+          "TIME",
+          "STRING",
+          "ARRAY",
+          "HASH",
+          "STRUCT",
+          "ERROR",
+          "LABEL",
+          "LITERAL",
+          "OPERATOR",
+          "COMMENT",
+          "TAG",
+          "NOT",
+          "AND",
+          "OR",
+          "XOR",
+          "TRUE",
+          "FALSE"
+        ]
+      }
+    },
+    "library": {
+      "description": "The name of a library, e.g. c0de/strings.",
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9_]*(/[A-Za-z][A-Za-z0-9_]*)+$"
+    },
+    "qualifiedName": {
+      "description": "A name, or the name of an element of a library, e.g. c0de/strings/MID.",
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9_]*(/[A-Za-z][A-Za-z0-9_]*)*$"
+    },
+    "structName": {
+      "$ref": "#/$defs/qualifiedName"
+    },
+    "label": {
+      "description": "A label with its index, e.g. values[i] or position.x.",
+      "type": "string",
+      "minLength": 1
+    },
+    "expression": {
+      "description": "The tokens of an expression, separated by spaces, without the final ;.",
+      "type": "string",
+      "minLength": 1
+    },
+    "literal": {
+      "description": "A literal value.",
+      "type": [
+        "boolean",
+        "integer",
+        "number",
+        "string"
+      ]
+    },
+    "typeName": {
+      "enum": [
+        "BOOLEAN",
+        "INTEGER",
+        "FLOAT",
+        "CHAR",
+        "TIME",
+        "STRING",
+        "ARRAY",
+        "HASH",
+        "STRUCT",
+        "ERROR"
+      ]
+    },
+    "length": {
+      "description": "The length limit of a STRING.",
+      "type": "integer"
+    },
+    "subtype": {
+      "description": "The type of the elements of an ARRAY or HASH, without the name of a struct.",
+      "type": "string",
+      "pattern": "^[A-Z]+( [A-Z0-9]+)*$"
+    },
+    "tags": {
+      "description": "The tags by language, e.g. {json: server.port}.",
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "comment": {
+      "description": "The text of the COMMENT block at the end of the line.",
+      "type": "string"
+    },
+    "disabled": {
+      "description": "The blocks after the COMMENT block, as text.",
+      "type": "string"
+    },
+    "statement": {
+      "description": "A statement, a NOOP line or a comment line.",
+      "type": "object",
+      "properties": {
+        "keyword": {
+          "enum": [
+            "NOOP",
+            "COMMENT",
+            "STRUCT",
+            "VARIABLE",
+            "CONSTANT",
+            "FUNCTION",
+            "ASSIGN",
+            "CALL",
+            "RETURN",
+            "EXIT",
+            "BREAK",
+            "IF",
+            "FOR",
+            "EACH",
+            "WHILE",
+            "REPEAT"
+          ]
+        }
+      },
+      "required": [
+        "keyword"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "keyword": {
+                "const": "NOOP"
+              }
+            }
+          },
+          "then": {
+            "$ref": "#/$defs/noop"
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "keyword": {
+                "const": "COMMENT"
+              }
+            }
+          },
+          "then": {
+            "$ref": "#/$defs/commentLine"
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "keyword": {
+                "const": "STRUCT"
+              }
+            }
+          },
+          "then": {
+            "$ref": "#/$defs/struct"
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "keyword": {
+                "const": "VARIABLE"
+              }
+            }
+          },
+          "then": {
+            "$ref": "#/$defs/declaration"
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "keyword": {
+                "const": "CONSTANT"
+              }
+            }
+          },
+          "then": {
+            "$ref": "#/$defs/declaration"
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "keyword": {
+                "const": "FUNCTION"
+              }
+            }
+          },
+          "then": {
+            "$ref": "#/$defs/function"
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "keyword": {
+                "const": "ASSIGN"
+              }
+            }
+          },
+          "then": {
+            "$ref": "#/$defs/assign"
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "keyword": {
+                "const": "CALL"
+              }
+            }
+          },
+          "then": {
+            "$ref": "#/$defs/call"
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "keyword": {
+                "const": "RETURN"
+              }
+            }
+          },
+          "then": {
+            "$ref": "#/$defs/return"
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "keyword": {
+                "const": "EXIT"
+              }
+            }
+          },
+          "then": {
+            "$ref": "#/$defs/exit"
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "keyword": {
+                "const": "BREAK"
+              }
+            }
+          },
+          "then": {
+            "$ref": "#/$defs/break"
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "keyword": {
+                "const": "IF"
+              }
+            }
+          },
+          "then": {
+            "$ref": "#/$defs/if"
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "keyword": {
+                "const": "FOR"
+              }
+            }
+          },
+          "then": {
+            "$ref": "#/$defs/for"
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "keyword": {
+                "const": "EACH"
+              }
+            }
+          },
+          "then": {
+            "$ref": "#/$defs/each"
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "keyword": {
+                "const": "WHILE"
+              }
+            }
+          },
+          "then": {
+            "$ref": "#/$defs/while"
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "keyword": {
+                "const": "REPEAT"
+              }
+            }
+          },
+          "then": {
+            "$ref": "#/$defs/repeat"
+          }
+        }
+      ]
+    },
+    "noop": {
+      "description": "A NOOP line.",
+      "type": "object",
+      "properties": {
+        "keyword": {
+          "const": "NOOP"
+        },
+        "comment": {
+          "$ref": "#/$defs/comment"
+        },
+        "disabled": {
+          "$ref": "#/$defs/disabled"
+        }
+      },
+      "required": [
+        "keyword"
+      ],
+      "additionalProperties": false
+    },
+    "commentLine": {
+      "description": "A line that starts with a COMMENT block.",
+      "type": "object",
+      "properties": {
+        "keyword": {
+          "const": "COMMENT"
+        },
+        "text": {
+          "type": "string"
+        },
+        "disabled": {
+          "$ref": "#/$defs/disabled"
+        }
+      },
+      "required": [
+        "keyword",
+        "text"
+      ],
+      "additionalProperties": false
+    },
+    "struct": {
+      "description": "A struct declaration.",
+      "type": "object",
+      "properties": {
+        "keyword": {
+          "const": "STRUCT"
+        },
+        "name": {
+          "$ref": "#/$defs/name"
+        },
+        "code": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/structElement"
+          }
+        },
+        "comment": {
+          "$ref": "#/$defs/comment"
+        },
+        "disabled": {
+          "$ref": "#/$defs/disabled"
+        }
+      },
+      "required": [
+        "keyword",
+        "name",
+        "code"
+      ],
+      "additionalProperties": false
+    },
+    "structElement": {
+      "description": "An element of a struct declaration.",
+      "type": "object",
+      "properties": {
+        "keyword": {
+          "const": "ELEMENT"
+        },
+        "name": {
+          "$ref": "#/$defs/name"
+        },
+        "type": {
+          "$ref": "#/$defs/typeName"
+        },
+        "length": {
+          "$ref": "#/$defs/length"
+        },
+        "subtype": {
+          "$ref": "#/$defs/subtype"
+        },
+        "struct": {
+          "$ref": "#/$defs/structName"
+        },
+        "tags": {
+          "$ref": "#/$defs/tags"
+        },
+        "comment": {
+          "$ref": "#/$defs/comment"
+        },
+        "disabled": {
+          "$ref": "#/$defs/disabled"
+        }
+      },
+      "required": [
+        "keyword",
+        "name",
+        "type"
+      ],
+      "additionalProperties": false
+    },
+    "declaration": {
+      "description": "A VARIABLE or CONSTANT.",
+      "type": "object",
+      "properties": {
+        "keyword": {
+          "enum": [
+            "VARIABLE",
+            "CONSTANT"
+          ]
+        },
+        "name": {
+          "$ref": "#/$defs/name"
+        },
+        "type": {
+          "$ref": "#/$defs/typeName"
+        },
+        "length": {
+          "$ref": "#/$defs/length"
+        },
+        "subtype": {
+          "$ref": "#/$defs/subtype"
+        },
+        "struct": {
+          "$ref": "#/$defs/structName"
+        },
+        "value": {
+          "$ref": "#/$defs/literal"
+        },
+        "code": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/initializer"
+          }
+        },
+        "tags": {
+          "$ref": "#/$defs/tags"
+        },
+        "comment": {
+          "$ref": "#/$defs/comment"
+        },
+        "disabled": {
+          "$ref": "#/$defs/disabled"
+        }
+      },
+      "required": [
+        "keyword",
+        "name",
+        "type"
+      ],
+      "additionalProperties": false
+    },
+    "initializer": {
+      "description": "A line of an initializer.",
+      "type": "object",
+      "properties": {
+        "keyword": {
+          "enum": [
+            "LITERAL",
+            "ELEMENT"
+          ]
+        }
+      },
+      "required": [
+        "keyword"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "keyword": {
+                "const": "LITERAL"
+              }
+            }
+          },
+          "then": {
+            "$ref": "#/$defs/literalLine"
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "keyword": {
+                "const": "ELEMENT"
+              }
+            }
+          },
+          "then": {
+            "$ref": "#/$defs/elementLine"
+          }
+        }
+      ]
+    },
+    "literalLine": {
+      "description": "A line of an array initializer: values or a nested initializer.",
+      "type": "object",
+      "properties": {
+        "keyword": {
+          "const": "LITERAL"
+        },
+        "values": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/literal"
+          }
+        },
+        "code": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/initializer"
+          }
+        },
+        "comment": {
+          "$ref": "#/$defs/comment"
+        },
+        "disabled": {
+          "$ref": "#/$defs/disabled"
+        }
+      },
+      "required": [
+        "keyword"
+      ],
+      "additionalProperties": false
+    },
+    "elementLine": {
+      "description": "An element of a hash or struct initializer: a value or a nested initializer.",
+      "type": "object",
+      "properties": {
+        "keyword": {
+          "const": "ELEMENT"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "value": {
+          "$ref": "#/$defs/literal"
+        },
+        "code": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/initializer"
+          }
+        },
+        "comment": {
+          "$ref": "#/$defs/comment"
+        },
+        "disabled": {
+          "$ref": "#/$defs/disabled"
+        }
+      },
+      "required": [
+        "keyword",
+        "name"
+      ],
+      "additionalProperties": false
+    },
+    "function": {
+      "description": "A function declaration.",
+      "type": "object",
+      "properties": {
+        "keyword": {
+          "const": "FUNCTION"
+        },
+        "name": {
+          "$ref": "#/$defs/name"
+        },
+        "parameters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/functionParameter"
+          }
+        },
+        "results": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/functionResult"
+          }
+        },
+        "code": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/statement"
+          }
+        },
+        "comment": {
+          "$ref": "#/$defs/comment"
+        },
+        "disabled": {
+          "$ref": "#/$defs/disabled"
+        }
+      },
+      "required": [
+        "keyword",
+        "name",
+        "code"
+      ],
+      "additionalProperties": false
+    },
+    "functionParameter": {
+      "description": "A parameter of a function declaration.",
+      "type": "object",
+      "properties": {
+        "keyword": {
+          "const": "PARAMETER"
+        },
+        "name": {
+          "$ref": "#/$defs/name"
+        },
+        "type": {
+          "$ref": "#/$defs/typeName"
+        },
+        "length": {
+          "$ref": "#/$defs/length"
+        },
+        "subtype": {
+          "$ref": "#/$defs/subtype"
+        },
+        "struct": {
+          "$ref": "#/$defs/structName"
+        },
+        "value": {
+          "$ref": "#/$defs/literal"
+        },
+        "comment": {
+          "$ref": "#/$defs/comment"
+        },
+        "disabled": {
+          "$ref": "#/$defs/disabled"
+        }
+      },
+      "required": [
+        "keyword",
+        "name",
+        "type"
+      ],
+      "additionalProperties": false
+    },
+    "functionResult": {
+      "description": "A result of a function declaration.",
+      "type": "object",
+      "properties": {
+        "keyword": {
+          "const": "RESULT"
+        },
+        "name": {
+          "$ref": "#/$defs/name"
+        },
+        "type": {
+          "$ref": "#/$defs/typeName"
+        },
+        "length": {
+          "$ref": "#/$defs/length"
+        },
+        "subtype": {
+          "$ref": "#/$defs/subtype"
+        },
+        "struct": {
+          "$ref": "#/$defs/structName"
+        },
+        "comment": {
+          "$ref": "#/$defs/comment"
+        },
+        "disabled": {
+          "$ref": "#/$defs/disabled"
+        }
+      },
+      "required": [
+        "keyword",
+        "name",
+        "type"
+      ],
+      "additionalProperties": false
+    },
+    "assign": {
+      "description": "An assignment.",
+      "type": "object",
+      "properties": {
+        "keyword": {
+          "const": "ASSIGN"
+        },
+        "name": {
+          "$ref": "#/$defs/label"
+        },
+        "expression": {
+          "$ref": "#/$defs/expression"
+        },
+        "comment": {
+          "$ref": "#/$defs/comment"
+        },
+        "disabled": {
+          "$ref": "#/$defs/disabled"
+        }
+      },
+      "required": [
+        "keyword",
+        "name",
+        "expression"
+      ],
+      "additionalProperties": false
+    },
+    "call": {
+      "description": "A call of a function.",
+      "type": "object",
+      "properties": {
+        "keyword": {
+          "const": "CALL"
+        },
+        "name": {
+          "$ref": "#/$defs/qualifiedName"
+        },
+        "error": {
+          "$ref": "#/$defs/name"
+        },
+        "parameters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/callParameter"
+          }
+        },
+        "results": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/callResult"
+          }
+        },
+        "comment": {
+          "$ref": "#/$defs/comment"
+        },
+        "disabled": {
+          "$ref": "#/$defs/disabled"
+        }
+      },
+      "required": [
+        "keyword",
+        "name"
+      ],
+      "additionalProperties": false
+    },
+    "callParameter": {
+      "description": "A parameter of a call.",
+      "type": "object",
+      "properties": {
+        "keyword": {
+          "const": "PARAMETER"
+        },
+        "name": {
+          "$ref": "#/$defs/name"
+        },
+        "expression": {
+          "$ref": "#/$defs/expression"
+        },
+        "comment": {
+          "$ref": "#/$defs/comment"
+        },
+        "disabled": {
+          "$ref": "#/$defs/disabled"
+        }
+      },
+      "required": [
+        "keyword",
+        "name",
+        "expression"
+      ],
+      "additionalProperties": false
+    },
+    "callResult": {
+      "description": "A result of a call.",
+      "type": "object",
+      "properties": {
+        "keyword": {
+          "const": "RESULT"
+        },
+        "name": {
+          "$ref": "#/$defs/name"
+        },
+        "target": {
+          "$ref": "#/$defs/label"
+        },
+        "comment": {
+          "$ref": "#/$defs/comment"
+        },
+        "disabled": {
+          "$ref": "#/$defs/disabled"
+        }
+      },
+      "required": [
+        "keyword",
+        "name",
+        "target"
+      ],
+      "additionalProperties": false
+    },
+    "return": {
+      "description": "A RETURN statement.",
+      "type": "object",
+      "properties": {
+        "keyword": {
+          "const": "RETURN"
+        },
+        "name": {
+          "$ref": "#/$defs/label"
+        },
+        "comment": {
+          "$ref": "#/$defs/comment"
+        },
+        "disabled": {
+          "$ref": "#/$defs/disabled"
+        }
+      },
+      "required": [
+        "keyword"
+      ],
+      "additionalProperties": false
+    },
+    "exit": {
+      "description": "An EXIT statement.",
+      "type": "object",
+      "properties": {
+        "keyword": {
+          "const": "EXIT"
+        },
+        "expression": {
+          "$ref": "#/$defs/expression"
+        },
+        "comment": {
+          "$ref": "#/$defs/comment"
+        },
+        "disabled": {
+          "$ref": "#/$defs/disabled"
+        }
+      },
+      "required": [
+        "keyword",
+        "expression"
+      ],
+      "additionalProperties": false
+    },
+    "break": {
+      "description": "A BREAK statement.",
+      "type": "object",
+      "properties": {
+        "keyword": {
+          "const": "BREAK"
+        },
+        "expression": {
+          "$ref": "#/$defs/expression"
+        },
+        "comment": {
+          "$ref": "#/$defs/comment"
+        },
+        "disabled": {
+          "$ref": "#/$defs/disabled"
+        }
+      },
+      "required": [
+        "keyword"
+      ],
+      "additionalProperties": false
+    },
+    "if": {
+      "description": "An IF statement.",
+      "type": "object",
+      "properties": {
+        "keyword": {
+          "const": "IF"
+        },
+        "expression": {
+          "$ref": "#/$defs/expression"
+        },
+        "code": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/statement"
+          }
+        },
+        "else": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/statement"
+          }
+        },
+        "comment": {
+          "$ref": "#/$defs/comment"
+        },
+        "disabled": {
+          "$ref": "#/$defs/disabled"
+        }
+      },
+      "required": [
+        "keyword",
+        "expression",
+        "code"
+      ],
+      "additionalProperties": false
+    },
+    "for": {
+      "description": "A FOR loop.",
+      "type": "object",
+      "properties": {
+        "keyword": {
+          "const": "FOR"
+        },
+        "name": {
+          "$ref": "#/$defs/name"
+        },
+        "type": {
+          "$ref": "#/$defs/typeName"
+        },
+        "from": {
+          "$ref": "#/$defs/expression"
+        },
+        "to": {
+          "$ref": "#/$defs/expression"
+        },
+        "step": {
+          "$ref": "#/$defs/expression"
+        },
+        "code": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/statement"
+          }
+        },
+        "comment": {
+          "$ref": "#/$defs/comment"
+        },
+        "disabled": {
+          "$ref": "#/$defs/disabled"
+        }
+      },
+      "required": [
+        "keyword",
+        "name",
+        "type",
+        "from",
+        "to",
+        "code"
+      ],
+      "additionalProperties": false
+    },
+    "each": {
+      "description": "An EACH loop.",
+      "type": "object",
+      "properties": {
+        "keyword": {
+          "const": "EACH"
+        },
+        "name": {
+          "$ref": "#/$defs/name"
+        },
+        "iterable": {
+          "$ref": "#/$defs/label"
+        },
+        "code": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/statement"
+          }
+        },
+        "comment": {
+          "$ref": "#/$defs/comment"
+        },
+        "disabled": {
+          "$ref": "#/$defs/disabled"
+        }
+      },
+      "required": [
+        "keyword",
+        "name",
+        "iterable",
+        "code"
+      ],
+      "additionalProperties": false
+    },
+    "while": {
+      "description": "A WHILE loop.",
+      "type": "object",
+      "properties": {
+        "keyword": {
+          "const": "WHILE"
+        },
+        "expression": {
+          "$ref": "#/$defs/expression"
+        },
+        "code": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/statement"
+          }
+        },
+        "comment": {
+          "$ref": "#/$defs/comment"
+        },
+        "disabled": {
+          "$ref": "#/$defs/disabled"
+        }
+      },
+      "required": [
+        "keyword",
+        "expression",
+        "code"
+      ],
+      "additionalProperties": false
+    },
+    "repeat": {
+      "description": "A REPEAT loop; the condition is on its END line.",
+      "type": "object",
+      "properties": {
+        "keyword": {
+          "const": "REPEAT"
+        },
+        "code": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/statement"
+          }
+        },
+        "expression": {
+          "$ref": "#/$defs/expression"
+        },
+        "comment": {
+          "$ref": "#/$defs/comment"
+        },
+        "disabled": {
+          "$ref": "#/$defs/disabled"
+        }
+      },
+      "required": [
+        "keyword",
+        "code",
+        "expression"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

@@ -164,8 +164,8 @@ A c0de disk is crafted shapelessly from a data item, an iron ingot and black dye
 ## Disk drive
 
 The disk drive is a block that looks like a 3.5" floppy drive in a beige case. Its front faces the player who placed it. Right-clicking it opens its dialog: a slot for one c0de disk and two buttons.
-  - **Save** writes the program on the disk into the folder `c0de` of the player's Minecraft installation (next to `saves` and `screenshots`) as `<program name>.yaml`; a file with the same name is replaced. Like the schematics of the mod Create, the files stay on the player's computer.
-  - **Load** lists the programs in that folder; clicking one loads it onto the disk. The program is sent to the server in parts and checked there; a file that isn't a valid program is refused with a message.
+  - **Save** writes the program on the disk into the folder `c0de` of the player's Minecraft installation (next to `saves` and `screenshots`) as `<program name>.yaml`; a file with the same name is replaced. Like the schematics of the mod Create, the files stay on the player's computer. Only programs with valid names are saved and listed (see [Program names](17-yaml-format.md#program-names)).
+  - **Load** lists the programs in that folder; clicking one loads it onto the disk. The program is checked against the [schema](17-yaml-format.md#schema) of the format, sent to the server in parts and checked there again; a file that isn't a valid program is refused with a message.
 
 Breaking the drive drops the disk. A disk drive is crafted from six iron ingots in the top and bottom rows, and two smooth stone slabs with a redstone dust between them in the middle row.
 

@@ -3,6 +3,7 @@ package de.joernott.c0de.core.yaml;
 import de.joernott.c0de.core.line.Sheet;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Optional;
 import org.snakeyaml.engine.v2.api.Dump;
 import org.snakeyaml.engine.v2.api.DumpSettings;
 import org.snakeyaml.engine.v2.api.Load;
@@ -12,7 +13,8 @@ import org.snakeyaml.engine.v2.exceptions.YamlEngineException;
 
 /**
  * Programs as YAML files (docs/concept/17-yaml-format.md), the format of the c0de disk: the export of a sheet
- * and the layout of a program from a file on a sheet.
+ * and the layout of a program from a file on a sheet. Files are checked against the schema of the format
+ * ({@link ProgramSchema}) before they are read.
  */
 public final class ProgramYaml {
     private ProgramYaml() {}
@@ -59,7 +61,14 @@ public final class ProgramYaml {
             Iterator<Object> documents = new Load(LoadSettings.builder().build())
                     .loadAllFromString(yaml)
                     .iterator();
-            if (documents.hasNext() && documents.next() instanceof Map<?, ?> root) {
+            Object file = documents.hasNext() ? documents.next() : null;
+            if (file instanceof Map<?, ?> root) {
+                // Before anything is read from the file (task 15.6)
+                Optional<String> problem = ProgramSchema.check(root);
+                if (problem.isPresent()) {
+                    throw new IllegalArgumentException(
+                            "The file doesn't match the format of c0de programs: " + problem.get());
+                }
                 return root;
             }
         } catch (YamlEngineException e) {

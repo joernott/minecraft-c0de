@@ -9,6 +9,8 @@ Feedback from the tutorials of c0de.at.
 - **PRINT** writes BOOLEAN values as `TRUE` and `FALSE`, as the handbook says (⊕ still writes `true` and `false`).
 - **RETURN** raises INVALID_ARGUMENT for an error the program made with a code below 1000, like RAISE; an error received from a CALL can still be passed on.
 - **Program runner**: it knows the types and functions of c0de/minecraft, so programs that include it are validated completely and run until they call the library, which raises INVALID_ARGUMENT ("needs the game"). It reports every problem once, sorted by line. docs/runner.md describes the values of `input`.
+- **Schema of the program files**: `c0de-program.schema.json`, attached to the GitHub release, describes the YAML files of the disk drive, so editors can check hand-written files. Every file is checked against it before it is read; a file that doesn't match is refused with a message that names the first problem and where it is.
+- **Safe program names**: wherever a program crosses a disk (copying, saving, loading, receiving it on the server, building it), its name must be a valid name. Names with path separators, invisible or right-to-left characters or look-alike letters of other scripts are refused, so a program can't hide its real name or write outside the folder `c0de`.
 
 ## 0.4.0
 

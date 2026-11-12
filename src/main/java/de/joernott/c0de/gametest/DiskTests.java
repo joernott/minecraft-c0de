@@ -74,9 +74,19 @@ public final class DiskTests {
                     DiskItem.Contents.of(drive.disk().getItem(0)).name().equals("diskcopy"),
                     "The disk in the drive holds " + DiskItem.Contents.of(drive.disk().getItem(0)).name());
             helper.assertTrue(menu.load("not: a program").isPresent(), "The drive loaded a broken program");
+            // Names that hide what they are or leave the folder c0de are refused (task 15.7)
+            helper.assertTrue(
+                    menu.load(copy.replace("diskcopy", "\"disk\\u202Ecopy\"")).isPresent(),
+                    "The drive loaded a program with a hidden character in its name");
 
             BlockPos floor = new BlockPos(
                     SheetGeometry.absoluteX(TARGET, SheetGeometry.CODE_MIN_X), SheetGeometry.FLOOR_Y, 0);
+            // A disk of an older version with a name that isn't valid any more isn't built
+            DiskItem.Contents old = new DiskItem.Contents("../evil", copy.replace("diskcopy", "\"../evil\""));
+            helper.assertTrue(
+                    DiskService.build(player, c0de, floor, old).isPresent(), "A program with the name ../evil was built");
+            helper.assertTrue(
+                    ProgramRegistry.get(c0de).sheetOf("../evil").isEmpty(), "../evil is registered");
             Optional<String> problem = DiskService.build(player, c0de, floor, DiskService.contents(copy));
             helper.assertTrue(problem.isEmpty(), "The program wasn't built: " + problem.orElse(""));
             OptionalInt sheet = ProgramRegistry.get(c0de).sheetOf("diskcopy");

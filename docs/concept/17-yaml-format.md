@@ -68,6 +68,18 @@ On import, the c0de disk lays the program out on the sheet: it computes the inde
 
 On export, the program MUST be structurally valid (all BEGIN and END blocks match, every line starts with a known keyword). Otherwise, copying it onto a disk fails and the disk names the first invalid line.
 
+## Schema
+
+The format is described by a [JSON Schema](https://json-schema.org/) (draft 2020-12), [`c0de-program.schema.json`](../../core/src/main/resources/de/joernott/c0de/core/yaml/c0de-program.schema.json). Every release attaches it to its GitHub release, so editors can check hand-written files, e.g. with the line `# yaml-language-server: $schema=c0de-program.schema.json` at the top of a file in VS Code.
+
+Every file is checked against the schema before anything is read from it: when the disk drive loads it, when the server receives it, and when a disk is built on a sheet. A file that doesn't match is refused with a message that names the first problem and its path in the file, e.g. `code[2].parameters[0] has no type`. The files the export writes always match the schema.
+
+## Program names
+
+The name of a program is also the name of its file in the folder `c0de` of the player. It MUST be a valid name (see [Naming with labels](02-language-basics.md#naming-with-labels)): the letters A to Z and a to z, digits and `_`, starting with a letter, not a keyword. Names with anything else are refused wherever a program crosses a disk: when it is copied onto a disk, when a disk is saved to a file or loaded from one, when the server receives it and when a disk is built. This rules out path separators, `.` and `..`, control characters, invisible and bidirectional characters (zero-width spaces, right-to-left overrides) and letters of other scripts that look like Latin ones, which could hide the real name of a program or reach outside the folder `c0de`. Messages show such characters as `\uXXXX`.
+
+A disk of an older version whose name isn't valid any more says "A program with a name that isn't valid" and shows the escaped name in its tooltip; it can't be saved or built.
+
 ## Example
 
 ```yaml

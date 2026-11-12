@@ -25,6 +25,8 @@ repositories {
 // The interpreter is compiled into every node
 sourceSets.main {
     java.srcDir(rootProject.file("core/src/main/java"))
+    // The schema of the program files (task 15.5)
+    resources.srcDir(rootProject.file("core/src/main/resources"))
     // Data whose format changed between the Minecraft versions (buildSrc/VersionedResources.kt)
     versionedResourceDirs(rootProject.file("src/main/versioned")) { sc.current.parsed >= it }
         .forEach { resources.srcDir(it) }

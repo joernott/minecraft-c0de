@@ -2,7 +2,8 @@ name: Release
 
 # Publishes a version (task 11.12): pushing a tag v<mod.version> builds and tests every node, publishes the jars
 # to Modrinth and CurseForge (task 15.11) and creates a GitHub release with the jars, the program runner c0de-runner-<version>.jar (task 14.2),
-# the 3D models of the blocks c0de-models-<version>.zip (task 14.8) and the section of the version in CHANGELOG.md.
+# the 3D models of the blocks c0de-models-<version>.zip (task 14.8), the schema of the program files
+# c0de-program.schema.json (task 15.5) and the section of the version in CHANGELOG.md.
 #
 # Needs the repository secrets MODRINTH_TOKEN (a Modrinth personal access token with the scopes to create
 # versions) and CURSEFORGE_TOKEN (a CurseForge API token), publish.modrinth_id and publish.curseforge_id in
@@ -176,4 +177,5 @@ jobs:
           ' CHANGELOG.md > notes.md
           prerelease=""
           case "$VERSION" in 0.*) prerelease="--prerelease" ;; esac
-          gh release create "$GITHUB_REF_NAME" jars/*.jar jars/*.zip --title "c0de $VERSION" --notes-file notes.md $prerelease
+          gh release create "$GITHUB_REF_NAME" jars/*.jar jars/*.zip \
+            core/src/main/resources/de/joernott/c0de/core/yaml/c0de-program.schema.json --title "c0de $VERSION" --notes-file notes.md $prerelease

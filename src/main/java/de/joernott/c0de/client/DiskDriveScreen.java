@@ -1,6 +1,8 @@
 package de.joernott.c0de.client;
 
 import de.joernott.c0de.client.dialog.Panels;
+import de.joernott.c0de.core.program.Names;
+import de.joernott.c0de.core.yaml.ProgramYaml;
 import de.joernott.c0de.disk.DiskDriveMenu;
 import de.joernott.c0de.item.DiskItem;
 import de.joernott.c0de.network.DiskSavedPayload;
@@ -64,15 +66,22 @@ public class DiskDriveScreen extends AbstractContainerScreen<DiskDriveMenu> {
         }
     }
 
-    /** Writes the program of the disk into the folder; the client already has it with the item. */
+    /**
+     * Writes the program of the disk into the folder; the client already has it with the item. The program is
+     * checked first, so a disk of an older version with a name that isn't valid any more is refused (task 15.7).
+     */
     private void save() {
         DiskItem.Contents contents = DiskItem.Contents.of(menu.disk());
         try {
-            LocalPrograms.write(contents.name(), contents.yaml());
+            String name = ProgramYaml.programName(contents.yaml());
+            if (!name.equals(contents.name())) {
+                throw new IOException("The name of the disk doesn't match its program: " + Names.shown(contents.name()));
+            }
+            LocalPrograms.write(name, contents.yaml());
             Platform.INSTANCE.sendToServer(new DiskSavedPayload());
-            message = Component.translatable("dialog.c0de.disk_drive.saved", "c0de/" + contents.name() + ".yaml")
+            message = Component.translatable("dialog.c0de.disk_drive.saved", "c0de/" + name + ".yaml")
                     .withStyle(ChatFormatting.DARK_GREEN);
-        } catch (IOException e) {
+        } catch (IOException | IllegalArgumentException e) {
             message = Component.literal(String.valueOf(e.getMessage())).withStyle(ChatFormatting.DARK_RED);
         }
     }
@@ -124,6 +133,8 @@ public class DiskDriveScreen extends AbstractContainerScreen<DiskDriveMenu> {
     private void upload(String file) {
         try {
             String yaml = LocalPrograms.read(file);
+            // Checked before it is sent; the server checks it again
+            ProgramYaml.programName(yaml);
             int length = DiskUploadPayload.CHUNK_LENGTH;
             for (int start = 0; start == 0 || start < yaml.length(); start += length) {
                 int end = Math.min(yaml.length(), start + length);
@@ -132,7 +143,7 @@ public class DiskDriveScreen extends AbstractContainerScreen<DiskDriveMenu> {
             }
             files = null;
             message = Component.translatable("dialog.c0de.disk_drive.loading", file);
-        } catch (IOException e) {
+        } catch (IOException | IllegalArgumentException e) {
             message = Component.literal(String.valueOf(e.getMessage())).withStyle(ChatFormatting.DARK_RED);
         }
         rebuildWidgets();
