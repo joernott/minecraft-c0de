@@ -112,6 +112,27 @@ class CursorIoTest {
     }
 
     @Test
+    void printWritesBooleansAsInThePrograms() {
+        TestConsole console = new TestConsole();
+        Cursor cursor = cursor("""
+                FUNCTION main
+                BEGIN
+                    CALL PRINT
+                        PARAMETER value 1 < 2 ;
+                    CALL PRINT
+                        PARAMETER value FALSE ;
+                    CALL PRINT
+                        PARAMETER value "is " ⊕ TRUE ;
+                END FUNCTION
+                """, console);
+        cursor.run(100);
+        assertEquals(CursorState.FINISHED, cursor.state(), () -> "crashed: " + cursor.error());
+        assertEquals("TRUE", console.screen.rows().get(0).text());
+        assertEquals("FALSE", console.screen.rows().get(1).text());
+        assertEquals("is true", console.screen.rows().get(2).text(), "⊕ keeps true and false");
+    }
+
+    @Test
     void inputWaitsForAValue() {
         TestConsole console = new TestConsole();
         Cursor cursor = cursor("""

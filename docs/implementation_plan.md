@@ -355,11 +355,11 @@ After sprint 12, every new Minecraft release is added as a new node in its own s
 
 ## Sprint 15: Feedback from the tutorials
 
-**Goal:** the programs of the tutorials of c0de.at (www-c0de sprint 6), tested with the program runner of 0.4.0, found places where the implementation differs from the concept. Planned on 2026-11-11; the release is planned when the sprint starts.
+**Goal:** the programs of the tutorials of c0de.at (www-c0de sprint 6), tested with the program runner of 0.4.0, found places where the implementation differs from the concept. Planned on 2026-11-11; started on 2026-11-12, released as 0.5.0 at its end.
 
 | Task | Description | Done |
 |---|---|:---:|
-| 15.1 | PRINT writes BOOLEAN values as `TRUE` and `FALSE`, as the concept (19-input-output.md) and the handbook say; today it writes `true` and `false` like `⊕` (whose `true`/`false` stays, concept 05-expressions.md). Unit test. |  |
+| 15.1 | PRINT writes BOOLEAN values as `TRUE` and `FALSE`, as the concept (19-input-output.md) and the handbook say; today it writes `true` and `false` like `⊕` (whose `true`/`false` stays, concept 05-expressions.md). Unit test. | ✅ |
 | 15.2 | An error with a code below 1000 that a function returns with `RETURN` raises INVALID_ARGUMENT, like RAISE does; the concept says user-defined codes MUST be 1000 or higher (04-data.md), but only RAISE checks it today. Unit test. |  |
 | 15.3 | The program runner knows c0de/minecraft without Minecraft: its struct types (POSITION, ENTITY, …) and its functions with their parameters and results, so programs that use it are validated completely (today the runner only ignores UNKNOWN_LIBRARY and UNKNOWN_FUNCTION and reports UNKNOWN_STRUCT_ENTITY for every variable of these types). Calling a function of the library in the runner raises an error that says it needs the game. The definitions move from the mod into `core`, so the mod and the runner share them. Unit tests. |  |
 | 15.4 | The runner reports the problems of a program sorted by line, so expected files can name them (today their order changes from run to run). |  |

@@ -2,6 +2,12 @@
 
 All notable changes of the c0de mod. The section of a version is also its changelog on Modrinth.
 
+## 0.5.0
+
+Feedback from the tutorials of c0de.at.
+
+- **PRINT** writes BOOLEAN values as `TRUE` and `FALSE`, as the handbook says (⊕ still writes `true` and `false`).
+
 ## 0.4.0
 
 Documentation: for the tutorials of c0de.at and for players who read German.

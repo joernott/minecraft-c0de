@@ -135,6 +135,8 @@ public final class Builtins implements Library {
             case ArrayValue array -> JsonValues.write(array);
             case HashValue hash -> JsonValues.write(hash);
             case StructValue struct -> JsonValues.write(struct);
+            // TRUE and FALSE as in the program (19-input-output.md), unlike ⊕, which writes true and false
+            case BooleanValue bool -> bool.value() ? "TRUE" : "FALSE";
             default -> value.text();
         };
     }
