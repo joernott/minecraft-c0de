@@ -700,3 +700,7 @@ Curseforge reviews only happen, once files are attached to the project. Please a
 ## 2026-11-12 – Sprint 15
 
 please start implementing sprint 15 of c0de
+
+## 2026-11-12 – Release 0.5.0
+
+yes, please go ahed
