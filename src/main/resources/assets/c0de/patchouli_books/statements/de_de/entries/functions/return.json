@@ -9,6 +9,10 @@
       "text": "RETURN beendet die Funktion sofort.$(br2)Es darf eine Variable vom Typ ERROR nennen, um dem Aufrufer ein Problem zu melden. Ohne Namen gibt die Funktion „kein Fehler“ zurück. Die Ergebnisse behalten die Werte, die sie in diesem Moment haben."
     },
     {
+      "type": "patchouli:text",
+      "text": "Der Code eines Fehlers, den du selbst erzeugst, muss 1000 oder höher sein, sonst löst RETURN INVALID_ARGUMENT aus. Einen Fehler, den deine Funktion von einem CALL bekommen hat, kannst du mit seinem Code weitergeben."
+    },
+    {
       "type": "patchouli:crafting",
       "recipe": "c0de:return_block",
       "text": "Lege eine Fichtentür in die Mitte und acht NOOP-Blöcke darum herum. Du bekommst acht RETURN-Blöcke."

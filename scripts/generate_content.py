@@ -298,6 +298,7 @@ MESSAGES = [
     ("dialog.c0de.disk_drive.no_disk", "Put a c0de disk into the slot", "Lege eine c0de-Diskette in den Schacht"),
     ("item.c0de.c0de_disk.empty", "Empty", "Leer"),
     ("item.c0de.c0de_disk.program", "Program: %s", "Programm: %s"),
+    ("item.c0de.c0de_disk.invalid_name", "A program with a name that isn't valid: %s", "Ein Programm mit ungültigem Namen: %s"),
     ("message.c0de.disk_loaded", "The program is on the disk", "Das Programm ist auf der Diskette"),
     ("block.c0de.laptop", "Laptop", "Laptop"),
     ("item.c0de.tablet", "Tablet", "Tablet"),
