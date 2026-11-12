@@ -675,3 +675,10 @@ After that, also merge the open pull request into main. It provides some version
 ## 2026-11-11 – Feedback from the tutorials
 
 (No prompt of its own: the lessons of c0de.at found two deviations from the concept while the user asked to start sprint 6 of www-c0de.)
+
+## 2026-11-12 – Disk files
+
+please add the following tasks to sprint 15 of c0de:
+- Add a schema for the yaml files generated, when saving a disk
+- Add a validation against the schema when loading files from disk
+- As there has been an incident with malicious 3rd party programs manipulating Litematica, when storing  program on a disk and when saving or loading a disk, ensure that the program name is still a valid name and does not contain characters used to hide it or attempt path traversal
