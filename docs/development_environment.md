@@ -149,17 +149,18 @@ The smoke test (`contrib/itest/smoke.sh`) also runs a process scenario (`contrib
 |---|---|---|
 | `build.yml` | Push, pull request | Matrix over all active nodes (Minecraft version × loader): build, unit tests of `core`, GameTests with `runGameTestServer`, upload of the jars as artifacts. A Windows job runs the `core` tests to catch platform-specific problems (line endings, paths). |
 | `integration.yml` | Push to `main` and sprint branches, manually | Starts the Docker test servers on the Ubuntu runner (Docker is available there) and runs the RCON scenario tests. |
-| `release.yml` | Tag `v*` | Builds all nodes, creates a GitHub release with all jars and publishes them to Modrinth. The token is stored as repository secret `MODRINTH_TOKEN`. |
+| `release.yml` | Tag `v*` | Builds all nodes, creates a GitHub release with all jars and publishes them to Modrinth and CurseForge. The tokens are stored as repository secrets `MODRINTH_TOKEN` and `CURSEFORGE_TOKEN`. |
+| `curseforge.yml` | Manually (`gh workflow run curseforge.yml -f version=<version>`) | Publishes a version that is already released on GitHub to CurseForge, with the jars of its GitHub release (task 15.11; for the versions released before CurseForge). `mod.version` on the branch must be that version. |
 
 All workflows use `actions/setup-java` (Temurin) and `gradle/actions/setup-gradle` for caching. Every check is reported as an annotation, so failures are readable without opening the job logs.
 
 ### Releasing a version
 
-The jars are published with the [Mod Publish Plugin](https://modmuss50.github.io/mod-publish-plugin/) (`publishMods` in both build scripts): one Modrinth version per node, named `<mod.version>+<Minecraft version>-<loader>`, as alpha for 0.x versions, with the environment "client and server", Fabric API as required and Patchouli as optional dependency. Without the secret or the project ID, `./gradlew :<node>:publishMods` is a dry run that prints what it would publish.
+The jars are published with the [Mod Publish Plugin](https://modmuss50.github.io/mod-publish-plugin/) (`publishMods` in both build scripts): one Modrinth version and one CurseForge file per node, named `<mod.version>+<Minecraft version>-<loader>`, as alpha for 0.x versions, with the environment "client and server" (on CurseForge: client and server required), Fabric API as required and Patchouli as optional dependency. Without both secrets and both project IDs, `./gradlew :<node>:publishMods` is a dry run that prints what it would publish. With `-Ppublish.released_jars=<folder>`, the jars in that folder are published instead of the ones the build makes.
 
-  1. Once: create the Modrinth project (description from `docs/modrinth.md`, icon `docs/images/logo.png`, 256 × 256 pixels; the vector logo `docs/images/logo.svg` is written by `scripts/generate_logo.py`, the same picture is the icon of the mod in the mod lists), put its ID into `publish.modrinth_id` in `stonecutter.properties.toml` and store a Modrinth token with the scope to create versions as repository secret `MODRINTH_TOKEN`.
+  1. Once: create the Modrinth project (description from `docs/modrinth.md`, icon `docs/images/logo.png`, 256 × 256 pixels; the vector logo `docs/images/logo.svg` is written by `scripts/generate_logo.py`, the same picture is the icon of the mod in the mod lists), put its ID into `publish.modrinth_id` in `stonecutter.properties.toml` and store a Modrinth token with the scope to create versions as repository secret `MODRINTH_TOKEN`. The same for CurseForge (task 15.11): the project (ID 1800913; its logo must be 400 × 400 pixels) in `publish.curseforge_id`, an API token as secret `CURSEFORGE_TOKEN`. CurseForge reviews a new project only once it has files.
   2. Set `mod.version` in `stonecutter.properties.toml` and add the section `## <version>` to `CHANGELOG.md`; it becomes the changelog on Modrinth and the notes of the GitHub release.
-  3. Fast-forward `main`, then tag and push: `git tag v<version> && git push origin v<version>`. `release.yml` checks that the tag matches `mod.version`, builds and tests all nodes, publishes them to Modrinth and creates the GitHub release (a pre-release for 0.x versions).
+  3. Fast-forward `main`, then tag and push: `git tag v<version> && git push origin v<version>`. `release.yml` checks that the tag matches `mod.version`, builds and tests all nodes, publishes them to Modrinth and CurseForge and creates the GitHub release (a pre-release for 0.x versions).
 
 ### Adding a Minecraft version
 
