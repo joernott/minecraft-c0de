@@ -708,3 +708,7 @@ yes, please go ahed
 ## 2026-11-12 – Tag v0.5.0 pushed
 
 CI was green, so I pushed the tag and it's workflows are running now
+
+## 2026-11-12 – Tag v0.5.0 pushed again
+
+the tag ws pushed and the workflows finished correctly
