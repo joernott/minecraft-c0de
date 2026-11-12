@@ -704,3 +704,7 @@ please start implementing sprint 15 of c0de
 ## 2026-11-12 – Release 0.5.0
 
 yes, please go ahed
+
+## 2026-11-12 – Tag v0.5.0 pushed
+
+CI was green, so I pushed the tag and it's workflows are running now
