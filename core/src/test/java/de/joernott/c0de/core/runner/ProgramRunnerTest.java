@@ -70,6 +70,36 @@ class ProgramRunnerTest {
     }
 
     @Test
+    void reportsEveryProblemOnceSortedByLine() {
+        String program = """
+                PROGRAM broken
+                NOOP
+                NOOP
+                FUNCTION twice
+                    PARAMETER value INTEGER
+                    RESULT value INTEGER
+                BEGIN
+                    ASSIGN value value + 1 ;
+                    ASSIGN value value + 2 ;
+                    ASSIGN value value + 3 ;
+                END FUNCTION
+                NOOP
+                FUNCTION main
+                BEGIN
+                    VARIABLE a INTEGER
+                    VARIABLE a FLOAT
+                END FUNCTION
+                """;
+        Map<String, Object> report = run(program, "");
+        List<?> problems = (List<?>) report.get("problems");
+        List<Integer> lines = problems.stream()
+                .map(problem -> (Integer) ((Map<?, ?>) problem).get("line"))
+                .toList();
+        assertEquals(lines.stream().distinct().sorted().toList(), lines, "once each, sorted: " + problems);
+        assertEquals(problems, run(program, "").get("problems"), "the same every time");
+    }
+
+    @Test
     void reportsCrashesWithTheError() {
         Map<String, Object> report = run("""
                 PROGRAM errors
@@ -160,8 +190,8 @@ class ProgramRunnerTest {
     }
 
     @Test
-    void programsWithTheMinecraftLibraryAreOnlyValidated() {
-        Map<String, Object> report = run("""
+    void programsWithTheMinecraftLibraryRunUntilTheyCallIt() {
+        String program = """
                 PROGRAM chime
                 NOOP
                 INCLUDE c0de/minecraft
@@ -172,10 +202,43 @@ class ProgramRunnerTest {
                         PARAMETER note 12 ;
                         PARAMETER instrument "bell" ;
                 END FUNCTION
-                """, "function: ring\n");
-        assertEquals(true, report.get("valid"));
-        assertEquals(false, report.get("run"));
-        assertTrue(ProgramRunner.succeeded(report));
+                NOOP
+                FUNCTION above
+                    PARAMETER position STRUCT c0de/minecraft/POSITION
+                    RESULT result STRUCT c0de/minecraft/POSITION
+                BEGIN
+                    ASSIGN result position ;
+                    ASSIGN result.y position.y + 1 ;
+                END FUNCTION
+                """;
+        Map<String, Object> pure = run(program, "function: above\nparameters:\n  position: {x: 1, y: 64, z: 2}\n");
+        assertEquals(true, pure.get("valid"), () -> "problems: " + pure.get("problems"));
+        assertEquals("FINISHED", pure.get("state"));
+        assertEquals(Map.of("result", Map.of("x", 1L, "y", 65L, "z", 2L, "dimension", "")), pure.get("results"));
+
+        Map<String, Object> game = run(program, "function: ring\n");
+        assertEquals(true, game.get("valid"));
+        assertEquals("CRASHED", game.get("state"));
+        Map<?, ?> error = (Map<?, ?>) game.get("error");
+        assertEquals("INVALID_ARGUMENT", error.get("name"), () -> "error: " + error);
+        assertTrue(String.valueOf(error.get("message")).contains("needs the game"), () -> "error: " + error);
+    }
+
+    @Test
+    void theMinecraftLibraryChecksItsParameters() {
+        Map<String, Object> report = run("""
+                PROGRAM wrong
+                NOOP
+                INCLUDE c0de/minecraft
+                NOOP
+                FUNCTION main
+                BEGIN
+                    VARIABLE where STRUCT c0de/minecraft/POSITION
+                    CALL c0de/minecraft/GET_LEVER
+                        PARAMETER lever where ;
+                END FUNCTION
+                """, "");
+        assertEquals(false, report.get("valid"), () -> "problems: " + report.get("problems"));
     }
 
     @Test

@@ -8,6 +8,7 @@ Feedback from the tutorials of c0de.at.
 
 - **PRINT** writes BOOLEAN values as `TRUE` and `FALSE`, as the handbook says (⊕ still writes `true` and `false`).
 - **RETURN** raises INVALID_ARGUMENT for an error the program made with a code below 1000, like RAISE; an error received from a CALL can still be passed on.
+- **Program runner**: it knows the types and functions of c0de/minecraft, so programs that include it are validated completely and run until they call the library, which raises INVALID_ARGUMENT ("needs the game"). It reports every problem once, sorted by line. docs/runner.md describes the values of `input`.
 
 ## 0.4.0
 

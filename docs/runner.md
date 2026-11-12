@@ -12,7 +12,7 @@ java -jar c0de-runner-<version>.jar [--options options.yaml] [--expected expecte
 
 | Exit code | Meaning |
 |---|---|
-| 0 | The program is valid and ran to its end (or was only validated), and it matches the expected values |
+| 0 | The program is valid and ran to its end, and it matches the expected values |
 | 1 | The program is invalid, didn't end, crashed (without `--expected`) or doesn't match the expected values |
 | 2 | Wrong command line, or a file can't be read |
 
@@ -34,7 +34,7 @@ BEGIN
 END FUNCTION
 ```
 
-The library c0de/minecraft is part of the mod. The runner validates programs that include it, apart from that library, but doesn't run them.
+The library c0de/minecraft needs the game. The runner knows its struct types and its functions with their parameters and results, so it validates programs that include it like the game does, and runs them until they call one of its functions: that call raises INVALID_ARGUMENT with a message that says the function needs the game. Functions that don't call the library, e.g. one that computes a POSITION, can be run and tested.
 
 ## Options
 
@@ -56,6 +56,8 @@ max_steps: 1000000            # the program is stopped after this many steps (10
 
 Parameters without a value in the file need a default value in the program. A program that waits for more INPUT than the file has is stopped.
 
+The values of `parameters` and `input` are YAML values, converted to the type of the parameter or of the variable of INPUT like FROM_YAML does: numbers, strings and `true`/`false` as they are, arrays as lists and hashes and structs as maps, e.g. `{x: 1, y: 64, z: 2}` for a POSITION. (A laptop reads what the player types as JSON instead.) The values of `input` don't appear in `screen`: the runner shows only what the program prints.
+
 ## The report
 
 The runner prints a report as YAML:
@@ -64,8 +66,8 @@ The runner prints a report as YAML:
 program: doubler
 function: twice
 valid: true
-problems: []                  # line, code and message of every problem
-run: true                     # false if the program was only validated
+problems: []                  # line, code and message of every problem, each once and sorted by line
+run: true                     # false if the program is invalid and was only validated
 state: FINISHED               # FINISHED, CRASHED or STOPPED
 steps: 3
 exit_code: 0
@@ -117,7 +119,7 @@ lines:
     text: doubler
 ```
 
-Operators also have the `state` of their block (e.g. `operator=add`), which selects their model. Lines that use c0de/minecraft count as valid.
+Operators also have the `state` of their block (e.g. `operator=add`), which selects their model.
 
 ## Libraries of other mods
 

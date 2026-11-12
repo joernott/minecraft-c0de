@@ -10,6 +10,7 @@ import de.joernott.c0de.core.library.Library;
 import de.joernott.c0de.core.library.NativeCall;
 import de.joernott.c0de.core.library.NativeFunction;
 import de.joernott.c0de.core.library.NativeResult;
+import de.joernott.c0de.core.library.minecraft.MinecraftLibraryDefinition;
 import de.joernott.c0de.core.sheet.SheetGeometry;
 import de.joernott.c0de.core.value.ArrayValue;
 import de.joernott.c0de.core.value.BooleanValue;
@@ -33,7 +34,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
-import java.util.function.Predicate;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -78,35 +78,45 @@ import net.minecraft.world.phys.Vec3;
  * changed, and chunks are never loaded.
  */
 public final class MinecraftLibrary implements Library {
-    public static final String NAME = "c0de/minecraft";
+    public static final String NAME = MinecraftLibraryDefinition.NAME;
 
     /** The largest radius of FIND_ENTITIES. */
     private static final int MAX_RADIUS = 64;
 
-    public static final StructDefinition POSITION = new StructDefinition(
-            NAME + "/POSITION",
-            List.of(
-                    element("x", Type.Simple.INTEGER),
-                    element("y", Type.Simple.INTEGER),
-                    element("z", Type.Simple.INTEGER),
-                    element("dimension", Type.Str.UNLIMITED)));
-
-    public static final StructDefinition ITEM_STACK = new StructDefinition(
-            NAME + "/ITEM_STACK", List.of(element("id", Type.Str.UNLIMITED), element("count", Type.Simple.INTEGER)));
-
-    public static final StructDefinition ENTITY = new StructDefinition(
-            NAME + "/ENTITY",
-            List.of(
-                    element("uuid", Type.Str.UNLIMITED),
-                    element("type", Type.Str.UNLIMITED),
-                    element("name", Type.Str.UNLIMITED),
-                    element("position", new Type.Struct(POSITION))));
+    // The struct types are defined in core, so the program runner knows them too (task 15.3)
+    public static final StructDefinition POSITION = MinecraftLibraryDefinition.POSITION;
+    public static final StructDefinition ITEM_STACK = MinecraftLibraryDefinition.ITEM_STACK;
+    public static final StructDefinition ENTITY = MinecraftLibraryDefinition.ENTITY;
 
     private static final Type STRINGS = new Type.Hash(Type.Str.UNLIMITED);
 
-    private static StructDefinition.Element element(String name, Type type) {
-        return new StructDefinition.Element(name, type, Map.of());
-    }
+    /** The functions with their parameters and results from core, implemented here. */
+    private static final Library LIBRARY = MinecraftLibraryDefinition.library(Map.ofEntries(
+            Map.entry("TICKS", call -> NativeResult.of(new IntegerValue(host(call).level().getGameTime()))),
+            Map.entry("BEEP", MinecraftLibrary::beep),
+            Map.entry("SOUND", MinecraftLibrary::sound),
+            Map.entry("SAY", MinecraftLibrary::say),
+            Map.entry("GET_BLOCK", MinecraftLibrary::getBlock),
+            Map.entry("GET_INVENTORY", MinecraftLibrary::getInventory),
+            Map.entry("GET_LEVER", call -> NativeResult.of(BooleanValue.of(
+                    state(call, LeverBlock.class, "a lever").getValue(BlockStateProperties.POWERED)))),
+            Map.entry("SET_LEVER", MinecraftLibrary::setLever),
+            Map.entry("GET_BUTTON", call -> NativeResult.of(BooleanValue.of(
+                    state(call, ButtonBlock.class, "a button").getValue(BlockStateProperties.POWERED)))),
+            Map.entry("PRESS_BUTTON", MinecraftLibrary::pressButton),
+            Map.entry("GET_PRESSURE_PLATE", MinecraftLibrary::getPressurePlate),
+            Map.entry("GET_OPEN", call -> NativeResult.of(BooleanValue.of(
+                    openable(call).getValue(BlockStateProperties.OPEN)))),
+            Map.entry("SET_OPEN", MinecraftLibrary::setOpen),
+            Map.entry("MOVE_ITEMS", MinecraftLibrary::moveItems),
+            Map.entry("DELETE_ITEMS", MinecraftLibrary::deleteItems),
+            Map.entry("PLACE_BLOCK", MinecraftLibrary::placeBlock),
+            Map.entry("REMOVE_BLOCK", MinecraftLibrary::removeBlock),
+            Map.entry("MINE_BLOCK", MinecraftLibrary::mineBlock),
+            Map.entry("SPAWN_ITEM", MinecraftLibrary::spawnItem),
+            Map.entry("SPAWN_ENTITY", MinecraftLibrary::spawnEntity),
+            Map.entry("FIND_ENTITIES", MinecraftLibrary::findEntities),
+            Map.entry("TELEPORT", MinecraftLibrary::teleport)));
 
     @Override
     public String name() {
@@ -115,131 +125,12 @@ public final class MinecraftLibrary implements Library {
 
     @Override
     public Map<String, StructDefinition> types() {
-        return Map.of("POSITION", POSITION, "ITEM_STACK", ITEM_STACK, "ENTITY", ENTITY);
+        return LIBRARY.types();
     }
 
     @Override
     public Map<String, NativeFunction> functions() {
-        return FUNCTIONS;
-    }
-
-    // ---------------------------------------------------------------------------------------- parameters
-
-    private static final Predicate<Value> INTEGER = value -> value instanceof IntegerValue;
-    private static final Predicate<Value> BOOLEAN = value -> value instanceof BooleanValue;
-    private static final Predicate<Value> TEXT = value -> value instanceof StringValue;
-    private static final Predicate<Value> A_POSITION =
-            value -> value instanceof StructValue struct && struct.definition().equals(POSITION);
-    private static final Predicate<Value> HASH_OF_STRINGS = value -> value instanceof HashValue;
-
-    private static NativeFunction.Parameter position(String name) {
-        return NativeFunction.Parameter.required(name, NAME + "/POSITION", A_POSITION);
-    }
-
-    private static NativeFunction.Parameter optionalPosition(String name) {
-        return NativeFunction.Parameter.optional(name, NAME + "/POSITION", A_POSITION);
-    }
-
-    private static NativeFunction.Parameter integer(String name) {
-        return NativeFunction.Parameter.required(name, "INTEGER", INTEGER);
-    }
-
-    private static NativeFunction.Parameter text(String name) {
-        return NativeFunction.Parameter.required(name, "STRING", TEXT);
-    }
-
-    private static final Map<String, NativeFunction> FUNCTIONS = functionMap(
-            function("TICKS", List.of(), call -> NativeResult.of(new IntegerValue(host(call).level().getGameTime()))),
-            function("BEEP", List.of(), MinecraftLibrary::beep),
-            function(
-                    "SOUND",
-                    List.of(
-                            integer("note"),
-                            NativeFunction.Parameter.withDefault("instrument", "STRING", TEXT, new StringValue("harp"))),
-                    MinecraftLibrary::sound),
-            function(
-                    "SAY",
-                    List.of(
-                            text("message"),
-                            NativeFunction.Parameter.withDefault("player", "STRING", TEXT, new StringValue(""))),
-                    MinecraftLibrary::say),
-            function("GET_BLOCK", List.of(position("position")), MinecraftLibrary::getBlock),
-            function("GET_INVENTORY", List.of(position("position")), MinecraftLibrary::getInventory),
-            function("GET_LEVER", List.of(position("position")), call -> NativeResult.of(BooleanValue.of(
-                    state(call, LeverBlock.class, "a lever").getValue(BlockStateProperties.POWERED)))),
-            function(
-                    "SET_LEVER",
-                    List.of(position("position"), NativeFunction.Parameter.required("on", "BOOLEAN", BOOLEAN)),
-                    MinecraftLibrary::setLever),
-            function("GET_BUTTON", List.of(position("position")), call -> NativeResult.of(BooleanValue.of(
-                    state(call, ButtonBlock.class, "a button").getValue(BlockStateProperties.POWERED)))),
-            function("PRESS_BUTTON", List.of(position("position")), MinecraftLibrary::pressButton),
-            function("GET_PRESSURE_PLATE", List.of(position("position")), MinecraftLibrary::getPressurePlate),
-            function("GET_OPEN", List.of(position("position")), call -> NativeResult.of(BooleanValue.of(
-                    openable(call).getValue(BlockStateProperties.OPEN)))),
-            function(
-                    "SET_OPEN",
-                    List.of(position("position"), NativeFunction.Parameter.required("open", "BOOLEAN", BOOLEAN)),
-                    MinecraftLibrary::setOpen),
-            function(
-                    "MOVE_ITEMS",
-                    List.of(position("from"), position("to"), text("id"), integer("count")),
-                    MinecraftLibrary::moveItems),
-            function(
-                    "DELETE_ITEMS",
-                    List.of(position("position"), text("id"), integer("count")),
-                    MinecraftLibrary::deleteItems),
-            function(
-                    "PLACE_BLOCK",
-                    List.of(
-                            position("position"),
-                            text("id"),
-                            NativeFunction.Parameter.withDefault(
-                                    "properties", "HASH STRING", HASH_OF_STRINGS, new HashValue(Type.Str.UNLIMITED)),
-                            optionalPosition("inventory")),
-                    MinecraftLibrary::placeBlock),
-            function(
-                    "REMOVE_BLOCK",
-                    List.of(
-                            position("position"),
-                            NativeFunction.Parameter.withDefault("drop", "BOOLEAN", BOOLEAN, BooleanValue.TRUE)),
-                    MinecraftLibrary::removeBlock),
-            function(
-                    "MINE_BLOCK",
-                    List.of(position("position"), position("tool_inventory"), optionalPosition("output_inventory")),
-                    MinecraftLibrary::mineBlock),
-            function(
-                    "SPAWN_ITEM",
-                    List.of(position("position"), text("id"), integer("count")),
-                    MinecraftLibrary::spawnItem),
-            function("SPAWN_ENTITY", List.of(position("position"), text("type")), MinecraftLibrary::spawnEntity),
-            function(
-                    "FIND_ENTITIES",
-                    List.of(
-                            position("position"),
-                            integer("radius"),
-                            NativeFunction.Parameter.withDefault("type", "STRING", TEXT, new StringValue(""))),
-                    MinecraftLibrary::findEntities),
-            function("TELEPORT", List.of(text("uuid"), position("position")), MinecraftLibrary::teleport));
-
-    private static NativeFunction function(
-            String name, List<NativeFunction.Parameter> parameters, NativeFunction.Implementation implementation) {
-        // All functions of the library have at most one result, called result; GET_BLOCK has four
-        List<String> results = switch (name) {
-            case "GET_BLOCK" -> List.of("id", "properties", "power", "has_inventory");
-            case "BEEP", "SOUND", "SAY", "SET_LEVER", "PRESS_BUTTON", "SET_OPEN", "PLACE_BLOCK", "REMOVE_BLOCK",
-                    "MINE_BLOCK", "TELEPORT" -> List.of();
-            default -> List.of("result");
-        };
-        return new NativeFunction(name, parameters, results, implementation);
-    }
-
-    private static Map<String, NativeFunction> functionMap(NativeFunction... functions) {
-        Map<String, NativeFunction> map = new LinkedHashMap<>();
-        for (NativeFunction function : functions) {
-            map.put(function.name(), function);
-        }
-        return Map.copyOf(map);
+        return LIBRARY.functions();
     }
 
     // ------------------------------------------------------------------------------------------- helpers

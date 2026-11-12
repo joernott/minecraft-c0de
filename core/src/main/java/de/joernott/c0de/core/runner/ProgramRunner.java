@@ -11,6 +11,7 @@ import de.joernott.c0de.core.io.Console;
 import de.joernott.c0de.core.io.TextScreen;
 import de.joernott.c0de.core.library.LibraryProvider;
 import de.joernott.c0de.core.library.LibraryRegistry;
+import de.joernott.c0de.core.library.minecraft.MinecraftLibraryDefinition;
 import de.joernott.c0de.core.library.standard.JsonValues;
 import de.joernott.c0de.core.library.standard.StandardLibraries;
 import de.joernott.c0de.core.line.Block;
@@ -33,6 +34,7 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Deque;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -48,13 +50,11 @@ import java.util.ServiceLoader;
  * options, and reports the problems, the results, the error and what the program printed, as a tree that the
  * command line writes as YAML.
  *
- * <p>The library c0de/minecraft is part of the mod: programs that include it are validated, apart from that
- * library, but not run. The libraries of other mods are added by {@link LibraryProvider}s on the class path.
+ * <p>The library c0de/minecraft needs the game: the runner knows its types and functions (task 15.3), so programs
+ * that include it are validated completely and run until they call one of its functions, which raises
+ * INVALID_ARGUMENT. The libraries of other mods are added by {@link LibraryProvider}s on the class path.
  */
 public final class ProgramRunner {
-    /** The library of the mod that the runner doesn't have. */
-    static final String MINECRAFT = "c0de/minecraft";
-
     private ProgramRunner() {}
 
     /**
@@ -162,7 +162,7 @@ public final class ProgramRunner {
     public static LibraryRegistry libraries() {
         LibraryRegistry libraries = StandardLibraries.registry();
         ServiceLoader.load(LibraryProvider.class).forEach(provider -> provider.register(libraries));
-        return libraries;
+        return withMinecraft(libraries);
     }
 
     /**
@@ -178,14 +178,9 @@ public final class ProgramRunner {
         Program program = ProgramParser.parse(sheet);
         report.put("program", program.name());
         report.put("function", options.function());
-        boolean minecraft =
-                includes(program, MINECRAFT) && libraries.find(MINECRAFT).isEmpty();
         List<Map<String, Object>> problems = new ArrayList<>();
-        Validation validation = Validator.validate(sheet, libraries);
-        for (Problem problem : validation.problems().values()) {
-            if (minecraft && ofMinecraft(problem)) {
-                continue;
-            }
+        Validation validation = Validator.validate(sheet, withMinecraft(libraries));
+        for (Problem problem : problems(validation)) {
             Map<String, Object> entry = new LinkedHashMap<>();
             entry.put("line", problem.line());
             entry.put("code", problem.code().name());
@@ -194,7 +189,7 @@ public final class ProgramRunner {
         }
         report.put("valid", problems.isEmpty());
         report.put("problems", problems);
-        if (!problems.isEmpty() || minecraft) {
+        if (!problems.isEmpty()) {
             report.put("run", false);
             return report;
         }
@@ -216,7 +211,7 @@ public final class ProgramRunner {
         RunnerConsole console = new RunnerConsole(options);
         CursorSettings settings = new CursorSettings(
                 CursorSettings.DEFAULT_STACK_SIZE,
-                libraries,
+                withMinecraft(libraries),
                 Clock.fixed(options.time(), options.zone()),
                 options.zone(),
                 console,
@@ -263,18 +258,12 @@ public final class ProgramRunner {
     /**
      * The blocks of a program as they lie on the sheet, for the 3D views of the website (task 14.7): every line
      * with the state of its line number and its blocks with their position, the ID of the block of the mod, the
-     * block state (operators) and their text in the notation. Lines that use c0de/minecraft count as valid.
+     * block state (operators) and their text in the notation.
      */
     public static Map<String, Object> layout(String text, LibraryRegistry libraries, ZoneId zone) {
         Sheet sheet = Notation.parse(text, zone);
         Program program = ProgramParser.parse(sheet);
-        Validation validation = Validator.validate(sheet, libraries);
-        if (includes(program, MINECRAFT) && libraries.find(MINECRAFT).isEmpty()) {
-            Map<Integer, Problem> problems = new LinkedHashMap<>(validation.problems());
-            problems.values().removeIf(ProgramRunner::ofMinecraft);
-            validation =
-                    new Validation(validation.programName(), validation.endLine(), problems, validation.functions());
-        }
+        Validation validation = Validator.validate(sheet, withMinecraft(libraries));
         List<Map<String, Object>> lines = new ArrayList<>();
         for (Line line : sheet.lines()) {
             if (line.isEmpty()) {
@@ -378,15 +367,27 @@ public final class ProgramRunner {
         }
     }
 
-    private static boolean includes(Program program, String library) {
-        return program.statements().stream()
-                .anyMatch(statement -> statement instanceof Statement.Include include
-                        && include.library().equals(library));
+    /**
+     * The problems of a program, each once and sorted by line (task 15.4): the validation keeps a problem for every
+     * line whose state it sets, e.g. for all lines of a function whose declaration is wrong, in no particular order.
+     */
+    static List<Problem> problems(Validation validation) {
+        Map<List<Object>, Problem> distinct = new LinkedHashMap<>();
+        validation.problems().values().stream()
+                .sorted(Comparator.comparingInt(Problem::line)
+                        .thenComparing(problem -> problem.code().name())
+                        .thenComparing(Problem::message))
+                .forEach(problem ->
+                        distinct.putIfAbsent(List.of(problem.line(), problem.code(), problem.message()), problem));
+        return List.copyOf(distinct.values());
     }
 
-    /** Problems that only exist because the runner doesn't have c0de/minecraft. */
-    private static boolean ofMinecraft(Problem problem) {
-        return problem.code() == ErrorCode.UNKNOWN_LIBRARY || problem.code() == ErrorCode.UNKNOWN_FUNCTION;
+    /** The libraries with c0de/minecraft without the game, unless they have it already. */
+    private static LibraryRegistry withMinecraft(LibraryRegistry libraries) {
+        if (libraries.find(MinecraftLibraryDefinition.NAME).isEmpty()) {
+            libraries.add(MinecraftLibraryDefinition.withoutGame());
+        }
+        return libraries;
     }
 
     private static Optional<Statement.FunctionDeclaration> function(Program program, String name) {
