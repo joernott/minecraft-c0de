@@ -257,6 +257,8 @@ RETURN beendet die Funktion sofort.
 
 Es darf eine Variable vom Typ ERROR nennen, um dem Aufrufer ein Problem zu melden. Ohne Namen gibt die Funktion „kein Fehler“ zurück. Die Ergebnisse behalten die Werte, die sie in diesem Moment haben.
 
+Der Code eines Fehlers, den du selbst erzeugst, muss 1000 oder höher sein, sonst löst RETURN INVALID_ARGUMENT aus. Einen Fehler, den deine Funktion von einem CALL bekommen hat, kannst du mit seinem Code weitergeben.
+
 **Rezept**
 
 ![RETURN-Rezept](../../reference/images/return_block.png)

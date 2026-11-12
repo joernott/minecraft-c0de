@@ -519,6 +519,17 @@ public final class Cursor {
                         "RETURN needs a variable of type ERROR, not " + variable.name());
             }
             returned = struct.copy();
+            long code = code(returned);
+            // The program's own errors need codes of 1000 or higher, like those of RAISE (04-data.md); an error the
+            // function received from a call has a context and can be passed on with its code
+            if (code != 0
+                    && code < ErrorCode.FIRST_USER_CODE
+                    && ((StringValue) returned.get("context")).value().isEmpty()) {
+                throw C0deException.of(
+                        ErrorCode.INVALID_ARGUMENT,
+                        "The code of a user-defined error must be " + ErrorCode.FIRST_USER_CODE + " or higher: "
+                                + code);
+            }
         }
         returnFromFunction(returned);
     }

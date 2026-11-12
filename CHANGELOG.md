@@ -7,6 +7,7 @@ All notable changes of the c0de mod. The section of a version is also its change
 Feedback from the tutorials of c0de.at.
 
 - **PRINT** writes BOOLEAN values as `TRUE` and `FALSE`, as the handbook says (⊕ still writes `true` and `false`).
+- **RETURN** raises INVALID_ARGUMENT for an error the program made with a code below 1000, like RAISE; an error received from a CALL can still be passed on.
 
 ## 0.4.0
 

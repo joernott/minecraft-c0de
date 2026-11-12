@@ -223,7 +223,7 @@ If the stack is full when pushing an item, the cursor crashes with STACK_OVERFLO
 
 ### When a cursor reaches a RETURN statement
 
-If a LABEL follows the RETURN block, the cursor resolves it. It MUST refer to a variable or constant of type ERROR; otherwise the cursor crashes with SYNTAX_ERROR_FUNCTION. Its value is the error returned by the function. Without a label, the function returns an error with code 0. Any other block after the RETURN block makes the cursor crash with SYNTAX_ERROR_FUNCTION.
+If a LABEL follows the RETURN block, the cursor resolves it. It MUST refer to a variable or constant of type ERROR; otherwise the cursor crashes with SYNTAX_ERROR_FUNCTION. Its value is the error returned by the function. Without a label, the function returns an error with code 0. If the error has a code below 1000 other than 0 and an empty `context`, i.e. the program made it itself instead of receiving it from a call, the cursor raises INVALID_ARGUMENT instead, as RAISE does: user-defined codes MUST be 1000 or higher. An error received from a call keeps its code and can be passed on. Any other block after the RETURN block makes the cursor crash with SYNTAX_ERROR_FUNCTION.
 
 The cursor then returns from the function.
 

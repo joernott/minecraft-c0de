@@ -116,6 +116,56 @@ class CursorErrorTest {
     }
 
     @Test
+    void returnedErrorsOfTheProgramNeedUserCodes() {
+        String program = """
+                NOOP
+                FUNCTION check
+                BEGIN
+                    VARIABLE failure ERROR
+                    ASSIGN failure.code 5 ;
+                    RETURN failure
+                END FUNCTION
+                NOOP
+                FUNCTION main
+                    RESULT code INTEGER
+                    RESULT context STRING
+                BEGIN
+                    VARIABLE problem ERROR
+                    CALL check problem
+                    ASSIGN code problem.code ;
+                    ASSIGN context problem.context ;
+                END FUNCTION
+                """;
+        Map<String, Value> results = finished(run(program, "main"));
+        assertEquals(integer(ErrorCode.INVALID_ARGUMENT.code()), results.get("code"), "like RAISE");
+        assertEquals(string("check"), results.get("context"));
+    }
+
+    @Test
+    void receivedErrorsArePassedOnWithTheirCodes() {
+        Map<String, Value> results = finished(run(DIVIDE + """
+                NOOP
+                FUNCTION pass
+                BEGIN
+                    VARIABLE problem ERROR
+                    CALL divide problem
+                        PARAMETER a 1 ;
+                        PARAMETER b 0 ;
+                    RETURN problem
+                END FUNCTION
+                NOOP
+                FUNCTION main
+                    RESULT code INTEGER
+                BEGIN
+                    VARIABLE problem ERROR
+                    CALL pass problem
+                    ASSIGN code problem.code ;
+                END FUNCTION
+                """, "main"));
+        assertEquals(integer(ErrorCode.DIVISION_BY_ZERO.code()), results.get("code"));
+    }
+
+    @Test
     void syntaxErrorsCrashOnlyWhenTheCursorReachesThem() {
         String program = """
                 NOOP
