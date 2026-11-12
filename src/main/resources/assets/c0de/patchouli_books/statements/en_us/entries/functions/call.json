@@ -10,7 +10,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Without that ERROR variable, an error stops your function too and goes on to its caller. You can't call a function inside an expression."
+      "text": "Without that ERROR variable, an error stops your function too and goes on to its caller. You can't call a function inside an expression.$(br2)The ERROR variable gets the error of every call, also \"no error\": after a CALL without error, its $(1)code$() is 0 again."
     },
     {
       "type": "patchouli:crafting",

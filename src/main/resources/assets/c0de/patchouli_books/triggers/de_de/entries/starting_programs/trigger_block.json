@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "Der Auslöserblock startet einen Prozess, wenn er einen Redstone-Impuls bekommt."
+      "text": "Der Auslöserblock startet einen Prozess, wenn er einen Redstone-Impuls bekommt.$(br2)Nur ein Signal, das angeht, startet ihn. Einen Hebel auszuschalten startet ihn nicht, und ein Signal, das an bleibt, startet ihn nicht noch einmal."
     },
     {
       "type": "patchouli:text",
@@ -18,7 +18,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Ein Trichter über oder neben ihm füllt die Eingabe, ein Trichter unter ihm leert die Ausgabe. Ein angrenzender Auslöserblock bekommt die Ausgabe in seine Eingabe, so kannst du Ketten bauen. Ein Komparator liest den Exit-Code des letzten Prozesses als Signalstärke."
+      "text": "Ein Trichter über oder neben ihm füllt die Eingabe, ein Trichter unter ihm leert die Ausgabe. Ein angrenzender Auslöserblock bekommt die Ausgabe in seine Eingabe, so kannst du Ketten bauen. Ein Komparator liest den Exit-Code des letzten Prozesses als Signalstärke, und 0, solange ein Prozess läuft. Zeitgeberblöcke und Debug-Auslöserblöcke liest er genauso aus."
     },
     {
       "type": "patchouli:crafting",

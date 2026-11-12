@@ -15,6 +15,8 @@ A complex expression is
   - an expression followed by a binary operator and another expression, or
   - an opening parenthesis, an expression and a closing parenthesis.
 
+A minus sign directly at the beginning of an expression, after another operator or after an opening parenthesis is the unary minus, so `- x` negates the variable `x`. The minus sign is an OPERATOR block of its own; in the text notation of the examples it is a token of its own (`- x`, not `-x`), while `-7` is an INTEGER literal.
+
 An expression is read from left to right (in ascending x order). Operations are executed in the order of their [precedence](#precedence). Operators with the same precedence are executed from left to right, except for exponentiation (^), which is executed from right to left.
 
 The end of an expression MUST be marked by an OPERATOR block with the end-of-expression symbol `;`. This allows several expressions in one line (e.g. in a FOR statement). An expression MAY span several lines: if a line ends before the `;` block is reached, the expression continues on the following continuation line, which is indented by one block relative to the first line of the statement.
@@ -23,12 +25,12 @@ Function calls are not part of expressions. A function is always called with a [
 
 ### Type rules
 
-  - Arithmetic operators accept INTEGER and FLOAT operands. If one operand is a FLOAT, the result is a FLOAT. Division (/) always returns a FLOAT. Exponentiation (^) of two INTEGERs returns an INTEGER if the exponent is not negative, otherwise a FLOAT. Modulus (`\`) requires INTEGER operands; the result has the sign of the dividend (`-7 \ 2` is `-1`).
+  - Arithmetic operators accept INTEGER and FLOAT operands. If one operand is a FLOAT, the result is a FLOAT. Division (/) always returns a FLOAT. A divisor of 0 raises DIVISION_BY_ZERO for `/` and `\`, also for FLOAT operands (`1.5 / 0.0` doesn't result in an infinite value). Exponentiation (^) of two INTEGERs returns an INTEGER if the exponent is not negative, otherwise a FLOAT. Modulus (`\`) requires INTEGER operands; the result has the sign of the dividend (`-7 \ 2` is `-1`).
   - TIME values: an INTEGER number of milliseconds can be added to or subtracted from a TIME value (`TIME + INTEGER`, `INTEGER + TIME`, `TIME - INTEGER`), which results in a TIME. Subtracting two TIME values (`TIME - TIME`) results in the difference in milliseconds as INTEGER. No other arithmetic operator accepts TIME operands.
   - Comparison operators require operands of the same type. INTEGER and FLOAT can be compared with each other, and so can CHAR and STRING. CHAR and STRING values are compared lexicographically by their Unicode code points (`"Z" < "a"`), TIME values chronologically. Only = and ≠ can be used with BOOLEAN, ARRAY, HASH, STRUCT and ERROR operands.
   - Logical operators require BOOLEAN operands and return a BOOLEAN. AND and OR only evaluate their right operand if the left one doesn't decide the result already, so `x ≠ 0 AND 10 / x > 1` doesn't raise DIVISION_BY_ZERO.
   - Bitwise operators require INTEGER operands and return an INTEGER. Only the lowest 6 bits of the shift count are used (as in Java), so shifting by 64 is the same as shifting by 0.
-  - The concatenation operator (⊕) converts both operands to their text representation and returns a STRING. The text representation of a BOOLEAN is `true` or `false`, of a FLOAT for example `2.5` or `1.0E20`, of a TIME the ISO 8601 format, of an ARRAY `[1, 2, 3]` and of a HASH or STRUCT `{key: value, key: value}`.
+  - The concatenation operator (⊕) converts both operands to their text representation and returns a STRING. The text representation of a BOOLEAN is `true` or `false`, of a FLOAT for example `2.5` or `1.0E20`, of a TIME the ISO 8601 format in UTC with milliseconds (e.g. `2026-10-19T12:05:09.250Z`, independent of the time zone of the server), of an ARRAY `[1, 2, 3]` and of a HASH or STRUCT `{key: value, key: value}`.
 
 Applying an operator to operands of the wrong type raises a TYPE_MISMATCH error.
 

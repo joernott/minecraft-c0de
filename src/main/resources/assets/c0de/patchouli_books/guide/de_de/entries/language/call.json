@@ -14,7 +14,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Hier wird $(1)greeting$() zu \"Hello, c0de!\". Eine Funktion kann nur Funktionen aufrufen, die über ihr definiert sind, oder sich selbst."
+      "text": "Hier wird $(1)greeting$() zu \"Hello, c0de!\". Eine Funktion kann nur Funktionen aufrufen, die über ihr definiert sind, oder sich selbst.$(br2)Dieselbe Variable darf einen Parameter liefern und ein Ergebnis bekommen, zum Beispiel $(1)PARAMETER name greeting ;$() und $(1)RESULT result greeting$()."
     }
   ]
 }

@@ -42,6 +42,8 @@ Schlüsselwörter in Großbuchstaben sind reserviert: `RESULT` ist kein gültige
 
 Ein Label kann mit einem **Index** in einen Wert hineinzeigen, zum Beispiel `list[0]`, `stock["gold"]` oder `problem.code`. Den Index gibst du als Text im LABEL-Dialog ein.
 
+Jeder Teil eines Index ist eine Zahl, ein Text in Anführungszeichen, ein Elementname oder der Name einer Variablen oder Konstanten, zum Beispiel `list[i]`. Er kann keine Rechnung sein: `list[i - 1]` geht nicht. Speichere `i - 1` zuerst in einer Variablen und verwende diese.
+
 ## Typen
 
 Ein Typblock folgt auf den Namen einer Variablen, einer Konstanten, eines Parameters oder eines Ergebnisses. Einfache Typen:
@@ -66,7 +68,7 @@ Auf ARRAY und HASH folgt der Typ ihres Inhalts, zum Beispiel `ARRAY INTEGER`. Au
 
 Eine VARIABLE-Zeile hat einen Namen, einen Typ und einen optionalen Startwert. Ohne Startwert enthält sie den Standardwert: false, 0, 0.0, ein Leerzeichen, einen leeren Text oder eine leere Liste.
 
-Eine CONSTANT-Zeile sieht genauso aus, muss aber einen Wert haben. Du kannst ihn später nicht ändern.
+Eine CONSTANT-Zeile sieht genauso aus, muss aber einen Wert haben. Du kannst ihn später nicht ändern. Der Wert ist ein LITERAL, keine Rechnung und keine andere Konstante.
 
 ```c0de
 VARIABLE b BOOLEAN TRUE
@@ -112,11 +114,17 @@ Ein LITERAL-Block enthält einen festen Wert. In seinem Dialog wählst du den Ty
 - `'a'` für ein CHAR, `"Hello"` für einen STRING
 - `@2026-10-19T12:05:09Z` für eine TIME
 
+Im Dialog tippst du einen Text ohne Anführungszeichen. Ein `"` darin ist einfach ein Zeichen. Die Textschreibweise der Beispiele setzt einen Backslash davor: `"He said \"hi\""`. `\\` ist ein Backslash und `\n` eine neue Zeile.
+
 ## Ausdrücke
 
 Ein Ausdruck berechnet einen Wert aus Literalen, Variablen, Konstanten und Operatoren. Er endet immer mit einem OPERATOR-Block, der `;` zeigt. Ein Ausdruck darf in der nächsten Zeile weitergehen, einen Block weiter östlich.
 
 Rechnungen folgen den üblichen Regeln: `*` vor `+`. Verwende `(` und `)` zum Gruppieren. Eine Division mit `/` ergibt immer ein FLOAT.
+
+Ein Minuszeichen vor einem Namen oder einer `(` dreht das Vorzeichen um: `- x * 2 ;`. Das Minuszeichen ist ein eigener OPERATOR-Block, deshalb schreibt die Textschreibweise `- x`, nicht `-x`. `-7` in einem Stück ist ein LITERAL mit einer negativen Zahl.
+
+Manche Regeln sind weniger üblich. `\` bindet schwächer als `*` und `/`: `7 \ 3 * 2` ist `7 \ 6`, also setze Klammern. `⊕` bindet schwächer als `+`, und AND bindet stärker als OR: `a OR b AND c` bedeutet `a OR ( b AND c )`.
 
 Du kannst in einem Ausdruck keine Funktion aufrufen. Verwende stattdessen eine CALL-Anweisung.
 
@@ -129,6 +137,10 @@ Du kannst in einem Ausdruck keine Funktion aufrufen. Verwende stattdessen eine C
 - Bits: `&` `|` `⊻` `¬` `←` `→`
 
 `=` vergleicht nur. Um einen Wert zu speichern, verwende ASSIGN. `⊕` macht aus Zahlen und Listen Text, also ergibt `'a' ⊕ 1 ⊕ "b"` den Wert `"a1b"`.
+
+`\` geht nur mit INTEGERs. Das Ergebnis behält das Vorzeichen der linken Zahl: `-7 \ 2` ist `-1`. Eine Division durch null löst DIVISION_BY_ZERO aus, mit `/` und `\`, auch bei FLOATs: `1.5 / 0.0` ergibt nicht unendlich.
+
+TIME-Werte kannst du mit `<`, `>` und den anderen vergleichen: Die frühere Zeit ist die kleinere. `⊕` schreibt eine TIME als ISO-Text in UTC mit Millisekunden, zum Beispiel `2026-10-19T12:05:09.250Z`. Für die Ortszeit verwende FORMAT aus c0de/strings.
 
 ## ASSIGN
 
@@ -161,6 +173,8 @@ END FUNCTION
 
 Wenn die Funktion endet, gehen die letzten Werte ihrer Ergebnisse an den Aufrufer zurück.
 
+Alle Parameter und Ergebnisse einer Funktion brauchen verschiedene Namen. Ein Parameter `value` und ein Ergebnis `value` ergeben SYNTAX_ERROR_FUNCTION. Nenne das Ergebnis zum Beispiel `result`. Der Aufrufer darf trotzdem eine Variable für beides verwenden, siehe CALL.
+
 ## CALL
 
 CALL führt eine Funktion aus. PARAMETER-Zeilen geben ihr Werte, RESULT-Zeilen sagen, welche Variable welches Ergebnis bekommt. Ergebnisse, die du nicht aufführst, werden verworfen.
@@ -172,6 +186,8 @@ CALL greet
 ```
 
 Hier wird `greeting` zu "Hello, c0de!". Eine Funktion kann nur Funktionen aufrufen, die über ihr definiert sind, oder sich selbst.
+
+Dieselbe Variable darf einen Parameter liefern und ein Ergebnis bekommen, zum Beispiel `PARAMETER name greeting ;` und `RESULT result greeting`.
 
 ## RETURN
 
@@ -266,6 +282,8 @@ EXIT 3 ;
 
 Exit-Code 15 bedeutet, dass das Programm abgestürzt ist. Du darfst `EXIT 15 ;` auch für ein schweres Problem verwenden.
 
+EXIT ist kein Absturz: Die Ergebnisse der Einstiegsfunktion kommen trotzdem heraus, mit den Werten, die sie in diesem Moment haben. Nur ein echter Absturz liefert keine Ergebnisse.
+
 ## Fehler
 
 Wenn etwas schiefgeht, zum Beispiel eine Division durch null, hält die Funktion an und **löst** einen Fehler **aus**. Der Fehler geht an den Aufrufer und dann weiter nach oben an dessen Aufrufer.
@@ -273,6 +291,10 @@ Wenn etwas schiefgeht, zum Beispiel eine Division durch null, hält die Funktion
 Wenn der Fehler die Einstiegsfunktion erreicht, **stürzt** der Prozess **ab**. Fehler im Programm selbst, zum Beispiel eine falsche Einrückung, lassen ihn sofort abstürzen.
 
 Um einen Fehler abzufangen, füge der CALL-Zeile eine Variable vom Typ ERROR hinzu. Der Aufrufer macht dann weiter, und du kannst `code`, `message`, `context` und `line` des Fehlers prüfen.
+
+Jeder CALL mit einer solchen Variablen schreibt in sie, auch wenn nichts schiefging: Dann ist ihr `code` wieder 0 und ihre `message` leer. Prüfe sie also direkt nach dem CALL.
+
+Die Namen der Fehler sind Konstanten, zum Beispiel `DIVISION_BY_ZERO`. Dazu gehören die Fehler der Bibliotheken von c0de, wie PERMISSION_DENIED, CHUNK_NOT_LOADED, INVENTORY_FULL und ITEM_MISSING. Fehler von Bibliotheken anderer Mods sind nur Konstanten, wenn die Mod sie hinzufügt. Sonst vergleiche `code` mit der Zahl aus ihrem Handbuch.
 
 ```c0de
 VARIABLE problem ERROR

@@ -18,6 +18,14 @@
     },
     {
       "type": "patchouli:text",
+      "text": "Jeder CALL mit einer solchen Variablen schreibt in sie, auch wenn nichts schiefging: Dann ist ihr $(1)code$() wieder 0 und ihre $(1)message$() leer. Prüfe sie also direkt nach dem CALL."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Die Namen der Fehler sind Konstanten, zum Beispiel $(1)DIVISION_BY_ZERO$(). Dazu gehören die Fehler der Bibliotheken von c0de, wie PERMISSION_DENIED, CHUNK_NOT_LOADED, INVENTORY_FULL und ITEM_MISSING. Fehler von Bibliotheken anderer Mods sind nur Konstanten, wenn die Mod sie hinzufügt. Sonst vergleiche $(1)code$() mit der Zahl aus ihrem Handbuch."
+    },
+    {
+      "type": "patchouli:text",
       "text": "$(1)VARIABLE problem ERROR$(br)CALL fail problem$(br)ASSIGN code problem.code ;$()"
     }
   ]

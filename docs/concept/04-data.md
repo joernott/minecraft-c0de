@@ -141,7 +141,7 @@ A TYPE_ERROR block is a red slab; lying on its top, as if in an invisible item f
 ### Built-in constants
 
 Every program knows the following constants without an INCLUDE. Their names can't be used for other declarations.
-  - The names of all [error codes](16-error-codes.md), e.g. `DIVISION_BY_ZERO` (INTEGER).
+  - The names of all [error codes](16-error-codes.md), e.g. `DIVISION_BY_ZERO` (INTEGER). This includes the errors raised by the libraries of c0de, e.g. PERMISSION_DENIED and CHUNK_NOT_LOADED of c0de/minecraft. Error codes of libraries of other mods are only built-in constants if the mod registers them (see below).
   - `COLOR_BLACK` to `COLOR_WHITE` (INTEGER): the numbers 0 to 15 of the colors of [COLOR](19-input-output.md#screen-functions).
   - `SHEET` of the built-in struct type `SHEET_INFO`: the sheet of the program the process runs.
   - `PID` of the built-in struct type `PID_INFO`: the process itself.
@@ -164,7 +164,7 @@ SHEET and PID are filled when a process starts and keep their values while it ru
 | program | STRING | The name of the program. |
 | function | STRING | The name of the entry function. |
 | owner | STRING | The name of the owner of the trigger block, on whose behalf c0de/minecraft acts. |
-| activator | STRING | The name of the player who started the process (pressed the button, stood on the pressure plate, clicked with the debugging tool), empty for redstone, mobs and timer blocks. |
+| activator | STRING | The name of the player who started the process (pressed the button, switched the lever within the last 5 ticks, stood on the pressure plate, shot the arrow that pressed the button, clicked with the debugging tool). It is empty for all other redstone signals (redstone dust, clocks, comparators, a lever switched long ago), for mobs and for timer blocks. |
 | x, y, z | INTEGER | The position of the trigger block. |
 | dimension | STRING | The dimension of the trigger block, e.g. `minecraft:overworld`. |
 | debug | BOOLEAN | True for a process of a debug trigger block. |
@@ -198,7 +198,7 @@ It can be crafted shapelessly from a type base and a bone block. It can also be 
 
 ### Constant
 
-A constant definition is a statement that consists of a CONSTANT keyword directly followed by a valid, unique LABEL and a type. Its declaration follows the same rules as a variable declaration (including tags), but it MUST be initialized with a value. The value of a constant is immutable: a constant MUST NOT be the target of an ASSIGN statement, a CALL result or a FOR or EACH loop.
+A constant definition is a statement that consists of a CONSTANT keyword directly followed by a valid, unique LABEL and a type. Its declaration follows the same rules as a variable declaration (including tags), but it MUST be initialized with a value: a constant of a simple type or STRING with a LITERAL, a constant of type ARRAY, HASH or STRUCT with an initializer code block. An expression or another constant can't be used as its value (SYNTAX_ERROR_CONSTANT). The value of a constant is immutable: a constant MUST NOT be the target of an ASSIGN statement, a CALL result or a FOR or EACH loop.
 
 #### Minecraft block
 
@@ -222,6 +222,8 @@ Only literals can be used in initializers. Expressions are not allowed.
 ### Literal
 
 A literal is similar to a constant without a name. It has a type and a value and can be used in expressions, initializers and wherever a value is expected. The type of a literal is BOOLEAN, INTEGER, FLOAT, CHAR, STRING or TIME. The value of a TIME literal is entered in the ISO 8601 format, e.g. `2026-10-19T12:05:09Z`, `2026-10-19T12:05:09.250Z` or `2026-10-19T14:05:09+02:00`. The milliseconds are optional. Without an offset, the time zone of the server is used.
+
+The value of a STRING or CHAR literal is entered in the dialog as it is, without quotes and without escape sequences; a `"` or `\` is an ordinary character. The text notation of the examples (and the expressions of the [YAML format](17-yaml-format.md)) writes a STRING in double quotes and a CHAR in single quotes; inside them, a backslash escapes the next character: `\"` is a double quote, `\'` a single quote, `\\` a backslash and `\n` a line break, e.g. `"He said \"hi\""`.
 
 #### Minecraft block
 

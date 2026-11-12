@@ -108,6 +108,8 @@ Das funktioniert, egal wie tief der Cursor in Funktionen und Codeblöcken steckt
 
 Exit-Code 15 bedeutet, dass das Programm abgestürzt ist. Du kannst `EXIT 15 ;` auch für ein schwerwiegendes Problem verwenden.
 
+EXIT ist kein Absturz: Die Ergebnisse der Einstiegsfunktion kommen mit den Werten heraus, die sie in diesem Moment haben.
+
 **Rezept**
 
 ![EXIT-Rezept](../../reference/images/exit_block.png)
@@ -209,7 +211,7 @@ Eine PARAMETER-Zeile ist eine Eingabe einer Funktion.
 
 Unter einer FUNCTION hat sie einen Namen, einen Typ und einen optionalen Standardwert. Unter einem CALL hat sie den Namen eines Parameters und einen Ausdruck mit seinem Wert. PARAMETER-Zeilen stehen einen Block weiter östlich als ihre FUNCTION oder ihr CALL.
 
-Ein Aufrufer darf Parameter mit Standardwert weglassen. Parameter sind Kopien: Wenn du sie änderst, ändern sich die Variablen des Aufrufers nicht.
+Ein Aufrufer darf Parameter mit Standardwert weglassen. Parameter sind Kopien: Wenn du sie änderst, ändern sich die Variablen des Aufrufers nicht. Ein Parameter und ein Ergebnis derselben Funktion können nicht denselben Namen haben (SYNTAX_ERROR_FUNCTION).
 
 **Rezept**
 
@@ -284,6 +286,8 @@ Danach folgt ein LABEL mit dem Funktionsnamen. PARAMETER-Zeilen geben ihr Werte,
 
 Ohne diese ERROR-Variable stoppt ein Fehler auch deine Funktion und geht weiter an ihren Aufrufer. Du kannst keine Funktion innerhalb eines Ausdrucks aufrufen.
 
+Die ERROR-Variable bekommt den Fehler jedes Aufrufs, auch „kein Fehler“: Nach einem CALL ohne Fehler ist ihr `code` wieder 0.
+
 **Rezept**
 
 ![CALL-Rezept](../../reference/images/call_block.png)
@@ -343,6 +347,8 @@ Lege rote Wolle in die Mitte und acht NOOP-Blöcke darum herum. Du bekommst acht
 **Beispiel**
 
 `*` kommt vor `+`, und `(` und `)` fassen zusammen. `=` vergleicht nur; um einen Wert zu speichern, verwende ASSIGN.
+
+`\` bindet schwächer als `*` und `/`, `⊕` schwächer als `+`, und AND stärker als OR. Ein `-` vor einem Namen oder einer `(` dreht das Vorzeichen um: `- x`. `\` nimmt nur INTEGERs und behält das Vorzeichen der linken Zahl: `-7 \ 2` ist `-1`. Eine Division durch null löst DIVISION_BY_ZERO aus, auch bei FLOATs.
 
 ```c0de
 ASSIGN arithmetic 1 + 2 * ( 3 + 3 ) \ 10 * 2 + 10 ;

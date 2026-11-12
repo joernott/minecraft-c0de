@@ -30,7 +30,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "INPUT nimmt zuerst eine passende Karte aus einem E/A-Block. Sonst wartet es, bis ein Spieler auf einem Laptop oder Tablet eine Zeile eintippt. Die Handbücher Funktionen und Geräte beschreiben sie alle."
+      "text": "INPUT nimmt zuerst eine passende Karte aus einem E/A-Block. Sonst wartet es, bis ein Spieler auf einem Laptop oder Tablet eine Zeile eintippt. Die getippte Zeile erscheint auf seinem Bildschirm, du siehst also deine Antwort. Die Handbücher Funktionen und Geräte beschreiben sie alle."
     }
   ]
 }

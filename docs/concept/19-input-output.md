@@ -42,7 +42,7 @@ If no bound I/O block has an uninitialized variable item, the cursor waits on th
 `INPUT` reads a value into the variable given as `variable`. Like the `destination` of FROM_JSON, the parameter is passed by reference: its expression MUST be a single label without index that names a declared variable, not a constant or loop variable; otherwise the CALL statement is invalid (SYNTAX_ERROR_CALL). The cursor looks for the value in this order:
 
 1. The input inventories of the bound I/O blocks, in the order of binding, each from its first slot: a variable or constant item with the name of the variable and its type, or a literal item with a value of its type.
-2. A line typed on a bound laptop or tablet. The text is read like the value of a LITERAL block for simple types and STRING, and as JSON for ARRAY, HASH and STRUCT. Text that doesn't fit the type is refused with a message on the terminal, which keeps waiting.
+2. A line typed on a bound laptop or tablet. The text is read like the value of a LITERAL block for simple types and STRING, and as JSON for ARRAY, HASH and STRUCT. The typed line is printed on the screen of its terminal. Text that doesn't fit the type is refused with a message on the terminal (a line starting with `? `), which keeps waiting.
 
 If neither has a value, the cursor waits on the CALL line, and the input lines of the bound laptops and tablets become available. The used item is taken from the input inventory, and an item goes into the output inventory: an uninitialized variable item for a variable item, the unchanged constant item for a constant item, and the literal item without its value for a literal item. If the output inventory is full, the item is dropped on the I/O block.
 

@@ -14,7 +14,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Exit-Code 15 bedeutet, dass das Programm abgestürzt ist. Du darfst $(1)EXIT 15 ;$() auch für ein schweres Problem verwenden."
+      "text": "Exit-Code 15 bedeutet, dass das Programm abgestürzt ist. Du darfst $(1)EXIT 15 ;$() auch für ein schweres Problem verwenden.$(br2)EXIT ist kein Absturz: Die Ergebnisse der Einstiegsfunktion kommen trotzdem heraus, mit den Werten, die sie in diesem Moment haben. Nur ein echter Absturz liefert keine Ergebnisse."
     }
   ]
 }

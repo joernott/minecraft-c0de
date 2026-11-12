@@ -194,7 +194,7 @@ CALL WRITE
 
 Reads a value into a variable.
 
-`variable` must be the name of one declared variable, without index. A constant or loop variable doesn't work. The function writes into the variable directly. It first looks into the bound I/O blocks for an item with the same name and type, or a literal item of the right type. Otherwise it waits until a player types a line on a bound laptop or tablet.
+`variable` must be the name of one declared variable, without index. A constant or loop variable doesn't work. The function writes into the variable directly. It first looks into the bound I/O blocks for an item with the same name and type, or a literal item of the right type. Otherwise it waits until a player types a line on a bound laptop or tablet. The typed line appears on the screen of that laptop or tablet.
 
 **Parameters and results**
 

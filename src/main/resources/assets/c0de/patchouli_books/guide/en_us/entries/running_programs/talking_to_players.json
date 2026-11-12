@@ -26,7 +26,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "INPUT takes a matching item from an I/O block first. Otherwise it waits until a player types a line on a laptop or tablet. The handbooks Functions and Devices describe all of them."
+      "text": "INPUT takes a matching item from an I/O block first. Otherwise it waits until a player types a line on a laptop or tablet. The typed line appears on its screen, so you see your answer. The handbooks Functions and Devices describe all of them."
     }
   ]
 }

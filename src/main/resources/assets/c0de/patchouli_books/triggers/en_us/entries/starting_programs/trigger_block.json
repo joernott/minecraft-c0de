@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "The trigger block starts a process when it gets a redstone pulse."
+      "text": "The trigger block starts a process when it gets a redstone pulse.$(br2)Only a signal that comes on starts it. Switching a lever off doesn't, and a signal that stays on doesn't start it again."
     },
     {
       "type": "patchouli:text",
@@ -18,7 +18,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "A hopper above or beside it fills the input, a hopper below it empties the output. An adjacent trigger block gets the output in its input, so you can build chains. A comparator reads the exit code of the last process as signal strength."
+      "text": "A hopper above or beside it fills the input, a hopper below it empties the output. An adjacent trigger block gets the output in its input, so you can build chains. A comparator reads the exit code of the last process as signal strength, and 0 while a process runs. It reads timer blocks and debug trigger blocks the same way."
     },
     {
       "type": "patchouli:crafting",

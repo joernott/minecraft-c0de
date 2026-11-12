@@ -15,6 +15,10 @@
     {
       "type": "patchouli:text",
       "text": "A label can point into a value with an $(l)index$(), like $(1)list[0]$(), $(1)stock[\"gold\"]$() or $(1)problem.code$(). You enter the index as text in the LABEL dialog."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Each part of an index is a number, a text in quotes, an element name or the name of a variable or constant, like $(1)list[i]$(). It can't be a calculation: $(1)list[i - 1]$() doesn't work. Put $(1)i - 1$() into a variable first and use that."
     }
   ]
 }

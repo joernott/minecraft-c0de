@@ -15,6 +15,10 @@
     {
       "type": "patchouli:text",
       "text": "Ein Label kann mit einem $(l)Index$() in einen Wert hineinzeigen, zum Beispiel $(1)list[0]$(), $(1)stock[\"gold\"]$() oder $(1)problem.code$(). Den Index gibst du als Text im LABEL-Dialog ein."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Jeder Teil eines Index ist eine Zahl, ein Text in Anführungszeichen, ein Elementname oder der Name einer Variablen oder Konstanten, zum Beispiel $(1)list[i]$(). Er kann keine Rechnung sein: $(1)list[i - 1]$() geht nicht. Speichere $(1)i - 1$() zuerst in einer Variablen und verwende diese."
     }
   ]
 }

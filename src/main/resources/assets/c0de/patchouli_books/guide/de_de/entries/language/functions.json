@@ -19,6 +19,10 @@
     {
       "type": "patchouli:text",
       "text": "Wenn die Funktion endet, gehen die letzten Werte ihrer Ergebnisse an den Aufrufer zurück."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Alle Parameter und Ergebnisse einer Funktion brauchen verschiedene Namen. Ein Parameter $(1)value$() und ein Ergebnis $(1)value$() ergeben SYNTAX_ERROR_FUNCTION. Nenne das Ergebnis zum Beispiel $(1)result$(). Der Aufrufer darf trotzdem eine Variable für beides verwenden, siehe CALL."
     }
   ]
 }

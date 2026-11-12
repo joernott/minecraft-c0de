@@ -10,7 +10,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Auslöserblöcke funktionieren in jeder Dimension. In der c0de-Dimension kannst du sie nur auf den schwarzen Boden außerhalb der Blätter setzen."
+      "text": "Nur ein Signal, das angeht, startet einen Auslöserblock. Einen Hebel auszuschalten startet ihn nicht, und ein Signal, das an bleibt, startet ihn nicht noch einmal.$(br2)Auslöserblöcke funktionieren in jeder Dimension. In der c0de-Dimension kannst du sie nur auf den schwarzen Boden außerhalb der Blätter setzen."
     },
     {
       "type": "patchouli:text",

@@ -14,7 +14,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Exit code 15 means the program crashed. You may use $(1)EXIT 15 ;$() for a fatal problem too."
+      "text": "Exit code 15 means the program crashed. You may use $(1)EXIT 15 ;$() for a fatal problem too.$(br2)EXIT is not a crash: the results of the entry function still come out, with the values they have at that moment. Only a real crash gives no results."
     }
   ]
 }

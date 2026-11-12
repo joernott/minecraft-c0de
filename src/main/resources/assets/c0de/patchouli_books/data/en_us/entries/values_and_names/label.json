@@ -13,6 +13,10 @@
       "text": "A label can point into a value with an index, like $(1)list[0]$(), $(1)stock[\"gold\"]$() or $(1)problem.code$(). Right-click the block with an empty hand to enter the name and the index."
     },
     {
+      "type": "patchouli:text",
+      "text": "Each part of an index is a number, a text in quotes, an element name or the name of a variable or constant. A calculation like $(1)list[i - 1]$() doesn't work; put $(1)i - 1$() into a variable first."
+    },
+    {
       "type": "patchouli:crafting",
       "recipe": "c0de:label_block",
       "text": "Craft a NOOP block and a paper together."

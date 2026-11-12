@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "Wenn ein Prozess normal endet, bekommt das Ausgabeinventar eine Variablenkarte pro Ergebnis der Einstiegsfunktion. Jede Karte trägt den Namen, den Typ und den Wert ihres Ergebnisses."
+      "text": "Wenn ein Prozess normal endet, bekommt das Ausgabeinventar eine Variablenkarte pro Ergebnis der Einstiegsfunktion. Jede Karte trägt den Namen, den Typ und den Wert ihres Ergebnisses. Ein EXIT zählt als normales Ende: Die Ergebnisse bekommen die Werte, die sie haben, wenn EXIT läuft."
     },
     {
       "type": "patchouli:text",

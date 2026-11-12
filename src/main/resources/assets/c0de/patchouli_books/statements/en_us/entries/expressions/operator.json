@@ -23,6 +23,10 @@
     },
     {
       "type": "patchouli:text",
+      "text": "$(1)\\$() binds weaker than $(1)*$() and $(1)/$(), $(1)⊕$() weaker than $(1)+$(), and AND tighter than OR. A $(1)-$() in front of a name or a $(1)($() turns the sign around: $(1)- x$(). $(1)\\$() takes only INTEGERs and keeps the sign of the left number: $(1)-7 \\ 2$() is $(1)-1$(). Dividing by zero raises DIVISION_BY_ZERO, also for FLOATs."
+    },
+    {
+      "type": "patchouli:text",
       "text": "$(1)ASSIGN arithmetic 1 + 2 * ( 3 + 3 ) \\ 10 * 2 + 10 ;$()"
     }
   ]

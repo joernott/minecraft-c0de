@@ -10,7 +10,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Trigger blocks work in every dimension. In the c0de dimension, you can only place them on the black floor outside the sheets."
+      "text": "Only a signal that comes on starts a trigger block. Switching a lever off doesn't start it, and a signal that stays on doesn't start it again.$(br2)Trigger blocks work in every dimension. In the c0de dimension, you can only place them on the black floor outside the sheets."
     },
     {
       "type": "patchouli:text",

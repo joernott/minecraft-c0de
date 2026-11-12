@@ -11,6 +11,14 @@
     {
       "type": "patchouli:text",
       "text": "$(1)=$() only compares. To store a value, use ASSIGN. $(1)⊕$() turns numbers and lists into text, so $(1)'a' ⊕ 1 ⊕ \"b\"$() gives $(1)\"a1b\"$()."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)\\$() only works with INTEGERs. The result keeps the sign of the left number: $(1)-7 \\ 2$() is $(1)-1$(). Dividing by zero raises DIVISION_BY_ZERO, with $(1)/$() and $(1)\\$(), for FLOATs too: $(1)1.5 / 0.0$() doesn't give infinity."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "TIME values can be compared with $(1)<$(), $(1)>$() and the others: the earlier time is the smaller one. $(1)⊕$() writes a TIME as ISO text in UTC with milliseconds, like $(1)2026-10-19T12:05:09.250Z$(). For the local time, use FORMAT of c0de/strings."
     }
   ]
 }

@@ -9,6 +9,10 @@
       "text": "TYPE_TIME stands for the type TIME: a point in time.$(br2)A new TIME holds the start of 1970 (UTC). You can add or subtract milliseconds as an INTEGER. Two times subtracted give the difference in milliseconds."
     },
     {
+      "type": "patchouli:text",
+      "text": "Times can be compared with $(1)=$(), $(1)<$(), $(1)>$() and the others: the earlier time is the smaller one. $(1)⊕$() writes a TIME as ISO text in UTC with milliseconds, like $(1)2026-10-19T12:05:09.250Z$(). FORMAT of c0de/strings writes it in the time zone of the server."
+    },
+    {
       "type": "patchouli:crafting",
       "recipe": "c0de:type_time_block",
       "text": "Craft a type base and a clock together."

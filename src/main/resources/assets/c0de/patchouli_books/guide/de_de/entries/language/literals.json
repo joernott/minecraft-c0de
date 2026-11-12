@@ -11,6 +11,10 @@
     {
       "type": "patchouli:text",
       "text": "$(li)$(1)TRUE$() und $(1)FALSE$()$(li)$(1)42$() und $(1)-7$() für ganze Zahlen, $(1)3.14$() für Gleitkommazahlen$(li)$(1)'a'$() für ein CHAR, $(1)\"Hello\"$() für einen STRING$(li)$(1)@2026-10-19T12:05:09Z$() für eine TIME"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Im Dialog tippst du einen Text ohne Anführungszeichen. Ein $(1)\"$() darin ist einfach ein Zeichen. Die Textschreibweise der Beispiele setzt einen Backslash davor: $(1)\"He said \\\"hi\\\"\"$(). $(1)\\\\$() ist ein Backslash und $(1)\\n$() eine neue Zeile."
     }
   ]
 }

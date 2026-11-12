@@ -14,7 +14,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Here $(1)greeting$() becomes \"Hello, c0de!\". A function can only call functions that are defined above it, or itself."
+      "text": "Here $(1)greeting$() becomes \"Hello, c0de!\". A function can only call functions that are defined above it, or itself.$(br2)The same variable may give a parameter and receive a result, like $(1)PARAMETER name greeting ;$() and $(1)RESULT result greeting$()."
     }
   ]
 }

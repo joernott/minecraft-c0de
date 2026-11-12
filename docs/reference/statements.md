@@ -108,6 +108,8 @@ It works no matter how deep the cursor is in functions and code blocks. An expre
 
 Exit code 15 means the program crashed. You may use `EXIT 15 ;` for a fatal problem too.
 
+EXIT is not a crash: the results of the entry function come out with the values they have at that moment.
+
 **Recipe**
 
 ![EXIT recipe](images/exit_block.png)
@@ -209,7 +211,7 @@ A PARAMETER line is an input of a function.
 
 Below a FUNCTION, it has a name, a type and an optional default value. Below a CALL, it has the name of a parameter and an expression with its value. PARAMETER lines are one block further east than their FUNCTION or CALL.
 
-A caller may leave out parameters with a default value. Parameters are copies: changing them doesn't change the caller's variables.
+A caller may leave out parameters with a default value. Parameters are copies: changing them doesn't change the caller's variables. A parameter and a result of the same function can't have the same name (SYNTAX_ERROR_FUNCTION).
 
 **Recipe**
 
@@ -284,6 +286,8 @@ A LABEL with the function name follows. PARAMETER lines give it values, RESULT l
 
 Without that ERROR variable, an error stops your function too and goes on to its caller. You can't call a function inside an expression.
 
+The ERROR variable gets the error of every call, also "no error": after a CALL without error, its `code` is 0 again.
+
 **Recipe**
 
 ![CALL recipe](images/call_block.png)
@@ -343,6 +347,8 @@ Put a red wool block in the middle and eight NOOP blocks around it. You get eigh
 **Example**
 
 `*` comes before `+`, and `(` and `)` group. `=` only compares; to store a value, use ASSIGN.
+
+`\` binds weaker than `*` and `/`, `⊕` weaker than `+`, and AND tighter than OR. A `-` in front of a name or a `(` turns the sign around: `- x`. `\` takes only INTEGERs and keeps the sign of the left number: `-7 \ 2` is `-1`. Dividing by zero raises DIVISION_BY_ZERO, also for FLOATs.
 
 ```c0de
 ASSIGN arithmetic 1 + 2 * ( 3 + 3 ) \ 10 * 2 + 10 ;

@@ -10,7 +10,19 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Calculations follow the usual rules: $(1)*$() before $(1)+$(). Use $(1)($() and $(1))$() to group. A division with $(1)/$() always gives a FLOAT.$(br2)You can't call a function inside an expression. Use a CALL statement instead."
+      "text": "Calculations follow the usual rules: $(1)*$() before $(1)+$(). Use $(1)($() and $(1))$() to group. A division with $(1)/$() always gives a FLOAT."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "A minus sign in front of a name or a $(1)($() turns the sign around: $(1)- x * 2 ;$(). The minus sign is an OPERATOR block of its own, so the text notation writes $(1)- x$(), not $(1)-x$(). $(1)-7$() in one piece is a LITERAL with a negative number."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Some rules are less usual. $(1)\\$() binds weaker than $(1)*$() and $(1)/$(): $(1)7 \\ 3 * 2$() is $(1)7 \\ 6$(), so use parentheses. $(1)⊕$() binds weaker than $(1)+$(), and AND binds tighter than OR: $(1)a OR b AND c$() means $(1)a OR ( b AND c )$()."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "You can't call a function inside an expression. Use a CALL statement instead."
     }
   ]
 }

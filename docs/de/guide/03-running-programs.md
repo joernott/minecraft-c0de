@@ -8,6 +8,8 @@ Ein Programm auf einem Blatt tut von selbst nichts. Auslöserblöcke starten es,
 - **Zeitgeberblock**: startet einen Prozess immer wieder, in einem Abstand, den du einstellst.
 - **Debug-Auslöserblock**: startet einen Prozess, wenn du ihn mit dem Debugging-Werkzeug schlägst.
 
+Nur ein Signal, das angeht, startet einen Auslöserblock. Einen Hebel auszuschalten startet ihn nicht, und ein Signal, das an bleibt, startet ihn nicht noch einmal.
+
 Auslöserblöcke funktionieren in jeder Dimension. In der c0de-Dimension kannst du sie nur auf den schwarzen Boden außerhalb der Blätter setzen.
 
 Ein Redstone-Signal pausiert einen Zeitgeberblock. Verwende einen Hebel, um ihn abzuschalten. Da ein Blatt geschützt ist, solange sein Programm läuft, pausiere einen schnellen Zeitgeber, bevor du das Programm änderst; sein Dialog zeigt dann „Durch Redstone pausiert“.
@@ -58,7 +60,7 @@ Diese anderen Karten werden nicht verwendet. Sie werden unverändert in das Ausg
 
 ## Ergebnisse
 
-Wenn ein Prozess normal endet, bekommt das Ausgabeinventar eine Variablenkarte pro Ergebnis der Einstiegsfunktion. Jede Karte trägt den Namen, den Typ und den Wert ihres Ergebnisses.
+Wenn ein Prozess normal endet, bekommt das Ausgabeinventar eine Variablenkarte pro Ergebnis der Einstiegsfunktion. Jede Karte trägt den Namen, den Typ und den Wert ihres Ergebnisses. Ein EXIT zählt als normales Ende: Die Ergebnisse bekommen die Werte, die sie haben, wenn EXIT läuft.
 
 Wenn die Funktion weniger Ergebnisse als Parameter hat, bekommst du auch leere Variablenkarten zurück. So ist die Zahl der Karten, die hinein- und herausgehen, gleich.
 
@@ -76,7 +78,7 @@ Ein Auslöserblock startet keinen Prozess, wenn:
 
 Jeder Prozess endet mit einem **Exit-Code** von 0 bis 15. Er ist 0, wenn das Programm normal endet, die Zahl aus einer EXIT-Anweisung oder 15, wenn der Prozess abgestürzt ist.
 
-Ein Komparator, der den Auslöserblock ausliest, gibt ein Signal aus, das so stark ist wie der Exit-Code. Das Signal bleibt, bis der nächste Prozess startet. So kann deine Redstone-Schaltung auf das Ergebnis eines Programms reagieren.
+Ein Komparator, der den Auslöserblock ausliest, gibt ein Signal aus, das so stark ist wie der Exit-Code. Das Signal bleibt, bis der nächste Prozess startet, und ist 0, solange ein Prozess läuft. So kann deine Redstone-Schaltung auf das Ergebnis eines Programms reagieren. Ein Komparator liest Zeitgeberblöcke und Debug-Auslöserblöcke genauso aus.
 
 ## Abstürze
 
@@ -122,7 +124,7 @@ BEGIN
 END FUNCTION
 ```
 
-INPUT nimmt zuerst eine passende Karte aus einem E/A-Block. Sonst wartet es, bis ein Spieler auf einem Laptop oder Tablet eine Zeile eintippt. Die Handbücher Funktionen und Geräte beschreiben sie alle.
+INPUT nimmt zuerst eine passende Karte aus einem E/A-Block. Sonst wartet es, bis ein Spieler auf einem Laptop oder Tablet eine Zeile eintippt. Die getippte Zeile erscheint auf seinem Bildschirm, du siehst also deine Antwort. Die Handbücher Funktionen und Geräte beschreiben sie alle.
 
 ## Geschützte Programme
 

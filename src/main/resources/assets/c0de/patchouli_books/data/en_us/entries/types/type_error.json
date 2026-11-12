@@ -9,6 +9,10 @@
       "text": "TYPE_ERROR stands for the type ERROR: an error report.$(br2)An error has four elements: $(1)code$(), $(1)message$(), $(1)context$() (the function) and $(1)line$(). Code 0 means no error. Your own error codes must be 1000 or higher."
     },
     {
+      "type": "patchouli:text",
+      "text": "A CALL with an ERROR variable writes into it every time. After a CALL without error, its $(1)code$() is 0 again. The names of the errors are constants, also those of the libraries of c0de, like PERMISSION_DENIED or CHUNK_NOT_LOADED. Errors of other mods are only constants if the mod adds them."
+    },
+    {
       "type": "patchouli:crafting",
       "recipe": "c0de:type_error_block",
       "text": "Craft a type base and a campfire together."

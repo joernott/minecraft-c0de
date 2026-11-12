@@ -14,7 +14,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Ohne diese ERROR-Variable stoppt ein Fehler auch deine Funktion und geht weiter an ihren Aufrufer. Du kannst keine Funktion innerhalb eines Ausdrucks aufrufen."
+      "text": "Ohne diese ERROR-Variable stoppt ein Fehler auch deine Funktion und geht weiter an ihren Aufrufer. Du kannst keine Funktion innerhalb eines Ausdrucks aufrufen.$(br2)Die ERROR-Variable bekommt den Fehler jedes Aufrufs, auch „kein Fehler“: Nach einem CALL ohne Fehler ist ihr $(1)code$() wieder 0."
     },
     {
       "type": "patchouli:crafting",

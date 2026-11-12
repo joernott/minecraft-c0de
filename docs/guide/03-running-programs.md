@@ -8,6 +8,8 @@ A program on a sheet does nothing by itself. Trigger blocks start it, feed it da
 - **timer block**: starts a process again and again, at an interval you set.
 - **debug trigger block**: starts a process when you hit it with the debugging tool.
 
+Only a signal that comes on starts a trigger block. Switching a lever off doesn't start it, and a signal that stays on doesn't start it again.
+
 Trigger blocks work in every dimension. In the c0de dimension, you can only place them on the black floor outside the sheets.
 
 A redstone signal pauses a timer block. Use a lever to switch it off. As a sheet is protected while its program runs, pause a fast timer before you change the program; its dialog then shows "Paused by redstone".
@@ -58,7 +60,7 @@ Those other items are not used. They are passed through unchanged to the output 
 
 ## Results
 
-When a process ends normally, the output inventory gets one variable item per result of the entry function. Each item carries the name, type and value of its result.
+When a process ends normally, the output inventory gets one variable item per result of the entry function. Each item carries the name, type and value of its result. An EXIT counts as a normal end: the results get the values they have when EXIT runs.
 
 If the function has fewer results than parameters, you also get empty variable items back. So the number of items going in and out is the same.
 
@@ -76,7 +78,7 @@ A trigger block does not start a process if:
 
 Every process ends with an **exit code** from 0 to 15. It is 0 when the program ends normally, the number from an EXIT statement, or 15 when the process crashed.
 
-A comparator reading the trigger block puts out a signal as strong as the exit code. The signal stays until the next process starts. So your redstone can react to the result of a program.
+A comparator reading the trigger block puts out a signal as strong as the exit code. The signal stays until the next process starts, and it is 0 while a process runs. So your redstone can react to the result of a program. A comparator reads timer blocks and debug trigger blocks the same way.
 
 ## Crashes
 
@@ -122,7 +124,7 @@ BEGIN
 END FUNCTION
 ```
 
-INPUT takes a matching item from an I/O block first. Otherwise it waits until a player types a line on a laptop or tablet. The handbooks Functions and Devices describe all of them.
+INPUT takes a matching item from an I/O block first. Otherwise it waits until a player types a line on a laptop or tablet. The typed line appears on its screen, so you see your answer. The handbooks Functions and Devices describe all of them.
 
 ## Protected programs
 

@@ -27,6 +27,10 @@
     },
     {
       "type": "patchouli:text",
+      "text": "$(1)\\$() bindet schwächer als $(1)*$() und $(1)/$(), $(1)⊕$() schwächer als $(1)+$(), und AND stärker als OR. Ein $(1)-$() vor einem Namen oder einer $(1)($() dreht das Vorzeichen um: $(1)- x$(). $(1)\\$() nimmt nur INTEGERs und behält das Vorzeichen der linken Zahl: $(1)-7 \\ 2$() ist $(1)-1$(). Eine Division durch null löst DIVISION_BY_ZERO aus, auch bei FLOATs."
+    },
+    {
+      "type": "patchouli:text",
       "text": "$(1)ASSIGN arithmetic 1 + 2 * ( 3 + 3 ) \\ 10 * 2 + 10 ;$()"
     }
   ]

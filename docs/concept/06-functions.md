@@ -12,6 +12,8 @@ The calling entity MUST set the value of every parameter that has no default val
 
 After the parameters, zero or more result lines MAY be defined. Each result line starts with the RESULT keyword, indented by one block relative to the FUNCTION keyword. It MUST be directly followed by a LABEL and a type. A result behaves like a variable declared in the scope of the function and is initialized with the default value of its type. When the function ends, the last value assigned to a result is returned to the calling entity.
 
+The names of all parameters and results of a function MUST be different; a parameter and a result with the same name raise SYNTAX_ERROR_FUNCTION. A caller MAY still pass a variable as a parameter and receive a result into the same variable.
+
 After that, a valid code block containing the statements of the function MUST follow. Its BEGIN block is at x=5. The END keyword of that block MUST be directly followed by a FUNCTION keyword, which MAY be followed by a LABEL repeating the function name. The code block of a function can contain nested code blocks, but neither STRUCT nor FUNCTION statements.
 
 ## Returning from functions
@@ -28,7 +30,7 @@ The lines directly after the CALL line provide the parameters. They are indented
 
 After the parameter lines (or directly after the CALL line, if no parameters are provided), result lines MAY follow, indented the same way. Each result line consists of the RESULT keyword, directly followed by a LABEL with the name of a result of the called function, directly followed by a LABEL referring to a variable that receives the value of that result. Results that are not listed are discarded.
 
-If the called function returns an error with a code other than 0 and the CALL statement has no error label, the error is raised in the calling function (see [Error handling](15-cursor.md#error-handling)).
+If the CALL statement has an error label, the variable receives the error returned by every call, including the error with code 0, an empty message, an empty context and line 0 if the function returned without error; so it always describes the last call. If the called function returns an error with a code other than 0 and the CALL statement has no error label, the error is raised in the calling function (see [Error handling](15-cursor.md#error-handling)).
 
 ## Minecraft blocks
 

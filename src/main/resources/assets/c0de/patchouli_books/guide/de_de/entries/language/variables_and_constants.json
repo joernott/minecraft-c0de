@@ -10,7 +10,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Eine CONSTANT-Zeile sieht genauso aus, muss aber einen Wert haben. Du kannst ihn später nicht ändern."
+      "text": "Eine CONSTANT-Zeile sieht genauso aus, muss aber einen Wert haben. Du kannst ihn später nicht ändern. Der Wert ist ein LITERAL, keine Rechnung und keine andere Konstante."
     },
     {
       "type": "patchouli:text",

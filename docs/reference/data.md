@@ -203,6 +203,8 @@ TYPE_TIME stands for the type TIME: a point in time.
 
 A new TIME holds the start of 1970 (UTC). You can add or subtract milliseconds as an INTEGER. Two times subtracted give the difference in milliseconds.
 
+Times can be compared with `=`, `<`, `>` and the others: the earlier time is the smaller one. `⊕` writes a TIME as ISO text in UTC with milliseconds, like `2026-10-19T12:05:09.250Z`. FORMAT of c0de/strings writes it in the time zone of the server.
+
 **Recipe**
 
 ![TYPE_TIME recipe](images/type_time_block.png)
@@ -224,6 +226,8 @@ Now `later` is one minute after `start`.
 TYPE_ERROR stands for the type ERROR: an error report.
 
 An error has four elements: `code`, `message`, `context` (the function) and `line`. Code 0 means no error. Your own error codes must be 1000 or higher.
+
+A CALL with an ERROR variable writes into it every time. After a CALL without error, its `code` is 0 again. The names of the errors are constants, also those of the libraries of c0de, like PERMISSION_DENIED or CHUNK_NOT_LOADED. Errors of other mods are only constants if the mod adds them.
 
 **Recipe**
 
@@ -252,6 +256,8 @@ A LABEL block holds a name.
 Labels name programs, functions, variables and more. A name uses a-z, A-Z, 0-9 and the underscore, and it starts with a letter. Keywords in capitals are reserved: `RESULT` is not a valid name, but `result` is.
 
 A label can point into a value with an index, like `list[0]`, `stock["gold"]` or `problem.code`. Right-click the block with an empty hand to enter the name and the index.
+
+Each part of an index is a number, a text in quotes, an element name or the name of a variable or constant. A calculation like `list[i - 1]` doesn't work; put `i - 1` into a variable first.
 
 **Recipe**
 
@@ -282,7 +288,7 @@ Put a white wool block in the middle and eight NOOP blocks around it. You get ei
 
 **Example**
 
-The text notation writes literals like this: `TRUE`, `42`, `3.14`, `'a'`, `"Hello"` and `@2026-10-19T12:05:09Z`.
+The text notation writes literals like this: `TRUE`, `42`, `3.14`, `'a'`, `"Hello"` and `@2026-10-19T12:05:09Z`. In the dialog, you type a text without quotes, and a `"` is just a character. The text notation writes it as `\"`, a backslash as `\\` and a new line as `\n`: `"He said \"hi\""`.
 
 ```c0de
 ASSIGN text "Hello, " ⊕ name ;
@@ -319,9 +325,9 @@ END VARIABLE
 
 A CONSTANT line makes a constant: a named value that never changes.
 
-It looks like a VARIABLE line, but it must have a value. You can't ASSIGN to a constant, and it can't receive a CALL result.
+It looks like a VARIABLE line, but it must have a value. The value is a LITERAL, not a calculation and not another constant; lists, hashes and structs get theirs in a code block, like a VARIABLE. You can't ASSIGN to a constant, and it can't receive a CALL result.
 
-Some constants exist in every program. The names of the errors, like `DIVISION_BY_ZERO`, hold their codes. `COLOR_BLACK` to `COLOR_WHITE` are the colors for COLOR. `SHEET` tells a program about its sheet: `number`, `program`, `owner` and the position `x`, `y`, `z` of its first floor block. `PID` tells it about its process: `pid`, `program`, `function`, `owner`, `activator` (the player who started it), the position `x`, `y`, `z` and `dimension` of the trigger block, `debug` and the tick it `started`. `CURSOR` tells it about its cursor right now: the `line`, the `function`, the `depth` of the calls, and how many slots of the stack are used (`stack_used`) of `stack_size`. Their types are SHEET_INFO, PID_INFO and CURSOR_INFO. `C0DE_VERSION` is the version of c0de as text, like "0.4.0". Other mods can add constants of their own, like `C0DE_NET_VERSION` of c0de net.
+Some constants exist in every program. The names of the errors, like `DIVISION_BY_ZERO`, hold their codes. `COLOR_BLACK` to `COLOR_WHITE` are the colors for COLOR. `SHEET` tells a program about its sheet: `number`, `program`, `owner` and the position `x`, `y`, `z` of its first floor block. `PID` tells it about its process: `pid`, `program`, `function`, `owner`, `activator` (the player who started it, empty for other redstone signals, mobs and timer blocks), the position `x`, `y`, `z` and `dimension` of the trigger block, `debug` and the tick it `started`. `CURSOR` tells it about its cursor right now: the `line`, the `function`, the `depth` of the calls, and how many slots of the stack are used (`stack_used`) of `stack_size`. Their types are SHEET_INFO, PID_INFO and CURSOR_INFO. `C0DE_VERSION` is the version of c0de as text, like "0.4.0". Other mods can add constants of their own, like `C0DE_NET_VERSION` of c0de net.
 
 **Recipe**
 

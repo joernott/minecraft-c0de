@@ -14,7 +14,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Ein Aufrufer darf Parameter mit Standardwert weglassen. Parameter sind Kopien: Wenn du sie änderst, ändern sich die Variablen des Aufrufers nicht."
+      "text": "Ein Aufrufer darf Parameter mit Standardwert weglassen. Parameter sind Kopien: Wenn du sie änderst, ändern sich die Variablen des Aufrufers nicht. Ein Parameter und ein Ergebnis derselben Funktion können nicht denselben Namen haben (SYNTAX_ERROR_FUNCTION)."
     },
     {
       "type": "patchouli:crafting",

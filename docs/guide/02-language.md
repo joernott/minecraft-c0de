@@ -42,6 +42,8 @@ Keywords in capitals are reserved: `RESULT` is not a valid name, but `result` an
 
 A label can point into a value with an **index**, like `list[0]`, `stock["gold"]` or `problem.code`. You enter the index as text in the LABEL dialog.
 
+Each part of an index is a number, a text in quotes, an element name or the name of a variable or constant, like `list[i]`. It can't be a calculation: `list[i - 1]` doesn't work. Put `i - 1` into a variable first and use that.
+
 ## Types
 
 A type block follows the name of a variable, constant, parameter or result. Simple types:
@@ -66,7 +68,7 @@ ARRAY and HASH are followed by the type of their content, like `ARRAY INTEGER`. 
 
 A VARIABLE line has a name, a type and an optional start value. Without one, it holds the default: false, 0, 0.0, a space, an empty text or list.
 
-A CONSTANT line looks the same, but it must have a value. You can't change it later.
+A CONSTANT line looks the same, but it must have a value. You can't change it later. The value is a LITERAL, not a calculation and not another constant.
 
 ```c0de
 VARIABLE b BOOLEAN TRUE
@@ -112,11 +114,17 @@ A LITERAL block holds a fixed value. In its dialog you pick the type and enter t
 - `'a'` for a CHAR, `"Hello"` for a STRING
 - `@2026-10-19T12:05:09Z` for a TIME
 
+In the dialog, you type a text without quotes. A `"` in it is just a character. The text notation of the examples puts a backslash in front of it: `"He said \"hi\""`. `\\` is a backslash and `\n` a new line.
+
 ## Expressions
 
 An expression calculates a value from literals, variables, constants and operators. It always ends with an OPERATOR block showing `;`. An expression may go on in the next line, one block further east.
 
 Calculations follow the usual rules: `*` before `+`. Use `(` and `)` to group. A division with `/` always gives a FLOAT.
+
+A minus sign in front of a name or a `(` turns the sign around: `- x * 2 ;`. The minus sign is an OPERATOR block of its own, so the text notation writes `- x`, not `-x`. `-7` in one piece is a LITERAL with a negative number.
+
+Some rules are less usual. `\` binds weaker than `*` and `/`: `7 \ 3 * 2` is `7 \ 6`, so use parentheses. `⊕` binds weaker than `+`, and AND binds tighter than OR: `a OR b AND c` means `a OR ( b AND c )`.
 
 You can't call a function inside an expression. Use a CALL statement instead.
 
@@ -129,6 +137,10 @@ You can't call a function inside an expression. Use a CALL statement instead.
 - bits: `&` `|` `⊻` `¬` `←` `→`
 
 `=` only compares. To store a value, use ASSIGN. `⊕` turns numbers and lists into text, so `'a' ⊕ 1 ⊕ "b"` gives `"a1b"`.
+
+`\` only works with INTEGERs. The result keeps the sign of the left number: `-7 \ 2` is `-1`. Dividing by zero raises DIVISION_BY_ZERO, with `/` and `\`, for FLOATs too: `1.5 / 0.0` doesn't give infinity.
+
+TIME values can be compared with `<`, `>` and the others: the earlier time is the smaller one. `⊕` writes a TIME as ISO text in UTC with milliseconds, like `2026-10-19T12:05:09.250Z`. For the local time, use FORMAT of c0de/strings.
 
 ## ASSIGN
 
@@ -161,6 +173,8 @@ END FUNCTION
 
 When the function ends, the last values of its results go back to the caller.
 
+All parameters and results of a function need different names. A parameter `value` and a result `value` give SYNTAX_ERROR_FUNCTION. Call the result `result`, for example. The caller may still use one variable for both, see CALL.
+
 ## CALL
 
 CALL runs a function. PARAMETER lines give it values, RESULT lines say which variable gets which result. Results you don't list are thrown away.
@@ -172,6 +186,8 @@ CALL greet
 ```
 
 Here `greeting` becomes "Hello, c0de!". A function can only call functions that are defined above it, or itself.
+
+The same variable may give a parameter and receive a result, like `PARAMETER name greeting ;` and `RESULT result greeting`.
 
 ## RETURN
 
@@ -266,6 +282,8 @@ EXIT 3 ;
 
 Exit code 15 means the program crashed. You may use `EXIT 15 ;` for a fatal problem too.
 
+EXIT is not a crash: the results of the entry function still come out, with the values they have at that moment. Only a real crash gives no results.
+
 ## Errors
 
 When something goes wrong, like a division by zero, the function stops and **raises** an error. The error goes to the caller, and then up to its caller.
@@ -273,6 +291,10 @@ When something goes wrong, like a division by zero, the function stops and **rai
 If the error reaches the entry function, the process **crashes**. Mistakes in the program itself, like a wrong indentation, crash it at once.
 
 To catch an error, add a variable of type ERROR to the CALL line. The caller then goes on, and you can check the error's `code`, `message`, `context` and `line`.
+
+Every CALL with such a variable writes into it, also when nothing went wrong: then its `code` is 0 again and its `message` is empty. So check it right after the CALL.
+
+The names of the errors are constants, like `DIVISION_BY_ZERO`. This includes the errors of the libraries of c0de, like PERMISSION_DENIED, CHUNK_NOT_LOADED, INVENTORY_FULL and ITEM_MISSING. Errors of libraries from other mods are only constants if that mod adds them. Otherwise compare `code` with the number from their handbook.
 
 ```c0de
 VARIABLE problem ERROR

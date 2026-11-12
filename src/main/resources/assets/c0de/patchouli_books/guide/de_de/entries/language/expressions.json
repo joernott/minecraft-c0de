@@ -10,7 +10,19 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Rechnungen folgen den üblichen Regeln: $(1)*$() vor $(1)+$(). Verwende $(1)($() und $(1))$() zum Gruppieren. Eine Division mit $(1)/$() ergibt immer ein FLOAT.$(br2)Du kannst in einem Ausdruck keine Funktion aufrufen. Verwende stattdessen eine CALL-Anweisung."
+      "text": "Rechnungen folgen den üblichen Regeln: $(1)*$() vor $(1)+$(). Verwende $(1)($() und $(1))$() zum Gruppieren. Eine Division mit $(1)/$() ergibt immer ein FLOAT."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Ein Minuszeichen vor einem Namen oder einer $(1)($() dreht das Vorzeichen um: $(1)- x * 2 ;$(). Das Minuszeichen ist ein eigener OPERATOR-Block, deshalb schreibt die Textschreibweise $(1)- x$(), nicht $(1)-x$(). $(1)-7$() in einem Stück ist ein LITERAL mit einer negativen Zahl."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Manche Regeln sind weniger üblich. $(1)\\$() bindet schwächer als $(1)*$() und $(1)/$(): $(1)7 \\ 3 * 2$() ist $(1)7 \\ 6$(), also setze Klammern. $(1)⊕$() bindet schwächer als $(1)+$(), und AND bindet stärker als OR: $(1)a OR b AND c$() bedeutet $(1)a OR ( b AND c )$()."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Du kannst in einem Ausdruck keine Funktion aufrufen. Verwende stattdessen eine CALL-Anweisung."
     }
   ]
 }

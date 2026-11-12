@@ -5,7 +5,7 @@
 ## Trigger blocks
 
 Processes are started by trigger blocks, which can be placed in any dimension. In the c0de dimension, they can only be placed in the area with negative x or z coordinates (the black area outside of the sheets). There are three kinds of trigger blocks:
-  - A **trigger block** starts a process when it receives a redstone pulse.
+  - A **trigger block** starts a process when it receives a redstone pulse: only the rising edge of the signal counts, so switching a lever off or a signal that stays on doesn't start a process.
   - A **timer block** starts a process at a configurable interval.
   - A **debug trigger block** starts a process with a [debug cursor](15-cursor.md#movement) when a player attacks it with a debugging tool.
 
@@ -49,7 +49,7 @@ The text marker and boots can still be used, as they do not change the program. 
 
 Data is passed into a process as variable and constant items in the input inventory of the trigger block. Each item is assigned to the parameter of the entry function whose name matches the name property of the item. Its type MUST match the type of the parameter.
 
-When a process ends normally, one initialized variable item per result of the entry function is moved from the stack of the cursor to the output inventory. If the function has fewer results than parameters, empty variable items are added to make up the difference, so the number of items going into and out of a process is the same.
+When a process ends normally (including an EXIT statement with any exit code), one initialized variable item per result of the entry function is moved from the stack of the cursor to the output inventory. After an EXIT, the results have the values they had when EXIT was executed. If the function has fewer results than parameters, empty variable items are added to make up the difference, so the number of items going into and out of a process is the same.
 
 When a process starts, it takes out of the input inventory
   - one item per parameter with an item,
@@ -71,7 +71,7 @@ A process ends when
   - the cursor crashes, or
   - the cursor reaches an empty line (which means the entry function was not found; the cursor crashes with UNKNOWN_FUNCTION).
 
-When a process ends, the exit code (0 if no EXIT statement was executed, 15 if the cursor crashed) and, if the cursor crashed, the error are stored in the trigger block. A comparator reading the trigger block outputs a signal strength equal to the exit code of the last process until the next process is started. If the cursor crashed, all items the process took from the input inventory are moved to the output inventory unchanged and no result items are created. The cursor entity and the PID block are removed from the c0de dimension.
+When a process ends, the exit code (0 if no EXIT statement was executed, 15 if the cursor crashed) and, if the cursor crashed, the error are stored in the trigger block. A comparator reading the trigger block (of any of the three kinds) outputs a signal strength equal to the exit code of the last process until the next process is started; while a process runs, and before the first process, it outputs 0. If the cursor crashed, all items the process took from the input inventory are moved to the output inventory unchanged and no result items are created. The cursor entity and the PID block are removed from the c0de dimension.
 
 When a process crashes, its trigger block plays a low note. Processes that end normally are silent, as timer blocks may end processes every few ticks.
 

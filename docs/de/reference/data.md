@@ -203,6 +203,8 @@ TYPE_TIME steht für den Typ TIME: einen Zeitpunkt.
 
 Eine neue TIME enthält den Beginn des Jahres 1970 (UTC). Du kannst Millisekunden als INTEGER addieren oder abziehen. Zieht man zwei Zeiten voneinander ab, erhält man den Unterschied in Millisekunden.
 
+Zeiten kannst du mit `=`, `<`, `>` und den anderen vergleichen: Die frühere Zeit ist die kleinere. `⊕` schreibt eine TIME als ISO-Text in UTC mit Millisekunden, zum Beispiel `2026-10-19T12:05:09.250Z`. FORMAT aus c0de/strings schreibt sie in der Zeitzone des Servers.
+
 **Rezept**
 
 ![Rezept von TYPE_TIME](../../reference/images/type_time_block.png)
@@ -224,6 +226,8 @@ Jetzt liegt `later` eine Minute nach `start`.
 TYPE_ERROR steht für den Typ ERROR: eine Fehlermeldung.
 
 Ein Fehler hat vier Elemente: `code`, `message`, `context` (die Funktion) und `line`. Code 0 bedeutet: kein Fehler. Deine eigenen Fehlercodes müssen 1000 oder höher sein.
+
+Ein CALL mit einer ERROR-Variablen schreibt jedes Mal in sie. Nach einem CALL ohne Fehler ist ihr `code` wieder 0. Die Namen der Fehler sind Konstanten, auch die der Bibliotheken von c0de, wie PERMISSION_DENIED oder CHUNK_NOT_LOADED. Fehler anderer Mods sind nur Konstanten, wenn die Mod sie hinzufügt.
 
 **Rezept**
 
@@ -252,6 +256,8 @@ Ein LABEL-Block enthält einen Namen.
 Labels benennen Programme, Funktionen, Variablen und mehr. Ein Name besteht aus a-z, A-Z, 0-9 und dem Unterstrich, und er beginnt mit einem Buchstaben. Schlüsselwörter in Großbuchstaben sind reserviert: `RESULT` ist kein gültiger Name, `result` aber schon.
 
 Ein Label kann mit einem Index in einen Wert zeigen, zum Beispiel `list[0]`, `stock["gold"]` oder `problem.code`. Klicke den Block mit leerer Hand mit rechts an, um den Namen und den Index einzugeben.
+
+Jeder Teil eines Index ist eine Zahl, ein Text in Anführungszeichen, ein Elementname oder der Name einer Variablen oder Konstanten. Eine Rechnung wie `list[i - 1]` geht nicht; speichere `i - 1` zuerst in einer Variablen.
 
 **Rezept**
 
@@ -282,7 +288,7 @@ Lege einen weißen Wollblock in die Mitte und acht NOOP-Blöcke darum herum. Du 
 
 **Beispiel**
 
-Die Textschreibweise schreibt Literale so: `TRUE`, `42`, `3.14`, `'a'`, `"Hello"` und `@2026-10-19T12:05:09Z`.
+Die Textschreibweise schreibt Literale so: `TRUE`, `42`, `3.14`, `'a'`, `"Hello"` und `@2026-10-19T12:05:09Z`. Im Dialog tippst du einen Text ohne Anführungszeichen, und ein `"` ist einfach ein Zeichen. Die Textschreibweise schreibt es als `\"`, einen Backslash als `\\` und eine neue Zeile als `\n`: `"He said \"hi\""`.
 
 ```c0de
 ASSIGN text "Hello, " ⊕ name ;
@@ -319,9 +325,9 @@ END VARIABLE
 
 Eine CONSTANT-Zeile erzeugt eine Konstante: einen benannten Wert, der sich nie ändert.
 
-Sie sieht aus wie eine VARIABLE-Zeile, muss aber einen Wert haben. Du kannst einer Konstante nichts mit ASSIGN zuweisen, und sie kann kein Ergebnis eines CALL aufnehmen.
+Sie sieht aus wie eine VARIABLE-Zeile, muss aber einen Wert haben. Der Wert ist ein LITERAL, keine Rechnung und keine andere Konstante; Listen, Hashes und Strukturen bekommen ihren in einem Codeblock, wie eine VARIABLE. Du kannst einer Konstante nichts mit ASSIGN zuweisen, und sie kann kein Ergebnis eines CALL aufnehmen.
 
-Einige Konstanten gibt es in jedem Programm. Die Namen der Fehler, zum Beispiel `DIVISION_BY_ZERO`, enthalten ihre Codes. `COLOR_BLACK` bis `COLOR_WHITE` sind die Farben für COLOR. `SHEET` erzählt einem Programm von seinem Blatt: `number`, `program`, `owner` und die Position `x`, `y`, `z` seines ersten Bodenblocks. `PID` erzählt ihm von seinem Prozess: `pid`, `program`, `function`, `owner`, `activator` (der Spieler, der ihn gestartet hat), die Position `x`, `y`, `z` und `dimension` des Auslöserblocks, `debug` und der Tick, in dem er gestartet ist (`started`). `CURSOR` erzählt ihm, wo sein Cursor gerade steht: die Zeile (`line`), die Funktion (`function`), die Tiefe der Aufrufe (`depth`) und wie viele Plätze des Stacks belegt sind (`stack_used`) von `stack_size`. Ihre Typen sind SHEET_INFO, PID_INFO und CURSOR_INFO. `C0DE_VERSION` ist die Version von c0de als Text, zum Beispiel "0.4.0". Andere Mods können eigene Konstanten hinzufügen, zum Beispiel `C0DE_NET_VERSION` von c0de net.
+Einige Konstanten gibt es in jedem Programm. Die Namen der Fehler, zum Beispiel `DIVISION_BY_ZERO`, enthalten ihre Codes. `COLOR_BLACK` bis `COLOR_WHITE` sind die Farben für COLOR. `SHEET` erzählt einem Programm von seinem Blatt: `number`, `program`, `owner` und die Position `x`, `y`, `z` seines ersten Bodenblocks. `PID` erzählt ihm von seinem Prozess: `pid`, `program`, `function`, `owner`, `activator` (der Spieler, der ihn gestartet hat, leer bei anderen Redstone-Signalen, Mobs und Zeitgeberblöcken), die Position `x`, `y`, `z` und `dimension` des Auslöserblocks, `debug` und der Tick, in dem er gestartet ist (`started`). `CURSOR` erzählt ihm, wo sein Cursor gerade steht: die Zeile (`line`), die Funktion (`function`), die Tiefe der Aufrufe (`depth`) und wie viele Plätze des Stacks belegt sind (`stack_used`) von `stack_size`. Ihre Typen sind SHEET_INFO, PID_INFO und CURSOR_INFO. `C0DE_VERSION` ist die Version von c0de als Text, zum Beispiel "0.4.0". Andere Mods können eigene Konstanten hinzufügen, zum Beispiel `C0DE_NET_VERSION` von c0de net.
 
 **Rezept**
 

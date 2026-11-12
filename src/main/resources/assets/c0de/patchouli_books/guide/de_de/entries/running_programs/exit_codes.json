@@ -10,7 +10,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Ein Komparator, der den Auslöserblock ausliest, gibt ein Signal aus, das so stark ist wie der Exit-Code. Das Signal bleibt, bis der nächste Prozess startet. So kann deine Redstone-Schaltung auf das Ergebnis eines Programms reagieren."
+      "text": "Ein Komparator, der den Auslöserblock ausliest, gibt ein Signal aus, das so stark ist wie der Exit-Code. Das Signal bleibt, bis der nächste Prozess startet, und ist 0, solange ein Prozess läuft. So kann deine Redstone-Schaltung auf das Ergebnis eines Programms reagieren. Ein Komparator liest Zeitgeberblöcke und Debug-Auslöserblöcke genauso aus."
     }
   ]
 }

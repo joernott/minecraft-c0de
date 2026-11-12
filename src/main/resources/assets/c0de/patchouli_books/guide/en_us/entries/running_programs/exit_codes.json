@@ -10,7 +10,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "A comparator reading the trigger block puts out a signal as strong as the exit code. The signal stays until the next process starts. So your redstone can react to the result of a program."
+      "text": "A comparator reading the trigger block puts out a signal as strong as the exit code. The signal stays until the next process starts, and it is 0 while a process runs. So your redstone can react to the result of a program. A comparator reads timer blocks and debug trigger blocks the same way."
     }
   ]
 }

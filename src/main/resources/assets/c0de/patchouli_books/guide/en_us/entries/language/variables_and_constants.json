@@ -6,7 +6,11 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "A VARIABLE line has a name, a type and an optional start value. Without one, it holds the default: false, 0, 0.0, a space, an empty text or list.$(br2)A CONSTANT line looks the same, but it must have a value. You can't change it later."
+      "text": "A VARIABLE line has a name, a type and an optional start value. Without one, it holds the default: false, 0, 0.0, a space, an empty text or list."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "A CONSTANT line looks the same, but it must have a value. You can't change it later. The value is a LITERAL, not a calculation and not another constant."
     },
     {
       "type": "patchouli:text",

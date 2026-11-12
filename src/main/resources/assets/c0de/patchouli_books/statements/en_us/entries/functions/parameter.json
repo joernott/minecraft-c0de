@@ -14,7 +14,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "A caller may leave out parameters with a default value. Parameters are copies: changing them doesn't change the caller's variables."
+      "text": "A caller may leave out parameters with a default value. Parameters are copies: changing them doesn't change the caller's variables. A parameter and a result of the same function can't have the same name (SYNTAX_ERROR_FUNCTION)."
     },
     {
       "type": "patchouli:crafting",

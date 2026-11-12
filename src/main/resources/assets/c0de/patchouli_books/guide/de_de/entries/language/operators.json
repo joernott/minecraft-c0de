@@ -11,6 +11,14 @@
     {
       "type": "patchouli:text",
       "text": "$(1)=$() vergleicht nur. Um einen Wert zu speichern, verwende ASSIGN. $(1)⊕$() macht aus Zahlen und Listen Text, also ergibt $(1)'a' ⊕ 1 ⊕ \"b\"$() den Wert $(1)\"a1b\"$()."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)\\$() geht nur mit INTEGERs. Das Ergebnis behält das Vorzeichen der linken Zahl: $(1)-7 \\ 2$() ist $(1)-1$(). Eine Division durch null löst DIVISION_BY_ZERO aus, mit $(1)/$() und $(1)\\$(), auch bei FLOATs: $(1)1.5 / 0.0$() ergibt nicht unendlich."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "TIME-Werte kannst du mit $(1)<$(), $(1)>$() und den anderen vergleichen: Die frühere Zeit ist die kleinere. $(1)⊕$() schreibt eine TIME als ISO-Text in UTC mit Millisekunden, zum Beispiel $(1)2026-10-19T12:05:09.250Z$(). Für die Ortszeit verwende FORMAT aus c0de/strings."
     }
   ]
 }

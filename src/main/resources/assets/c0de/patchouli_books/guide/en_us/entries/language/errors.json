@@ -18,6 +18,14 @@
     },
     {
       "type": "patchouli:text",
+      "text": "Every CALL with such a variable writes into it, also when nothing went wrong: then its $(1)code$() is 0 again and its $(1)message$() is empty. So check it right after the CALL."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "The names of the errors are constants, like $(1)DIVISION_BY_ZERO$(). This includes the errors of the libraries of c0de, like PERMISSION_DENIED, CHUNK_NOT_LOADED, INVENTORY_FULL and ITEM_MISSING. Errors of libraries from other mods are only constants if that mod adds them. Otherwise compare $(1)code$() with the number from their handbook."
+    },
+    {
+      "type": "patchouli:text",
       "text": "$(1)VARIABLE problem ERROR$(br)CALL fail problem$(br)ASSIGN code problem.code ;$()"
     }
   ]

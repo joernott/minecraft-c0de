@@ -17,6 +17,10 @@
       "text": "Ein Label kann mit einem Index in einen Wert zeigen, zum Beispiel $(1)list[0]$(), $(1)stock[\"gold\"]$() oder $(1)problem.code$(). Klicke den Block mit leerer Hand mit rechts an, um den Namen und den Index einzugeben."
     },
     {
+      "type": "patchouli:text",
+      "text": "Jeder Teil eines Index ist eine Zahl, ein Text in Anführungszeichen, ein Elementname oder der Name einer Variablen oder Konstanten. Eine Rechnung wie $(1)list[i - 1]$() geht nicht; speichere $(1)i - 1$() zuerst in einer Variablen."
+    },
+    {
       "type": "patchouli:crafting",
       "recipe": "c0de:label_block",
       "text": "Stelle einen NOOP-Block und ein Papier zusammen her."
