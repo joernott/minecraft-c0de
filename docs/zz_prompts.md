@@ -682,3 +682,7 @@ please add the following tasks to sprint 15 of c0de:
 - Add a schema for the yaml files generated, when saving a disk
 - Add a validation against the schema when loading files from disk
 - As there has been an incident with malicious 3rd party programs manipulating Litematica, when storing  program on a disk and when saving or loading a disk, ensure that the program name is still a valid name and does not contain characters used to hide it or attempt path traversal
+
+## 2026-11-12 – Feedback from the recipes
+
+(No prompt of its own: the recipes of c0de.at (www-c0de sprint 9, started with "please add a task to sprint 9 to fix that, then continue with implementing sprint 9") found gaps in the runner and the documentation; tasks 15.8 to 15.10.)
