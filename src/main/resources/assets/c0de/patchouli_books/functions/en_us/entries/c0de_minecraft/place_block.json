@@ -18,7 +18,11 @@
     },
     {
       "type": "patchouli:text",
-      "text": "$(li)$(1)position$() STRUCT c0de/minecraft/POSITION: where the block goes$(li)$(1)id$() STRING: the block ID, e.g. minecraft:stone$(li)$(1)properties$() HASH STRING: block states such as facing (optional, default empty)$(li)$(1)inventory$() STRUCT c0de/minecraft/POSITION: a chest or another block with an inventory that the block is taken from (optional)"
+      "text": "With $(1)data$(), the block gets the data that GET_BLOCK returns, e.g. the items of a chest or the text of a sign. This always needs allowBlockChanges or an administrator, also with $(1)inventory$(); the data of command blocks, structure blocks and jigsaw blocks only administrators may set. Data that is not SNBT, or a block without data like stone, raise INVALID_ARGUMENT before anything is placed."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)position$() STRUCT c0de/minecraft/POSITION: where the block goes$(li)$(1)id$() STRING: the block ID, e.g. minecraft:stone$(li)$(1)properties$() HASH STRING: block states such as facing (optional, default empty)$(li)$(1)inventory$() STRUCT c0de/minecraft/POSITION: a chest or another block with an inventory that the block is taken from (optional)$(li)$(1)data$() STRING: the data of the block as SNBT (optional, default empty)"
     },
     {
       "type": "patchouli:text",

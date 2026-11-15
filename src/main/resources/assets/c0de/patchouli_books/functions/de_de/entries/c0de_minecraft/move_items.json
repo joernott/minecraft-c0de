@@ -10,15 +10,15 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Die Funktion verschiebt bis zu $(1)count$() Gegenstände und gibt zurück, wie viele verschoben wurden. Das braucht allowInventoryChanges oder einen Administrator als Besitzer, sonst wird PERMISSION_DENIED ausgelöst. Blöcke ohne Inventar lösen INVALID_ARGUMENT aus. Eine leere $(1)dimension$() in einer Position bedeutet die Dimension des Auslöserblocks."
+      "text": "und ein Tag, $(1)&$() und ein Teil der ID, $(1)-$() vor einem Wort, das nicht passen darf, und $(1)|$() zwischen Alternativen. Ein Array von Filtern trifft Gegenstände, zu denen einer von ihnen passt. Ohne Filter passen alle Gegenstände."
     },
     {
       "type": "patchouli:text",
-      "text": "$(li)$(1)from$() STRUCT c0de/minecraft/POSITION: der Block, aus dem Gegenstände genommen werden$(li)$(1)to$() STRUCT c0de/minecraft/POSITION: der Block, in den Gegenstände gelegt werden$(li)$(1)id$() STRING: die Gegenstands-ID, z. B. minecraft:wheat$(li)$(1)count$() INTEGER: die höchste Anzahl an Gegenständen, die verschoben wird$(li)Ergebnis $(1)result$() INTEGER: die Anzahl der verschobenen Gegenstände"
+      "text": "$(li)$(1)from$() STRUCT c0de/minecraft/POSITION: der Block, aus dem Gegenstände genommen werden$(li)$(1)to$() STRUCT c0de/minecraft/POSITION: der Block, in den Gegenstände gelegt werden$(li)$(1)quantity$() INTEGER: die höchste Anzahl an Gegenständen, die verschoben wird, -1 für alle (optional, Standard 1)$(li)$(1)filter$() STRING oder ARRAY STRING: die Gegenstände, die verschoben werden (optional, Standard: alle Gegenstände)$(li)Ergebnis $(1)result$() INTEGER: die Anzahl der verschobenen Gegenstände"
     },
     {
       "type": "patchouli:text",
-      "text": "$(1)CALL c0de/minecraft/MOVE_ITEMS$(br)  PARAMETER from farmChest ;$(br)  PARAMETER to storage ;$(br)  PARAMETER id \"minecraft:wheat\" ;$(br)  PARAMETER count 64 ;$(br)  RESULT result moved$()"
+      "text": "$(1)CALL c0de/minecraft/MOVE_ITEMS$(br)  PARAMETER from farmChest ;$(br)  PARAMETER to storage ;$(br)  PARAMETER quantity -1 ;$(br)  PARAMETER filter \"minecraft:wheat\" ;$(br)  RESULT result moved$()"
     }
   ]
 }

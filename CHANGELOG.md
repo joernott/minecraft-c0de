@@ -14,6 +14,11 @@ Security: passwords and keys out of sight.
 - **Persistent vault**: secrets can be kept in a KeePass file (KDBX 4) per player. The server stores it, but only the game of the player opens it, with a password that is typed in a dialog and never leaves the game. The files open in KeePass and KeePassXC.
 - **Error codes**: VAULT_UNAVAILABLE (314) to VAULT_FAILED (321).
 - **Program runner**: the options file can give the program a vault (see docs/runner.md).
+- **Block data**: GET_BLOCK returns the data of a block (the items of a chest, the text of a sign) as SNBT in its new result `data`, and PLACE_BLOCK takes it in its new parameter `data`.
+- **MOVE_ITEMS** works for every owner who could open both inventories, takes a `quantity` (-1 for all) and a `filter` (item IDs or a search like in JEI), and takes time: one stack per tick for each 128 blocks. The settings `enableMoveItems`, `moveItemsStacksPerTick` and `moveItemsBlocksPerTick` configure it.
+- **COMMAND**: a new function of c0de/minecraft runs a command like a command block, for administrators (setting `enableCommand`).
+- **Regular expressions**: REGEX_MATCH and REGEX_REPLACE in c0de/strings, with replacements and flags like sed.
+- **Note**: the parameters `id` and `count` of MOVE_ITEMS are now `filter` and `quantity`; programs that use MOVE_ITEMS must be changed.
 
 ## 0.5.0
 

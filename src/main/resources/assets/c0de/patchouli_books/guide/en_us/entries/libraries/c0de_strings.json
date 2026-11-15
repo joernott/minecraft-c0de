@@ -2,7 +2,7 @@
   "name": "c0de/strings",
   "icon": "c0de:include_block",
   "category": "c0de:libraries",
-  "sortnum": 6,
+  "sortnum": 13,
   "pages": [
     {
       "type": "patchouli:text",
@@ -14,7 +14,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "$(li)STR: any simple value as text$(li)FORMAT: a value as text in a format you choose$(li)VAL: a text as a number$(li)HEX, OCT: a number in hexadecimal or octal"
+      "text": "- STR: any simple value as text - FORMAT: a value as text in a format you choose - VAL: a text as a number ? - REGEX_REPLACE: replace what a pattern matches, like sed"
     }
   ]
 }

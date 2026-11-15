@@ -2,7 +2,7 @@
   "name": "JSON und YAML",
   "icon": "c0de:include_block",
   "category": "c0de:libraries",
-  "sortnum": 8,
+  "sortnum": 15,
   "pages": [
     {
       "type": "patchouli:text",

@@ -2,7 +2,7 @@
   "name": "Die Welt verändern",
   "icon": "c0de:include_block",
   "category": "c0de:libraries",
-  "sortnum": 11,
+  "sortnum": 18,
   "pages": [
     {
       "type": "patchouli:text",
@@ -10,7 +10,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "$(li)MOVE_ITEMS, DELETE_ITEMS: Gegenstände in Behältern verschieben oder entfernen$(li)PLACE_BLOCK, REMOVE_BLOCK: Blöcke setzen oder abbauen$(li)SPAWN_ITEM, SPAWN_ENTITY: Gegenstände und Kreaturen erschaffen$(li)TELEPORT: ein Objekt bewegen"
+      "text": "$(li)DELETE_ITEMS: Gegenstände aus Behältern entfernen$(li)PLACE_BLOCK, REMOVE_BLOCK: Blöcke setzen oder abbauen$(li)SPAWN_ITEM, SPAWN_ENTITY: Gegenstände und Kreaturen erschaffen$(li)TELEPORT: ein Objekt bewegen$(li)COMMAND: einen Befehl ausführen wie ein Befehlsblock"
     },
     {
       "type": "patchouli:text",

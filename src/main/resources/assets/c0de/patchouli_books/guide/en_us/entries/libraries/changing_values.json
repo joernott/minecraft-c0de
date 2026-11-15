@@ -2,7 +2,7 @@
   "name": "Changing values",
   "icon": "c0de:include_block",
   "category": "c0de:libraries",
-  "sortnum": 1,
+  "sortnum": 8,
   "pages": [
     {
       "type": "patchouli:text",

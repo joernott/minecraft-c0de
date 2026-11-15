@@ -2,7 +2,7 @@
   "name": "Runden",
   "icon": "c0de:include_block",
   "category": "c0de:libraries",
-  "sortnum": 5,
+  "sortnum": 12,
   "pages": [
     {
       "type": "patchouli:text",

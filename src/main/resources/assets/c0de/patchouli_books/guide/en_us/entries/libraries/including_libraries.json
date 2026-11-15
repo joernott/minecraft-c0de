@@ -2,7 +2,7 @@
   "name": "Including libraries",
   "icon": "c0de:include_block",
   "category": "c0de:libraries",
-  "sortnum": 2,
+  "sortnum": 9,
   "pages": [
     {
       "type": "patchouli:text",

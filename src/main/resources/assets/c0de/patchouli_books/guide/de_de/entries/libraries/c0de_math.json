@@ -2,7 +2,7 @@
   "name": "c0de/math",
   "icon": "c0de:include_block",
   "category": "c0de:libraries",
-  "sortnum": 4,
+  "sortnum": 11,
   "pages": [
     {
       "type": "patchouli:text",

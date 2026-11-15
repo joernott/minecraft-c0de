@@ -1,0 +1,28 @@
+{
+  "name": "COMMAND",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_minecraft",
+  "sortnum": 23,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Führt einen Befehl aus wie ein Befehlsblock."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Der Befehl läuft am Auslöserblock, mit den Rechten eines Befehlsblocks und dem Namen des Programms und der PID, z. B. $(1)farm/3$(). Nur Administratoren dürfen COMMAND verwenden, als Besitzer und als der Spieler, der den Prozess gestartet hat, und nur wenn Befehlsblöcke auf dem Server aktiviert sind. Sonst wird PERMISSION_DENIED ausgelöst. Der Server kann die Funktion auch in $(1)config/c0de.properties$() abschalten."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Ein Befehl, der fehlschlägt, ist kein Fehler: $(1)result$() ist 0, und $(1)output$() sagt, warum. Die Befehle werden in das Log des Servers geschrieben."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)command$() STRING: der Befehl, mit oder ohne $(1)/$()$(li)Ergebnis $(1)result$() INTEGER: wie oft er erfolgreich war, wie das Komparatorsignal eines Befehlsblocks$(li)Ergebnis $(1)output$() STRING: die letzte Meldung des Befehls"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/minecraft/COMMAND$(br)  PARAMETER command \"/weather clear\" ;$(br)  RESULT result done$(br)  RESULT output message$()"
+    }
+  ]
+}

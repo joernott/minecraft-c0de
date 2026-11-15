@@ -18,7 +18,11 @@
     },
     {
       "type": "patchouli:text",
-      "text": "$(li)$(1)position$() STRUCT c0de/minecraft/POSITION: wohin der Block kommt$(li)$(1)id$() STRING: die Block-ID, z. B. minecraft:stone$(li)$(1)properties$() HASH STRING: Blockzustände wie facing (optional, Standard leer)$(li)$(1)inventory$() STRUCT c0de/minecraft/POSITION: eine Truhe oder ein anderer Block mit Inventar, aus dem der Block genommen wird (optional)"
+      "text": "Mit $(1)data$() bekommt der Block die Daten, die GET_BLOCK zurückgibt, z. B. die Gegenstände einer Truhe oder den Text eines Schilds. Das braucht immer allowBlockChanges oder einen Administrator, auch mit $(1)inventory$(); die Daten von Befehlsblöcken, Konstruktionsblöcken und Verbundblöcken dürfen nur Administratoren setzen. Daten, die kein SNBT sind, oder ein Block ohne Daten wie Stein lösen INVALID_ARGUMENT aus, bevor etwas gesetzt wird."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)position$() STRUCT c0de/minecraft/POSITION: wohin der Block kommt$(li)$(1)id$() STRING: die Block-ID, z. B. minecraft:stone$(li)$(1)properties$() HASH STRING: Blockzustände wie facing (optional, Standard leer)$(li)$(1)inventory$() STRUCT c0de/minecraft/POSITION: eine Truhe oder ein anderer Block mit Inventar, aus dem der Block genommen wird (optional)$(li)$(1)data$() STRING: die Daten des Blocks als SNBT (optional, Standard leer)"
     },
     {
       "type": "patchouli:text",

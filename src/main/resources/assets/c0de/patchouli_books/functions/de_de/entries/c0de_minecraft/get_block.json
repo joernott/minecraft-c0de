@@ -10,11 +10,15 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Du bekommst seine ID, seine Blockzustände als Text, die Redstone-Stärke, die er empfängt, und ob er ein Inventar hat. Ein nicht geladener Chunk löst CHUNK_NOT_LOADED aus. Eine leere $(1)dimension$() in der Position bedeutet die Dimension des Auslöserblocks."
+      "text": "Du bekommst seine ID, seine Blockzustände als Text, die Redstone-Stärke, die er empfängt, ob er ein Inventar hat, und seine Daten. Ein nicht geladener Chunk löst CHUNK_NOT_LOADED aus. Eine leere $(1)dimension$() in der Position bedeutet die Dimension des Auslöserblocks."
     },
     {
       "type": "patchouli:text",
-      "text": "$(li)$(1)position$() STRUCT c0de/minecraft/POSITION: wo der Block ist$(li)Ergebnis $(1)id$() STRING: die Block-ID, z. B. minecraft:oak_door$(li)Ergebnis $(1)properties$() HASH STRING: die Blockzustände, z. B. facing ist north$(li)Ergebnis $(1)power$() INTEGER: die Redstone-Stärke, die er empfängt, 0 bis 15$(li)Ergebnis $(1)has_inventory$() BOOLEAN: wahr für Blöcke mit Inventar, z. B. Truhen; GET_INVENTORY, MOVE_ITEMS und DELETE_ITEMS funktionieren mit ihnen"
+      "text": "Die Daten sind, was eine Truhe, ein Schild oder ein Ofen neben seinen Blockzuständen speichert: die Gegenstände, den Text, den eigenen Namen. Sie sind SNBT, der Text der Befehle $(1)/data$() und $(1)/setblock$(), z. B. $(1){Items:[{Slot:0b,count:12,id:\"minecraft:cobblestone\"}]}$(), ohne die Position. Blöcke ohne solche Daten haben $(1)\"\"$(). PLACE_BLOCK kann einen Block mit ihnen setzen."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)position$() STRUCT c0de/minecraft/POSITION: wo der Block ist$(li)Ergebnis $(1)id$() STRING: die Block-ID, z. B. minecraft:oak_door$(li)Ergebnis $(1)properties$() HASH STRING: die Blockzustände, z. B. facing ist north$(li)Ergebnis $(1)power$() INTEGER: die Redstone-Stärke, die er empfängt, 0 bis 15$(li)Ergebnis $(1)has_inventory$() BOOLEAN: wahr für Blöcke mit Inventar, z. B. Truhen; GET_INVENTORY, MOVE_ITEMS und DELETE_ITEMS funktionieren mit ihnen$(li)Ergebnis $(1)data$() STRING: die Daten des Blocks als SNBT oder $(1)\"\"$()"
     },
     {
       "type": "patchouli:text",

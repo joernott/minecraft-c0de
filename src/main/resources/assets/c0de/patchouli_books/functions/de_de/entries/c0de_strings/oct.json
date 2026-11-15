@@ -14,7 +14,15 @@
     },
     {
       "type": "patchouli:text",
-      "text": "$(1)CALL c0de/strings/OCT$(br)  PARAMETER value 8 ;$(br)  RESULT result octText$()"
+      "text": "$(li)$(1)text$() STRING: der Text$(li)$(1)pattern$() STRING: der reguläre Ausdruck$(li)$(1)replacement$() STRING: was einen Treffer ersetzt$(li)$(1)flags$() STRING: wie bei sed, z. B. g oder 2g (optional, Standard leer)$(li)Ergebnis $(1)result$() STRING: der Text mit den Ersetzungen"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "in jeder Zeile und $(1)p$(), um das Ergebnis mit PRINT auszugeben, wenn etwas ersetzt wurde. Unbekannte Flags, Gruppen, die das Muster nicht hat, und ungültige Muster lösen INVALID_ARGUMENT aus."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/strings/REGEX_REPLACE$(br)  PARAMETER text \"2026-11-15\" ;$(br)  PARAMETER pattern \"([0-9]+)-([0-9]+)-([0-9]+)\" ;$(br)  PARAMETER replacement \"\\3.\\2.\\1\" ;$(br)  RESULT result german$()"
     }
   ]
 }

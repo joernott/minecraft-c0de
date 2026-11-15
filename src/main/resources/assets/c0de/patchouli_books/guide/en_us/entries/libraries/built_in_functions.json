@@ -2,7 +2,7 @@
   "name": "Built-in functions",
   "icon": "c0de:include_block",
   "category": "c0de:libraries",
-  "sortnum": 3,
+  "sortnum": 10,
   "pages": [
     {
       "type": "patchouli:text",
