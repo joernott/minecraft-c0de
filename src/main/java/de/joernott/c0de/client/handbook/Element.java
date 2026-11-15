@@ -94,21 +94,36 @@ public interface Element {
         }
     }
 
-    /** A line of the index of categories or entries: icon and title; a click opens it. */
-    record Link(String icon, Component title, Runnable open) implements Element {
+    /**
+     * A line of the index of categories or entries: icon and title, which wraps to more lines if it is long; a
+     * click opens it.
+     */
+    record Link(String icon, Component title, Runnable open, int lines) implements Element {
+        /** The width of the title next to the icon. */
+        private static final int TEXT_WIDTH = HandbookScreen.PAGE_WIDTH - 20;
+
+        static Link of(Font font, String icon, Component title, Runnable open) {
+            return new Link(icon, title, open, Math.max(1, font.split(title, TEXT_WIDTH).size()));
+        }
+
         @Override
         public int height() {
-            return 18;
+            return Math.max(18, 9 * lines + 2);
         }
 
         @Override
         public void draw(GuiGraphics graphics, HandbookScreen screen, int x, int y, int mouseX, int mouseY) {
             Font font = screen.font();
-            boolean hovered = mouseX >= x && mouseX < x + HandbookScreen.PAGE_WIDTH && mouseY >= y && mouseY < y + 18;
-            GuiDraw.item(graphics, font, stack(icon), x, y + 1);
+            int height = height();
+            boolean hovered =
+                    mouseX >= x && mouseX < x + HandbookScreen.PAGE_WIDTH && mouseY >= y && mouseY < y + height;
+            GuiDraw.item(graphics, font, stack(icon), x, y + (height - 16) / 2);
             Component text = hovered ? title.copy().withStyle(style -> style.withUnderlined(true)) : title;
-            FormattedCharSequence line = font.split(text, HandbookScreen.PAGE_WIDTH - 20).get(0);
-            graphics.drawString(font, line, x + 19, y + 5, TEXT, false);
+            List<FormattedCharSequence> wrapped = font.split(text, TEXT_WIDTH);
+            int top = y + (height - 9 * wrapped.size()) / 2 + 1;
+            for (int i = 0; i < wrapped.size(); i++) {
+                graphics.drawString(font, wrapped.get(i), x + 19, top + 9 * i, TEXT, false);
+            }
         }
 
         @Override

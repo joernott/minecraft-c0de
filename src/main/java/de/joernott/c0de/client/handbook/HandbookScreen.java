@@ -126,7 +126,7 @@ public class HandbookScreen extends Screen {
                 markdown(compiler, Component.translatable(book.landing()).getString());
                 compiler.visitPageBreak();
                 for (HandbookContent.Category category : book.categories()) {
-                    compiler.add(new Element.Link(category.icon(), Component.literal(category.title()),
+                    compiler.add(Element.Link.of(font, category.icon(), Component.literal(category.title()),
                             () -> navigate(new View(Kind.CATEGORY, category.id(), 0))));
                 }
             }
@@ -139,7 +139,7 @@ public class HandbookScreen extends Screen {
                 markdown(compiler, category.markdown());
                 compiler.visitPageBreak();
                 for (HandbookContent.Entry entry : category.entries()) {
-                    compiler.add(new Element.Link(entry.icon(), Component.literal(entry.title()),
+                    compiler.add(Element.Link.of(font, entry.icon(), Component.literal(entry.title()),
                             () -> navigate(new View(Kind.ENTRY, entry.id(), 0))));
                 }
             }
