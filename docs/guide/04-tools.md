@@ -195,16 +195,19 @@ All three trigger blocks share one pattern: copper ingots in the corners, glass 
 
 ## Guide book
 
-If the mod Patchouli is installed, this guide is also a book in the game. You get it once, the first time you join a world with c0de.
+This guide is also a book in the game: a red binder with a white label. You get it once, the first time you join a world with c0de. Right-click with it to open it.
 
 To make another copy, craft a book and a PROGRAM block together, in any order.
 
+In the book, the arrows at the bottom turn the pages, and the arrow in the middle goes back. The arrow keys and the mouse wheel turn the pages too, and Backspace goes back. The book opens where you left it.
+
 ## Handbooks
 
-With Patchouli, there are five more red books: handbooks with one page per block, item or function. Each page has a short description, the crafting recipe and an example.
+There are six more red binders: handbooks with one page per block, item or function. Each page has a short description, the crafting recipe and an example. The colour of the label tells them apart.
 
-- **Data**: crafted from a book and a type base
-- **Statements**: a book and a structural base
-- **Tools**: a book and a wrench
-- **Triggers**: a book and a trigger block
-- **Functions**: a book and a FUNCTION block
+- **Data** (light blue): crafted from a book and a type base
+- **Statements** (yellow): a book and a structural base
+- **Tools** (grey): a book and a wrench
+- **Triggers** (purple): a book and a trigger block
+- **Devices** (green): a book and a display block
+- **Functions** (orange): a book and a FUNCTION block

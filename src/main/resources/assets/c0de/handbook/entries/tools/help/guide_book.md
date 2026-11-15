@@ -9,7 +9,7 @@
 
 The guide book is the c0de player guide as an in-game book.
 
-It needs the mod Patchouli. You get the book once, the first time you join a world with c0de. Without Patchouli, there is no book and no recipe.
+It is a red binder with a white label. You get it once, the first time you join a world with c0de. Right-click with it to open it. The other handbooks are binders too, with labels of other colours (see the reference).
 
 <recipe;c0de:guide_book>
 

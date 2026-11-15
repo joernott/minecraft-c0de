@@ -19,6 +19,7 @@ c0de is inspired by BASIC and the early Lego Mindstorms. You don't need to know 
 - **Editing tools**: a text marker to select lines, a wrench to move and copy them, a hammer to delete or insert lines, pliers to indent them; boots jump between the start and the end of a function.
 - **c0de disk and disk drive**: copy programs onto disks, build them on empty sheets, and keep them as YAML files in the `c0de` folder of your own Minecraft to share them.
 - **Debugging**: a red debug cursor you can pause and step line by line, and you can inspect every block and every cursor.
+- **Handbooks in the game**: the player guide and six handbooks (Data, Statements, Tools, Triggers, Devices and Functions) are red binders you read in the game, in English and German. Every player gets the guide on the first join; more binders are crafted from a book and an item.
 
 ## Getting started
 
@@ -46,4 +47,3 @@ The player guide explains everything step by step, with example programs:
 
 - Minecraft 1.21.1, 1.21.11, 26.1.2, 26.2 or 26.3 (26.x needs Java 25)
 - **Fabric** with [Fabric API](https://modrinth.com/mod/fabric-api), or **NeoForge**
-- Optional, on Minecraft 1.21.1: [Patchouli](https://modrinth.com/mod/patchouli) adds an in-game guide book with the player guide. Every player gets it on the first join; more copies are crafted from a book and a PROGRAM block. Six handbooks (Data, Statements, Tools, Triggers, Devices and Functions) describe every block, item and function on a page of its own. On a NeoForge server, install Patchouli on the server too, otherwise clients with Patchouli can't join.

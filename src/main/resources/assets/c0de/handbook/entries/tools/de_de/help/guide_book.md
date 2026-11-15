@@ -9,7 +9,7 @@
 
 Das Anleitungsbuch ist die c0de-Anleitung für Spieler als Buch im Spiel.
 
-Es braucht die Mod Patchouli. Du bekommst das Buch einmal, wenn du zum ersten Mal einer Welt mit c0de beitrittst. Ohne Patchouli gibt es kein Buch und kein Rezept.
+Es ist ein roter Ordner mit weißem Etikett. Du bekommst ihn einmal, wenn du zum ersten Mal einer Welt mit c0de beitrittst. Rechtsklicke mit ihm, um ihn zu öffnen. Die anderen Handbücher sind auch Ordner, mit Etiketten in anderen Farben (siehe die Handbücher).
 
 <recipe;c0de:guide_book>
 

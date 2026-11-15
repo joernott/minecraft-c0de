@@ -73,7 +73,7 @@ The persistent vault (task 16.7) needs [kdbx](https://github.com/hudeany/kdbx) (
   - Stonecutter selects the *active* node (e.g. `1.21.1-fabric`), whose sources are shown in the IDE. `./gradlew "Set active project to 1.21.1-neoforge"` switches it.
   - `runClient` and `runServer` of each node start Minecraft with the mod in development mode. Two client instances (one per loader) can be connected to the test servers on the VM.
   - `py scripts/generate_content.py` writes the block states, models, loot tables, recipes and language files of the language blocks, and `py scripts/generate_textures.py` writes the placeholder textures. Both loaders use the same generated files. After adding a block to `CodeBlockType`, add it to both scripts and commit the generated files; CI fails if the JSON files are not up to date.
-  - Translations of the guide and the handbooks are in `docs/<language>/` with the file names of the English files and the same headings in the same order (task 14.3). Translators keep the link targets of the English text; `py scripts/translation_links.py` then replaces the anchors with those of the translated headings. `generate_content.py` (through `generate_book.py`) writes the Patchouli pages of every language and `docs/<language>/reference/index.md`; `TranslationsTest` in `core` checks headings, programs and links.
+  - Translations of the guide and the handbooks are in `docs/<language>/` with the file names of the English files and the same headings in the same order (task 14.3). Translators keep the link targets of the English text; `py scripts/translation_links.py` then replaces the anchors with those of the translated headings. `generate_content.py` (through `generate_book.py`) writes the pages of the handbooks (`assets/c0de/handbook`, docs/concept/21-handbooks.md) in every language and `docs/<language>/reference/index.md`; `TranslationsTest` in `core` checks headings, programs and links.
   - `py scripts/export_models.py [--zip]` exports every block as a glTF model into `build/models/` (and `build/c0de-models-<version>.zip`) for the 3D views of c0de.at; the textures of Minecraft are replaced by stand-ins drawn by the script. It fails if a registered block has no block state. `./gradlew :core:runnerJar` builds the [program runner](runner.md).
   - To test a built jar like a player, add it to a Fabric or NeoForge 1.21.1 profile in the Modrinth App ("Add content" → from file). This also shows how the mod behaves together with other mods from Modrinth.
 
@@ -120,16 +120,14 @@ The script `contrib/setup_dev_vm.sh` (task 1.8) defines the VM environment, like
 |---|---|---|
 | `c0de-1.21.1-fabric` | Fabric (with Fabric API) | 25565 |
 | `c0de-1.21.1-neoforge` | NeoForge | 25566 |
-| `c0de-1.21.1-neoforge-plain` | NeoForge without Patchouli (started by hand) | 25567 |
 | `c0de-1.21.11-fabric`, `c0de-1.21.11-neoforge` | Fabric, NeoForge | 25568, 25569 |
 | `c0de-26.1.2-fabric`, `c0de-26.1.2-neoforge` | Fabric, NeoForge | 25570, 25571 |
 | `c0de-26.2-fabric`, `c0de-26.2-neoforge` | Fabric, NeoForge | 25572, 25573 |
 | `c0de-26.3-fabric`, `c0de-26.3-neoforge` | Fabric, NeoForge | 25574, 25575 |
 
-  - The servers of 26.x use the image with Java 25 (`itzg/minecraft-server:java25`). Patchouli is only on the 1.21.1 servers.
+  - The servers of 26.x use the image with Java 25 (`itzg/minecraft-server:java25`).
   - The VM can't run all servers at once (16 GB of memory, about 2 GB per server): start the ones you need, e.g. `docker compose -f contrib/docker/compose.yaml up -d c0de-26.3-fabric c0de-26.3-neoforge`. `smoke.sh` and `deploy.sh` take nodes as arguments; without them, `smoke.sh` tests all nodes (one server after the other) and `deploy.sh` updates the running servers. Both only touch the servers they work on, the other servers and their worlds stay.
 
-  - Patchouli is installed on the first two servers like in the development clients. On NeoForge, Patchouli requires its network channels on both sides, so clients with Patchouli can't join the server without it and vice versa; so on NeoForge only the first development client (`runClient`, whose mods folder `run/neoforge/mods` gets Patchouli before it starts) has it; the second client (`runClient2`) joins the server without it. Fabric development runs leave it out with `-Ppatchouli=false`.
   - `EULA=TRUE`, `TYPE=FABRIC` or `TYPE=NEOFORGE`, `VERSION=1.21.1`, loader versions pinned like in the build.
   - `contrib/itest/smoke.sh` copies the built mod jars to `contrib/docker/mods/<node>/`, which is mounted into `/mods`, and starts the servers.
   - RCON is only used inside the containers: `docker compose -f contrib/docker/compose.yaml exec c0de-1.21.1-fabric rcon-cli <command>`.
@@ -158,7 +156,7 @@ All workflows use `actions/setup-java` (Temurin) and `gradle/actions/setup-gradl
 
 ### Releasing a version
 
-The jars are published with the [Mod Publish Plugin](https://modmuss50.github.io/mod-publish-plugin/) (`publishMods` in both build scripts): one Modrinth version and one CurseForge file per node, named `<mod.version>+<Minecraft version>-<loader>`, as alpha for 0.x versions, with the environment "client and server" (on CurseForge: client and server required), Fabric API as required and Patchouli as optional dependency. Without both secrets and both project IDs, `./gradlew :<node>:publishMods` is a dry run that prints what it would publish. With `-Ppublish.released_jars=<folder>`, the jars in that folder are published instead of the ones the build makes.
+The jars are published with the [Mod Publish Plugin](https://modmuss50.github.io/mod-publish-plugin/) (`publishMods` in both build scripts): one Modrinth version and one CurseForge file per node, named `<mod.version>+<Minecraft version>-<loader>`, as alpha for 0.x versions, with the environment "client and server" (on CurseForge: client and server required), and Fabric API as required dependency. Without both secrets and both project IDs, `./gradlew :<node>:publishMods` is a dry run that prints what it would publish. With `-Ppublish.released_jars=<folder>`, the jars in that folder are published instead of the ones the build makes.
 
   1. Once: create the Modrinth project (description from `docs/modrinth.md`, icon `docs/images/logo.png`, 256 × 256 pixels; the vector logo `docs/images/logo.svg` is written by `scripts/generate_logo.py`, the same picture is the icon of the mod in the mod lists), put its ID into `publish.modrinth_id` in `stonecutter.properties.toml` and store a Modrinth token with the scope to create versions as repository secret `MODRINTH_TOKEN`. The same for CurseForge (task 15.11): the project (ID 1800913; its logo must be 400 × 400 pixels) in `publish.curseforge_id`, an API token as secret `CURSEFORGE_TOKEN`. CurseForge reviews a new project only once it has files.
   2. Set `mod.version` in `stonecutter.properties.toml` and add the section `## <version>` to `CHANGELOG.md`. Run `./gradlew "Refresh active project"`, so that `C0de.VERSION` of the active node has the new version too (`scripts/check-version.sh` checks it in CI); it becomes the changelog on Modrinth and the notes of the GitHub release.
@@ -168,7 +166,7 @@ The jars are published with the [Mod Publish Plugin](https://modmuss50.github.io
 
 Every new Minecraft release becomes a new node (task 12.5). The steps, in the order that worked for 1.21.11 and 26.x:
 
-  1. **Versions.** Look up the versions for the release: Fabric Loader and Fabric API (https://fabricmc.net/develop/), NeoForge (https://projects.neoforged.net/neoforged/neoforge), Parchment for obfuscated versions (none needed since 26.1) and, optionally, Patchouli on its Maven repository (`maven.blamejared.com`; leave `deps.patchouli` out if there is no build there).
+  1. **Versions.** Look up the versions for the release: Fabric Loader and Fabric API (https://fabricmc.net/develop/), NeoForge (https://projects.neoforged.net/neoforged/neoforge), Parchment for obfuscated versions (none needed since 26.1).
   2. **Node.** Add `match("<version>", "fabric", "neoforge")` in `settings.gradle.kts` and the tables `["<version>"]`, `[fabric."<version>"]` and `[neoforge."<version>"]` in `stonecutter.properties.toml` (`mod.mc_releases`, `mod.mc_compat`, `deps.*`; a newer Fabric Loader goes into the version table).
   3. **Compile.** `./gradlew :<version>-fabric:compileJava` lists all errors at once (`-Xmaxerrs`). For the new API, decompile Minecraft with `./gradlew :<version>-fabric:genSources` (the sources jar is in `.gradle/loom-cache/minecraftMaven`) and read the sources of NeoForge (`neoforge-<version>-sources.jar` in the Gradle cache) and the class files of Fabric API.
   4. **Port.** Keep the version differences in few places:

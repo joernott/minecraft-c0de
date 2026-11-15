@@ -766,3 +766,7 @@ I just changed the text that still referenced 0.1.0 in docs/modrinth.md, please 
 There is one more feature I want to have changed in c0de: As patchouli is not available in newer Minecraft versions and the forks of it are also not present in all versions, I'd like you to embed that functionality:
 The mod https://github.com/wisp-forest/lavender is under the MIT license and should serve as a good starting point for embedding it.
 The item for the guildes should be changed so that it looks more like a red binder.
+
+## 2026-11-15 – Start of the handbook implementation
+
+the label colors are fine, I could not find anything that states a different license for the textures, please start the implementation

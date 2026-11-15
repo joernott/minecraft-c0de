@@ -7,6 +7,8 @@
 }
 ```
 
-If the mod Patchouli is installed, this guide is also a book in the game. You get it once, the first time you join a world with c0de.
+This guide is also a book in the game: a red binder with a white label. You get it once, the first time you join a world with c0de. Right-click with it to open it.
 
 To make another copy, craft a book and a PROGRAM block together, in any order.
+
+In the book, the arrows at the bottom turn the pages, and the arrow in the middle goes back. The arrow keys and the mouse wheel turn the pages too, and Backspace goes back. The book opens where you left it.

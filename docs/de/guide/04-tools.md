@@ -195,16 +195,19 @@ Alle drei Auslöserblöcke haben dasselbe Muster: Kupferbarren in den Ecken, Gla
 
 ## Anleitungsbuch
 
-Wenn die Mod Patchouli installiert ist, gibt es diese Anleitung auch als Buch im Spiel. Du bekommst es einmal, wenn du zum ersten Mal einer Welt mit c0de beitrittst.
+Diese Anleitung gibt es auch als Buch im Spiel: ein roter Ordner mit weißem Etikett. Du bekommst ihn einmal, wenn du zum ersten Mal einer Welt mit c0de beitrittst. Rechtsklicke mit ihm, um ihn zu öffnen.
 
 Für ein weiteres Exemplar stellst du ein Buch und einen PROGRAM-Block zusammen her, in beliebiger Anordnung.
 
+Im Buch blättern die Pfeile unten um, und der Pfeil in der Mitte geht zurück. Auch die Pfeiltasten und das Mausrad blättern um, und die Rücktaste geht zurück. Das Buch öffnet sich dort, wo du aufgehört hast.
+
 ## Handbücher
 
-Mit Patchouli gibt es fünf weitere rote Bücher: Handbücher mit einer Seite pro Block, Gegenstand oder Funktion. Jede Seite hat eine kurze Beschreibung, das Rezept und ein Beispiel.
+Es gibt sechs weitere rote Ordner: Handbücher mit einer Seite pro Block, Gegenstand oder Funktion. Jede Seite hat eine kurze Beschreibung, das Rezept und ein Beispiel. Die Farbe des Etiketts unterscheidet sie.
 
-- **Daten**: hergestellt aus einem Buch und einer Typbasis
-- **Anweisungen**: ein Buch und eine Strukturbasis
-- **Werkzeuge**: ein Buch und ein Schraubenschlüssel
-- **Auslöser**: ein Buch und ein Auslöserblock
-- **Funktionen**: ein Buch und ein FUNCTION-Block
+- **Daten** (hellblau): hergestellt aus einem Buch und einer Typbasis
+- **Anweisungen** (gelb): ein Buch und eine Strukturbasis
+- **Werkzeuge** (grau): ein Buch und ein Schraubenschlüssel
+- **Auslöser** (violett): ein Buch und ein Auslöserblock
+- **Geräte** (grün): ein Buch und ein Anzeigeblock
+- **Funktionen** (orange): ein Buch und ein FUNCTION-Block
