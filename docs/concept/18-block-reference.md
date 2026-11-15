@@ -28,7 +28,8 @@ The language blocks are as high as a slab. Most of them are slabs with their sym
 | TYPE_TIME | red | a clock lies on the top, the item it is crafted from | type base + clock |
 | TYPE_ERROR | red | a campfire lies on the top, the item it is crafted from | type base + campfire |
 | VARIABLE | blue | shape: a blue chest, as high as a slab | type base + bone block; CONSTANT |
-| CONSTANT | blue | shape: a blue barrel, as high as a slab | type base + 3 bones; VARIABLE |
+| CONSTANT | blue | shape: a blue barrel, as high as a slab | type base + 3 bones; VARIABLE; SECRET |
+| SECRET | blue | shape: a blue barrel with a golden padlock, as high as a slab | CONSTANT + iron ingot |
 | LITERAL | gray #AAAAAA | shape: octagon, value on the top | 8 NOOP around white wool → 8 |
 | TAG | dark brown #553311 | price tag, language on the top | 8 NOOP around brown wool → 8 |
 | OPERATOR (all operators, ( ) and ;) | dark red #AA0000 | shape: the symbol chosen in a dialog, lying on the floor and extruded 4 pixels high (a question mark until one is chosen, and as an item) | 8 NOOP around red wool → 8 |

@@ -21,7 +21,8 @@ Every statement is an object with the property `keyword`. Statements that have a
 | NOOP | – |
 | COMMENT | A comment line: `text`, `disabled` (optional) |
 | STRUCT | `name`, `code`: one ELEMENT object per element |
-| VARIABLE, CONSTANT | `name`, `type`, `subtype` (ARRAY and HASH), `struct` (struct name, if the type or subtype is STRUCT), `length` (STRING length limit), `value` (simple types and STRING), `code` (initializer of an ARRAY, HASH or STRUCT), `tags` |
+| VARIABLE, CONSTANT | `name`, `type`, `subtype` (ARRAY and HASH), `struct` (struct name, if the type or subtype is STRUCT), `length` (STRING length limit), `value` (simple types and STRING), `code` (initializer of an ARRAY, HASH or STRUCT), `tags` (e.g. `{json: server.port}` or `{security: sensitive}`) |
+| SECRET | `name`, `type` (a simple type or STRING), `length` (STRING length limit); the value comes from the vault ([Secrets in programs](20-lib-security.md#secrets-in-programs)) |
 | ELEMENT | Element of a struct declaration: `name`, `type`, `subtype`, `struct`, `tags`. Element of a hash or struct initializer: `name` (key or element name) and `value` or a nested `code` |
 | LITERAL | Line of an array initializer: `values` (an array of values) or a nested `code` for a nested initializer |
 | FUNCTION | `name`, `parameters`, `results`, `code` |

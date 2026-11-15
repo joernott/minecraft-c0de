@@ -30,11 +30,11 @@ CALL INPUT
 The dialogs of [variable](14-items-and-tools.md#variable-item), [constant](14-items-and-tools.md#constant-item) and [literal items](19-input-output.md#literal-item) have a checkbox **Hide** (off by default). Once an item with a value is saved with **Hide** checked, its value is hidden:
   - the dialog shows `***` in a read-only value field, and the checkbox is checked and disabled,
   - the tooltip of the item shows `***` instead of the value,
-  - the item keeps its name and type, which can still be edited in the dialog of a variable item.
+  - the item keeps its name and type; only the name of a variable item can still be changed, a hidden constant or literal item can only be emptied.
 
 Hiding can't be undone: only the trash can button of the dialog, which empties all fields (and makes a variable or constant item uninitialized, a literal item empty), removes the value together with **Hide**. Items with a hidden value don't stack with items without one.
 
-A hidden item passes its value to a process like any other item. The parameter it fills is [sensitive](#sensitive-values). [WRITE](19-input-output.md#write) of a sensitive value puts a hidden variable item into the I/O block, and the results of a process that are sensitive come out of the trigger block as hidden variable items. INPUT from a hidden item works as from any other item.
+A hidden item passes its value to a process like any other item. The parameter it fills is [sensitive](#sensitive-values). [WRITE](19-input-output.md#write) of a sensitive value puts a hidden variable item into the I/O block. INPUT from a hidden item works as from any other item. The results of a process are new variable items that are not hidden; a program that returns a secret to the trigger block shows it in the item.
 
 LITERAL blocks can't be hidden: the code of a program stays readable on its sheet. Values that must not be seen belong into hidden items or into the vault.
 
@@ -48,7 +48,6 @@ A value is *sensitive* if it is
 
 The debug output shows `***` instead of a sensitive value:
   - the values of the stack in the dialog of a cursor and in the chat when a cursor is inspected with the debugging tool ([The cursor](15-cursor.md)),
-  - the context of an error in the dialog of a trigger block and in the chat,
   - the report of the [program runner](../runner.md) (the results and the variables of an error).
 
 An array, hash or struct that contains a sensitive element is shown with `***` in place of that element only. A sensitive value of a variable or constant of type ARRAY, HASH or STRUCT is shown as `***` as a whole.
@@ -107,7 +106,7 @@ Both have a Cancel button: closing the dialog raises VAULT_CANCELLED. If the pla
 
 ## Secrets in programs
 
-A SECRET statement declares a name for a secret of the vault. It consists of a SECRET keyword directly followed by a valid, unique LABEL and a type: BOOLEAN, INTEGER, FLOAT, CHAR, STRING or TIME. It MAY end with a COMMENT block, but not with tags or a literal. A secret is treated like a [constant](04-data.md#constant): it can be used wherever a constant can, it MUST NOT be the target of an ASSIGN statement, a CALL result or a loop, and it is visible in the scope in which it is declared.
+A SECRET statement declares a name for a secret of the vault. It consists of a SECRET keyword directly followed by a valid, unique LABEL and a type: BOOLEAN, INTEGER, FLOAT, CHAR, STRING or TIME. It MAY end with a COMMENT block, but not with tags or a literal. A wrong SECRET line is a SYNTAX_ERROR_CONSTANT, as a secret is a constant. A secret is treated like a [constant](04-data.md#constant): it can be used wherever a constant can, it MUST NOT be the target of an ASSIGN statement, a CALL result or a loop, and it is visible in the scope in which it is declared.
 
 ```
 SECRET apiKey STRING
