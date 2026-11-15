@@ -19,6 +19,8 @@ x-server: &server
     MOTD: "c0de test server"
     ENABLE_RCON: "TRUE"
     RCON_PASSWORD: "c0de"
+    # COMMAND of c0de/minecraft needs command blocks (until 1.21.10; since 1.21.11 a game rule, on by default)
+    ENABLE_COMMAND_BLOCK: "TRUE"
     # The mods directory is the only source of mods; removes jars of earlier runs
     REMOVE_OLD_MODS: "TRUE"
   tty: true
