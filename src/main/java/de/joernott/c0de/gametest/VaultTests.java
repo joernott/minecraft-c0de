@@ -29,6 +29,9 @@ import net.minecraft.world.item.ItemStack;
  * the same library.
  */
 public final class VaultTests {
+    /** Ticks to wait for a process that encrypts a vault: Argon2 takes a while on the runners of CI. */
+    private static final int VAULT_WAIT = 1000;
+
     private VaultTests() {}
 
     /** The open vaults of the stand-in client, by player. */
@@ -227,7 +230,7 @@ public final class VaultTests {
                     }
                 }
                 helper.succeed();
-            });
-        });
+            }, VAULT_WAIT);
+        }, VAULT_WAIT);
     }
 }

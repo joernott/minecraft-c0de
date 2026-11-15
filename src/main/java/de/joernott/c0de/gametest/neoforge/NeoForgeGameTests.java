@@ -221,7 +221,7 @@ public class NeoForgeGameTests {
         de.joernott.c0de.gametest.VaultTests.secretsBelongToTheOwnerOfTheSheet(helper);
     }
 
-    @GameTest(template = "empty", timeoutTicks = 1200)
+    @GameTest(template = "empty", timeoutTicks = 2400)
     public static void persistentSecretsSurviveLeaving(GameTestHelper helper) {
         de.joernott.c0de.gametest.VaultTests.persistentSecretsSurviveLeaving(helper);
     }
