@@ -2,6 +2,14 @@
 
 All notable changes of the c0de mod. The section of a version is also its changelog on Modrinth.
 
+## 0.6.1
+
+Handbooks for every mod, and corrections of the documentation.
+
+- **Handbooks of other mods**: other mods ship handbooks of their own as resources and data, without anything in c0de being changed for them: their books, crafting grids, translations and the recipe of their binder. One binder of c0de, the Handbook, serves all of them; it is named after its book and its label has the colour of the book. The creative tab lists the binders of all books. The library development guide has a chapter "Handbooks".
+- **Links between books**: a page can link to a page of another book, also of another mod. The guide links into the handbooks of c0de.
+- **Documentation**: the example of REGEX_REPLACE doubles its backslashes in the text notation (it gave `3.2.1` instead of `15.11.2026`), and the reference explains why. GET_BLOCK shows its result `data`; REMOVE_BLOCK says that a container spills its contents also without `drop`; COMMAND says what `result` counts and in which language `output` comes; the guide warns that a crash also gives a signal to a comparator, and its vault example hides the key and handles a cancelled password dialog.
+
 ## 0.6.0
 
 Security: passwords and keys out of sight.
