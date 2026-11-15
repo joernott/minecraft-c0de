@@ -403,6 +403,7 @@ After sprint 12, every new Minecraft release is added as a new node in its own s
 | 16.15 | Documentation of 16.11–16.14: guide, handbooks in English and German, Patchouli, changelog. | ✅ |
 | 16.16 | Release 0.6.0 for all Minecraft versions (GitHub pre-release with the runner, the models and the schema; Modrinth and CurseForge). Checked before on the VM: build, GameTests of both loaders, the test servers with a persistent vault across leaving and joining again, c0de net 0.3.0 with 0.6.0. |  |
 | 16.16.1 | Version 0.6.0 in stonecutter.properties.toml, so the development clients and the VM test the version that will be released. | ✅ |
+| 16.16.2 | Found on the VM on 2026-11-15: the jar of the active node (1.21.1-fabric) reported C0DE_VERSION 0.1.0 in every release, because Stonecutter writes the swap `mod_version` only into the generated sources of the other nodes. C0de.java refreshed, `scripts/check-version.sh` in CI, a step in the release checklist. | ✅ |
 
 ## Risks
 

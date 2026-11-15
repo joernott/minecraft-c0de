@@ -28,6 +28,17 @@ public final class VaultFile {
     /** The field of an entry with the type of the secret. */
     static final String TYPE_FIELD = "c0de-type";
 
+    /**
+     * The thread that encrypts and decrypts the vaults (Argon2). Its own thread, because the common pool of
+     * CompletableFuture is shared with the game and other mods, which can keep it busy for a long time.
+     */
+    public static final java.util.concurrent.ExecutorService EXECUTOR =
+            java.util.concurrent.Executors.newSingleThreadExecutor(runnable -> {
+                Thread thread = new Thread(runnable, "c0de vault");
+                thread.setDaemon(true);
+                return thread;
+            });
+
     /** A secret as text: its name, type keyword and value. */
     public record Entry(String name, String type, String value) {}
 

@@ -28,6 +28,8 @@ jobs:
       - uses: gradle/actions/setup-gradle@v6
       - name: Whitespace
         run: scripts/check-whitespace.sh
+      - name: Version of the active node
+        run: scripts/check-version.sh
       # Textures are not compared, because PNG compression may differ between zlib versions
       - name: Generated JSON files are up to date
         run: |

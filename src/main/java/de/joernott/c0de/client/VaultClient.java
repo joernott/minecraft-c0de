@@ -74,7 +74,7 @@ public final class VaultClient {
                     } catch (Exception e) {
                         return new Created(null, null);
                     }
-                })
+                }, VaultFile.EXECUTOR)
                 .thenAcceptAsync(
                         created -> {
                             if (created.file() == null) {
@@ -127,7 +127,7 @@ public final class VaultClient {
                     } catch (Exception e) {
                         return String.valueOf(e.getMessage());
                     }
-                })
+                }, VaultFile.EXECUTOR)
                 .thenAcceptAsync(
                         result -> {
                             if (result instanceof VaultFile file) {
@@ -161,7 +161,7 @@ public final class VaultClient {
                     } catch (Exception e) {
                         return null;
                     }
-                })
+                }, VaultFile.EXECUTOR)
                 .thenAcceptAsync(
                         bytes -> answer(
                                 request,

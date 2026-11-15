@@ -198,7 +198,9 @@ public final class VaultTests {
         helper.assertTrue(trigger.isRunning(), "The process didn't start: " + trigger.status());
         TestCompat.await(helper, () -> !trigger.isRunning(), () -> {
             String stored = results(trigger);
-            helper.assertTrue(stored.equals("exists=true"), "store returned " + stored + " " + trigger.error());
+            helper.assertTrue(
+                    stored.equals("exists=true"),
+                    "store returned " + stored + " " + trigger.error() + " (" + trigger.status() + ")");
             try {
                 byte[] bytes = Files.readAllBytes(file);
                 List<VaultFile.Entry> entries = VaultFile.open(bytes, "pw".toCharArray()).entries();
@@ -219,7 +221,9 @@ public final class VaultTests {
             TestCompat.await(helper, () -> !trigger.isRunning(), () -> {
                 try {
                     String loaded = results(trigger);
-                    helper.assertTrue(loaded.equals("value=\"abc\""), "load returned " + loaded + " " + trigger.error());
+                    helper.assertTrue(
+                            loaded.equals("value=\"abc\""),
+                            "load returned " + loaded + " " + trigger.error() + " (" + trigger.status() + ")");
                 } finally {
                     sheet.clear();
                     SheetValidation.validate(c0de, 548);

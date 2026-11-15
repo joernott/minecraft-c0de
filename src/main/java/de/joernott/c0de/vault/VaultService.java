@@ -335,7 +335,7 @@ public final class VaultService {
             if (current != null) {
                 // Like a client, the stand-in encrypts in the background and answers in a later tick
                 Operation started = operation;
-                CompletableFuture.supplyAsync(() -> current.answer(player, action, request))
+                CompletableFuture.supplyAsync(() -> current.answer(player, action, request), VaultFile.EXECUTOR)
                         .thenAccept(answer -> server.execute(() -> {
                             if (started.outcome == Vault.Outcome.PENDING) {
                                 answered(server, started, answer);
