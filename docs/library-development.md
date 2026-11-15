@@ -194,3 +194,64 @@ Functions can't access chunks that are not loaded; raise CHUNK_NOT_LOADED instea
 ## The program runner
 
 The [program runner](runner.md) runs c0de programs without Minecraft, e.g. to test the examples of your documentation. To make your library available there, publish a small jar with a class that implements `de.joernott.c0de.core.library.LibraryProvider` and adds your library and constants to the registry, named in `META-INF/services/de.joernott.c0de.core.library.LibraryProvider`. Such a library can only use the interpreter (`core`), not Minecraft.
+
+## Handbooks
+
+Since c0de 0.6.1, your mod can have handbooks in the game like those of c0de: red binders whose pages describe your library, with crafting grids, program examples in the colours of c0de, links and translations. A handbook is made of resources and data of your mod only; you register nothing and call no code of c0de. The book screen, its Markdown and the binder belong to c0de; the [concept](concept/21-handbooks.md) describes them in detail.
+
+**The book.** `assets/mymod/handbook/books/robots.json` defines the book `mymod:robots`:
+
+```json
+{
+  "name": "book.mymod.robots.name",
+  "landing_text": "book.mymod.robots.landing_text",
+  "color": "#F0A824"
+}
+```
+
+`name` and `landing_text` are translation keys of your language files; the landing text is Markdown. `color` is the colour of the label of the binder. The name of the binder is always the translation `book.<namespace>.<book>.name`, so use that key for `name`.
+
+**Categories and entries.** `assets/mymod/handbook/categories/robots/<category>.md` and `assets/mymod/handbook/entries/robots/<category>/<entry>.md`. Each starts with a JSON block (`title`, `icon`, `ordinal`, and for entries `category`) and continues in Markdown: bold, lists, `` `code` ``, program examples in ```` ```c0de ```` blocks, `<recipe;mymod:robot_core>` for a crafting grid, `<item;mymod:robot_core>` for an item, `;;;;;` for a page break, and links: `[text](^category/entry)` within the book, `[text](^c0de:functions/c0de_strings/len)` into a book of c0de or of another mod. Translations go into a folder named after the language, e.g. `entries/robots/de_de/<category>/<entry>.md`; the book falls back to the English files.
+
+**Crafting grids.** The client doesn't know the recipes of the server, so the grids that your pages show are in `assets/mymod/handbook/recipes.json`, keyed by the ID you use in `<recipe;…>`:
+
+```json
+{
+  "mymod:robot_core": {
+    "slots": [["minecraft:iron_ingot"], ["minecraft:redstone"], ["minecraft:iron_ingot"], [], [], [], [], [], []],
+    "result": "mymod:robot_core",
+    "count": 1
+  },
+  "mymod:robots_book": {
+    "slots": [["minecraft:book"], ["mymod:robot_core"], [], [], [], [], [], [], []],
+    "result": "c0de:handbook",
+    "book": "mymod:robots",
+    "color": "#F0A824"
+  }
+}
+```
+
+Each of the nine slots lists the items it cycles through. c0de merges the files of all mods, so every book can show the grids of every mod. A result with `book` shows the binder of that book.
+
+**The binder.** All books of other mods share the binder `c0de:handbook`; its custom data says which book it opens. Give your book a recipe, e.g. a book and an item of your mod. c0de is an optional dependency, so load the recipe only when c0de is there. For Minecraft 1.21.1:
+
+```json
+{
+  "fabric:load_conditions": [{"condition": "fabric:all_mods_loaded", "values": ["c0de"]}],
+  "neoforge:conditions": [{"type": "neoforge:mod_loaded", "modid": "c0de"}],
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [{"item": "minecraft:book"}, {"item": "mymod:robot_core"}],
+  "result": {
+    "id": "c0de:handbook",
+    "count": 1,
+    "components": {"minecraft:custom_data": {"book": "mymod:robots", "color": 15771684}}
+  }
+}
+```
+
+From Minecraft 1.21.2 on, ingredients are plain item IDs (`"ingredients": ["minecraft:book", "mymod:robot_core"]`), and the result also sets the colour for the item model: `"minecraft:custom_model_data": {"colors": [15771684]}` next to the custom data. `color` in the custom data is the colour of the label as a number (`0xF0A824` is 15771684).
+
+The creative tab of c0de lists the binders of all books it finds. Only the guide of c0de is given to players when they join; your book is crafted.
+
+**Generating the pages.** c0de generates its books from its Markdown documentation with `scripts/generate_book.py` (the guide in `docs/guide`, the handbooks in `docs/reference`, translations in `docs/de`). It is written for the documentation of c0de, but you can use it as a template for yours.
