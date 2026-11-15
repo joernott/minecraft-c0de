@@ -759,3 +759,10 @@ After those changes go ahead with the VM check. Make sure that that version can 
 I tested the above tests, everything works as expected.
 Findings:
 - The tags should not write Language: Sensitive, just Sensitive, remove the "Language" from every tag selection
+
+## 2026-11-15 – modrinth.md and an embedded handbook instead of Patchouli
+
+I just changed the text that still referenced 0.1.0 in docs/modrinth.md, please commit it as well. The tag text is fine now.
+There is one more feature I want to have changed in c0de: As patchouli is not available in newer Minecraft versions and the forks of it are also not present in all versions, I'd like you to embed that functionality:
+The mod https://github.com/wisp-forest/lavender is under the MIT license and should serve as a good starting point for embedding it.
+The item for the guildes should be changed so that it looks more like a red binder.

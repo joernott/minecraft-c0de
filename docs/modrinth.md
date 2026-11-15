@@ -4,7 +4,7 @@
 
 c0de is inspired by BASIC and the early Lego Mindstorms. You don't need to know how to program. Every statement is a block, every block is crafted from vanilla materials, and the floor tells you right away whether a line is correct.
 
-> This is the first alpha, version 0.1.0. Expect rough edges, and please report bugs and ideas on GitHub.
+> This is an early version. Expect rough edges, and please report bugs and ideas on GitHub.
 
 ## Features
 
