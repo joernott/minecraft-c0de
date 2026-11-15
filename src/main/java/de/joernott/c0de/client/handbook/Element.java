@@ -72,8 +72,8 @@ public interface Element {
     /** The title of a page: centered, on as many lines as it needs, with a line below it. */
     record Title(List<FormattedCharSequence> lines) implements Element {
         /** The title wrapped to the width of a page. */
-        static Title of(Font font, Component text) {
-            List<FormattedCharSequence> lines = font.split(text, HandbookScreen.PAGE_WIDTH);
+        static Title of(Font font, int width, Component text) {
+            List<FormattedCharSequence> lines = font.split(text, width);
             return new Title(lines.isEmpty() ? List.of(FormattedCharSequence.EMPTY) : List.copyOf(lines));
         }
 
@@ -87,10 +87,11 @@ public interface Element {
             Font font = screen.font();
             for (int i = 0; i < lines.size(); i++) {
                 FormattedCharSequence line = lines.get(i);
-                graphics.drawString(font, line, x + (HandbookScreen.PAGE_WIDTH - font.width(line)) / 2, y + 2 + 9 * i,
+                graphics.drawString(font, line, x + (screen.pageWidth() - font.width(line)) / 2, y + 2 + 9 * i,
                         TITLE, false);
             }
-            GuiDraw.blit(graphics, screen.texture(), x + 1, y + 4 + 9 * lines.size(), 54, 180, 109, 3, 512, 256);
+            int rule = y + 4 + 9 * lines.size();
+            graphics.fill(x + 4, rule, x + screen.pageWidth() - 4, rule + 1, 0xFFB8A27A);
         }
     }
 
@@ -98,12 +99,11 @@ public interface Element {
      * A line of the index of categories or entries: icon and title, which wraps to more lines if it is long; a
      * click opens it.
      */
-    record Link(String icon, Component title, Runnable open, int lines) implements Element {
-        /** The width of the title next to the icon. */
-        private static final int TEXT_WIDTH = HandbookScreen.PAGE_WIDTH - 20;
-
-        static Link of(Font font, String icon, Component title, Runnable open) {
-            return new Link(icon, title, open, Math.max(1, font.split(title, TEXT_WIDTH).size()));
+    record Link(String icon, Component title, Runnable open, int lines, int textWidth) implements Element {
+        /** A line for a page of the given width; the title gets the width without the icon. */
+        static Link of(Font font, int width, String icon, Component title, Runnable open) {
+            int textWidth = width - 20;
+            return new Link(icon, title, open, Math.max(1, font.split(title, textWidth).size()), textWidth);
         }
 
         @Override
@@ -116,10 +116,10 @@ public interface Element {
             Font font = screen.font();
             int height = height();
             boolean hovered =
-                    mouseX >= x && mouseX < x + HandbookScreen.PAGE_WIDTH && mouseY >= y && mouseY < y + height;
+                    mouseX >= x && mouseX < x + screen.pageWidth() && mouseY >= y && mouseY < y + height;
             GuiDraw.item(graphics, font, stack(icon), x, y + (height - 16) / 2);
             Component text = hovered ? title.copy().withStyle(style -> style.withUnderlined(true)) : title;
-            List<FormattedCharSequence> wrapped = font.split(text, TEXT_WIDTH);
+            List<FormattedCharSequence> wrapped = font.split(text, textWidth);
             int top = y + (height - 9 * wrapped.size()) / 2 + 1;
             for (int i = 0; i < wrapped.size(); i++) {
                 graphics.drawString(font, wrapped.get(i), x + 19, top + 9 * i, TEXT, false);
@@ -134,9 +134,10 @@ public interface Element {
     }
 
     /** An image, as wide as the page or as its own width. */
-    record Image(ResourceLocation texture, int textureWidth, int textureHeight, boolean fit) implements Element {
+    record Image(ResourceLocation texture, int textureWidth, int textureHeight, boolean fit, int pageWidth)
+            implements Element {
         private int width() {
-            return fit || textureWidth > HandbookScreen.PAGE_WIDTH ? HandbookScreen.PAGE_WIDTH : textureWidth;
+            return fit || textureWidth > pageWidth ? pageWidth : textureWidth;
         }
 
         @Override
@@ -148,7 +149,7 @@ public interface Element {
         public void draw(GuiGraphics graphics, HandbookScreen screen, int x, int y, int mouseX, int mouseY) {
             int width = width();
             int height = height() - 2;
-            int left = x + (HandbookScreen.PAGE_WIDTH - width) / 2;
+            int left = x + (pageWidth - width) / 2;
             GuiDraw.blitScaled(graphics, texture, left, y, width, height, textureWidth, textureHeight);
         }
     }
@@ -167,7 +168,7 @@ public interface Element {
                 graphics.drawString(font, id, x, y, 0xFFAA0000, false);
                 return;
             }
-            int left = x + (HandbookScreen.PAGE_WIDTH - 104) / 2;
+            int left = x + (screen.pageWidth() - 104) / 2;
             GuiDraw.blit(graphics, screen.texture(), left, y, 54, 186, 104, 54, 512, 256);
             long second = System.currentTimeMillis() / 1000;
             for (int slot = 0; slot < 9 && slot < recipe.slots().size(); slot++) {
@@ -204,7 +205,7 @@ public interface Element {
             ItemStack stack = stack(id);
             Font font = screen.font();
             GuiDraw.item(graphics, font, stack, x, y + 1);
-            FormattedCharSequence name = font.split(stack.getHoverName(), HandbookScreen.PAGE_WIDTH - 20).get(0);
+            FormattedCharSequence name = font.split(stack.getHoverName(), screen.pageWidth() - 20).get(0);
             graphics.drawString(font, name, x + 19, y + 5, TEXT, false);
             if (mouseX >= x && mouseX < x + 16 && mouseY >= y && mouseY < y + 17) {
                 screen.itemTooltip(stack);
@@ -221,7 +222,7 @@ public interface Element {
 
         @Override
         public void draw(GuiGraphics graphics, HandbookScreen screen, int x, int y, int mouseX, int mouseY) {
-            graphics.fill(x + 10, y + 3, x + HandbookScreen.PAGE_WIDTH - 10, y + 4, 0xFF808080);
+            graphics.fill(x + 10, y + 3, x + screen.pageWidth() - 10, y + 4, 0xFF808080);
         }
     }
 

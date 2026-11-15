@@ -112,7 +112,7 @@ public final class PageCompiler implements MarkdownCompiler<List<List<Element>>>
     public void visitImage(ResourceLocation image, String description, boolean fit) {
         int[] size = pngSize(image);
         add(size == null ? text(Component.literal("[" + description + "]").withStyle(ChatFormatting.RED))
-                : new Element.Image(image, size[0], size[1], fit));
+                : new Element.Image(image, size[0], size[1], fit, width));
     }
 
     @Override

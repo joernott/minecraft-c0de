@@ -37,14 +37,23 @@ import net.minecraft.world.item.ItemStack;
  * previous view, and the book remembers where it was open while the game runs.
  */
 public class HandbookScreen extends Screen {
-    public static final int PAGE_WIDTH = 112;
-    /** The height of the content of a page; the page number is below it. */
-    public static final int PAGE_HEIGHT = 142;
-    private static final int BOOK_WIDTH = 267;
-    private static final int BOOK_HEIGHT = 180;
-    private static final int LEFT_PAGE = 15;
-    private static final int RIGHT_PAGE = 139;
-    private static final int PAGE_TOP = 15;
+    /** The smallest book; on smaller screens the book is as large as the screen. */
+    private static final int MIN_WIDTH = 267;
+    private static final int MIN_HEIGHT = 180;
+    /** The part of the screen the book takes, and the widest book relative to its height (lines stay readable). */
+    private static final double SHARE = 0.8;
+    private static final double MAX_ASPECT = 1.75;
+    /** The red cover around the pages, the gap between them with the rings, the margin of the text. */
+    private static final int COVER = 6;
+    private static final int GAP = 10;
+    private static final int PADDING = 8;
+    /** The space below the text of a page for the page number and the arrows. */
+    private static final int FOOTER = 14;
+    private static final int COVER_EDGE = 0xFF4A0B0E;
+    private static final int COVER_RED = 0xFFA8282D;
+    private static final int GAP_DARK = 0xFF5A1014;
+    private static final int PAPER = 0xFFF2E9D0;
+    private static final int PAPER_EDGE = 0xFFDCCDA8;
     private static final int MAX_HISTORY = 50;
 
     /** What the book shows: the landing page, a category or an entry, and the spread of its pages. */
@@ -65,6 +74,15 @@ public class HandbookScreen extends Screen {
     private List<List<Element>> pages = List.of();
     private int left;
     private int top;
+    private int bookWidth;
+    private int bookHeight;
+    private int paperWidth;
+    private int pageWidth;
+    private int pageHeight;
+    private int leftPage;
+    private int rightPage;
+    private int pageTop;
+    private int footer;
     private ItemStack itemTooltip = ItemStack.EMPTY;
     private List<FormattedCharSequence> textTooltip = List.of();
 
@@ -94,10 +112,25 @@ public class HandbookScreen extends Screen {
         return book.texture();
     }
 
+    /** The width of the text of a page, which grows with the screen. */
+    public int pageWidth() {
+        return pageWidth;
+    }
+
     @Override
     protected void init() {
-        left = (width - BOOK_WIDTH) / 2;
-        top = (height - BOOK_HEIGHT) / 2;
+        // About 80 % of the screen, not wider than MAX_ASPECT times the height, at least the size of a small book
+        bookHeight = Math.min(height, Math.max(MIN_HEIGHT, (int) (height * SHARE)));
+        bookWidth = Math.min(width, Math.max(MIN_WIDTH, Math.min((int) (width * SHARE), (int) (bookHeight * MAX_ASPECT))));
+        left = (width - bookWidth) / 2;
+        top = (height - bookHeight) / 2;
+        paperWidth = (bookWidth - 2 * COVER - GAP) / 2;
+        pageWidth = paperWidth - 2 * PADDING;
+        leftPage = left + COVER + PADDING;
+        rightPage = left + COVER + paperWidth + GAP + PADDING;
+        pageTop = top + COVER + PADDING;
+        pageHeight = bookHeight - 2 * COVER - 2 * PADDING - FOOTER;
+        footer = pageTop + pageHeight + 4;
         // Back from a confirmation of a link, removed() has stored the current view
         if (view.equals(history.peekLast())) {
             history.pollLast();
@@ -122,11 +155,11 @@ public class HandbookScreen extends Screen {
         PageCompiler compiler = compiler();
         switch (target.kind()) {
             case LANDING -> {
-                compiler.add(Element.Title.of(font, title));
+                compiler.add(Element.Title.of(font, pageWidth, title));
                 markdown(compiler, Component.translatable(book.landing()).getString());
                 compiler.visitPageBreak();
                 for (HandbookContent.Category category : book.categories()) {
-                    compiler.add(Element.Link.of(font, category.icon(), Component.literal(category.title()),
+                    compiler.add(Element.Link.of(font, pageWidth, category.icon(), Component.literal(category.title()),
                             () -> navigate(new View(Kind.CATEGORY, category.id(), 0))));
                 }
             }
@@ -135,11 +168,11 @@ public class HandbookScreen extends Screen {
                 if (category == null) {
                     return null;
                 }
-                compiler.add(Element.Title.of(font, Component.literal(category.title())));
+                compiler.add(Element.Title.of(font, pageWidth, Component.literal(category.title())));
                 markdown(compiler, category.markdown());
                 compiler.visitPageBreak();
                 for (HandbookContent.Entry entry : category.entries()) {
-                    compiler.add(Element.Link.of(font, entry.icon(), Component.literal(entry.title()),
+                    compiler.add(Element.Link.of(font, pageWidth, entry.icon(), Component.literal(entry.title()),
                             () -> navigate(new View(Kind.ENTRY, entry.id(), 0))));
                 }
             }
@@ -148,7 +181,7 @@ public class HandbookScreen extends Screen {
                 if (entry == null) {
                     return null;
                 }
-                compiler.add(Element.Title.of(font, Component.literal(entry.title())));
+                compiler.add(Element.Title.of(font, pageWidth, Component.literal(entry.title())));
                 markdown(compiler, entry.markdown());
             }
         }
@@ -156,7 +189,7 @@ public class HandbookScreen extends Screen {
     }
 
     private PageCompiler compiler() {
-        return new PageCompiler(font, PAGE_WIDTH, PAGE_HEIGHT, book.recipes(),
+        return new PageCompiler(font, pageWidth, pageHeight, book.recipes(),
                 Minecraft.getInstance().getResourceManager());
     }
 
@@ -286,17 +319,17 @@ public class HandbookScreen extends Screen {
         super.render(graphics, mouseX, mouseY, partialTick);
         itemTooltip = ItemStack.EMPTY;
         textTooltip = List.of();
-        GuiDraw.blit(graphics, book.texture(), left, top, 0, 0, BOOK_WIDTH, BOOK_HEIGHT, 512, 256);
-        drawPage(graphics, 2 * view.spread(), left + LEFT_PAGE, mouseX, mouseY);
-        drawPage(graphics, 2 * view.spread() + 1, left + RIGHT_PAGE, mouseX, mouseY);
+        drawBinder(graphics);
+        drawPage(graphics, 2 * view.spread(), leftPage, mouseX, mouseY);
+        drawPage(graphics, 2 * view.spread() + 1, rightPage, mouseX, mouseY);
         if (view.spread() > 0) {
-            button(graphics, 0, left - 3, top + 174, mouseX, mouseY);
+            button(graphics, 0, previousX(), footer, mouseX, mouseY);
         }
         if (view.spread() < (pages.size() + 1) / 2 - 1) {
-            button(graphics, 36, left + 252, top + 174, mouseX, mouseY);
+            button(graphics, 36, nextX(), footer, mouseX, mouseY);
         }
         if (view.kind() != Kind.LANDING) {
-            button(graphics, 18, left + 122, top + 176, mouseX, mouseY);
+            button(graphics, 18, backX(), footer, mouseX, mouseY);
         }
         if (!itemTooltip.isEmpty()) {
             GuiDraw.tooltip(graphics, font, itemTooltip, mouseX, mouseY);
@@ -305,18 +338,58 @@ public class HandbookScreen extends Screen {
         }
     }
 
+    /**
+     * The open binder: a red cover, two pages with a small gap between them, and four metal rings across the gap.
+     */
+    private void drawBinder(GuiGraphics graphics) {
+        graphics.fill(left, top, left + bookWidth, top + bookHeight, COVER_EDGE);
+        graphics.fill(left + 1, top + 1, left + bookWidth - 1, top + bookHeight - 1, COVER_RED);
+        int paperTop = top + COVER;
+        int paperBottom = top + bookHeight - COVER;
+        int leftPaper = left + COVER;
+        int rightPaper = leftPaper + paperWidth + GAP;
+        // The gap between the pages shows the darker inside of the cover
+        graphics.fill(leftPaper + paperWidth, paperTop, rightPaper, paperBottom, GAP_DARK);
+        for (int paper : new int[] {leftPaper, rightPaper}) {
+            graphics.fill(paper, paperTop, paper + paperWidth, paperBottom, PAPER_EDGE);
+            graphics.fill(paper + 1, paperTop + 1, paper + paperWidth - 1, paperBottom - 1, PAPER);
+        }
+        // Four rings, evenly spaced, reaching a little into both pages through their holes
+        int ringLeft = leftPaper + paperWidth - 6;
+        int ringRight = rightPaper + 6;
+        for (int ring = 0; ring < 4; ring++) {
+            int y = paperTop + (paperBottom - paperTop) * (2 * ring + 1) / 8 - 2;
+            graphics.fill(ringLeft - 1, y - 1, ringLeft + 2, y + 5, 0xFF3A3A3A);
+            graphics.fill(ringRight - 2, y - 1, ringRight + 1, y + 5, 0xFF3A3A3A);
+            graphics.fill(ringLeft, y, ringRight, y + 4, 0xFF6E6E6E);
+            graphics.fill(ringLeft, y, ringRight, y + 1, 0xFFE6E6E6);
+            graphics.fill(ringLeft, y + 1, ringRight, y + 3, 0xFFB4B4B4);
+        }
+    }
+
+    private int previousX() {
+        return leftPage;
+    }
+
+    private int backX() {
+        return leftPage + pageWidth - 18;
+    }
+
+    private int nextX() {
+        return rightPage + pageWidth - 18;
+    }
+
     private void drawPage(GuiGraphics graphics, int index, int x, int mouseX, int mouseY) {
         if (index >= pages.size()) {
             return;
         }
-        int y = top + PAGE_TOP;
+        int y = pageTop;
         for (Element element : pages.get(index)) {
             element.draw(graphics, this, x, y, mouseX, mouseY);
             y += element.height();
         }
         String number = Integer.toString(index + 1);
-        graphics.drawString(font, number, x + (PAGE_WIDTH - font.width(number)) / 2, top + PAGE_TOP + PAGE_HEIGHT + 2,
-                0xFF808080, false);
+        graphics.drawString(font, number, x + (pageWidth - font.width(number)) / 2, footer + 1, 0xFF808080, false);
     }
 
     /** An arrow of the book texture: u is its column; the lower row is the arrow under the mouse. */
@@ -326,20 +399,20 @@ public class HandbookScreen extends Screen {
     }
 
     private boolean click(double mouseX, double mouseY) {
-        if (view.spread() > 0 && over(mouseX, mouseY, left - 3, top + 174)) {
+        if (view.spread() > 0 && over(mouseX, mouseY, previousX(), footer)) {
             turn(-1);
             return true;
         }
-        if (view.spread() < (pages.size() + 1) / 2 - 1 && over(mouseX, mouseY, left + 252, top + 174)) {
+        if (view.spread() < (pages.size() + 1) / 2 - 1 && over(mouseX, mouseY, nextX(), footer)) {
             turn(1);
             return true;
         }
-        if (view.kind() != Kind.LANDING && over(mouseX, mouseY, left + 122, top + 176)) {
+        if (view.kind() != Kind.LANDING && over(mouseX, mouseY, backX(), footer)) {
             back();
             return true;
         }
-        return clickPage(2 * view.spread(), left + LEFT_PAGE, mouseX, mouseY)
-                || clickPage(2 * view.spread() + 1, left + RIGHT_PAGE, mouseX, mouseY);
+        return clickPage(2 * view.spread(), leftPage, mouseX, mouseY)
+                || clickPage(2 * view.spread() + 1, rightPage, mouseX, mouseY);
     }
 
     private static boolean over(double mouseX, double mouseY, int x, int y) {
@@ -347,10 +420,10 @@ public class HandbookScreen extends Screen {
     }
 
     private boolean clickPage(int index, int x, double mouseX, double mouseY) {
-        if (index >= pages.size() || mouseX < x || mouseX >= x + PAGE_WIDTH) {
+        if (index >= pages.size() || mouseX < x || mouseX >= x + pageWidth) {
             return false;
         }
-        int y = top + PAGE_TOP;
+        int y = pageTop;
         for (Element element : pages.get(index)) {
             if (mouseY >= y && mouseY < y + element.height()) {
                 return element.click(this, x, y, mouseX, mouseY);
