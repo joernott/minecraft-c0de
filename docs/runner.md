@@ -58,7 +58,7 @@ vault:                        # the vault of the player who starts the program (
   persistent:                 # the persistent vault (none)
     password: secret          # the password that opens it
     open: false               # true if it is open already (false)
-    secrets:                  # the secrets in its file, added to the vault by OPEN_VAULT
+    secrets:                  # the secrets in its file: in the vault from the start if open is true, else added by OPEN_VAULT
       token: {type: STRING, value: xyz}
 ```
 

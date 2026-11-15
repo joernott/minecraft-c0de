@@ -27,4 +27,5 @@ CALL c0de/minecraft/GET_BLOCK
   RESULT properties states
   RESULT power power
   RESULT has_inventory isChest
+  RESULT data blockData
 ```

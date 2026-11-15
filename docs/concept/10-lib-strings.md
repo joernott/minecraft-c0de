@@ -132,9 +132,11 @@ CALL c0de/strings/REGEX_MATCH
 CALL c0de/strings/REGEX_REPLACE
     PARAMETER text "2026-11-15" ;
     PARAMETER pattern "([0-9]+)-([0-9]+)-([0-9]+)" ;
-    PARAMETER replacement "\3.\2.\1" ;
+    PARAMETER replacement "\\3.\\2.\\1" ;
     RESULT result german
 ```
+
+In the text notation, a backslash in a string is written twice (`\\1`, `\\d`), like in the strings of Java; in the dialog of a LITERAL block it is typed once (`\1`, `\d`).
 
 `german` is `15.11.2026`.
 

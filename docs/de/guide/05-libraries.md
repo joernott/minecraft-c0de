@@ -212,16 +212,23 @@ NOOP
 FUNCTION setup
 BEGIN
     VARIABLE exists BOOLEAN
-    VARIABLE key STRING
+    VARIABLE key STRING TAG(security: "sensitive")
+    VARIABLE problem ERROR
     CALL c0de/security/HAS_VAULT
         RESULT result exists
     IF exists ;
     BEGIN
-        CALL c0de/security/OPEN_VAULT
+        CALL c0de/security/OPEN_VAULT problem
     END
     ELSE
     BEGIN
-        CALL c0de/security/CREATE_VAULT
+        CALL c0de/security/CREATE_VAULT problem
+    END IF
+    IF problem.code = VAULT_CANCELLED ;
+    BEGIN
+        CALL PRINT
+            PARAMETER value "No password, no key." ;
+        RETURN
     END IF
     CALL INPUT
         PARAMETER variable key ;
@@ -233,4 +240,4 @@ BEGIN
 END FUNCTION
 ```
 
-Ein anderes Programm liest den Schlüssel dann nach OPEN_VAULT mit `SECRET apiKey STRING`.
+Der Tag `security: "sensitive"` verbirgt den Schlüssel im [Debugging-Werkzeug](04-tools.md#debugging-werkzeug). Bricht der Spieler den Passwort-Dialog ab, lösen OPEN_VAULT und CREATE_VAULT VAULT_CANCELLED aus, was das Programm abfängt. Ein anderes Programm liest den Schlüssel dann nach OPEN_VAULT mit `SECRET apiKey STRING`.

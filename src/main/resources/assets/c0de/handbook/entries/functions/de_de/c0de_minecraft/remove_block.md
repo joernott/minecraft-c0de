@@ -9,7 +9,7 @@
 
 Entfernt den Block an einer Position.
 
-Mit `drop` fällt der Block als Gegenstand heraus, wie beim Abbauen. Das braucht allowBlockChanges oder einen Administrator als Besitzer, sonst wird PERMISSION\_DENIED ausgelöst. Eine leere `dimension` in der Position bedeutet die Dimension des Auslöserblocks.
+Mit `drop` fällt der Block als Gegenstand heraus, wie beim Abbauen. Der Inhalt eines Behälters (einer Truhe, eines Fasses) fällt in jedem Fall als Gegenstände heraus. Das braucht allowBlockChanges oder einen Administrator als Besitzer, sonst wird PERMISSION\_DENIED ausgelöst. Eine leere `dimension` in der Position bedeutet die Dimension des Auslöserblocks.
 
 - `position` STRUCT c0de/minecraft/POSITION: wo der Block ist
 - `drop` BOOLEAN: wahr, damit der Block als Gegenstand herausfällt (optional, Standard TRUE)

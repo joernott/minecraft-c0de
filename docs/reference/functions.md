@@ -1001,6 +1001,8 @@ Replaces the matches of a regular expression, like the command `s` of sed.
 
 In `replacement`, `&` stands for the whole match and `\1` to `\9` for the groups of the pattern; `\&` and `\\` are a `&` and a backslash, `\n` is a line break. Without `flags`, only the first match is replaced. The flags are `g` for all matches, a number N for the Nth match (with `g`, the Nth and all after it), `i` to ignore the case, `m` for `^` and `$` in every line, and `p` to PRINT the result if something was replaced. Unknown flags, groups the pattern doesn't have and invalid patterns raise INVALID_ARGUMENT.
 
+In the text notation of the examples, a backslash in a string is written twice, so `\1` becomes `\\1` and `\d` becomes `\\d`; in the dialog of a LITERAL block you type it once.
+
 **Parameters and results**
 
 - `text` STRING: the text
@@ -1015,7 +1017,7 @@ In `replacement`, `&` stands for the whole match and `\1` to `\9` for the groups
 CALL c0de/strings/REGEX_REPLACE
     PARAMETER text "2026-11-15" ;
     PARAMETER pattern "([0-9]+)-([0-9]+)-([0-9]+)" ;
-    PARAMETER replacement "\3.\2.\1" ;
+    PARAMETER replacement "\\3.\\2.\\1" ;
     RESULT result german
 ```
 
@@ -1463,6 +1465,7 @@ CALL c0de/minecraft/GET_BLOCK
     RESULT properties states
     RESULT power power
     RESULT has_inventory isChest
+    RESULT data blockData
 ```
 
 ### GET_INVENTORY
@@ -1621,7 +1624,7 @@ Moves items from one inventory to another.
 
 It moves up to `count` items with the ID `id`, or that match `filter`, and returns how many were moved. `count` -1 moves all of them. Give `id` or `filter`, not both (INVALID_ARGUMENT); without both, all items are moved. Every owner may use it, like carrying the items by hand, but the owner must be able to open both inventories: they may not be locked, in the spawn protection or on the sheets of the c0de dimension. Otherwise PERMISSION_DENIED is raised. Both blocks must be in the same dimension, otherwise INVALID_ARGUMENT is raised, as for blocks without inventory. An empty `dimension` in a position means the dimension of the trigger block.
 
-The items travel: one stack per tick for each 128 blocks of distance, so the cursor waits a tick per stack for nearby chests. The server can change the speed and switch the function off in `config/c0de.properties`.
+The items travel: the cursor waits a tick per stack for chests up to 128 blocks apart, two ticks per stack up to 256 blocks, and so on (by default; the server sets how many stacks move per tick and how far they get). The server can change the speed and switch the function off in `config/c0de.properties`.
 
 The filter is an item ID like `minecraft:wheat`, or a search like in JEI: words that the name must contain, `@` and a mod, `$` and a tag, `&` and a part of the ID, `-` before a word that must not match, and `|` between alternatives. An array of filters matches items that one of them matches. Without a filter, all items match.
 
@@ -1699,7 +1702,7 @@ CALL c0de/minecraft/PLACE_BLOCK
 
 Removes the block at a position.
 
-With `drop`, the block drops as an item like when it is mined. This needs allowBlockChanges or an administrator as owner, otherwise PERMISSION_DENIED is raised. An empty `dimension` in the position means the dimension of the trigger block.
+With `drop`, the block drops as an item like when it is mined. The contents of a container (a chest, a barrel) fall out as items in either case. This needs allowBlockChanges or an administrator as owner, otherwise PERMISSION_DENIED is raised. An empty `dimension` in the position means the dimension of the trigger block.
 
 **Parameters and results**
 
@@ -1840,8 +1843,8 @@ A command that fails is not an error: `result` is 0 and `output` tells why. The 
 **Parameters and results**
 
 - `command` STRING: the command, with or without `/`
-- result `result` INTEGER: how often it succeeded, like the comparator signal of a command block
-- result `output` STRING: the last message of the command
+- result `result` INTEGER: how often it succeeded, like the comparator signal of a command block (1 for a query like `time query daytime` that succeeded, not the value it asked for)
+- result `output` STRING: the last message of the command, in the language of the server (English on a dedicated server, the language of the game in single player)
 
 **Example**
 

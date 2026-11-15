@@ -27,7 +27,7 @@ CALL INPUT
 
 ## Hidden items
 
-The dialogs of [variable](14-items-and-tools.md#variable-item), [constant](14-items-and-tools.md#constant-item) and [literal items](19-input-output.md#literal-item) have a checkbox **Hide** (off by default). Once an item with a value is saved with **Hide** checked, its value is hidden:
+The dialogs of [variable](14-items-and-tools.md#variable-item), [constant](14-items-and-tools.md#constant-item) and [literal items](19-input-output.md#literal-item) have the choice **Hide the value**: **No** (the default) or **Yes, for good**. Once an item with a value is saved with **Yes, for good**, its value is hidden:
   - the dialog shows `***` in a read-only value field, and the checkbox is checked and disabled,
   - the tooltip of the item shows `***` instead of the value,
   - the item keeps its name and type; only the name of a variable item can still be changed, a hidden constant or literal item can only be emptied.

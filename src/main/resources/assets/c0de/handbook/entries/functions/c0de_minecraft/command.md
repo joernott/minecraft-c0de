@@ -14,8 +14,8 @@ The command runs at the trigger block, with the rights of a command block, and t
 A command that fails is not an error: `result` is 0 and `output` tells why. The commands are written to the log of the server.
 
 - `command` STRING: the command, with or without `/`
-- result `result` INTEGER: how often it succeeded, like the comparator signal of a command block
-- result `output` STRING: the last message of the command
+- result `result` INTEGER: how often it succeeded, like the comparator signal of a command block (1 for a query like `time query daytime` that succeeded, not the value it asked for)
+- result `output` STRING: the last message of the command, in the language of the server (English on a dedicated server, the language of the game in single player)
 
 ```c0de
 CALL c0de/minecraft/COMMAND

@@ -1001,6 +1001,8 @@ Ersetzt, was ein regulärer Ausdruck findet, wie der Befehl `s` von sed.
 
 In `replacement` steht `&` für den ganzen Treffer und `\1` bis `\9` für die Gruppen des Musters; `\&` und `\\` sind ein `&` und ein Backslash, `\n` ist ein Zeilenumbruch. Ohne `flags` wird nur der erste Treffer ersetzt. Die Flags sind `g` für alle Treffer, eine Zahl N für den N-ten Treffer (mit `g` den N-ten und alle danach), `i`, um Groß- und Kleinschreibung zu ignorieren, `m` für `^` und `$` in jeder Zeile und `p`, um das Ergebnis mit PRINT auszugeben, wenn etwas ersetzt wurde. Unbekannte Flags, Gruppen, die das Muster nicht hat, und ungültige Muster lösen INVALID_ARGUMENT aus.
 
+In der Textschreibweise der Beispiele wird ein Backslash in einem Text doppelt geschrieben, aus `\1` wird also `\\1` und aus `\d` wird `\\d`; im Dialog eines LITERAL-Blocks tippst du ihn einmal.
+
 **Parameter und Ergebnisse**
 
 - `text` STRING: der Text
@@ -1015,7 +1017,7 @@ In `replacement` steht `&` für den ganzen Treffer und `\1` bis `\9` für die Gr
 CALL c0de/strings/REGEX_REPLACE
     PARAMETER text "2026-11-15" ;
     PARAMETER pattern "([0-9]+)-([0-9]+)-([0-9]+)" ;
-    PARAMETER replacement "\3.\2.\1" ;
+    PARAMETER replacement "\\3.\\2.\\1" ;
     RESULT result german
 ```
 
@@ -1463,6 +1465,7 @@ CALL c0de/minecraft/GET_BLOCK
     RESULT properties states
     RESULT power power
     RESULT has_inventory isChest
+    RESULT data blockData
 ```
 
 ### GET_INVENTORY
@@ -1621,7 +1624,7 @@ Verschiebt Gegenstände von einem Inventar in ein anderes.
 
 Die Funktion verschiebt bis zu `count` Gegenstände mit der ID `id` oder solche, die zu `filter` passen, und gibt zurück, wie viele verschoben wurden. `count` -1 verschiebt alle. Gib `id` oder `filter` an, nicht beide (INVALID_ARGUMENT); ohne beide werden alle Gegenstände verschoben. Jeder Besitzer darf sie verwenden, wie wenn er die Gegenstände von Hand trägt, aber der Besitzer muss beide Inventare öffnen können: Sie dürfen nicht verschlossen sein, nicht im Spawnschutz liegen und nicht auf den Blättern der c0de-Dimension stehen. Sonst wird PERMISSION_DENIED ausgelöst. Beide Blöcke müssen in derselben Dimension sein, sonst wird INVALID_ARGUMENT ausgelöst, wie bei Blöcken ohne Inventar. Eine leere `dimension` in einer Position bedeutet die Dimension des Auslöserblocks.
 
-Die Gegenstände sind unterwegs: ein Stapel pro Tick für je 128 Blöcke Entfernung, der Cursor wartet bei nahen Truhen also einen Tick pro Stapel. Der Server kann die Geschwindigkeit ändern und die Funktion in `config/c0de.properties` abschalten.
+Die Gegenstände sind unterwegs: Der Cursor wartet einen Tick pro Stapel bei Truhen bis 128 Blöcke auseinander, zwei Ticks pro Stapel bis 256 Blöcke und so weiter (standardmäßig; der Server legt fest, wie viele Stapel pro Tick wandern und wie weit sie kommen). Der Server kann die Geschwindigkeit ändern und die Funktion in `config/c0de.properties` abschalten.
 
 Der Filter ist eine Gegenstands-ID wie `minecraft:wheat` oder eine Suche wie in JEI: Wörter, die der Name enthalten muss, `@` und eine Mod, `$` und ein Tag, `&` und ein Teil der ID, `-` vor einem Wort, das nicht passen darf, und `|` zwischen Alternativen. Ein Array von Filtern trifft Gegenstände, zu denen einer von ihnen passt. Ohne Filter passen alle Gegenstände.
 
@@ -1699,7 +1702,7 @@ CALL c0de/minecraft/PLACE_BLOCK
 
 Entfernt den Block an einer Position.
 
-Mit `drop` fällt der Block als Gegenstand heraus, wie beim Abbauen. Das braucht allowBlockChanges oder einen Administrator als Besitzer, sonst wird PERMISSION_DENIED ausgelöst. Eine leere `dimension` in der Position bedeutet die Dimension des Auslöserblocks.
+Mit `drop` fällt der Block als Gegenstand heraus, wie beim Abbauen. Der Inhalt eines Behälters (einer Truhe, eines Fasses) fällt in jedem Fall als Gegenstände heraus. Das braucht allowBlockChanges oder einen Administrator als Besitzer, sonst wird PERMISSION_DENIED ausgelöst. Eine leere `dimension` in der Position bedeutet die Dimension des Auslöserblocks.
 
 **Parameter und Ergebnisse**
 
@@ -1840,8 +1843,8 @@ Ein Befehl, der fehlschlägt, ist kein Fehler: `result` ist 0, und `output` sagt
 **Parameter und Ergebnisse**
 
 - `command` STRING: der Befehl, mit oder ohne `/`
-- Ergebnis `result` INTEGER: wie oft er erfolgreich war, wie das Komparatorsignal eines Befehlsblocks
-- Ergebnis `output` STRING: die letzte Meldung des Befehls
+- Ergebnis `result` INTEGER: wie oft er erfolgreich war, wie das Komparatorsignal eines Befehlsblocks (1 für eine erfolgreiche Abfrage wie `time query daytime`, nicht der abgefragte Wert)
+- Ergebnis `output` STRING: die letzte Meldung des Befehls, in der Sprache des Servers (Englisch auf einem eigenen Server, die Sprache des Spiels im Einzelspielermodus)
 
 **Beispiel**
 

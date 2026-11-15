@@ -208,7 +208,7 @@ A variable item has the following properties:
 
 A variable item is *empty* if it has no name and no value. Right-clicking with a variable item in the main hand opens a dialog in which its name, type and value can be edited. A small triangle at the end of the type field shows that it has a dropdown list. While the type field has the focus, the dropdown list below it offers the types: the simple types, STRING, ERROR, the struct types of the libraries and arrays and hashes of them, filtered by the entered text. Struct types of a program can be typed. A variable item that was crafted with a type item keeps the kind of its type (e.g. ARRAY); only its subtype can be chosen.
 
-The dialog has a checkbox **Hide**: a saved value that is hidden can't be seen any more until the trash can empties the item (see [Hidden items](20-lib-security.md#hidden-items)).
+The dialog has the choice **Hide the value** (**No** or **Yes, for good**): a saved value that is hidden can't be seen any more until the trash can empties the item (see [Hidden items](20-lib-security.md#hidden-items)).
 
 A variable item is *uninitialized* if it has no name, no type and no value. It is used as the target of a result that has no parameter at the same position: the result sets its name, type and value. The dialog has a trash can button that empties all fields; saving the dialog with all fields empty, whether they were emptied with the button or by hand, makes the item uninitialized.
 

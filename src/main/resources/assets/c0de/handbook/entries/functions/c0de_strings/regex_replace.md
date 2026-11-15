@@ -11,6 +11,8 @@ Replaces the matches of a regular expression, like the command `s` of sed.
 
 In `replacement`, `&` stands for the whole match and `\1` to `\9` for the groups of the pattern\; `\&` and `\\` are a `&` and a backslash, `\n` is a line break. Without `flags`, only the first match is replaced. The flags are `g` for all matches, a number N for the Nth match (with `g`, the Nth and all after it), `i` to ignore the case, `m` for `^` and `$` in every line, and `p` to PRINT the result if something was replaced. Unknown flags, groups the pattern doesn't have and invalid patterns raise INVALID\_ARGUMENT.
 
+In the text notation of the examples, a backslash in a string is written twice, so `\1` becomes `\\1` and `\d` becomes `\\d`\; in the dialog of a LITERAL block you type it once.
+
 - `text` STRING: the text
 - `pattern` STRING: the regular expression
 - `replacement` STRING: what replaces a match
@@ -21,6 +23,6 @@ In `replacement`, `&` stands for the whole match and `\1` to `\9` for the groups
 CALL c0de/strings/REGEX_REPLACE
   PARAMETER text "2026-11-15" ;
   PARAMETER pattern "([0-9]+)-([0-9]+)-([0-9]+)" ;
-  PARAMETER replacement "\3.\2.\1" ;
+  PARAMETER replacement "\\3.\\2.\\1" ;
   RESULT result german
 ```

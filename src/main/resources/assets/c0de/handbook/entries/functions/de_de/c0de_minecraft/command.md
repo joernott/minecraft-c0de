@@ -14,8 +14,8 @@ Der Befehl läuft am Auslöserblock, mit den Rechten eines Befehlsblocks und dem
 Ein Befehl, der fehlschlägt, ist kein Fehler: `result` ist 0, und `output` sagt, warum. Die Befehle werden in das Log des Servers geschrieben.
 
 - `command` STRING: der Befehl, mit oder ohne `/`
-- Ergebnis `result` INTEGER: wie oft er erfolgreich war, wie das Komparatorsignal eines Befehlsblocks
-- Ergebnis `output` STRING: die letzte Meldung des Befehls
+- Ergebnis `result` INTEGER: wie oft er erfolgreich war, wie das Komparatorsignal eines Befehlsblocks (1 für eine erfolgreiche Abfrage wie `time query daytime`, nicht der abgefragte Wert)
+- Ergebnis `output` STRING: die letzte Meldung des Befehls, in der Sprache des Servers (Englisch auf einem eigenen Server, die Sprache des Spiels im Einzelspielermodus)
 
 ```c0de
 CALL c0de/minecraft/COMMAND
