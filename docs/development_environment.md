@@ -7,7 +7,7 @@ This document describes how the development environment for the c0de mod is set 
 | Place | Purpose |
 |---|---|
 | Windows workstation | Writing code, building with Gradle, unit tests, running the Minecraft client of both loaders for manual tests (development runs and Modrinth App profiles) |
-| Development VM (`doener@192.168.178.101`, Debian 13) | Linux builds, dedicated test servers in Docker, automated integration tests, headless client tests |
+| Development VM (`doener@192.168.178.103`, Debian 13) | Linux builds, dedicated test servers in Docker, automated integration tests, headless client tests |
 | GitHub Actions | Build and test of every push and pull request for all loaders and Minecraft versions, releases |
 
 ## Toolchain decisions

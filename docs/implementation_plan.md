@@ -49,7 +49,7 @@ A task is done when
 | 12 | Newer Minecraft versions | The mod is released for 1.21.x and 26.x |  |
 | 13 | Usability, process information and colors (0.3.0) | Pausable timers, a better disk drive, the built-in constants SHEET, PID, CURSOR and COLOR_*, the used stack in the cursor dialog, mining and placing blocks with items from inventories, boots and pliers | ✅ |
 | 14 | Documentation (0.4.0) | The guide and the handbooks in German, a runner that tests the programs of the tutorials of c0de.at, and 3D models of all blocks for the website | ✅ |
-| 15 | Feedback from the tutorials | Deviations from the concept that the tutorials of c0de.at found |  |
+| 15 | Feedback from the tutorials | Deviations from the concept that the tutorials of c0de.at found | ✅ |
 
 ## Sprint 0: Concept and plan
 
