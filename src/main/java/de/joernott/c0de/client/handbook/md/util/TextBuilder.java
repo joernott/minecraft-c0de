@@ -1,0 +1,93 @@
+/*
+ * Taken from lavender-md (https://github.com/wisp-forest/lavender-md, branch 26.1) for the handbooks of c0de
+ * (docs/concept/21-handbooks.md).
+ *
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2023
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+ * documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to
+ * permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of
+ * the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+ * WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+ * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+package de.joernott.c0de.client.handbook.md.util;
+
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.Style;
+
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.function.UnaryOperator;
+
+/**
+ * A utility for building a Minecraft {@link net.minecraft.network.chat.Component}
+ * from a hierarchical style structure and text
+ */
+public class TextBuilder {
+
+    private final Deque<Style> styles;
+
+    private MutableComponent text = Component.empty();
+    private boolean empty = true;
+
+    public TextBuilder() {
+        this.styles = new ArrayDeque<>();
+        this.styles.push(Style.EMPTY);
+    }
+
+    /**
+     * Append {@code text} to this builder's result
+     */
+    public void append(MutableComponent text) {
+        this.text.append(text.withStyle(style -> style.applyTo(this.styles.peek())));
+        this.empty = false;
+    }
+
+    /**
+     * Push {@code style} onto this builder's stack
+     */
+    public void pushStyle(UnaryOperator<Style> style) {
+        this.styles.push(style.apply(this.styles.peek()));
+    }
+
+    /**
+     * Pop the current style from this builder's stack
+     */
+    public void popStyle() {
+        this.styles.pop();
+    }
+
+    /**
+     * Return this builder's current result and clear
+     * all internal state, ready to build a fresh text
+     */
+    public MutableComponent build() {
+        var result = this.text;
+        if (result.getString().equals("\n")) {
+            result = Component.literal(" ");
+        }
+
+        this.text = Component.empty();
+        this.empty = true;
+
+        return result;
+    }
+
+    /**
+     * @return {@code true} if this builder is in an empty state - that is,
+     * either it is new or cleared by a call to {@link #build()}
+     */
+    public boolean empty() {
+        return this.empty;
+    }
+}
