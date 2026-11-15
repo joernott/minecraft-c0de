@@ -6,9 +6,12 @@ import de.soderer.utilities.kdbx.KdbxWriter;
 import de.soderer.utilities.kdbx.data.KdbxEntry;
 import de.soderer.utilities.kdbx.data.KdbxGroup;
 import de.soderer.utilities.kdbx.data.KdbxHeaderFormat4;
+import de.soderer.utilities.kdbx.data.KdbxTimes;
 import de.soderer.utilities.kdbx.data.KeyDerivationFunctionInfoArgon;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -49,6 +52,7 @@ public final class VaultFile {
         database.getMeta().setDatabaseName("c0de");
         KdbxGroup group = new KdbxGroup();
         group.setName(GROUP);
+        group.setTimes(times());
         database.getGroups().add(group);
         return new VaultFile(database, password);
     }
@@ -81,6 +85,7 @@ public final class VaultFile {
         }
         KdbxGroup group = new KdbxGroup();
         group.setName(GROUP);
+        group.setTimes(times());
         database.getGroups().add(group);
         return group;
     }
@@ -105,6 +110,9 @@ public final class VaultFile {
         entry.setTitle(secret.name());
         entry.setPassword(secret.value());
         entry.setItem(TYPE_FIELD, secret.type());
+        entry.setTimes(times());
+        // KeePassXC reads the obfuscation of auto-type as a number, which kdbx leaves empty otherwise
+        entry.setAutoType(false, "0", null, null, null);
         group().getEntries().add(entry);
     }
 
@@ -123,6 +131,19 @@ public final class VaultFile {
             writer.writeKdbxDatabase(database, header, password.clone());
         }
         return out.toByteArray();
+    }
+
+    /** Times with every date set: KeePassXC refuses empty ones. */
+    private static KdbxTimes times() {
+        ZonedDateTime now = ZonedDateTime.now(ZoneOffset.UTC).withNano(0);
+        KdbxTimes times = new KdbxTimes();
+        times.setCreationTime(now);
+        times.setLastModificationTime(now);
+        times.setLastAccessTime(now);
+        times.setLocationChanged(now);
+        times.setExpiryTime(now);
+        times.setExpires(false);
+        return times;
     }
 
     /** Forgets the password. */
