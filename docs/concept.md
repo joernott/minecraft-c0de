@@ -75,6 +75,7 @@ The concept is split into the following documents:
 
   - [Running programs](concept/13-running-programs.md)
   - [Items and tools](concept/14-items-and-tools.md)
+  - [Handbooks](concept/21-handbooks.md)
   - [The cursor](concept/15-cursor.md)
   - [Error codes](concept/16-error-codes.md)
 

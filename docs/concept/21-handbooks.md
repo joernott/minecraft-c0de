@@ -1,0 +1,110 @@
+# Handbooks
+
+[c0de concept](../concept.md) › Handbooks
+
+c0de has its own in-game books. Until 0.6.0, the guide and the handbooks were Patchouli books, which only existed where Patchouli was installed, and Patchouli and its forks aren't available for every Minecraft version c0de supports. Since 0.6.0, the books are part of c0de and work on every Minecraft version and both loaders, without other mods.
+
+The engine is based on [Lavender](https://github.com/wisp-forest/lavender) (MIT license): its Markdown processor [lavender-md](https://github.com/wisp-forest/lavender-md) is embedded, and the book screen follows Lavender's layout. Lavender itself builds on owo-lib, exists only for Fabric and ends at Minecraft 1.21.4, so the screen, the page layout and the recipes are written anew with the plain screen classes of Minecraft.
+
+## The books
+
+There are seven books, as before. Each one is an item of its own that looks like a red ring binder, with the colour of its label telling the books apart:
+
+| Book | Item | Content | Crafted from a book and | Label |
+|---|---|---|---|---|
+| c0de Guide | `c0de:guide_book` | the guide (`docs/guide`) | a PROGRAM block | white |
+| Statements | `c0de:statements_book` | statements (`docs/reference/statements.md`) | a structural base | yellow |
+| Data | `c0de:data_book` | types, values and names | a type base | light blue |
+| Devices | `c0de:devices_book` | laptops, tablets, displays and the like | a display block | green |
+| Functions | `c0de:functions_book` | built-in functions and libraries | a FUNCTION block | orange |
+| Tools | `c0de:tools_book` | items and tools | a wrench | grey |
+| Triggers | `c0de:triggers_book` | trigger blocks | a trigger block | purple |
+
+The binders stack to 1. Right-clicking with one opens the book. The recipes are shapeless and always loaded (before 0.6.0, only with Patchouli). The binders are in the c0de creative tab.
+
+Every player gets the guide once, when they join a world with c0de: the player tag `c0de.handbook_given` records it. Players who got the Patchouli guide before get the binder too, because the tag is new. Patchouli books that players already have stay what they are; without Patchouli, they are plain items.
+
+## Reading
+
+The book opens on a two-page spread:
+
+  - **The landing page**: the title of the book, its landing text and, on the right, the index of its categories.
+  - **A category**: its description and the list of its entries. The guide has one category per chapter, a handbook one per `## ` section.
+  - **An entry**: its pages. Text that doesn't fit on a page flows onto the next one; a page break can also be set by hand.
+
+Arrows at the bottom corners turn the pages, a back arrow returns to the previous view (the category, then the landing page), and the title of an entry in a list opens it. The keyboard works too: the arrow keys and Page Up/Down turn pages, Backspace goes back, Escape closes the book. Turning a page plays the sound of a book page.
+
+The book remembers where it was open while the game runs, separately for each book, and opens there the next time.
+
+## The content
+
+The content is a resource of the client, so resource packs can change and translate it. A book consists of:
+
+  - `assets/c0de/handbook/books/<book>.json`: the name and the landing text (translation keys of the language files) and the texture of the book.
+  - `assets/c0de/handbook/categories/<book>/<category>.md`: a category.
+  - `assets/c0de/handbook/entries/<book>/<category>/<entry>.md`: an entry.
+
+A category or entry starts with a JSON block of metadata, as in Lavender:
+
+````markdown
+```json
+{
+  "title": "LEN",
+  "icon": "c0de:function_block",
+  "category": "built_in_functions",
+  "ordinal": 3
+}
+```
+
+Counts the characters of a string or the elements of an array or hash.
+````
+
+  - `title`: the title shown in lists and above the first page.
+  - `icon`: the ID of the item whose icon stands next to the title.
+  - `category`: (entries) the category the entry belongs to.
+  - `ordinal`: the position in the list; entries without one come after those with one, sorted by title.
+
+Translations are files with the same name in a folder named after the language, e.g. `entries/functions/de_de/built_in_functions/len.md`. The book shows the files of the language of the game and the English files where there is no translation.
+
+## Markdown
+
+The pages are Markdown, processed by lavender-md:
+
+| Notation | Result |
+|---|---|
+| `**text**`, `*text*`, `__text__`, `~~text~~` | bold, italic, underlined, struck through |
+| `{red}text{}`, `{#336699}text{}` | coloured text (Minecraft colour names or hex) |
+| `- item`, `1. item` | lists, also nested |
+| `> text` | quote |
+| `---` | horizontal line |
+| `[text](https://…)` | link to a web page (opens after confirmation, like links in the chat) |
+| `[text](^entry)`, `[text](^category/entry)` | link to an entry of the same book |
+| `![description](c0de:textures/…png)` | image |
+| `<keybind;key.use>` | the key bound to an action |
+| `%{book.c0de.guide.name}%` | a text from the language files |
+
+c0de adds:
+
+| Notation | Result |
+|---|---|
+| `` `code` `` | code in the text (dark blue) |
+| ```` ```c0de ```` … ```` ``` ```` | a program example: dark blue, every line as written, with its indentation |
+| `<recipe;c0de:wrench>` | the crafting grid of a recipe, with the result |
+| `<item;minecraft:book>` | the icon of an item, with its name as a tooltip |
+| `;;;;;` on a line of its own | page break |
+
+## Recipes
+
+Since Minecraft 1.21.2, the client doesn't know the recipes of the server any more. Recipe pages therefore don't look recipes up: `scripts/generate_book.py` writes the grid of every recipe that a book shows into `assets/c0de/handbook/recipes.json` (the ingredients per slot, the result and its count). Ingredients that are tags (e.g. `#minecraft:planks`) cycle through the items of the tag once per second. A recipe the file doesn't have shows its ID in red.
+
+## Generated from the documentation
+
+As before, `scripts/generate_book.py` generates the books from `docs/guide`, `docs/reference` and their German translation in `docs/de`. The generated files are committed, and CI fails if they differ from what the script writes. The rules for categories and entries don't change: a guide chapter becomes a category and every `## ` section an entry; a handbook section becomes a category and every `### ` element an entry with its description, recipes and example. What changes is the output: Markdown files instead of Patchouli JSON. The Markdown of the documentation is kept as far as the books support it (bold, lists, code, program examples); links between documentation files become links between entries where the target is in the same book, and plain text otherwise.
+
+## Without Patchouli
+
+c0de no longer uses Patchouli: the Patchouli books, their recipes and the development dependency are removed. Patchouli can still be installed for other mods.
+
+## Licences
+
+The files taken from Lavender and lavender-md keep their MIT licence notice in a comment at the top. `NOTICE.md` in the repository and the jar names Lavender, lavender-md and the licence text. The red book texture of the screen comes from Lavender; the textures of the binders are drawn for c0de.
