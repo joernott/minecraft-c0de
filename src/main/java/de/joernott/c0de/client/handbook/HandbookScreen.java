@@ -392,10 +392,15 @@ public class HandbookScreen extends Screen {
         graphics.drawString(font, number, x + (pageWidth - font.width(number)) / 2, footer + 1, 0xFF808080, false);
     }
 
-    /** An arrow of the book texture: u is its column; the lower row is the arrow under the mouse. */
+    /**
+     * An arrow of the book texture on the paper: u is its column; the red row is used, because the light one is
+     * made for the red cover. The arrow under the mouse gets a darker background.
+     */
     private void button(GuiGraphics graphics, int u, int x, int y, int mouseX, int mouseY) {
-        boolean hovered = mouseX >= x && mouseX < x + 18 && mouseY >= y && mouseY < y + 10;
-        GuiDraw.blit(graphics, book.texture(), x, y, u, hovered ? 190 : 180, 18, 10, 512, 256);
+        if (mouseX >= x && mouseX < x + 18 && mouseY >= y && mouseY < y + 10) {
+            graphics.fill(x - 1, y - 1, x + 19, y + 11, PAPER_EDGE);
+        }
+        GuiDraw.blit(graphics, book.texture(), x, y, u, 190, 18, 10, 512, 256);
     }
 
     private boolean click(double mouseX, double mouseY) {
