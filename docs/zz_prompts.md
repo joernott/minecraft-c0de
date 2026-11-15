@@ -802,3 +802,12 @@ In addition, I'd like you to change the mod maturity from alpha to beta
 ## 2026-11-15 – Fast-forward main
 
 everything is fine now, please ff main
+
+## 2026-11-15 – Sprint 17: 0.6.1, handbooks of other mods
+
+I triggered the reruns.
+Please plan a c0de sprint 17 for the 0.6.1 fixes. It should also contain the recipe.json unification or rather a solution that multiple mods can provide full featured documentation without needing to change anything in c0de itself.
+
+For c0de-net, please make sure, the open PR from Dependabot is included in the current sprint. Also, I want to add another library named MAIL that implement a SMTP_SERVER data type with all the properties needed to connect to a mail server as well as a SMTP_SEND function implementing an SMTP client.
+Another data type would be the IMAP_SERVER and a set of functions that implement an IMAP client:
+ - IMAP_CREATE, IMAP_DELETE, IMAP_RENAME, IMAP_LIST, IMAP_STATUS, IMAP_SELECT, IMAP_FETCH, IMAP_SEARCH, IMAP_STORE, IMAP_MOVE and IMAP_EXPUNGE.

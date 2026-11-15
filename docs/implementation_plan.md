@@ -58,6 +58,7 @@ A task is done when
 | 14 | Documentation (0.4.0) | The guide and the handbooks in German, a runner that tests the programs of the tutorials of c0de.at, and 3D models of all blocks for the website | ✅ |
 | 15 | Feedback from the tutorials | Deviations from the concept that the tutorials of c0de.at found | ✅ |
 | 16 | Security (0.6.0) | Hidden input and items, sensitive values in the debug output, a vault of secrets per player with SECRET and the library c0de/security, persistent in a KeePass file | ✅ |
+| 17 | Handbooks of other mods (0.6.1) | Other mods ship full handbooks (binders, crafting grids, links, translations) as resources and data, without code in c0de; the documentation errors found by the recipes of c0de.at are fixed |  |
 
 ## Sprint 0: Concept and plan
 
@@ -421,6 +422,19 @@ After sprint 12, every new Minecraft release is added as a new node in its own s
 | 16.25.3 | Requested on 2026-11-15: every entry of the guide ends with the recipes of the c0de items and blocks it names, and the guide's references to its other pages are links (in the documentation and in the book). | ✅ |
 | 16.25.4 | Requested on 2026-11-15: more links in the guide. `scripts/guide_links.py` links the first mention of a term in each section (tools, items, trigger blocks, keywords, libraries and others) to the section that explains it: 168 links in English, 135 in German. | ✅ |
 | 16.25.5 | Requested on 2026-11-15: crafting grids and program examples in the colours of the sheets (light brown lines, green and white rows and stripes). | ✅ |
+
+## Sprint 17: Handbooks of other mods
+
+**Goal:** other mods, like c0de net, ship complete handbooks without anything in c0de being changed for them: their books, binders, crafting grids, translations and links between books are resources and data of their own jars. The errors in the documentation of 0.6.0 that the recipes of c0de.at found (www-c0de sprint 13) are fixed. Planned on 2026-11-15; version 0.6.1.
+
+| Task | Description | Done |
+|---|---|:---:|
+| 17.1 | Concept: handbooks of other mods in [Handbooks](concept/21-handbooks.md). Today only the namespace `c0de` is read, every binder is an item of c0de, and the crafting grids come from a single `recipes.json`, which a second mod would replace. To decide: books in every namespace (`assets/<namespace>/handbook/books/<book>.json`, book IDs like `c0de_net:net`); one generic binder item with a data component that names the book, so other mods need no item of their own (the seven binders of c0de stay, players have them); the label colour of the binder from the book definition (item tint on 1.21.1, a tint source of the item model since 1.21.4); the recipe of a binder as an ordinary recipe of the other mod with the component in its result; crafting grids of every namespace merged (`handbook/recipes.json` of all mods, or one file per book); links between books (`^namespace:book/entry`); whether a book is given on joining; where the binders of other mods appear in the creative tab. |  |
+| 17.2 | The content of all namespaces: books, categories and entries of every mod, the crafting grids of all mods merged, links into other books. Unit-tested loader, GameTest or client GameTest with a book of a test namespace. |  |
+| 17.3 | The generic binder: the item with the book component, its label colour from the book definition, its name from the book, opening the right book; recipes of other mods with the component in the result (1.21.1 and 1.21.2+ format); the creative tab. |  |
+| 17.4 | Documentation for mod developers: a chapter "Handbooks" in `docs/library-development.md` (the files, the Markdown, the recipe of the binder, the crafting grids, the translations, and how `scripts/generate_book.py` can be used as a template), and the concept. c0de net is the first user (c0de net sprint 8). |  |
+| 17.5 | Documentation errors of 0.6.0 found by the recipes of c0de.at (English and German): the example of REGEX_REPLACE writes `"\3.\2.\1"`, which the text notation reads as `3.2.1` (`"\\3.\\2.\\1"`, reference and concept), with a note that backslashes of patterns are doubled in the text notation and typed once in the dialog; the example of GET_BLOCK shows the result `data`; the vault example of the guide keeps the key in a variable with the tag `security: "sensitive"` and catches VAULT_CANCELLED; the concept calls the choice "Hide the value" (No / Yes, for good) like the game, not a checkbox; COMMAND says what `result` is for queries like `time query` and in which language `output` comes back; the guide warns that a crash also gives an exit code (15) to a comparator; the duration of MOVE_ITEMS is described with the formula of the concept; REMOVE_BLOCK says what happens to the contents of a container; `docs/runner.md` says that `persistent.open: true` puts the persistent secrets into the vault at the start. |  |
+| 17.6 | Release 0.6.1 for all Minecraft versions. |  |
 
 ## Risks
 
