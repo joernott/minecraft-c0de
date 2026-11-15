@@ -2,7 +2,7 @@
 {
   "title": "c0de/math",
   "icon": "c0de:function_block",
-  "ordinal": 24
+  "ordinal": 2
 }
 ```
 

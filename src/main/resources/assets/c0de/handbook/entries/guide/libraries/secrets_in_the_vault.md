@@ -3,7 +3,7 @@
   "title": "Secrets in the vault",
   "icon": "c0de:include_block",
   "category": "libraries",
-  "ordinal": 22
+  "ordinal": 15
 }
 ```
 

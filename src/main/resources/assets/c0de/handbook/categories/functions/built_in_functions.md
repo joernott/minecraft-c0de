@@ -2,7 +2,7 @@
 {
   "title": "Built-in functions",
   "icon": "c0de:function_block",
-  "ordinal": 22
+  "ordinal": 0
 }
 ```
 

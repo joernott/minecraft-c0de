@@ -9,7 +9,11 @@
 
 Moves items from one inventory to another.
 
-and a tag, `&` and a part of the ID, `-` before a word that must not match, and `|` between alternatives. An array of filters matches items that one of them matches. Without a filter, all items match.
+It moves up to `count` items with the ID `id`, or that match `filter`, and returns how many were moved. `count` -1 moves all of them. Give `id` or `filter`, not both (INVALID\_ARGUMENT)\; without both, all items are moved. Every owner may use it, like carrying the items by hand, but the owner must be able to open both inventories: they may not be locked, in the spawn protection or on the sheets of the c0de dimension. Otherwise PERMISSION\_DENIED is raised. Both blocks must be in the same dimension, otherwise INVALID\_ARGUMENT is raised, as for blocks without inventory. An empty `dimension` in a position means the dimension of the trigger block.
+
+The items travel: one stack per tick for each 128 blocks of distance, so the cursor waits a tick per stack for nearby chests. The server can change the speed and switch the function off in `config/c0de.properties`.
+
+The filter is an item ID like `minecraft:wheat`, or a search like in JEI: words that the name must contain, `@` and a mod, `$` and a tag, `&` and a part of the ID, `-` before a word that must not match, and `|` between alternatives. An array of filters matches items that one of them matches. Without a filter, all items match.
 
 - `from` STRUCT c0de/minecraft/POSITION: the block to take items from
 - `to` STRUCT c0de/minecraft/POSITION: the block to put items into

@@ -9,8 +9,15 @@
 
 Checks whether a text matches a regular expression.
 
-The pattern may match any part of the text\; `^` and \`# Functions
+The pattern may match any part of the text\; `^` and `$` tie it to the start and the end. c0de uses the regular expressions of Java, which have the syntax of PCRE: classes like `[a-z]`, `\d` and `\w`, the quantifiers `*`, `+`, `?` and `{2,4}`, groups, lookahead and lookbehind, and inline flags like `(?i)` for ignoring the case. A pattern that is not valid raises INVALID\_ARGUMENT, and so does a pattern that takes too long.
 
-A function call runs a function with a CALL line. The PARAMETER lines below it give the values the function needs. The RESULT lines name the variables that receive what the function returns. Results you don't list are thrown away.
+- `text` STRING: the text
+- `pattern` STRING: the regular expression
+- result `result` BOOLEAN: TRUE if the pattern matches
 
-Built-in functions work everywhere. Library functions need an INCLUDE line for their library first, e.g. `INCLUDE c0de/math`. Then you call them by their full name, e.g. `c0de/math/SIN`. If a call fails and has no error label, the error is raised.
+```c0de
+CALL c0de/strings/REGEX_MATCH
+  PARAMETER text input ;
+  PARAMETER pattern "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" ;
+  RESULT result isDate
+```

@@ -3,7 +3,7 @@
   "title": "c0de/security",
   "icon": "c0de:include_block",
   "category": "libraries",
-  "ordinal": 21
+  "ordinal": 14
 }
 ```
 

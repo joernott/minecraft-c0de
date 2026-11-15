@@ -3,7 +3,7 @@
   "title": "c0de/math",
   "icon": "c0de:include_block",
   "category": "libraries",
-  "ordinal": 11
+  "ordinal": 4
 }
 ```
 

@@ -3,7 +3,7 @@
   "title": "Rounding",
   "icon": "c0de:include_block",
   "category": "libraries",
-  "ordinal": 12
+  "ordinal": 5
 }
 ```
 

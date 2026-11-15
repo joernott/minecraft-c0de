@@ -2,7 +2,7 @@
 {
   "title": "c0de/time",
   "icon": "c0de:function_block",
-  "ordinal": 26
+  "ordinal": 4
 }
 ```
 

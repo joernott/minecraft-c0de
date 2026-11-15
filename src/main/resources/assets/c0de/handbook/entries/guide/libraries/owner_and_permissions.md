@@ -3,7 +3,7 @@
   "title": "Owner and permissions",
   "icon": "c0de:include_block",
   "category": "libraries",
-  "ordinal": 19
+  "ordinal": 12
 }
 ```
 

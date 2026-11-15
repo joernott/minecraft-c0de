@@ -3,7 +3,7 @@
   "title": "FROM_YAML",
   "icon": "minecraft:book",
   "category": "c0de_strings",
-  "ordinal": 19
+  "ordinal": 21
 }
 ```
 

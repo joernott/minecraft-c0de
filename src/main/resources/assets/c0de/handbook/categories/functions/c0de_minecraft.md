@@ -2,7 +2,7 @@
 {
   "title": "c0de/minecraft",
   "icon": "c0de:function_block",
-  "ordinal": 27
+  "ordinal": 5
 }
 ```
 

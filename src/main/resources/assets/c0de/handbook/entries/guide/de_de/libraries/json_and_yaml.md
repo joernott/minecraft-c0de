@@ -3,7 +3,7 @@
   "title": "JSON und YAML",
   "icon": "c0de:include_block",
   "category": "libraries",
-  "ordinal": 15
+  "ordinal": 8
 }
 ```
 

@@ -2,7 +2,7 @@
 {
   "title": "Eingabe und Ausgabe",
   "icon": "c0de:function_block",
-  "ordinal": 23
+  "ordinal": 1
 }
 ```
 

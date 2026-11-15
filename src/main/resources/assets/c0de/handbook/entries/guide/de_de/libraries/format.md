@@ -3,7 +3,7 @@
   "title": "FORMAT",
   "icon": "c0de:include_block",
   "category": "libraries",
-  "ordinal": 14
+  "ordinal": 7
 }
 ```
 

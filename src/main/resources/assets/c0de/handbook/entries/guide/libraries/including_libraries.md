@@ -3,7 +3,7 @@
   "title": "Including libraries",
   "icon": "c0de:include_block",
   "category": "libraries",
-  "ordinal": 9
+  "ordinal": 2
 }
 ```
 

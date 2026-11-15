@@ -3,7 +3,7 @@
   "title": "FROM_JSON",
   "icon": "minecraft:book",
   "category": "c0de_strings",
-  "ordinal": 18
+  "ordinal": 20
 }
 ```
 

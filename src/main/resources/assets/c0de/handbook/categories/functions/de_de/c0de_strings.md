@@ -2,7 +2,7 @@
 {
   "title": "c0de/strings",
   "icon": "c0de:function_block",
-  "ordinal": 25
+  "ordinal": 3
 }
 ```
 

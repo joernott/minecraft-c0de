@@ -3,7 +3,7 @@
   "title": "c0de/strings",
   "icon": "c0de:include_block",
   "category": "libraries",
-  "ordinal": 13
+  "ordinal": 6
 }
 ```
 
@@ -18,4 +18,12 @@ Text und Zeichen:
 
 Umwandlungen:
 
-- STR: ein beliebiger einfacher Wert als Text - FORMAT: ein Wert als Text in einem Format deiner Wahl - VAL: ein Text als Zahl ? - REGEX\_REPLACE: ersetzen, was ein Muster findet, wie sed
+- STR: ein beliebiger einfacher Wert als Text
+- FORMAT: ein Wert als Text in einem Format deiner Wahl
+- VAL: ein Text als Zahl
+- HEX, OCT: eine Zahl hexadezimal oder oktal
+
+Reguläre Ausdrücke:
+
+- REGEX\_MATCH: passt ein Text zu einem Muster wie `^[0-9]+$`?
+- REGEX\_REPLACE: ersetzen, was ein Muster findet, wie sed

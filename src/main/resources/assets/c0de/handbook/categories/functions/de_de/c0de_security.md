@@ -2,7 +2,7 @@
 {
   "title": "c0de/security",
   "icon": "c0de:function_block",
-  "ordinal": 28
+  "ordinal": 6
 }
 ```
 

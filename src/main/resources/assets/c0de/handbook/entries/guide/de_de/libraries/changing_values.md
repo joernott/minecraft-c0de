@@ -3,7 +3,7 @@
   "title": "Werte ändern",
   "icon": "c0de:include_block",
   "category": "libraries",
-  "ordinal": 8
+  "ordinal": 1
 }
 ```
 

@@ -788,3 +788,7 @@ We don't need to stick too closely to the look of patchouli or lavender. Please 
 The size and text size are fine, I like the new look.
 
 There are a few improvements we should implement in the guide. Every item or block mentioned in the book should also contain its recipe. Whenever you refer to another page in the guide, that text should be a link.
+
+## 2026-11-15 – More links in the guide
+
+Yes, more links are a good idea as this makes the guide more useful.

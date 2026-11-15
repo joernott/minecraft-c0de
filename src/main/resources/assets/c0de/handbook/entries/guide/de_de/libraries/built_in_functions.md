@@ -3,7 +3,7 @@
   "title": "Eingebaute Funktionen",
   "icon": "c0de:include_block",
   "category": "libraries",
-  "ordinal": 10
+  "ordinal": 3
 }
 ```
 

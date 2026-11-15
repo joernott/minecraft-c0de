@@ -3,7 +3,7 @@
   "title": "c0de/time",
   "icon": "c0de:include_block",
   "category": "libraries",
-  "ordinal": 16
+  "ordinal": 9
 }
 ```
 

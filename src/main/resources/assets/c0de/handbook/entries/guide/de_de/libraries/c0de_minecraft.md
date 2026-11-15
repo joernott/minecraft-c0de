@@ -3,7 +3,7 @@
   "title": "c0de/minecraft",
   "icon": "c0de:include_block",
   "category": "libraries",
-  "ordinal": 17
+  "ordinal": 10
 }
 ```
 

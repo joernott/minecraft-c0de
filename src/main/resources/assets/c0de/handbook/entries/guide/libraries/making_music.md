@@ -3,7 +3,7 @@
   "title": "Making music",
   "icon": "c0de:include_block",
   "category": "libraries",
-  "ordinal": 20
+  "ordinal": 13
 }
 ```
 
