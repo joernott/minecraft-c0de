@@ -88,12 +88,14 @@ c0de adds:
 | Notation | Result |
 |---|---|
 | `` `code` `` | code in the text (dark blue) |
-| ```` ```c0de ```` … ```` ``` ```` | a program example: every line as written, with its indentation, in the colours of the website c0de.at (the colours of the blocks, for light paper); code in other languages is dark blue |
+| ```` ```c0de ```` … ```` ``` ```` | a program example: every line as written, with its indentation, in the colours of the website c0de.at (the colours of the blocks, for light paper), on green and white stripes like the greenbar paper of the sheets; code in other languages is dark blue |
 | `<recipe;c0de:wrench>` | the crafting grid of a recipe, with the result |
 | `<item;minecraft:book>` | a line with the icon and the name of an item (its tooltip under the mouse) |
 | `;;;;;` on a line of its own | page break |
 
 ## Recipes
+
+A recipe is a crafting grid in the colours of the sheets: light brown lines around and between the slots, the first and third row green and the middle row white, then an arrow and the result on white.
 
 Since Minecraft 1.21.2, the client doesn't know the recipes of the server any more. Recipe pages therefore don't look recipes up: `scripts/generate_book.py` writes the grid of every recipe that a book shows into `assets/c0de/handbook/recipes.json` (the items of each of the nine slots, the result and its count). A slot that takes several items cycles through them once per second; recipes with tags as ingredients can't be shown, and the script refuses them. A recipe the file doesn't have shows its ID in red.
 
@@ -109,4 +111,4 @@ c0de no longer uses Patchouli: the Patchouli books, their recipes and the develo
 
 ## Licences
 
-The files taken from Lavender and lavender-md keep their MIT licence notice in a comment at the top. `NOTICE.md` in the repository and the jar names Lavender, lavender-md and the licence text. The page arrows and the crafting grid come from the red book texture of Lavender; the binder is drawn by c0de; the textures of the binders are drawn for c0de.
+The files taken from Lavender and lavender-md keep their MIT licence notice in a comment at the top. `NOTICE.md` in the repository and the jar names Lavender, lavender-md and the licence text. The page arrows come from the red book texture of Lavender; the binder is drawn by c0de; the textures of the binders are drawn for c0de.

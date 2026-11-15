@@ -7,7 +7,7 @@ c0de is licensed under the BSD 3-Clause License (see `LICENSE`). It contains cod
 The handbooks of c0de (docs/concept/21-handbooks.md) are based on [Lavender](https://github.com/wisp-forest/lavender) and [lavender-md](https://github.com/wisp-forest/lavender-md) by wisp-forest:
 
 - The Markdown processor of lavender-md (branch 26.1) is in `src/main/java/de/joernott/c0de/client/handbook/md`. Every file names its origin and, where c0de changed it, what was changed.
-- The texture `src/main/resources/assets/c0de/textures/gui/handbook.png`, whose page arrows and crafting grid the book screen uses, is `red_book.png` of Lavender.
+- The texture `src/main/resources/assets/c0de/textures/gui/handbook.png`, whose page arrows the book screen uses, is `red_book.png` of Lavender.
 
 Both projects are licensed under the MIT License:
 

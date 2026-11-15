@@ -139,7 +139,10 @@ public final class PageCompiler implements MarkdownCompiler<List<List<Element>>>
         flush();
         gap();
         int space = font.width(" ");
-        for (String line : lines) {
+        for (int number = 0; number < lines.size(); number++) {
+            String line = lines.get(number);
+            // Green and white stripes like the greenbar paper of the sheets, starting with green
+            int background = number % 2 == 0 ? Element.SHEET_GREEN : Element.SHEET_WHITE;
             String stripped = line.stripLeading();
             int indent = Math.min(width / 2, (line.length() - stripped.length()) * space);
             String text = stripped.isEmpty() ? " " : stripped;
@@ -148,7 +151,7 @@ public final class PageCompiler implements MarkdownCompiler<List<List<Element>>>
                     : Component.literal(text).withStyle(ChatFormatting.DARK_BLUE);
             List<FormattedCharSequence> wrapped = font.split(code, width - indent - LIST_INDENT);
             for (int i = 0; i < wrapped.size(); i++) {
-                place(new Element.Line(wrapped.get(i), indent + (i > 0 ? LIST_INDENT : 0), null, 0, false));
+                place(new Element.Line(wrapped.get(i), indent + (i > 0 ? LIST_INDENT : 0), null, 0, false, background));
             }
         }
         gapPending = true;
@@ -196,7 +199,7 @@ public final class PageCompiler implements MarkdownCompiler<List<List<Element>>>
     /** The lines of a text, wrapped to the width of the page. */
     private Element text(Component text) {
         List<FormattedCharSequence> lines = font.split(text, width);
-        return new Element.Line(lines.isEmpty() ? FormattedCharSequence.EMPTY : lines.get(0), 0, null, 0, false);
+        return new Element.Line(lines.isEmpty() ? FormattedCharSequence.EMPTY : lines.get(0), 0, null, 0, false, 0);
     }
 
     /** Places the text collected so far as lines, indented for lists and quotes. */
@@ -230,7 +233,7 @@ public final class PageCompiler implements MarkdownCompiler<List<List<Element>>>
         // A short paragraph in bold is a heading, which stays with what follows it
         boolean heading = lines.size() == 1 && prefix == null && bold(text);
         for (int i = 0; i < lines.size(); i++) {
-            place(new Element.Line(lines.get(i), indent, i == 0 ? prefix : null, prefixX, heading));
+            place(new Element.Line(lines.get(i), indent, i == 0 ? prefix : null, prefixX, heading, 0));
         }
     }
 

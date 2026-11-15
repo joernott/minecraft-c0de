@@ -22,6 +22,11 @@ public interface Element {
     int TEXT = 0xFF000000;
     /** The colour of titles. */
     int TITLE = 0xFF404040;
+    /** The light brown of lines on the pages. */
+    int RULE = 0xFFB8A27A;
+    /** The green and the white of the greenbar paper of the sheets (the floor of the c0de dimension). */
+    int SHEET_GREEN = 0xFFD2EBD7;
+    int SHEET_WHITE = 0xFFF5F7F3;
 
     int height();
 
@@ -46,7 +51,12 @@ public interface Element {
 
     /** A line of text, indented by {@code indent}, optionally with a bullet or number in front of it. */
     record Line(
-            FormattedCharSequence text, int indent, @Nullable FormattedCharSequence prefix, int prefixX, boolean heading)
+            FormattedCharSequence text,
+            int indent,
+            @Nullable FormattedCharSequence prefix,
+            int prefixX,
+            boolean heading,
+            int background)
             implements Element {
         @Override
         public int height() {
@@ -61,6 +71,9 @@ public interface Element {
         @Override
         public void draw(GuiGraphics graphics, HandbookScreen screen, int x, int y, int mouseX, int mouseY) {
             Font font = screen.font();
+            if (background != 0) {
+                graphics.fill(x - 2, y - 1, x + screen.pageWidth() + 2, y + 8, background);
+            }
             if (prefix != null) {
                 graphics.drawString(font, prefix, x + prefixX, y, TEXT, false);
             }
@@ -102,7 +115,7 @@ public interface Element {
                         TITLE, false);
             }
             int rule = y + 4 + 9 * lines.size();
-            graphics.fill(x + 4, rule, x + screen.pageWidth() - 4, rule + 1, 0xFFB8A27A);
+            graphics.fill(x + 4, rule, x + screen.pageWidth() - 4, rule + 1, RULE);
         }
     }
 
@@ -167,6 +180,9 @@ public interface Element {
 
     /** The crafting grid of a recipe with its result; slots with several items cycle through them. */
     record Recipe(String id, HandbookContent.@Nullable Recipe recipe) implements Element {
+        /** The width of the grid, the arrow and the result. */
+        private static final int WIDTH = 98;
+
         @Override
         public int height() {
             return recipe == null ? 11 : 58;
@@ -179,8 +195,25 @@ public interface Element {
                 graphics.drawString(font, id, x, y, 0xFFAA0000, false);
                 return;
             }
-            int left = x + (screen.pageWidth() - 104) / 2;
-            GuiDraw.blit(graphics, screen.texture(), left, y, 54, 186, 104, 54, 512, 256);
+            int left = x + (screen.pageWidth() - WIDTH) / 2;
+            // Light brown lines around and between the slots; the rows are green, white and green like a sheet
+            graphics.fill(left, y, left + 52, y + 52, RULE);
+            for (int row = 0; row < 3; row++) {
+                int color = row == 1 ? SHEET_WHITE : SHEET_GREEN;
+                for (int column = 0; column < 3; column++) {
+                    int slotX = left + 1 + 17 * column;
+                    int slotY = y + 1 + 17 * row;
+                    graphics.fill(slotX, slotY, slotX + 16, slotY + 16, color);
+                }
+            }
+            // The arrow to the result, in the middle row
+            int arrowY = y + 25;
+            graphics.fill(left + 58, arrowY - 1, left + 70, arrowY + 2, RULE);
+            for (int step = 0; step < 5; step++) {
+                graphics.fill(left + 70 + step, arrowY - 4 + step, left + 71 + step, arrowY + 5 - step, RULE);
+            }
+            graphics.fill(left + 80, y + 17, left + 98, y + 35, RULE);
+            graphics.fill(left + 81, y + 18, left + 97, y + 34, SHEET_WHITE);
             long second = System.currentTimeMillis() / 1000;
             for (int slot = 0; slot < 9 && slot < recipe.slots().size(); slot++) {
                 List<String> items = recipe.slots().get(slot);
@@ -188,11 +221,11 @@ public interface Element {
                     continue;
                 }
                 ItemStack stack = stack(items.get((int) (second % items.size())));
-                slot(graphics, screen, stack, left + 2 + 17 * (slot % 3), y + 2 + 17 * (slot / 3), mouseX, mouseY);
+                slot(graphics, screen, stack, left + 1 + 17 * (slot % 3), y + 1 + 17 * (slot / 3), mouseX, mouseY);
             }
             ItemStack result = stack(recipe.result());
             result.setCount(Math.max(1, recipe.count()));
-            slot(graphics, screen, result, left + 83, y + 19, mouseX, mouseY);
+            slot(graphics, screen, result, left + 81, y + 18, mouseX, mouseY);
         }
 
         private static void slot(

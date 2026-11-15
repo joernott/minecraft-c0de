@@ -792,3 +792,9 @@ There are a few improvements we should implement in the guide. Every item or blo
 ## 2026-11-15 – More links in the guide
 
 Yes, more links are a good idea as this makes the guide more useful.
+
+## 2026-11-15 – Crafting grid and code in greenbar colours, beta
+
+The documentation is much better now. Please change the layout of the boxes for the crafting grid.  Simplify the borders into light brown lines without the weird corners and change the color inside the squares to use the same green we use for the green lines for the first and third row of the crafting grid and white from the sheet for the middle row.. Also use these alternating line colors behinde code examples.
+
+In addition, I'd like you to change the mod maturity from alpha to beta
