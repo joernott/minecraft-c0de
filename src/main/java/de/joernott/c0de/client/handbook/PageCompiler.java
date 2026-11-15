@@ -148,7 +148,7 @@ public final class PageCompiler implements MarkdownCompiler<List<List<Element>>>
                     : Component.literal(text).withStyle(ChatFormatting.DARK_BLUE);
             List<FormattedCharSequence> wrapped = font.split(code, width - indent - LIST_INDENT);
             for (int i = 0; i < wrapped.size(); i++) {
-                place(new Element.Line(wrapped.get(i), indent + (i > 0 ? LIST_INDENT : 0), null, 0));
+                place(new Element.Line(wrapped.get(i), indent + (i > 0 ? LIST_INDENT : 0), null, 0, false));
             }
         }
         gapPending = true;
@@ -196,7 +196,7 @@ public final class PageCompiler implements MarkdownCompiler<List<List<Element>>>
     /** The lines of a text, wrapped to the width of the page. */
     private Element text(Component text) {
         List<FormattedCharSequence> lines = font.split(text, width);
-        return new Element.Line(lines.isEmpty() ? FormattedCharSequence.EMPTY : lines.get(0), 0, null, 0);
+        return new Element.Line(lines.isEmpty() ? FormattedCharSequence.EMPTY : lines.get(0), 0, null, 0, false);
     }
 
     /** Places the text collected so far as lines, indented for lists and quotes. */
@@ -227,9 +227,23 @@ public final class PageCompiler implements MarkdownCompiler<List<List<Element>>>
         }
         listItemStarted = false;
         List<FormattedCharSequence> lines = font.split(trim(text), width - indent);
+        // A short paragraph in bold is a heading, which stays with what follows it
+        boolean heading = lines.size() == 1 && prefix == null && bold(text);
         for (int i = 0; i < lines.size(); i++) {
-            place(new Element.Line(lines.get(i), indent, i == 0 ? prefix : null, prefixX));
+            place(new Element.Line(lines.get(i), indent, i == 0 ? prefix : null, prefixX, heading));
         }
+    }
+
+    /** True if every visible character of the text is bold. */
+    private static boolean bold(Component text) {
+        boolean[] bold = {true};
+        text.visit((style, part) -> {
+            if (!part.isBlank() && !style.isBold()) {
+                bold[0] = false;
+            }
+            return java.util.Optional.empty();
+        }, Style.EMPTY);
+        return bold[0];
     }
 
     /** The text without the line breaks at its start and end. */
@@ -276,16 +290,23 @@ public final class PageCompiler implements MarkdownCompiler<List<List<Element>>>
     /** Puts an element on the current page, or on a new one if it doesn't fit. */
     private void place(Element element) {
         if (used + element.height() > height && !page.isEmpty()) {
-            // An element that belongs to this one (e.g. the name of an item above its recipe) moves along
-            Element previous = page.get(page.size() - 1);
-            boolean along = previous.keepWithNext() && page.size() > 1;
-            if (along) {
-                page.remove(page.size() - 1);
+            // The elements that belong to this one (a heading, the name of an item above its recipe) move along,
+            // unless they are all there is on the page
+            int first = page.size();
+            while (first > 0 && (page.get(first - 1).keepWithNext() || page.get(first - 1) instanceof Element.Space)) {
+                first--;
+            }
+            while (first < page.size() && page.get(first) instanceof Element.Space) {
+                first++;
+            }
+            List<Element> along = first > 0 ? new ArrayList<>(page.subList(first, page.size())) : List.of();
+            if (!along.isEmpty()) {
+                page.subList(first, page.size()).clear();
             }
             newPage();
-            if (along) {
-                page.add(previous);
-                used += previous.height();
+            for (Element moved : along) {
+                page.add(moved);
+                used += moved.height();
             }
             if (element instanceof Element.Space) {
                 return;

@@ -45,11 +45,17 @@ public interface Element {
     }
 
     /** A line of text, indented by {@code indent}, optionally with a bullet or number in front of it. */
-    record Line(FormattedCharSequence text, int indent, @Nullable FormattedCharSequence prefix, int prefixX)
+    record Line(
+            FormattedCharSequence text, int indent, @Nullable FormattedCharSequence prefix, int prefixX, boolean heading)
             implements Element {
         @Override
         public int height() {
             return 9;
+        }
+
+        @Override
+        public boolean keepWithNext() {
+            return heading;
         }
 
         @Override
