@@ -1,25 +1,18 @@
 package de.joernott.c0de.content;
 
-import de.joernott.c0de.C0de;
 import de.joernott.c0de.compat.Compat;
 import de.joernott.c0de.platform.Platform;
-import net.minecraft.core.component.DataComponentType;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 
 /**
- * The guide book of the mod (docs/guide), if Patchouli is installed: every player gets it once, when they join a
- * world for the first time with the mod. The book is also crafted from a book and a PROGRAM block (recipe
- * guide_book, which is only loaded with Patchouli). The mod doesn't depend on Patchouli: its item and data
- * component are looked up by their IDs.
+ * The guide of the mod (docs/concept/21-handbooks.md): every player gets the red binder of the guide once, when
+ * they join a world with the mod. The tag is new in 0.6.0, so players who got the Patchouli guide before get the
+ * binder too.
  */
 public final class GuideBook {
-    /** The tag of the players who got the book. */
-    private static final String GIVEN = "c0de.guide_given";
+    /** The tag of the players who got the guide. */
+    private static final String GIVEN = "c0de.handbook_given";
 
     private GuideBook() {}
 
@@ -29,31 +22,10 @@ public final class GuideBook {
     }
 
     private static void joined(ServerPlayer player) {
-        if (player.getTags().contains(GIVEN) || !Platform.INSTANCE.isModLoaded("patchouli")) {
+        if (player.getTags().contains(GIVEN)) {
             return;
         }
-        ItemStack book = book();
-        if (book.isEmpty()) {
-            return;
-        }
-        Compat.give(player, book);
+        Compat.give(player, new ItemStack(C0deItems.HANDBOOK_ITEMS.get("guide").get()));
         player.addTag(GIVEN);
-    }
-
-    /** The guide book, or an empty stack if Patchouli's book item or component doesn't exist. */
-    @SuppressWarnings("unchecked")
-    private static ItemStack book() {
-        Item item = BuiltInRegistries.ITEM
-                .getOptional(ResourceLocation.fromNamespaceAndPath("patchouli", "guide_book"))
-                .orElse(Items.AIR);
-        DataComponentType<?> component = BuiltInRegistries.DATA_COMPONENT_TYPE
-                .getOptional(ResourceLocation.fromNamespaceAndPath("patchouli", "book"))
-                .orElse(null);
-        if (item == Items.AIR || component == null) {
-            return ItemStack.EMPTY;
-        }
-        ItemStack book = new ItemStack(item);
-        book.set((DataComponentType<ResourceLocation>) component, C0de.id("guide"));
-        return book;
     }
 }

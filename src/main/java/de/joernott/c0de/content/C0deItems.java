@@ -39,6 +39,12 @@ public final class C0deItems {
     public static Supplier<Item> VARIABLE_ITEM;
     public static Supplier<Item> CONSTANT_ITEM;
 
+    /** The handbooks in the order of the creative tab (docs/concept/21-handbooks.md). */
+    public static final java.util.List<String> HANDBOOKS =
+            java.util.List.of("guide", "statements", "data", "devices", "functions", "tools", "triggers");
+    /** The binder items of the handbooks by book, e.g. {@code guide}. */
+    public static final Map<String, Supplier<Item>> HANDBOOK_ITEMS = new java.util.LinkedHashMap<>();
+
     /** The type items by type name, e.g. {@code BOOLEAN}. */
     public static final Map<String, Supplier<Item>> TYPE_ITEMS = new java.util.LinkedHashMap<>();
 
@@ -87,6 +93,10 @@ public final class C0deItems {
         CONSTANT_ITEM = register("constant_item", properties -> new ValueItem(properties, true));
         LITERAL_ITEM = register("literal_item", properties -> new de.joernott.c0de.item.LiteralItem(properties));
         TYPE_BASE = register("type_base", Item::new);
+        for (String book : HANDBOOKS) {
+            HANDBOOK_ITEMS.put(book, register(book + "_book",
+                    properties -> new de.joernott.c0de.item.HandbookItem(properties.stacksTo(1), book)));
+        }
         STRUCTURAL_BASE = register("structural_base", Item::new);
         for (CodeBlockType type : CodeBlockType.values()) {
             CODE_BLOCKS.put(type, blockItem(type.id(), () -> C0deBlocks.get(type)));
@@ -119,6 +129,7 @@ public final class C0deItems {
                     output.accept(VARIABLE_ITEM.get());
                     output.accept(CONSTANT_ITEM.get());
                     output.accept(LITERAL_ITEM.get());
+                    HANDBOOK_ITEMS.values().forEach(item -> output.accept(item.get()));
                 })
                 .build());
     }

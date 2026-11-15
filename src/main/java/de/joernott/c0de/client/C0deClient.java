@@ -17,6 +17,7 @@ public final class C0deClient {
         ClientReceivers.register(de.joernott.c0de.network.TerminalPayload.TYPE, TerminalScreen::receive);
         ClientReceivers.register(de.joernott.c0de.network.SheetOwnersPayload.TYPE, ClientSheets::receive);
         ClientReceivers.register(de.joernott.c0de.network.VaultRequestPayload.TYPE, VaultClient::receive);
+        de.joernott.c0de.item.HandbookItem.opener = de.joernott.c0de.client.handbook.HandbookScreen::open;
     }
 
     /**

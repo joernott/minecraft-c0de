@@ -857,6 +857,49 @@ TYPE_ITEM_ICONS = [
 ]
 
 
+# The colours of the labels of the handbook binders (docs/concept/21-handbooks.md)
+BINDER_LABELS = {
+    "guide": 0xF2F2F2,
+    "statements": 0xF2D33A,
+    "data": 0x7EC8F0,
+    "devices": 0x5CBF4A,
+    "functions": 0xF08A24,
+    "tools": 0x9A9A9A,
+    "triggers": 0x9B59C9,
+}
+
+
+def binder(label: int) -> Image:
+    """A red lever arch binder seen from its spine: a label window in the colour of the book, a metal finger hole
+    below it, and the side of the cover on the right."""
+    image = blank()
+    rows = [
+        "ooooooooooo.",
+        "ohrrrrrrrsop",
+        "ohrlllllrsop",
+        "ohrlLLLlrsop",
+        "ohrlkkklrsop",
+        "ohrlLLLlrsop",
+        "ohrlkkLlrsop",
+        "ohrlLLLlrsop",
+        "ohrlllllrsop",
+        "ohrrmmmrrsop",
+        "ohrmfffmrsop",
+        "ohrmfffmrsop",
+        "ohrrMMMrrsop",
+        "ohrrrrrrrsop",
+        "ooooooooooop",
+        "............",
+    ]
+    palette = {
+        "o": 0x4A0B0E, "h": 0xD9473F, "r": 0xB52A2F, "s": 0x86181D, "p": 0x6E1216,
+        "l": darker(label, 60), "L": label, "k": darker(label, 90),
+        "m": 0xC9C9C9, "M": 0x7A7A7A, "f": 0x2A0507,
+    }
+    mask(image, rows, palette, 2, 0)
+    return image
+
+
 def item_textures() -> None:
     items = TEXTURES / "item"
     write_png(items / "data_item.png", card(None))
@@ -867,6 +910,8 @@ def item_textures() -> None:
         image = card(0xCC2222)
         icon(image, name, color)
         write_png(items / ("type_" + type_name.lower() + "_item.png"), image)
+    for book, label in BINDER_LABELS.items():
+        write_png(items / (book + "_book.png"), binder(label))
 
 
 def debug_tool() -> Image:
