@@ -18,3 +18,17 @@ CALL greet
 Here `greeting` becomes "Hello, c0de\!". A function can only call functions that are defined above it, or itself.
 
 The same variable may give a parameter and receive a result, like `PARAMETER name greeting ;` and `RESULT result greeting`.
+
+**Recipes**
+
+<item;c0de:call_block>
+
+<recipe;c0de:call_block>
+
+<item;c0de:parameter_block>
+
+<recipe;c0de:parameter_block>
+
+<item;c0de:result_block>
+
+<recipe;c0de:result_block>

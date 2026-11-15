@@ -29,3 +29,17 @@ BEGIN
   gold 1
 END VARIABLE
 ```
+
+**Recipes**
+
+<item;c0de:variable_block>
+
+<recipe;c0de:variable_block>
+
+<item;c0de:constant_block>
+
+<recipe;c0de:constant_block>
+
+<item;c0de:literal_block>
+
+<recipe;c0de:literal_block>

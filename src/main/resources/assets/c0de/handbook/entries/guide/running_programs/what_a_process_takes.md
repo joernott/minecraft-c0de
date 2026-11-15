@@ -14,3 +14,9 @@ When a process starts, it takes from the input inventory:
 - all other initialized variable and constant items.
 
 Those other items are not used. They are passed through unchanged to the output inventory when the process ends.
+
+**Recipes**
+
+<item;c0de:constant_item>
+
+<recipe;c0de:constant_item_uninitialized>

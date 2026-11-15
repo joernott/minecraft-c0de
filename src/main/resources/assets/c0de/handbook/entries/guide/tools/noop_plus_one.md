@@ -15,3 +15,33 @@ These blocks are crafted from one NOOP block and one item, in any shape:
 - FUNCTION: stone
 - CALL: smooth stone
 - BREAK: stick
+
+**Recipes**
+
+<item;c0de:noop_block>
+
+<recipe;c0de:noop_block>
+
+<item;c0de:label_block>
+
+<recipe;c0de:label_block>
+
+<item;c0de:program_block>
+
+<recipe;c0de:program_block>
+
+<item;c0de:include_block>
+
+<recipe;c0de:include_block>
+
+<item;c0de:function_block>
+
+<recipe;c0de:function_block>
+
+<item;c0de:call_block>
+
+<recipe;c0de:call_block>
+
+<item;c0de:break_block>
+
+<recipe;c0de:break_block>

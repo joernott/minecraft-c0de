@@ -12,3 +12,21 @@ A program starts at line 0 with a PROGRAM block and a LABEL with its name. The n
 After that, INCLUDE lines may follow. They load libraries, like `INCLUDE c0de/math`. Then come struct types, global variables, constants and functions, in any order.
 
 A name can only be used after it was defined. So put everything a function needs above it. The program ends at the first empty line.
+
+**Recipes**
+
+<item;c0de:program_block>
+
+<recipe;c0de:program_block>
+
+<item;c0de:label_block>
+
+<recipe;c0de:label_block>
+
+<item;c0de:noop_block>
+
+<recipe;c0de:noop_block>
+
+<item;c0de:include_block>
+
+<recipe;c0de:include_block>

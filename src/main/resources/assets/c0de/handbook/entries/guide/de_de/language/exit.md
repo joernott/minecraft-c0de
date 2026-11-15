@@ -16,3 +16,13 @@ EXIT 3 ;
 Exit-Code 15 bedeutet, dass das Programm abgestürzt ist. Du darfst `EXIT 15 ;` auch für ein schweres Problem verwenden.
 
 EXIT ist kein Absturz: Die Ergebnisse der Einstiegsfunktion kommen trotzdem heraus, mit den Werten, die sie in diesem Moment haben. Nur ein echter Absturz liefert keine Ergebnisse.
+
+**Rezepte**
+
+<item;c0de:exit_block>
+
+<recipe;c0de:exit_block>
+
+<item;c0de:trigger_block>
+
+<recipe;c0de:trigger_block>

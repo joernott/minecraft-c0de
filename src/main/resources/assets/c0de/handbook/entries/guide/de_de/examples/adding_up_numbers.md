@@ -29,3 +29,13 @@ END FUNCTION
 Diese Funktion addiert alle Zahlen von 1 bis `n`. Sie ruft sich selbst mit `n - 1` auf, bis `n` 0 ist, und addiert dann auf dem Rückweg `n`. Für `n` = 10 ist das Ergebnis 55.
 
 Zum Ausprobieren legst du eine INTEGER-Variablenkarte mit dem Namen `n` hinein. Jeder Aufruf braucht Platz auf dem Stack des Cursors, deshalb können sehr große Zahlen ihn abstürzen lassen.
+
+**Rezepte**
+
+<item;c0de:type_integer_block>
+
+<recipe;c0de:type_integer_block>
+
+<item;c0de:variable_item>
+
+<recipe;c0de:variable_item_uninitialized>

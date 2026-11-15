@@ -16,3 +16,9 @@ Three functions work for every owner, because they only do what a player can do:
 - MOVE\_ITEMS moves items between two chests the owner could open. The items travel, one stack per tick, and a filter like `$logs` or `minecraft:wheat` picks them.
 - MINE\_BLOCK breaks a block with the best tool from a chest (`tool_inventory`). The tool wears out and it takes as long as for a player. The drops go into another chest (`output_inventory`), or fall on the ground. If that chest is full, it raises INVENTORY\_FULL.
 - PLACE\_BLOCK with the parameter `inventory` takes the block from a chest. If the chest doesn't contain it, it raises ITEM\_MISSING.
+
+**Recipes**
+
+<item;c0de:trigger_block>
+
+<recipe;c0de:trigger_block>

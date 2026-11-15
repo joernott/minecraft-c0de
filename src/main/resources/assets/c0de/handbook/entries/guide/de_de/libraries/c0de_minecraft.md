@@ -20,3 +20,9 @@ Mit dieser Bibliothek können Programme die Welt rund um den Auslöserblock ber�
 - GET\_PRESSURE\_PLATE: Druckplatten lesen
 - GET\_OPEN, SET\_OPEN: Türen, Falltüren und Zauntore
 - FIND\_ENTITIES: Kreaturen und Gegenstände in der Nähe finden
+
+**Rezepte**
+
+<item;c0de:trigger_block>
+
+<recipe;c0de:trigger_block>

@@ -1372,6 +1372,27 @@
     "result": "c0de:type_array_block",
     "count": 1
   },
+  "c0de:type_array_item": {
+    "slots": [
+      [
+        "c0de:data_item"
+      ],
+      [
+        "minecraft:red_dye"
+      ],
+      [
+        "minecraft:barrel"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:type_array_item",
+    "count": 1
+  },
   "c0de:type_base": {
     "slots": [
       [
@@ -1464,6 +1485,27 @@
     "result": "c0de:type_char_block",
     "count": 1
   },
+  "c0de:type_char_item": {
+    "slots": [
+      [
+        "c0de:data_item"
+      ],
+      [
+        "minecraft:red_dye"
+      ],
+      [
+        "minecraft:oak_planks"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:type_char_item",
+    "count": 1
+  },
   "c0de:type_error_block": {
     "slots": [
       [
@@ -1481,6 +1523,27 @@
       []
     ],
     "result": "c0de:type_error_block",
+    "count": 1
+  },
+  "c0de:type_error_item": {
+    "slots": [
+      [
+        "c0de:data_item"
+      ],
+      [
+        "minecraft:red_dye"
+      ],
+      [
+        "minecraft:campfire"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:type_error_item",
     "count": 1
   },
   "c0de:type_float_block": {
@@ -1521,6 +1584,27 @@
     "result": "c0de:type_float_block",
     "count": 1
   },
+  "c0de:type_float_item": {
+    "slots": [
+      [
+        "c0de:data_item"
+      ],
+      [
+        "minecraft:red_dye"
+      ],
+      [
+        "minecraft:red_sand"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:type_float_item",
+    "count": 1
+  },
   "c0de:type_hash_block": {
     "slots": [
       [
@@ -1539,6 +1623,28 @@
       []
     ],
     "result": "c0de:type_hash_block",
+    "count": 1
+  },
+  "c0de:type_hash_item": {
+    "slots": [
+      [
+        "c0de:data_item"
+      ],
+      [
+        "minecraft:red_dye"
+      ],
+      [
+        "minecraft:chest",
+        "minecraft:trapped_chest"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:type_hash_item",
     "count": 1
   },
   "c0de:type_integer_block": {
@@ -1659,6 +1765,27 @@
     "result": "c0de:type_struct_block",
     "count": 1
   },
+  "c0de:type_struct_item": {
+    "slots": [
+      [
+        "c0de:data_item"
+      ],
+      [
+        "minecraft:red_dye"
+      ],
+      [
+        "minecraft:scaffolding"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:type_struct_item",
+    "count": 1
+  },
   "c0de:type_time_block": {
     "slots": [
       [
@@ -1676,6 +1803,27 @@
       []
     ],
     "result": "c0de:type_time_block",
+    "count": 1
+  },
+  "c0de:type_time_item": {
+    "slots": [
+      [
+        "c0de:data_item"
+      ],
+      [
+        "minecraft:red_dye"
+      ],
+      [
+        "minecraft:clock"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:type_time_item",
     "count": 1
   },
   "c0de:variable_block": {

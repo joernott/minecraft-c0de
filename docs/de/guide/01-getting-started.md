@@ -12,7 +12,7 @@ Alle Blöcke und Gegenstände von c0de werden aus Vanilla-Materialien hergestell
 
 ## Die Dimension betreten
 
-Stelle einen **Auslöserblock** und einen **Schraubenschlüssel** her (siehe das Kapitel über Werkzeuge). Platziere den Auslöserblock irgendwo. Dann klicke ihn mit dem Schraubenschlüssel mit rechts an.
+Stelle einen **Auslöserblock** und einen **Schraubenschlüssel** her (siehe [Auslöserblöcke](04-tools.md#auslöserblöcke) und [Schraubenschlüssel](04-tools.md#schraubenschlüssel) im Kapitel über Werkzeuge). Platziere den Auslöserblock irgendwo. Dann klicke ihn mit dem Schraubenschlüssel mit rechts an.
 
 Du wirst in die c0de-Dimension teleportiert. Wenn der Auslöserblock noch nicht eingerichtet ist, landest du vor dem ersten freien Blatt. Sonst landest du vor dem Programm, das er ausführt.
 

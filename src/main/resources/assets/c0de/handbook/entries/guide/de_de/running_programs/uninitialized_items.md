@@ -12,3 +12,9 @@ Eine **nicht initialisierte** Variablenkarte hat keinen Namen, keinen Typ und ke
 Du brauchst eine für jedes Ergebnis, das keine Parameterkarte hat, die seinen Platz einnimmt. Eine Funktion mit einem Ergebnis und ohne Parameter braucht eine nicht initialisierte Karte.
 
 Übrige nicht initialisierte Karten bleiben im Eingabeinventar. So kannst du dort mehrere davon für viele Durchläufe stapeln.
+
+**Rezepte**
+
+<item;c0de:variable_item>
+
+<recipe;c0de:variable_item_uninitialized>

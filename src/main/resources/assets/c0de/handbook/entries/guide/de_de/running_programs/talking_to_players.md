@@ -36,3 +36,33 @@ END FUNCTION
 ```
 
 INPUT nimmt zuerst eine passende Karte aus einem E/A-Block. Sonst wartet es, bis ein Spieler auf einem Laptop oder Tablet eine Zeile eintippt. Die getippte Zeile erscheint auf seinem Bildschirm, du siehst also deine Antwort. Die Handbücher Funktionen und Geräte beschreiben sie alle.
+
+**Rezepte**
+
+<item;c0de:call_block>
+
+<recipe;c0de:call_block>
+
+<item;c0de:io_block>
+
+<recipe;c0de:io_block>
+
+<item;c0de:variable_item>
+
+<recipe;c0de:variable_item_uninitialized>
+
+<item;c0de:display_block>
+
+<recipe;c0de:display_block>
+
+<item;c0de:laptop>
+
+<recipe;c0de:laptop>
+
+<item;c0de:tablet>
+
+<recipe;c0de:tablet>
+
+<item;c0de:trigger_block>
+
+<recipe;c0de:trigger_block>

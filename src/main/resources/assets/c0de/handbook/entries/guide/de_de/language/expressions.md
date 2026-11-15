@@ -16,3 +16,21 @@ Ein Minuszeichen vor einem Namen oder einer `(` dreht das Vorzeichen um: `- x * 
 Manche Regeln sind weniger üblich. `\` bindet schwächer als `*` und `/`: `7 \ 3 * 2` ist `7 \ 6`, also setze Klammern. `⊕` bindet schwächer als `+`, und AND bindet stärker als OR: `a OR b AND c` bedeutet `a OR ( b AND c )`.
 
 Du kannst in einem Ausdruck keine Funktion aufrufen. Verwende stattdessen eine CALL-Anweisung.
+
+**Rezepte**
+
+<item;c0de:operator_block>
+
+<recipe;c0de:operator_block>
+
+<item;c0de:type_float_block>
+
+<recipe;c0de:type_float_block>
+
+<item;c0de:literal_block>
+
+<recipe;c0de:literal_block>
+
+<item;c0de:call_block>
+
+<recipe;c0de:call_block>

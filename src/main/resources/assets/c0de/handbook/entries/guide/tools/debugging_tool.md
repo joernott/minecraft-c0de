@@ -17,3 +17,13 @@ Hit a debug trigger block with it to start a process with a red **debug cursor**
 - Shift-right-click a PID block: abort the process.
 
 Recipe: a red wool block bottom left, a stick in the middle and a leather top right.
+
+**Recipes**
+
+<item;c0de:debug_tool>
+
+<recipe;c0de:debug_tool>
+
+<item;c0de:debug_trigger_block>
+
+<recipe;c0de:debug_trigger_block>

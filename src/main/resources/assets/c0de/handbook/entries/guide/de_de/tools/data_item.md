@@ -10,3 +10,9 @@
 Die Datenkarte sieht aus wie eine leere Lochkarte. Sie ist die Grundlage für alle Gegenstände, die Daten tragen.
 
 Rezept: ein Papier, weißer Farbstoff und gelber Farbstoff, in beliebiger Form. Du bekommst vier Datenkarten.
+
+**Rezepte**
+
+<item;c0de:data_item>
+
+<recipe;c0de:data_item>

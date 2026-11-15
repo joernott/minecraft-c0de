@@ -144,7 +144,7 @@ Several processes of one program can run at the same time, one per trigger block
 
 The cursor is a glowing green pillar on the cursor rail. It sits in the line that is being worked on. It moves on by one line per tick.
 
-A debug cursor glows red. You move it yourself with the debugging tool, see the chapter on tools.
+A debug cursor glows red. You move it yourself with the debugging tool, see [Debugging tool](04-tools.md#debugging-tool) in the chapter on tools.
 
 ## Aborting a process
 

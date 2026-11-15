@@ -16,3 +16,21 @@ Nur ein Signal, das angeht, startet einen Auslöserblock. Einen Hebel auszuschal
 Auslöserblöcke funktionieren in jeder Dimension. In der c0de-Dimension kannst du sie nur auf den schwarzen Boden außerhalb der Blätter setzen.
 
 Ein Redstone-Signal pausiert einen Zeitgeberblock. Verwende einen Hebel, um ihn abzuschalten. Da ein Blatt geschützt ist, solange sein Programm läuft, pausiere einen schnellen Zeitgeber, bevor du das Programm änderst\; sein Dialog zeigt dann „Durch Redstone pausiert“.
+
+**Rezepte**
+
+<item;c0de:trigger_block>
+
+<recipe;c0de:trigger_block>
+
+<item;c0de:timer_block>
+
+<recipe;c0de:timer_block>
+
+<item;c0de:debug_trigger_block>
+
+<recipe;c0de:debug_trigger_block>
+
+<item;c0de:debug_tool>
+
+<recipe;c0de:debug_tool>

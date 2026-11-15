@@ -14,3 +14,9 @@ Keywords in capitals are reserved: `RESULT` is not a valid name, but `result` an
 A label can point into a value with an **index**, like `list[0]`, `stock["gold"]` or `problem.code`. You enter the index as text in the LABEL dialog.
 
 Each part of an index is a number, a text in quotes, an element name or the name of a variable or constant, like `list[i]`. It can't be a calculation: `list[i - 1]` doesn't work. Put `i - 1` into a variable first and use that.
+
+**Recipes**
+
+<item;c0de:label_block>
+
+<recipe;c0de:label_block>

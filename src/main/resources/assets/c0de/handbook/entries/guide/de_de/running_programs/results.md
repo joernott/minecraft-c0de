@@ -10,3 +10,13 @@
 Wenn ein Prozess normal endet, bekommt das Ausgabeinventar eine Variablenkarte pro Ergebnis der Einstiegsfunktion. Jede Karte trägt den Namen, den Typ und den Wert ihres Ergebnisses. Ein EXIT zählt als normales Ende: Die Ergebnisse bekommen die Werte, die sie haben, wenn EXIT läuft.
 
 Wenn die Funktion weniger Ergebnisse als Parameter hat, bekommst du auch leere Variablenkarten zurück. So ist die Zahl der Karten, die hinein- und herausgehen, gleich.
+
+**Rezepte**
+
+<item;c0de:variable_item>
+
+<recipe;c0de:variable_item_uninitialized>
+
+<item;c0de:exit_block>
+
+<recipe;c0de:exit_block>

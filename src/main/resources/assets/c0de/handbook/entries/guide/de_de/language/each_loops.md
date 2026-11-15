@@ -15,3 +15,9 @@ BEGIN
   ASSIGN keys keys ⊕ key ⊕ "=" ⊕ h[key] ⊕ " " ;
 END EACH
 ```
+
+**Rezepte**
+
+<item;c0de:each_block>
+
+<recipe;c0de:each_block>

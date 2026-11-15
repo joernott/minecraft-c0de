@@ -14,3 +14,17 @@ Programme brauchen manchmal ein Passwort oder einen Schlüssel, zum Beispiel fü
 - Der Tag `security: "sensitive"` an einer Variable oder Konstante zeigt im Debugging-Werkzeug `***`.
 
 Verbergen schützt vor Leuten, die auf deinen Bildschirm schauen. Echte Geheimnisse gehören in deinen Tresor.
+
+**Rezepte**
+
+<item;c0de:laptop>
+
+<recipe;c0de:laptop>
+
+<item;c0de:literal_item>
+
+<recipe;c0de:literal_item>
+
+<item;c0de:debug_tool>
+
+<recipe;c0de:debug_tool>

@@ -21,3 +21,17 @@ END IF
 ```
 
 There is no ELSE IF. Put another IF inside the ELSE block instead.
+
+**Recipes**
+
+<item;c0de:if_block>
+
+<recipe;c0de:if_block>
+
+<item;c0de:else_block>
+
+<recipe;c0de:else_block>
+
+<item;c0de:end_block>
+
+<recipe;c0de:end_block>

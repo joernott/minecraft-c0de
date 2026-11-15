@@ -782,3 +782,9 @@ Also, the initial guide should have instructions on how to build the other guide
 The cut off titles and colors are now fine.
 
 We don't need to stick too closely to the look of patchouli or lavender. Please make the book larger when shown on screen, Ideally, it should scale with the screen width and occupy around 80% of the available width and height. The middle of the pages contain a lot of brown brackets that look like the books binding. Replace them by a small gap and only four metal brackets as that is more typical for an open binder.
+
+## 2026-11-15 – Recipes and links in the guide
+
+The size and text size are fine, I like the new look.
+
+There are a few improvements we should implement in the guide. Every item or block mentioned in the book should also contain its recipe. Whenever you refer to another page in the guide, that text should be a link.

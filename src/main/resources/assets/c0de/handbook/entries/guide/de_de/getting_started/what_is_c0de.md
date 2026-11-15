@@ -12,3 +12,9 @@ c0de ist von der alten Sprache BASIC und von den frühen Lego Mindstorms inspiri
 Programme leben in einer eigenen Dimension, der c0de-Dimension. Die Auslöserblöcke, die sie starten, können überall stehen: in deiner Basis, im Nether oder direkt neben dem Programm selbst.
 
 Alle Blöcke und Gegenstände von c0de werden aus Vanilla-Materialien hergestellt. Du musst nicht programmieren können. Diese Anleitung erklärt alles Schritt für Schritt.
+
+**Rezepte**
+
+<item;c0de:trigger_block>
+
+<recipe;c0de:trigger_block>

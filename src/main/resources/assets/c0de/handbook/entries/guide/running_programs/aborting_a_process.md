@@ -10,3 +10,13 @@
 Shift-right-click a PID block with the debugging tool to stop its process. The process crashes with the error PROCESS\_ABORTED, and its items go to the output inventory.
 
 Only the owner of the trigger block and server operators can do this.
+
+**Recipes**
+
+<item;c0de:debug_tool>
+
+<recipe;c0de:debug_tool>
+
+<item;c0de:trigger_block>
+
+<recipe;c0de:trigger_block>

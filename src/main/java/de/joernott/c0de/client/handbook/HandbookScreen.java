@@ -227,6 +227,16 @@ public class HandbookScreen extends Screen {
         navigate(new View(Kind.ENTRY, id, 0));
     }
 
+    /** The ID of the category or entry shown, empty on the landing page. */
+    public String shownId() {
+        return view.id();
+    }
+
+    /** Turns to a spread of the current view, e.g. 1 for the second one. */
+    public void turnTo(int spread) {
+        turn(spread - view.spread());
+    }
+
     /** The number of pages of the current view. */
     public int pageCount() {
         return pages.size();
@@ -273,14 +283,22 @@ public class HandbookScreen extends Screen {
         Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.BOOK_PAGE_TURN, 1.0F));
     }
 
-    /** Follows a link: {@code ^entry} opens an entry of the book, other links open in the browser. */
-    boolean followLink(String insertion) {
+    /**
+     * Follows a link: {@code ^entry} opens an entry of the book, {@code ^category} a category, other links open in
+     * the browser.
+     */
+    public boolean followLink(String insertion) {
         if (!insertion.startsWith(LinkFeature.LINK)) {
             return false;
         }
         String link = insertion.substring(LinkFeature.LINK.length());
         if (link.startsWith("^")) {
-            book.entry(link.substring(1)).ifPresent(entry -> navigate(new View(Kind.ENTRY, entry.id(), 0)));
+            String target = link.substring(1);
+            if (book.entries().containsKey(target) || book.category(target).isEmpty()) {
+                book.entry(target).ifPresent(entry -> navigate(new View(Kind.ENTRY, entry.id(), 0)));
+            } else {
+                navigate(new View(Kind.CATEGORY, target, 0));
+            }
             return true;
         }
         try {

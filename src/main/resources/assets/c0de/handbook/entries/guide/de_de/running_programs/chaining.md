@@ -12,3 +12,9 @@ Trichter, Rohre und Kabel können einen Auslöserblock von allen Seiten nutzen. 
 So kannst du Ketten bauen: Auslöserblock, Trichter, Auslöserblock, Trichter, Truhe. Jeder Prozess verwendet nur die Karten, die er braucht, und reicht den Rest weiter. Das Ende der Kette sammelt alles.
 
 Wenn genau ein Block mit Inventar einen Auslöserblock berührt, geht die Ausgabe von selbst dorthin. Ein anderer Auslöserblock zählt auch: Die Karten landen in seiner Eingabe. Ein Trichter, der in den Auslöserblock zeigt, zählt nicht.
+
+**Rezepte**
+
+<item;c0de:trigger_block>
+
+<recipe;c0de:trigger_block>

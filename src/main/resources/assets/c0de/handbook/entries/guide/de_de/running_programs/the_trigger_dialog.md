@@ -18,3 +18,13 @@ Klicke einen Auslöserblock mit leerer Hand mit rechts an, um seinen Dialog zu �
 Der Dialog hat außerdem ein Eingabeinventar, ein Ausgabeinventar und einen Platz für Tarnung. Lege einen beliebigen Block in diesen Platz, und der Auslöserblock nimmt sein Aussehen an.
 
 Die Programm- und die Funktionsliste sind gesperrt, solange ein Prozess läuft.
+
+**Rezepte**
+
+<item;c0de:trigger_block>
+
+<recipe;c0de:trigger_block>
+
+<item;c0de:timer_block>
+
+<recipe;c0de:timer_block>

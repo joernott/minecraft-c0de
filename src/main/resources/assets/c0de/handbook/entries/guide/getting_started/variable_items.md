@@ -10,3 +10,17 @@
 Programs get and return data as **variable items**. Our function has one result and no parameters, so it needs one empty item to write its result into.
 
 Craft an uninitialized variable item from a **data item** and **light blue dye**. Put it into the input inventory of the trigger block.
+
+**Recipes**
+
+<item;c0de:variable_item>
+
+<recipe;c0de:variable_item_uninitialized>
+
+<item;c0de:data_item>
+
+<recipe;c0de:data_item>
+
+<item;c0de:trigger_block>
+
+<recipe;c0de:trigger_block>

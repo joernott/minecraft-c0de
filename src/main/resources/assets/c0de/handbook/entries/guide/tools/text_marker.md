@@ -14,3 +14,9 @@ Right-click another line of the same sheet to mark everything from your last lef
 Each right click is remembered too, so you can grow a selection step by step.
 
 Recipe: a feather and yellow dye, in any shape.
+
+**Recipes**
+
+<item;c0de:marker>
+
+<recipe;c0de:marker>

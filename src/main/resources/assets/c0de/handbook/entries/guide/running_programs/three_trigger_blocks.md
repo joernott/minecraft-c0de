@@ -16,3 +16,21 @@ Only a signal that comes on starts a trigger block. Switching a lever off doesn'
 Trigger blocks work in every dimension. In the c0de dimension, you can only place them on the black floor outside the sheets.
 
 A redstone signal pauses a timer block. Use a lever to switch it off. As a sheet is protected while its program runs, pause a fast timer before you change the program\; its dialog then shows "Paused by redstone".
+
+**Recipes**
+
+<item;c0de:trigger_block>
+
+<recipe;c0de:trigger_block>
+
+<item;c0de:timer_block>
+
+<recipe;c0de:timer_block>
+
+<item;c0de:debug_trigger_block>
+
+<recipe;c0de:debug_trigger_block>
+
+<item;c0de:debug_tool>
+
+<recipe;c0de:debug_tool>

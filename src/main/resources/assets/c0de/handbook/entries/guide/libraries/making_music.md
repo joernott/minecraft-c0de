@@ -16,3 +16,9 @@ CALL c0de/minecraft/SOUND
 ```
 
 `note` goes from 0 to 24, like the clicks on a note block. Without `instrument`, SOUND uses the harp.
+
+**Recipes**
+
+<item;c0de:trigger_block>
+
+<recipe;c0de:trigger_block>

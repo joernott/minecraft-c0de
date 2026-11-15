@@ -15,3 +15,25 @@ Bei x=2 zeigt der Boden die Nummer jeder Zeile, die Blöcke enthält. Ihre Farbe
 - dunkelrot: etwas stimmt nicht
 
 Dunkelgelb ist beim Bauen normal. Ein BEGIN ohne sein END bleibt dunkelgelb, bis du das END platzierst. Das Debugging-Werkzeug sagt dir, was mit einer roten Zeile nicht stimmt.
+
+**Rezepte**
+
+<item;c0de:noop_block>
+
+<recipe;c0de:noop_block>
+
+<item;c0de:comment_block>
+
+<recipe;c0de:comment_block>
+
+<item;c0de:begin_block>
+
+<recipe;c0de:begin_block>
+
+<item;c0de:end_block>
+
+<recipe;c0de:end_block>
+
+<item;c0de:debug_tool>
+
+<recipe;c0de:debug_tool>

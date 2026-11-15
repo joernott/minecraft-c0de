@@ -12,3 +12,17 @@ Give the trigger block a redstone pulse, for example with a button. The program 
 When it is done, the output inventory holds a variable item. Take it out and right-click while holding it. The dialog shows the name `result`, the type INTEGER and the value 42.
 
 Congratulations, you wrote your first c0de program\!
+
+**Recipes**
+
+<item;c0de:trigger_block>
+
+<recipe;c0de:trigger_block>
+
+<item;c0de:variable_item>
+
+<recipe;c0de:variable_item_uninitialized>
+
+<item;c0de:type_integer_block>
+
+<recipe;c0de:type_integer_block>

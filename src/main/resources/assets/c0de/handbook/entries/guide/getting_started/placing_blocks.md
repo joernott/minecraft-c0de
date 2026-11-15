@@ -14,3 +14,25 @@ Some mistakes are stopped right away. If a block may not go somewhere, it is not
 Some blocks need more information. Right-click a LABEL, LITERAL, OPERATOR, COMMENT or TAG block with an **empty hand** to open its dialog. Click the green check mark to save.
 
 A **LABEL** holds a name, like the name of a function. A **LITERAL** holds a value, like 42 or "Hello". An **OPERATOR** holds a symbol, like + or the `;` that ends a calculation.
+
+**Recipes**
+
+<item;c0de:label_block>
+
+<recipe;c0de:label_block>
+
+<item;c0de:literal_block>
+
+<recipe;c0de:literal_block>
+
+<item;c0de:operator_block>
+
+<recipe;c0de:operator_block>
+
+<item;c0de:comment_block>
+
+<recipe;c0de:comment_block>
+
+<item;c0de:tag_block>
+
+<recipe;c0de:tag_block>

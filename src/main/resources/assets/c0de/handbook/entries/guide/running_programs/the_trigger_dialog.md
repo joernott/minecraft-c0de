@@ -18,3 +18,13 @@ Right-click a trigger block with an empty hand to open its dialog. It shows:
 The dialog also has an input inventory, an output inventory and a slot for camouflage. Put any block into that slot, and the trigger block takes on its look.
 
 The program and function lists are locked while a process runs.
+
+**Recipes**
+
+<item;c0de:trigger_block>
+
+<recipe;c0de:trigger_block>
+
+<item;c0de:timer_block>
+
+<recipe;c0de:timer_block>

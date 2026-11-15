@@ -20,3 +20,9 @@ This library lets programs touch the world around the trigger block:
 - GET\_PRESSURE\_PLATE: read pressure plates
 - GET\_OPEN, SET\_OPEN: doors, trapdoors and fence gates
 - FIND\_ENTITIES: find mobs and items nearby
+
+**Recipes**
+
+<item;c0de:trigger_block>
+
+<recipe;c0de:trigger_block>

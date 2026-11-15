@@ -14,3 +14,17 @@ On a sheet, the wrench moves and copies lines you marked with the text marker. L
 Right-click a line to copy the marked lines in front of it. That line and all lines after it move south. In survival mode, the copied blocks come from your inventory.
 
 Recipe: three iron ingots in a V shape (top left, top right, middle) above a red wool block.
+
+**Recipes**
+
+<item;c0de:trigger_block>
+
+<recipe;c0de:trigger_block>
+
+<item;c0de:wrench>
+
+<recipe;c0de:wrench>
+
+<item;c0de:marker>
+
+<recipe;c0de:marker>

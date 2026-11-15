@@ -14,3 +14,9 @@ A trigger block does not start a process if:
 - an item is missing for a parameter without default value,
 - an uninitialized item is missing for a result,
 - the output inventory has too few free slots.
+
+**Recipes**
+
+<item;c0de:trigger_block>
+
+<recipe;c0de:trigger_block>

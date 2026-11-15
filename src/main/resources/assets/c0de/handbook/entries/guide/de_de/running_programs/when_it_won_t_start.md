@@ -14,3 +14,9 @@ Ein Auslöserblock startet keinen Prozess, wenn:
 - eine Karte für einen Parameter ohne Standardwert fehlt,
 - eine nicht initialisierte Karte für ein Ergebnis fehlt,
 - das Ausgabeinventar zu wenige freie Plätze hat.
+
+**Rezepte**
+
+<item;c0de:trigger_block>
+
+<recipe;c0de:trigger_block>

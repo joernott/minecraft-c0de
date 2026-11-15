@@ -78,7 +78,7 @@ The pages are Markdown, processed by lavender-md:
 | `> text` | quote |
 | `---` | horizontal line |
 | `[text](https://…)` | link to a web page (opens after confirmation, like links in the chat) |
-| `[text](^entry)`, `[text](^category/entry)` | link to an entry of the same book |
+| `[text](^entry)`, `[text](^category/entry)`, `[text](^category)` | link to an entry or a category of the same book |
 | `![description](c0de:textures/…png)` | image |
 | `<keybind;key.use>` | the key bound to an action |
 | `%{book.c0de.guide.name}%` | a text from the language files |
@@ -99,7 +99,9 @@ Since Minecraft 1.21.2, the client doesn't know the recipes of the server any mo
 
 ## Generated from the documentation
 
-The landing page of the guide links to the recipes of the other handbooks (chapter Tools, section Handbooks). As before, `scripts/generate_book.py` generates the books from `docs/guide`, `docs/reference` and their German translation in `docs/de`. The generated files are committed, and CI fails if they differ from what the script writes. The rules for categories and entries don't change: a guide chapter becomes a category and every `## ` section an entry; a handbook section becomes a category and every `### ` element an entry with its description, recipes and example. What changes is the output: Markdown files instead of Patchouli JSON. The Markdown of the documentation is kept as far as the books support it (bold, lists, code, program examples); links between documentation files become links between entries where the target is in the same book, and plain text otherwise.
+The landing page of the guide links to the recipes of the other handbooks (chapter Tools, section Handbooks). As before, `scripts/generate_book.py` generates the books from `docs/guide`, `docs/reference` and their German translation in `docs/de`. The generated files are committed, and CI fails if they differ from what the script writes. The rules for categories and entries don't change: a guide chapter becomes a category and every `## ` section an entry; a handbook section becomes a category and every `### ` element an entry with its description, recipes and example. What changes is the output: Markdown files instead of Patchouli JSON. The Markdown of the documentation is kept as far as the books support it (bold, lists, code, program examples); links between documentation files become links between entries where the target is in the same book, and plain text otherwise. The guide refers to its other pages with links (e.g. `[Wrench](04-tools.md#wrench)`), which become links in the book; recipe images become crafting grids.
+
+Every entry of the guide ends with the recipes of the c0de items and blocks its text names (**Recipes**: the icon and name of each item and its crafting grid), unless the entry shows the recipe already. The script finds them by their names (e.g. "trigger block", "wrench", also in the plural) and the language and type blocks by their keyword in capitals (IF, STRING); in a section about type items, the type names stand for the type items, and the chapter on libraries leaves out the keywords, which are function names and types of parameters there. Program examples and code don't count. A translation shows the recipes of the English section at the same position. Items with several recipes show their basic one (an uninitialized variable or constant item); items of Minecraft have no recipes in the books.
 
 ## Without Patchouli
 

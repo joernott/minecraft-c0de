@@ -12,3 +12,9 @@ An **uninitialized** variable item has no name, no type and no value. A process 
 You need one for each result that has no parameter item to take its place. A function with one result and no parameters needs one uninitialized item.
 
 Spare uninitialized items stay in the input inventory. So you can stack several of them there for many runs.
+
+**Recipes**
+
+<item;c0de:variable_item>
+
+<recipe;c0de:variable_item_uninitialized>

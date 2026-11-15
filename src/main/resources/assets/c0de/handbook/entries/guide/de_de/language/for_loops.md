@@ -17,3 +17,17 @@ BEGIN
   NOOP
 END FOR
 ```
+
+**Rezepte**
+
+<item;c0de:for_block>
+
+<recipe;c0de:for_block>
+
+<item;c0de:type_integer_block>
+
+<recipe;c0de:type_integer_block>
+
+<item;c0de:type_float_block>
+
+<recipe;c0de:type_float_block>

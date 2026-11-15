@@ -36,3 +36,33 @@ END FUNCTION
 ```
 
 INPUT takes a matching item from an I/O block first. Otherwise it waits until a player types a line on a laptop or tablet. The typed line appears on its screen, so you see your answer. The handbooks Functions and Devices describe all of them.
+
+**Recipes**
+
+<item;c0de:call_block>
+
+<recipe;c0de:call_block>
+
+<item;c0de:io_block>
+
+<recipe;c0de:io_block>
+
+<item;c0de:variable_item>
+
+<recipe;c0de:variable_item_uninitialized>
+
+<item;c0de:display_block>
+
+<recipe;c0de:display_block>
+
+<item;c0de:laptop>
+
+<recipe;c0de:laptop>
+
+<item;c0de:tablet>
+
+<recipe;c0de:tablet>
+
+<item;c0de:trigger_block>
+
+<recipe;c0de:trigger_block>

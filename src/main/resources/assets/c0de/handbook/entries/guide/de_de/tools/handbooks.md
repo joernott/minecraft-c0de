@@ -34,3 +34,29 @@ Jedes stellst du aus einem Buch und einem Gegenstand her, in beliebiger Anordnun
 **Funktionen** (orange): aus einem Buch und einem FUNCTION-Block.
 
 <recipe;c0de:functions_book>
+
+**Rezepte**
+
+<item;c0de:type_base>
+
+<recipe;c0de:type_base>
+
+<item;c0de:structural_base>
+
+<recipe;c0de:structural_base>
+
+<item;c0de:wrench>
+
+<recipe;c0de:wrench>
+
+<item;c0de:trigger_block>
+
+<recipe;c0de:trigger_block>
+
+<item;c0de:display_block>
+
+<recipe;c0de:display_block>
+
+<item;c0de:function_block>
+
+<recipe;c0de:function_block>

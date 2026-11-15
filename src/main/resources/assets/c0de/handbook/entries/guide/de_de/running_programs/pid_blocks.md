@@ -12,3 +12,9 @@ Jeder Prozess bekommt eine Nummer, seine **PID**. Wenn er startet, erscheint ein
 Der PID-Block zeigt die PID in Grün auf seiner Nord- und Südseite. Seine Ost- und Westseite zeigen, wo der Auslöserblock steht.
 
 Mehrere Prozesse eines Programms können gleichzeitig laufen, einer pro Auslöserblock. Jeder hat seinen eigenen PID-Block und seinen eigenen Cursor. Sie teilen sich keine Variablen.
+
+**Rezepte**
+
+<item;c0de:trigger_block>
+
+<recipe;c0de:trigger_block>

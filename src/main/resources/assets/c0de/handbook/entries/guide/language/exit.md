@@ -16,3 +16,13 @@ EXIT 3 ;
 Exit code 15 means the program crashed. You may use `EXIT 15 ;` for a fatal problem too.
 
 EXIT is not a crash: the results of the entry function still come out, with the values they have at that moment. Only a real crash gives no results.
+
+**Recipes**
+
+<item;c0de:exit_block>
+
+<recipe;c0de:exit_block>
+
+<item;c0de:trigger_block>
+
+<recipe;c0de:trigger_block>

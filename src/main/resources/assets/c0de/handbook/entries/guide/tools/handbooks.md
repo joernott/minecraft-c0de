@@ -34,3 +34,29 @@ Craft each one from a book and an item, in any order:
 **Functions** (orange): a book and a FUNCTION block.
 
 <recipe;c0de:functions_book>
+
+**Recipes**
+
+<item;c0de:type_base>
+
+<recipe;c0de:type_base>
+
+<item;c0de:structural_base>
+
+<recipe;c0de:structural_base>
+
+<item;c0de:wrench>
+
+<recipe;c0de:wrench>
+
+<item;c0de:trigger_block>
+
+<recipe;c0de:trigger_block>
+
+<item;c0de:display_block>
+
+<recipe;c0de:display_block>
+
+<item;c0de:function_block>
+
+<recipe;c0de:function_block>

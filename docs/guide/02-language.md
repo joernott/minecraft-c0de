@@ -1,6 +1,6 @@
 # The Language
 
-This chapter explains the c0de language in short. Every part is a block you place on a sheet. The examples use the text notation from the first chapter.
+This chapter explains the c0de language in short. Every part is a block you place on a sheet. The examples use the [text notation](01-getting-started.md#reading-the-examples) from the first chapter.
 
 ## Programs
 

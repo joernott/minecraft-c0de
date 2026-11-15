@@ -22,3 +22,13 @@ VARIABLE problem ERROR
 CALL fail problem
 ASSIGN code problem.code ;
 ```
+
+**Rezepte**
+
+<item;c0de:type_error_block>
+
+<recipe;c0de:type_error_block>
+
+<item;c0de:call_block>
+
+<recipe;c0de:call_block>

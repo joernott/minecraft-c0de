@@ -15,3 +15,21 @@ Ein LITERAL-Block enthält einen festen Wert. In seinem Dialog wählst du den Ty
 - `@2026-10-19T12:05:09Z` für eine TIME
 
 Im Dialog tippst du einen Text ohne Anführungszeichen. Ein `"` darin ist einfach ein Zeichen. Die Textschreibweise der Beispiele setzt einen Backslash davor: `"He said \"hi\""`. `\\` ist ein Backslash und `\n` eine neue Zeile.
+
+**Rezepte**
+
+<item;c0de:literal_block>
+
+<recipe;c0de:literal_block>
+
+<item;c0de:type_char_block>
+
+<recipe;c0de:type_char_block>
+
+<item;c0de:type_string_block>
+
+<recipe;c0de:type_string_block>
+
+<item;c0de:type_time_block>
+
+<recipe;c0de:type_time_block>

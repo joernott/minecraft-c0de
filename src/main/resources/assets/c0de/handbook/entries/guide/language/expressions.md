@@ -16,3 +16,21 @@ A minus sign in front of a name or a `(` turns the sign around: `- x * 2 ;`. The
 Some rules are less usual. `\` binds weaker than `*` and `/`: `7 \ 3 * 2` is `7 \ 6`, so use parentheses. `⊕` binds weaker than `+`, and AND binds tighter than OR: `a OR b AND c` means `a OR ( b AND c )`.
 
 You can't call a function inside an expression. Use a CALL statement instead.
+
+**Recipes**
+
+<item;c0de:operator_block>
+
+<recipe;c0de:operator_block>
+
+<item;c0de:type_float_block>
+
+<recipe;c0de:type_float_block>
+
+<item;c0de:literal_block>
+
+<recipe;c0de:literal_block>
+
+<item;c0de:call_block>
+
+<recipe;c0de:call_block>

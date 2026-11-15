@@ -1,6 +1,6 @@
 # Die Sprache
 
-Dieses Kapitel erklärt die Sprache c0de in Kürze. Jeder Teil ist ein Block, den du auf ein Blatt setzt. Die Beispiele verwenden die Textschreibweise aus dem ersten Kapitel.
+Dieses Kapitel erklärt die Sprache c0de in Kürze. Jeder Teil ist ein Block, den du auf ein Blatt setzt. Die Beispiele verwenden die [Textschreibweise](01-getting-started.md#die-beispiele-lesen) aus dem ersten Kapitel.
 
 ## Programme
 

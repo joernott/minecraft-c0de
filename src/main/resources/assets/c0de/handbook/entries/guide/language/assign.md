@@ -17,3 +17,25 @@ ASSIGN list[2] list[0] + list[1] ;
 ```
 
 Assigning to the index right after the end of a list adds a new element. A new key adds a new element to a hash.
+
+**Recipes**
+
+<item;c0de:assign_block>
+
+<recipe;c0de:assign_block>
+
+<item;c0de:type_integer_block>
+
+<recipe;c0de:type_integer_block>
+
+<item;c0de:type_float_block>
+
+<recipe;c0de:type_float_block>
+
+<item;c0de:type_char_block>
+
+<recipe;c0de:type_char_block>
+
+<item;c0de:type_string_block>
+
+<recipe;c0de:type_string_block>

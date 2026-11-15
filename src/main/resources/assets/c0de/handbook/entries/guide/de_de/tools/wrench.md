@@ -14,3 +14,17 @@ Auf einem Blatt verschiebt und kopiert der Schraubenschlüssel Zeilen, die du mi
 Rechtsklicke auf eine Zeile, um die markierten Zeilen vor sie zu kopieren. Diese Zeile und alle Zeilen danach rücken nach Süden. Im Überlebensmodus kommen die kopierten Blöcke aus deinem Inventar.
 
 Rezept: drei Eisenbarren in V-Form (oben links, oben rechts, Mitte) über einem Block roter Wolle.
+
+**Rezepte**
+
+<item;c0de:trigger_block>
+
+<recipe;c0de:trigger_block>
+
+<item;c0de:wrench>
+
+<recipe;c0de:wrench>
+
+<item;c0de:marker>
+
+<recipe;c0de:marker>

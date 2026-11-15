@@ -26,3 +26,13 @@ END FUNCTION
 ```
 
 This function calls itself. It adds up all numbers from 1 to n.
+
+**Recipes**
+
+<item;c0de:return_block>
+
+<recipe;c0de:return_block>
+
+<item;c0de:type_error_block>
+
+<recipe;c0de:type_error_block>

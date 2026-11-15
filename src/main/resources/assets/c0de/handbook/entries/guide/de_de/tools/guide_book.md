@@ -14,3 +14,9 @@ Für ein weiteres Exemplar stellst du ein Buch und einen PROGRAM-Block zusammen 
 <recipe;c0de:guide_book>
 
 Im Buch blättern die Pfeile unten um, und der Pfeil in der Mitte geht zurück. Auch die Pfeiltasten und das Mausrad blättern um, und die Rücktaste geht zurück. Das Buch öffnet sich dort, wo du aufgehört hast.
+
+**Rezepte**
+
+<item;c0de:program_block>
+
+<recipe;c0de:program_block>

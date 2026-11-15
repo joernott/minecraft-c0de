@@ -14,3 +14,17 @@ Rechtsklicke auf eine Zeile, um eine leere Zeile davor einzufügen. Die angeklic
 Ein Klick auf den Boden einer Zeile wirkt wie ein Klick auf einen Block der Zeile. Das gilt für den Textmarker, den Schraubenschlüssel, den Hammer und die Zange.
 
 Rezept: drei Eisenbarren in einer Reihe, ein Eisenbarren unter dem mittleren und darunter ein Block roter Wolle.
+
+**Rezepte**
+
+<item;c0de:hammer>
+
+<recipe;c0de:hammer>
+
+<item;c0de:wrench>
+
+<recipe;c0de:wrench>
+
+<item;c0de:pliers>
+
+<recipe;c0de:pliers>

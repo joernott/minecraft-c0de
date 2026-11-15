@@ -12,3 +12,9 @@ The pliers change the indentation of your code. Left-click a line to move it one
 Nothing moves if a block would leave the code area. The message tells you which line is in the way. The pliers don't check whether the new indentation is right, but the line numbers show it.
 
 Recipe: shears and a stick, in any shape.
+
+**Recipes**
+
+<item;c0de:pliers>
+
+<recipe;c0de:pliers>

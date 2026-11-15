@@ -114,6 +114,24 @@ public class FabricClientGameTests implements FabricClientGameTest {
         context.runOnClient(client -> ((de.joernott.c0de.client.handbook.HandbookScreen)
                 de.joernott.c0de.client.ClientCompat.screen()).showEntry("tools/handbooks"));
         handbookPage(context, "c0de-handbook-binders");
+        context.runOnClient(client -> ((de.joernott.c0de.client.handbook.HandbookScreen)
+                de.joernott.c0de.client.ClientCompat.screen()).showEntry("getting_started/step_by_step"));
+        context.runOnClient(client -> ((de.joernott.c0de.client.handbook.HandbookScreen)
+                de.joernott.c0de.client.ClientCompat.screen()).turnTo(1));
+        handbookPage(context, "c0de-handbook-recipes");
+        // A link of the guide opens its entry
+        context.runOnClient(client -> ((de.joernott.c0de.client.handbook.HandbookScreen)
+                de.joernott.c0de.client.ClientCompat.screen()).showEntry("getting_started/entering_the_dimension"));
+        handbookPage(context, "c0de-handbook-link");
+        String opened = context.computeOnClient(client -> {
+            de.joernott.c0de.client.handbook.HandbookScreen screen =
+                    (de.joernott.c0de.client.handbook.HandbookScreen) de.joernott.c0de.client.ClientCompat.screen();
+            screen.followLink(de.joernott.c0de.client.handbook.md.feature.LinkFeature.LINK + "^tools/wrench");
+            return screen.shownId();
+        });
+        if (!"tools/wrench".equals(opened)) {
+            throw new AssertionError("The link to tools/wrench opened " + opened);
+        }
         context.setScreen(() -> null);
         context.runOnClient(client -> de.joernott.c0de.client.handbook.HandbookScreen.open("tools"));
         context.waitForScreen(de.joernott.c0de.client.handbook.HandbookScreen.class);

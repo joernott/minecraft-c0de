@@ -18,3 +18,17 @@ CALL greet
 Hier wird `greeting` zu "Hello, c0de\!". Eine Funktion kann nur Funktionen aufrufen, die über ihr definiert sind, oder sich selbst.
 
 Dieselbe Variable darf einen Parameter liefern und ein Ergebnis bekommen, zum Beispiel `PARAMETER name greeting ;` und `RESULT result greeting`.
+
+**Rezepte**
+
+<item;c0de:call_block>
+
+<recipe;c0de:call_block>
+
+<item;c0de:parameter_block>
+
+<recipe;c0de:parameter_block>
+
+<item;c0de:result_block>
+
+<recipe;c0de:result_block>

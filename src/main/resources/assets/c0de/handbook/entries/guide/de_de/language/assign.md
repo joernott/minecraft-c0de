@@ -17,3 +17,25 @@ ASSIGN list[2] list[0] + list[1] ;
 ```
 
 Eine Zuweisung an den Index direkt nach dem Ende einer Liste fügt ein neues Element hinzu. Ein neuer Schlüssel fügt einem Hash ein neues Element hinzu.
+
+**Rezepte**
+
+<item;c0de:assign_block>
+
+<recipe;c0de:assign_block>
+
+<item;c0de:type_integer_block>
+
+<recipe;c0de:type_integer_block>
+
+<item;c0de:type_float_block>
+
+<recipe;c0de:type_float_block>
+
+<item;c0de:type_char_block>
+
+<recipe;c0de:type_char_block>
+
+<item;c0de:type_string_block>
+
+<recipe;c0de:type_string_block>

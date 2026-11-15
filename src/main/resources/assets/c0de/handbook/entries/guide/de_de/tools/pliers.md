@@ -12,3 +12,9 @@ Die Zange ändert die Einrückung deines Codes. Linksklicke auf eine Zeile, um s
 Nichts bewegt sich, wenn ein Block den Codebereich verlassen würde. Die Meldung sagt dir, welche Zeile im Weg ist. Die Zange prüft nicht, ob die neue Einrückung richtig ist, aber die Zeilennummern zeigen es.
 
 Rezept: eine Schere und ein Stock, in beliebiger Form.
+
+**Rezepte**
+
+<item;c0de:pliers>
+
+<recipe;c0de:pliers>

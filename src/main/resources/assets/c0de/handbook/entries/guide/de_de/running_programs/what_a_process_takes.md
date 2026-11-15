@@ -14,3 +14,9 @@ Wenn ein Prozess startet, nimmt er aus dem Eingabeinventar:
 - alle anderen initialisierten Variablen- und Konstantenkarten.
 
 Diese anderen Karten werden nicht verwendet. Sie werden unverändert in das Ausgabeinventar weitergereicht, wenn der Prozess endet.
+
+**Rezepte**
+
+<item;c0de:constant_item>
+
+<recipe;c0de:constant_item_uninitialized>

@@ -14,3 +14,17 @@ Um ein Programm auf die Diskette zu kopieren, rechtsklicke damit auf den PROGRAM
 Um das Programm einer Diskette zu bauen, rechtsklicke auf den Boden am Anfang eines leeren Blatts (x=5, Zeile 0). Im Überlebensmodus kommen die Blöcke aus deinem Inventar.
 
 Rezept: eine Datenkarte, ein Eisenbarren und schwarzer Farbstoff, in beliebiger Form.
+
+**Rezepte**
+
+<item;c0de:c0de_disk>
+
+<recipe;c0de:c0de_disk>
+
+<item;c0de:program_block>
+
+<recipe;c0de:program_block>
+
+<item;c0de:data_item>
+
+<recipe;c0de:data_item>

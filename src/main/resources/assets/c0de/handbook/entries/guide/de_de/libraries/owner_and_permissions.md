@@ -16,3 +16,9 @@ Drei Funktionen funktionieren für jeden Besitzer, weil sie nur tun, was auch ei
 - MOVE\_ITEMS verschiebt Gegenstände zwischen zwei Truhen, die der Besitzer öffnen könnte. Die Gegenstände sind unterwegs, ein Stapel pro Tick, und ein Filter wie `$logs` oder `minecraft:wheat` wählt sie aus.
 - MINE\_BLOCK baut einen Block mit dem besten Werkzeug aus einer Truhe ab (`tool_inventory`). Das Werkzeug nutzt sich ab, und es dauert so lange wie bei einem Spieler. Was dabei herausfällt, kommt in eine andere Truhe (`output_inventory`) oder fällt auf den Boden. Ist diese Truhe voll, löst die Funktion INVENTORY\_FULL aus.
 - PLACE\_BLOCK mit dem Parameter `inventory` nimmt den Block aus einer Truhe. Enthält die Truhe ihn nicht, löst die Funktion ITEM\_MISSING aus.
+
+**Rezepte**
+
+<item;c0de:trigger_block>
+
+<recipe;c0de:trigger_block>

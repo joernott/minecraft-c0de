@@ -17,3 +17,13 @@ Schlage damit auf einen Debug-Auslöserblock, um einen Prozess mit einem roten *
 - Shift-Rechtsklick auf einen PID-Block: Bricht den Prozess ab.
 
 Rezept: ein Block roter Wolle unten links, ein Stock in der Mitte und ein Leder oben rechts.
+
+**Rezepte**
+
+<item;c0de:debug_tool>
+
+<recipe;c0de:debug_tool>
+
+<item;c0de:debug_trigger_block>
+
+<recipe;c0de:debug_trigger_block>

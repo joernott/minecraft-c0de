@@ -12,7 +12,7 @@ All c0de blocks and items are crafted from vanilla materials. You don't need to 
 
 ## Entering the dimension
 
-Craft a **trigger block** and a **wrench** (see the chapter on tools). Place the trigger block somewhere. Then right-click it with the wrench.
+Craft a **trigger block** and a **wrench** (see [Trigger blocks](04-tools.md#trigger-blocks) and [Wrench](04-tools.md#wrench) in the chapter on tools). Place the trigger block somewhere. Then right-click it with the wrench.
 
 You are teleported into the c0de dimension. If the trigger block is not set up yet, you land in front of the first free sheet. Otherwise you land in front of the program it runs.
 

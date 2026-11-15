@@ -37,3 +37,9 @@ END FUNCTION
 ```
 
 Dieses Programm lädt zwei Bibliotheken. ROUND macht aus 12.5 die 12, DIV teilt -7 durch 2 und ergibt -3, und SQR ergibt 3.0. FORMAT zeigt PI mit zwei Nachkommastellen: "3.14". Die Funktion hat vier Ergebnisse, also legst du vier nicht initialisierte Variablenkarten hinein.
+
+**Rezepte**
+
+<item;c0de:variable_item>
+
+<recipe;c0de:variable_item_uninitialized>

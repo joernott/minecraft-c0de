@@ -14,3 +14,9 @@ To make another copy, craft a book and a PROGRAM block together, in any order.
 <recipe;c0de:guide_book>
 
 In the book, the arrows at the bottom turn the pages, and the arrow in the middle goes back. The arrow keys and the mouse wheel turn the pages too, and Backspace goes back. The book opens where you left it.
+
+**Recipes**
+
+<item;c0de:program_block>
+
+<recipe;c0de:program_block>

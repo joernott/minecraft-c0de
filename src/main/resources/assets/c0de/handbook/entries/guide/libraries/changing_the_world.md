@@ -16,3 +16,9 @@ Some functions change the world more:
 - COMMAND: run a command like a command block
 
 Positions are given as a `c0de/minecraft/POSITION` struct with x, y, z and an optional dimension. An empty dimension means the dimension of the trigger block. Programs can never change the blocks on the sheets of the c0de dimension.
+
+**Recipes**
+
+<item;c0de:trigger_block>
+
+<recipe;c0de:trigger_block>

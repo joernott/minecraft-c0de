@@ -12,3 +12,9 @@ Each process gets a number, its **PID**. When it starts, a dark PID block appear
 The PID block shows the PID in green on its north and south faces. Its east and west faces show where the trigger block stands.
 
 Several processes of one program can run at the same time, one per trigger block. Each has its own PID block and its own cursor. They don't share any variables.
+
+**Recipes**
+
+<item;c0de:trigger_block>
+
+<recipe;c0de:trigger_block>

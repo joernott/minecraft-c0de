@@ -20,3 +20,13 @@ BEGIN
   ASSIGN repeats repeats + 1 ;
 END REPEAT n > 0 ;
 ```
+
+**Recipes**
+
+<item;c0de:while_block>
+
+<recipe;c0de:while_block>
+
+<item;c0de:repeat_block>
+
+<recipe;c0de:repeat_block>

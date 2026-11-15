@@ -14,3 +14,17 @@ Programs sometimes need a password or a key, e.g. for a web service. c0de keeps 
 - The tag `security: "sensitive"` on a variable or constant shows `***` in the debugging tool.
 
 Hiding protects against people who look at your screen. Real secrets belong into your vault.
+
+**Recipes**
+
+<item;c0de:laptop>
+
+<recipe;c0de:laptop>
+
+<item;c0de:literal_item>
+
+<recipe;c0de:literal_item>
+
+<item;c0de:debug_tool>
+
+<recipe;c0de:debug_tool>

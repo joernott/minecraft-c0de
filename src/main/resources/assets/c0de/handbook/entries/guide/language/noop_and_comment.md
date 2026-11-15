@@ -20,3 +20,17 @@ ASSIGN count time ; COMMENT("disabled") + 100 ;
 ```
 
 In the last line, `COMMENT("disabled")` is a COMMENT block with the text "disabled". The `+ 100 ;` after it is switched off.
+
+**Recipes**
+
+<item;c0de:noop_block>
+
+<recipe;c0de:noop_block>
+
+<item;c0de:function_block>
+
+<recipe;c0de:function_block>
+
+<item;c0de:comment_block>
+
+<recipe;c0de:comment_block>

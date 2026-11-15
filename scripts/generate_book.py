@@ -108,6 +108,38 @@ SPECIAL = set("\\*_~{[]!<>%`;")
 # Code, bold text and links in the documentation, which stay Markdown
 INLINE = re.compile(r"`[^`]+`|\*\*(.+?)\*\*|\[([^\]]+)\]\(([^)]+)\)")
 
+# The c0de items and blocks the guide names in its text, as (pattern, item); the first match at a position wins,
+# so longer names come first. Names in lower case also match in the plural; the language blocks and type blocks
+# are named by their keyword in capitals (not in the chapter on libraries, where the capitals are function names and
+# the types of parameters).
+TYPES = ["BOOLEAN", "INTEGER", "FLOAT", "CHAR", "STRING", "ARRAY", "HASH", "STRUCT", "TIME", "ERROR"]
+ITEM_NAMES = [
+    ("debug trigger block", "debug_trigger_block"), ("trigger block", "trigger_block"), ("timer block", "timer_block"),
+    ("display block", "display_block"), ("i/o block", "io_block"), ("disk drive", "disk_drive"),
+    ("c0de disk", "c0de_disk"), ("laptop", "laptop"), ("tablet", "tablet"), ("wrench", "wrench"),
+    ("hammer", "hammer"), ("pliers", "pliers"), ("text marker", "marker"), ("debugging tool", "debug_tool"),
+    ("data item", "data_item"), ("variable item", "variable_item"), ("constant item", "constant_item"),
+    ("literal item", "literal_item"), ("type base", "type_base"), ("structural base", "structural_base"),
+]
+ITEM_PATTERNS = (
+    [(re.compile(r"\b" + t + r" type items?\b"), "type_" + t.lower() + "_item") for t in TYPES]
+    + [(re.compile(r"\b" + re.escape(name) + r"(?:s|es)?\b", re.IGNORECASE), item) for name, item in ITEM_NAMES])
+KEYWORD_PATTERNS = (
+    [(re.compile(r"\b" + t + r"\b"), "type_" + t.lower() + "_block") for t in TYPES]
+    + [(re.compile(r"\b" + k + r"\b"), k.lower() + "_block") for k in [
+        "ASSIGN", "BEGIN", "BREAK", "CALL", "COMMENT", "CONSTANT", "EACH", "ELSE", "END", "EXIT", "FOR", "FUNCTION",
+        "IF", "INCLUDE", "LABEL", "LITERAL", "NOOP", "OPERATOR", "PARAMETER", "PROGRAM", "REPEAT", "RESULT",
+        "RETURN", "SECRET", "TAG", "VARIABLE", "WHILE"]])
+# Items with several recipes: the one the guide shows
+MAIN_RECIPES = {"variable_item": "variable_item_uninitialized", "constant_item": "constant_item_uninitialized"}
+RECIPES_TITLE = {"en_us": "Recipes", "de_de": "Rezepte"}
+
+# The targets of links between the files of the guide: (language, file, anchor) -> book link; filled before the
+# pages are written ("" is the anchor of the file itself, which links to its category)
+LINKS: dict[tuple[str, str, str], str] = {}
+# The language and file whose text is converted, for links within the same file
+CURRENT = {"language": ENGLISH, "file": ""}
+
 # The icons of the categories, by the file name without its number
 ICONS = {
     "getting-started": "c0de:wrench",
@@ -154,11 +186,78 @@ def inline(text: str) -> str:
             result.append("**" + inline(match.group(1)) + "**")
         elif match.group(3).startswith(("http://", "https://")):
             result.append("[" + inline(match.group(2)) + "](" + match.group(3) + ")")
+        elif book_link(match.group(3)):
+            result.append("[" + inline(match.group(2)) + "](" + book_link(match.group(3)) + ")")
         else:
             result.append(inline(match.group(2)))
         position = match.end()
     result.append(escape(text[position:]))
     return "".join(result)
+
+
+def book_link(target: str) -> str | None:
+    """The book link of a link to a section or a file of the guide, e.g. 04-tools.md#wrench -> ^tools/wrench."""
+    file, _, section = target.partition("#")
+    return LINKS.get((CURRENT["language"], file or CURRENT["file"], section))
+
+
+def guide_links() -> None:
+    """The book links of all files and sections of the guide in all languages."""
+    for path in sorted(GUIDE.glob("[0-9][0-9]-*.md")):
+        category = slug(path.stem[3:])
+        _, _, english = guide_structure(path)
+        for language, folder in LANGUAGES.items():
+            source = folder / "guide" / path.name
+            if not source.exists():
+                continue
+            _, _, sections = guide_structure(source)
+            LINKS[(language, path.name, "")] = "^" + category
+            for index, (heading, _) in enumerate(sections):
+                LINKS[(language, path.name, anchor(heading))] = "^" + category + "/" + slug(english[index][0])
+
+
+def mentioned_items(lines: list[str], keywords: bool) -> list[str]:
+    """The c0de items and blocks the text of a section names, in the order of their first mention; program examples
+    and code are left out."""
+    found: list[str] = []
+    code = False
+    # In a section about type items, the names of the types stand for the type items
+    type_items = any(re.search(r"type items?", line, re.IGNORECASE) for line in lines)
+    patterns = ITEM_PATTERNS + ([(p, item.replace("_block", "_item") if type_items and item.startswith("type_") else item)
+                                 for p, item in KEYWORD_PATTERNS] if keywords else [])
+    for line in lines:
+        if line.startswith("```"):
+            code = not code
+            continue
+        if code:
+            continue
+        text = re.sub(r"`[^`]*`", " ", re.sub(r"!?\[[^\]]*\]\([^)]*\)", lambda m: m.group(0).split("](")[0], line))
+        hits = []
+        taken: list[tuple[int, int]] = []
+        for pattern, item in patterns:
+            for match in pattern.finditer(text):
+                if any(start < match.end() and match.start() < end for start, end in taken):
+                    continue
+                taken.append((match.start(), match.end()))
+                hits.append((match.start(), item))
+        for _, item in sorted(hits):
+            if item not in found:
+                found.append(item)
+    return found
+
+
+def recipes_section(items: list[str], shown: str, language: str) -> str:
+    """The recipes of the items a section names, unless the section shows them already."""
+    parts = []
+    for item in items:
+        recipe = MAIN_RECIPES.get(item, item)
+        if not (RECIPES / (recipe + ".json")).exists() or "<recipe;c0de:" + recipe + ">" in shown:
+            continue
+        SHOWN_RECIPES.add(recipe)
+        parts.append("<item;c0de:" + item + ">\n\n<recipe;c0de:" + recipe + ">")
+    if not parts:
+        return ""
+    return "**" + RECIPES_TITLE[language] + "**\n\n" + "\n\n".join(parts)
 
 
 def blocks(lines: list[str]) -> list[tuple[str, str]]:
@@ -291,10 +390,16 @@ def guide(language: str) -> None:
         icon = ICONS.get(name, "c0de:noop_block")
         write_page(categories / (category + ".md"), {"title": title, "icon": icon, "ordinal": number},
                    text_only(intro))
+        CURRENT["language"] = language
+        CURRENT["file"] = path.name
         for index, (heading, section) in enumerate(sections):
+            page = markdown(section)
+            # The recipes of the items the English section names (the translation names the same ones)
+            items = mentioned_items(english[index][1], keywords=name != "libraries")
+            recipes = recipes_section(items, page, language)
             write_page(entries / category / (slug(english[index][0]) + ".md"),
                        {"title": heading, "icon": icon, "category": category, "ordinal": index},
-                       markdown(section))
+                       page + ("\n\n" + recipes if recipes else ""))
 
 
 def parts(lines: list[str]) -> dict[str, list[str]]:
@@ -436,8 +541,10 @@ def main() -> None:
     for folder in (HANDBOOK / "categories", HANDBOOK / "entries"):
         if folder.exists():
             shutil.rmtree(folder)
+    guide_links()
     for language in LANGUAGES:
         guide(language)
+        CURRENT["file"] = ""
         handbooks(language)
 
 

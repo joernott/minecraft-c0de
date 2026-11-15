@@ -14,3 +14,17 @@ Right-click a line to insert an empty line in front of it. The clicked line and 
 Clicking the floor of a line works like clicking a block of the line. This is true for the marker, the wrench, the hammer and the pliers.
 
 Recipe: three iron ingots in a row, one iron ingot below the middle and a red wool block below that.
+
+**Recipes**
+
+<item;c0de:hammer>
+
+<recipe;c0de:hammer>
+
+<item;c0de:wrench>
+
+<recipe;c0de:wrench>
+
+<item;c0de:pliers>
+
+<recipe;c0de:pliers>

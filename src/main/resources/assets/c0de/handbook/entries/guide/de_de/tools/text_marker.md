@@ -14,3 +14,9 @@ Rechtsklicke auf eine andere Zeile desselben Blatts, um alles von der zuletzt li
 Auch jeder Rechtsklick wird gemerkt, so kannst du eine Auswahl Schritt für Schritt vergrößern.
 
 Rezept: eine Feder und gelber Farbstoff, in beliebiger Form.
+
+**Rezepte**
+
+<item;c0de:marker>
+
+<recipe;c0de:marker>

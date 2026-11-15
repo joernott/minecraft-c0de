@@ -10,3 +10,17 @@
 Mit beliebigen Stiefeln findest du dich in langen Programmen zurecht. Halte sie in der Haupthand und linksklicke auf den FUNCTION-Block am Anfang einer Funktion. Du landest neben ihrer END-FUNCTION-Zeile. Linksklicke auf den FUNCTION-Block hinter END, um zurück zum Anfang zu gehen.
 
 Rechtsklicke mit Stiefeln auf einen beliebigen FUNCTION-Block, um zur PROGRAM-Zeile oben auf dem Blatt zu gehen.
+
+**Rezepte**
+
+<item;c0de:function_block>
+
+<recipe;c0de:function_block>
+
+<item;c0de:end_block>
+
+<recipe;c0de:end_block>
+
+<item;c0de:program_block>
+
+<recipe;c0de:program_block>

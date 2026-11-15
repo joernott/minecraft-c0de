@@ -29,3 +29,13 @@ END FUNCTION
 This function adds all numbers from 1 to `n`. It calls itself with `n - 1` until `n` is 0, then adds `n` on the way back. For `n` = 10, the result is 55.
 
 To try it, put in an INTEGER variable item named `n`. Each call uses room on the cursor's stack, so very large numbers can crash it.
+
+**Recipes**
+
+<item;c0de:type_integer_block>
+
+<recipe;c0de:type_integer_block>
+
+<item;c0de:variable_item>
+
+<recipe;c0de:variable_item_uninitialized>

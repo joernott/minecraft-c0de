@@ -6,4 +6,4 @@
 }
 ```
 
-This chapter explains the c0de language in short. Every part is a block you place on a sheet. The examples use the text notation from the first chapter.
+This chapter explains the c0de language in short. Every part is a block you place on a sheet. The examples use the [text notation](^getting_started/reading_the_examples) from the first chapter.

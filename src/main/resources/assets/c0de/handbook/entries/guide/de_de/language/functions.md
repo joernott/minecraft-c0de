@@ -24,3 +24,21 @@ END FUNCTION
 Wenn die Funktion endet, gehen die letzten Werte ihrer Ergebnisse an den Aufrufer zurück.
 
 Alle Parameter und Ergebnisse einer Funktion brauchen verschiedene Namen. Ein Parameter `value` und ein Ergebnis `value` ergeben SYNTAX\_ERROR\_FUNCTION. Nenne das Ergebnis zum Beispiel `result`. Der Aufrufer darf trotzdem eine Variable für beides verwenden, siehe CALL.
+
+**Rezepte**
+
+<item;c0de:function_block>
+
+<recipe;c0de:function_block>
+
+<item;c0de:parameter_block>
+
+<recipe;c0de:parameter_block>
+
+<item;c0de:result_block>
+
+<recipe;c0de:result_block>
+
+<item;c0de:call_block>
+
+<recipe;c0de:call_block>
