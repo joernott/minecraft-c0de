@@ -1,4 +1,11 @@
-# Implementation plan
+# | ✅ |
+| ✅ |
+| ✅ |
+| ✅ |
+| ✅ |
+| ✅ |
+| ✅ |
+Implementation plan
 
 This plan implements the [c0de concept](concept.md) in sprints. Each sprint has a goal, numbered tasks and a result that can be demonstrated. The development environment is described in [development_environment.md](development_environment.md).
 
@@ -385,7 +392,7 @@ After sprint 12, every new Minecraft release is added as a new node in its own s
 | 16.4 | Hidden input: the parameter `hide` (BOOLEAN, default FALSE) of INPUT; the input line of laptops and tablets shows `*` per character, and the typed line is printed as `***`. |  |
 | 16.5 | Hidden items: the checkbox Hide in the dialogs of variable, constant and literal items (the literal item dialog gets the trash can button); a hidden value shows `***` in the dialog and the tooltip and is only removed with the trash can; hidden items don't stack with others. WRITE of a sensitive value and sensitive results of a process produce hidden variable items. |  |
 | 16.6 | The vault on the server: per player in memory, created on join, dropped on leave; available to a process only if the activator is an online player who owns the sheet. The library c0de/security with SET_SECRET, DELETE_SECRET and HAS_SECRET (non-persistent), the limit of 256 secrets, and the error codes 314–321 as built-in constants. GameTests. |  |
-| 16.7 | The persistent vault: hudeany/kdbx (`de.soderer:kdbx`) and Bouncy Castle (`bcprov-jdk18on`) in the jar of both loaders, used only by the client; the file `<world>/data/c0de_vaults/<uuid>.kdbx` on the server; network payloads to send the file to its player, the decrypted secrets to the server and the changed file back; CREATE_VAULT, OPEN_VAULT, HAS_VAULT, IS_VAULT_OPEN and persistent SET_SECRET/DELETE_SECRET with the cursor waiting for the client; the password dialogs (with Repeat for CREATE_VAULT, Cancel, a new try after a wrong password); the KeePass layout (group `c0de`, title, password, custom field `c0de-type`). A file written by c0de opens in KeePassXC. Tests of the client side and GameTests with a fake client. |  |
+| 16.7 | The persistent vault: hudeany/kdbx (`de.soderer:kdbx`) and Bouncy Castle (`bcprov-jdk18on`) in the jar of both loaders, used only by the client; the file `<world>/data/c0de_vaults/<uuid>.kdbx` on the server; network payloads to send the file to its player, the decrypted secrets to the server and the changed file back; CREATE_VAULT, OPEN_VAULT, HAS_VAULT, IS_VAULT_OPEN and persistent SET_SECRET/DELETE_SECRET with the cursor waiting for the client; the password dialogs (with Repeat for CREATE_VAULT, Cancel, a new try after a wrong password); the KeePass layout (group `c0de`, title, password, custom field `c0de-type`). A file written by c0de opens in KeePassXC. Tests of the client side and GameTests with a fake client. Checked on 2026-11-15: a file written by c0de opens in keepassxc-cli 2.7 with its secrets; GameTests answer with a stand-in client that uses the same library. The password dialog itself is tried in the game in 16.10. | ✅ |
 | 16.8 | The program runner: the `vault` of the options file (secrets, persistent vault with password), c0de/security and SECRET on it, VAULT_UNAVAILABLE without it, `***` for sensitive values in the report; docs/runner.md. |  |
 | 16.9 | Documentation: a guide chapter about secrets, the handbook of c0de/security in English and German, the reference (statements, data, functions, devices, items), the changelog. |  |
 | 16.10 | Release 0.6.0 for all Minecraft versions (GitHub pre-release with the runner, the models and the schema; Modrinth and CurseForge). Checked before on the VM: build, GameTests of both loaders, the test servers with a persistent vault across leaving and joining again, c0de net 0.3.0 with 0.6.0. |  |
