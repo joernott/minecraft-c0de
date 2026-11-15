@@ -1,6 +1,6 @@
 /*
  * Taken from lavender-md (https://github.com/wisp-forest/lavender-md, branch 26.1) for the handbooks of c0de
- * (docs/concept/21-handbooks.md). Changed for c0de: the link is the insertion of the text instead of a click and a hover event, whose classes differ between the Minecraft versions.
+ * (docs/concept/21-handbooks.md). Changed for c0de: the link is the insertion of the text instead of a click and a hover event, whose classes differ between the Minecraft versions, and it is underlined.
  *
  * The MIT License (MIT)
  *
@@ -67,7 +67,7 @@ public class LinkFeature implements MarkdownFeature {
             if (tokens.peek() instanceof CloseLinkToken right) {
                 tokens.nibble();
                 return new Parser.FormattingNode(style -> style.withInsertion(LINK + right.link)
-                        .withColor(ChatFormatting.BLUE)).addChild(content);
+                        .withColor(ChatFormatting.BLUE).withUnderlined(true)).addChild(content);
             } else {
                 tokens.setPointer(pointer);
                 return new Parser.TextNode(left.content());
