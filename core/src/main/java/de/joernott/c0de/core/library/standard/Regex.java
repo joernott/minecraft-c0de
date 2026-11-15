@@ -13,8 +13,19 @@ import java.util.regex.PatternSyntaxException;
  * patterns, replacements and flags like the command {@code s} of sed, and a limit for patterns that take too long.
  */
 final class Regex {
-    /** How often a search may read a character of the text before it is stopped. */
-    static final long MAX_READS = 10_000_000;
+    /** How often a search may read the characters of a short text before it is stopped. */
+    static final long MIN_READS = 1_000_000;
+
+    /**
+     * How often a search may read each character of a long text: typical patterns read a character 1 to 5 times,
+     * so they work on texts of every length, while catastrophic backtracking is stopped.
+     */
+    static final long READS_PER_CHARACTER = 10;
+
+    /** The limit of the reads of a search in a text. */
+    static long limit(String text) {
+        return Math.max(MIN_READS, READS_PER_CHARACTER * text.length());
+    }
 
     private Regex() {}
 
@@ -99,7 +110,7 @@ final class Regex {
         try {
             return matcher.find();
         } catch (TooLong e) {
-            throw tooLong();
+            throw tooLong(text);
         }
     }
 
@@ -137,7 +148,7 @@ final class Regex {
                 }
             }
         } catch (TooLong e) {
-            throw tooLong();
+            throw tooLong(text);
         }
         result.append(text, last, text.length());
         if (result.length() > Functions.MAX_TEXT_LENGTH) {
@@ -192,8 +203,8 @@ final class Regex {
         return parts;
     }
 
-    private static C0deException tooLong() {
-        return Functions.invalid("The search took too long: the pattern reads the text more than " + MAX_READS
+    private static C0deException tooLong(String text) {
+        return Functions.invalid("The search took too long: the pattern reads the text more than " + limit(text)
                 + " times. Simplify the pattern, e.g. avoid repeated groups with .* like (.*a){20}");
     }
 
@@ -213,10 +224,11 @@ final class Regex {
     /** A text that counts how often its characters are read, shared with its subsequences. */
     private static final class GuardedText implements CharSequence {
         private final String text;
+        /** The reads so far and the limit, shared with the subsequences. */
         private final long[] reads;
 
         GuardedText(String text) {
-            this(text, new long[1]);
+            this(text, new long[] {0, limit(text)});
         }
 
         private GuardedText(String text, long[] reads) {
@@ -231,7 +243,7 @@ final class Regex {
 
         @Override
         public char charAt(int index) {
-            if (++reads[0] > MAX_READS) {
+            if (++reads[0] > reads[1]) {
                 throw new TooLong();
             }
             return text.charAt(index);

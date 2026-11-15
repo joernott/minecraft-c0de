@@ -88,7 +88,7 @@ MOVE_ITEMS moves items between two inventories in the same dimension. It isn't r
 
 Otherwise PERMISSION_DENIED is raised before anything is moved. The distance to the owner doesn't matter.
 
-The items are taken from the slots of `from` in their order, starting with slot 0. They go first onto stacks of the same item in `to`, then into empty slots that accept them (e.g. only fuel in the fuel slot of a furnace). `quantity` is the number of items to move, or -1 for all items that match the filter. MOVE_ITEMS moves as many as fit and returns the number it moved, which is smaller than `quantity` if `from` didn't have enough or `to` was full.
+The items are taken from the slots of `from` in their order, starting with slot 0. They go first onto stacks of the same item in `to`, then into empty slots that accept them (e.g. only fuel in the fuel slot of a furnace). `count` is the number of items to move, or -1 for all items with the ID or that match the filter. MOVE_ITEMS moves as many as fit and returns the number it moved, which is smaller than `count` if `from` didn't have enough or `to` was full.
 
 ### Duration
 
@@ -100,7 +100,7 @@ Items travel like a player who carries them: the items are moved at once, then t
 
 ### Filter
 
-`filter` selects the items: a STRING or an ARRAY STRING. Without filter, or with an empty one, all items match. An array matches an item if one of its elements matches. Each string is either an item ID or a search expression like in the search field of JEI:
+`id` selects the items of one item ID, e.g. `minecraft:wheat` (as before 0.6.0; an ID that is not an item raises INVALID_ARGUMENT). `filter` selects them more freely: a STRING or an ARRAY STRING. Only one of the two may be given. Without both, or with an empty filter, all items match. An array matches an item if one of its elements matches. Each string is either an item ID or a search expression like in the search field of JEI:
 
   - An item ID with a namespace, e.g. `minecraft:cobblestone`, matches exactly that item. An ID that is not an item raises INVALID_ARGUMENT.
   - Otherwise the string is a search expression. Words separated by spaces must all match; `|` separates alternatives, of which one must match. Text in quotes (`"red wool"`) is one word. Case doesn't matter.
@@ -119,7 +119,7 @@ The words of JEI for tooltips (`#`), creative tabs (`%`) and colors (`^`) need t
 CALL c0de/minecraft/MOVE_ITEMS
     PARAMETER from input ;
     PARAMETER to ores ;
-    PARAMETER quantity -1 ;
+    PARAMETER count -1 ;
     PARAMETER filter "$ores | &raw_" ;
     RESULT result moved
 ```
@@ -151,7 +151,7 @@ Otherwise PERMISSION_DENIED is raised. A command that fails, e.g. because of a s
 | GET_PRESSURE_PLATE | position POSITION | result INTEGER | The signal strength (0–15) of the pressure plate at `position`. Pressure plates can only be read; they are pressed by entities. | – |
 | GET_OPEN | position POSITION | result BOOLEAN | True if the door, trapdoor or fence gate at `position` is open. | – |
 | SET_OPEN | position POSITION, open BOOLEAN | – | Opens or closes the door, trapdoor or fence gate at `position`. Iron doors and iron trapdoors, which players can't open by hand, require the permission `allowBlockChanges`. A block on the sheets of the c0de dimension raises PERMISSION_DENIED. | – |
-| MOVE_ITEMS | from POSITION, to POSITION, quantity INTEGER (default 1), filter STRING or ARRAY STRING (optional) | result INTEGER | Moves up to `quantity` items (-1: all) that match `filter` from the inventory at `from` to the inventory at `to` in the same dimension and returns the number of items it moved. The cursor waits while the items travel. `quantity` 0 or below -1, the same block for `from` and `to`, or two dimensions raise INVALID_ARGUMENT, inventories the owner couldn't open PERMISSION_DENIED. See [Moving items](#moving-items). | – |
+| MOVE_ITEMS | from POSITION, to POSITION, count INTEGER (default 1), id STRING (optional), filter STRING or ARRAY STRING (optional) | result INTEGER | Moves up to `count` items (-1: all) with the ID `id` or that match `filter` from the inventory at `from` to the inventory at `to` in the same dimension and returns the number of items it moved. Without `id` and `filter`, all items are moved; `id` and `filter` together raise INVALID_ARGUMENT. The cursor waits while the items travel. `count` 0 or below -1, the same block for `from` and `to`, or two dimensions raise INVALID_ARGUMENT, inventories the owner couldn't open PERMISSION_DENIED. See [Moving items](#moving-items). | – |
 | DELETE_ITEMS | position POSITION, id STRING, count INTEGER | result INTEGER | Removes up to `count` items with the ID `id` from the inventory at `position`. Returns the number of removed items. Restricted. | – |
 | PLACE_BLOCK | position POSITION, id STRING, properties HASH STRING (default empty), inventory POSITION (optional), data STRING (default empty) | – | Places the block `id` with the given block state properties at `position`, which MUST contain air or a replaceable block such as grass or water, otherwise INVALID_ARGUMENT is raised. An unknown block, a property the block does not have or an invalid property value raises INVALID_ARGUMENT. With `inventory`, the block is taken from the first stack of its item in that inventory, like a player places a block from their inventory: ITEM_MISSING is raised if there is none, and INVALID_ARGUMENT for blocks without item (e.g. fire). With `data`, the [data](#block-data) is loaded into the block entity of the new block. Restricted, unless `inventory` is given without `data`. | – |
 | REMOVE_BLOCK | position POSITION, drop BOOLEAN (default true) | – | Removes the block at `position`. If `drop` is true, the block drops as an item like when it is mined. Restricted. | – |

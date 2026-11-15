@@ -136,7 +136,8 @@ public final class MinecraftLibraryDefinition {
                     "MOVE_ITEMS",
                     position("from"),
                     position("to"),
-                    NativeFunction.Parameter.withDefault("quantity", "INTEGER", INTEGER, new IntegerValue(1)),
+                    NativeFunction.Parameter.withDefault("count", "INTEGER", INTEGER, new IntegerValue(1)),
+                    NativeFunction.Parameter.optional("id", "STRING", TEXT),
                     NativeFunction.Parameter.optional("filter", "STRING or ARRAY STRING", TEXT_OR_TEXTS)),
             signature("DELETE_ITEMS", position("position"), text("id"), integer("count")),
             signature(

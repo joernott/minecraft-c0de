@@ -120,6 +120,14 @@ class RegexTest {
     }
 
     @Test
+    void longTextsWithTypicalPatternsAreNotStopped() {
+        // More than 1,000,000 reads in total, but less than 10 per character
+        String text = "word 2026-11-15, ".repeat(58_000);
+        assertEquals(text.replace("2026-11-15", "x"), replace(text, "[0-9]{4}-[0-9]{2}-[0-9]{2}", "x", "g"));
+        assertTrue(match(text + "end", "end$"));
+    }
+
+    @Test
     void resultsAreLimited() {
         String text = "a".repeat(1000);
         C0deException e = error(() -> replace(text, "a", "x".repeat(2000), "g"));

@@ -3559,7 +3559,7 @@ CALL c0de/minecraft/SET_OPEN
 
 Moves items from one inventory to another.
 
-It moves up to `quantity` items that match `filter` and returns how many were moved. `quantity` -1 moves all of them. Every owner may use it, like carrying the items by hand, but the owner must be able to open both inventories: they may not be locked, in the spawn protection or on the sheets of the c0de dimension. Otherwise PERMISSION_DENIED is raised. Both blocks must be in the same dimension, otherwise INVALID_ARGUMENT is raised, as for blocks without inventory. An empty `dimension` in a position means the dimension of the trigger block.
+It moves up to `count` items with the ID `id`, or that match `filter`, and returns how many were moved. `count` -1 moves all of them. Give `id` or `filter`, not both (INVALID_ARGUMENT); without both, all items are moved. Every owner may use it, like carrying the items by hand, but the owner must be able to open both inventories: they may not be locked, in the spawn protection or on the sheets of the c0de dimension. Otherwise PERMISSION_DENIED is raised. Both blocks must be in the same dimension, otherwise INVALID_ARGUMENT is raised, as for blocks without inventory. An empty `dimension` in a position means the dimension of the trigger block.
 
 The items travel: one stack per tick for each 128 blocks of distance, so the cursor waits a tick per stack for nearby chests. The server can change the speed and switch the function off in `config/c0de.properties`.
 
@@ -7130,8 +7130,9 @@ Moves items from one inventory to another.
 
 - `from` STRUCT c0de/minecraft/POSITION: the block to take items from
 - `to` STRUCT c0de/minecraft/POSITION: the block to put items into
-- `quantity` INTEGER: the most items to move, -1 for all (optional, default 1)
-- `filter` STRING or ARRAY STRING: the items to move (optional, default: all items)
+- `count` INTEGER: the most items to move, -1 for all (optional, default 1)
+- `id` STRING: the item ID, e.g. minecraft:wheat (optional)
+- `filter` STRING or ARRAY STRING: a filter of the items to move instead of `id` (optional)
 - result `result` INTEGER: the number of moved items
 
 **Example**
@@ -7140,8 +7141,8 @@ Moves items from one inventory to another.
 CALL c0de/minecraft/MOVE_ITEMS
     PARAMETER from farmChest ;
     PARAMETER to storage ;
-    PARAMETER quantity -1 ;
-    PARAMETER filter "minecraft:wheat" ;
+    PARAMETER count -1 ;
+    PARAMETER id "minecraft:wheat" ;
     RESULT result moved
 ```
 

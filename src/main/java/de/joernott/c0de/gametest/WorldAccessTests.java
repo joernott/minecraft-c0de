@@ -163,7 +163,8 @@ public final class WorldAccessTests {
                 RESULT one INTEGER
                 RESULT diamonds INTEGER
                 RESULT badfilter INTEGER
-                RESULT badquantity INTEGER
+                RESULT badcount INTEGER
+                RESULT both INTEGER
                 RESULT locked INTEGER
                 RESULT data INTEGER
             BEGIN
@@ -188,7 +189,7 @@ public final class WorldAccessTests {
                 CALL c0de/minecraft/MOVE_ITEMS
                     PARAMETER from source ;
                     PARAMETER to target ;
-                    PARAMETER quantity -1 ;
+                    PARAMETER count -1 ;
                     PARAMETER filter "$logs | &raw_" ;
                     RESULT result moved
                 CALL c0de/minecraft/TICKS
@@ -197,6 +198,7 @@ public final class WorldAccessTests {
                 CALL c0de/minecraft/MOVE_ITEMS
                     PARAMETER from source ;
                     PARAMETER to target ;
+                    PARAMETER id "minecraft:cobblestone" ;
                     RESULT result one
                 CALL INSERT
                     PARAMETER array ids ;
@@ -206,7 +208,7 @@ public final class WorldAccessTests {
                 CALL c0de/minecraft/MOVE_ITEMS
                     PARAMETER from source ;
                     PARAMETER to target ;
-                    PARAMETER quantity 2 ;
+                    PARAMETER count 2 ;
                     PARAMETER filter ids ;
                     RESULT result diamonds
                 CALL c0de/minecraft/MOVE_ITEMS problem
@@ -217,8 +219,14 @@ public final class WorldAccessTests {
                 CALL c0de/minecraft/MOVE_ITEMS problem
                     PARAMETER from source ;
                     PARAMETER to target ;
-                    PARAMETER quantity 0 ;
-                ASSIGN badquantity problem.code ;
+                    PARAMETER count 0 ;
+                ASSIGN badcount problem.code ;
+                CALL c0de/minecraft/MOVE_ITEMS problem
+                    PARAMETER from source ;
+                    PARAMETER to target ;
+                    PARAMETER id "minecraft:diamond" ;
+                    PARAMETER filter "diamond" ;
+                ASSIGN both problem.code ;
                 CALL c0de/minecraft/MOVE_ITEMS problem
                     PARAMETER from safe ;
                     PARAMETER to target ;
@@ -234,8 +242,9 @@ public final class WorldAccessTests {
 
     /**
      * MOVE_ITEMS works for owners who are not administrators (task 16.12): it moves all items that match a filter,
-     * one item by default, the items of an array of IDs, and waits one tick per stack; filters it can't search,
-     * quantities of 0 and locked containers are refused, and data for PLACE_BLOCK still needs a permission.
+     * one item of an ID by default, the items of an array of IDs, and waits one tick per stack; filters it can't
+     * search, a count of 0, id together with filter and locked containers are refused, and data for PLACE_BLOCK still
+     * needs a permission.
      */
     public static void itemsAreMovedWithFilters(GameTestHelper helper) {
         ServerLevel c0de = helper.getLevel().getServer().getLevel(C0deDimension.LEVEL);
@@ -254,7 +263,7 @@ public final class WorldAccessTests {
         source.setItem(2, new ItemStack(Items.RAW_IRON, 5));
         source.setItem(3, new ItemStack(Items.DIAMOND, 3));
         target.setItem(0, new ItemStack(Items.CHEST));
-        TriggerBlockEntity trigger = start(helper, BlockPos.ZERO, helper.makeMockServerPlayerInLevel(), "moving", 8);
+        TriggerBlockEntity trigger = start(helper, BlockPos.ZERO, helper.makeMockServerPlayerInLevel(), "moving", 9);
         TestCompat.await(helper, () -> !trigger.isRunning(), () -> {
             try {
                 helper.assertTrue(!trigger.isRunning(), "The process is still running");
@@ -267,7 +276,8 @@ public final class WorldAccessTests {
                         "The moved items are " + results);
                 helper.assertTrue(
                         results.get("badfilter").equals("309")
-                                && results.get("badquantity").equals("309")
+                                && results.get("badcount").equals("309")
+                                && results.get("both").equals("309")
                                 && results.get("locked").equals("311")
                                 && results.get("data").equals("311"),
                         "The errors are " + results);

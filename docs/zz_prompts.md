@@ -747,3 +747,9 @@ Also, before releasing, I want to add a few other features:
 The strings library should get two more functions:
 - REGEX_MATCH matches a string against a PCRE regular expression and returns true or false
 - REGEX_REPLACE replaces string contents based on a PCRE pattern. It has 4 parameters, the string, a pattern to look for, a pattern that describes what a match is replaced with (including backreferences) and an optional flags parametwr with g,p or a number, similar to what sed supports
+
+## 2026-11-15 – MOVE_ITEMS with count and id, a lower regex limit, the VM check
+
+for MOVE_ITEM, rename quantity back to count, re-add id and allow either id or filter as parameter, only one of them must be present.
+Lower the limit for server protection from 10 million times to 1 million if that does not impact regular operations for regex.
+After those changes go ahead with the VM check. Make sure that that version can be tested by me with the gradle run.

@@ -457,16 +457,16 @@ public final class MinecraftLibrary implements Library {
         if (isSamePlace(fromPlace, toPlace)) {
             throw invalid("from and to are the same block " + fromPlace.pos().toShortString());
         }
-        long quantity = integer(call, "quantity");
-        if (quantity == 0 || quantity < -1) {
-            throw invalid("The quantity is -1 (all items) or at least 1, not " + quantity);
+        long count = integer(call, "count");
+        if (count == 0 || count < -1) {
+            throw invalid("The count is -1 (all items) or at least 1, not " + count);
         }
         ItemFilter filter = filter(call);
         Container from = container(fromPlace);
         Container to = container(toPlace);
         requireAccess(host, fromPlace);
         requireAccess(host, toPlace);
-        long wanted = quantity == -1 ? Long.MAX_VALUE : quantity;
+        long wanted = count == -1 ? Long.MAX_VALUE : count;
         long moved = 0;
         int stacks = 0;
         for (int i = 0; i < from.getContainerSize() && moved < wanted; i++) {
@@ -496,8 +496,18 @@ public final class MinecraftLibrary implements Library {
         return new NativeResult(Map.of("result", new IntegerValue(moved)), 0, "", ticks, false);
     }
 
-    /** The filter of MOVE_ITEMS: a STRING, an ARRAY STRING or nothing. */
+    /**
+     * The items MOVE_ITEMS moves: those of the item ID `id`, those that match `filter` (a STRING or an ARRAY STRING),
+     * or all items without both. Only one of the two may be given.
+     */
     private static ItemFilter filter(NativeCall call) {
+        if (call.provided("id") && call.provided("filter")) {
+            throw invalid("MOVE_ITEMS takes either id or filter, not both");
+        }
+        if (call.provided("id")) {
+            String id = BuiltInRegistries.ITEM.getKey(item(text(call, "id"))).toString();
+            return ItemFilter.of(List.of(id), known -> true);
+        }
         if (!call.provided("filter")) {
             return ItemFilter.ALL;
         }
