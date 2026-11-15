@@ -415,7 +415,7 @@ After sprint 12, every new Minecraft release is added as a new node in its own s
 | 16.22 | The seven binder items: textures (a red binder, the colour of the label per book), models, names in English and German, the creative tab, the recipes without the Patchouli condition, the guide on joining (tag `c0de.handbook_given`). | ✅ |
 | 16.23 | The generator writes the books as Markdown and `recipes.json` (links between entries, program examples, recipes); Patchouli is removed (books, recipe conditions, development dependency, optional dependency on Modrinth and CurseForge). | ✅ |
 | 16.24 | Documentation: guide and reference (English and German) without Patchouli, development environment, Modrinth description, changelog. | ✅ |
-| 16.25 | Check on the VM (all nodes, GameTests) and in the game on 1.21.1 and 26.3 for both loaders. | |
+| 16.25 | Check on the VM (all nodes, GameTests) and in the game on 1.21.1 and 26.3 for both loaders. Done on 2026-11-15; the findings are 16.25.1 to 16.25.5. | ✅ |
 | 16.25.1 | Found in the in-game test on 2026-11-15: long titles wrap (above entries and in the lists of categories and entries), program examples have the colours of c0de.at, and the guide shows how to craft the other handbooks (Tools, Handbooks, linked from its landing page). | ✅ |
 | 16.25.2 | Requested on 2026-11-15: the book takes about 80 % of the screen and lays out its pages for that size; it is drawn as an open ring binder with a small gap and four metal rings instead of the binding of Lavender's texture. | ✅ |
 | 16.25.3 | Requested on 2026-11-15: every entry of the guide ends with the recipes of the c0de items and blocks it names, and the guide's references to its other pages are links (in the documentation and in the book). | ✅ |
