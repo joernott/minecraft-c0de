@@ -26,7 +26,8 @@ Indentation follows these rules:
 | BEGIN, END, BREAK | code blocks, leaving loops | [Code blocks and scopes](03-programs.md#code-blocks-and-scopes) |
 | BOOLEAN, INTEGER, FLOAT, CHAR, TIME, STRING, ARRAY, HASH, STRUCT, ERROR | data types | [Data types](04-data.md) |
 | VARIABLE, CONSTANT, LITERAL | values | [Variables, constants and literals](04-data.md#variables-constants-and-literals) |
-| TAG | key names for JSON and YAML | [Tags](04-data.md#tags) |
+| TAG | key names for JSON and YAML, sensitive values | [Tags](04-data.md#tags) |
+| SECRET | a value from the vault of the player | [Secrets in programs](20-lib-security.md#secrets-in-programs) |
 | OPERATOR (operators, parentheses, `;`) | expressions | [Expressions](05-expressions.md), [Operators](05-expressions.md#operators) |
 | ASSIGN | changing a variable | [Assigning values](05-expressions.md#assigning-values) |
 | FUNCTION, PARAMETER, RESULT, RETURN, CALL | functions | [Functions](06-functions.md) |

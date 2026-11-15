@@ -25,7 +25,7 @@ CALL PRINT
 |---|---|---|---|---|
 | PRINT | value (any type) | – | Writes `value` on the bound screens and ends the line. | PRINT |
 | WRITE | value (any type), name STRING (optional) | – | Puts `value` into the bound I/O blocks as a variable item. Waits for an uninitialized variable item. | WRITE |
-| INPUT | variable (a variable, by reference) | – | Reads a value into `variable`. Waits for a value. | INPUT |
+| INPUT | variable (a variable, by reference), hide BOOLEAN (default FALSE) | – | Reads a value into `variable`. Waits for a value. With `hide`, laptops and tablets show `*` for the typed characters ([Hidden input](20-lib-security.md#hidden-input)). | INPUT |
 
 ### PRINT
 

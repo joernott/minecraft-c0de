@@ -41,4 +41,12 @@
 | 311 | PERMISSION_DENIED | raise | A library function is not permitted for the owner of the trigger block, or it would change a block on the sheets of the c0de dimension. |
 | 312 | INVENTORY_FULL | raise | A library function can't put items into an inventory because there is no room, e.g. the drops of MINE_BLOCK. |
 | 313 | ITEM_MISSING | raise | A library function needs an item that is not in the inventory, e.g. the block of PLACE_BLOCK. |
+| 314 | VAULT_UNAVAILABLE | raise | The process has no vault (see [c0de/security](20-lib-security.md#errors)). |
+| 315 | SECRET_NOT_FOUND | raise | The vault has no secret of that name. |
+| 316 | VAULT_NOT_OPEN | raise | A persistent secret is changed, but the persistent vault is not open. |
+| 317 | VAULT_NOT_FOUND | raise | OPEN_VAULT: the player has no persistent vault. |
+| 318 | VAULT_ALREADY_EXISTS | raise | CREATE_VAULT: the player already has a persistent vault. |
+| 319 | WRONG_PASSWORD | raise | OPEN_VAULT: the given password doesn't decrypt the persistent vault. |
+| 320 | VAULT_CANCELLED | raise | The player closed the password dialog. |
+| 321 | VAULT_FAILED | raise | The client couldn't read or write the persistent vault. |
 | ≥1000 | user-defined | raise | Errors raised by programs. |

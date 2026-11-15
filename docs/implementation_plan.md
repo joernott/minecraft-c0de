@@ -50,6 +50,7 @@ A task is done when
 | 13 | Usability, process information and colors (0.3.0) | Pausable timers, a better disk drive, the built-in constants SHEET, PID, CURSOR and COLOR_*, the used stack in the cursor dialog, mining and placing blocks with items from inventories, boots and pliers | ✅ |
 | 14 | Documentation (0.4.0) | The guide and the handbooks in German, a runner that tests the programs of the tutorials of c0de.at, and 3D models of all blocks for the website | ✅ |
 | 15 | Feedback from the tutorials | Deviations from the concept that the tutorials of c0de.at found | ✅ |
+| 16 | Security (0.6.0) | Hidden input and items, sensitive values in the debug output, a vault of secrets per player with SECRET and the library c0de/security, persistent in a KeePass file |  |
 
 ## Sprint 0: Concept and plan
 
@@ -372,6 +373,23 @@ After sprint 12, every new Minecraft release is added as a new node in its own s
 | 15.11 | The release publishes the mod on CurseForge as well as on Modrinth: the `curseforge {}` block of the mod-publish-plugin in both builds (Fabric and NeoForge), with `publish.curseforge_id` in `stonecutter.properties.toml` next to `publish.modrinth_id`, the same files, versions, changelog and release type, required on client and server, Fabric API required and Patchouli optional as on Modrinth; `release.yml` needs the repository secret `CURSEFORGE_TOKEN` and fails without it or the project ID, like for Modrinth; `development_environment.md` describes the secret. The Minecraft versions must be known to CurseForge (26.x included). Checked with a dry run before the next release. Needs from the owner: the CurseForge project (approved) with its ID and the API token as a secret. Done on 2026-11-12: 0.4.0 is on CurseForge (10 files, uploaded with curseforge.yml). | ✅ |
 | 15.12 | Release 0.5.0 for all Minecraft versions (GitHub pre-release with the runner, the models and the schema; Modrinth and CurseForge). Checked before on the VM: build, GameTests of both loaders, the test servers with the new jars. The first tag run failed before publishing, because publishing no longer built the jars (fixed in 5d9b304); the tag was pushed again and released on 2026-11-12. | ✅ |
 
+## Sprint 16: Security
+
+**Goal:** programs can use passwords and API keys without showing them: INPUT hides what is typed on laptops and tablets, items can hide their value, the tag `security: sensitive` hides values in the debug output, and every player has a vault of secrets, which programs read with the new SECRET statement and change with the new library c0de/security. Secrets can be kept in a KeePass file (KDBX 4) per player, which the server stores but only the client of the player decrypts (with hudeany/kdbx). Concept: [Security and the c0de/security library](concept/20-lib-security.md). Planned on 2026-11-15; version 0.6.0.
+
+| Task | Description | Done |
+|---|---|:---:|
+| 16.1 | Concept: the chapter [Security and the c0de/security library](concept/20-lib-security.md) and the references to it (keywords, tags, error codes 314–321, INPUT, items). Decided on 2026-11-15: a process uses the vault of its activator, and only if that player is online and owns the sheet; the server stores the KDBX file, the client decrypts it; SECRET is a declaration like CONSTANT; only items (not LITERAL blocks) can be hidden. |  |
+| 16.2 | The SECRET statement in `core`: notation `SECRET name TYPE`, parsing, validation (simple types and STRING, unique name, no tags or literal, not assignable), the value from a vault interface of the process context when the line runs (SECRET_NOT_FOUND, TYPE_MISMATCH, VAULT_UNAVAILABLE). The SECRET block with model, texture, recipes (from and back to CONSTANT), the YAML format (17-yaml-format.md) and its JSON Schema, the block reference (18-block-reference.md), the c0de disk. |  |
+| 16.3 | Sensitive values: the tag language `security` with the only name `sensitive` (TAG dialog, validation, YAML), on VARIABLE and CONSTANT lines and struct elements; SECRET values and parameters from hidden items are sensitive. The debug output shows `***` for them: the stack in the cursor dialog, the debugging tool in the chat, the error context of trigger blocks, the report of the runner. |  |
+| 16.4 | Hidden input: the parameter `hide` (BOOLEAN, default FALSE) of INPUT; the input line of laptops and tablets shows `*` per character, and the typed line is printed as `***`. |  |
+| 16.5 | Hidden items: the checkbox Hide in the dialogs of variable, constant and literal items (the literal item dialog gets the trash can button); a hidden value shows `***` in the dialog and the tooltip and is only removed with the trash can; hidden items don't stack with others. WRITE of a sensitive value and sensitive results of a process produce hidden variable items. |  |
+| 16.6 | The vault on the server: per player in memory, created on join, dropped on leave; available to a process only if the activator is an online player who owns the sheet. The library c0de/security with SET_SECRET, DELETE_SECRET and HAS_SECRET (non-persistent), the limit of 256 secrets, and the error codes 314–321 as built-in constants. GameTests. |  |
+| 16.7 | The persistent vault: hudeany/kdbx (`de.soderer:kdbx`) and Bouncy Castle (`bcprov-jdk18on`) in the jar of both loaders, used only by the client; the file `<world>/data/c0de_vaults/<uuid>.kdbx` on the server; network payloads to send the file to its player, the decrypted secrets to the server and the changed file back; CREATE_VAULT, OPEN_VAULT, HAS_VAULT, IS_VAULT_OPEN and persistent SET_SECRET/DELETE_SECRET with the cursor waiting for the client; the password dialogs (with Repeat for CREATE_VAULT, Cancel, a new try after a wrong password); the KeePass layout (group `c0de`, title, password, custom field `c0de-type`). A file written by c0de opens in KeePassXC. Tests of the client side and GameTests with a fake client. |  |
+| 16.8 | The program runner: the `vault` of the options file (secrets, persistent vault with password), c0de/security and SECRET on it, VAULT_UNAVAILABLE without it, `***` for sensitive values in the report; docs/runner.md. |  |
+| 16.9 | Documentation: a guide chapter about secrets, the handbook of c0de/security in English and German, the reference (statements, data, functions, devices, items), the changelog. |  |
+| 16.10 | Release 0.6.0 for all Minecraft versions (GitHub pre-release with the runner, the models and the schema; Modrinth and CurseForge). Checked before on the VM: build, GameTests of both loaders, the test servers with a persistent vault across leaving and joining again, c0de net 0.3.0 with 0.6.0. |  |
+
 ## Risks
 
 | Risk | Mitigation |
@@ -380,6 +398,7 @@ After sprint 12, every new Minecraft release is added as a new node in its own s
 | Two loaders double the effort for everything that touches the game. | Platform interface, shared data generation and Stonecutter keep the loader-specific code small. GameTests run on both loaders in CI. |
 | Cursors running every tick slow down servers with many processes. | Performance tests in sprint 11; the scheduler can limit the number of steps per tick. |
 | Running processes depend on loaded chunks and must survive restarts. | Chunk tickets and serialized cursor states (tasks 8.4, 8.7). |
+| The persistent vault needs kdbx and Bouncy Castle (several MB) in the jar, and its protocol crosses client and server. | Only the client uses them; the server only stores bytes. The protocol is tested with GameTests and a fake client (16.7). |
 | The concept still changes during implementation. | The concept is updated as part of the definition of done; `concept_review.md` records decisions. |
 
 ## Decisions

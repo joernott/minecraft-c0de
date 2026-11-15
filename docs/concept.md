@@ -69,6 +69,7 @@ The concept is split into the following documents:
   - [The c0de/strings library](concept/10-lib-strings.md)
   - [The c0de/time library](concept/11-lib-time.md)
   - [The c0de/minecraft library](concept/12-lib-minecraft.md)
+  - [Security and the c0de/security library](concept/20-lib-security.md)
 
 **Running programs**
 

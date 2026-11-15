@@ -258,7 +258,7 @@ Eight LITERAL blocks can be crafted from a white wool block surrounded by eight 
 Tags are inspired by the struct tags of the Go programming language (`json:"name"`). They control how values are converted to and from JSON and YAML by the functions TO_JSON, TO_YAML, FROM_JSON and FROM_YAML of the [c0de/strings library](10-lib-strings.md).
 
 A tag has two properties:
-  - **language**: The language the tag applies to: `json` or `yaml`.
+  - **language**: The language the tag applies to: `json` or `yaml`, or `security` for the tag `security: sensitive`, which hides a value in the debug output (see [Sensitive values](20-lib-security.md#sensitive-values)).
   - **name**: The name that is used in that language.
 
 A TAG block MAY be placed
