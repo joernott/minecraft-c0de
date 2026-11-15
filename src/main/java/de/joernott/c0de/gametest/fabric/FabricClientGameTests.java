@@ -105,6 +105,12 @@ public class FabricClientGameTests implements FabricClientGameTest {
                 .showCategory("getting_started"));
         handbookPage(context, "c0de-handbook-category");
         handbookLinks(context, "the category getting_started");
+        context.runOnClient(client -> ((de.joernott.c0de.client.handbook.HandbookScreen)
+                de.joernott.c0de.client.ClientCompat.screen()).showEntry("language/lines_and_indentation"));
+        handbookPage(context, "c0de-handbook-long-title");
+        context.runOnClient(client -> ((de.joernott.c0de.client.handbook.HandbookScreen)
+                de.joernott.c0de.client.ClientCompat.screen()).showEntry("tools/handbooks"));
+        handbookPage(context, "c0de-handbook-binders");
         context.setScreen(() -> null);
         context.runOnClient(client -> de.joernott.c0de.client.handbook.HandbookScreen.open("tools"));
         context.waitForScreen(de.joernott.c0de.client.handbook.HandbookScreen.class);

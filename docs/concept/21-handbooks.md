@@ -59,7 +59,7 @@ A category or entry starts with a JSON block of metadata, as in Lavender:
 Counts the characters of a string or the elements of an array or hash.
 ````
 
-  - `title`: the title shown in lists and above the first page.
+  - `title`: the title shown in lists and above the first page, on several lines if it is long.
   - `icon`: the ID of the item whose icon stands next to the title.
   - `category`: (entries) the category the entry belongs to.
   - `ordinal`: the position in the list; entries without one come after those with one, sorted by title.
@@ -88,7 +88,7 @@ c0de adds:
 | Notation | Result |
 |---|---|
 | `` `code` `` | code in the text (dark blue) |
-| ```` ```c0de ```` … ```` ``` ```` | a program example: dark blue, every line as written, with its indentation |
+| ```` ```c0de ```` … ```` ``` ```` | a program example: every line as written, with its indentation, in the colours of the website c0de.at (the colours of the blocks, for light paper); code in other languages is dark blue |
 | `<recipe;c0de:wrench>` | the crafting grid of a recipe, with the result |
 | `<item;minecraft:book>` | a line with the icon and the name of an item (its tooltip under the mouse) |
 | `;;;;;` on a line of its own | page break |
@@ -99,7 +99,7 @@ Since Minecraft 1.21.2, the client doesn't know the recipes of the server any mo
 
 ## Generated from the documentation
 
-As before, `scripts/generate_book.py` generates the books from `docs/guide`, `docs/reference` and their German translation in `docs/de`. The generated files are committed, and CI fails if they differ from what the script writes. The rules for categories and entries don't change: a guide chapter becomes a category and every `## ` section an entry; a handbook section becomes a category and every `### ` element an entry with its description, recipes and example. What changes is the output: Markdown files instead of Patchouli JSON. The Markdown of the documentation is kept as far as the books support it (bold, lists, code, program examples); links between documentation files become links between entries where the target is in the same book, and plain text otherwise.
+The landing page of the guide links to the recipes of the other handbooks (chapter Tools, section Handbooks). As before, `scripts/generate_book.py` generates the books from `docs/guide`, `docs/reference` and their German translation in `docs/de`. The generated files are committed, and CI fails if they differ from what the script writes. The rules for categories and entries don't change: a guide chapter becomes a category and every `## ` section an entry; a handbook section becomes a category and every `### ` element an entry with its description, recipes and example. What changes is the output: Markdown files instead of Patchouli JSON. The Markdown of the documentation is kept as far as the books support it (bold, lists, code, program examples); links between documentation files become links between entries where the target is in the same book, and plain text otherwise.
 
 ## Without Patchouli
 

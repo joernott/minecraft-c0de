@@ -69,20 +69,28 @@ public interface Element {
         }
     }
 
-    /** The title of a page: centered, with a line below it. */
-    record Title(Component text) implements Element {
+    /** The title of a page: centered, on as many lines as it needs, with a line below it. */
+    record Title(List<FormattedCharSequence> lines) implements Element {
+        /** The title wrapped to the width of a page. */
+        static Title of(Font font, Component text) {
+            List<FormattedCharSequence> lines = font.split(text, HandbookScreen.PAGE_WIDTH);
+            return new Title(lines.isEmpty() ? List.of(FormattedCharSequence.EMPTY) : List.copyOf(lines));
+        }
+
         @Override
         public int height() {
-            return 18;
+            return 9 * lines.size() + 9;
         }
 
         @Override
         public void draw(GuiGraphics graphics, HandbookScreen screen, int x, int y, int mouseX, int mouseY) {
             Font font = screen.font();
-            List<FormattedCharSequence> lines = font.split(text, HandbookScreen.PAGE_WIDTH);
-            FormattedCharSequence line = lines.isEmpty() ? FormattedCharSequence.EMPTY : lines.get(0);
-            graphics.drawString(font, line, x + (HandbookScreen.PAGE_WIDTH - font.width(line)) / 2, y + 2, TITLE, false);
-            GuiDraw.blit(graphics, screen.texture(), x + 1, y + 13, 54, 180, 109, 3, 512, 256);
+            for (int i = 0; i < lines.size(); i++) {
+                FormattedCharSequence line = lines.get(i);
+                graphics.drawString(font, line, x + (HandbookScreen.PAGE_WIDTH - font.width(line)) / 2, y + 2 + 9 * i,
+                        TITLE, false);
+            }
+            GuiDraw.blit(graphics, screen.texture(), x + 1, y + 4 + 9 * lines.size(), 54, 180, 109, 3, 512, 256);
         }
     }
 

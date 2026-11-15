@@ -199,15 +199,36 @@ This guide is also a book in the game: a red binder with a white label. You get 
 
 To make another copy, craft a book and a PROGRAM block together, in any order.
 
+![Guide book recipe](../reference/images/guide_book.png)
+
 In the book, the arrows at the bottom turn the pages, and the arrow in the middle goes back. The arrow keys and the mouse wheel turn the pages too, and Backspace goes back. The book opens where you left it.
 
 ## Handbooks
 
 There are six more red binders: handbooks with one page per block, item or function. Each page has a short description, the crafting recipe and an example. The colour of the label tells them apart.
 
-- **Data** (light blue): crafted from a book and a type base
-- **Statements** (yellow): a book and a structural base
-- **Tools** (grey): a book and a wrench
-- **Triggers** (purple): a book and a trigger block
-- **Devices** (green): a book and a display block
-- **Functions** (orange): a book and a FUNCTION block
+Craft each one from a book and an item, in any order:
+
+**Data** (light blue): a book and a type base.
+
+![Data handbook recipe](../reference/images/data_book.png)
+
+**Statements** (yellow): a book and a structural base.
+
+![Statements handbook recipe](../reference/images/statements_book.png)
+
+**Tools** (grey): a book and a wrench.
+
+![Tools handbook recipe](../reference/images/tools_book.png)
+
+**Triggers** (purple): a book and a trigger block.
+
+![Triggers handbook recipe](../reference/images/triggers_book.png)
+
+**Devices** (green): a book and a display block.
+
+![Devices handbook recipe](../reference/images/devices_book.png)
+
+**Functions** (orange): a book and a FUNCTION block.
+
+![Functions handbook recipe](../reference/images/functions_book.png)

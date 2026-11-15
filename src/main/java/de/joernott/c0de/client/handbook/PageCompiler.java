@@ -131,16 +131,21 @@ public final class PageCompiler implements MarkdownCompiler<List<List<Element>>>
         }
     }
 
-    /** A program example: every line as written, dark blue; long lines continue indented. */
-    void visitCode(List<String> lines) {
+    /**
+     * A program example: every line as written, a c0de program in the colours of its keywords, other code dark
+     * blue; long lines continue indented.
+     */
+    void visitCode(String language, List<String> lines) {
         flush();
         gap();
         int space = font.width(" ");
         for (String line : lines) {
             String stripped = line.stripLeading();
             int indent = Math.min(width / 2, (line.length() - stripped.length()) * space);
-            MutableComponent code = Component.literal(stripped.isEmpty() ? " " : stripped)
-                    .withStyle(ChatFormatting.DARK_BLUE);
+            String text = stripped.isEmpty() ? " " : stripped;
+            MutableComponent code = language.equals("c0de")
+                    ? C0deHighlighter.line(text)
+                    : Component.literal(text).withStyle(ChatFormatting.DARK_BLUE);
             List<FormattedCharSequence> wrapped = font.split(code, width - indent - LIST_INDENT);
             for (int i = 0; i < wrapped.size(); i++) {
                 place(new Element.Line(wrapped.get(i), indent + (i > 0 ? LIST_INDENT : 0), null, 0));

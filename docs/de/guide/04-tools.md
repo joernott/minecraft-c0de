@@ -199,15 +199,36 @@ Diese Anleitung gibt es auch als Buch im Spiel: ein roter Ordner mit weißem Eti
 
 Für ein weiteres Exemplar stellst du ein Buch und einen PROGRAM-Block zusammen her, in beliebiger Anordnung.
 
+![Rezept des Anleitungsbuchs](../../reference/images/guide_book.png)
+
 Im Buch blättern die Pfeile unten um, und der Pfeil in der Mitte geht zurück. Auch die Pfeiltasten und das Mausrad blättern um, und die Rücktaste geht zurück. Das Buch öffnet sich dort, wo du aufgehört hast.
 
 ## Handbücher
 
 Es gibt sechs weitere rote Ordner: Handbücher mit einer Seite pro Block, Gegenstand oder Funktion. Jede Seite hat eine kurze Beschreibung, das Rezept und ein Beispiel. Die Farbe des Etiketts unterscheidet sie.
 
-- **Daten** (hellblau): hergestellt aus einem Buch und einer Typbasis
-- **Anweisungen** (gelb): ein Buch und eine Strukturbasis
-- **Werkzeuge** (grau): ein Buch und ein Schraubenschlüssel
-- **Auslöser** (violett): ein Buch und ein Auslöserblock
-- **Geräte** (grün): ein Buch und ein Anzeigeblock
-- **Funktionen** (orange): ein Buch und ein FUNCTION-Block
+Jedes stellst du aus einem Buch und einem Gegenstand her, in beliebiger Anordnung:
+
+**Daten** (hellblau): aus einem Buch und einer Typbasis.
+
+![Rezept des Handbuchs Daten](../../reference/images/data_book.png)
+
+**Anweisungen** (gelb): aus einem Buch und einer Strukturbasis.
+
+![Rezept des Handbuchs Anweisungen](../../reference/images/statements_book.png)
+
+**Werkzeuge** (grau): aus einem Buch und einem Schraubenschlüssel.
+
+![Rezept des Handbuchs Werkzeuge](../../reference/images/tools_book.png)
+
+**Auslöser** (violett): aus einem Buch und einem Auslöserblock.
+
+![Rezept des Handbuchs Auslöser](../../reference/images/triggers_book.png)
+
+**Geräte** (grün): aus einem Buch und einem Anzeigeblock.
+
+![Rezept des Handbuchs Geräte](../../reference/images/devices_book.png)
+
+**Funktionen** (orange): aus einem Buch und einem FUNCTION-Block.
+
+![Rezept des Handbuchs Funktionen](../../reference/images/functions_book.png)

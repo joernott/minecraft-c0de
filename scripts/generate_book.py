@@ -56,6 +56,8 @@ TEXTS = {
                        " and run programs. Every handbook is also a red binder in the game (crafted from a book and"
                        " the item named below).",
         "crafted": "Binder: crafted from a book and {}.",
+        "handbooks": "How to craft the six handbooks:",
+        "handbooks_link": "Tools, Handbooks",
     },
     "de_de": {
         "guide": "c0de-Anleitung",
@@ -67,6 +69,8 @@ TEXTS = {
                        " erklärt, wie du Programme schreibst und startest. Jedes Handbuch ist auch ein roter Ordner"
                        " im Spiel (hergestellt aus einem Buch und dem unten genannten Gegenstand).",
         "crafted": "Ordner: hergestellt aus einem Buch und {}.",
+        "handbooks": "So stellst du die sechs Handbücher her:",
+        "handbooks_link": "Werkzeuge, Handbücher",
     },
 }
 
@@ -97,7 +101,7 @@ HANDBOOKS = [
     ("functions", "c0de:function_block"),
 ]
 # Images of recipes; translations in docs/de/reference use the images of the English folder
-IMAGE = re.compile(r"!\[[^\]]*\]\((?:\.\./\.\./reference/)?images/([a-z0-9_]+)\.png\)")
+IMAGE = re.compile(r"!\[[^\]]*\]\((?:(?:\.\./)+reference/)?images/([a-z0-9_]+)\.png\)")
 
 # The characters lavender-md and c0de's features read as Markdown; plain text escapes them with a backslash
 SPECIAL = set("\\*_~{[]!<>%`;")
@@ -158,7 +162,8 @@ def inline(text: str) -> str:
 
 
 def blocks(lines: list[str]) -> list[tuple[str, str]]:
-    """The blocks of a section: ("text", paragraph), ("list", items) or ("code", program), as Markdown."""
+    """The blocks of a section: ("text", paragraph), ("list", items), ("code", program) or ("recipe", crafting
+    grid of a recipe image), as Markdown."""
     result = []
     paragraph: list[str] = []
     code: list[str] | None = None
@@ -173,6 +178,13 @@ def blocks(lines: list[str]) -> list[tuple[str, str]]:
             paragraph.clear()
 
     for line in lines:
+        image = IMAGE.fullmatch(line.strip()) if code is None else None
+        if image:
+            # A recipe image of the documentation becomes the crafting grid of the recipe
+            flush()
+            result.append(("recipe", "<recipe;c0de:" + image.group(1) + ">"))
+            SHOWN_RECIPES.add(image.group(1))
+            continue
         if code is not None:
             if line.startswith("```"):
                 result.append(("code", program(code)))
@@ -261,7 +273,10 @@ def matching(translation: list, original: list, what: str) -> None:
 
 def guide(language: str) -> None:
     texts = TEXTS[language]
-    book_files(BOOK, language, texts["guide"], escape(texts["landing"]), "c0de:program_block")
+    # The landing page links to the recipes of the other handbooks (guide 04-tools.md, Handbooks)
+    landing = (escape(texts["landing"]) + "\n\n" + escape(texts["handbooks"])
+               + " [" + escape(texts["handbooks_link"]) + "](^tools/handbooks)")
+    book_files(BOOK, language, texts["guide"], landing, "c0de:program_block")
     categories = language_folder(HANDBOOK / "categories" / BOOK, language)
     entries = language_folder(HANDBOOK / "entries" / BOOK, language)
     for number, path in enumerate(sorted(GUIDE.glob("[0-9][0-9]-*.md"))):

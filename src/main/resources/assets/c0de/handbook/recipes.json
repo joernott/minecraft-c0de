@@ -271,6 +271,25 @@
     "result": "c0de:constant_item",
     "count": 1
   },
+  "c0de:data_book": {
+    "slots": [
+      [
+        "minecraft:book"
+      ],
+      [
+        "c0de:type_base"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:data_book",
+    "count": 1
+  },
   "c0de:data_item": {
     "slots": [
       [
@@ -344,6 +363,25 @@
       ]
     ],
     "result": "c0de:debug_trigger_block",
+    "count": 1
+  },
+  "c0de:devices_book": {
+    "slots": [
+      [
+        "minecraft:book"
+      ],
+      [
+        "c0de:display_block"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:devices_book",
     "count": 1
   },
   "c0de:disk_drive": {
@@ -587,6 +625,25 @@
       []
     ],
     "result": "c0de:function_block",
+    "count": 1
+  },
+  "c0de:functions_book": {
+    "slots": [
+      [
+        "minecraft:book"
+      ],
+      [
+        "c0de:function_block"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:functions_book",
     "count": 1
   },
   "c0de:guide_book": {
@@ -1090,6 +1147,25 @@
     "result": "c0de:secret_block",
     "count": 1
   },
+  "c0de:statements_book": {
+    "slots": [
+      [
+        "minecraft:book"
+      ],
+      [
+        "c0de:structural_base"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:statements_book",
+    "count": 1
+  },
   "c0de:structural_base": {
     "slots": [
       [
@@ -1206,6 +1282,25 @@
     "result": "c0de:timer_block",
     "count": 8
   },
+  "c0de:tools_book": {
+    "slots": [
+      [
+        "minecraft:book"
+      ],
+      [
+        "c0de:wrench"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:tools_book",
+    "count": 1
+  },
   "c0de:trigger_block": {
     "slots": [
       [
@@ -1238,6 +1333,25 @@
     ],
     "result": "c0de:trigger_block",
     "count": 8
+  },
+  "c0de:triggers_book": {
+    "slots": [
+      [
+        "minecraft:book"
+      ],
+      [
+        "c0de:trigger_block"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:triggers_book",
+    "count": 1
   },
   "c0de:type_array_block": {
     "slots": [

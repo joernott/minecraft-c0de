@@ -207,7 +207,7 @@
   "dialog.c0de.operator.close": "Schließende Klammer",
   "dialog.c0de.operator.end_of_expression": "Ende des Ausdrucks",
   "book.c0de.guide.name": "c0de-Anleitung",
-  "book.c0de.guide.landing_text": "Programme aus Blöcken, geschrieben auf das Endlospapier der c0de-Dimension und gestartet von Auslöserblöcken. Diese Anleitung zeigt, wie du sie schreibst und startest.",
+  "book.c0de.guide.landing_text": "Programme aus Blöcken, geschrieben auf das Endlospapier der c0de-Dimension und gestartet von Auslöserblöcken. Diese Anleitung zeigt, wie du sie schreibst und startest.\n\nSo stellst du die sechs Handbücher her: [Werkzeuge, Handbücher](^tools/handbooks)",
   "item.c0de.guide_book": "c0de-Anleitung",
   "book.c0de.data.name": "c0de Daten",
   "book.c0de.data.landing_text": "Dieses Buch zeigt die Blöcke, die Daten beschreiben. Typblöcke sagen, welche Art von Wert etwas enthält. LABEL, LITERAL, VARIABLE, CONSTANT und TAG benennen Werte, enthalten sie und speichern sie.\n\nJede Seite zeigt, was ein Block tut, wie du ihn herstellst, und ein kurzes Beispiel. Die Beispiele verwenden die Textschreibweise der Anleitung: Eine Textzeile ist eine Zeile auf dem Blatt, und vier Leerzeichen bedeuten einen Block weiter nach Osten.",

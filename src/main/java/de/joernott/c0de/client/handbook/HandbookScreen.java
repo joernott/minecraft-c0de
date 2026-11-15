@@ -122,7 +122,7 @@ public class HandbookScreen extends Screen {
         PageCompiler compiler = compiler();
         switch (target.kind()) {
             case LANDING -> {
-                compiler.add(new Element.Title(title));
+                compiler.add(Element.Title.of(font, title));
                 markdown(compiler, Component.translatable(book.landing()).getString());
                 compiler.visitPageBreak();
                 for (HandbookContent.Category category : book.categories()) {
@@ -135,7 +135,7 @@ public class HandbookScreen extends Screen {
                 if (category == null) {
                     return null;
                 }
-                compiler.add(new Element.Title(Component.literal(category.title())));
+                compiler.add(Element.Title.of(font, Component.literal(category.title())));
                 markdown(compiler, category.markdown());
                 compiler.visitPageBreak();
                 for (HandbookContent.Entry entry : category.entries()) {
@@ -148,7 +148,7 @@ public class HandbookScreen extends Screen {
                 if (entry == null) {
                     return null;
                 }
-                compiler.add(new Element.Title(Component.literal(entry.title())));
+                compiler.add(Element.Title.of(font, Component.literal(entry.title())));
                 markdown(compiler, entry.markdown());
             }
         }

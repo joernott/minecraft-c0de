@@ -22,7 +22,10 @@ public final class HandbookFeatures {
                 new PageBreak());
     }
 
-    /** {@code `code`} (dark blue) and program examples between lines of {@code ```} (every line as written). */
+    /**
+     * {@code `code`} (dark blue) and program examples between lines of {@code ```} (every line as written; c0de
+     * programs, {@code ```c0de}, in the colours of their keywords).
+     */
     static final class Code implements MarkdownFeature {
         @Override
         public String name() {
@@ -41,7 +44,8 @@ public final class HandbookFeatures {
                     return false;
                 }
                 // The rest of the first line names the language
-                if (nibbler.consumeUntil('\n') == null) {
+                String language = nibbler.consumeUntil('\n');
+                if (language == null) {
                     return false;
                 }
                 List<String> lines = new ArrayList<>();
@@ -51,13 +55,13 @@ public final class HandbookFeatures {
                     if (next != '\n') {
                         line.append(next);
                         if (!nibbler.hasNext() && line.toString().strip().equals("```")) {
-                            tokens.add(new BlockToken(lines));
+                            tokens.add(new BlockToken(language.strip(), lines));
                             return true;
                         }
                         continue;
                     }
                     if (line.toString().strip().equals("```")) {
-                        tokens.add(new BlockToken(lines));
+                        tokens.add(new BlockToken(language.strip(), lines));
                         return true;
                     }
                     lines.add(line.toString().stripTrailing());
@@ -84,7 +88,7 @@ public final class HandbookFeatures {
                             .addChild(new Parser.TextNode(token.code)),
                     (token, tokens) -> token instanceof InlineToken code ? code : null);
             registrar.registerNode(
-                    (parser, token, tokens) -> new Visit(compiler -> compiler.visitCode(token.lines)),
+                    (parser, token, tokens) -> new Visit(compiler -> compiler.visitCode(token.language, token.lines)),
                     (token, tokens) -> token instanceof BlockToken block ? block : null);
         }
 
@@ -98,10 +102,12 @@ public final class HandbookFeatures {
         }
 
         private static final class BlockToken extends Lexer.Token {
+            final String language;
             final List<String> lines;
 
-            BlockToken(List<String> lines) {
+            BlockToken(String language, List<String> lines) {
                 super(String.join("\n", lines));
+                this.language = language;
                 this.lines = List.copyOf(lines);
             }
         }

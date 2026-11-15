@@ -770,3 +770,9 @@ The item for the guildes should be changed so that it looks more like a red bind
 ## 2026-11-15 – Start of the handbook implementation
 
 the label colors are fine, I could not find anything that states a different license for the textures, please start the implementation
+
+## 2026-11-15 – Test findings: titles, code colours, crafting the handbooks
+
+I had a look at the guides, the tests look good, except for these findings:
+If a headline is too long, it is cut off. On the page "The language", the headline "Lines and indentation" is cut off after "Lines". Also, all code examples are always wtritten in blue. Should they not use colors for the keywords?
+Also, the initial guide should have instructions on how to build the other guides.

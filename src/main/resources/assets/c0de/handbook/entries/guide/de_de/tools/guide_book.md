@@ -11,4 +11,6 @@ Diese Anleitung gibt es auch als Buch im Spiel: ein roter Ordner mit weißem Eti
 
 Für ein weiteres Exemplar stellst du ein Buch und einen PROGRAM-Block zusammen her, in beliebiger Anordnung.
 
+<recipe;c0de:guide_book>
+
 Im Buch blättern die Pfeile unten um, und der Pfeil in der Mitte geht zurück. Auch die Pfeiltasten und das Mausrad blättern um, und die Rücktaste geht zurück. Das Buch öffnet sich dort, wo du aufgehört hast.
