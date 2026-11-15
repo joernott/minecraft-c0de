@@ -4,7 +4,7 @@
 
 c0de has its own in-game books. Until 0.6.0, the guide and the handbooks were Patchouli books, which only existed where Patchouli was installed, and Patchouli and its forks aren't available for every Minecraft version c0de supports. Since 0.6.0, the books are part of c0de and work on every Minecraft version and both loaders, without other mods.
 
-The engine is based on [Lavender](https://github.com/wisp-forest/lavender) (MIT license): its Markdown processor [lavender-md](https://github.com/wisp-forest/lavender-md) is embedded, and the book screen follows Lavender's layout. Lavender itself builds on owo-lib, exists only for Fabric and ends at Minecraft 1.21.4, so the screen, the page layout and the recipes are written anew with the plain screen classes of Minecraft.
+The engine is based on [Lavender](https://github.com/wisp-forest/lavender) (MIT license): its Markdown processor [lavender-md](https://github.com/wisp-forest/lavender-md) is embedded, and the book screen started from Lavender's layout. Lavender itself builds on owo-lib, exists only for Fabric and ends at Minecraft 1.21.4, so the screen, the page layout and the recipes are written anew with the plain screen classes of Minecraft.
 
 ## The books
 
@@ -26,7 +26,7 @@ Every player gets the guide once, when they join a world with c0de: the player t
 
 ## Reading
 
-The book opens on a two-page spread:
+The book opens as an open red ring binder: two pages with a small gap between them and four metal rings across the gap. It takes about 80 % of the width and height of the screen (at most 1.75 times as wide as high, so that lines stay readable, and at least 267 × 180), and its pages are laid out for that size: a larger screen shows more text per page in the same font. It shows:
 
   - **The landing page**: the title of the book, its landing text and, on the right, the index of its categories.
   - **A category**: its description and the list of its entries. The guide has one category per chapter, a handbook one per `## ` section.
@@ -107,4 +107,4 @@ c0de no longer uses Patchouli: the Patchouli books, their recipes and the develo
 
 ## Licences
 
-The files taken from Lavender and lavender-md keep their MIT licence notice in a comment at the top. `NOTICE.md` in the repository and the jar names Lavender, lavender-md and the licence text. The red book texture of the screen comes from Lavender; the textures of the binders are drawn for c0de.
+The files taken from Lavender and lavender-md keep their MIT licence notice in a comment at the top. `NOTICE.md` in the repository and the jar names Lavender, lavender-md and the licence text. The page arrows and the crafting grid come from the red book texture of Lavender; the binder is drawn by c0de; the textures of the binders are drawn for c0de.
