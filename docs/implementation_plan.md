@@ -402,6 +402,7 @@ After sprint 12, every new Minecraft release is added as a new node in its own s
 | 16.14 | REGEX_MATCH and REGEX_REPLACE in c0de/strings: Java regular expressions (the PCRE syntax without recursion, conditionals and verbs), replacements with `\1` to `\9` and `&` like sed, the flags `g`, a number, `i` and `p` (PRINT if something was replaced); patterns that take too long raise INVALID_ARGUMENT (more than 1,000,000 reads of the text, or 10 per character of long texts). Unit tests, the program runner. | ✅ |
 | 16.15 | Documentation of 16.11–16.14: guide, handbooks in English and German, Patchouli, changelog. | ✅ |
 | 16.16 | Release 0.6.0 for all Minecraft versions (GitHub pre-release with the runner, the models and the schema; Modrinth and CurseForge). Checked before on the VM: build, GameTests of both loaders, the test servers with a persistent vault across leaving and joining again, c0de net 0.3.0 with 0.6.0. |  |
+| 16.16.1 | Version 0.6.0 in stonecutter.properties.toml, so the development clients and the VM test the version that will be released. | ✅ |
 
 ## Risks
 
