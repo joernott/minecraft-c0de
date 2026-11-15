@@ -52,9 +52,19 @@ zone: UTC                     # the time zone (UTC)
 columns: 48                   # the size of the screen for PRINT (48 x 20, like a laptop)
 rows: 20
 max_steps: 1000000            # the program is stopped after this many steps (1000000)
+vault:                        # the vault of the player who starts the program (none)
+  secrets:                    # the secrets in the vault, with type and value
+    apiKey: {type: STRING, value: abc}
+  persistent:                 # the persistent vault (none)
+    password: secret          # the password that opens it
+    open: false               # true if it is open already (false)
+    secrets:                  # the secrets in its file, added to the vault by OPEN_VAULT
+      token: {type: STRING, value: xyz}
 ```
 
 Parameters without a value in the file need a default value in the program. A program that waits for more INPUT than the file has is stopped.
+
+Without `vault`, the program has no vault: SECRET and the functions of c0de/security raise VAULT_UNAVAILABLE. With it, they work on the vault of the file in memory; CREATE_VAULT and OPEN_VAULT need a password, as there is nobody to ask (VAULT_CANCELLED without one). The runner never reads or writes KeePass files. Sensitive values that WRITE puts into items appear as `***` in `written` (see [Security](concept/20-lib-security.md)).
 
 The values of `parameters` and `input` are YAML values, converted to the type of the parameter or of the variable of INPUT like FROM_YAML does: numbers, strings and `true`/`false` as they are, arrays as lists and hashes and structs as maps, e.g. `{x: 1, y: 64, z: 2}` for a POSITION. (A laptop reads what the player types as JSON instead.) The values of `input` don't appear in `screen`: the runner shows only what the program prints.
 

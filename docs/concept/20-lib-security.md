@@ -189,8 +189,12 @@ The [program runner](../runner.md) has no players. Its options file MAY contain 
 ```yaml
 vault:
   secrets:
-    apiKey: { type: STRING, value: "abc", persistent: true }
-  persistent: { exists: true, password: "secret" }
+    apiKey: {type: STRING, value: abc}
+  persistent:
+    password: secret
+    open: false
+    secrets:
+      token: {type: STRING, value: xyz}
 ```
 
-Without `vault`, the process has no vault, and SECRET and c0de/security raise VAULT_UNAVAILABLE. With `vault`, the functions work on the secrets of the options in memory; CREATE_VAULT and OPEN_VAULT compare their password with `persistent.password` (a call without a password raises VAULT_CANCELLED, as there is nobody to ask). The runner never reads or writes KDBX files.
+Without `vault`, the process has no vault, and SECRET and c0de/security raise VAULT_UNAVAILABLE. With `vault`, the functions work on the secrets of the options in memory; without `persistent`, the player has no persistent vault. CREATE_VAULT and OPEN_VAULT compare their password with `persistent.password` (a call without a password raises VAULT_CANCELLED, as there is nobody to ask), and OPEN_VAULT adds `persistent.secrets` to the vault. The runner never reads or writes KDBX files.

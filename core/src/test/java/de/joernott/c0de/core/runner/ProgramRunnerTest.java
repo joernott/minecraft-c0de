@@ -60,6 +60,46 @@ class ProgramRunnerTest {
         assertTrue(ProgramRunner.succeeded(report));
     }
 
+    /** The vault of the options (task 16.8): secrets, the persistent vault and *** for sensitive values. */
+    @Test
+    void runsProgramsWithAVault() {
+        String program = """
+                PROGRAM keys
+                NOOP
+                INCLUDE c0de/security
+                NOOP
+                FUNCTION main
+                    RESULT key STRING
+                    RESULT token STRING
+                BEGIN
+                    SECRET apiKey STRING
+                    ASSIGN key apiKey ;
+                    CALL c0de/security/OPEN_VAULT
+                        PARAMETER password "secret" ;
+                    SECRET stored STRING
+                    ASSIGN token stored ;
+                    CALL WRITE
+                        PARAMETER value stored ;
+                END FUNCTION
+                """;
+        Map<String, Object> report = run(program, """
+                vault:
+                  secrets:
+                    apiKey: {type: STRING, value: abc}
+                  persistent:
+                    password: secret
+                    secrets:
+                      stored: {type: STRING, value: xyz}
+                """);
+        assertEquals("FINISHED", report.get("state"), () -> "report: " + report);
+        assertEquals(Map.of("key", "abc", "token", "xyz"), report.get("results"));
+        assertEquals(List.of(Map.of("stored", "***")), report.get("written"));
+
+        Map<String, Object> without = run(program, "");
+        assertEquals("CRASHED", without.get("state"));
+        assertEquals("VAULT_UNAVAILABLE", ((Map<?, ?>) without.get("error")).get("name"));
+    }
+
     @Test
     void reportsTheProblemsOfInvalidPrograms() {
         Map<String, Object> report = run("PROGRAM broken\nNOOP\nNOOP\nFUNCTION main\nBEGIN\nEND IF\n", "");

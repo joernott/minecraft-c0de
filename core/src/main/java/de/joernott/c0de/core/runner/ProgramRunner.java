@@ -11,6 +11,9 @@ import de.joernott.c0de.core.io.Console;
 import de.joernott.c0de.core.io.TextScreen;
 import de.joernott.c0de.core.library.LibraryProvider;
 import de.joernott.c0de.core.library.LibraryRegistry;
+import de.joernott.c0de.core.library.MemoryVault;
+import de.joernott.c0de.core.library.SecretText;
+import de.joernott.c0de.core.library.Vault;
 import de.joernott.c0de.core.library.minecraft.MinecraftLibraryDefinition;
 import de.joernott.c0de.core.library.standard.JsonValues;
 import de.joernott.c0de.core.library.standard.StandardLibraries;
@@ -25,6 +28,7 @@ import de.joernott.c0de.core.program.Statement;
 import de.joernott.c0de.core.validation.Problem;
 import de.joernott.c0de.core.validation.Validation;
 import de.joernott.c0de.core.validation.Validator;
+import de.joernott.c0de.core.value.DebugText;
 import de.joernott.c0de.core.value.StructValue;
 import de.joernott.c0de.core.value.Type;
 import de.joernott.c0de.core.value.Value;
@@ -70,6 +74,7 @@ public final class ProgramRunner {
      * @param columns the width of the screen
      * @param rows the height of the screen
      * @param maxSteps the number of steps after which the program is stopped
+     * @param vault the vault of the process as YAML tree (docs/concept/20-lib-security.md), or null for none
      */
     public record Options(
             String function,
@@ -81,7 +86,8 @@ public final class ProgramRunner {
             ZoneId zone,
             int columns,
             int rows,
-            int maxSteps) {
+            int maxSteps,
+            Object vault) {
         public static final Options DEFAULT = new Options(
                 "main",
                 Map.of(),
@@ -92,7 +98,8 @@ public final class ProgramRunner {
                 ZoneId.of("UTC"),
                 48,
                 20,
-                1_000_000);
+                1_000_000,
+                null);
 
         public Options {
             parameters = Map.copyOf(parameters);
@@ -122,6 +129,7 @@ public final class ProgramRunner {
             int columns = o.columns;
             int rows = o.rows;
             int maxSteps = o.maxSteps;
+            Object vault = o.vault;
             for (Map.Entry<?, ?> entry : map.entrySet()) {
                 Object value = entry.getValue();
                 switch (String.valueOf(entry.getKey())) {
@@ -135,10 +143,69 @@ public final class ProgramRunner {
                     case "columns" -> columns = (int) number(value, "columns");
                     case "rows" -> rows = (int) number(value, "rows");
                     case "max_steps" -> maxSteps = (int) number(value, "max_steps");
+                    case "vault" -> {
+                        vault = value;
+                        vault(value);
+                    }
                     default -> throw new IllegalArgumentException("Unknown option: " + entry.getKey());
                 }
             }
-            return new Options(function, parameters, input, keys, seed, time, zone, columns, rows, maxSteps);
+            return new Options(function, parameters, input, keys, seed, time, zone, columns, rows, maxSteps, vault);
+        }
+
+        /**
+         * A new vault from the option {@code vault}: {@code secrets} by name with {@code type} and {@code value},
+         * and {@code persistent} with {@code password}, {@code open} and its {@code secrets}. Null without the
+         * option.
+         *
+         * @throws IllegalArgumentException for unknown keys or values that don't fit
+         */
+        public static MemoryVault vault(Object tree) {
+            if (tree == null) {
+                return null;
+            }
+            Map<String, Object> options = stringMap(tree, "vault");
+            MemoryVault vault = new MemoryVault();
+            for (Map.Entry<String, Object> option : options.entrySet()) {
+                switch (option.getKey()) {
+                    case "secrets" -> secrets(option.getValue(), false).forEach(vault::withSecret);
+                    case "persistent" -> {
+                        Map<String, Object> persistent = stringMap(option.getValue(), "vault.persistent");
+                        String password = "";
+                        boolean open = false;
+                        List<Vault.Secret> stored = List.of();
+                        for (Map.Entry<String, Object> entry : persistent.entrySet()) {
+                            switch (entry.getKey()) {
+                                case "password" -> password = String.valueOf(entry.getValue());
+                                case "open" -> open = Boolean.TRUE.equals(entry.getValue());
+                                case "secrets" -> stored = secrets(entry.getValue(), true);
+                                default ->
+                                    throw new IllegalArgumentException(
+                                            "Unknown option: vault.persistent." + entry.getKey());
+                            }
+                        }
+                        if (password.isEmpty()) {
+                            throw new IllegalArgumentException("The persistent vault needs a password");
+                        }
+                        vault.withPersistent(password, open, stored);
+                    }
+                    default -> throw new IllegalArgumentException("Unknown option: vault." + option.getKey());
+                }
+            }
+            return vault;
+        }
+
+        private static List<Vault.Secret> secrets(Object tree, boolean persistent) {
+            List<Vault.Secret> secrets = new ArrayList<>();
+            stringMap(tree, "vault.secrets").forEach((name, secret) -> {
+                Map<String, Object> properties = stringMap(secret, "vault.secrets." + name);
+                Object value = properties.get("value");
+                Value parsed = SecretText.parse(
+                        String.valueOf(properties.getOrDefault("type", "STRING")),
+                        value == null ? "" : String.valueOf(value));
+                secrets.add(new Vault.Secret(name, parsed, persistent));
+            });
+            return secrets;
         }
 
         private static Map<String, Object> stringMap(Object value, String name) {
@@ -208,7 +275,7 @@ public final class ProgramRunner {
             report.put("valid", false);
             return report;
         }
-        RunnerConsole console = new RunnerConsole(options);
+        RunnerConsole console = new RunnerConsole(options, Options.vault(options.vault()));
         CursorSettings settings = new CursorSettings(
                 CursorSettings.DEFAULT_STACK_SIZE,
                 withMinecraft(libraries),
@@ -469,13 +536,15 @@ public final class ProgramRunner {
     }
 
     /** The devices of a program in the runner: one screen, the values for INPUT and the keys for INKEY. */
-    private static final class RunnerConsole implements Console {
+    private static final class RunnerConsole implements Console, Vault.Provider {
+        private final Vault vault;
         private final TextScreen screen;
         private final Deque<Object> input;
         private final Deque<String> keys = new ArrayDeque<>();
         private final List<Map<String, Object>> written = new ArrayList<>();
 
-        RunnerConsole(Options options) {
+        RunnerConsole(Options options, Vault vault) {
+            this.vault = vault == null ? Vault.NONE : vault;
             screen = new TextScreen(options.columns(), options.rows(), 0);
             input = new ArrayDeque<>(options.input());
             options.keys().codePoints().forEach(key -> keys.add(Character.toString(key)));
@@ -499,8 +568,19 @@ public final class ProgramRunner {
         }
 
         @Override
+        public Vault vault() {
+            return vault;
+        }
+
+        @Override
         public boolean write(String name, Value value) {
-            written.add(Map.of(name, JsonValues.tree(value)));
+            return write(name, value, false);
+        }
+
+        /** A sensitive value is reported as *** (docs/concept/20-lib-security.md). */
+        @Override
+        public boolean write(String name, Value value, boolean hidden) {
+            written.add(Map.of(name, hidden ? DebugText.HIDDEN : JsonValues.tree(value)));
             return true;
         }
 
