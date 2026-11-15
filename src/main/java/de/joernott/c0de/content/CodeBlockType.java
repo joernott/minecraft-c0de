@@ -30,6 +30,7 @@ public enum CodeBlockType {
     TYPE_ERROR(Keyword.ERROR, Shape.SOLID, false),
     VARIABLE(Keyword.VARIABLE),
     CONSTANT(Keyword.CONSTANT),
+    SECRET(Keyword.SECRET),
     LITERAL(null, Shape.SOLID, true),
     TAG(null, Shape.SOLID, true),
     OPERATOR(null, Shape.SOLID, true),

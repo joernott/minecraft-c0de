@@ -3,7 +3,7 @@
 All language blocks are as high as a slab (8 pixels). Their colors don't change with the state of the line; the
 line numbers on the floor show it. Most blocks are slabs with their symbol on the top. Some have a shape instead:
   - PARAMETER is a hopper and RESULT an upside-down hopper, both scaled to half their size,
-  - VARIABLE is a chest and CONSTANT a barrel, scaled to the height of a slab,
+  - VARIABLE is a chest and CONSTANT a barrel (SECRET a barrel with a padlock), scaled to the height of a slab,
   - OPERATOR is the symbol of its operator and COMMENT two slashes, extruded from the floor,
   - INCLUDE carries a bookshelf, as if it lay in an invisible item frame,
   - BEGIN, END, PROGRAM, LITERAL, ASSIGN, IF, ELSE and the loops (FOR, EACH, WHILE, REPEAT) are slabs in their
@@ -257,8 +257,9 @@ def block_model(name: str, bid: str, transparent: bool) -> dict:
         return shaped(elements, {n: texture("parameter_block_" + n) for n in ("outside", "top", "inside")})
     if name == "VARIABLE":
         return shaped(chest(), {n: texture("variable_block_" + n) for n in ("side", "top", "front", "latch")})
-    if name == "CONSTANT":
-        return shaped(barrel(), {n: texture("constant_block_" + n) for n in ("side", "top")})
+    if name in ("CONSTANT", "SECRET"):
+        prefix = name.lower() + "_block_"
+        return shaped(barrel(), {n: texture(prefix + n) for n in ("side", "top")})
     if name in ("BEGIN", "END"):
         return slab(texture(bid), texture("begin_block_side"))
     if name == "PROGRAM":

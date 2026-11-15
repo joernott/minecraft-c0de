@@ -75,7 +75,7 @@ public final class CodeBlockShapes {
             case END -> TRAPEZOID_NARROW_IN_SOUTH;
             case PROGRAM -> HALF_ROUND;
             case LITERAL -> OCTAGON;
-            case VARIABLE, CONSTANT -> HALF_WIDTH;
+            case VARIABLE, CONSTANT, SECRET -> HALF_WIDTH;
             case OPERATOR, COMMENT -> FLAT;
             case ASSIGN -> TRIANGLE;
             case IF, ELSE -> DIAMOND;

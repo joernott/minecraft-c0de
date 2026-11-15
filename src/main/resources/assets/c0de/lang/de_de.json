@@ -131,6 +131,7 @@
   "block.c0de.type_error_block": "ERROR-Typblock",
   "block.c0de.variable_block": "VARIABLE-Block",
   "block.c0de.constant_block": "CONSTANT-Block",
+  "block.c0de.secret_block": "SECRET-Block",
   "block.c0de.literal_block": "LITERAL-Block",
   "block.c0de.tag_block": "TAG-Block",
   "block.c0de.operator_block": "OPERATOR-Block",

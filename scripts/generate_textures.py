@@ -593,6 +593,23 @@ def barrel_side(seed: str) -> Image:
     return image
 
 
+def padlocked(image: Image) -> Image:
+    """A golden padlock on the side of the barrel of the SECRET block (task 16.2)."""
+    gold, dark = rgb(0xE8B828), rgb(0x8A6410)
+    # The shackle: an arch above the body
+    for y in range(4, 8):
+        for x in (6, 9):
+            image[y][x] = rgb(0xB0B4BC)
+    for x in range(6, 10):
+        image[4][x] = rgb(0xB0B4BC)
+    # The body with a keyhole
+    for y in range(7, 12):
+        for x in range(5, 11):
+            image[y][x] = dark if y in (7, 11) or x in (5, 10) else gold
+    image[9][7] = image[9][8] = image[10][8] = rgb(0x202020)
+    return image
+
+
 def barrel_top(seed: str) -> Image:
     """The lid of the barrel: a rim and a darker lid with a hole in the middle."""
     image = concrete(CHEST_BLUE, seed, 6)
@@ -791,6 +808,9 @@ def code_block_textures(blocks: Path) -> None:
     write_png(blocks / "variable_block_latch.png", latch())
     write_png(blocks / "constant_block_side.png", barrel_side("constant_block_side"))
     write_png(blocks / "constant_block_top.png", barrel_top("constant_block_top"))
+    # SECRET: the barrel with a padlock
+    write_png(blocks / "secret_block_side.png", padlocked(barrel_side("secret_block_side")))
+    write_png(blocks / "secret_block_top.png", barrel_top("secret_block_top"))
     # OPERATOR: the extruded symbol
     write_png(blocks / "operator_block.png", concrete(0xAA0000, "operator_block", 4))
     write_png(blocks / "operator_block_side.png", concrete(0x770000, "operator_block_side", 4))
