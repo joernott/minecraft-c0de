@@ -139,6 +139,7 @@ public final class PageCompiler implements MarkdownCompiler<List<List<Element>>>
         flush();
         gap();
         int space = font.width(" ");
+        List<Element> code = new ArrayList<>();
         for (int number = 0; number < lines.size(); number++) {
             String line = lines.get(number);
             // Green and white stripes like the greenbar paper of the sheets, starting with green
@@ -146,14 +147,20 @@ public final class PageCompiler implements MarkdownCompiler<List<List<Element>>>
             String stripped = line.stripLeading();
             int indent = Math.min(width / 2, (line.length() - stripped.length()) * space);
             String text = stripped.isEmpty() ? " " : stripped;
-            MutableComponent code = language.equals("c0de")
+            MutableComponent coloured = language.equals("c0de")
                     ? C0deHighlighter.line(text)
                     : Component.literal(text).withStyle(ChatFormatting.DARK_BLUE);
-            List<FormattedCharSequence> wrapped = font.split(code, width - indent - LIST_INDENT);
+            List<FormattedCharSequence> wrapped = font.split(coloured, width - indent - LIST_INDENT);
             for (int i = 0; i < wrapped.size(); i++) {
-                place(new Element.Line(wrapped.get(i), indent + (i > 0 ? LIST_INDENT : 0), null, 0, false, background));
+                code.add(new Element.Line(wrapped.get(i), indent + (i > 0 ? LIST_INDENT : 0), null, 0, false, background));
             }
         }
+        // An example that fits on a page isn't split: it starts on the next page if this one is too full
+        int total = code.stream().mapToInt(Element::height).sum();
+        if (total <= height && used + total > height && !page.isEmpty()) {
+            newPage();
+        }
+        code.forEach(this::place);
         gapPending = true;
     }
 
