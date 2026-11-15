@@ -6,4 +6,4 @@
 }
 ```
 
-A program on a sheet does nothing by itself. Trigger blocks start it, feed it data and collect its results. A running program is called a **process**.
+A program on a sheet does nothing by itself. [Trigger blocks](^running_programs/three_trigger_blocks) start it, feed it data and collect its results. A running program is called a **process**.

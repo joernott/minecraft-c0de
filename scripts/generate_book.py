@@ -19,6 +19,7 @@ Usage: python scripts/generate_content.py (which calls this script)
 """
 
 import json
+import posixpath
 import re
 import shutil
 from pathlib import Path
@@ -134,11 +135,18 @@ KEYWORD_PATTERNS = (
 MAIN_RECIPES = {"variable_item": "variable_item_uninitialized", "constant_item": "constant_item_uninitialized"}
 RECIPES_TITLE = {"en_us": "Recipes", "de_de": "Rezepte"}
 
-# The targets of links between the files of the guide: (language, file, anchor) -> book link; filled before the
-# pages are written ("" is the anchor of the file itself, which links to its category)
-LINKS: dict[tuple[str, str, str], str] = {}
-# The language and file whose text is converted, for links within the same file
-CURRENT = {"language": ENGLISH, "file": ""}
+# The targets of links between the files of the documentation: (language, path below the folder of the language,
+# e.g. guide/04-tools.md, anchor) -> (book, target in the book); filled before the pages are written ("" is the
+# anchor of the file itself, which links to its category in the guide and to the landing page of a handbook)
+LINKS: dict[tuple[str, str, str], tuple[str, str]] = {}
+# The language, the file (e.g. guide/04-tools.md) and the book whose text is converted
+CURRENT = {"language": ENGLISH, "path": "", "book": ""}
+
+# The colours of the labels of the binders (as in scripts/generate_textures.py)
+LABEL_COLORS = {
+    "guide": "#F2F2F2", "statements": "#F2D33A", "data": "#7EC8F0", "devices": "#5CBF4A",
+    "functions": "#F08A24", "tools": "#9A9A9A", "triggers": "#9B59C9",
+}
 
 # The icons of the categories, by the file name without its number
 ICONS = {
@@ -196,13 +204,22 @@ def inline(text: str) -> str:
 
 
 def book_link(target: str) -> str | None:
-    """The book link of a link to a section or a file of the guide, e.g. 04-tools.md#wrench -> ^tools/wrench."""
+    """The book link of a link to a section or a file of the documentation: within the same book, e.g.
+    04-tools.md#wrench -> ^tools/wrench, into another book of c0de, e.g. ../reference/tools.md#wrench ->
+    ^c0de:tools/editing_tools/wrench."""
     file, _, section = target.partition("#")
-    return LINKS.get((CURRENT["language"], file or CURRENT["file"], section))
+    path = posixpath.normpath(posixpath.join(posixpath.dirname(CURRENT["path"]), file)) if file else CURRENT["path"]
+    found = LINKS.get((CURRENT["language"], path, section))
+    if found is None:
+        return None
+    book, inside = found
+    if book == CURRENT["book"]:
+        return "^" + inside if inside else None
+    return "^c0de:" + book + ("/" + inside if inside else "")
 
 
 def guide_links() -> None:
-    """The book links of all files and sections of the guide in all languages."""
+    """The book links of all files and sections of the guide and the handbooks in all languages."""
     for path in sorted(GUIDE.glob("[0-9][0-9]-*.md")):
         category = slug(path.stem[3:])
         _, _, english = guide_structure(path)
@@ -211,9 +228,25 @@ def guide_links() -> None:
             if not source.exists():
                 continue
             _, _, sections = guide_structure(source)
-            LINKS[(language, path.name, "")] = "^" + category
+            key = "guide/" + path.name
+            LINKS[(language, key, "")] = (BOOK, category)
             for index, (heading, _) in enumerate(sections):
-                LINKS[(language, path.name, anchor(heading))] = "^" + category + "/" + slug(english[index][0])
+                LINKS[(language, key, anchor(heading))] = (BOOK, category + "/" + slug(english[index][0]))
+    for book, _ in HANDBOOKS:
+        _, _, english = handbook_structure(REFERENCE / (book + ".md"))
+        for language, folder in LANGUAGES.items():
+            source = folder / "reference" / (book + ".md")
+            if not source.exists():
+                continue
+            _, _, categories = handbook_structure(source)
+            key = "reference/" + book + ".md"
+            LINKS[(language, key, "")] = (book, "")
+            for number, (title, _, elements) in enumerate(categories):
+                category = slug(english[number][0])
+                LINKS[(language, key, anchor(title))] = (book, category)
+                for position, (name, _) in enumerate(elements):
+                    entry = slug(english[number][2][position][0])
+                    LINKS[(language, key, anchor(name))] = (book, category + "/" + entry)
 
 
 def mentioned_items(lines: list[str], keywords: bool) -> list[str]:
@@ -336,6 +369,7 @@ def book_files(book: str, language: str, name: str, landing: str, ingredient: st
         "name": "book.c0de." + book + ".name",
         "landing_text": "book.c0de." + book + ".landing_text",
         "texture": "c0de:textures/gui/handbook.png",
+        "color": LABEL_COLORS[book],
     })
     write(RECIPES / (book + "_book.json"), {
         "type": "minecraft:crafting_shapeless",
@@ -388,10 +422,9 @@ def guide(language: str) -> None:
         matching(sections, english, str(source))
         category = slug(name)
         icon = ICONS.get(name, "c0de:noop_block")
+        CURRENT.update(language=language, path="guide/" + path.name, book=BOOK)
         write_page(categories / (category + ".md"), {"title": title, "icon": icon, "ordinal": number},
                    text_only(intro))
-        CURRENT["language"] = language
-        CURRENT["file"] = path.name
         for index, (heading, section) in enumerate(sections):
             page = markdown(section)
             # The recipes of the items the English section names (the translation names the same ones)
@@ -483,6 +516,7 @@ def handbooks(language: str) -> None:
         matching(categories, english, str(path))
         category_folder = language_folder(HANDBOOK / "categories" / book, language)
         entry_folder = language_folder(HANDBOOK / "entries" / book, language)
+        CURRENT.update(language=language, path="reference/" + book + ".md", book=book)
         book_files(book, language, "c0de " + title, text_only(intro), ingredient)
         item = ingredient.split(":")[1].replace("_", " ") if language == ENGLISH else INGREDIENTS_DE[ingredient]
         index += ["## [" + title + "](" + book + ".md)", "", texts["crafted"].format(item), ""]
@@ -544,7 +578,6 @@ def main() -> None:
     guide_links()
     for language in LANGUAGES:
         guide(language)
-        CURRENT["file"] = ""
         handbooks(language)
 
 

@@ -1,5 +1,6 @@
 {
   "name": "book.c0de.triggers.name",
   "landing_text": "book.c0de.triggers.landing_text",
-  "texture": "c0de:textures/gui/handbook.png"
+  "texture": "c0de:textures/gui/handbook.png",
+  "color": "#9B59C9"
 }

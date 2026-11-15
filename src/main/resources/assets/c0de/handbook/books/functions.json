@@ -1,5 +1,6 @@
 {
   "name": "book.c0de.functions.name",
   "landing_text": "book.c0de.functions.landing_text",
-  "texture": "c0de:textures/gui/handbook.png"
+  "texture": "c0de:textures/gui/handbook.png",
+  "color": "#F08A24"
 }

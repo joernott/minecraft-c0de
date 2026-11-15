@@ -132,6 +132,24 @@ public class FabricClientGameTests implements FabricClientGameTest {
         if (!"tools/wrench".equals(opened)) {
             throw new AssertionError("The link to tools/wrench opened " + opened);
         }
+        // A link into another book opens that book (task 17.2)
+        context.runOnClient(client -> ((de.joernott.c0de.client.handbook.HandbookScreen)
+                de.joernott.c0de.client.ClientCompat.screen()).followLink(
+                        de.joernott.c0de.client.handbook.md.feature.LinkFeature.LINK + "^c0de:tools/editing_tools/wrench"));
+        context.waitTicks(2);
+        String other = context.computeOnClient(client -> ((de.joernott.c0de.client.handbook.HandbookScreen)
+                de.joernott.c0de.client.ClientCompat.screen()).bookAndShownId());
+        if (!"c0de:tools editing_tools/wrench".equals(other)) {
+            throw new AssertionError("The link into the handbook Tools opened " + other);
+        }
+        handbookPage(context, "c0de-handbook-other-book");
+        // The generic binder of a book is named after it (task 17.3)
+        String name = context.computeOnClient(client -> de.joernott.c0de.item.HandbookItem.stack(
+                        de.joernott.c0de.content.C0deItems.HANDBOOK.get(), "c0de:tools", 0x9A9A9A)
+                .getHoverName().getString());
+        if (!"c0de Tools".equals(name)) {
+            throw new AssertionError("The generic binder of c0de:tools is called " + name);
+        }
         context.setScreen(() -> null);
         context.runOnClient(client -> de.joernott.c0de.client.handbook.HandbookScreen.open("tools"));
         context.waitForScreen(de.joernott.c0de.client.handbook.HandbookScreen.class);

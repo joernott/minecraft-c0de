@@ -1,5 +1,6 @@
 {
   "name": "book.c0de.statements.name",
   "landing_text": "book.c0de.statements.landing_text",
-  "texture": "c0de:textures/gui/handbook.png"
+  "texture": "c0de:textures/gui/handbook.png",
+  "color": "#F2D33A"
 }

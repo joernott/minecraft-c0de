@@ -6,4 +6,4 @@
 }
 ```
 
-c0de bringt fertige Funktionen mit. Einige sind eingebaut und immer da. Die anderen sind in Bibliotheken zusammengefasst, die du mit einer INCLUDE-Zeile lädst.
+c0de bringt fertige Funktionen mit. Einige sind eingebaut und immer da. Die anderen sind in Bibliotheken zusammengefasst, die du mit einer [INCLUDE-Zeile](^libraries/including_libraries) lädst.

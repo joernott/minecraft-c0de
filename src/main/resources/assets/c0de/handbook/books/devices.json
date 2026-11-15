@@ -1,5 +1,6 @@
 {
   "name": "book.c0de.devices.name",
   "landing_text": "book.c0de.devices.landing_text",
-  "texture": "c0de:textures/gui/handbook.png"
+  "texture": "c0de:textures/gui/handbook.png",
+  "color": "#5CBF4A"
 }

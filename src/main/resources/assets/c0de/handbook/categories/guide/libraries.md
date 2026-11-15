@@ -6,4 +6,4 @@
 }
 ```
 
-c0de comes with ready-made functions. A few are built in and always there. The others are grouped in libraries, which you load with an INCLUDE line.
+c0de comes with ready-made functions. A few are built in and always there. The others are grouped in libraries, which you load with an [INCLUDE line](^libraries/including_libraries).

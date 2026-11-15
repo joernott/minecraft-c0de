@@ -94,14 +94,49 @@ public class HandbookScreen extends Screen {
         this.view = remembered != null ? remembered : new View(Kind.LANDING, "", 0);
     }
 
-    /** Opens a handbook, e.g. {@code guide}; logs a warning if its content is missing. */
+    /**
+     * Opens a handbook, e.g. {@code guide} or {@code c0de_net:net}, where it was open the last time; logs a warning
+     * if its content is missing.
+     */
     public static void open(String bookId) {
+        openAt(bookId, "");
+    }
+
+    /**
+     * Opens a handbook at a category or entry ({@code target}, e.g. {@code editing_tools/wrench}), or where it was
+     * open the last time if target is empty. Links into other books use it.
+     */
+    public static void openAt(String bookId, String target) {
         Minecraft minecraft = Minecraft.getInstance();
         String language = minecraft.getLanguageManager().getSelected();
         HandbookContent.load(minecraft.getResourceManager(), bookId, language).ifPresentOrElse(book -> {
-            de.joernott.c0de.client.ClientCompat.setScreen(new HandbookScreen(book));
+            HandbookScreen screen = new HandbookScreen(book);
+            if (!target.isEmpty()) {
+                screen.view = screen.viewOf(target);
+            }
+            de.joernott.c0de.client.ClientCompat.setScreen(screen);
             minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.BOOK_PAGE_TURN, 1.0F));
         }, () -> de.joernott.c0de.C0de.LOGGER.warn("The handbook {} has no content", bookId));
+    }
+
+    /** The view of a target of a link in this book: an entry, or a category if there is no such entry. */
+    private View viewOf(String target) {
+        if (book.entries().containsKey(target) || book.category(target).isEmpty()) {
+            return book.entry(target)
+                    .map(entry -> new View(Kind.ENTRY, entry.id(), 0))
+                    .orElse(new View(Kind.LANDING, "", 0));
+        }
+        return new View(Kind.CATEGORY, target, 0);
+    }
+
+    /** The book of a link into another book ({@code namespace:book/...}), or null for a link within this book. */
+    private static String[] otherBook(String target) {
+        int slash = target.indexOf('/');
+        String first = slash < 0 ? target : target.substring(0, slash);
+        if (!first.contains(":")) {
+            return null;
+        }
+        return new String[] {first, slash < 0 ? "" : target.substring(slash + 1)};
     }
 
     public Font font() {
@@ -227,6 +262,11 @@ public class HandbookScreen extends Screen {
         navigate(new View(Kind.ENTRY, id, 0));
     }
 
+    /** The ID of the book and of the category or entry shown, e.g. {@code c0de:tools editing_tools/wrench}. */
+    public String bookAndShownId() {
+        return book.id() + " " + view.id();
+    }
+
     /** The ID of the category or entry shown, empty on the landing page. */
     public String shownId() {
         return view.id();
@@ -284,8 +324,8 @@ public class HandbookScreen extends Screen {
     }
 
     /**
-     * Follows a link: {@code ^entry} opens an entry of the book, {@code ^category} a category, other links open in
-     * the browser.
+     * Follows a link: {@code ^entry} opens an entry of the book, {@code ^category} a category,
+     * {@code ^namespace:book/...} another book, other links open in the browser.
      */
     public boolean followLink(String insertion) {
         if (!insertion.startsWith(LinkFeature.LINK)) {
@@ -294,10 +334,14 @@ public class HandbookScreen extends Screen {
         String link = insertion.substring(LinkFeature.LINK.length());
         if (link.startsWith("^")) {
             String target = link.substring(1);
-            if (book.entries().containsKey(target) || book.category(target).isEmpty()) {
-                book.entry(target).ifPresent(entry -> navigate(new View(Kind.ENTRY, entry.id(), 0)));
-            } else {
-                navigate(new View(Kind.CATEGORY, target, 0));
+            String[] other = otherBook(target);
+            if (other != null && !HandbookContent.id(other[0]).equals(book.id())) {
+                openAt(other[0], other[1]);
+                return true;
+            }
+            View next = viewOf(other != null ? other[1] : target);
+            if (next.kind() != Kind.LANDING || (other != null && other[1].isEmpty())) {
+                navigate(next);
             }
             return true;
         }
@@ -316,10 +360,23 @@ public class HandbookScreen extends Screen {
     void linkTooltip(String insertion) {
         if (insertion.startsWith(LinkFeature.LINK)) {
             String link = insertion.substring(LinkFeature.LINK.length());
+            Component text = Component.literal(link);
             if (link.startsWith("^")) {
-                link = book.entry(link.substring(1)).map(HandbookContent.Entry::title).orElse(link);
+                String target = link.substring(1);
+                String[] other = otherBook(target);
+                if (other != null && !HandbookContent.id(other[0]).equals(book.id())) {
+                    // Another book: its name, and the last part of the target
+                    String id = HandbookContent.id(other[0]);
+                    text = Component.translatable("book." + id.replace(':', '.') + ".name");
+                    if (!other[1].isEmpty()) {
+                        text = text.copy().append(" › " + other[1].substring(other[1].lastIndexOf('/') + 1));
+                    }
+                } else {
+                    String inBook = other != null ? other[1] : target;
+                    text = Component.literal(book.entry(inBook).map(HandbookContent.Entry::title).orElse(inBook));
+                }
             }
-            textTooltip = List.of(Component.literal(link).getVisualOrderText());
+            textTooltip = List.of(text.getVisualOrderText());
         }
     }
 
