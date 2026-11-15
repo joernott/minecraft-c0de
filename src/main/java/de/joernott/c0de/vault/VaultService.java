@@ -26,6 +26,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.OptionalInt;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
@@ -46,8 +47,8 @@ public final class VaultService {
     private static final Map<UUID, PlayerVault> VAULTS = new ConcurrentHashMap<>();
 
     /**
-     * Answers in place of a client, for GameTests whose mock players have no client: it gets the request of the
-     * player and returns the answer, or null to send the request to the client.
+     * Answers in place of a client, for GameTests whose mock players have no client: it gets the requests of all
+     * players instead of their clients and answers them in the background.
      */
     private static volatile ClientStandIn standIn;
 
@@ -331,9 +332,15 @@ public final class VaultService {
             operation.onDone = onDone;
             pending.put(process, operation);
             ClientStandIn current = standIn;
-            VaultMessages.Answer answer = current == null ? null : current.answer(player, action, request);
-            if (answer != null) {
-                answered(server, operation, answer);
+            if (current != null) {
+                // Like a client, the stand-in encrypts in the background and answers in a later tick
+                Operation started = operation;
+                CompletableFuture.supplyAsync(() -> current.answer(player, action, request))
+                        .thenAccept(answer -> server.execute(() -> {
+                            if (started.outcome == Vault.Outcome.PENDING) {
+                                answered(server, started, answer);
+                            }
+                        }));
             } else {
                 ServerPlayer target = server.getPlayerList().getPlayer(player);
                 if (target == null) {
