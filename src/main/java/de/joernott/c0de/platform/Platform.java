@@ -121,6 +121,12 @@ public sealed interface Platform {
     /** Calls the listener when a player leaves the server, also when it stops. */
     void onPlayerLeave(java.util.function.Consumer<ServerPlayer> listener);
 
+    /**
+     * A player that stands for an offline player, e.g. in the check of the spawn protection of MOVE_ITEMS (task
+     * 16.12). It is not added to the world.
+     */
+    ServerPlayer fakePlayer(net.minecraft.server.level.ServerLevel level, com.mojang.authlib.GameProfile profile);
+
     /** Calls the listener on the server when a player right-clicks a block, before the block reacts. */
     void onUseBlock(UseBlockListener listener);
 
@@ -355,6 +361,11 @@ public sealed interface Platform {
         }
 
         @Override
+        public ServerPlayer fakePlayer(net.minecraft.server.level.ServerLevel level, com.mojang.authlib.GameProfile profile) {
+            return net.fabricmc.fabric.api.entity.FakePlayer.get(level, profile);
+        }
+
+        @Override
         public void onPlayerLeave(java.util.function.Consumer<ServerPlayer> listener) {
             net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents.DISCONNECT.register(
                     (connection, server) -> listener.accept(connection.getPlayer()));
@@ -572,6 +583,11 @@ public sealed interface Platform {
                             listener.accept(player);
                         }
                     });
+        }
+
+        @Override
+        public ServerPlayer fakePlayer(net.minecraft.server.level.ServerLevel level, com.mojang.authlib.GameProfile profile) {
+            return net.neoforged.neoforge.common.util.FakePlayerFactory.get(level, profile);
         }
 
         @Override

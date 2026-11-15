@@ -260,6 +260,21 @@ public class FabricGameTests {
         ToolTests.bootsJumpAndPliersIndent(helper);
     }
 
+    @GameTest(template = SmokeTests.EMPTY_STRUCTURE, timeoutTicks = 100)
+    public void blockDataIsCopied(GameTestHelper helper) {
+        de.joernott.c0de.gametest.WorldAccessTests.blockDataIsCopied(helper);
+    }
+
+    @GameTest(template = SmokeTests.EMPTY_STRUCTURE, timeoutTicks = 100)
+    public void itemsAreMovedWithFilters(GameTestHelper helper) {
+        de.joernott.c0de.gametest.WorldAccessTests.itemsAreMovedWithFilters(helper);
+    }
+
+    @GameTest(template = SmokeTests.EMPTY_STRUCTURE, timeoutTicks = 100)
+    public void commandsNeedAdministrators(GameTestHelper helper) {
+        de.joernott.c0de.gametest.WorldAccessTests.commandsNeedAdministrators(helper);
+    }
+
     @GameTest(template = SmokeTests.EMPTY_STRUCTURE, timeoutTicks = 400)
     public void programsMineWithTools(GameTestHelper helper) {
         LibraryTests.programsMineWithTools(helper);

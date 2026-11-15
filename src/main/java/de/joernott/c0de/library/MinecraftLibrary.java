@@ -10,6 +10,7 @@ import de.joernott.c0de.core.library.Library;
 import de.joernott.c0de.core.library.NativeCall;
 import de.joernott.c0de.core.library.NativeFunction;
 import de.joernott.c0de.core.library.NativeResult;
+import de.joernott.c0de.core.library.minecraft.ItemFilter;
 import de.joernott.c0de.core.library.minecraft.MinecraftLibraryDefinition;
 import de.joernott.c0de.core.sheet.SheetGeometry;
 import de.joernott.c0de.core.value.ArrayValue;
@@ -116,7 +117,8 @@ public final class MinecraftLibrary implements Library {
             Map.entry("SPAWN_ITEM", MinecraftLibrary::spawnItem),
             Map.entry("SPAWN_ENTITY", MinecraftLibrary::spawnEntity),
             Map.entry("FIND_ENTITIES", MinecraftLibrary::findEntities),
-            Map.entry("TELEPORT", MinecraftLibrary::teleport)));
+            Map.entry("TELEPORT", MinecraftLibrary::teleport),
+            Map.entry("COMMAND", MinecraftLibrary::command)));
 
     @Override
     public String name() {
@@ -362,8 +364,14 @@ public final class MinecraftLibrary implements Library {
         results.put("properties", properties);
         results.put("power", new IntegerValue(place.level().getBestNeighborSignal(place.pos())));
         // The blocks GET_INVENTORY, MOVE_ITEMS and DELETE_ITEMS work with
+        BlockEntity blockEntity = place.level().getBlockEntity(place.pos());
+        results.put("has_inventory", BooleanValue.of(blockEntity instanceof Container));
+        // The data of the block entity as SNBT, without position and ID (task 16.11)
         results.put(
-                "has_inventory", BooleanValue.of(place.level().getBlockEntity(place.pos()) instanceof Container));
+                "data",
+                new StringValue(blockEntity == null
+                        ? ""
+                        : blockEntity.saveWithoutMetadata(place.level().registryAccess()).toString()));
         return NativeResult.of(results);
     }
 
@@ -431,44 +439,132 @@ public final class MinecraftLibrary implements Library {
         return NativeResult.none();
     }
 
+    /**
+     * MOVE_ITEMS (task 16.12): moves items like a player who carries them between two inventories they could open,
+     * so it isn't restricted. The items move at once, then the cursor waits one tick per stack per 128 blocks.
+     */
     private static NativeResult moveItems(NativeCall call) {
-        requirePermission(call, C0deConfig.ALLOW_INVENTORY_CHANGES);
-        Container from = container(place(call, "from"));
-        Container to = container(place(call, "to"));
-        Item item = item(text(call, "id"));
-        long wanted = integer(call, "count");
+        if (!C0de.config().get(C0deConfig.ENABLE_MOVE_ITEMS)) {
+            throw C0deException.of(
+                    ErrorCode.PERMISSION_DENIED, "MOVE_ITEMS is switched off in the configuration (enableMoveItems)");
+        }
+        ProcessHost host = host(call);
+        Place fromPlace = changeable(call, "from");
+        Place toPlace = changeable(call, "to");
+        if (fromPlace.level() != toPlace.level()) {
+            throw invalid("The inventories are in different dimensions");
+        }
+        if (isSamePlace(fromPlace, toPlace)) {
+            throw invalid("from and to are the same block " + fromPlace.pos().toShortString());
+        }
+        long quantity = integer(call, "quantity");
+        if (quantity == 0 || quantity < -1) {
+            throw invalid("The quantity is -1 (all items) or at least 1, not " + quantity);
+        }
+        ItemFilter filter = filter(call);
+        Container from = container(fromPlace);
+        Container to = container(toPlace);
+        requireAccess(host, fromPlace);
+        requireAccess(host, toPlace);
+        long wanted = quantity == -1 ? Long.MAX_VALUE : quantity;
         long moved = 0;
+        int stacks = 0;
         for (int i = 0; i < from.getContainerSize() && moved < wanted; i++) {
             ItemStack source = from.getItem(i);
-            if (!source.is(item)) {
+            if (source.isEmpty() || !filter.test(itemInfo(source))) {
                 continue;
             }
-            for (int j = 0; j < to.getContainerSize() && moved < wanted && !source.isEmpty(); j++) {
-                ItemStack target = to.getItem(j);
-                int space;
-                if (target.isEmpty()) {
-                    space = Math.min(source.getMaxStackSize(), to.getMaxStackSize());
-                } else if (ItemStack.isSameItemSameComponents(source, target)) {
-                    space = Math.min(target.getMaxStackSize(), to.getMaxStackSize()) - target.getCount();
-                } else {
-                    continue;
-                }
-                int amount = (int) Math.min(Math.min(space, source.getCount()), wanted - moved);
-                if (amount <= 0) {
-                    continue;
-                }
-                if (target.isEmpty()) {
-                    to.setItem(j, source.copyWithCount(amount));
-                } else {
-                    target.grow(amount);
-                }
-                source.shrink(amount);
-                moved += amount;
+            int take = (int) Math.min(source.getCount(), wanted - moved);
+            ItemStack rest = insert(to, source.copyWithCount(take));
+            int done = take - rest.getCount();
+            if (done > 0) {
+                from.removeItem(i, done);
+                moved += done;
+                stacks++;
             }
         }
         from.setChanged();
         to.setChanged();
-        return NativeResult.of(new IntegerValue(moved));
+        int ticks = 0;
+        if (moved > 0) {
+            double distance = Math.sqrt(fromPlace.pos().distSqr(toPlace.pos()));
+            long perTick = C0de.config().get(C0deConfig.MOVE_ITEMS_STACKS_PER_TICK);
+            long blocks = C0de.config().get(C0deConfig.MOVE_ITEMS_BLOCKS_PER_TICK);
+            long total = ((stacks + perTick - 1) / perTick) * (long) Math.ceil(distance / blocks);
+            ticks = (int) Math.min(Integer.MAX_VALUE, total);
+        }
+        return new NativeResult(Map.of("result", new IntegerValue(moved)), 0, "", ticks, false);
+    }
+
+    /** The filter of MOVE_ITEMS: a STRING, an ARRAY STRING or nothing. */
+    private static ItemFilter filter(NativeCall call) {
+        if (!call.provided("filter")) {
+            return ItemFilter.ALL;
+        }
+        Value value = call.argument("filter");
+        List<String> filters = new ArrayList<>();
+        if (value instanceof ArrayValue array) {
+            for (Value element : array.elements()) {
+                filters.add(((StringValue) element).value());
+            }
+            if (filters.isEmpty()) {
+                return ItemFilter.ALL;
+            }
+        } else {
+            filters.add(((StringValue) value).value());
+        }
+        return ItemFilter.of(filters, id -> {
+            ResourceLocation key = ResourceLocation.tryParse(id);
+            return key != null && BuiltInRegistries.ITEM.containsKey(key);
+        });
+    }
+
+    /** What the filter of MOVE_ITEMS knows of a stack: ID, name and tags. */
+    private static ItemFilter.Item itemInfo(ItemStack stack) {
+        String id = BuiltInRegistries.ITEM.getKey(stack.getItem()).toString();
+        String name = stack.getHoverName().getString();
+        List<String> tags = Compat.tags(stack).toList();
+        return new ItemFilter.Item() {
+            @Override
+            public String id() {
+                return id;
+            }
+
+            @Override
+            public String name() {
+                return name;
+            }
+
+            @Override
+            public java.util.Collection<String> tags() {
+                return tags;
+            }
+        };
+    }
+
+    /**
+     * Raises PERMISSION_DENIED unless the owner of the trigger block could open the inventory by hand: it is not
+     * locked with a key, not in the spawn protection (unless the owner is an operator) and within the world border.
+     * An offline owner is checked with a fake player.
+     */
+    private static void requireAccess(ProcessHost host, Place place) {
+        BlockEntity blockEntity = place.level().getBlockEntity(place.pos());
+        if (Compat.isLocked(blockEntity, place.level().registryAccess())) {
+            throw C0deException.of(
+                    ErrorCode.PERMISSION_DENIED, "The inventory at " + place.pos().toShortString() + " is locked");
+        }
+        UUID owner = host.owner() == null ? new UUID(0, 0) : host.owner();
+        ServerPlayer player = host.server().getPlayerList().getPlayer(owner);
+        if (player == null) {
+            String name = Compat.knownName(host.server(), owner).orElse("c0de");
+            player = de.joernott.c0de.platform.Platform.INSTANCE.fakePlayer(place.level(), new GameProfile(owner, name));
+        }
+        if (!place.level().mayInteract(player, place.pos())) {
+            throw C0deException.of(
+                    ErrorCode.PERMISSION_DENIED,
+                    "The owner of the trigger block can't open the inventory at " + place.pos().toShortString()
+                            + " (spawn protection or world border)");
+        }
     }
 
     private static NativeResult deleteItems(NativeCall call) {
@@ -495,7 +591,8 @@ public final class MinecraftLibrary implements Library {
      */
     private static NativeResult placeBlock(NativeCall call) {
         Container inventory = call.provided("inventory") ? container(place(call, "inventory")) : null;
-        if (inventory == null) {
+        String dataText = text(call, "data");
+        if (inventory == null || !dataText.isEmpty()) {
             requirePermission(call, C0deConfig.ALLOW_BLOCK_CHANGES);
         }
         Place place = changeable(call, "position");
@@ -517,11 +614,58 @@ public final class MinecraftLibrary implements Library {
         if (!place.level().getBlockState(place.pos()).canBeReplaced()) {
             throw invalid("The block at " + place.pos().toShortString() + " can't be replaced");
         }
+        net.minecraft.nbt.CompoundTag data = dataText.isEmpty() ? null : blockData(call, place, state, id, dataText);
         if (inventory != null) {
             takeItem(inventory, block.get(), id);
         }
         place.level().setBlockAndUpdate(place.pos(), state);
+        if (data != null) {
+            BlockEntity blockEntity = place.level().getBlockEntity(place.pos());
+            if (blockEntity == null) {
+                throw invalid(id + " has no block entity that could take the data");
+            }
+            Optional<String> problems =
+                    Compat.loadBlockEntityData(blockEntity, data, place.level().registryAccess());
+            blockEntity.setChanged();
+            place.level().sendBlockUpdated(place.pos(), state, state, Block.UPDATE_ALL);
+            if (problems.isPresent()) {
+                throw invalid("The block " + id + " doesn't accept the data: " + problems.get().strip());
+            }
+        }
         return NativeResult.none();
+    }
+
+    /**
+     * The data of PLACE_BLOCK (task 16.11), checked before the block is placed: SNBT of a compound for a block with a
+     * block entity. The data of command blocks, structure blocks and jigsaw blocks needs an administrator.
+     */
+    private static net.minecraft.nbt.CompoundTag blockData(
+            NativeCall call, Place place, BlockState state, String id, String text) {
+        net.minecraft.nbt.CompoundTag data;
+        try {
+            data = Compat.parseCompound(text);
+        } catch (com.mojang.brigadier.exceptions.CommandSyntaxException e) {
+            throw invalid("The data is not SNBT of a compound: " + e.getMessage());
+        }
+        if (!(state.getBlock() instanceof net.minecraft.world.level.block.EntityBlock entityBlock)) {
+            throw invalid(id + " has no block entity that could take the data");
+        }
+        BlockEntity sample = entityBlock.newBlockEntity(place.pos(), state);
+        if (sample == null) {
+            throw invalid(id + " has no block entity that could take the data");
+        }
+        if (Compat.onlyOpCanSetData(sample)) {
+            ProcessHost host = host(call);
+            if (startedByNonAdministrator(host)) {
+                throw C0deException.crash(
+                        ErrorCode.PERMISSION_DENIED,
+                        "A player who is not an administrator started the process (data of " + id + ")");
+            }
+            if (!isAdministrator(host)) {
+                throw C0deException.of(ErrorCode.PERMISSION_DENIED, "Only administrators can set the data of " + id);
+            }
+        }
+        return data;
     }
 
     /** Takes one item of a block from the first stack of it in an inventory; raises ITEM_MISSING if there is none. */
@@ -839,5 +983,72 @@ public final class MinecraftLibrary implements Library {
                 entity.getXRot());
                 //?}
         return NativeResult.none();
+    }
+
+    /**
+     * COMMAND (task 16.13): runs a command like a command block at the trigger block, with permission level 2. Only
+     * administrators may use it, and only if command blocks work on the server.
+     */
+    private static NativeResult command(NativeCall call) {
+        if (!C0de.config().get(C0deConfig.ENABLE_COMMAND)) {
+            throw C0deException.of(
+                    ErrorCode.PERMISSION_DENIED, "COMMAND is switched off in the configuration (enableCommand)");
+        }
+        ProcessHost host = host(call);
+        if (startedByNonAdministrator(host)) {
+            throw C0deException.crash(
+                    ErrorCode.PERMISSION_DENIED, "A player who is not an administrator started the process (COMMAND)");
+        }
+        if (!isAdministrator(host)) {
+            throw C0deException.of(ErrorCode.PERMISSION_DENIED, "Only administrators can run commands");
+        }
+        ServerLevel level = host.level();
+        if (level == null) {
+            throw invalid("The trigger block is in a dimension that doesn't exist");
+        }
+        if (!Compat.commandBlocksWork(level)) {
+            throw C0deException.of(ErrorCode.PERMISSION_DENIED, "Command blocks are disabled on this server");
+        }
+        String command = text(call, "command").strip();
+        if (command.isEmpty() || command.equals("/")) {
+            throw invalid("The command is empty");
+        }
+        String[] output = {""};
+        int[] successes = {0};
+        net.minecraft.commands.CommandSource source = new net.minecraft.commands.CommandSource() {
+            @Override
+            public void sendSystemMessage(Component message) {
+                output[0] = message.getString();
+            }
+
+            @Override
+            public boolean acceptsSuccess() {
+                return true;
+            }
+
+            @Override
+            public boolean acceptsFailure() {
+                return true;
+            }
+
+            @Override
+            public boolean shouldInformAdmins() {
+                return Compat.commandBlockOutput(level);
+            }
+        };
+        String name = host.program() + "/" + host.pid();
+        net.minecraft.commands.CommandSourceStack stack = Compat.commandSource(
+                        source, Vec3.atCenterOf(host.triggerPos()), level, name)
+                .withCallback((success, result) -> {
+                    if (success) {
+                        successes[0]++;
+                    }
+                });
+        C0de.LOGGER.info("[{}] COMMAND {}", name, command);
+        host.server().getCommands().performPrefixedCommand(stack, command);
+        Map<String, Value> results = new LinkedHashMap<>();
+        results.put("result", new IntegerValue(successes[0]));
+        results.put("output", new StringValue(output[0]));
+        return NativeResult.of(results);
     }
 }

@@ -31,7 +31,13 @@ final class TestCompat {
     static void await(
             GameTestHelper helper, java.util.function.BooleanSupplier condition, Runnable checks, int ticksLeft) {
         if (condition.getAsBoolean() || ticksLeft <= 0) {
-            checks.run();
+            try {
+                checks.run();
+            } catch (RuntimeException e) {
+                // The GameTest server of 1.21.1 only names failed tests; the log shows why they failed
+                de.joernott.c0de.C0de.LOGGER.error("GameTest check failed: {}", e.getMessage());
+                throw e;
+            }
         } else {
             helper.runAfterDelay(1, () -> await(helper, condition, checks, ticksLeft - 1));
         }
@@ -93,5 +99,22 @@ final class TestCompat {
         *///?} else {
         return server.getRecipeManager().byKey(id).isPresent();
         //?}
+    }
+
+    /** Locks a container with a key, like /data merge (task 16.12). */
+    static void lock(BlockEntity container) {
+        //? if >=1.21.2 {
+        /*String data = "{lock:{items:\"minecraft:stick\"}}";
+        *///?} else {
+        String data = "{Lock:\"key\"}";
+        //?}
+        try {
+            de.joernott.c0de.compat.Compat.loadBlockEntityData(
+                    container,
+                    de.joernott.c0de.compat.Compat.parseCompound(data),
+                    container.getLevel().registryAccess());
+        } catch (com.mojang.brigadier.exceptions.CommandSyntaxException e) {
+            throw new IllegalStateException(e);
+        }
     }
 }

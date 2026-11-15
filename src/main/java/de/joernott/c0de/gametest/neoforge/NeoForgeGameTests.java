@@ -261,6 +261,21 @@ public class NeoForgeGameTests {
         ToolTests.bootsJumpAndPliersIndent(helper);
     }
 
+    @GameTest(template = "empty", timeoutTicks = 100)
+    public static void blockDataIsCopied(GameTestHelper helper) {
+        de.joernott.c0de.gametest.WorldAccessTests.blockDataIsCopied(helper);
+    }
+
+    @GameTest(template = "empty", timeoutTicks = 100)
+    public static void itemsAreMovedWithFilters(GameTestHelper helper) {
+        de.joernott.c0de.gametest.WorldAccessTests.itemsAreMovedWithFilters(helper);
+    }
+
+    @GameTest(template = "empty", timeoutTicks = 100)
+    public static void commandsNeedAdministrators(GameTestHelper helper) {
+        de.joernott.c0de.gametest.WorldAccessTests.commandsNeedAdministrators(helper);
+    }
+
     @GameTest(template = "empty", timeoutTicks = 400)
     public static void programsMineWithTools(GameTestHelper helper) {
         LibraryTests.programsMineWithTools(helper);

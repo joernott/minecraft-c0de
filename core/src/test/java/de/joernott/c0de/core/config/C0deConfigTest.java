@@ -27,6 +27,10 @@ class C0deConfigTest {
         assertFalse(config.get(C0deConfig.ALLOW_BLOCK_CHANGES));
         assertFalse(config.get(C0deConfig.ALLOW_SPAWNING));
         assertFalse(config.get(C0deConfig.ALLOW_TELEPORTING));
+        assertTrue(config.get(C0deConfig.ENABLE_MOVE_ITEMS));
+        assertEquals(1, config.get(C0deConfig.MOVE_ITEMS_STACKS_PER_TICK));
+        assertEquals(128, config.get(C0deConfig.MOVE_ITEMS_BLOCKS_PER_TICK));
+        assertTrue(config.get(C0deConfig.ENABLE_COMMAND));
     }
 
     @Test

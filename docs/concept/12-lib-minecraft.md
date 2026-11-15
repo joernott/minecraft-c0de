@@ -129,10 +129,10 @@ CALL c0de/minecraft/MOVE_ITEMS
 COMMAND runs a command like a command block at the trigger block: with the permission level 2 of command blocks, in the dimension of the trigger block, at the center of the trigger block, without an entity (`@s` selects nothing), and with the name `<program>/<PID>`, e.g. `/say` writes `[farm/3] ...`. It needs
 
   - an administrator as owner (with the rule for sheets above) and, if a player started the process, as activator (otherwise the process crashes),
-  - command blocks enabled on the server (`enable-command-block` in `server.properties`; always in single player worlds),
+  - command blocks enabled on the server: up to Minecraft 1.21.1 with `enable-command-block` in `server.properties` (always in single player worlds), since 1.21.11 with the game rule "Enable Command Blocks",
   - `enableCommand` in the configuration file.
 
-Otherwise PERMISSION_DENIED is raised. A command that fails, e.g. because of a syntax error, is not an error of the program: its `result` is 0 and `output` contains the message. The commands are written to the log of the server with the program and PID; their messages are not sent to the operators in the chat.
+Otherwise PERMISSION_DENIED is raised. A command that fails, e.g. because of a syntax error, is not an error of the program: its `result` is 0 and `output` contains the message. The commands are written to the log of the server with the program and PID. Like the messages of command blocks, their messages go to the operators in the chat if the game rule `commandBlockOutput` ("Broadcast command block output") is on.
 
 ## Functions
 

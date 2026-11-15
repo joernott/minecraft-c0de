@@ -55,13 +55,14 @@ public final class C0deConfig {
     public static final BooleanSetting ALLOW_INVENTORY_CHANGES = new BooleanSetting(
             "allowInventoryChanges",
             false,
-            "Allow players without operator rights to use MOVE_ITEMS and DELETE_ITEMS of c0de/minecraft.");
+            "Allow players without operator rights to use DELETE_ITEMS of c0de/minecraft.");
 
     public static final BooleanSetting ALLOW_BLOCK_CHANGES = new BooleanSetting(
             "allowBlockChanges",
             false,
-            "Allow players without operator rights to use PLACE_BLOCK and REMOVE_BLOCK of c0de/minecraft",
-            "and to open iron doors and iron trapdoors with SET_OPEN.");
+            "Allow players without operator rights to use PLACE_BLOCK (without inventory or with data) and",
+            "REMOVE_BLOCK of c0de/minecraft and to open iron doors and iron trapdoors with SET_OPEN.",
+            "The data of command blocks, structure blocks and jigsaw blocks always needs operator rights.");
 
     public static final BooleanSetting ALLOW_SPAWNING = new BooleanSetting(
             "allowSpawning",
@@ -70,6 +71,37 @@ public final class C0deConfig {
 
     public static final BooleanSetting ALLOW_TELEPORTING = new BooleanSetting(
             "allowTeleporting", false, "Allow players without operator rights to use TELEPORT of c0de/minecraft.");
+
+    /** MOVE_ITEMS of c0de/minecraft; false switches it off for everyone (task 16.12). */
+    public static final BooleanSetting ENABLE_MOVE_ITEMS = new BooleanSetting(
+            "enableMoveItems",
+            true,
+            "Allow MOVE_ITEMS of c0de/minecraft, which moves items between inventories that the owner of the",
+            "trigger block could open. false switches it off for everyone, operators included.");
+
+    /** The stacks MOVE_ITEMS moves per tick over {@link #MOVE_ITEMS_BLOCKS_PER_TICK} blocks. */
+    public static final IntSetting MOVE_ITEMS_STACKS_PER_TICK = new IntSetting(
+            "moveItemsStacksPerTick",
+            1,
+            1,
+            1728,
+            "Stacks that MOVE_ITEMS moves per tick (1 to 1728). The cursor waits",
+            "ceil(stacks / moveItemsStacksPerTick) * ceil(distance / moveItemsBlocksPerTick) ticks.");
+
+    /** The blocks items travel per tick with MOVE_ITEMS. */
+    public static final IntSetting MOVE_ITEMS_BLOCKS_PER_TICK = new IntSetting(
+            "moveItemsBlocksPerTick",
+            128,
+            1,
+            30_000_000,
+            "Blocks that items travel per tick with MOVE_ITEMS (1 to 30000000).");
+
+    /** COMMAND of c0de/minecraft; false switches it off for everyone (task 16.13). */
+    public static final BooleanSetting ENABLE_COMMAND = new BooleanSetting(
+            "enableCommand",
+            true,
+            "Allow COMMAND of c0de/minecraft, which runs commands like a command block. It always needs operator",
+            "rights and command blocks enabled on the server. false switches it off for everyone.");
 
     /** All settings in the order they are written to the file. */
     public static final List<Setting<?>> SETTINGS = List.of(
@@ -80,7 +112,11 @@ public final class C0deConfig {
             ALLOW_INVENTORY_CHANGES,
             ALLOW_BLOCK_CHANGES,
             ALLOW_SPAWNING,
-            ALLOW_TELEPORTING);
+            ALLOW_TELEPORTING,
+            ENABLE_MOVE_ITEMS,
+            MOVE_ITEMS_STACKS_PER_TICK,
+            MOVE_ITEMS_BLOCKS_PER_TICK,
+            ENABLE_COMMAND);
 
     private final Map<Setting<?>, Object> values = new LinkedHashMap<>();
     private final List<String> problems = new ArrayList<>();

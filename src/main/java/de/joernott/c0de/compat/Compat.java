@@ -238,4 +238,103 @@ public final class Compat {
         entity.loadWithComponents(tag, registries);
         //?}
     }
+
+    /** The SNBT text as a compound tag, like the data of /setblock (task 16.11). */
+    public static net.minecraft.nbt.CompoundTag parseCompound(String text)
+            throws com.mojang.brigadier.exceptions.CommandSyntaxException {
+        //? if >=1.21.5 {
+        /*return net.minecraft.nbt.TagParser.parseCompoundFully(text);
+        *///?} else {
+        return net.minecraft.nbt.TagParser.parseTag(text);
+        //?}
+    }
+
+    /**
+     * Loads data into a block entity like /setblock and returns the problems the block entity reports (only since
+     * 1.21.6; older versions ignore data they can't read).
+     */
+    public static java.util.Optional<String> loadBlockEntityData(
+            net.minecraft.world.level.block.entity.BlockEntity entity,
+            net.minecraft.nbt.CompoundTag tag,
+            net.minecraft.core.HolderLookup.Provider registries) {
+        //? if >=1.21.6 {
+        /*net.minecraft.util.ProblemReporter.Collector problems = new net.minecraft.util.ProblemReporter.Collector();
+        entity.loadWithComponents(net.minecraft.world.level.storage.TagValueInput.create(problems, registries, tag));
+        return problems.isEmpty() ? java.util.Optional.empty() : java.util.Optional.of(problems.getReport());
+        *///?} else {
+        entity.loadWithComponents(tag, registries);
+        return java.util.Optional.empty();
+        //?}
+    }
+
+    /** True if only operators may set the data of the block entity, e.g. of command blocks. */
+    public static boolean onlyOpCanSetData(net.minecraft.world.level.block.entity.BlockEntity entity) {
+        //? if >=1.21.2 {
+        /*return entity.getType().onlyOpCanSetNbt();
+        *///?} else {
+        return entity.onlyOpCanSetNbt();
+        //?}
+    }
+
+    /** True if the container is locked with a key (task 16.12). */
+    public static boolean isLocked(
+            net.minecraft.world.level.block.entity.BlockEntity entity,
+            net.minecraft.core.HolderLookup.Provider registries) {
+        if (!(entity instanceof net.minecraft.world.level.block.entity.BaseContainerBlockEntity container)) {
+            return false;
+        }
+        //? if >=1.21.2 {
+        /*return container.isLocked();
+        *///?} else {
+        return !Nbt.string(container.saveWithoutMetadata(registries), "Lock").isEmpty();
+        //?}
+    }
+
+    /** The IDs of the tags of a stack, e.g. minecraft:logs (TagKey::location escapes the 1.21.11 replacement). */
+    public static java.util.stream.Stream<String> tags(net.minecraft.world.item.ItemStack stack) {
+        //? if >=26.1 {
+        /*return stack.typeHolder().tags().map(net.minecraft.tags.TagKey::location).map(Object::toString);
+        *///?} else {
+        return stack.getItemHolder().tags().map(net.minecraft.tags.TagKey::location).map(Object::toString);
+        //?}
+    }
+
+    /** True if command blocks run commands: the server setting until 1.21.10, the game rule since 1.21.11. */
+    public static boolean commandBlocksWork(ServerLevel level) {
+        //? if >=1.21.11 {
+        /*return level.getGameRules().get(net.minecraft.world.level.gamerules.GameRules.COMMAND_BLOCKS_WORK);
+        *///?} else {
+        return level.getServer().isCommandBlockEnabled();
+        //?}
+    }
+
+    /** True if the messages of command blocks go to the operators (game rule commandBlockOutput). */
+    public static boolean commandBlockOutput(ServerLevel level) {
+        //? if >=1.21.11 {
+        /*return level.getGameRules().get(net.minecraft.world.level.gamerules.GameRules.COMMAND_BLOCK_OUTPUT);
+        *///?} else {
+        return level.getGameRules().getBoolean(net.minecraft.world.level.GameRules.RULE_COMMANDBLOCKOUTPUT);
+        //?}
+    }
+
+    /** The source of a command run like by a command block: permission level 2, a position and a name. */
+    public static net.minecraft.commands.CommandSourceStack commandSource(
+            net.minecraft.commands.CommandSource source,
+            net.minecraft.world.phys.Vec3 position,
+            ServerLevel level,
+            String name) {
+        Component display = Component.literal(name);
+        //? if >=26.3 {
+        /*return new net.minecraft.commands.CommandSourceStack(source, position, net.minecraft.world.phys.Vec2.ZERO,
+                level, net.minecraft.server.permissions.LevelBasedPermissionSet.GAMEMASTER, display,
+                level.getServer());
+        *///?} elif >=1.21.11 {
+        /*return new net.minecraft.commands.CommandSourceStack(source, position, net.minecraft.world.phys.Vec2.ZERO,
+                level, net.minecraft.server.permissions.LevelBasedPermissionSet.GAMEMASTER, name, display,
+                level.getServer(), null);
+        *///?} else {
+        return new net.minecraft.commands.CommandSourceStack(source, position, net.minecraft.world.phys.Vec2.ZERO,
+                level, ADMIN_LEVEL, name, display, level.getServer(), null);
+        //?}
+    }
 }

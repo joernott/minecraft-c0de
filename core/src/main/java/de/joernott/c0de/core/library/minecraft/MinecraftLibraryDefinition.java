@@ -4,6 +4,7 @@ import de.joernott.c0de.core.error.C0deException;
 import de.joernott.c0de.core.error.ErrorCode;
 import de.joernott.c0de.core.library.Library;
 import de.joernott.c0de.core.library.NativeFunction;
+import de.joernott.c0de.core.value.ArrayValue;
 import de.joernott.c0de.core.value.BooleanValue;
 import de.joernott.c0de.core.value.HashValue;
 import de.joernott.c0de.core.value.IntegerValue;
@@ -64,6 +65,9 @@ public final class MinecraftLibraryDefinition {
     private static final Predicate<Value> A_POSITION =
             value -> value instanceof StructValue struct && struct.definition().equals(POSITION);
     private static final Predicate<Value> HASH_OF_STRINGS = value -> value instanceof HashValue;
+    private static final Predicate<Value> TEXT_OR_TEXTS = value -> value instanceof StringValue
+            || (value instanceof ArrayValue array
+                    && array.elements().stream().allMatch(element -> element instanceof StringValue));
 
     private static NativeFunction.Parameter position(String name) {
         return NativeFunction.Parameter.required(name, NAME + "/POSITION", A_POSITION);
@@ -89,9 +93,10 @@ public final class MinecraftLibraryDefinition {
     private record Signature(String name, List<NativeFunction.Parameter> parameters, List<String> results) {}
 
     private static Signature signature(String name, NativeFunction.Parameter... parameters) {
-        // All functions of the library have at most one result, called result; GET_BLOCK has four
+        // All functions of the library have at most one result, called result; GET_BLOCK and COMMAND have more
         List<String> results = switch (name) {
-            case "GET_BLOCK" -> List.of("id", "properties", "power", "has_inventory");
+            case "GET_BLOCK" -> List.of("id", "properties", "power", "has_inventory", "data");
+            case "COMMAND" -> List.of("result", "output");
             case "BEEP",
                     "SOUND",
                     "SAY",
@@ -127,7 +132,12 @@ public final class MinecraftLibraryDefinition {
             signature("GET_PRESSURE_PLATE", position("position")),
             signature("GET_OPEN", position("position")),
             signature("SET_OPEN", position("position"), bool("open")),
-            signature("MOVE_ITEMS", position("from"), position("to"), text("id"), integer("count")),
+            signature(
+                    "MOVE_ITEMS",
+                    position("from"),
+                    position("to"),
+                    NativeFunction.Parameter.withDefault("quantity", "INTEGER", INTEGER, new IntegerValue(1)),
+                    NativeFunction.Parameter.optional("filter", "STRING or ARRAY STRING", TEXT_OR_TEXTS)),
             signature("DELETE_ITEMS", position("position"), text("id"), integer("count")),
             signature(
                     "PLACE_BLOCK",
@@ -135,7 +145,8 @@ public final class MinecraftLibraryDefinition {
                     text("id"),
                     NativeFunction.Parameter.withDefault(
                             "properties", "HASH STRING", HASH_OF_STRINGS, new HashValue(Type.Str.UNLIMITED)),
-                    optionalPosition("inventory")),
+                    optionalPosition("inventory"),
+                    NativeFunction.Parameter.withDefault("data", "STRING", TEXT, new StringValue(""))),
             signature(
                     "REMOVE_BLOCK",
                     position("position"),
@@ -152,7 +163,8 @@ public final class MinecraftLibraryDefinition {
                     position("position"),
                     integer("radius"),
                     NativeFunction.Parameter.withDefault("type", "STRING", TEXT, new StringValue(""))),
-            signature("TELEPORT", text("uuid"), position("position")));
+            signature("TELEPORT", text("uuid"), position("position")),
+            signature("COMMAND", text("command")));
 
     /**
      * The library with the implementations of the mod by function name. A function without implementation raises
