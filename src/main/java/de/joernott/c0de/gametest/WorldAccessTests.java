@@ -372,4 +372,36 @@ public final class WorldAccessTests {
             helper.succeed();
         });
     }
+
+    /**
+     * REMOVE_BLOCK destroys a block like a player who breaks it ({@code destroyBlock}): the contents of a container
+     * fall out as items, also without {@code drop}, which only decides whether the block itself drops (task 17.5).
+     */
+    public static void removedContainersSpillTheirItems(GameTestHelper helper) {
+        BlockPos chest = new BlockPos(1, 1, 1);
+        helper.setBlock(chest, net.minecraft.world.level.block.Blocks.CHEST);
+        BlockPos absolute = helper.absolutePos(chest);
+        net.minecraft.server.level.ServerLevel level = helper.getLevel();
+        ((net.minecraft.world.level.block.entity.ChestBlockEntity) level.getBlockEntity(absolute))
+                .setItem(0, new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.DIAMOND, 3));
+        // What REMOVE_BLOCK does with drop FALSE
+        level.destroyBlock(absolute, false);
+        net.minecraft.world.phys.AABB around = new net.minecraft.world.phys.AABB(absolute).inflate(3);
+        TestCompat.await(helper, () -> count(level, around, net.minecraft.world.item.Items.DIAMOND) == 3, () -> {
+            if (count(level, around, net.minecraft.world.item.Items.CHEST) != 0) {
+                throw new AssertionError("The chest dropped itself without drop");
+            }
+            helper.succeed();
+        });
+    }
+
+    private static int count(
+            net.minecraft.server.level.ServerLevel level,
+            net.minecraft.world.phys.AABB area,
+            net.minecraft.world.item.Item item) {
+        return level.getEntitiesOfClass(net.minecraft.world.entity.item.ItemEntity.class, area).stream()
+                .filter(entity -> entity.getItem().is(item))
+                .mapToInt(entity -> entity.getItem().getCount())
+                .sum();
+    }
 }

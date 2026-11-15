@@ -276,6 +276,11 @@ public class NeoForgeGameTests {
         de.joernott.c0de.gametest.WorldAccessTests.commandsNeedAdministrators(helper);
     }
 
+    @GameTest(template = "empty", timeoutTicks = 100)
+    public static void removedContainersSpillTheirItems(GameTestHelper helper) {
+        de.joernott.c0de.gametest.WorldAccessTests.removedContainersSpillTheirItems(helper);
+    }
+
     @GameTest(template = "empty", timeoutTicks = 400)
     public static void programsMineWithTools(GameTestHelper helper) {
         LibraryTests.programsMineWithTools(helper);

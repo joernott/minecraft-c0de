@@ -275,6 +275,11 @@ public class FabricGameTests {
         de.joernott.c0de.gametest.WorldAccessTests.commandsNeedAdministrators(helper);
     }
 
+    @GameTest(template = SmokeTests.EMPTY_STRUCTURE, timeoutTicks = 100)
+    public void removedContainersSpillTheirItems(GameTestHelper helper) {
+        de.joernott.c0de.gametest.WorldAccessTests.removedContainersSpillTheirItems(helper);
+    }
+
     @GameTest(template = SmokeTests.EMPTY_STRUCTURE, timeoutTicks = 400)
     public void programsMineWithTools(GameTestHelper helper) {
         LibraryTests.programsMineWithTools(helper);
