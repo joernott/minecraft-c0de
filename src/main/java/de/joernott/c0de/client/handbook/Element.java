@@ -28,6 +28,11 @@ public interface Element {
     /** Draws the element at x, y; elements under the mouse show their tooltip through the screen. */
     void draw(GuiGraphics graphics, HandbookScreen screen, int x, int y, int mouseX, int mouseY);
 
+    /** True if the element moves to the next page with the element after it, e.g. the name above a recipe. */
+    default boolean keepWithNext() {
+        return false;
+    }
+
     /** Handles a click at mouseX, mouseY on the element drawn at x, y. */
     default boolean click(HandbookScreen screen, int x, int y, double mouseX, double mouseY) {
         return false;
@@ -198,6 +203,11 @@ public interface Element {
         @Override
         public int height() {
             return 18;
+        }
+
+        @Override
+        public boolean keepWithNext() {
+            return true;
         }
 
         @Override

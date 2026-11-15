@@ -276,7 +276,17 @@ public final class PageCompiler implements MarkdownCompiler<List<List<Element>>>
     /** Puts an element on the current page, or on a new one if it doesn't fit. */
     private void place(Element element) {
         if (used + element.height() > height && !page.isEmpty()) {
+            // An element that belongs to this one (e.g. the name of an item above its recipe) moves along
+            Element previous = page.get(page.size() - 1);
+            boolean along = previous.keepWithNext() && page.size() > 1;
+            if (along) {
+                page.remove(page.size() - 1);
+            }
             newPage();
+            if (along) {
+                page.add(previous);
+                used += previous.height();
+            }
             if (element instanceof Element.Space) {
                 return;
             }

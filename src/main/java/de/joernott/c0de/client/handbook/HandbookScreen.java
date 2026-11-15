@@ -46,7 +46,7 @@ public class HandbookScreen extends Screen {
     /** The red cover around the pages, the gap between them with the rings, the margin of the text. */
     private static final int COVER = 6;
     private static final int GAP = 10;
-    private static final int PADDING = 8;
+    private static final int PADDING = 10;
     /** The space below the text of a page for the page number and the arrows. */
     private static final int FOOTER = 14;
     private static final int COVER_EDGE = 0xFF4A0B0E;
@@ -373,8 +373,8 @@ public class HandbookScreen extends Screen {
             graphics.fill(paper + 1, paperTop + 1, paper + paperWidth - 1, paperBottom - 1, PAPER);
         }
         // Four rings, evenly spaced, reaching a little into both pages through their holes
-        int ringLeft = leftPaper + paperWidth - 6;
-        int ringRight = rightPaper + 6;
+        int ringLeft = leftPaper + paperWidth - 5;
+        int ringRight = rightPaper + 5;
         for (int ring = 0; ring < 4; ring++) {
             int y = paperTop + (paperBottom - paperTop) * (2 * ring + 1) / 8 - 2;
             graphics.fill(ringLeft - 1, y - 1, ringLeft + 2, y + 5, 0xFF3A3A3A);
