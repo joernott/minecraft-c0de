@@ -75,6 +75,7 @@
   "dialog.c0de.trigger.error_at": "in %s, Zeile %s",
   "dialog.c0de.trigger.owner": "Besitzer: %s",
   "item.c0de.wrench": "Schraubenschlüssel",
+  "item.c0de.handbook": "Handbuch",
   "message.c0de.no_dimension": "Die c0de-Dimension existiert in dieser Welt nicht.",
   "message.c0de.not_saved": "Nicht gespeichert: %s",
   "item.c0de.variable_item.named": "Variable %s",

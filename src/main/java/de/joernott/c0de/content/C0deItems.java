@@ -44,6 +44,8 @@ public final class C0deItems {
             java.util.List.of("guide", "statements", "data", "devices", "functions", "tools", "triggers");
     /** The binder items of the handbooks by book, e.g. {@code guide}. */
     public static final Map<String, Supplier<Item>> HANDBOOK_ITEMS = new java.util.LinkedHashMap<>();
+    /** The generic binder of the books of other mods (docs/concept/21-handbooks.md). */
+    public static Supplier<Item> HANDBOOK;
 
     /** The type items by type name, e.g. {@code BOOLEAN}. */
     public static final Map<String, Supplier<Item>> TYPE_ITEMS = new java.util.LinkedHashMap<>();
@@ -97,6 +99,8 @@ public final class C0deItems {
             HANDBOOK_ITEMS.put(book, register(book + "_book",
                     properties -> new de.joernott.c0de.item.HandbookItem(properties.stacksTo(1), book)));
         }
+        HANDBOOK = register("handbook",
+                properties -> new de.joernott.c0de.item.HandbookItem(properties.stacksTo(1), null));
         STRUCTURAL_BASE = register("structural_base", Item::new);
         for (CodeBlockType type : CodeBlockType.values()) {
             CODE_BLOCKS.put(type, blockItem(type.id(), () -> C0deBlocks.get(type)));
@@ -130,6 +134,9 @@ public final class C0deItems {
                     output.accept(CONSTANT_ITEM.get());
                     output.accept(LITERAL_ITEM.get());
                     HANDBOOK_ITEMS.values().forEach(item -> output.accept(item.get()));
+                    // The binders of the books of other mods the client knows
+                    de.joernott.c0de.item.HandbookItem.knownBooks.get().forEach(book -> output.accept(
+                            de.joernott.c0de.item.HandbookItem.stack(HANDBOOK.get(), book.id(), book.color())));
                 })
                 .build());
     }

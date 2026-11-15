@@ -223,7 +223,11 @@ public interface Element {
                 ItemStack stack = stack(items.get((int) (second % items.size())));
                 slot(graphics, screen, stack, left + 1 + 17 * (slot % 3), y + 1 + 17 * (slot / 3), mouseX, mouseY);
             }
-            ItemStack result = stack(recipe.result());
+            // The binder of a book of another mod carries its book and the colour of its label
+            ItemStack result = recipe.book() == null
+                    ? stack(recipe.result())
+                    : de.joernott.c0de.item.HandbookItem.stack(
+                            de.joernott.c0de.content.C0deItems.HANDBOOK.get(), recipe.book(), recipe.color());
             result.setCount(Math.max(1, recipe.count()));
             slot(graphics, screen, result, left + 81, y + 18, mouseX, mouseY);
         }

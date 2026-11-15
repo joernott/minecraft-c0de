@@ -1,0 +1,17 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "c0de:item/handbook",
+    "tints": [
+      {
+        "type": "minecraft:constant",
+        "value": 16777215
+      },
+      {
+        "type": "minecraft:custom_model_data",
+        "index": 0,
+        "default": 15921906
+      }
+    ]
+  }
+}

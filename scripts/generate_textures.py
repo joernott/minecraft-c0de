@@ -900,6 +900,19 @@ def binder(label: int) -> Image:
     return image
 
 
+def binder_label() -> Image:
+    """The label of the generic binder (docs/concept/21-handbooks.md) as a layer of its own, in grey tones that the
+    colour of the book tints: only the pixels of the label of binder(), the rest transparent."""
+    full = binder(0xFFFFFF)
+    base = binder(0x000000)
+    image = blank()
+    for y in range(16):
+        for x in range(16):
+            if full[y][x] != base[y][x]:
+                image[y][x] = full[y][x]
+    return image
+
+
 def item_textures() -> None:
     items = TEXTURES / "item"
     write_png(items / "data_item.png", card(None))
@@ -912,6 +925,9 @@ def item_textures() -> None:
         write_png(items / ("type_" + type_name.lower() + "_item.png"), image)
     for book, label in BINDER_LABELS.items():
         write_png(items / (book + "_book.png"), binder(label))
+    # The generic binder of the books of other mods: the binder with a white label, and the label to tint
+    write_png(items / "handbook.png", binder(0xFFFFFF))
+    write_png(items / "handbook_label.png", binder_label())
 
 
 def debug_tool() -> Image:

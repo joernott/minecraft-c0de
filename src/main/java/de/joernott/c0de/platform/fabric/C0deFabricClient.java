@@ -83,7 +83,8 @@ public class C0deFabricClient implements ClientModInitializer {
                 .register((model, context) ->
                         context.topLevelId() == null ? model : ExtrudedModel.wrap(context.topLevelId(), model)));
         net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry.ITEM.register(
-                C0deClient::itemColor, de.joernott.c0de.content.C0deItems.MARKER.get());
+                C0deClient::itemColor, de.joernott.c0de.content.C0deItems.MARKER.get(),
+                de.joernott.c0de.content.C0deItems.HANDBOOK.get());
         net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents.AFTER_ENTITIES.register(
                 context -> LineNumbers.render(context.camera()));
         //?}

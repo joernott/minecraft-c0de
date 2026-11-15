@@ -326,6 +326,7 @@ MESSAGES = [
     ("dialog.c0de.trigger.error_at", "in %s, line %s", "in %s, Zeile %s"),
     ("dialog.c0de.trigger.owner", "Owner: %s", "Besitzer: %s"),
     ("item.c0de.wrench", "Wrench", "Schraubenschlüssel"),
+    ("item.c0de.handbook", "Handbook", "Handbuch"),
     ("message.c0de.no_dimension", "The c0de dimension doesn't exist in this world.",
      "Die c0de-Dimension existiert in dieser Welt nicht."),
     ("message.c0de.not_saved", "Not saved: %s", "Nicht gespeichert: %s"),
@@ -610,6 +611,11 @@ def item_definitions() -> None:
         if model.stem == "marker":
             # The yellow of the text marker (C0deClient.MARKER_COLOR in the older versions)
             definition["tints"] = [{"type": "minecraft:constant", "value": 0xFFD83A}]
+        if model.stem == "handbook":
+            # The label of the generic binder has the colour of its book: the first colour of the custom model
+            # data, which HandbookItem.stack and the recipes of other mods set (C0deClient.itemColor before 1.21.4)
+            definition["tints"] = [{"type": "minecraft:constant", "value": 0xFFFFFF},
+                                   {"type": "minecraft:custom_model_data", "index": 0, "default": 0xF2F2F2}]
         write(ASSETS / "items" / model.name, {"model": definition})
 
 
@@ -644,6 +650,9 @@ def main() -> None:
     # Items of the floor blocks, so that creative players can pick them to repair the floor
     for floor in FLOOR_BLOCKS:
         write(ASSETS / "models" / "item" / (floor + ".json"), {"parent": "c0de:block/" + floor})
+    # The generic binder of the books of other mods: the binder and its label as a second layer to tint
+    write(ASSETS / "models" / "item" / "handbook.json", {"parent": "minecraft:item/generated", "textures": {
+        "layer0": "c0de:item/handbook", "layer1": "c0de:item/handbook_label"}})
     for item in [i for i, _, _ in ITEMS] + [type_item(t) for t, _ in TYPE_ITEMS]:
         # The text marker is the feather of Minecraft, colored yellow by the item color of the mod
         texture = "minecraft:item/feather" if item == "marker" else "c0de:item/" + item

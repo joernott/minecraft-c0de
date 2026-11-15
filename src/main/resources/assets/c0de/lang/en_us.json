@@ -75,6 +75,7 @@
   "dialog.c0de.trigger.error_at": "in %s, line %s",
   "dialog.c0de.trigger.owner": "Owner: %s",
   "item.c0de.wrench": "Wrench",
+  "item.c0de.handbook": "Handbook",
   "message.c0de.no_dimension": "The c0de dimension doesn't exist in this world.",
   "message.c0de.not_saved": "Not saved: %s",
   "item.c0de.variable_item.named": "Variable %s",

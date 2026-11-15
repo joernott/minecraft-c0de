@@ -43,7 +43,7 @@ public final class C0deNeoForgeClient {
                 event -> event.register(de.joernott.c0de.C0de.id("extruded"), ExtrudedModel.LOADER));
         ^///?} else {
         modEventBus.addListener(net.neoforged.neoforge.client.event.RegisterColorHandlersEvent.Item.class,
-                event -> event.register(C0deClient::itemColor, C0deItems.MARKER.get()));
+                event -> event.register(C0deClient::itemColor, C0deItems.MARKER.get(), C0deItems.HANDBOOK.get()));
         modEventBus.addListener(net.neoforged.neoforge.client.event.ModelEvent.ModifyBakingResult.class,
                 event -> event.getModels().replaceAll(ExtrudedModel::wrap));
         //?}
