@@ -753,3 +753,9 @@ The strings library should get two more functions:
 for MOVE_ITEM, rename quantity back to count, re-add id and allow either id or filter as parameter, only one of them must be present.
 Lower the limit for server protection from 10 million times to 1 million if that does not impact regular operations for regex.
 After those changes go ahead with the VM check. Make sure that that version can be tested by me with the gradle run.
+
+## 2026-11-15 – Test findings: the tag dialog
+
+I tested the above tests, everything works as expected.
+Findings:
+- The tags should not write Language: Sensitive, just Sensitive, remove the "Language" from every tag selection

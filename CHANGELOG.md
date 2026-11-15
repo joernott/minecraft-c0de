@@ -18,6 +18,7 @@ Security: passwords and keys out of sight.
 - **MOVE_ITEMS** works for every owner who could open both inventories. `count` is optional (default 1, -1 for all), and instead of `id` it takes a `filter` (item IDs or a search like in JEI). It takes time: one stack per tick for each 128 blocks. The settings `enableMoveItems`, `moveItemsStacksPerTick` and `moveItemsBlocksPerTick` configure it.
 - **COMMAND**: a new function of c0de/minecraft runs a command like a command block, for administrators (setting `enableCommand`).
 - **Regular expressions**: REGEX_MATCH and REGEX_REPLACE in c0de/strings, with replacements and flags like sed.
+- **Tag dialog**: the language button shows only the language (`security` instead of `Language: security`).
 - **Fixed**: c0de for Fabric 1.21.1 reported the version 0.1.0 in C0DE_VERSION and in the log.
 
 ## 0.5.0

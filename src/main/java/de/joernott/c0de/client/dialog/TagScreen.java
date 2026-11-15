@@ -36,6 +36,7 @@ public class TagScreen extends PropertiesScreen {
         String initial = Nbt.string(payload.data(), "language");
         language = addRenderableWidget(ClientCompat.cycleButton(
                         PropertyRules.TAG_LANGUAGES, PropertyRules.TAG_LANGUAGES.contains(initial) ? initial : "json")
+                .displayOnlyValue()
                 .create(
                         left + MARGIN,
                         contentTop(),
