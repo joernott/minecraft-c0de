@@ -389,7 +389,7 @@ A conversion that does not fit the type of `value` raises TYPE_MISMATCH, an inva
 
 Other characters in `flags` raise INVALID_ARGUMENT. Matches never overlap: the next match is searched behind the end of the previous one, and behind an empty match one character further.
 
-Some patterns take very long for some texts (catastrophic backtracking), e.g. `(a+)+b` for a long row of `a`. To protect the server, a search that reads the characters of the text more than 10,000,000 times in total is stopped with INVALID_ARGUMENT. A result longer than 1,000,000 characters raises STRING_TOO_LONG.
+Some patterns take very long for some texts (catastrophic backtracking), e.g. `^(.*a){20}$` for a long row of `a` followed by `b`. To protect the server, a search that reads the characters of the text more than 10,000,000 times in total is stopped with INVALID_ARGUMENT. A result longer than 1,000,000 characters raises STRING_TOO_LONG.
 
 ```
 CALL c0de/strings/REGEX_MATCH

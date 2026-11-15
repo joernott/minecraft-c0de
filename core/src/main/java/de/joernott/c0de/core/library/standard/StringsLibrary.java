@@ -120,6 +120,18 @@ public final class StringsLibrary implements Library {
                     List.of(required("value", "INTEGER", INTEGER)),
                     call -> new StringValue(Long.toOctalString(integer(call, "value"))))
             .add(
+                    "REGEX_MATCH",
+                    List.of(required("text", "STRING", TEXT), required("pattern", "STRING", TEXT)),
+                    call -> BooleanValue.of(Regex.matches(text(call, "text"), text(call, "pattern"))))
+            .add(
+                    "REGEX_REPLACE",
+                    List.of(
+                            required("text", "STRING", TEXT),
+                            required("pattern", "STRING", TEXT),
+                            required("replacement", "STRING", TEXT),
+                            optional("flags", "STRING", TEXT, new StringValue(""))),
+                    StringsLibrary::regexReplace)
+            .add(
                     "FORMAT",
                     List.of(
                             required("value", "BOOLEAN|INTEGER|FLOAT|CHAR|STRING|TIME", ANY),
@@ -154,6 +166,17 @@ public final class StringsLibrary implements Library {
     @Override
     public Map<String, NativeFunction> functions() {
         return FUNCTIONS;
+    }
+
+    /** REGEX_REPLACE: like {@code s/pattern/replacement/flags} of sed; the flag p PRINTs a changed result. */
+    private static Value regexReplace(NativeCall call) {
+        Regex.Flags flags = Regex.Flags.parse(text(call, "flags"));
+        Regex.Replaced replaced =
+                Regex.replace(text(call, "text"), text(call, "pattern"), text(call, "replacement"), flags);
+        if (flags.print() && replaced.changed()) {
+            call.process().console().print(replaced.text());
+        }
+        return new StringValue(replaced.text());
     }
 
     private static int count(NativeCall call) {

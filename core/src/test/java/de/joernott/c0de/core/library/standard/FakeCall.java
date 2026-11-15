@@ -121,4 +121,17 @@ final class FakeCall implements NativeCall, ProcessContext {
     public Object host() {
         return null;
     }
+
+    /** The texts PRINTed by the function. */
+    final java.util.List<String> printed = new java.util.ArrayList<>();
+
+    @Override
+    public de.joernott.c0de.core.io.Console console() {
+        return new de.joernott.c0de.core.io.Console() {
+            @Override
+            public void print(String text) {
+                printed.add(text);
+            }
+        };
+    }
 }
