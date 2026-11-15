@@ -45,11 +45,13 @@ import java.time.Clock;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.OptionalInt;
+import java.util.Set;
 import java.util.UUID;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
@@ -207,7 +209,8 @@ public class ProcessManager extends C0deSavedData {
             }
         }
         Map<String, Value> inputs = new LinkedHashMap<>();
-        Optional<String> problem = inputs(program, declaration, items, inputs);
+        Set<String> sensitiveInputs = new HashSet<>();
+        Optional<String> problem = inputs(program, declaration, items, inputs, sensitiveInputs);
         if (problem.isPresent()) {
             release(c0de, chunks);
             return problem;
@@ -240,7 +243,7 @@ public class ProcessManager extends C0deSavedData {
                 activator.player());
         CursorSettings settings = settings(c0de.getRandom().nextLong(), host)
                 .withConstants(constants(c0de, sheet.getAsInt(), host, debug, triggerLevel.getGameTime()));
-        Cursor cursor = new Cursor(program, trigger.function(), inputs, settings);
+        Cursor cursor = new Cursor(program, trigger.function(), inputs, sensitiveInputs, settings);
         if (debug) {
             // A debug cursor starts paused (docs/concept/15-cursor.md)
             cursor.pause();
@@ -426,7 +429,8 @@ public class ProcessManager extends C0deSavedData {
             Program program,
             Statement.FunctionDeclaration declaration,
             List<ItemStack> items,
-            Map<String, Value> inputs) {
+            Map<String, Value> inputs,
+            Set<String> sensitiveInputs) {
         TypeRegistry types = structTypes(program);
         int empty = 0;
         for (ItemStack item : items) {
@@ -456,6 +460,10 @@ public class ProcessManager extends C0deSavedData {
             }
             try {
                 inputs.put(parameter.name(), ItemRules.value(contents.value(), types.resolve(parameter.type())));
+                if (contents.hidden()) {
+                    // A hidden item fills a sensitive parameter (docs/concept/20-lib-security.md)
+                    sensitiveInputs.add(parameter.name());
+                }
             } catch (C0deException e) {
                 return Optional.of("The value of " + parameter.name() + " doesn't fit its type: " + e.getMessage());
             }

@@ -5,6 +5,7 @@ import de.joernott.c0de.blockentity.PropertiesBlockEntity;
 import de.joernott.c0de.compat.Compat;
 import de.joernott.c0de.compat.Nbt;
 import de.joernott.c0de.core.edit.ItemRules;
+import de.joernott.c0de.core.value.DebugText;
 import de.joernott.c0de.core.validation.Validation;
 import de.joernott.c0de.dimension.C0deDimension;
 import de.joernott.c0de.item.LiteralItem;
@@ -76,15 +77,21 @@ public final class DialogService {
             ValueItem.Contents contents = ValueItem.Contents.of(stack);
             type = contents.type();
             data.putString("name", contents.name());
-            data.putString("value", ItemRules.display(contents.type(), contents.value()));
+            // A hidden value never leaves the server in a dialog (docs/concept/20-lib-security.md)
+            data.putString(
+                    "value", contents.hidden() ? DebugText.HIDDEN : ItemRules.display(contents.type(), contents.value()));
+            data.putBoolean("hidden", contents.hidden());
             data.putBoolean("constant", item.isConstant());
-            readOnly = item.isReadOnly(stack);
+            // The trash can of a hidden constant item stays usable
+            readOnly = item.isReadOnly(stack) && !contents.hidden();
         } else if (stack.getItem() instanceof LiteralItem) {
             // A literal item has a type and a value, but no name; its type can always be changed
             LiteralItem.Contents contents = LiteralItem.Contents.of(stack);
             type = "";
             data.putString("name", "");
-            data.putString("value", ItemRules.display(contents.type(), contents.value()));
+            data.putString(
+                    "value", contents.hidden() ? DebugText.HIDDEN : ItemRules.display(contents.type(), contents.value()));
+            data.putBoolean("hidden", contents.hidden());
             data.putBoolean("literal", true);
             data.putString("type", contents.type());
         } else {
@@ -108,13 +115,18 @@ public final class DialogService {
     public static Optional<String> saveItem(ServerPlayer player, CompoundTag properties) {
         ItemStack stack = player.getMainHandItem();
         if (stack.getItem() instanceof LiteralItem literal) {
-            return literal.apply(stack, Nbt.string(properties, "type"), Nbt.string(properties, "value"));
+            return literal.apply(
+                    stack, Nbt.string(properties, "type"), Nbt.string(properties, "value"), Nbt.bool(properties, "hide"));
         }
         if (!(stack.getItem() instanceof ValueItem item)) {
             return Optional.of("There is no variable, constant or literal item in the main hand");
         }
         return item.apply(
-                stack, Nbt.string(properties, "name"), Nbt.string(properties, "type"), Nbt.string(properties, "value"));
+                stack,
+                Nbt.string(properties, "name"),
+                Nbt.string(properties, "type"),
+                Nbt.string(properties, "value"),
+                Nbt.bool(properties, "hide"));
     }
 
     /** Opens the dialog of the block at the position for a player. */

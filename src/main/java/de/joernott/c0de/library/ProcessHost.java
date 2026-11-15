@@ -49,8 +49,18 @@ public record ProcessHost(
     }
 
     @Override
+    public boolean write(String name, Value value, boolean hidden) {
+        return devices().write(name, value, hidden);
+    }
+
+    @Override
     public Optional<Value> input(String name, Type type) {
         return devices().input(name, type);
+    }
+
+    @Override
+    public Optional<Value> input(String name, Type type, boolean hide) {
+        return devices().input(name, type, hide);
     }
 
     @Override

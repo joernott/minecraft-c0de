@@ -2,6 +2,7 @@ package de.joernott.c0de.item;
 
 import de.joernott.c0de.compat.Nbt;
 import de.joernott.c0de.core.edit.ItemRules;
+import de.joernott.c0de.core.value.DebugText;
 import de.joernott.c0de.core.program.TypeText;
 import de.joernott.c0de.dialog.DialogService;
 import java.time.ZoneId;
@@ -45,8 +46,14 @@ public class ValueItem extends Item {
      * @param name the name, empty for an empty item
      * @param type the type in its text form, e.g. {@code ARRAY INTEGER}
      * @param value the value as JSON, empty if the item has no value
+     * @param hidden true if the value can't be seen any more (docs/concept/20-lib-security.md)
      */
-    public record Contents(String name, String type, String value) {
+    public record Contents(String name, String type, String value, boolean hidden) {
+        /** The properties of an item whose value is not hidden. */
+        public Contents(String name, String type, String value) {
+            this(name, type, value, false);
+        }
+
         /** True for an item without name and value. */
         public boolean isEmpty() {
             return name.isEmpty() && value.isEmpty();
@@ -55,7 +62,8 @@ public class ValueItem extends Item {
         public static Contents of(ItemStack stack) {
             CompoundTag tag = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY)
                     .copyTag();
-            return new Contents(Nbt.string(tag, "name"), Nbt.string(tag, "type"), Nbt.string(tag, "value"));
+            return new Contents(
+                    Nbt.string(tag, "name"), Nbt.string(tag, "type"), Nbt.string(tag, "value"), Nbt.bool(tag, "hidden"));
         }
 
         /** True for an item without name, type and value, crafted without a type item or cleared in its dialog. */
@@ -77,6 +85,9 @@ public class ValueItem extends Item {
             tag.putString("name", name);
             tag.putString("type", type);
             tag.putString("value", value);
+            if (hidden && !value.isEmpty()) {
+                tag.putBoolean("hidden", true);
+            }
             stack.set(DataComponents.CUSTOM_DATA, CustomData.of(tag));
         }
     }
@@ -118,14 +129,34 @@ public class ValueItem extends Item {
      * @return the problem if they are not valid
      */
     public Optional<String> apply(ItemStack stack, String name, String typeText, String valueText) {
-        if (isReadOnly(stack)) {
-            return Optional.of("The value of a constant can't be changed");
-        }
-        if (name.isBlank() && typeText.isBlank() && valueText.isEmpty()) {
+        return apply(stack, name, typeText, valueText, false);
+    }
+
+    /**
+     * Checks the properties entered in the dialog and stores them in the item; with {@code hide}, the value is hidden
+     * for good (docs/concept/20-lib-security.md).
+     *
+     * @return the problem if they are not valid
+     */
+    public Optional<String> apply(ItemStack stack, String name, String typeText, String valueText, boolean hide) {
+        Contents old = Contents.of(stack);
+        if (name.isBlank() && typeText.isBlank() && valueText.isEmpty() && (old.hidden() || !isReadOnly(stack))) {
+            // The trash can: also the only way to remove a hidden value (docs/concept/20-lib-security.md)
             Contents.clear(stack);
             return Optional.empty();
         }
-        Contents old = Contents.of(stack);
+        if (isReadOnly(stack) && !(old.hidden() && name.equals(old.name()))) {
+            return Optional.of("The value of a constant can't be changed");
+        }
+        if (old.hidden()) {
+            // Only the name of a hidden variable item can be changed
+            ItemRules.Result result = ItemRules.check(name, old.type(), "", ZoneId.systemDefault());
+            if (result.problem().isPresent()) {
+                return result.problem();
+            }
+            new Contents(name, old.type(), old.value(), true).writeTo(stack);
+            return Optional.empty();
+        }
         // The kind of type comes from crafting; only the subtype or struct name can be added
         String base = old.type().split(" ")[0];
         if (!base.isEmpty() && !typeText.trim().split("\\s+")[0].equalsIgnoreCase(base)) {
@@ -136,7 +167,7 @@ public class ValueItem extends Item {
             return result.problem();
         }
         String type = TypeText.format(TypeText.parse(typeText));
-        new Contents(name, type, result.json()).writeTo(stack);
+        new Contents(name, type, result.json(), hide).writeTo(stack);
         return Optional.empty();
     }
 
@@ -159,7 +190,7 @@ public class ValueItem extends Item {
                     .withStyle(ChatFormatting.GRAY));
         }
         if (!contents.value().isEmpty()) {
-            String value = ItemRules.display(contents.type(), contents.value());
+            String value = contents.hidden() ? DebugText.HIDDEN : ItemRules.display(contents.type(), contents.value());
             if (value.length() > 64) {
                 value = value.substring(0, 61) + "...";
             }

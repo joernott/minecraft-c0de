@@ -3,6 +3,7 @@ package de.joernott.c0de.client.dialog;
 import de.joernott.c0de.client.ClientCompat;
 import de.joernott.c0de.compat.Nbt;
 import de.joernott.c0de.core.edit.PropertyRules;
+import de.joernott.c0de.core.program.Tags;
 import de.joernott.c0de.network.OpenDialogPayload;
 import java.util.Optional;
 import net.minecraft.client.gui.GuiGraphics;
@@ -41,7 +42,7 @@ public class TagScreen extends PropertiesScreen {
                         FIELD_WIDTH,
                         20,
                         Component.translatable("dialog.c0de.tag.language"),
-                        (button, chosen) -> update()));
+                        (button, chosen) -> chooseLanguage(chosen)));
         language.active = !readOnly;
         name = addRenderableWidget(
                 new EditBox(font, left + MARGIN, contentTop() + ROW + 10, FIELD_WIDTH, 18, Component.empty()));
@@ -61,6 +62,16 @@ public class TagScreen extends PropertiesScreen {
     //?}
         super.render(graphics, mouseX, mouseY, partialTick);
         caption(graphics, Component.translatable(path ? "dialog.c0de.tag.path" : "dialog.c0de.tag.key"), name.getY());
+    }
+
+    /** The security tag has only one name (docs/concept/20-lib-security.md), which is filled in. */
+    private void chooseLanguage(String chosen) {
+        if (chosen.equals(Tags.SECURITY)) {
+            name.setValue(Tags.SENSITIVE);
+        } else if (name.getValue().equals(Tags.SENSITIVE)) {
+            name.setValue("");
+        }
+        update();
     }
 
     @Override

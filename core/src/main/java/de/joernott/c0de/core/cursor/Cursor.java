@@ -62,6 +62,7 @@ public final class Cursor {
     private final ProgramIndex index;
     private final String entryFunction;
     private final Map<String, Value> inputs;
+    private final Set<String> sensitiveInputs;
     private final CursorSettings settings;
     private final TypeRegistry types = new TypeRegistry();
     private final Map<String, FunctionEntry> functions = new LinkedHashMap<>();
@@ -88,7 +89,22 @@ public final class Cursor {
      * @param settings the environment
      */
     public Cursor(Program program, String entryFunction, Map<String, Value> inputs, CursorSettings settings) {
+        this(program, entryFunction, inputs, Set.of(), settings);
+    }
+
+    /**
+     * Creates a cursor whose inputs are partly sensitive (docs/concept/20-lib-security.md).
+     *
+     * @param sensitiveInputs the names of the inputs that come from hidden items: their parameters are sensitive
+     */
+    public Cursor(
+            Program program,
+            String entryFunction,
+            Map<String, Value> inputs,
+            Set<String> sensitiveInputs,
+            CursorSettings settings) {
         this.program = program;
+        this.sensitiveInputs = Set.copyOf(sensitiveInputs);
         this.index = new ProgramIndex(program);
         this.entryFunction = entryFunction;
         this.inputs = Map.copyOf(inputs);
@@ -407,8 +423,18 @@ public final class Cursor {
                 throw C0deException.crash(
                         ErrorCode.FUNCTION_MISSING_INPUT, "There is no input for the parameter " + parameter.name());
             }
+            boolean sensitive = input != null && sensitiveInputs.contains(parameter.name());
             stack.push(new VariableItem(
-                    new Variable(parameter.name(), parameter.type(), value, false, Map.of(), parameter.line(), false),
+                    new Variable(
+                            parameter.name(),
+                            parameter.type(),
+                            value,
+                            false,
+                            Map.of(),
+                            parameter.line(),
+                            false,
+                            sensitive,
+                            false),
                     false));
         }
         pushResults(frame, function);
@@ -1082,6 +1108,10 @@ public final class Cursor {
 
     Map<String, Value> inputs() {
         return inputs;
+    }
+
+    Set<String> sensitiveInputs() {
+        return sensitiveInputs;
     }
 
     TypeRegistry types() {

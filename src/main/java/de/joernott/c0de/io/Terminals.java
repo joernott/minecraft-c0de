@@ -53,6 +53,8 @@ public class Terminals extends C0deSavedData {
         private final Deque<String> lines = new ArrayDeque<>();
         private final Deque<String> keys = new ArrayDeque<>();
         private String prompt = "";
+        /** True while the waiting INPUT hides what is typed (docs/concept/20-lib-security.md). */
+        private boolean hideInput;
         private long promptTick;
         private final Set<UUID> viewers = new HashSet<>();
         private boolean dirty;
@@ -150,11 +152,12 @@ public class Terminals extends C0deSavedData {
         setDirty();
     }
 
-    /** An INPUT waits for a line typed on the terminal. */
-    void waiting(Terminal terminal, String prompt, long tick) {
+    /** An INPUT waits for a line typed on the terminal; with {@code hide}, the terminal shows * for the typed keys. */
+    void waiting(Terminal terminal, String prompt, boolean hide, long tick) {
         terminal.promptTick = tick;
-        if (!terminal.prompt.equals(prompt)) {
+        if (!terminal.prompt.equals(prompt) || terminal.hideInput != hide) {
             terminal.prompt = prompt;
+            terminal.hideInput = hide;
             terminal.dirty = true;
         }
     }
@@ -258,6 +261,7 @@ public class Terminals extends C0deSavedData {
         data.putString("program", terminal.program);
         data.putString("function", terminal.function);
         data.putString("prompt", terminal.prompt);
+        data.putBoolean("hide", terminal.hideInput);
         return data;
     }
 

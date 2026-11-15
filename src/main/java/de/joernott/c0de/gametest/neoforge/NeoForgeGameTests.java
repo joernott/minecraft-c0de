@@ -212,6 +212,11 @@ public class NeoForgeGameTests {
     }
 
     @GameTest(template = "empty")
+    public static void valueItemsAreHidden(GameTestHelper helper) {
+        ProcessTests.valueItemsAreHidden(helper);
+    }
+
+    @GameTest(template = "empty")
     public static void debugCursorsArePausedAndStepped(GameTestHelper helper) {
         ToolTests.debugCursorsArePausedAndStepped(helper);
     }

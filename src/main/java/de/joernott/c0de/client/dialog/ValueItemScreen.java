@@ -1,6 +1,7 @@
 package de.joernott.c0de.client.dialog;
 
 import de.joernott.c0de.C0de;
+import de.joernott.c0de.client.ClientCompat;
 import de.joernott.c0de.compat.Nbt;
 import de.joernott.c0de.core.edit.ItemRules;
 import de.joernott.c0de.core.edit.PropertyRules;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.CycleButton;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.nbt.CompoundTag;
@@ -24,13 +26,19 @@ import net.minecraft.resources.ResourceLocation;
  * The dialog of a variable or constant item: its name, its type (the subtype or struct name can be added) and
  * its value, entered like the value of a LITERAL for simple types and STRING and as JSON otherwise. While the type
  * field has the focus, a drop-down list below it offers the types, filtered by the entered text. The trash can
- * button empties all fields; an item saved with empty fields is uninitialized.
+ * button empties all fields; an item saved with empty fields is uninitialized. The button Hide hides the value for
+ * good: the dialog of a hidden item shows *** and only the trash can removes it (docs/concept/20-lib-security.md).
  */
 public class ValueItemScreen extends PropertiesScreen {
     private EditBox name;
     private EditBox type;
     private EditBox value;
     private Button trash;
+    private CycleButton<String> hide;
+    private String hideNo;
+    private String hideYes;
+    /** True while the item has a hidden value that the trash can hasn't removed yet. */
+    private boolean hidden;
     private ChoiceList types;
     private static final int TYPE_ROWS = 6;
 
@@ -56,24 +64,42 @@ public class ValueItemScreen extends PropertiesScreen {
 
     @Override
     protected int contentHeight() {
-        return 3 * (ROW + 10) + 8;
+        return 3 * (ROW + 10) + ROW + 8;
     }
 
     private EditBox field(int row, String key, int maxLength) {
+        return field(row, key, maxLength, !readOnly);
+    }
+
+    private EditBox field(int row, String key, int maxLength, boolean editable) {
         EditBox box = addRenderableWidget(new EditBox(
                 font, left + MARGIN, contentTop() + 10 + row * (ROW + 10), FIELD_WIDTH, 18, Component.empty()));
         box.setMaxLength(maxLength);
         box.setValue(Nbt.string(payload.data(), key));
-        box.setEditable(!readOnly);
+        box.setEditable(editable);
         box.setResponder(text -> update());
         return box;
     }
 
     @Override
     protected void addFields() {
+        hidden = Nbt.bool(payload.data(), "hidden");
         name = field(0, "name", PropertyRules.MAX_TEXT_LENGTH);
-        type = field(1, "type", 200);
-        value = field(2, "value", 10 * PropertyRules.MAX_TEXT_LENGTH);
+        type = field(1, "type", 200, !readOnly && !hidden);
+        value = field(2, "value", 10 * PropertyRules.MAX_TEXT_LENGTH, !readOnly && !hidden);
+        // Only the trash can changes a hidden literal or constant item
+        name.setEditable(!readOnly && !(hidden && (literal() || Nbt.bool(payload.data(), "constant"))));
+        hideNo = Component.translatable("dialog.c0de.item.hide.no").getString();
+        hideYes = Component.translatable("dialog.c0de.item.hide.yes").getString();
+        hide = addRenderableWidget(ClientCompat.cycleButton(List.of(hideNo, hideYes), hidden ? hideYes : hideNo)
+                .create(
+                        left + MARGIN,
+                        contentTop() + 10 + 3 * (ROW + 10),
+                        FIELD_WIDTH,
+                        20,
+                        Component.translatable("dialog.c0de.item.hide"),
+                        (button, chosen) -> update()));
+        hide.active = !readOnly && !hidden;
         name.visible = !literal();
         setInitialFocus(literal() ? type : name);
         List<String> choices = new ArrayList<>();
@@ -99,6 +125,12 @@ public class ValueItemScreen extends PropertiesScreen {
 
     /** Empties all fields, which makes the item uninitialized when it is saved. */
     private void clear() {
+        hidden = false;
+        type.setEditable(true);
+        value.setEditable(true);
+        name.setEditable(true);
+        hide.setValue(hideNo);
+        hide.active = true;
         name.setValue("");
         type.setValue("");
         value.setValue("");
@@ -106,7 +138,7 @@ public class ValueItemScreen extends PropertiesScreen {
     }
 
     private boolean showsTypes() {
-        return types != null && !readOnly && type.isFocused() && !Nbt.list(payload.data(), "types", Tag.TAG_STRING).isEmpty();
+        return types != null && !readOnly && !hidden && type.isFocused() && !Nbt.list(payload.data(), "types", Tag.TAG_STRING).isEmpty();
     }
 
     //? if >=1.21.9 {
@@ -175,6 +207,13 @@ public class ValueItemScreen extends PropertiesScreen {
 
     @Override
     protected Optional<String> problem() {
+        if (hidden) {
+            // Only the name of a hidden variable item can be changed
+            return literal() || Nbt.bool(payload.data(), "constant")
+                    ? Optional.empty()
+                    : ItemRules.check(name.getValue(), type.getValue(), "", ZoneId.systemDefault())
+                            .problem();
+        }
         if (literal()) {
             if (type.getValue().isBlank()) {
                 return value.getValue().isEmpty() ? Optional.empty() : Optional.of("A literal needs a type");
@@ -192,7 +231,8 @@ public class ValueItemScreen extends PropertiesScreen {
         CompoundTag properties = new CompoundTag();
         properties.putString("name", name.getValue());
         properties.putString("type", type.getValue());
-        properties.putString("value", value.getValue());
+        properties.putString("value", hidden ? "" : value.getValue());
+        properties.putBoolean("hide", hidden || hide.getValue().equals(hideYes));
         return properties;
     }
 

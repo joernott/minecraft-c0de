@@ -211,6 +211,11 @@ public class FabricGameTests {
     }
 
     @GameTest(template = SmokeTests.EMPTY_STRUCTURE, timeoutTicks = 100)
+    public void valueItemsAreHidden(GameTestHelper helper) {
+        ProcessTests.valueItemsAreHidden(helper);
+    }
+
+    @GameTest(template = SmokeTests.EMPTY_STRUCTURE, timeoutTicks = 100)
     public void debugCursorsArePausedAndStepped(GameTestHelper helper) {
         ToolTests.debugCursorsArePausedAndStepped(helper);
     }

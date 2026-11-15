@@ -148,6 +148,38 @@ class CursorSecurityTest {
     }
 
     @Test
+    void parametersFromHiddenItemsAreSensitive() {
+        CursorSettings settings = new CursorSettings(
+                CursorSettings.DEFAULT_STACK_SIZE,
+                StandardLibraries.registry(),
+                CursorTestSupport.CLOCK,
+                ZoneOffset.UTC,
+                (Vault.Provider) CursorSecurityTest::vaultWithKey,
+                42);
+        Cursor cursor = new Cursor(
+                CursorTestSupport.program("""
+                        FUNCTION main
+                            PARAMETER password STRING
+                            PARAMETER user STRING
+                        BEGIN
+                            CALL INPUT
+                                PARAMETER variable user ;
+                        END FUNCTION
+                        """),
+                "main",
+                Map.of("password", string("pw"), "user", string("alex")),
+                java.util.Set.of("password"),
+                settings);
+        cursor.run(20);
+        String stack = String.join("\n", CursorInspection.stack(cursor));
+        assertTrue(stack.contains("VARIABLE password STRING = ***"), stack);
+        assertTrue(stack.contains("VARIABLE user STRING = alex"), stack);
+        Cursor restored = CursorSnapshot.restore(CursorSnapshot.save(cursor), cursor.program(), settings);
+        String restoredStack = String.join("\n", CursorInspection.stack(restored));
+        assertTrue(restoredStack.contains("VARIABLE password STRING = ***"), restoredStack);
+    }
+
+    @Test
     void theLibrarySetsAndDeletesSecrets() {
         MemoryVault vault = new MemoryVault();
         Map<String, Value> results = finished(run("""

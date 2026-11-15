@@ -21,9 +21,11 @@ import de.joernott.c0de.core.value.TimeValue;
 import de.joernott.c0de.core.value.Type;
 import de.joernott.c0de.core.value.Value;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Stores a cursor as a tree of plain data, so that running processes survive a server restart. The tree
@@ -46,6 +48,7 @@ public final class CursorSnapshot {
         data.put("version", VERSION);
         data.put("entry", cursor.entryFunction());
         data.put("inputs", encoder.values(cursor.inputs()));
+        data.put("sensitiveInputs", new ArrayList<Object>(cursor.sensitiveInputs()));
         data.put("state", cursor.state().name());
         data.put("line", (long) cursor.line());
         data.put("wait", (long) cursor.waitSteps());
@@ -244,8 +247,12 @@ public final class CursorSnapshot {
             Map<String, Object> type = map(entry);
             types.add((String) type.get("name"), decoder.definition(map(type.get("struct"))));
         }
-        Cursor cursor =
-                new Cursor(program, (String) data.get("entry"), decoder.values(map(data.get("inputs"))), settings);
+        Cursor cursor = new Cursor(
+                program,
+                (String) data.get("entry"),
+                decoder.values(map(data.get("inputs"))),
+                sensitiveInputs(data.get("sensitiveInputs")),
+                settings);
         types.all().forEach((name, definition) -> cursor.types().add(name, definition));
         for (Object library : list(data.get("libraries"))) {
             cursor.restoreLibrary((String) library);
@@ -415,6 +422,15 @@ public final class CursorSnapshot {
     }
 
     @SuppressWarnings("unchecked")
+    /** The names of the sensitive inputs; cursors saved before task 16.5 have none. */
+    private static Set<String> sensitiveInputs(Object data) {
+        Set<String> names = new HashSet<>();
+        if (data != null) {
+            list(data).forEach(name -> names.add((String) name));
+        }
+        return names;
+    }
+
     private static Map<String, Object> map(Object data) {
         return (Map<String, Object>) data;
     }

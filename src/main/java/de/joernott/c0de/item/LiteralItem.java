@@ -2,6 +2,7 @@ package de.joernott.c0de.item;
 
 import de.joernott.c0de.compat.Nbt;
 import de.joernott.c0de.core.edit.ItemRules;
+import de.joernott.c0de.core.value.DebugText;
 import de.joernott.c0de.core.program.TypeText;
 import de.joernott.c0de.dialog.DialogService;
 import java.time.ZoneId;
@@ -37,15 +38,21 @@ public class LiteralItem extends Item {
      *
      * @param type the type in its text form, e.g. {@code INTEGER}
      * @param value the value as JSON, empty for an empty literal item
+     * @param hidden true if the value can't be seen any more (docs/concept/20-lib-security.md)
      */
-    public record Contents(String type, String value) {
+    public record Contents(String type, String value, boolean hidden) {
+        /** The properties of an item whose value is not hidden. */
+        public Contents(String type, String value) {
+            this(type, value, false);
+        }
+
         public boolean isEmpty() {
             return value.isEmpty();
         }
 
         public static Contents of(ItemStack stack) {
             CompoundTag tag = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag();
-            return new Contents(Nbt.string(tag, "type"), Nbt.string(tag, "value"));
+            return new Contents(Nbt.string(tag, "type"), Nbt.string(tag, "value"), Nbt.bool(tag, "hidden"));
         }
 
         public void writeTo(ItemStack stack) {
@@ -56,6 +63,9 @@ public class LiteralItem extends Item {
             CompoundTag tag = new CompoundTag();
             tag.putString("type", type);
             tag.putString("value", value);
+            if (hidden && !value.isEmpty()) {
+                tag.putBoolean("hidden", true);
+            }
             stack.set(DataComponents.CUSTOM_DATA, CustomData.of(tag));
         }
     }
@@ -92,6 +102,14 @@ public class LiteralItem extends Item {
      * @return the problem if they are not valid
      */
     public Optional<String> apply(ItemStack stack, String typeText, String valueText) {
+        return apply(stack, typeText, valueText, false);
+    }
+
+    /** Checks the type and value and stores them; with {@code hide}, the value is hidden for good. */
+    public Optional<String> apply(ItemStack stack, String typeText, String valueText, boolean hide) {
+        if (Contents.of(stack).hidden() && !(typeText.isBlank() && valueText.isEmpty())) {
+            return Optional.of("A hidden value can only be removed with the trash can");
+        }
         if (typeText.isBlank()) {
             if (!valueText.isEmpty()) {
                 return Optional.of("A literal needs a type");
@@ -104,7 +122,7 @@ public class LiteralItem extends Item {
         if (result.problem().isPresent()) {
             return result.problem();
         }
-        new Contents(TypeText.format(TypeText.parse(typeText)), result.json()).writeTo(stack);
+        new Contents(TypeText.format(TypeText.parse(typeText)), result.json(), hide).writeTo(stack);
         return Optional.empty();
     }
 
@@ -114,7 +132,8 @@ public class LiteralItem extends Item {
         return contents.isEmpty()
                 ? super.getName(stack)
                 : Component.translatable(
-                        getDescriptionId() + ".valued", ItemRules.display(contents.type(), contents.value()));
+                        getDescriptionId() + ".valued",
+                        contents.hidden() ? DebugText.HIDDEN : ItemRules.display(contents.type(), contents.value()));
     }
 
     /** The lines of the tooltip. */

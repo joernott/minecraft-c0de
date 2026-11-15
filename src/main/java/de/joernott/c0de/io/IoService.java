@@ -8,6 +8,7 @@ import de.joernott.c0de.core.error.C0deException;
 import de.joernott.c0de.core.io.Console;
 import de.joernott.c0de.core.io.TextScreen;
 import de.joernott.c0de.core.library.standard.JsonValues;
+import de.joernott.c0de.core.value.DebugText;
 import de.joernott.c0de.core.value.Type;
 import de.joernott.c0de.core.value.Value;
 import de.joernott.c0de.dialog.DialogService;
@@ -172,6 +173,12 @@ public final class IoService {
          */
         @Override
         public boolean write(String name, Value value) {
+            return write(name, value, false);
+        }
+
+        /** WRITE of a sensitive value puts a hidden variable item into the output (docs/concept/20-lib-security.md). */
+        @Override
+        public boolean write(String name, Value value, boolean hidden) {
             boolean written = false;
             for (IoBlockEntity block : ioBlocks()) {
                 SimpleContainer input = block.input();
@@ -181,7 +188,7 @@ public final class IoService {
                             && !item.isConstant()
                             && ValueItem.Contents.of(stack).isEmpty()) {
                         ItemStack result = stack.copyWithCount(1);
-                        new ValueItem.Contents(name, value.type().toString(), JsonValues.write(value))
+                        new ValueItem.Contents(name, value.type().toString(), JsonValues.write(value), hidden)
                                 .writeTo(result);
                         if (!block.output().canAddItem(result)) {
                             break;
@@ -204,6 +211,11 @@ public final class IoService {
          */
         @Override
         public Optional<Value> input(String name, Type type) {
+            return input(name, type, false);
+        }
+
+        @Override
+        public Optional<Value> input(String name, Type type, boolean hide) {
             String typeText = type.toString();
             for (IoBlockEntity block : ioBlocks()) {
                 Optional<Value> value = take(block, name, typeText, type);
@@ -211,22 +223,23 @@ public final class IoService {
                     return value;
                 }
             }
-            return typed(name, typeText, type);
+            return typed(name, typeText, type, hide);
         }
 
         /**
          * A line typed on a terminal; the terminals show that INPUT waits. The line is shown on its terminal; a
          * line that doesn't fit the type is refused with a message there.
          */
-        private Optional<Value> typed(String name, String typeText, Type type) {
+        private Optional<Value> typed(String name, String typeText, Type type, boolean hide) {
             Terminals terminals = Terminals.get(server);
             List<Terminals.Terminal> bound = terminals.terminals(program, function);
             long tick = server.overworld().getGameTime();
             for (Terminals.Terminal terminal : bound) {
-                terminals.waiting(terminal, name + " (" + typeText + ")", tick);
+                terminals.waiting(terminal, name + " (" + typeText + ")", hide, tick);
                 String line;
                 while ((line = terminal.pollLine()) != null) {
-                    terminal.screen().println(line);
+                    // A hidden line is not shown (docs/concept/20-lib-security.md)
+                    terminal.screen().println(hide ? DebugText.HIDDEN : line);
                     terminals.changed(terminal);
                     ItemRules.Result result = ItemRules.check("input", typeText, line, ZoneId.systemDefault());
                     Optional<String> problem = result.problem();

@@ -7,6 +7,7 @@ import de.joernott.c0de.blockentity.TriggerBlockEntity;
 import de.joernott.c0de.compat.Nbt;
 import de.joernott.c0de.content.C0deBlocks;
 import de.joernott.c0de.content.C0deItems;
+import de.joernott.c0de.item.LiteralItem;
 import de.joernott.c0de.core.cursor.Cursor;
 import de.joernott.c0de.core.cursor.CursorSettings;
 import de.joernott.c0de.core.cursor.CursorSnapshot;
@@ -615,6 +616,36 @@ public final class ProcessTests {
         helper.assertTrue(constantItem.apply(constant, "limit", "INTEGER", "10").isEmpty(), "The constant was not set");
         helper.assertTrue(
                 constantItem.apply(constant, "limit", "INTEGER", "11").isPresent(), "The constant could be changed");
+        helper.succeed();
+    }
+
+    /**
+     * A hidden value stays hidden: only the name of a variable item can be changed, and only the trash can (all
+     * fields empty) removes it (docs/concept/20-lib-security.md). Hidden items don't stack with others.
+     */
+    public static void valueItemsAreHidden(GameTestHelper helper) {
+        ItemStack variable = variable("", "STRING", "");
+        ValueItem item = (ValueItem) variable.getItem();
+        helper.assertTrue(item.apply(variable, "token", "STRING", "s3cr3t", true).isEmpty(), "The value was rejected");
+        helper.assertTrue(ValueItem.Contents.of(variable).hidden(), "The value is not hidden");
+        helper.assertTrue(
+                item.apply(variable, "apiToken", "STRING", "", false).isEmpty(), "The name could not be changed");
+        ValueItem.Contents contents = ValueItem.Contents.of(variable);
+        helper.assertTrue(
+                contents.hidden() && contents.name().equals("apiToken") && contents.value().equals("\"s3cr3t\""),
+                "Renaming changed the value or showed it: " + contents);
+        ItemStack plain = variable("apiToken", "STRING", "\"s3cr3t\"");
+        helper.assertFalse(ItemStack.isSameItemSameComponents(variable, plain), "A hidden item stacks with a plain one");
+        helper.assertTrue(item.apply(variable, "", "", "", false).isEmpty(), "The trash can was refused");
+        helper.assertTrue(ValueItem.Contents.of(variable).isUninitialized(), "The trash can left the value");
+
+        ItemStack literal = new ItemStack(C0deItems.LITERAL_ITEM.get());
+        LiteralItem literalItem = (LiteralItem) literal.getItem();
+        helper.assertTrue(literalItem.apply(literal, "INTEGER", "1234", true).isEmpty(), "The literal was rejected");
+        helper.assertTrue(
+                literalItem.apply(literal, "INTEGER", "5", false).isPresent(), "A hidden literal could be changed");
+        helper.assertTrue(literalItem.apply(literal, "", "", false).isEmpty(), "The trash can was refused");
+        helper.assertFalse(LiteralItem.Contents.of(literal).hidden(), "The literal is still hidden");
         helper.succeed();
     }
 }

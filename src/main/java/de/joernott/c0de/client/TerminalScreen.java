@@ -39,6 +39,11 @@ public class TerminalScreen extends Screen {
     private String program;
     private String function;
     private String prompt;
+    /** True while the waiting INPUT hides what is typed: the input line shows * (docs/concept/20-lib-security.md). */
+    private boolean hide;
+    /** The typed text of a hidden input line. */
+    private String hiddenText = "";
+    private boolean masking;
     /** How many rows the view is scrolled up from the newest row. */
     private int scroll;
     private boolean draggingScrollBar;
@@ -73,6 +78,7 @@ public class TerminalScreen extends Screen {
         program = Nbt.string(data, "program");
         function = Nbt.string(data, "function");
         prompt = Nbt.string(data, "prompt");
+        hide = Nbt.bool(data, "hide");
         if (programButton != null) {
             updateWidgets();
         }
@@ -112,6 +118,7 @@ public class TerminalScreen extends Screen {
         input = addRenderableWidget(new EditBox(
                 font, left, top + screenHeight + 18, screenWidth + SCROLL_BAR + BORDER, 16, Component.empty()));
         input.setMaxLength(1024);
+        input.setResponder(this::mask);
         updateWidgets();
     }
 
@@ -126,6 +133,7 @@ public class TerminalScreen extends Screen {
         if (waiting && getFocused() != input) {
             setFocused(input);
         } else if (!waiting) {
+            hiddenText = "";
             input.setValue("");
             setFocused(null);
         }
@@ -149,6 +157,25 @@ public class TerminalScreen extends Screen {
         return values.isEmpty() ? "" : values.get((index + 1) % values.size());
     }
 
+    /**
+     * Keeps the typed text of a hidden input line and shows a * for each character instead. Typed and pasted text
+     * is added at the end, deleting removes from the end.
+     */
+    private void mask(String text) {
+        if (!hide || masking) {
+            return;
+        }
+        String visible = "*".repeat(hiddenText.length());
+        if (text.length() >= visible.length() && text.startsWith(visible)) {
+            hiddenText += text.substring(visible.length());
+        } else {
+            hiddenText = hiddenText.substring(0, Math.min(hiddenText.length(), text.length()));
+        }
+        masking = true;
+        input.setValue("*".repeat(hiddenText.length()));
+        masking = false;
+    }
+
     // ------------------------------------------------------------------ keys
 
     /** Handles the keys the terminal uses itself; false passes the key on to the screen. */
@@ -157,7 +184,8 @@ public class TerminalScreen extends Screen {
             return false;
         }
         if (!prompt.isEmpty() && (keyCode == InputConstants.KEY_RETURN || keyCode == InputConstants.KEY_NUMPADENTER)) {
-            Platform.INSTANCE.sendToServer(new TerminalActionPayload("line", input.getValue(), ""));
+            Platform.INSTANCE.sendToServer(new TerminalActionPayload("line", hide ? hiddenText : input.getValue(), ""));
+            hiddenText = "";
             input.setValue("");
             scroll = 0;
             return true;
