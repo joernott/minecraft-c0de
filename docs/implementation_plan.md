@@ -414,6 +414,7 @@ After sprint 12, every new Minecraft release is added as a new node in its own s
 | 16.23 | The generator writes the books as Markdown and `recipes.json` (links between entries, program examples, recipes); Patchouli is removed (books, recipe conditions, development dependency, optional dependency on Modrinth and CurseForge). | ✅ |
 | 16.24 | Documentation: guide and reference (English and German) without Patchouli, development environment, Modrinth description, changelog. | ✅ |
 | 16.25 | Check on the VM (all nodes, GameTests) and in the game on 1.21.1 and 26.3 for both loaders. | |
+| 16.25.1 | Found in the in-game test on 2026-11-15: long titles wrap (above entries and in the lists of categories and entries), program examples have the colours of c0de.at, and the guide shows how to craft the other handbooks (Tools, Handbooks, linked from its landing page). | ✅ |
 
 ## Risks
 
