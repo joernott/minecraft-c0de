@@ -176,3 +176,7 @@ The settings of the mod are stored in the file `config/c0de.properties` of the s
 | `allowBlockChanges` | false | See [Owner and permissions](12-lib-minecraft.md#owner-and-permissions). |
 | `allowSpawning` | false | See [Owner and permissions](12-lib-minecraft.md#owner-and-permissions). |
 | `allowTeleporting` | false | See [Owner and permissions](12-lib-minecraft.md#owner-and-permissions). |
+| `enableMoveItems` | true | MOVE_ITEMS of c0de/minecraft; `false` switches it off for everyone. |
+| `moveItemsStacksPerTick` | 1 | Stacks MOVE_ITEMS moves per tick (1 to 1728). See [Moving items](12-lib-minecraft.md#moving-items). |
+| `moveItemsBlocksPerTick` | 128 | Blocks items travel per tick with MOVE_ITEMS (1 to 30000000). |
+| `enableCommand` | true | COMMAND of c0de/minecraft; `false` switches it off for everyone. |

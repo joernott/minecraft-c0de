@@ -733,3 +733,17 @@ I also want to introduce a new library c0de/security indo c0de and a few securit
 ## 2026-11-15 – Start of sprint 16
 
 That sounds fine, please start with the implementation.
+
+## 2026-11-15 – keepassjava2, block data, MOVE_ITEM, COMMAND and regular expressions
+
+How much smaller would the jar be if we use keepassjava2 instead of the current library?
+
+Also, before releasing, I want to add a few other features:
+- If the whole NBT data is not available in the GET_BLOCK functions properties, it should be made available. 
+- The PLACE_BLOCK function shoud get an optional parameter for that data. Illegal data causes an error
+- A MOVE_ITEM function that moves items from one inventory to another inventory in the same dimension and requires no extra privileges except for the inventory being accessible by the player if he would interact with the block by himself. The function has a quantity parameter which can be -1 for "all items" that defaults to "1" and an optional filter which is either a string or an array of strings. Those strings are either just a minecraft ID or a filter expression similar to what jei allows in its search field. The duration it takes can be configured in the configuration file for c0de, based on the distance between inventories. The default quantity per tick is one stack and the default distance is 128 blocks. This function can be disabled in the configuration file. 
+- A COMMAND function that does the same as a command block does, requiring the same permissions a command block needs. This can be disabled in the configuration file.
+
+The strings library should get two more functions:
+- REGEX_MATCH matches a string against a PCRE regular expression and returns true or false
+- REGEX_REPLACE replaces string contents based on a PCRE pattern. It has 4 parameters, the string, a pattern to look for, a pattern that describes what a match is replaced with (including backreferences) and an optional flags parametwr with g,p or a number, similar to what sed supports
