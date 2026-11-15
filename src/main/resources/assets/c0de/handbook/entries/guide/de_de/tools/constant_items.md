@@ -7,9 +7,9 @@
 }
 ```
 
-Eine Konstantenkarte hat einen rosa Rand. Sie funktioniert wie eine Variablenkarte, aber sobald sie einen Wert hat, kann er nicht mehr geändert werden.
+Eine Konstantenkarte hat einen rosa Rand. Sie funktioniert wie eine [Variablenkarte](^tools/variable_items), aber sobald sie einen Wert hat, kann er nicht mehr geändert werden.
 
-Rezept: eine Datenkarte, eine Typkarte und rosa Farbstoff ergeben zwei Konstantenkarten. Eine Datenkarte und rosa Farbstoff ergeben eine nicht initialisierte Konstantenkarte.
+Rezept: eine [Datenkarte](^tools/data_item), eine [Typkarte](^tools/type_items) und rosa Farbstoff ergeben zwei Konstantenkarten. Eine Datenkarte und rosa Farbstoff ergeben eine [nicht initialisierte Konstantenkarte](^running_programs/uninitialized_items).
 
 **Rezepte**
 

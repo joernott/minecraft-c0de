@@ -7,7 +7,7 @@
 }
 ```
 
-EXIT ends the whole process at once, no matter how deep the cursor is. It needs a number from 0 to 15: the **exit code**. A comparator next to the trigger block can read it.
+EXIT ends the whole process at once, no matter how deep the cursor is. It needs a number from 0 to 15: the **[exit code](^running_programs/exit_codes)**. A comparator next to the [trigger block](^running_programs/three_trigger_blocks) can read it.
 
 ```c0de
 EXIT 3 ;

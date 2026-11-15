@@ -15,7 +15,7 @@ Manche Funktionen verändern die Welt stärker:
 - TELEPORT: ein Objekt bewegen
 - COMMAND: einen Befehl ausführen wie ein Befehlsblock
 
-Positionen werden als Struktur `c0de/minecraft/POSITION` mit x, y, z und einer optionalen Dimension angegeben. Eine leere Dimension bedeutet die Dimension des Auslöserblocks. Programme können die Blöcke auf den Blättern der c0de-Dimension niemals verändern.
+Positionen werden als Struktur `c0de/minecraft/POSITION` mit x, y, z und einer optionalen Dimension angegeben. Eine leere Dimension bedeutet die Dimension des [Auslöserblocks](^running_programs/three_trigger_blocks). Programme können die Blöcke auf den Blättern der c0de-Dimension niemals verändern.
 
 **Rezepte**
 

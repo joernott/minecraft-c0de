@@ -7,12 +7,12 @@
 }
 ```
 
-A trigger block does not start a process if:
+A [trigger block](^running_programs/three_trigger_blocks) does not start a process if:
 
 - it has no program or function yet,
 - its last process is still running,
 - an item is missing for a parameter without default value,
-- an uninitialized item is missing for a result,
+- an [uninitialized item](^running_programs/uninitialized_items) is missing for a result,
 - the output inventory has too few free slots.
 
 **Recipes**

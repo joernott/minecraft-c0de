@@ -7,7 +7,7 @@
 }
 ```
 
-Der Spieler, der einen Auslöserblock zuletzt eingerichtet hat, ist sein **Besitzer**. Seine Programme handeln im Namen dieses Spielers. Das ist wichtig für die Bibliothek c0de/minecraft und für das Abbrechen von Prozessen.
+Der Spieler, der einen [Auslöserblock](^running_programs/three_trigger_blocks) zuletzt eingerichtet hat, ist sein **Besitzer**. Seine Programme handeln im Namen dieses Spielers. Das ist wichtig für die Bibliothek [c0de/minecraft](^libraries/c0de_minecraft) und für das Abbrechen von Prozessen.
 
 **Rezepte**
 

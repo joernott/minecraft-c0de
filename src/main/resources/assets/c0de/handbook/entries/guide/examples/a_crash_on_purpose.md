@@ -28,7 +28,7 @@ BEGIN
 END FUNCTION
 ```
 
-Dividing by zero raises DIVISION\_BY\_ZERO in `divide`. The CALL in `main` has no ERROR variable to catch it, so the error moves up. In the entry function, it crashes the process. The trigger dialog shows the error and line 9, and a comparator reads 15.
+Dividing by zero raises DIVISION\_BY\_ZERO in `divide`. The [CALL](^language/call) in `main` has no ERROR variable to catch it, so the error moves up. In the entry function, it crashes the process. The [trigger dialog](^running_programs/the_trigger_dialog) shows the error and line 9, and a comparator reads 15.
 
 **Recipes**
 

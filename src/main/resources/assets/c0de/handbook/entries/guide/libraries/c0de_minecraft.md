@@ -7,7 +7,7 @@
 }
 ```
 
-This library lets programs touch the world around the trigger block:
+This library lets programs touch the world around the [trigger block](^running_programs/three_trigger_blocks):
 
 - TICKS: the game time of the world, not the time of day
 - BEEP, SOUND: play notes like a note block

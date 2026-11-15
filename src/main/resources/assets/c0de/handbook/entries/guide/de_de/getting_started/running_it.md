@@ -7,9 +7,9 @@
 }
 ```
 
-Gib dem Auslöserblock einen Redstone-Impuls, zum Beispiel mit einem Knopf. Das Programm läuft auf seinem Blatt in der c0de-Dimension. Während es läuft, stehen ein PID-Block und ein Cursor auf der Cursorschiene.
+Gib dem [Auslöserblock](^running_programs/three_trigger_blocks) einen Redstone-Impuls, zum Beispiel mit einem Knopf. Das Programm läuft auf seinem Blatt in der c0de-Dimension. Während es läuft, stehen ein [PID-Block](^running_programs/pid_blocks) und ein Cursor auf der Cursorschiene.
 
-Wenn es fertig ist, enthält das Ausgabeinventar eine Variablenkarte. Nimm sie heraus und klicke mit rechts, während du sie hältst. Der Dialog zeigt den Namen `result`, den Typ INTEGER und den Wert 42.
+Wenn es fertig ist, enthält das Ausgabeinventar eine [Variablenkarte](^tools/variable_items). Nimm sie heraus und klicke mit rechts, während du sie hältst. Der Dialog zeigt den Namen `result`, den Typ INTEGER und den Wert 42.
 
 Glückwunsch, du hast dein erstes c0de-Programm geschrieben\!
 

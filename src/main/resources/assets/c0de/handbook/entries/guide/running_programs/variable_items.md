@@ -7,7 +7,7 @@
 }
 ```
 
-Data goes into a process as **variable items** and **constant items** in the input inventory. Only these items fit there.
+Data goes into a process as **[variable items](^tools/variable_items)** and **[constant items](^tools/constant_items)** in the input inventory. Only these items fit there.
 
 Each item has a name, a type and a value. An item goes to the parameter of the entry function with the same name. Its type must match the type of the parameter.
 

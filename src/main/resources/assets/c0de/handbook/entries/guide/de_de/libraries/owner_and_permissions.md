@@ -7,7 +7,7 @@
 }
 ```
 
-Programme handeln im Namen des Besitzers des Auslöserblocks. Die weltverändernden Funktionen oben funktionieren nur, wenn der Besitzer ein Operator ist oder wenn der Server sie in der Datei `config/c0de.properties` erlaubt.
+Programme handeln im Namen des Besitzers des [Auslöserblocks](^running_programs/three_trigger_blocks). Die weltverändernden Funktionen oben funktionieren nur, wenn der Besitzer ein Operator ist oder wenn der Server sie in der Datei `config/c0de.properties` erlaubt.
 
 Sonst lösen sie PERMISSION\_DENIED aus. Spieler können nur teleportiert werden, wenn der Besitzer ein Operator ist, und nur Operatoren können mit COMMAND Befehle ausführen oder Befehlsblöcken ihre Daten geben.
 

@@ -37,7 +37,7 @@ BEGIN
 END FUNCTION
 ```
 
-NOW liest die Uhr, FORMAT macht daraus einen Text wie "2026-10-19 12:05:09". WEEK und WEEKDAY ergeben die Kalenderwoche und den Wochentag (1 ist Montag). Wenn du 1000 zu einer TIME addierst, kommt eine Sekunde dazu. SLEEP wartet vor dem Ende zwei Spielticks.
+NOW liest die Uhr, [FORMAT](^libraries/format) macht daraus einen Text wie "2026-10-19 12:05:09". WEEK und WEEKDAY ergeben die Kalenderwoche und den Wochentag (1 ist Montag). Wenn du 1000 zu einer TIME addierst, kommt eine Sekunde dazu. SLEEP wartet vor dem Ende zwei Spielticks.
 
 **Rezepte**
 

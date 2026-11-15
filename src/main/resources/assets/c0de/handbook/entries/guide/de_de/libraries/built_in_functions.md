@@ -7,7 +7,7 @@
 }
 ```
 
-Diese funktionieren ohne INCLUDE:
+Diese funktionieren ohne [INCLUDE](^libraries/including_libraries):
 
 - LEN: die Länge eines Texts, Arrays oder Hashs
 - HAS\_KEY: wahr, wenn ein Hash einen Schlüssel hat
@@ -15,4 +15,4 @@ Diese funktionieren ohne INCLUDE:
 - INSERT: ein Array mit einem neuen Element an einer Position
 - CLEAR: ein leeres Array oder ein leerer Hash
 - SWAP: tauscht zwei Werte
-- RAISE: löst deinen eigenen Fehler aus, Code 1000 oder höher
+- [RAISE](^language/your_own_errors): löst deinen eigenen Fehler aus, Code 1000 oder höher

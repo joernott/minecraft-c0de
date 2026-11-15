@@ -7,7 +7,7 @@
 }
 ```
 
-EXIT beendet sofort den ganzen Prozess, egal wie tief der Cursor steckt. Es braucht eine Zahl von 0 bis 15: den **Exit-Code**. Ein Komparator neben dem Auslöserblock kann ihn lesen.
+EXIT beendet sofort den ganzen Prozess, egal wie tief der Cursor steckt. Es braucht eine Zahl von 0 bis 15: den **[Exit-Code](^running_programs/exit_codes)**. Ein Komparator neben dem [Auslöserblock](^running_programs/three_trigger_blocks) kann ihn lesen.
 
 ```c0de
 EXIT 3 ;

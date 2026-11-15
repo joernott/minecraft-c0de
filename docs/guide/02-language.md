@@ -4,15 +4,15 @@ This chapter explains the c0de language in short. Every part is a block you plac
 
 ## Programs
 
-A program starts at line 0 with a PROGRAM block and a LABEL with its name. The name must be unique in the whole c0de dimension. Line 1 must be a NOOP line.
+A program starts at line 0 with a PROGRAM block and a LABEL with its name. The name must be unique in the whole c0de dimension. Line 1 must be a [NOOP line](#noop-and-comment).
 
-After that, INCLUDE lines may follow. They load libraries, like `INCLUDE c0de/math`. Then come struct types, global variables, constants and functions, in any order.
+After that, [INCLUDE lines](05-libraries.md#including-libraries) may follow. They load libraries, like `INCLUDE c0de/math`. Then come [struct](#structs) types, global variables, constants and functions, in any order.
 
 A name can only be used after it was defined. So put everything a function needs above it. The program ends at the first empty line.
 
 ## Lines and indentation
 
-Global lines start at x=5: PROGRAM, INCLUDE, STRUCT, FUNCTION and global VARIABLE and CONSTANT lines. Lines inside a code block are one block further east than its BEGIN.
+Global lines start at x=5: PROGRAM, [INCLUDE](05-libraries.md#including-libraries), [STRUCT](#structs), [FUNCTION](#functions) and global [VARIABLE](#variables-and-constants) and CONSTANT lines. Lines inside a code block are one block further east than its BEGIN.
 
 A code block starts with BEGIN and ends with END. END is followed by the keyword that opened the block, like `END FUNCTION` or `END WHILE`. A code block may not be empty.
 
@@ -20,7 +20,7 @@ Variables and constants made inside a code block only live inside it. They are f
 
 ## NOOP and COMMENT
 
-NOOP means "no operation". A NOOP line does nothing. Use it to separate parts of your program. A NOOP line may not hold any other block. Every FUNCTION needs a NOOP line right above it.
+NOOP means "no operation". A NOOP line does nothing. Use it to separate parts of your program. A NOOP line may not hold any other block. Every [FUNCTION](#functions) needs a NOOP line right above it.
 
 A COMMENT block holds a note for humans. Put it at the end of a line. The cursor ignores it and every block after it. So a COMMENT in front of blocks switches them off.
 
@@ -46,7 +46,7 @@ Each part of an index is a number, a text in quotes, an element name or the name
 
 ## Types
 
-A type block follows the name of a variable, constant, parameter or result. Simple types:
+A [type block](04-tools.md#type-blocks) follows the name of a variable, constant, parameter or result. Simple types:
 
 - BOOLEAN: true or false
 - INTEGER: whole numbers
@@ -59,7 +59,7 @@ Complex types:
 - STRING: text, optionally with a length limit
 - ARRAY: a list, numbered from 0
 - HASH: values stored under text keys
-- STRUCT: your own type with named elements
+- [STRUCT](#structs): your own type with named elements
 - ERROR: an error with code, message, context and line
 
 ARRAY and HASH are followed by the type of their content, like `ARRAY INTEGER`. A STRUCT type is followed by a LABEL with the struct name. Arrays and hashes grow and shrink by themselves.
@@ -68,7 +68,7 @@ ARRAY and HASH are followed by the type of their content, like `ARRAY INTEGER`. 
 
 A VARIABLE line has a name, a type and an optional start value. Without one, it holds the default: false, 0, 0.0, a space, an empty text or list.
 
-A CONSTANT line looks the same, but it must have a value. You can't change it later. The value is a LITERAL, not a calculation and not another constant.
+A CONSTANT line looks the same, but it must have a value. You can't change it later. The value is a [LITERAL](#literals), not a calculation and not another constant.
 
 ```c0de
 VARIABLE b BOOLEAN TRUE
@@ -76,7 +76,7 @@ VARIABLE i INTEGER
 CONSTANT BASE INTEGER 42
 ```
 
-Lists, hashes and structs get their start values in a code block. Each line holds literals or a key and a value:
+Lists, hashes and [structs](#structs) get their start values in a [code block](#lines-and-indentation). Each line holds literals or a key and a value:
 
 ```c0de
 VARIABLE list ARRAY INTEGER
@@ -91,7 +91,7 @@ END VARIABLE
 
 ## Structs
 
-A STRUCT declares your own type. Each line in its code block is an element: a name and a type.
+A STRUCT declares your own type. Each line in its [code block](#lines-and-indentation) is an element: a name and a type.
 
 ```c0de
 STRUCT point
@@ -103,11 +103,11 @@ END STRUCT
 
 A variable of this type is declared as `VARIABLE p STRUCT point`. Its elements are reached with an index, like `p.x`.
 
-Every program also has a few constants it doesn't declare. `SHEET` describes its sheet, e.g. `SHEET.number` and `SHEET.owner`. `PID` describes the running process, e.g. `PID.pid`, `PID.activator` (the player who started it, empty for other redstone and timer blocks) and `PID.x`, `PID.y`, `PID.z` (where its trigger block is). `CURSOR` describes the cursor right now: `CURSOR.line`, `CURSOR.function`, `CURSOR.depth` and how much of its stack is used, `CURSOR.stack_used` of `CURSOR.stack_size`. `C0DE_VERSION` holds the version of c0de, e.g. "0.4.0". The names of the errors and of the colors are constants too.
+Every program also has a few constants it doesn't declare. `SHEET` describes its sheet, e.g. `SHEET.number` and `SHEET.owner`. `PID` describes the running process, e.g. `PID.pid`, `PID.activator` (the player who started it, empty for other redstone and [timer blocks](03-running-programs.md#three-trigger-blocks)) and `PID.x`, `PID.y`, `PID.z` (where its trigger block is). `CURSOR` describes the cursor right now: `CURSOR.line`, `CURSOR.function`, `CURSOR.depth` and how much of its stack is used, `CURSOR.stack_used` of `CURSOR.stack_size`. `C0DE_VERSION` holds the version of c0de, e.g. "0.4.0". The names of the errors and of the colors are constants too.
 
 ## Literals
 
-A LITERAL block holds a fixed value. In its dialog you pick the type and enter the value. The text notation writes them like this:
+A LITERAL block holds a fixed value. In its dialog you pick the type and enter the value. The [text notation](01-getting-started.md#reading-the-examples) writes them like this:
 
 - `TRUE` and `FALSE`
 - `42` and `-7` for integers, `3.14` for floats
@@ -118,15 +118,15 @@ In the dialog, you type a text without quotes. A `"` in it is just a character. 
 
 ## Expressions
 
-An expression calculates a value from literals, variables, constants and operators. It always ends with an OPERATOR block showing `;`. An expression may go on in the next line, one block further east.
+An expression calculates a value from [literals](#literals), variables, constants and [operators](#operators). It always ends with an OPERATOR block showing `;`. An expression may go on in the next line, one block further east.
 
 Calculations follow the usual rules: `*` before `+`. Use `(` and `)` to group. A division with `/` always gives a FLOAT.
 
-A minus sign in front of a name or a `(` turns the sign around: `- x * 2 ;`. The minus sign is an OPERATOR block of its own, so the text notation writes `- x`, not `-x`. `-7` in one piece is a LITERAL with a negative number.
+A minus sign in front of a name or a `(` turns the sign around: `- x * 2 ;`. The minus sign is an OPERATOR block of its own, so the [text notation](01-getting-started.md#reading-the-examples) writes `- x`, not `-x`. `-7` in one piece is a LITERAL with a negative number.
 
 Some rules are less usual. `\` binds weaker than `*` and `/`: `7 \ 3 * 2` is `7 \ 6`, so use parentheses. `⊕` binds weaker than `+`, and AND binds tighter than OR: `a OR b AND c` means `a OR ( b AND c )`.
 
-You can't call a function inside an expression. Use a CALL statement instead.
+You can't call a function inside an expression. Use a [CALL](#call) statement instead.
 
 ## Operators
 
@@ -136,15 +136,15 @@ You can't call a function inside an expression. Use a CALL statement instead.
 - text: `⊕` joins two values into a text
 - bits: `&` `|` `⊻` `¬` `←` `→`
 
-`=` only compares. To store a value, use ASSIGN. `⊕` turns numbers and lists into text, so `'a' ⊕ 1 ⊕ "b"` gives `"a1b"`.
+`=` only compares. To store a value, use [ASSIGN](#assign). `⊕` turns numbers and lists into text, so `'a' ⊕ 1 ⊕ "b"` gives `"a1b"`.
 
 `\` only works with INTEGERs. The result keeps the sign of the left number: `-7 \ 2` is `-1`. Dividing by zero raises DIVISION_BY_ZERO, with `/` and `\`, for FLOATs too: `1.5 / 0.0` doesn't give infinity.
 
-TIME values can be compared with `<`, `>` and the others: the earlier time is the smaller one. `⊕` writes a TIME as ISO text in UTC with milliseconds, like `2026-10-19T12:05:09.250Z`. For the local time, use FORMAT of c0de/strings.
+TIME values can be compared with `<`, `>` and the others: the earlier time is the smaller one. `⊕` writes a TIME as ISO text in UTC with milliseconds, like `2026-10-19T12:05:09.250Z`. For the local time, use [FORMAT](05-libraries.md#format) of [c0de/strings](05-libraries.md#c0destrings).
 
 ## ASSIGN
 
-ASSIGN stores the value of an expression in a variable. The value must fit the type of the variable. An INTEGER may go into a FLOAT, and a CHAR into a STRING.
+ASSIGN stores the value of an [expression](#expressions) in a variable. The value must fit the type of the variable. An INTEGER may go into a FLOAT, and a CHAR into a STRING.
 
 ```c0de
 ASSIGN arithmetic 1 + 2 * ( 3 + 3 ) \ 10 * 2 + 10 ;
@@ -157,7 +157,7 @@ Assigning to the index right after the end of a list adds a new element. A new k
 
 ## Functions
 
-A FUNCTION line starts at x=5 with the function name. PARAMETER lines below it name the inputs, RESULT lines the outputs. Then follows the code block.
+A FUNCTION line starts at x=5 with the function name. PARAMETER lines below it name the inputs, RESULT lines the outputs. Then follows the [code block](#lines-and-indentation).
 
 A parameter may have a default value. A caller can leave such a parameter out. Results start with the default value of their type.
 
@@ -173,7 +173,7 @@ END FUNCTION
 
 When the function ends, the last values of its results go back to the caller.
 
-All parameters and results of a function need different names. A parameter `value` and a result `value` give SYNTAX_ERROR_FUNCTION. Call the result `result`, for example. The caller may still use one variable for both, see CALL.
+All parameters and results of a function need different names. A parameter `value` and a result `value` give SYNTAX_ERROR_FUNCTION. Call the result `result`, for example. The caller may still use one variable for both, see [CALL](#call).
 
 ## CALL
 
@@ -213,7 +213,7 @@ This function calls itself. It adds up all numbers from 1 to n.
 
 ## IF and ELSE
 
-IF runs its code block only when its expression is true. An ELSE block runs otherwise. With an ELSE, the first END stands alone. The last END is followed by IF.
+IF runs its [code block](#lines-and-indentation) only when its [expression](#expressions) is true. An ELSE block runs otherwise. With an ELSE, the first END stands alone. The last END is followed by IF.
 
 ```c0de
 IF prime ;
@@ -274,7 +274,7 @@ BREAK leaves the innermost loop at once. It may have a condition: then it only l
 
 ## EXIT
 
-EXIT ends the whole process at once, no matter how deep the cursor is. It needs a number from 0 to 15: the **exit code**. A comparator next to the trigger block can read it.
+EXIT ends the whole process at once, no matter how deep the cursor is. It needs a number from 0 to 15: the **[exit code](03-running-programs.md#exit-codes)**. A comparator next to the [trigger block](03-running-programs.md#three-trigger-blocks) can read it.
 
 ```c0de
 EXIT 3 ;
@@ -288,9 +288,9 @@ EXIT is not a crash: the results of the entry function still come out, with the 
 
 When something goes wrong, like a division by zero, the function stops and **raises** an error. The error goes to the caller, and then up to its caller.
 
-If the error reaches the entry function, the process **crashes**. Mistakes in the program itself, like a wrong indentation, crash it at once.
+If the error reaches the entry function, the process **crashes**. Mistakes in the program itself, like a wrong [indentation](#lines-and-indentation), crash it at once.
 
-To catch an error, add a variable of type ERROR to the CALL line. The caller then goes on, and you can check the error's `code`, `message`, `context` and `line`.
+To catch an error, add a variable of type ERROR to the [CALL](#call) line. The caller then goes on, and you can check the error's `code`, `message`, `context` and `line`.
 
 Every CALL with such a variable writes into it, also when nothing went wrong: then its `code` is 0 again and its `message` is empty. So check it right after the CALL.
 
@@ -304,7 +304,7 @@ ASSIGN code problem.code ;
 
 ## Your own errors
 
-You can raise your own errors. Their codes must be 1000 or higher. Set the code of an ERROR variable and return it, or use the built-in function RAISE.
+You can raise your own errors. Their codes must be 1000 or higher. Set the code of an ERROR variable and return it, or use the [built-in function](05-libraries.md#built-in-functions) RAISE.
 
 ```c0de
 FUNCTION fail

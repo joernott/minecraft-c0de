@@ -7,9 +7,9 @@
 }
 ```
 
-Programme bekommen und liefern Daten als **Variablenkarten**. Unsere Funktion hat ein Ergebnis und keine Parameter, also braucht sie eine leere Karte, in die sie ihr Ergebnis schreibt.
+Programme bekommen und liefern Daten als **[Variablenkarten](^tools/variable_items)**. Unsere Funktion hat ein Ergebnis und keine Parameter, also braucht sie eine leere Karte, in die sie ihr Ergebnis schreibt.
 
-Stelle eine nicht initialisierte Variablenkarte aus einer **Datenkarte** und **hellblauem Farbstoff** her. Lege sie in das Eingabeinventar des Auslöserblocks.
+Stelle eine [nicht initialisierte Variablenkarte](^running_programs/uninitialized_items) aus einer **[Datenkarte](^tools/data_item)** und **hellblauem Farbstoff** her. Lege sie in das Eingabeinventar des [Auslöserblocks](^running_programs/three_trigger_blocks).
 
 **Rezepte**
 

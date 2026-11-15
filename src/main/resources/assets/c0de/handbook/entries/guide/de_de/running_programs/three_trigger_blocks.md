@@ -9,7 +9,7 @@
 
 - **Auslöserblock**: startet einen Prozess, wenn er einen Redstone-Impuls bekommt.
 - **Zeitgeberblock**: startet einen Prozess immer wieder, in einem Abstand, den du einstellst.
-- **Debug-Auslöserblock**: startet einen Prozess, wenn du ihn mit dem Debugging-Werkzeug schlägst.
+- **Debug-Auslöserblock**: startet einen Prozess, wenn du ihn mit dem [Debugging-Werkzeug](^tools/debugging_tool) schlägst.
 
 Nur ein Signal, das angeht, startet einen Auslöserblock. Einen Hebel auszuschalten startet ihn nicht, und ein Signal, das an bleibt, startet ihn nicht noch einmal.
 

@@ -33,7 +33,7 @@ BEGIN
 END FUNCTION
 ```
 
-The outer loop tries every number from 2 to 20. The inner loop checks if a smaller number divides it with no remainder (`\`). If so, it is no prime, and BREAK stops the inner loop. The result is "2 3 5 7 11 13 17 19 ".
+The outer loop tries every number from 2 to 20. The inner loop checks if a smaller number divides it with no remainder (`\`). If so, it is no prime, and [BREAK](^language/break) stops the inner loop. The result is "2 3 5 7 11 13 17 19 ".
 
 **Recipes**
 

@@ -7,7 +7,7 @@
 }
 ```
 
-Alle diese Funktionen werden mit CALL aufgerufen, wie deine eigenen Funktionen. Eingebaute Funktionen benutzen ihren einfachen Namen. Bibliotheksfunktionen benutzen ihren vollen Namen, zum Beispiel `c0de/strings/MID`.
+Alle diese Funktionen werden mit [CALL](^language/call) aufgerufen, wie deine eigenen Funktionen. [Eingebaute Funktionen](^libraries/built_in_functions) benutzen ihren einfachen Namen. Bibliotheksfunktionen benutzen ihren vollen Namen, zum Beispiel `c0de/strings/MID`.
 
 ```c0de
 CALL c0de/strings/MID

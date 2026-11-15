@@ -7,7 +7,7 @@
 }
 ```
 
-INCLUDE-Zeilen kommen direkt nach dem NOOP in Zeile 1, vor jeder anderen Anweisung. Sie beginnen bei x=5, wie die PROGRAM-Zeile.
+INCLUDE-Zeilen kommen direkt nach dem [NOOP](^language/noop_and_comment) in Zeile 1, vor jeder anderen Anweisung. Sie beginnen bei x=5, wie die PROGRAM-Zeile.
 
 ```c0de
 PROGRAM math

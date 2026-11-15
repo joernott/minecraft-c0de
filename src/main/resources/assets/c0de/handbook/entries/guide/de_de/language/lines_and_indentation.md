@@ -7,7 +7,7 @@
 }
 ```
 
-Globale Zeilen beginnen bei x=5: PROGRAM, INCLUDE, STRUCT, FUNCTION sowie globale VARIABLE- und CONSTANT-Zeilen. Zeilen in einem Codeblock stehen einen Block weiter östlich als sein BEGIN.
+Globale Zeilen beginnen bei x=5: PROGRAM, [INCLUDE](^libraries/including_libraries), STRUCT, [FUNCTION](^language/functions) sowie globale VARIABLE- und CONSTANT-Zeilen. Zeilen in einem Codeblock stehen einen Block weiter östlich als sein BEGIN.
 
 Ein Codeblock beginnt mit BEGIN und endet mit END. Auf END folgt das Schlüsselwort, das den Block geöffnet hat, zum Beispiel `END FUNCTION` oder `END WHILE`. Ein Codeblock darf nicht leer sein.
 

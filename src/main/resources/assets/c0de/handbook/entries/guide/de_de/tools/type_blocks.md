@@ -20,7 +20,7 @@ Typblöcke sind rote Stufen. Jeder wird aus einer Typbasis und einem Gegenstand 
 - TIME: Uhr
 - ERROR: Lagerfeuer
 
-VARIABLE ist eine Typbasis und ein Knochenblock. CONSTANT ist eine Typbasis und drei Knochen.
+[VARIABLE](^language/variables_and_constants) ist eine Typbasis und ein Knochenblock. CONSTANT ist eine Typbasis und drei Knochen.
 
 **Rezepte**
 

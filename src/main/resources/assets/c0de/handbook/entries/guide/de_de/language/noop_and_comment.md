@@ -7,7 +7,7 @@
 }
 ```
 
-NOOP bedeutet „no operation“ (keine Operation). Eine NOOP-Zeile tut nichts. Verwende sie, um Teile deines Programms zu trennen. Eine NOOP-Zeile darf keinen anderen Block enthalten. Jede FUNCTION braucht direkt darüber eine NOOP-Zeile.
+NOOP bedeutet „no operation“ (keine Operation). Eine NOOP-Zeile tut nichts. Verwende sie, um Teile deines Programms zu trennen. Eine NOOP-Zeile darf keinen anderen Block enthalten. Jede [FUNCTION](^language/functions) braucht direkt darüber eine NOOP-Zeile.
 
 Ein COMMENT-Block enthält eine Notiz für Menschen. Setze ihn ans Ende einer Zeile. Der Cursor ignoriert ihn und jeden Block danach. Ein COMMENT vor Blöcken schaltet sie also ab.
 

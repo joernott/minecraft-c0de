@@ -7,7 +7,7 @@
 }
 ```
 
-Mit dieser Bibliothek können Programme die Welt rund um den Auslöserblock berühren:
+Mit dieser Bibliothek können Programme die Welt rund um den [Auslöserblock](^running_programs/three_trigger_blocks) berühren:
 
 - TICKS: die Spielzeit der Welt, nicht die Tageszeit
 - BEEP, SOUND: Töne spielen wie ein Notenblock

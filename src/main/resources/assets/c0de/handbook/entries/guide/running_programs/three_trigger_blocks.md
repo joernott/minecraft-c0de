@@ -9,7 +9,7 @@
 
 - **trigger block**: starts a process when it gets a redstone pulse.
 - **timer block**: starts a process again and again, at an interval you set.
-- **debug trigger block**: starts a process when you hit it with the debugging tool.
+- **debug trigger block**: starts a process when you hit it with the [debugging tool](^tools/debugging_tool).
 
 Only a signal that comes on starts a trigger block. Switching a lever off doesn't start it, and a signal that stays on doesn't start it again.
 

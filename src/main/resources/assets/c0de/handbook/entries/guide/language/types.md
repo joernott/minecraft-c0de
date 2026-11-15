@@ -7,7 +7,7 @@
 }
 ```
 
-A type block follows the name of a variable, constant, parameter or result. Simple types:
+A [type block](^tools/type_blocks) follows the name of a variable, constant, parameter or result. Simple types:
 
 - BOOLEAN: true or false
 - INTEGER: whole numbers
@@ -20,7 +20,7 @@ Complex types:
 - STRING: text, optionally with a length limit
 - ARRAY: a list, numbered from 0
 - HASH: values stored under text keys
-- STRUCT: your own type with named elements
+- [STRUCT](^language/structs): your own type with named elements
 - ERROR: an error with code, message, context and line
 
 ARRAY and HASH are followed by the type of their content, like `ARRAY INTEGER`. A STRUCT type is followed by a LABEL with the struct name. Arrays and hashes grow and shrink by themselves.

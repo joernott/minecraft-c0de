@@ -6,4 +6,4 @@
 }
 ```
 
-c0de is a small programming language inside Minecraft. You write programs by placing blocks, and you run them with trigger blocks. This chapter shows you around and walks you through your first program.
+c0de is a small programming language inside Minecraft. You write programs by placing blocks, and you run them with [trigger blocks](^running_programs/three_trigger_blocks). This chapter shows you around and walks you through your first program.

@@ -15,7 +15,7 @@ Some functions change the world more:
 - TELEPORT: move an entity
 - COMMAND: run a command like a command block
 
-Positions are given as a `c0de/minecraft/POSITION` struct with x, y, z and an optional dimension. An empty dimension means the dimension of the trigger block. Programs can never change the blocks on the sheets of the c0de dimension.
+Positions are given as a `c0de/minecraft/POSITION` [struct](^language/structs) with x, y, z and an optional dimension. An empty dimension means the dimension of the [trigger block](^running_programs/three_trigger_blocks). Programs can never change the blocks on the sheets of the c0de dimension.
 
 **Recipes**
 

@@ -19,19 +19,19 @@ Craft each one from a book and an item, in any order:
 
 <recipe;c0de:statements_book>
 
-**Tools** (grey): a book and a wrench.
+**Tools** (grey): a book and a [wrench](^tools/wrench).
 
 <recipe;c0de:tools_book>
 
-**Triggers** (purple): a book and a trigger block.
+**Triggers** (purple): a book and a [trigger block](^running_programs/three_trigger_blocks).
 
 <recipe;c0de:triggers_book>
 
-**Devices** (green): a book and a display block.
+**Devices** (green): a book and a [display block](^running_programs/talking_to_players).
 
 <recipe;c0de:devices_book>
 
-**Functions** (orange): a book and a FUNCTION block.
+**Functions** (orange): a book and a [FUNCTION](^language/functions) block.
 
 <recipe;c0de:functions_book>
 

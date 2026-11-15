@@ -36,7 +36,7 @@ BEGIN
 END FUNCTION
 ```
 
-This program loads two libraries. ROUND turns 12.5 into 12, DIV divides -7 by 2 and gives -3, and SQR gives 3.0. FORMAT shows PI with two decimals: "3.14". The function has four results, so put in four uninitialized variable items.
+This program loads two libraries. ROUND turns 12.5 into 12, DIV divides -7 by 2 and gives -3, and SQR gives 3.0. [FORMAT](^libraries/format) shows PI with two decimals: "3.14". The function has four results, so put in four [uninitialized variable items](^running_programs/uninitialized_items).
 
 **Recipes**
 

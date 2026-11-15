@@ -418,6 +418,7 @@ After sprint 12, every new Minecraft release is added as a new node in its own s
 | 16.25.1 | Found in the in-game test on 2026-11-15: long titles wrap (above entries and in the lists of categories and entries), program examples have the colours of c0de.at, and the guide shows how to craft the other handbooks (Tools, Handbooks, linked from its landing page). | ✅ |
 | 16.25.2 | Requested on 2026-11-15: the book takes about 80 % of the screen and lays out its pages for that size; it is drawn as an open ring binder with a small gap and four metal rings instead of the binding of Lavender's texture. | ✅ |
 | 16.25.3 | Requested on 2026-11-15: every entry of the guide ends with the recipes of the c0de items and blocks it names, and the guide's references to its other pages are links (in the documentation and in the book). | ✅ |
+| 16.25.4 | Requested on 2026-11-15: more links in the guide. `scripts/guide_links.py` links the first mention of a term in each section (tools, items, trigger blocks, keywords, libraries and others) to the section that explains it: 168 links in English, 135 in German. | ✅ |
 
 ## Risks
 

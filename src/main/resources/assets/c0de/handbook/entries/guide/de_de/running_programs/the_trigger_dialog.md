@@ -7,10 +7,10 @@
 }
 ```
 
-Klicke einen Auslöserblock mit leerer Hand mit rechts an, um seinen Dialog zu öffnen. Er zeigt:
+Klicke einen [Auslöserblock](^running_programs/three_trigger_blocks) mit leerer Hand mit rechts an, um seinen Dialog zu öffnen. Er zeigt:
 
 - die PID des laufenden Prozesses
-- den Exit-Code des letzten Prozesses und seinen Fehler, falls er abgestürzt ist
+- den [Exit-Code](^running_programs/exit_codes) des letzten Prozesses und seinen Fehler, falls er abgestürzt ist
 - eine Liste zur Auswahl des Programms
 - eine Liste zur Auswahl der auszuführenden Funktion
 - bei Zeitgeberblöcken den Abstand in Ticks

@@ -7,7 +7,7 @@
 }
 ```
 
-A LITERAL block holds a fixed value. In its dialog you pick the type and enter the value. The text notation writes them like this:
+A LITERAL block holds a fixed value. In its dialog you pick the type and enter the value. The [text notation](^getting_started/reading_the_examples) writes them like this:
 
 - `TRUE` and `FALSE`
 - `42` and `-7` for integers, `3.14` for floats

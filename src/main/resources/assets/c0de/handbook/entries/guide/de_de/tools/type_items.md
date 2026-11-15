@@ -7,7 +7,7 @@
 }
 ```
 
-Eine Typkarte sieht aus wie eine Datenkarte mit rotem Rand. Sie steht für einen Datentyp und wird gebraucht, um Variablen- und Konstantenkarten dieses Typs herzustellen.
+Eine Typkarte sieht aus wie eine [Datenkarte](^tools/data_item) mit rotem Rand. Sie steht für einen Datentyp und wird gebraucht, um Variablen- und [Konstantenkarten](^tools/constant_items) dieses Typs herzustellen.
 
 Rezept: eine Datenkarte, roter Farbstoff und der Gegenstand des Typs, in beliebiger Form:
 

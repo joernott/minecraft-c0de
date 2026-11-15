@@ -7,7 +7,7 @@
 }
 ```
 
-Trichter, Rohre und Kabel können einen Auslöserblock von allen Seiten nutzen. Ein Trichter über oder neben ihm füllt die Eingabe. Ein Trichter unter ihm leert die Ausgabe.
+Trichter, Rohre und Kabel können einen [Auslöserblock](^running_programs/three_trigger_blocks) von allen Seiten nutzen. Ein Trichter über oder neben ihm füllt die Eingabe. Ein Trichter unter ihm leert die Ausgabe.
 
 So kannst du Ketten bauen: Auslöserblock, Trichter, Auslöserblock, Trichter, Truhe. Jeder Prozess verwendet nur die Karten, die er braucht, und reicht den Rest weiter. Das Ende der Kette sammelt alles.
 

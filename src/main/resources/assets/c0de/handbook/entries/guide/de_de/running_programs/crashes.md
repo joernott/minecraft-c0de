@@ -7,7 +7,7 @@
 }
 ```
 
-Wenn ein Prozess abstürzt, spielt der Auslöserblock einen tiefen Ton. Sein Dialog zeigt den Fehlercode, die Meldung, die Funktion und die Zeile, in der es passiert ist.
+Wenn ein Prozess abstürzt, spielt der [Auslöserblock](^running_programs/three_trigger_blocks) einen tiefen Ton. Sein Dialog zeigt den Fehlercode, die Meldung, die Funktion und die Zeile, in der es passiert ist.
 
 Ein abgestürzter Prozess erzeugt keine Ergebnisse. Alle Karten, die er genommen hat, gehen unverändert in das Ausgabeinventar.
 

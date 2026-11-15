@@ -16,11 +16,11 @@ Type blocks are red slabs. Each is crafted from a type base and an item, in any 
 - STRING: string
 - ARRAY: barrel
 - HASH: chest
-- STRUCT: scaffolding
+- [STRUCT](^language/structs): scaffolding
 - TIME: clock
 - ERROR: campfire
 
-VARIABLE is a type base and a bone block. CONSTANT is a type base and three bones.
+[VARIABLE](^language/variables_and_constants) is a type base and a bone block. CONSTANT is a type base and three bones.
 
 **Recipes**
 

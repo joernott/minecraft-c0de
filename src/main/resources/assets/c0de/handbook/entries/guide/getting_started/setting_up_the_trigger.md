@@ -7,7 +7,7 @@
 }
 ```
 
-Leave the dimension and go back to your trigger block. Right-click it with an empty hand to open its dialog.
+Leave the dimension and go back to your [trigger block](^running_programs/three_trigger_blocks). Right-click it with an empty hand to open its dialog.
 
 Pick your program `first` in the program list. Then pick the function `answer` in the function list.
 

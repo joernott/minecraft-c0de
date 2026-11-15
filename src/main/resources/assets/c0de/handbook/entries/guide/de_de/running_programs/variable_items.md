@@ -7,7 +7,7 @@
 }
 ```
 
-Daten kommen als **Variablenkarten** und **Konstantenkarten** im Eingabeinventar in einen Prozess. Nur diese Gegenstände passen dort hinein.
+Daten kommen als **[Variablenkarten](^tools/variable_items)** und **[Konstantenkarten](^tools/constant_items)** im Eingabeinventar in einen Prozess. Nur diese Gegenstände passen dort hinein.
 
 Jede Karte hat einen Namen, einen Typ und einen Wert. Eine Karte geht an den Parameter der Einstiegsfunktion mit demselben Namen. Ihr Typ muss zum Typ des Parameters passen.
 

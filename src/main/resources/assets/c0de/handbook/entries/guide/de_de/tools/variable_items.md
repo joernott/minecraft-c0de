@@ -9,7 +9,7 @@
 
 Eine Variablenkarte hat einen blauen Rand. Sie trägt einen Namen, einen Typ und einen Wert in einen Prozess hinein oder aus ihm heraus. Halte sie und rechtsklicke, um sie zu bearbeiten.
 
-Rezept: eine Datenkarte, eine Typkarte und hellblauer Farbstoff ergeben zwei Variablenkarten dieses Typs.
+Rezept: eine [Datenkarte](^tools/data_item), eine [Typkarte](^tools/type_items) und hellblauer Farbstoff ergeben zwei Variablenkarten dieses Typs.
 
 Eine **nicht initialisierte** Variablenkarte hat keinen Namen, keinen Typ und keinen Wert. Ein Prozess schreibt ein Ergebnis hinein. Rezept: eine Datenkarte und hellblauer Farbstoff.
 

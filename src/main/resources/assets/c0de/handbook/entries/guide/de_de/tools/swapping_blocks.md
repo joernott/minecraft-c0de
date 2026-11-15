@@ -11,8 +11,8 @@ Manche Blöcke lassen sich in ihren Partner verwandeln. Leg einen allein ins Her
 
 - BEGIN und END
 - PARAMETER und RESULT
-- VARIABLE und CONSTANT
-- IF und ELSE, FOR und EACH, WHILE und REPEAT
+- [VARIABLE](^language/variables_and_constants) und CONSTANT
+- [IF](^language/if_and_else) und ELSE, [FOR](^language/for_loops) und [EACH](^language/each_loops), [WHILE](^language/while_and_repeat) und REPEAT
 - INTEGER und FLOAT, mit gelbem oder orangem Farbstoff
 
 **Rezepte**

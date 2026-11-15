@@ -7,13 +7,13 @@
 }
 ```
 
-A process can also talk to players while it runs. Three built-in functions do this, called with CALL like any other function:
+A process can also talk to players while it runs. Three [built-in functions](^libraries/built_in_functions) do this, called with [CALL](^language/call) like any other function:
 
 - **PRINT** writes text on screens.
 - **INPUT** reads a value into a variable.
-- **WRITE** puts a value into an I/O block as a variable item.
+- **WRITE** puts a value into an I/O block as a [variable item](^tools/variable_items).
 
-The devices for this are display blocks, laptops, tablets and I/O blocks. Bind each of them to a program and function, like a trigger block. Display blocks next to each other form one big screen.
+The devices for this are display blocks, laptops, tablets and I/O blocks. Bind each of them to a program and function, like a [trigger block](^running_programs/three_trigger_blocks). Display blocks next to each other form one big screen.
 
 COLOR changes the colors of the text that follows. The constants COLOR\_BLACK to COLOR\_WHITE name the 16 colors:
 
@@ -35,7 +35,7 @@ BEGIN
 END FUNCTION
 ```
 
-INPUT takes a matching item from an I/O block first. Otherwise it waits until a player types a line on a laptop or tablet. The typed line appears on its screen, so you see your answer. The handbooks Functions and Devices describe all of them.
+INPUT takes a matching item from an I/O block first. Otherwise it waits until a player types a line on a laptop or tablet. The typed line appears on its screen, so you see your answer. The [handbooks](^tools/handbooks) Functions and Devices describe all of them.
 
 **Recipes**
 

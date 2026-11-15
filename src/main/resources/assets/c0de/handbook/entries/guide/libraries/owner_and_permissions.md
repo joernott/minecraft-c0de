@@ -7,7 +7,7 @@
 }
 ```
 
-Programs act on behalf of the owner of the trigger block. The world-changing functions above only work if the owner is an operator, or if the server allows them in the file `config/c0de.properties`.
+Programs act on behalf of the owner of the [trigger block](^running_programs/three_trigger_blocks). The world-changing functions above only work if the owner is an operator, or if the server allows them in the file `config/c0de.properties`.
 
 Otherwise they raise PERMISSION\_DENIED. Players can only be teleported if the owner is an operator, and only operators can run commands with COMMAND or give command blocks their data.
 

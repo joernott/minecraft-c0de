@@ -4,9 +4,9 @@ c0de comes with a few tools for writing and testing programs, and with items tha
 
 ## Wrench
 
-Right-click a trigger block with the wrench to enter the c0de dimension. You arrive in front of the program of that trigger block, or of the first free sheet.
+Right-click a [trigger block](03-running-programs.md#three-trigger-blocks) with the wrench to enter the c0de dimension. You arrive in front of the program of that trigger block, or of the first free sheet.
 
-On a sheet, the wrench moves and copies lines you marked with the text marker. Left-click a line that is not marked: the marked lines move in front of it. The gaps close by themselves.
+On a sheet, the wrench moves and copies lines you marked with the [text marker](#text-marker). Left-click a line that is not marked: the marked lines move in front of it. The gaps close by themselves.
 
 Right-click a line to copy the marked lines in front of it. That line and all lines after it move south. In survival mode, the copied blocks come from your inventory.
 
@@ -28,34 +28,34 @@ Left-click a line with the hammer to delete it. If you click a marked area, the 
 
 Right-click a line to insert an empty line in front of it. The clicked line and the lines after it move south.
 
-Clicking the floor of a line works like clicking a block of the line. This is true for the marker, the wrench, the hammer and the pliers.
+Clicking the floor of a line works like clicking a block of the line. This is true for the marker, the [wrench](#wrench), the hammer and the [pliers](#pliers).
 
 Recipe: three iron ingots in a row, one iron ingot below the middle and a red wool block below that.
 
 ## Pliers
 
-The pliers change the indentation of your code. Left-click a line to move it one block to the left. Right-click it to move it one block to the right. If the line is part of a marked area, the whole area moves.
+The pliers change the [indentation](02-language.md#lines-and-indentation) of your code. Left-click a line to move it one block to the left. Right-click it to move it one block to the right. If the line is part of a marked area, the whole area moves.
 
-Nothing moves if a block would leave the code area. The message tells you which line is in the way. The pliers don't check whether the new indentation is right, but the line numbers show it.
+Nothing moves if a block would leave the code area. The message tells you which line is in the way. The pliers don't check whether the new indentation is right, but the [line numbers](01-getting-started.md#line-numbers) show it.
 
 Recipe: shears and a stick, in any shape.
 
 ## Boots
 
-Any boots help you find your way through long programs. Hold them in your main hand and left-click the FUNCTION block at the start of a function. You land next to its END FUNCTION line. Left-click the FUNCTION block behind END to go back to the start.
+Any boots help you find your way through long programs. Hold them in your main hand and left-click the [FUNCTION](02-language.md#functions) block at the start of a function. You land next to its END FUNCTION line. Left-click the FUNCTION block behind END to go back to the start.
 
 Right-click any FUNCTION block with boots to go to the PROGRAM line at the top of the sheet.
 
 ## Debugging tool
 
-The debugging tool looks like a fly swatter. Right-click any c0de block with it to see all its properties. For a red line number, it tells you what is wrong.
+The debugging tool looks like a fly swatter. Right-click any c0de block with it to see all its properties. For a red [line number](01-getting-started.md#line-numbers), it tells you what is wrong.
 
-Hit a debug trigger block with it to start a process with a red **debug cursor**. The debug cursor starts paused.
+Hit a [debug trigger block](03-running-programs.md#three-trigger-blocks) with it to start a process with a red **[debug cursor](03-running-programs.md#the-cursor)**. The debug cursor starts paused.
 
 - Left-click the paused cursor: it moves one line.
 - Shift-left-click the cursor: it runs on its own, or pauses again.
 - Right-click any cursor: see its properties and its stack.
-- Shift-right-click a PID block: abort the process.
+- Shift-right-click a [PID block](03-running-programs.md#pid-blocks): abort the process.
 
 Recipe: a red wool block bottom left, a stick in the middle and a leather top right.
 
@@ -67,7 +67,7 @@ To copy a program onto the disk, right-click the PROGRAM block with it. This als
 
 To build the program of a disk, right-click the floor at the start of an empty sheet (x=5, line 0). In survival mode, the blocks come from your inventory.
 
-Recipe: a data item, an iron ingot and black dye, in any shape.
+Recipe: a [data item](#data-item), an iron ingot and black dye, in any shape.
 
 ## Disk drive
 
@@ -83,7 +83,7 @@ Recipe: a paper, white dye and yellow dye, in any shape. You get four data items
 
 ## Type items
 
-A type item looks like a data item with a red border. It stands for a data type and is used to craft variable and constant items of that type.
+A type item looks like a [data item](#data-item) with a red border. It stands for a [data type](02-language.md#types) and is used to craft variable and [constant items](#constant-items) of that type.
 
 Recipe: a data item, red dye and the item of the type, in any shape:
 
@@ -94,7 +94,7 @@ Recipe: a data item, red dye and the item of the type, in any shape:
 - STRING: string
 - ARRAY: barrel
 - HASH: chest
-- STRUCT: scaffolding
+- [STRUCT](02-language.md#structs): scaffolding
 - TIME: clock
 - ERROR: campfire
 
@@ -102,7 +102,7 @@ Recipe: a data item, red dye and the item of the type, in any shape:
 
 A variable item has a blue border. It carries a name, a type and a value into or out of a process. Hold it and right-click to edit it.
 
-Recipe: a data item, a type item and light blue dye give two variable items of that type.
+Recipe: a [data item](#data-item), a [type item](#type-items) and light blue dye give two variable items of that type.
 
 An **uninitialized** variable item has no name, type or value. A process writes a result into it. Recipe: a data item and light blue dye.
 
@@ -110,42 +110,42 @@ The trash can button in the dialog empties all fields. Saving with all fields em
 
 ## Constant items
 
-A constant item has a pink border. It works like a variable item, but once it has a value, it can't be changed.
+A constant item has a pink border. It works like a [variable item](#variable-items), but once it has a value, it can't be changed.
 
-Recipe: a data item, a type item and pink dye give two constant items. A data item and pink dye give an uninitialized constant item.
+Recipe: a [data item](#data-item), a [type item](#type-items) and pink dye give two constant items. A data item and pink dye give an [uninitialized constant item](03-running-programs.md#uninitialized-items).
 
 ## The NOOP block
 
-The NOOP block is the base of almost every language block. It is a clear frame with metal corners.
+The [NOOP](02-language.md#noop-and-comment) block is the base of almost every language block. It is a clear frame with metal corners.
 
 Recipe: iron ingots in the four corners and sticks in the four edges, with the center empty. You get 64 NOOP blocks.
 
 ## Eight around one
 
-Many blocks are crafted from eight NOOP blocks around one item. You get eight blocks:
+Many blocks are crafted from eight [NOOP](02-language.md#noop-and-comment) blocks around one item. You get eight blocks:
 
 - COMMENT: glass
-- LITERAL: white wool
+- [LITERAL](02-language.md#literals): white wool
 - OPERATOR: red wool
-- ASSIGN: cyan wool
+- [ASSIGN](02-language.md#assign): cyan wool
 - TAG: brown wool
 - BEGIN: yellow wool
-- EXIT: iron door
+- [EXIT](02-language.md#exit): iron door
 - PARAMETER: hopper
-- RETURN: spruce door
+- [RETURN](02-language.md#return): spruce door
 
 The **type base** (red carpet) and the **structural base** (green wool) are made the same way. They are items for crafting other blocks.
 
 ## NOOP plus one
 
-These blocks are crafted from one NOOP block and one item, in any shape:
+These blocks are crafted from one [NOOP](02-language.md#noop-and-comment) block and one item, in any shape:
 
 - LABEL: paper
 - PROGRAM: book
-- INCLUDE: empty map
-- FUNCTION: stone
-- CALL: smooth stone
-- BREAK: stick
+- [INCLUDE](05-libraries.md#including-libraries): empty map
+- [FUNCTION](02-language.md#functions): stone
+- [CALL](02-language.md#call): smooth stone
+- [BREAK](02-language.md#break): stick
 
 ## Type blocks
 
@@ -158,21 +158,21 @@ Type blocks are red slabs. Each is crafted from a type base and an item, in any 
 - STRING: string
 - ARRAY: barrel
 - HASH: chest
-- STRUCT: scaffolding
+- [STRUCT](02-language.md#structs): scaffolding
 - TIME: clock
 - ERROR: campfire
 
-VARIABLE is a type base and a bone block. CONSTANT is a type base and three bones.
+[VARIABLE](02-language.md#variables-and-constants) is a type base and a bone block. CONSTANT is a type base and three bones.
 
 ## Structural blocks
 
 Conditions and loops are crafted from a structural base and an item, in any shape:
 
-- IF: wheat seeds
+- [IF](02-language.md#if-and-else): wheat seeds
 - ELSE: wheat
-- FOR: dirt
-- EACH: cobblestone
-- WHILE: diorite
+- [FOR](02-language.md#for-loops): dirt
+- [EACH](02-language.md#each-loops): cobblestone
+- [WHILE](02-language.md#while-and-repeat): diorite
 - REPEAT: granite
 
 ## Swapping blocks
@@ -181,13 +181,13 @@ Some blocks can be turned into their partner. Put one alone into the crafting gr
 
 - BEGIN and END
 - PARAMETER and RESULT
-- VARIABLE and CONSTANT
-- IF and ELSE, FOR and EACH, WHILE and REPEAT
+- [VARIABLE](02-language.md#variables-and-constants) and CONSTANT
+- [IF](02-language.md#if-and-else) and ELSE, [FOR](02-language.md#for-loops) and [EACH](02-language.md#each-loops), [WHILE](02-language.md#while-and-repeat) and REPEAT
 - INTEGER and FLOAT, with yellow or orange dye
 
 ## Trigger blocks
 
-All three trigger blocks share one pattern: copper ingots in the corners, glass on the edges and one item in the center.
+All three [trigger blocks](03-running-programs.md#three-trigger-blocks) share one pattern: copper ingots in the corners, glass on the edges and one item in the center.
 
 - trigger block: gold ingot, gives 8
 - timer block: clock, gives 8
@@ -217,18 +217,18 @@ Craft each one from a book and an item, in any order:
 
 ![Statements handbook recipe](../reference/images/statements_book.png)
 
-**Tools** (grey): a book and a wrench.
+**Tools** (grey): a book and a [wrench](#wrench).
 
 ![Tools handbook recipe](../reference/images/tools_book.png)
 
-**Triggers** (purple): a book and a trigger block.
+**Triggers** (purple): a book and a [trigger block](03-running-programs.md#three-trigger-blocks).
 
 ![Triggers handbook recipe](../reference/images/triggers_book.png)
 
-**Devices** (green): a book and a display block.
+**Devices** (green): a book and a [display block](03-running-programs.md#talking-to-players).
 
 ![Devices handbook recipe](../reference/images/devices_book.png)
 
-**Functions** (orange): a book and a FUNCTION block.
+**Functions** (orange): a book and a [FUNCTION](02-language.md#functions) block.
 
 ![Functions handbook recipe](../reference/images/functions_book.png)

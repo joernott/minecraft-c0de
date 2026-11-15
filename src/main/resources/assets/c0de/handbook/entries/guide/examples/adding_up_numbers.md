@@ -28,7 +28,7 @@ END FUNCTION
 
 This function adds all numbers from 1 to `n`. It calls itself with `n - 1` until `n` is 0, then adds `n` on the way back. For `n` = 10, the result is 55.
 
-To try it, put in an INTEGER variable item named `n`. Each call uses room on the cursor's stack, so very large numbers can crash it.
+To try it, put in an INTEGER [variable item](^tools/variable_items) named `n`. Each call uses room on the cursor's stack, so very large numbers can crash it.
 
 **Recipes**
 

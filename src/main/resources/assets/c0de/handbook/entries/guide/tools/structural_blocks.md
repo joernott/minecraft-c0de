@@ -9,11 +9,11 @@
 
 Conditions and loops are crafted from a structural base and an item, in any shape:
 
-- IF: wheat seeds
+- [IF](^language/if_and_else): wheat seeds
 - ELSE: wheat
-- FOR: dirt
-- EACH: cobblestone
-- WHILE: diorite
+- [FOR](^language/for_loops): dirt
+- [EACH](^language/each_loops): cobblestone
+- [WHILE](^language/while_and_repeat): diorite
 - REPEAT: granite
 
 **Recipes**

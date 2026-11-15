@@ -7,9 +7,9 @@
 }
 ```
 
-Shift-right-click a PID block with the debugging tool to stop its process. The process crashes with the error PROCESS\_ABORTED, and its items go to the output inventory.
+Shift-right-click a [PID block](^running_programs/pid_blocks) with the [debugging tool](^tools/debugging_tool) to stop its process. The process crashes with the error PROCESS\_ABORTED, and its items go to the output inventory.
 
-Only the owner of the trigger block and server operators can do this.
+Only the owner of the [trigger block](^running_programs/three_trigger_blocks) and server [operators](^language/operators) can do this.
 
 **Recipes**
 

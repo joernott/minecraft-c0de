@@ -7,7 +7,7 @@
 }
 ```
 
-All these functions are called with CALL, like your own functions. Built-in functions use their plain name. Library functions use their full name, like `c0de/strings/MID`.
+All these functions are called with [CALL](^language/call), like your own functions. [Built-in functions](^libraries/built_in_functions) use their plain name. Library functions use their full name, like `c0de/strings/MID`.
 
 ```c0de
 CALL c0de/strings/MID

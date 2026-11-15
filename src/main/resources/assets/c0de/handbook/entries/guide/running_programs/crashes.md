@@ -7,7 +7,7 @@
 }
 ```
 
-When a process crashes, the trigger block plays a low note. Its dialog shows the error code, the message, the function and the line where it happened.
+When a process crashes, the [trigger block](^running_programs/three_trigger_blocks) plays a low note. Its dialog shows the error code, the message, the function and the line where it happened.
 
 A crashed process creates no results. All items it took go to the output inventory unchanged.
 

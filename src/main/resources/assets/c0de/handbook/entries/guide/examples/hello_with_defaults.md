@@ -22,7 +22,7 @@ END FUNCTION
 
 The function joins three parts into one text with `⊕`. Both parameters have default values, so a caller may leave them out. Called with the name "c0de", the result is "Hello, c0de\!".
 
-To try it, set the trigger block to `greet`. Put in a STRING variable item named `name` with your name as its value.
+To try it, set the [trigger block](^running_programs/three_trigger_blocks) to `greet`. Put in a STRING [variable item](^tools/variable_items) named `name` with your name as its value.
 
 **Recipes**
 

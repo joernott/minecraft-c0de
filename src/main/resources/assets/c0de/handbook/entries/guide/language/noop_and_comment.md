@@ -7,7 +7,7 @@
 }
 ```
 
-NOOP means "no operation". A NOOP line does nothing. Use it to separate parts of your program. A NOOP line may not hold any other block. Every FUNCTION needs a NOOP line right above it.
+NOOP means "no operation". A NOOP line does nothing. Use it to separate parts of your program. A NOOP line may not hold any other block. Every [FUNCTION](^language/functions) needs a NOOP line right above it.
 
 A COMMENT block holds a note for humans. Put it at the end of a line. The cursor ignores it and every block after it. So a COMMENT in front of blocks switches them off.
 

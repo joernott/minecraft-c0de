@@ -7,7 +7,7 @@
 }
 ```
 
-A short example: play a bell note at the trigger block.
+A short example: play a bell note at the [trigger block](^running_programs/three_trigger_blocks).
 
 ```c0de
 CALL c0de/minecraft/SOUND

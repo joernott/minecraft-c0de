@@ -19,7 +19,7 @@ END FUNCTION
 
 The function joins three parts into one text with `⊕`. Both parameters have default values, so a caller may leave them out. Called with the name "c0de", the result is "Hello, c0de!".
 
-To try it, set the trigger block to `greet`. Put in a STRING variable item named `name` with your name as its value.
+To try it, set the [trigger block](03-running-programs.md#three-trigger-blocks) to `greet`. Put in a STRING [variable item](04-tools.md#variable-items) named `name` with your name as its value.
 
 ## Adding up numbers
 
@@ -44,7 +44,7 @@ END FUNCTION
 
 This function adds all numbers from 1 to `n`. It calls itself with `n - 1` until `n` is 0, then adds `n` on the way back. For `n` = 10, the result is 55.
 
-To try it, put in an INTEGER variable item named `n`. Each call uses room on the cursor's stack, so very large numbers can crash it.
+To try it, put in an INTEGER [variable item](04-tools.md#variable-items) named `n`. Each call uses room on the cursor's stack, so very large numbers can crash it.
 
 ## Prime numbers
 
@@ -74,7 +74,7 @@ BEGIN
 END FUNCTION
 ```
 
-The outer loop tries every number from 2 to 20. The inner loop checks if a smaller number divides it with no remainder (`\`). If so, it is no prime, and BREAK stops the inner loop. The result is "2 3 5 7 11 13 17 19 ".
+The outer loop tries every number from 2 to 20. The inner loop checks if a smaller number divides it with no remainder (`\`). If so, it is no prime, and [BREAK](02-language.md#break) stops the inner loop. The result is "2 3 5 7 11 13 17 19 ".
 
 ## Math library
 
@@ -107,7 +107,7 @@ BEGIN
 END FUNCTION
 ```
 
-This program loads two libraries. ROUND turns 12.5 into 12, DIV divides -7 by 2 and gives -3, and SQR gives 3.0. FORMAT shows PI with two decimals: "3.14". The function has four results, so put in four uninitialized variable items.
+This program loads two libraries. ROUND turns 12.5 into 12, DIV divides -7 by 2 and gives -3, and SQR gives 3.0. [FORMAT](05-libraries.md#format) shows PI with two decimals: "3.14". The function has four results, so put in four [uninitialized variable items](03-running-programs.md#uninitialized-items).
 
 ## Date and time
 
@@ -141,7 +141,7 @@ BEGIN
 END FUNCTION
 ```
 
-NOW reads the clock, FORMAT turns it into text like "2026-10-19 12:05:09". WEEK and WEEKDAY give the week of the year and the day (1 is Monday). Adding 1000 to a TIME adds one second. SLEEP waits two game ticks before the end.
+NOW reads the clock, [FORMAT](05-libraries.md#format) turns it into text like "2026-10-19 12:05:09". WEEK and WEEKDAY give the week of the year and the day (1 is Monday). Adding 1000 to a TIME adds one second. SLEEP waits two game ticks before the end.
 
 ## A crash on purpose
 
@@ -166,4 +166,4 @@ BEGIN
 END FUNCTION
 ```
 
-Dividing by zero raises DIVISION_BY_ZERO in `divide`. The CALL in `main` has no ERROR variable to catch it, so the error moves up. In the entry function, it crashes the process. The trigger dialog shows the error and line 9, and a comparator reads 15.
+Dividing by zero raises DIVISION_BY_ZERO in `divide`. The [CALL](02-language.md#call) in `main` has no ERROR variable to catch it, so the error moves up. In the entry function, it crashes the process. The [trigger dialog](03-running-programs.md#the-trigger-dialog) shows the error and line 9, and a comparator reads 15.

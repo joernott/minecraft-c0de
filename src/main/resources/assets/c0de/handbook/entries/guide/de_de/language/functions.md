@@ -7,7 +7,7 @@
 }
 ```
 
-Eine FUNCTION-Zeile beginnt bei x=5 mit dem Namen der Funktion. PARAMETER-Zeilen darunter benennen die Eingaben, RESULT-Zeilen die Ausgaben. Dann folgt der Codeblock.
+Eine FUNCTION-Zeile beginnt bei x=5 mit dem Namen der Funktion. PARAMETER-Zeilen darunter benennen die Eingaben, RESULT-Zeilen die Ausgaben. Dann folgt der [Codeblock](^language/lines_and_indentation).
 
 Ein Parameter darf einen Standardwert haben. Ein Aufrufer kann einen solchen Parameter weglassen. Ergebnisse beginnen mit dem Standardwert ihres Typs.
 
@@ -23,7 +23,7 @@ END FUNCTION
 
 Wenn die Funktion endet, gehen die letzten Werte ihrer Ergebnisse an den Aufrufer zurück.
 
-Alle Parameter und Ergebnisse einer Funktion brauchen verschiedene Namen. Ein Parameter `value` und ein Ergebnis `value` ergeben SYNTAX\_ERROR\_FUNCTION. Nenne das Ergebnis zum Beispiel `result`. Der Aufrufer darf trotzdem eine Variable für beides verwenden, siehe CALL.
+Alle Parameter und Ergebnisse einer Funktion brauchen verschiedene Namen. Ein Parameter `value` und ein Ergebnis `value` ergeben SYNTAX\_ERROR\_FUNCTION. Nenne das Ergebnis zum Beispiel `result`. Der Aufrufer darf trotzdem eine Variable für beides verwenden, siehe [CALL](^language/call).
 
 **Rezepte**
 

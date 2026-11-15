@@ -37,7 +37,7 @@ BEGIN
 END FUNCTION
 ```
 
-NOW reads the clock, FORMAT turns it into text like "2026-10-19 12:05:09". WEEK and WEEKDAY give the week of the year and the day (1 is Monday). Adding 1000 to a TIME adds one second. SLEEP waits two game ticks before the end.
+NOW reads the clock, [FORMAT](^libraries/format) turns it into text like "2026-10-19 12:05:09". WEEK and WEEKDAY give the week of the year and the day (1 is Monday). Adding 1000 to a TIME adds one second. SLEEP waits two game ticks before the end.
 
 **Recipes**
 

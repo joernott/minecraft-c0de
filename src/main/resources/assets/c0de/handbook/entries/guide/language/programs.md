@@ -7,9 +7,9 @@
 }
 ```
 
-A program starts at line 0 with a PROGRAM block and a LABEL with its name. The name must be unique in the whole c0de dimension. Line 1 must be a NOOP line.
+A program starts at line 0 with a PROGRAM block and a LABEL with its name. The name must be unique in the whole c0de dimension. Line 1 must be a [NOOP line](^language/noop_and_comment).
 
-After that, INCLUDE lines may follow. They load libraries, like `INCLUDE c0de/math`. Then come struct types, global variables, constants and functions, in any order.
+After that, [INCLUDE lines](^libraries/including_libraries) may follow. They load libraries, like `INCLUDE c0de/math`. Then come [struct](^language/structs) types, global variables, constants and functions, in any order.
 
 A name can only be used after it was defined. So put everything a function needs above it. The program ends at the first empty line.
 

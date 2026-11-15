@@ -22,7 +22,7 @@ END FUNCTION
 
 Die Funktion fügt mit `⊕` drei Teile zu einem Text zusammen. Beide Parameter haben Standardwerte, deshalb darf ein Aufrufer sie weglassen. Mit dem Namen "c0de" aufgerufen, ist das Ergebnis "Hello, c0de\!".
 
-Zum Ausprobieren stellst du den Auslöserblock auf `greet`. Leg eine STRING-Variablenkarte mit dem Namen `name` und deinem Namen als Wert hinein.
+Zum Ausprobieren stellst du den [Auslöserblock](^running_programs/three_trigger_blocks) auf `greet`. Leg eine STRING-Variablenkarte mit dem Namen `name` und deinem Namen als Wert hinein.
 
 **Rezepte**
 

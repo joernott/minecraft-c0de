@@ -7,7 +7,7 @@
 }
 ```
 
-The player who set up a trigger block last is its **owner**. Its programs act on behalf of this player. This matters for the c0de/minecraft library and for aborting processes.
+The player who set up a [trigger block](^running_programs/three_trigger_blocks) last is its **owner**. Its programs act on behalf of this player. This matters for the [c0de/minecraft](^libraries/c0de_minecraft) library and for aborting processes.
 
 **Recipes**
 

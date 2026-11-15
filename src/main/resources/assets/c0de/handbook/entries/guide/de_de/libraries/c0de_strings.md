@@ -19,7 +19,7 @@ Text und Zeichen:
 Umwandlungen:
 
 - STR: ein beliebiger einfacher Wert als Text
-- FORMAT: ein Wert als Text in einem Format deiner Wahl
+- [FORMAT](^libraries/format): ein Wert als Text in einem Format deiner Wahl
 - VAL: ein Text als Zahl
 - HEX, OCT: eine Zahl hexadezimal oder oktal
 

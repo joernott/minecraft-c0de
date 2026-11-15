@@ -7,7 +7,7 @@
 }
 ```
 
-Ein kurzes Beispiel: einen Glockenton am Auslöserblock spielen.
+Ein kurzes Beispiel: einen Glockenton am [Auslöserblock](^running_programs/three_trigger_blocks) spielen.
 
 ```c0de
 CALL c0de/minecraft/SOUND

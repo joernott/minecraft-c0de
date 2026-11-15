@@ -7,9 +7,9 @@
 }
 ```
 
-Every process ends with an **exit code** from 0 to 15. It is 0 when the program ends normally, the number from an EXIT statement, or 15 when the process crashed.
+Every process ends with an **exit code** from 0 to 15. It is 0 when the program ends normally, the number from an [EXIT](^language/exit) statement, or 15 when the process crashed.
 
-A comparator reading the trigger block puts out a signal as strong as the exit code. The signal stays until the next process starts, and it is 0 while a process runs. So your redstone can react to the result of a program. A comparator reads timer blocks and debug trigger blocks the same way.
+A comparator reading the [trigger block](^running_programs/three_trigger_blocks) puts out a signal as strong as the exit code. The signal stays until the next process starts, and it is 0 while a process runs. So your redstone can react to the result of a program. A comparator reads timer blocks and debug trigger blocks the same way.
 
 **Recipes**
 

@@ -7,9 +7,9 @@
 }
 ```
 
-Programs get and return data as **variable items**. Our function has one result and no parameters, so it needs one empty item to write its result into.
+Programs get and return data as **[variable items](^tools/variable_items)**. Our function has one result and no parameters, so it needs one empty item to write its result into.
 
-Craft an uninitialized variable item from a **data item** and **light blue dye**. Put it into the input inventory of the trigger block.
+Craft an [uninitialized variable item](^running_programs/uninitialized_items) from a **[data item](^tools/data_item)** and **light blue dye**. Put it into the input inventory of the [trigger block](^running_programs/three_trigger_blocks).
 
 **Recipes**
 

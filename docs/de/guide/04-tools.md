@@ -4,9 +4,9 @@ c0de bringt ein paar Werkzeuge zum Schreiben und Testen von Programmen mit, und 
 
 ## Schraubenschlüssel
 
-Rechtsklicke mit dem Schraubenschlüssel auf einen Auslöserblock, um die c0de-Dimension zu betreten. Du landest vor dem Programm dieses Auslöserblocks oder vor dem ersten freien Blatt.
+Rechtsklicke mit dem Schraubenschlüssel auf einen [Auslöserblock](03-running-programs.md#drei-auslöserblöcke), um die c0de-Dimension zu betreten. Du landest vor dem Programm dieses Auslöserblocks oder vor dem ersten freien Blatt.
 
-Auf einem Blatt verschiebt und kopiert der Schraubenschlüssel Zeilen, die du mit dem Textmarker markiert hast. Linksklicke auf eine Zeile, die nicht markiert ist: Die markierten Zeilen wandern vor sie. Die Lücken schließen sich von selbst.
+Auf einem Blatt verschiebt und kopiert der Schraubenschlüssel Zeilen, die du mit dem [Textmarker](#textmarker) markiert hast. Linksklicke auf eine Zeile, die nicht markiert ist: Die markierten Zeilen wandern vor sie. Die Lücken schließen sich von selbst.
 
 Rechtsklicke auf eine Zeile, um die markierten Zeilen vor sie zu kopieren. Diese Zeile und alle Zeilen danach rücken nach Süden. Im Überlebensmodus kommen die kopierten Blöcke aus deinem Inventar.
 
@@ -28,15 +28,15 @@ Linksklicke mit dem Hammer auf eine Zeile, um sie zu löschen. Klickst du in ein
 
 Rechtsklicke auf eine Zeile, um eine leere Zeile davor einzufügen. Die angeklickte Zeile und die Zeilen danach rücken nach Süden.
 
-Ein Klick auf den Boden einer Zeile wirkt wie ein Klick auf einen Block der Zeile. Das gilt für den Textmarker, den Schraubenschlüssel, den Hammer und die Zange.
+Ein Klick auf den Boden einer Zeile wirkt wie ein Klick auf einen Block der Zeile. Das gilt für den [Textmarker](#textmarker), den [Schraubenschlüssel](#schraubenschlüssel), den Hammer und die [Zange](#zange).
 
 Rezept: drei Eisenbarren in einer Reihe, ein Eisenbarren unter dem mittleren und darunter ein Block roter Wolle.
 
 ## Zange
 
-Die Zange ändert die Einrückung deines Codes. Linksklicke auf eine Zeile, um sie einen Block nach links zu schieben. Rechtsklicke darauf, um sie einen Block nach rechts zu schieben. Gehört die Zeile zu einem markierten Bereich, bewegt sich der ganze Bereich.
+Die Zange ändert die [Einrückung](02-language.md#zeilen-und-einrückung) deines Codes. Linksklicke auf eine Zeile, um sie einen Block nach links zu schieben. Rechtsklicke darauf, um sie einen Block nach rechts zu schieben. Gehört die Zeile zu einem markierten Bereich, bewegt sich der ganze Bereich.
 
-Nichts bewegt sich, wenn ein Block den Codebereich verlassen würde. Die Meldung sagt dir, welche Zeile im Weg ist. Die Zange prüft nicht, ob die neue Einrückung richtig ist, aber die Zeilennummern zeigen es.
+Nichts bewegt sich, wenn ein Block den Codebereich verlassen würde. Die Meldung sagt dir, welche Zeile im Weg ist. Die Zange prüft nicht, ob die neue Einrückung richtig ist, aber die [Zeilennummern](01-getting-started.md#zeilennummern) zeigen es.
 
 Rezept: eine Schere und ein Stock, in beliebiger Form.
 
@@ -48,14 +48,14 @@ Rechtsklicke mit Stiefeln auf einen beliebigen FUNCTION-Block, um zur PROGRAM-Ze
 
 ## Debugging-Werkzeug
 
-Das Debugging-Werkzeug sieht aus wie eine Fliegenklatsche. Rechtsklicke damit auf einen beliebigen c0de-Block, um alle seine Eigenschaften zu sehen. Bei einer roten Zeilennummer sagt es dir, was falsch ist.
+Das Debugging-Werkzeug sieht aus wie eine Fliegenklatsche. Rechtsklicke damit auf einen beliebigen c0de-Block, um alle seine Eigenschaften zu sehen. Bei einer roten [Zeilennummer](01-getting-started.md#zeilennummern) sagt es dir, was falsch ist.
 
-Schlage damit auf einen Debug-Auslöserblock, um einen Prozess mit einem roten **Debug-Cursor** zu starten. Der Debug-Cursor startet pausiert.
+Schlage damit auf einen [Debug-Auslöserblock](03-running-programs.md#drei-auslöserblöcke), um einen Prozess mit einem roten **[Debug-Cursor](03-running-programs.md#der-cursor)** zu starten. Der Debug-Cursor startet pausiert.
 
 - Linksklick auf den pausierten Cursor: Er geht eine Zeile weiter.
 - Shift-Linksklick auf den Cursor: Er läuft von selbst oder pausiert wieder.
 - Rechtsklick auf einen beliebigen Cursor: Zeigt seine Eigenschaften und seinen Stack.
-- Shift-Rechtsklick auf einen PID-Block: Bricht den Prozess ab.
+- Shift-Rechtsklick auf einen [PID-Block](03-running-programs.md#pid-blöcke): Bricht den Prozess ab.
 
 Rezept: ein Block roter Wolle unten links, ein Stock in der Mitte und ein Leder oben rechts.
 
@@ -67,7 +67,7 @@ Um ein Programm auf die Diskette zu kopieren, rechtsklicke damit auf den PROGRAM
 
 Um das Programm einer Diskette zu bauen, rechtsklicke auf den Boden am Anfang eines leeren Blatts (x=5, Zeile 0). Im Überlebensmodus kommen die Blöcke aus deinem Inventar.
 
-Rezept: eine Datenkarte, ein Eisenbarren und schwarzer Farbstoff, in beliebiger Form.
+Rezept: eine [Datenkarte](#datenkarte), ein Eisenbarren und schwarzer Farbstoff, in beliebiger Form.
 
 ## Diskettenlaufwerk
 
@@ -83,7 +83,7 @@ Rezept: ein Papier, weißer Farbstoff und gelber Farbstoff, in beliebiger Form. 
 
 ## Typkarten
 
-Eine Typkarte sieht aus wie eine Datenkarte mit rotem Rand. Sie steht für einen Datentyp und wird gebraucht, um Variablen- und Konstantenkarten dieses Typs herzustellen.
+Eine Typkarte sieht aus wie eine [Datenkarte](#datenkarte) mit rotem Rand. Sie steht für einen Datentyp und wird gebraucht, um Variablen- und [Konstantenkarten](#konstantenkarten) dieses Typs herzustellen.
 
 Rezept: eine Datenkarte, roter Farbstoff und der Gegenstand des Typs, in beliebiger Form:
 
@@ -102,7 +102,7 @@ Rezept: eine Datenkarte, roter Farbstoff und der Gegenstand des Typs, in beliebi
 
 Eine Variablenkarte hat einen blauen Rand. Sie trägt einen Namen, einen Typ und einen Wert in einen Prozess hinein oder aus ihm heraus. Halte sie und rechtsklicke, um sie zu bearbeiten.
 
-Rezept: eine Datenkarte, eine Typkarte und hellblauer Farbstoff ergeben zwei Variablenkarten dieses Typs.
+Rezept: eine [Datenkarte](#datenkarte), eine [Typkarte](#typkarten) und hellblauer Farbstoff ergeben zwei Variablenkarten dieses Typs.
 
 Eine **nicht initialisierte** Variablenkarte hat keinen Namen, keinen Typ und keinen Wert. Ein Prozess schreibt ein Ergebnis hinein. Rezept: eine Datenkarte und hellblauer Farbstoff.
 
@@ -110,9 +110,9 @@ Der Mülleimer-Knopf im Dialog leert alle Felder. Speicherst du mit lauter leere
 
 ## Konstantenkarten
 
-Eine Konstantenkarte hat einen rosa Rand. Sie funktioniert wie eine Variablenkarte, aber sobald sie einen Wert hat, kann er nicht mehr geändert werden.
+Eine Konstantenkarte hat einen rosa Rand. Sie funktioniert wie eine [Variablenkarte](#variablenkarten), aber sobald sie einen Wert hat, kann er nicht mehr geändert werden.
 
-Rezept: eine Datenkarte, eine Typkarte und rosa Farbstoff ergeben zwei Konstantenkarten. Eine Datenkarte und rosa Farbstoff ergeben eine nicht initialisierte Konstantenkarte.
+Rezept: eine [Datenkarte](#datenkarte), eine [Typkarte](#typkarten) und rosa Farbstoff ergeben zwei Konstantenkarten. Eine Datenkarte und rosa Farbstoff ergeben eine [nicht initialisierte Konstantenkarte](03-running-programs.md#nicht-initialisierte-karten).
 
 ## Der NOOP-Block
 
@@ -124,15 +124,15 @@ Rezept: Eisenbarren in den vier Ecken und Stöcke an den vier Kanten, die Mitte 
 
 Viele Blöcke werden aus acht NOOP-Blöcken um einen Gegenstand herum hergestellt. Du bekommst acht Blöcke:
 
-- COMMENT: Glas
+- [COMMENT](02-language.md#noop-und-comment): Glas
 - LITERAL: weiße Wolle
 - OPERATOR: rote Wolle
-- ASSIGN: türkise Wolle
+- [ASSIGN](02-language.md#assign): türkise Wolle
 - TAG: braune Wolle
 - BEGIN: gelbe Wolle
-- EXIT: Eisentür
+- [EXIT](02-language.md#exit): Eisentür
 - PARAMETER: Trichter
-- RETURN: Fichtenholztür
+- [RETURN](02-language.md#return): Fichtenholztür
 
 Die **Typbasis** (roter Teppich) und die **Strukturbasis** (grüne Wolle) werden genauso hergestellt. Sie sind Gegenstände zum Herstellen anderer Blöcke.
 
@@ -142,10 +142,10 @@ Diese Blöcke werden aus einem NOOP-Block und einem Gegenstand hergestellt, in b
 
 - LABEL: Papier
 - PROGRAM: Buch
-- INCLUDE: leere Karte
-- FUNCTION: Stein
-- CALL: glatter Stein
-- BREAK: Stock
+- [INCLUDE](05-libraries.md#bibliotheken-einbinden): leere Karte
+- [FUNCTION](02-language.md#funktionen): Stein
+- [CALL](02-language.md#call): glatter Stein
+- [BREAK](02-language.md#break): Stock
 
 ## Typblöcke
 
@@ -162,17 +162,17 @@ Typblöcke sind rote Stufen. Jeder wird aus einer Typbasis und einem Gegenstand 
 - TIME: Uhr
 - ERROR: Lagerfeuer
 
-VARIABLE ist eine Typbasis und ein Knochenblock. CONSTANT ist eine Typbasis und drei Knochen.
+[VARIABLE](02-language.md#variablen-und-konstanten) ist eine Typbasis und ein Knochenblock. CONSTANT ist eine Typbasis und drei Knochen.
 
 ## Strukturblöcke
 
 Bedingungen und Schleifen werden aus einer Strukturbasis und einem Gegenstand hergestellt, in beliebiger Form:
 
-- IF: Weizenkörner
+- [IF](02-language.md#if-und-else): Weizenkörner
 - ELSE: Weizen
-- FOR: Erde
-- EACH: Bruchstein
-- WHILE: Diorit
+- [FOR](02-language.md#for-schleifen): Erde
+- [EACH](02-language.md#each-schleifen): Bruchstein
+- [WHILE](02-language.md#while-und-repeat): Diorit
 - REPEAT: Granit
 
 ## Blöcke tauschen
@@ -181,13 +181,13 @@ Manche Blöcke lassen sich in ihren Partner verwandeln. Leg einen allein ins Her
 
 - BEGIN und END
 - PARAMETER und RESULT
-- VARIABLE und CONSTANT
-- IF und ELSE, FOR und EACH, WHILE und REPEAT
+- [VARIABLE](02-language.md#variablen-und-konstanten) und CONSTANT
+- [IF](02-language.md#if-und-else) und ELSE, [FOR](02-language.md#for-schleifen) und [EACH](02-language.md#each-schleifen), [WHILE](02-language.md#while-und-repeat) und REPEAT
 - INTEGER und FLOAT, mit gelbem oder orangem Farbstoff
 
 ## Auslöserblöcke
 
-Alle drei Auslöserblöcke haben dasselbe Muster: Kupferbarren in den Ecken, Glas an den Kanten und ein Gegenstand in der Mitte.
+Alle drei [Auslöserblöcke](03-running-programs.md#drei-auslöserblöcke) haben dasselbe Muster: Kupferbarren in den Ecken, Glas an den Kanten und ein Gegenstand in der Mitte.
 
 - Auslöserblock: Goldbarren, ergibt 8
 - Zeitgeberblock: Uhr, ergibt 8
@@ -217,15 +217,15 @@ Jedes stellst du aus einem Buch und einem Gegenstand her, in beliebiger Anordnun
 
 ![Rezept des Handbuchs Anweisungen](../../reference/images/statements_book.png)
 
-**Werkzeuge** (grau): aus einem Buch und einem Schraubenschlüssel.
+**Werkzeuge** (grau): aus einem Buch und einem [Schraubenschlüssel](#schraubenschlüssel).
 
 ![Rezept des Handbuchs Werkzeuge](../../reference/images/tools_book.png)
 
-**Auslöser** (violett): aus einem Buch und einem Auslöserblock.
+**Auslöser** (violett): aus einem Buch und einem [Auslöserblock](03-running-programs.md#drei-auslöserblöcke).
 
 ![Rezept des Handbuchs Auslöser](../../reference/images/triggers_book.png)
 
-**Geräte** (grün): aus einem Buch und einem Anzeigeblock.
+**Geräte** (grün): aus einem Buch und einem [Anzeigeblock](03-running-programs.md#mit-spielern-sprechen).
 
 ![Rezept des Handbuchs Geräte](../../reference/images/devices_book.png)
 

@@ -19,15 +19,15 @@ Jedes stellst du aus einem Buch und einem Gegenstand her, in beliebiger Anordnun
 
 <recipe;c0de:statements_book>
 
-**Werkzeuge** (grau): aus einem Buch und einem Schraubenschlüssel.
+**Werkzeuge** (grau): aus einem Buch und einem [Schraubenschlüssel](^tools/wrench).
 
 <recipe;c0de:tools_book>
 
-**Auslöser** (violett): aus einem Buch und einem Auslöserblock.
+**Auslöser** (violett): aus einem Buch und einem [Auslöserblock](^running_programs/three_trigger_blocks).
 
 <recipe;c0de:triggers_book>
 
-**Geräte** (grün): aus einem Buch und einem Anzeigeblock.
+**Geräte** (grün): aus einem Buch und einem [Anzeigeblock](^running_programs/talking_to_players).
 
 <recipe;c0de:devices_book>
 

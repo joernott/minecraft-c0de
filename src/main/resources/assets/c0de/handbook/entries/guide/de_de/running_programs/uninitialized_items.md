@@ -7,7 +7,7 @@
 }
 ```
 
-Eine **nicht initialisierte** Variablenkarte hat keinen Namen, keinen Typ und keinen Wert. Ein Prozess schreibt ein Ergebnis hinein.
+Eine **nicht initialisierte** [Variablenkarte](^tools/variable_items) hat keinen Namen, keinen Typ und keinen Wert. Ein Prozess schreibt ein Ergebnis hinein.
 
 Du brauchst eine für jedes Ergebnis, das keine Parameterkarte hat, die seinen Platz einnimmt. Eine Funktion mit einem Ergebnis und ohne Parameter braucht eine nicht initialisierte Karte.
 

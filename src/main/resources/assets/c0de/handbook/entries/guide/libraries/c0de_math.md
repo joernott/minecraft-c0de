@@ -7,7 +7,7 @@
 }
 ```
 
-Numbers and random values. It also has the constant `c0de/math/PI`, which you use in an expression like a variable, without CALL.
+Numbers and random values. It also has the constant `c0de/math/PI`, which you use in an expression like a variable, without [CALL](^language/call).
 
 - ABS, SGN: size and sign of a number
 - SQR, EXP, LOG: square root, e to the power, logarithm

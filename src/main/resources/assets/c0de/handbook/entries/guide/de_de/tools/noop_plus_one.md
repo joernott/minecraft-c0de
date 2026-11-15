@@ -11,10 +11,10 @@ Diese Blöcke werden aus einem NOOP-Block und einem Gegenstand hergestellt, in b
 
 - LABEL: Papier
 - PROGRAM: Buch
-- INCLUDE: leere Karte
-- FUNCTION: Stein
-- CALL: glatter Stein
-- BREAK: Stock
+- [INCLUDE](^libraries/including_libraries): leere Karte
+- [FUNCTION](^language/functions): Stein
+- [CALL](^language/call): glatter Stein
+- [BREAK](^language/break): Stock
 
 **Rezepte**
 

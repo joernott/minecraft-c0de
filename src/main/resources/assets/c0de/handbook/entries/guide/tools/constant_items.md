@@ -7,9 +7,9 @@
 }
 ```
 
-A constant item has a pink border. It works like a variable item, but once it has a value, it can't be changed.
+A constant item has a pink border. It works like a [variable item](^tools/variable_items), but once it has a value, it can't be changed.
 
-Recipe: a data item, a type item and pink dye give two constant items. A data item and pink dye give an uninitialized constant item.
+Recipe: a [data item](^tools/data_item), a [type item](^tools/type_items) and pink dye give two constant items. A data item and pink dye give an [uninitialized constant item](^running_programs/uninitialized_items).
 
 **Recipes**
 

@@ -7,7 +7,7 @@
 }
 ```
 
-INCLUDE lines come right after the NOOP in line 1, before any other statement. They start at x=5, like the PROGRAM line.
+INCLUDE lines come right after the [NOOP](^language/noop_and_comment) in line 1, before any other statement. They start at x=5, like the PROGRAM line.
 
 ```c0de
 PROGRAM math

@@ -1,12 +1,12 @@
 # Running Programs
 
-A program on a sheet does nothing by itself. Trigger blocks start it, feed it data and collect its results. A running program is called a **process**.
+A program on a sheet does nothing by itself. [Trigger blocks](#three-trigger-blocks) start it, feed it data and collect its results. A running program is called a **process**.
 
 ## Three trigger blocks
 
 - **trigger block**: starts a process when it gets a redstone pulse.
 - **timer block**: starts a process again and again, at an interval you set.
-- **debug trigger block**: starts a process when you hit it with the debugging tool.
+- **debug trigger block**: starts a process when you hit it with the [debugging tool](04-tools.md#debugging-tool).
 
 Only a signal that comes on starts a trigger block. Switching a lever off doesn't start it, and a signal that stays on doesn't start it again.
 
@@ -16,10 +16,10 @@ A redstone signal pauses a timer block. Use a lever to switch it off. As a sheet
 
 ## The trigger dialog
 
-Right-click a trigger block with an empty hand to open its dialog. It shows:
+Right-click a [trigger block](#three-trigger-blocks) with an empty hand to open its dialog. It shows:
 
 - the PID of the running process
-- the exit code of the last process, and its error if it crashed
+- the [exit code](#exit-codes) of the last process, and its error if it crashed
 - a list to pick the program
 - a list to pick the function to run
 - for timer blocks, the interval in ticks
@@ -30,11 +30,11 @@ The program and function lists are locked while a process runs.
 
 ## The owner
 
-The player who set up a trigger block last is its **owner**. Its programs act on behalf of this player. This matters for the c0de/minecraft library and for aborting processes.
+The player who set up a [trigger block](#three-trigger-blocks) last is its **owner**. Its programs act on behalf of this player. This matters for the [c0de/minecraft](05-libraries.md#c0deminecraft) library and for aborting processes.
 
 ## Variable items
 
-Data goes into a process as **variable items** and **constant items** in the input inventory. Only these items fit there.
+Data goes into a process as **[variable items](04-tools.md#variable-items)** and **[constant items](04-tools.md#constant-items)** in the input inventory. Only these items fit there.
 
 Each item has a name, a type and a value. An item goes to the parameter of the entry function with the same name. Its type must match the type of the parameter.
 
@@ -42,7 +42,7 @@ To edit a variable item, hold it in your main hand and right-click. The dialog l
 
 ## Uninitialized items
 
-An **uninitialized** variable item has no name, no type and no value. A process writes a result into it.
+An **uninitialized** [variable item](04-tools.md#variable-items) has no name, no type and no value. A process writes a result into it.
 
 You need one for each result that has no parameter item to take its place. A function with one result and no parameters needs one uninitialized item.
 
@@ -53,42 +53,42 @@ Spare uninitialized items stay in the input inventory. So you can stack several 
 When a process starts, it takes from the input inventory:
 
 - one item for each parameter that has an item,
-- one uninitialized item for each extra result,
-- all other initialized variable and constant items.
+- one [uninitialized item](#uninitialized-items) for each extra result,
+- all other initialized variable and [constant items](04-tools.md#constant-items).
 
 Those other items are not used. They are passed through unchanged to the output inventory when the process ends.
 
 ## Results
 
-When a process ends normally, the output inventory gets one variable item per result of the entry function. Each item carries the name, type and value of its result. An EXIT counts as a normal end: the results get the values they have when EXIT runs.
+When a process ends normally, the output inventory gets one [variable item](04-tools.md#variable-items) per result of the entry function. Each item carries the name, type and value of its result. An [EXIT](02-language.md#exit) counts as a normal end: the results get the values they have when EXIT runs.
 
 If the function has fewer results than parameters, you also get empty variable items back. So the number of items going in and out is the same.
 
 ## When it won't start
 
-A trigger block does not start a process if:
+A [trigger block](#three-trigger-blocks) does not start a process if:
 
 - it has no program or function yet,
 - its last process is still running,
 - an item is missing for a parameter without default value,
-- an uninitialized item is missing for a result,
+- an [uninitialized item](#uninitialized-items) is missing for a result,
 - the output inventory has too few free slots.
 
 ## Exit codes
 
-Every process ends with an **exit code** from 0 to 15. It is 0 when the program ends normally, the number from an EXIT statement, or 15 when the process crashed.
+Every process ends with an **exit code** from 0 to 15. It is 0 when the program ends normally, the number from an [EXIT](02-language.md#exit) statement, or 15 when the process crashed.
 
-A comparator reading the trigger block puts out a signal as strong as the exit code. The signal stays until the next process starts, and it is 0 while a process runs. So your redstone can react to the result of a program. A comparator reads timer blocks and debug trigger blocks the same way.
+A comparator reading the [trigger block](#three-trigger-blocks) puts out a signal as strong as the exit code. The signal stays until the next process starts, and it is 0 while a process runs. So your redstone can react to the result of a program. A comparator reads timer blocks and debug trigger blocks the same way.
 
 ## Crashes
 
-When a process crashes, the trigger block plays a low note. Its dialog shows the error code, the message, the function and the line where it happened.
+When a process crashes, the [trigger block](#three-trigger-blocks) plays a low note. Its dialog shows the error code, the message, the function and the line where it happened.
 
 A crashed process creates no results. All items it took go to the output inventory unchanged.
 
 ## Chaining
 
-Hoppers, pipes and cables can use a trigger block from all sides. A hopper above or beside it fills the input. A hopper below it empties the output.
+Hoppers, pipes and cables can use a [trigger block](#three-trigger-blocks) from all sides. A hopper above or beside it fills the input. A hopper below it empties the output.
 
 So you can build chains: trigger block, hopper, trigger block, hopper, chest. Each process uses only the items it needs and passes on the rest. The end of the chain collects everything.
 
@@ -96,13 +96,13 @@ If exactly one block with an inventory touches a trigger block, the output goes 
 
 ## Talking to players
 
-A process can also talk to players while it runs. Three built-in functions do this, called with CALL like any other function:
+A process can also talk to players while it runs. Three [built-in functions](05-libraries.md#built-in-functions) do this, called with [CALL](02-language.md#call) like any other function:
 
 - **PRINT** writes text on screens.
 - **INPUT** reads a value into a variable.
-- **WRITE** puts a value into an I/O block as a variable item.
+- **WRITE** puts a value into an I/O block as a [variable item](04-tools.md#variable-items).
 
-The devices for this are display blocks, laptops, tablets and I/O blocks. Bind each of them to a program and function, like a trigger block. Display blocks next to each other form one big screen.
+The devices for this are display blocks, laptops, tablets and I/O blocks. Bind each of them to a program and function, like a [trigger block](#three-trigger-blocks). Display blocks next to each other form one big screen.
 
 COLOR changes the colors of the text that follows. The constants COLOR_BLACK to COLOR_WHITE name the 16 colors:
 
@@ -124,19 +124,19 @@ BEGIN
 END FUNCTION
 ```
 
-INPUT takes a matching item from an I/O block first. Otherwise it waits until a player types a line on a laptop or tablet. The typed line appears on its screen, so you see your answer. The handbooks Functions and Devices describe all of them.
+INPUT takes a matching item from an I/O block first. Otherwise it waits until a player types a line on a laptop or tablet. The typed line appears on its screen, so you see your answer. The [handbooks](04-tools.md#handbooks) Functions and Devices describe all of them.
 
 ## Protected programs
 
-While a process runs, its sheet is locked. Nobody can place or break blocks on it, not even pistons or explosions. The wrench, the hammer and the pliers don't work there.
+While a process runs, its sheet is locked. Nobody can place or break blocks on it, not even pistons or explosions. The [wrench](04-tools.md#wrench), the [hammer](04-tools.md#hammer) and the [pliers](04-tools.md#pliers) don't work there.
 
-Dialogs of blocks on the sheet open read-only. The text marker still works, because it changes nothing. If you try to change a locked sheet, you get a message naming the running processes.
+Dialogs of blocks on the sheet open read-only. The [text marker](04-tools.md#text-marker) still works, because it changes nothing. If you try to change a locked sheet, you get a message naming the running processes.
 
 ## PID blocks
 
 Each process gets a number, its **PID**. When it starts, a dark PID block appears on the cursor rail at line 0. Its height is the PID: the first free spot counted up from y=0.
 
-The PID block shows the PID in green on its north and south faces. Its east and west faces show where the trigger block stands.
+The PID block shows the PID in green on its north and south faces. Its east and west faces show where the [trigger block](#three-trigger-blocks) stands.
 
 Several processes of one program can run at the same time, one per trigger block. Each has its own PID block and its own cursor. They don't share any variables.
 
@@ -148,6 +148,6 @@ A debug cursor glows red. You move it yourself with the debugging tool, see [Deb
 
 ## Aborting a process
 
-Shift-right-click a PID block with the debugging tool to stop its process. The process crashes with the error PROCESS_ABORTED, and its items go to the output inventory.
+Shift-right-click a [PID block](#pid-blocks) with the [debugging tool](04-tools.md#debugging-tool) to stop its process. The process crashes with the error PROCESS_ABORTED, and its items go to the output inventory.
 
-Only the owner of the trigger block and server operators can do this.
+Only the owner of the [trigger block](#three-trigger-blocks) and server [operators](02-language.md#operators) can do this.

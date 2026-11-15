@@ -1,12 +1,12 @@
 # Programme ausführen
 
-Ein Programm auf einem Blatt tut von selbst nichts. Auslöserblöcke starten es, versorgen es mit Daten und sammeln seine Ergebnisse ein. Ein laufendes Programm heißt **Prozess**.
+Ein Programm auf einem Blatt tut von selbst nichts. [Auslöserblöcke](#drei-auslöserblöcke) starten es, versorgen es mit Daten und sammeln seine Ergebnisse ein. Ein laufendes Programm heißt **Prozess**.
 
 ## Drei Auslöserblöcke
 
 - **Auslöserblock**: startet einen Prozess, wenn er einen Redstone-Impuls bekommt.
 - **Zeitgeberblock**: startet einen Prozess immer wieder, in einem Abstand, den du einstellst.
-- **Debug-Auslöserblock**: startet einen Prozess, wenn du ihn mit dem Debugging-Werkzeug schlägst.
+- **Debug-Auslöserblock**: startet einen Prozess, wenn du ihn mit dem [Debugging-Werkzeug](04-tools.md#debugging-werkzeug) schlägst.
 
 Nur ein Signal, das angeht, startet einen Auslöserblock. Einen Hebel auszuschalten startet ihn nicht, und ein Signal, das an bleibt, startet ihn nicht noch einmal.
 
@@ -16,10 +16,10 @@ Ein Redstone-Signal pausiert einen Zeitgeberblock. Verwende einen Hebel, um ihn 
 
 ## Der Auslöser-Dialog
 
-Klicke einen Auslöserblock mit leerer Hand mit rechts an, um seinen Dialog zu öffnen. Er zeigt:
+Klicke einen [Auslöserblock](#drei-auslöserblöcke) mit leerer Hand mit rechts an, um seinen Dialog zu öffnen. Er zeigt:
 
 - die PID des laufenden Prozesses
-- den Exit-Code des letzten Prozesses und seinen Fehler, falls er abgestürzt ist
+- den [Exit-Code](#exit-codes) des letzten Prozesses und seinen Fehler, falls er abgestürzt ist
 - eine Liste zur Auswahl des Programms
 - eine Liste zur Auswahl der auszuführenden Funktion
 - bei Zeitgeberblöcken den Abstand in Ticks
@@ -30,11 +30,11 @@ Die Programm- und die Funktionsliste sind gesperrt, solange ein Prozess läuft.
 
 ## Der Besitzer
 
-Der Spieler, der einen Auslöserblock zuletzt eingerichtet hat, ist sein **Besitzer**. Seine Programme handeln im Namen dieses Spielers. Das ist wichtig für die Bibliothek c0de/minecraft und für das Abbrechen von Prozessen.
+Der Spieler, der einen [Auslöserblock](#drei-auslöserblöcke) zuletzt eingerichtet hat, ist sein **Besitzer**. Seine Programme handeln im Namen dieses Spielers. Das ist wichtig für die Bibliothek [c0de/minecraft](05-libraries.md#c0deminecraft) und für das Abbrechen von Prozessen.
 
 ## Variablenkarten
 
-Daten kommen als **Variablenkarten** und **Konstantenkarten** im Eingabeinventar in einen Prozess. Nur diese Gegenstände passen dort hinein.
+Daten kommen als **[Variablenkarten](04-tools.md#variablenkarten)** und **[Konstantenkarten](04-tools.md#konstantenkarten)** im Eingabeinventar in einen Prozess. Nur diese Gegenstände passen dort hinein.
 
 Jede Karte hat einen Namen, einen Typ und einen Wert. Eine Karte geht an den Parameter der Einstiegsfunktion mit demselben Namen. Ihr Typ muss zum Typ des Parameters passen.
 
@@ -42,7 +42,7 @@ Um eine Variablenkarte zu bearbeiten, halte sie in deiner Haupthand und klicke m
 
 ## Nicht initialisierte Karten
 
-Eine **nicht initialisierte** Variablenkarte hat keinen Namen, keinen Typ und keinen Wert. Ein Prozess schreibt ein Ergebnis hinein.
+Eine **nicht initialisierte** [Variablenkarte](04-tools.md#variablenkarten) hat keinen Namen, keinen Typ und keinen Wert. Ein Prozess schreibt ein Ergebnis hinein.
 
 Du brauchst eine für jedes Ergebnis, das keine Parameterkarte hat, die seinen Platz einnimmt. Eine Funktion mit einem Ergebnis und ohne Parameter braucht eine nicht initialisierte Karte.
 
@@ -53,42 +53,42 @@ Du brauchst eine für jedes Ergebnis, das keine Parameterkarte hat, die seinen P
 Wenn ein Prozess startet, nimmt er aus dem Eingabeinventar:
 
 - eine Karte für jeden Parameter, für den es eine Karte gibt,
-- eine nicht initialisierte Karte für jedes zusätzliche Ergebnis,
-- alle anderen initialisierten Variablen- und Konstantenkarten.
+- eine [nicht initialisierte Karte](#nicht-initialisierte-karten) für jedes zusätzliche Ergebnis,
+- alle anderen initialisierten Variablen- und [Konstantenkarten](04-tools.md#konstantenkarten).
 
 Diese anderen Karten werden nicht verwendet. Sie werden unverändert in das Ausgabeinventar weitergereicht, wenn der Prozess endet.
 
 ## Ergebnisse
 
-Wenn ein Prozess normal endet, bekommt das Ausgabeinventar eine Variablenkarte pro Ergebnis der Einstiegsfunktion. Jede Karte trägt den Namen, den Typ und den Wert ihres Ergebnisses. Ein EXIT zählt als normales Ende: Die Ergebnisse bekommen die Werte, die sie haben, wenn EXIT läuft.
+Wenn ein Prozess normal endet, bekommt das Ausgabeinventar eine [Variablenkarte](04-tools.md#variablenkarten) pro Ergebnis der Einstiegsfunktion. Jede Karte trägt den Namen, den Typ und den Wert ihres Ergebnisses. Ein [EXIT](02-language.md#exit) zählt als normales Ende: Die Ergebnisse bekommen die Werte, die sie haben, wenn EXIT läuft.
 
 Wenn die Funktion weniger Ergebnisse als Parameter hat, bekommst du auch leere Variablenkarten zurück. So ist die Zahl der Karten, die hinein- und herausgehen, gleich.
 
 ## Wenn er nicht startet
 
-Ein Auslöserblock startet keinen Prozess, wenn:
+Ein [Auslöserblock](#drei-auslöserblöcke) startet keinen Prozess, wenn:
 
 - er noch kein Programm oder keine Funktion hat,
 - sein letzter Prozess noch läuft,
 - eine Karte für einen Parameter ohne Standardwert fehlt,
-- eine nicht initialisierte Karte für ein Ergebnis fehlt,
+- eine [nicht initialisierte Karte](#nicht-initialisierte-karten) für ein Ergebnis fehlt,
 - das Ausgabeinventar zu wenige freie Plätze hat.
 
 ## Exit-Codes
 
 Jeder Prozess endet mit einem **Exit-Code** von 0 bis 15. Er ist 0, wenn das Programm normal endet, die Zahl aus einer EXIT-Anweisung oder 15, wenn der Prozess abgestürzt ist.
 
-Ein Komparator, der den Auslöserblock ausliest, gibt ein Signal aus, das so stark ist wie der Exit-Code. Das Signal bleibt, bis der nächste Prozess startet, und ist 0, solange ein Prozess läuft. So kann deine Redstone-Schaltung auf das Ergebnis eines Programms reagieren. Ein Komparator liest Zeitgeberblöcke und Debug-Auslöserblöcke genauso aus.
+Ein Komparator, der den [Auslöserblock](#drei-auslöserblöcke) ausliest, gibt ein Signal aus, das so stark ist wie der Exit-Code. Das Signal bleibt, bis der nächste Prozess startet, und ist 0, solange ein Prozess läuft. So kann deine Redstone-Schaltung auf das Ergebnis eines Programms reagieren. Ein Komparator liest Zeitgeberblöcke und Debug-Auslöserblöcke genauso aus.
 
 ## Abstürze
 
-Wenn ein Prozess abstürzt, spielt der Auslöserblock einen tiefen Ton. Sein Dialog zeigt den Fehlercode, die Meldung, die Funktion und die Zeile, in der es passiert ist.
+Wenn ein Prozess abstürzt, spielt der [Auslöserblock](#drei-auslöserblöcke) einen tiefen Ton. Sein Dialog zeigt den Fehlercode, die Meldung, die Funktion und die Zeile, in der es passiert ist.
 
 Ein abgestürzter Prozess erzeugt keine Ergebnisse. Alle Karten, die er genommen hat, gehen unverändert in das Ausgabeinventar.
 
 ## Verketten
 
-Trichter, Rohre und Kabel können einen Auslöserblock von allen Seiten nutzen. Ein Trichter über oder neben ihm füllt die Eingabe. Ein Trichter unter ihm leert die Ausgabe.
+Trichter, Rohre und Kabel können einen [Auslöserblock](#drei-auslöserblöcke) von allen Seiten nutzen. Ein Trichter über oder neben ihm füllt die Eingabe. Ein Trichter unter ihm leert die Ausgabe.
 
 So kannst du Ketten bauen: Auslöserblock, Trichter, Auslöserblock, Trichter, Truhe. Jeder Prozess verwendet nur die Karten, die er braucht, und reicht den Rest weiter. Das Ende der Kette sammelt alles.
 
@@ -96,13 +96,13 @@ Wenn genau ein Block mit Inventar einen Auslöserblock berührt, geht die Ausgab
 
 ## Mit Spielern sprechen
 
-Ein Prozess kann auch mit Spielern sprechen, während er läuft. Drei eingebaute Funktionen tun das, aufgerufen mit CALL wie jede andere Funktion:
+Ein Prozess kann auch mit Spielern sprechen, während er läuft. Drei [eingebaute Funktionen](05-libraries.md#eingebaute-funktionen) tun das, aufgerufen mit [CALL](02-language.md#call) wie jede andere Funktion:
 
 - **PRINT** schreibt Text auf Bildschirme.
 - **INPUT** liest einen Wert in eine Variable.
-- **WRITE** legt einen Wert als Variablenkarte in einen E/A-Block.
+- **WRITE** legt einen Wert als [Variablenkarte](04-tools.md#variablenkarten) in einen E/A-Block.
 
-Die Geräte dafür sind Anzeigeblöcke, Laptops, Tablets und E/A-Blöcke. Verbinde jedes davon mit einem Programm und einer Funktion, wie einen Auslöserblock. Anzeigeblöcke nebeneinander bilden einen großen Bildschirm.
+Die Geräte dafür sind Anzeigeblöcke, Laptops, Tablets und E/A-Blöcke. Verbinde jedes davon mit einem Programm und einer Funktion, wie einen [Auslöserblock](#drei-auslöserblöcke). Anzeigeblöcke nebeneinander bilden einen großen Bildschirm.
 
 COLOR ändert die Farben des Texts, der danach kommt. Die Konstanten COLOR_BLACK bis COLOR_WHITE benennen die 16 Farben:
 
@@ -124,19 +124,19 @@ BEGIN
 END FUNCTION
 ```
 
-INPUT nimmt zuerst eine passende Karte aus einem E/A-Block. Sonst wartet es, bis ein Spieler auf einem Laptop oder Tablet eine Zeile eintippt. Die getippte Zeile erscheint auf seinem Bildschirm, du siehst also deine Antwort. Die Handbücher Funktionen und Geräte beschreiben sie alle.
+INPUT nimmt zuerst eine passende Karte aus einem E/A-Block. Sonst wartet es, bis ein Spieler auf einem Laptop oder Tablet eine Zeile eintippt. Die getippte Zeile erscheint auf seinem Bildschirm, du siehst also deine Antwort. Die [Handbücher](04-tools.md#handbücher) Funktionen und Geräte beschreiben sie alle.
 
 ## Geschützte Programme
 
-Solange ein Prozess läuft, ist sein Blatt gesperrt. Niemand kann darauf Blöcke setzen oder abbauen, nicht einmal Kolben oder Explosionen. Der Schraubenschlüssel, der Hammer und die Zange funktionieren dort nicht.
+Solange ein Prozess läuft, ist sein Blatt gesperrt. Niemand kann darauf Blöcke setzen oder abbauen, nicht einmal Kolben oder Explosionen. Der [Schraubenschlüssel](04-tools.md#schraubenschlüssel), der [Hammer](04-tools.md#hammer) und die [Zange](04-tools.md#zange) funktionieren dort nicht.
 
-Dialoge von Blöcken auf dem Blatt öffnen sich schreibgeschützt. Der Textmarker funktioniert weiterhin, weil er nichts ändert. Wenn du versuchst, ein gesperrtes Blatt zu ändern, bekommst du eine Nachricht, die die laufenden Prozesse nennt.
+Dialoge von Blöcken auf dem Blatt öffnen sich schreibgeschützt. Der [Textmarker](04-tools.md#textmarker) funktioniert weiterhin, weil er nichts ändert. Wenn du versuchst, ein gesperrtes Blatt zu ändern, bekommst du eine Nachricht, die die laufenden Prozesse nennt.
 
 ## PID-Blöcke
 
 Jeder Prozess bekommt eine Nummer, seine **PID**. Wenn er startet, erscheint ein dunkler PID-Block auf der Cursorschiene in Zeile 0. Seine Höhe ist die PID: der erste freie Platz, von y=0 aufwärts gezählt.
 
-Der PID-Block zeigt die PID in Grün auf seiner Nord- und Südseite. Seine Ost- und Westseite zeigen, wo der Auslöserblock steht.
+Der PID-Block zeigt die PID in Grün auf seiner Nord- und Südseite. Seine Ost- und Westseite zeigen, wo der [Auslöserblock](#drei-auslöserblöcke) steht.
 
 Mehrere Prozesse eines Programms können gleichzeitig laufen, einer pro Auslöserblock. Jeder hat seinen eigenen PID-Block und seinen eigenen Cursor. Sie teilen sich keine Variablen.
 
@@ -148,6 +148,6 @@ Ein Debug-Cursor leuchtet rot. Du bewegst ihn selbst mit dem Debugging-Werkzeug,
 
 ## Einen Prozess abbrechen
 
-Klicke einen PID-Block mit dem Debugging-Werkzeug bei gedrückter Umschalttaste mit rechts an, um seinen Prozess anzuhalten. Der Prozess stürzt mit dem Fehler PROCESS_ABORTED ab, und seine Karten gehen in das Ausgabeinventar.
+Klicke einen [PID-Block](#pid-blöcke) mit dem [Debugging-Werkzeug](04-tools.md#debugging-werkzeug) bei gedrückter Umschalttaste mit rechts an, um seinen Prozess anzuhalten. Der Prozess stürzt mit dem Fehler PROCESS_ABORTED ab, und seine Karten gehen in das Ausgabeinventar.
 
-Nur der Besitzer des Auslöserblocks und Server-Operatoren können das tun.
+Nur der Besitzer des [Auslöserblocks](#drei-auslöserblöcke) und Server-Operatoren können das tun.

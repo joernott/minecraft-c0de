@@ -7,7 +7,7 @@
 }
 ```
 
-Hoppers, pipes and cables can use a trigger block from all sides. A hopper above or beside it fills the input. A hopper below it empties the output.
+Hoppers, pipes and cables can use a [trigger block](^running_programs/three_trigger_blocks) from all sides. A hopper above or beside it fills the input. A hopper below it empties the output.
 
 So you can build chains: trigger block, hopper, trigger block, hopper, chest. Each process uses only the items it needs and passes on the rest. The end of the chain collects everything.
 

@@ -7,9 +7,9 @@
 }
 ```
 
-Right-click a trigger block with the wrench to enter the c0de dimension. You arrive in front of the program of that trigger block, or of the first free sheet.
+Right-click a [trigger block](^running_programs/three_trigger_blocks) with the wrench to enter the c0de dimension. You arrive in front of the program of that trigger block, or of the first free sheet.
 
-On a sheet, the wrench moves and copies lines you marked with the text marker. Left-click a line that is not marked: the marked lines move in front of it. The gaps close by themselves.
+On a sheet, the wrench moves and copies lines you marked with the [text marker](^tools/text_marker). Left-click a line that is not marked: the marked lines move in front of it. The gaps close by themselves.
 
 Right-click a line to copy the marked lines in front of it. That line and all lines after it move south. In survival mode, the copied blocks come from your inventory.
 

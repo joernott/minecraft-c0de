@@ -7,10 +7,10 @@
 }
 ```
 
-Right-click a trigger block with an empty hand to open its dialog. It shows:
+Right-click a [trigger block](^running_programs/three_trigger_blocks) with an empty hand to open its dialog. It shows:
 
 - the PID of the running process
-- the exit code of the last process, and its error if it crashed
+- the [exit code](^running_programs/exit_codes) of the last process, and its error if it crashed
 - a list to pick the program
 - a list to pick the function to run
 - for timer blocks, the interval in ticks

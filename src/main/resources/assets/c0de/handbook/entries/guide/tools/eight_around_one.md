@@ -7,17 +7,17 @@
 }
 ```
 
-Many blocks are crafted from eight NOOP blocks around one item. You get eight blocks:
+Many blocks are crafted from eight [NOOP](^language/noop_and_comment) blocks around one item. You get eight blocks:
 
 - COMMENT: glass
-- LITERAL: white wool
+- [LITERAL](^language/literals): white wool
 - OPERATOR: red wool
-- ASSIGN: cyan wool
+- [ASSIGN](^language/assign): cyan wool
 - TAG: brown wool
 - BEGIN: yellow wool
-- EXIT: iron door
+- [EXIT](^language/exit): iron door
 - PARAMETER: hopper
-- RETURN: spruce door
+- [RETURN](^language/return): spruce door
 
 The **type base** (red carpet) and the **structural base** (green wool) are made the same way. They are items for crafting other blocks.
 

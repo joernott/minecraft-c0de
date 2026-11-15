@@ -7,9 +7,9 @@
 }
 ```
 
-Klicke einen PID-Block mit dem Debugging-Werkzeug bei gedrückter Umschalttaste mit rechts an, um seinen Prozess anzuhalten. Der Prozess stürzt mit dem Fehler PROCESS\_ABORTED ab, und seine Karten gehen in das Ausgabeinventar.
+Klicke einen [PID-Block](^running_programs/pid_blocks) mit dem [Debugging-Werkzeug](^tools/debugging_tool) bei gedrückter Umschalttaste mit rechts an, um seinen Prozess anzuhalten. Der Prozess stürzt mit dem Fehler PROCESS\_ABORTED ab, und seine Karten gehen in das Ausgabeinventar.
 
-Nur der Besitzer des Auslöserblocks und Server-Operatoren können das tun.
+Nur der Besitzer des [Auslöserblocks](^running_programs/three_trigger_blocks) und Server-Operatoren können das tun.
 
 **Rezepte**
 

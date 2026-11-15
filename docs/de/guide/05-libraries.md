@@ -1,10 +1,10 @@
 # Bibliotheken
 
-c0de bringt fertige Funktionen mit. Einige sind eingebaut und immer da. Die anderen sind in Bibliotheken zusammengefasst, die du mit einer INCLUDE-Zeile lädst.
+c0de bringt fertige Funktionen mit. Einige sind eingebaut und immer da. Die anderen sind in Bibliotheken zusammengefasst, die du mit einer [INCLUDE-Zeile](#bibliotheken-einbinden) lädst.
 
 ## Aufrufen
 
-Alle diese Funktionen werden mit CALL aufgerufen, wie deine eigenen Funktionen. Eingebaute Funktionen benutzen ihren einfachen Namen. Bibliotheksfunktionen benutzen ihren vollen Namen, zum Beispiel `c0de/strings/MID`.
+Alle diese Funktionen werden mit [CALL](02-language.md#call) aufgerufen, wie deine eigenen Funktionen. [Eingebaute Funktionen](#eingebaute-funktionen) benutzen ihren einfachen Namen. Bibliotheksfunktionen benutzen ihren vollen Namen, zum Beispiel `c0de/strings/MID`.
 
 ```c0de
 CALL c0de/strings/MID
@@ -32,7 +32,7 @@ CALL INSERT
 
 ## Bibliotheken einbinden
 
-INCLUDE-Zeilen kommen direkt nach dem NOOP in Zeile 1, vor jeder anderen Anweisung. Sie beginnen bei x=5, wie die PROGRAM-Zeile.
+INCLUDE-Zeilen kommen direkt nach dem [NOOP](02-language.md#noop-und-comment) in Zeile 1, vor jeder anderen Anweisung. Sie beginnen bei x=5, wie die PROGRAM-Zeile.
 
 ```c0de
 PROGRAM math
@@ -45,7 +45,7 @@ Der LABEL-Dialog neben einem INCLUDE-Block zeigt alle Bibliotheken, aus denen du
 
 ## Eingebaute Funktionen
 
-Diese funktionieren ohne INCLUDE:
+Diese funktionieren ohne [INCLUDE](#bibliotheken-einbinden):
 
 - LEN: die Länge eines Texts, Arrays oder Hashs
 - HAS_KEY: wahr, wenn ein Hash einen Schlüssel hat
@@ -53,11 +53,11 @@ Diese funktionieren ohne INCLUDE:
 - INSERT: ein Array mit einem neuen Element an einer Position
 - CLEAR: ein leeres Array oder ein leerer Hash
 - SWAP: tauscht zwei Werte
-- RAISE: löst deinen eigenen Fehler aus, Code 1000 oder höher
+- [RAISE](02-language.md#eigene-fehler): löst deinen eigenen Fehler aus, Code 1000 oder höher
 
 ## c0de/math
 
-Zahlen und Zufallswerte. Sie hat auch die Konstante `c0de/math/PI`, die du in einem Ausdruck wie eine Variable verwendest, ohne CALL.
+Zahlen und Zufallswerte. Sie hat auch die Konstante `c0de/math/PI`, die du in einem Ausdruck wie eine Variable verwendest, ohne [CALL](02-language.md#call).
 
 - ABS, SGN: Betrag und Vorzeichen einer Zahl
 - SQR, EXP, LOG: Quadratwurzel, e hoch, Logarithmus
@@ -92,7 +92,7 @@ Text und Zeichen:
 Umwandlungen:
 
 - STR: ein beliebiger einfacher Wert als Text
-- FORMAT: ein Wert als Text in einem Format deiner Wahl
+- [FORMAT](#format): ein Wert als Text in einem Format deiner Wahl
 - VAL: ein Text als Zahl
 - HEX, OCT: eine Zahl hexadezimal oder oktal
 
@@ -116,7 +116,7 @@ Alle Codes verwenden denselben Wert, `"%tF %tT"` zeigt also Datum und Uhrzeit au
 
 ## JSON und YAML
 
-c0de/strings kann außerdem jeden Wert mit TO_JSON und TO_YAML in JSON- oder YAML-Text verwandeln. FROM_JSON und FROM_YAML lesen solchen Text zurück in eine Variable.
+[c0de/strings](#c0destrings) kann außerdem jeden Wert mit TO_JSON und TO_YAML in JSON- oder YAML-Text verwandeln. FROM_JSON und FROM_YAML lesen solchen Text zurück in eine Variable.
 
 TAG-Blöcke am Ende einer VARIABLE-Zeile oder eines Strukturelements legen die Schlüsselnamen fest, die in JSON oder YAML verwendet werden.
 
@@ -138,7 +138,7 @@ TIMER beginnt um Mitternacht bei 0. WEEK liefert die ISO-Woche: Am 1. Januar kan
 
 ## c0de/minecraft
 
-Mit dieser Bibliothek können Programme die Welt rund um den Auslöserblock berühren:
+Mit dieser Bibliothek können Programme die Welt rund um den [Auslöserblock](03-running-programs.md#drei-auslöserblöcke) berühren:
 
 - TICKS: die Spielzeit der Welt, nicht die Tageszeit
 - BEEP, SOUND: Töne spielen wie ein Notenblock
@@ -162,11 +162,11 @@ Manche Funktionen verändern die Welt stärker:
 - TELEPORT: ein Objekt bewegen
 - COMMAND: einen Befehl ausführen wie ein Befehlsblock
 
-Positionen werden als Struktur `c0de/minecraft/POSITION` mit x, y, z und einer optionalen Dimension angegeben. Eine leere Dimension bedeutet die Dimension des Auslöserblocks. Programme können die Blöcke auf den Blättern der c0de-Dimension niemals verändern.
+Positionen werden als Struktur `c0de/minecraft/POSITION` mit x, y, z und einer optionalen Dimension angegeben. Eine leere Dimension bedeutet die Dimension des [Auslöserblocks](03-running-programs.md#drei-auslöserblöcke). Programme können die Blöcke auf den Blättern der c0de-Dimension niemals verändern.
 
 ## Besitzer und Berechtigungen
 
-Programme handeln im Namen des Besitzers des Auslöserblocks. Die weltverändernden Funktionen oben funktionieren nur, wenn der Besitzer ein Operator ist oder wenn der Server sie in der Datei `config/c0de.properties` erlaubt.
+Programme handeln im Namen des Besitzers des [Auslöserblocks](03-running-programs.md#drei-auslöserblöcke). Die weltverändernden Funktionen oben funktionieren nur, wenn der Besitzer ein Operator ist oder wenn der Server sie in der Datei `config/c0de.properties` erlaubt.
 
 Sonst lösen sie PERMISSION_DENIED aus. Spieler können nur teleportiert werden, wenn der Besitzer ein Operator ist, und nur Operatoren können mit COMMAND Befehle ausführen oder Befehlsblöcken ihre Daten geben.
 
@@ -178,7 +178,7 @@ Drei Funktionen funktionieren für jeden Besitzer, weil sie nur tun, was auch ei
 
 ## Musik machen
 
-Ein kurzes Beispiel: einen Glockenton am Auslöserblock spielen.
+Ein kurzes Beispiel: einen Glockenton am [Auslöserblock](03-running-programs.md#drei-auslöserblöcke) spielen.
 
 ```c0de
 CALL c0de/minecraft/SOUND
@@ -192,11 +192,11 @@ CALL c0de/minecraft/SOUND
 
 Programme brauchen manchmal ein Passwort oder einen Schlüssel, zum Beispiel für einen Webdienst. c0de hält sie auf drei Arten verborgen:
 
-- INPUT mit `PARAMETER hide TRUE ;` zeigt auf dem Laptop `*`, während du tippst.
+- INPUT mit `PARAMETER hide TRUE ;` zeigt auf dem [Laptop](03-running-programs.md#mit-spielern-sprechen) `*`, während du tippst.
 - Variablen-, Konstanten- und Literalkarten können ihren Wert endgültig verbergen (**Wert verbergen** in ihrem Dialog).
-- Der Tag `security: "sensitive"` an einer Variable oder Konstante zeigt im Debugging-Werkzeug `***`.
+- Der Tag `security: "sensitive"` an einer Variable oder Konstante zeigt im [Debugging-Werkzeug](04-tools.md#debugging-werkzeug) `***`.
 
-Verbergen schützt vor Leuten, die auf deinen Bildschirm schauen. Echte Geheimnisse gehören in deinen Tresor.
+Verbergen schützt vor Leuten, die auf deinen Bildschirm schauen. Echte Geheimnisse gehören in deinen [Tresor](#geheimnisse-im-tresor).
 
 ## Geheimnisse im Tresor
 

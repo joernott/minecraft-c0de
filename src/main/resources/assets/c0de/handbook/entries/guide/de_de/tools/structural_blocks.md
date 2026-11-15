@@ -9,11 +9,11 @@
 
 Bedingungen und Schleifen werden aus einer Strukturbasis und einem Gegenstand hergestellt, in beliebiger Form:
 
-- IF: Weizenkörner
+- [IF](^language/if_and_else): Weizenkörner
 - ELSE: Weizen
-- FOR: Erde
-- EACH: Bruchstein
-- WHILE: Diorit
+- [FOR](^language/for_loops): Erde
+- [EACH](^language/each_loops): Bruchstein
+- [WHILE](^language/while_and_repeat): Diorit
 - REPEAT: Granit
 
 **Rezepte**

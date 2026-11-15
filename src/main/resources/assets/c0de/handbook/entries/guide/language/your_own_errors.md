@@ -7,7 +7,7 @@
 }
 ```
 
-You can raise your own errors. Their codes must be 1000 or higher. Set the code of an ERROR variable and return it, or use the built-in function RAISE.
+You can raise your own errors. Their codes must be 1000 or higher. Set the code of an ERROR variable and return it, or use the [built-in function](^libraries/built_in_functions) RAISE.
 
 ```c0de
 FUNCTION fail

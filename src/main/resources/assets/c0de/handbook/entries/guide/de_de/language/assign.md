@@ -7,7 +7,7 @@
 }
 ```
 
-ASSIGN speichert den Wert eines Ausdrucks in einer Variablen. Der Wert muss zum Typ der Variablen passen. Ein INTEGER darf in ein FLOAT und ein CHAR in einen STRING.
+ASSIGN speichert den Wert eines [Ausdrucks](^language/expressions) in einer Variablen. Der Wert muss zum Typ der Variablen passen. Ein INTEGER darf in ein FLOAT und ein CHAR in einen STRING.
 
 ```c0de
 ASSIGN arithmetic 1 + 2 * ( 3 + 3 ) \ 10 * 2 + 10 ;

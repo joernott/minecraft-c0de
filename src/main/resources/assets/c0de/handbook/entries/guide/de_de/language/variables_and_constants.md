@@ -17,7 +17,7 @@ VARIABLE i INTEGER
 CONSTANT BASE INTEGER 42
 ```
 
-Listen, Hashes und Strukturen bekommen ihre Startwerte in einem Codeblock. Jede Zeile enthält Literale oder einen Schlüssel und einen Wert:
+Listen, Hashes und Strukturen bekommen ihre Startwerte in einem [Codeblock](^language/lines_and_indentation). Jede Zeile enthält [Literale](^language/literals) oder einen Schlüssel und einen Wert:
 
 ```c0de
 VARIABLE list ARRAY INTEGER

@@ -7,14 +7,14 @@
 }
 ```
 
-These blocks are crafted from one NOOP block and one item, in any shape:
+These blocks are crafted from one [NOOP](^language/noop_and_comment) block and one item, in any shape:
 
 - LABEL: paper
 - PROGRAM: book
-- INCLUDE: empty map
-- FUNCTION: stone
-- CALL: smooth stone
-- BREAK: stick
+- [INCLUDE](^libraries/including_libraries): empty map
+- [FUNCTION](^language/functions): stone
+- [CALL](^language/call): smooth stone
+- [BREAK](^language/break): stick
 
 **Recipes**
 

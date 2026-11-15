@@ -7,15 +7,15 @@
 }
 ```
 
-An expression calculates a value from literals, variables, constants and operators. It always ends with an OPERATOR block showing `;`. An expression may go on in the next line, one block further east.
+An expression calculates a value from [literals](^language/literals), variables, constants and [operators](^language/operators). It always ends with an OPERATOR block showing `;`. An expression may go on in the next line, one block further east.
 
 Calculations follow the usual rules: `*` before `+`. Use `(` and `)` to group. A division with `/` always gives a FLOAT.
 
-A minus sign in front of a name or a `(` turns the sign around: `- x * 2 ;`. The minus sign is an OPERATOR block of its own, so the text notation writes `- x`, not `-x`. `-7` in one piece is a LITERAL with a negative number.
+A minus sign in front of a name or a `(` turns the sign around: `- x * 2 ;`. The minus sign is an OPERATOR block of its own, so the [text notation](^getting_started/reading_the_examples) writes `- x`, not `-x`. `-7` in one piece is a LITERAL with a negative number.
 
 Some rules are less usual. `\` binds weaker than `*` and `/`: `7 \ 3 * 2` is `7 \ 6`, so use parentheses. `⊕` binds weaker than `+`, and AND binds tighter than OR: `a OR b AND c` means `a OR ( b AND c )`.
 
-You can't call a function inside an expression. Use a CALL statement instead.
+You can't call a function inside an expression. Use a [CALL](^language/call) statement instead.
 
 **Recipes**
 

@@ -1,10 +1,10 @@
 # Libraries
 
-c0de comes with ready-made functions. A few are built in and always there. The others are grouped in libraries, which you load with an INCLUDE line.
+c0de comes with ready-made functions. A few are built in and always there. The others are grouped in libraries, which you load with an [INCLUDE line](#including-libraries).
 
 ## Calling them
 
-All these functions are called with CALL, like your own functions. Built-in functions use their plain name. Library functions use their full name, like `c0de/strings/MID`.
+All these functions are called with [CALL](02-language.md#call), like your own functions. [Built-in functions](#built-in-functions) use their plain name. Library functions use their full name, like `c0de/strings/MID`.
 
 ```c0de
 CALL c0de/strings/MID
@@ -32,7 +32,7 @@ CALL INSERT
 
 ## Including libraries
 
-INCLUDE lines come right after the NOOP in line 1, before any other statement. They start at x=5, like the PROGRAM line.
+INCLUDE lines come right after the [NOOP](02-language.md#noop-and-comment) in line 1, before any other statement. They start at x=5, like the PROGRAM line.
 
 ```c0de
 PROGRAM math
@@ -45,7 +45,7 @@ The LABEL dialog next to an INCLUDE block lists all libraries you can choose fro
 
 ## Built-in functions
 
-These work without INCLUDE:
+These work without [INCLUDE](#including-libraries):
 
 - LEN: the length of a text, array or hash
 - HAS_KEY: true if a hash has a key
@@ -53,11 +53,11 @@ These work without INCLUDE:
 - INSERT: an array with a new element at a position
 - CLEAR: an empty array or hash
 - SWAP: swaps two values
-- RAISE: raises your own error, code 1000 or higher
+- [RAISE](02-language.md#your-own-errors): raises your own error, code 1000 or higher
 
 ## c0de/math
 
-Numbers and random values. It also has the constant `c0de/math/PI`, which you use in an expression like a variable, without CALL.
+Numbers and random values. It also has the constant `c0de/math/PI`, which you use in an expression like a variable, without [CALL](02-language.md#call).
 
 - ABS, SGN: size and sign of a number
 - SQR, EXP, LOG: square root, e to the power, logarithm
@@ -92,7 +92,7 @@ Text and characters:
 Conversions:
 
 - STR: any simple value as text
-- FORMAT: a value as text in a format you choose
+- [FORMAT](#format): a value as text in a format you choose
 - VAL: a text as a number
 - HEX, OCT: a number in hexadecimal or octal
 
@@ -116,9 +116,9 @@ All codes use the same value, so `"%tF %tT"` shows date and time at once. `%f` a
 
 ## JSON and YAML
 
-c0de/strings can also turn any value into JSON or YAML text with TO_JSON and TO_YAML. FROM_JSON and FROM_YAML read such text back into a variable.
+[c0de/strings](#c0destrings) can also turn any value into JSON or YAML text with TO_JSON and TO_YAML. FROM_JSON and FROM_YAML read such text back into a variable.
 
-TAG blocks at the end of a VARIABLE line or a struct element set the key names used in JSON or YAML.
+TAG blocks at the end of a [VARIABLE](02-language.md#variables-and-constants) line or a [struct](02-language.md#structs) element set the key names used in JSON or YAML.
 
 ## c0de/time
 
@@ -138,7 +138,7 @@ TIMER starts at 0 at midnight. WEEK gives the ISO week: on 1 January it can stil
 
 ## c0de/minecraft
 
-This library lets programs touch the world around the trigger block:
+This library lets programs touch the world around the [trigger block](03-running-programs.md#three-trigger-blocks):
 
 - TICKS: the game time of the world, not the time of day
 - BEEP, SOUND: play notes like a note block
@@ -162,11 +162,11 @@ Some functions change the world more:
 - TELEPORT: move an entity
 - COMMAND: run a command like a command block
 
-Positions are given as a `c0de/minecraft/POSITION` struct with x, y, z and an optional dimension. An empty dimension means the dimension of the trigger block. Programs can never change the blocks on the sheets of the c0de dimension.
+Positions are given as a `c0de/minecraft/POSITION` [struct](02-language.md#structs) with x, y, z and an optional dimension. An empty dimension means the dimension of the [trigger block](03-running-programs.md#three-trigger-blocks). Programs can never change the blocks on the sheets of the c0de dimension.
 
 ## Owner and permissions
 
-Programs act on behalf of the owner of the trigger block. The world-changing functions above only work if the owner is an operator, or if the server allows them in the file `config/c0de.properties`.
+Programs act on behalf of the owner of the [trigger block](03-running-programs.md#three-trigger-blocks). The world-changing functions above only work if the owner is an operator, or if the server allows them in the file `config/c0de.properties`.
 
 Otherwise they raise PERMISSION_DENIED. Players can only be teleported if the owner is an operator, and only operators can run commands with COMMAND or give command blocks their data.
 
@@ -178,7 +178,7 @@ Three functions work for every owner, because they only do what a player can do:
 
 ## Making music
 
-A short example: play a bell note at the trigger block.
+A short example: play a bell note at the [trigger block](03-running-programs.md#three-trigger-blocks).
 
 ```c0de
 CALL c0de/minecraft/SOUND
@@ -192,11 +192,11 @@ CALL c0de/minecraft/SOUND
 
 Programs sometimes need a password or a key, e.g. for a web service. c0de keeps them out of sight in three ways:
 
-- INPUT with `PARAMETER hide TRUE ;` shows `*` on the laptop while you type.
-- Variable, constant and literal items can hide their value for good (**Hide the value** in their dialog).
-- The tag `security: "sensitive"` on a variable or constant shows `***` in the debugging tool.
+- INPUT with `PARAMETER hide TRUE ;` shows `*` on the [laptop](03-running-programs.md#talking-to-players) while you type.
+- Variable, constant and [literal](02-language.md#literals) items can hide their value for good (**Hide the value** in their dialog).
+- The tag `security: "sensitive"` on a variable or constant shows `***` in the [debugging tool](04-tools.md#debugging-tool).
 
-Hiding protects against people who look at your screen. Real secrets belong into your vault.
+Hiding protects against people who look at your screen. Real secrets belong into your [vault](#secrets-in-the-vault).
 
 ## Secrets in the vault
 

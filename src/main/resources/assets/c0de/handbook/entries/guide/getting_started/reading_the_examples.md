@@ -9,9 +9,9 @@
 
 This guide writes programs as text. Each text line is one line on the sheet. Four spaces mean one block further east (to the right).
 
-Words in capitals like `FUNCTION` are keyword blocks. Lowercase names are LABEL blocks. Numbers and text in quotes are LITERAL blocks. Symbols like `+`, `⊕` and `;` are OPERATOR blocks.
+Words in capitals like `FUNCTION` are keyword blocks. Lowercase names are LABEL blocks. Numbers and text in quotes are [LITERAL](^language/literals) blocks. Symbols like `+`, `⊕` and `;` are OPERATOR blocks.
 
-`//` stands for a COMMENT block. The text after it is the comment.
+`//` stands for a [COMMENT](^language/noop_and_comment) block. The text after it is the comment.
 
 **Recipes**
 

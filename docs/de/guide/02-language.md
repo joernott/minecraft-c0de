@@ -4,15 +4,15 @@ Dieses Kapitel erklärt die Sprache c0de in Kürze. Jeder Teil ist ein Block, de
 
 ## Programme
 
-Ein Programm beginnt in Zeile 0 mit einem PROGRAM-Block und einem LABEL mit seinem Namen. Der Name muss in der ganzen c0de-Dimension eindeutig sein. Zeile 1 muss eine NOOP-Zeile sein.
+Ein Programm beginnt in Zeile 0 mit einem PROGRAM-Block und einem LABEL mit seinem Namen. Der Name muss in der ganzen c0de-Dimension eindeutig sein. Zeile 1 muss eine [NOOP-Zeile](#noop-und-comment) sein.
 
-Danach dürfen INCLUDE-Zeilen folgen. Sie laden Bibliotheken, zum Beispiel `INCLUDE c0de/math`. Dann kommen Strukturtypen, globale Variablen, Konstanten und Funktionen, in beliebiger Reihenfolge.
+Danach dürfen [INCLUDE-Zeilen](05-libraries.md#bibliotheken-einbinden) folgen. Sie laden Bibliotheken, zum Beispiel `INCLUDE c0de/math`. Dann kommen Strukturtypen, globale Variablen, Konstanten und Funktionen, in beliebiger Reihenfolge.
 
 Ein Name kann erst verwendet werden, nachdem er definiert wurde. Setze also alles, was eine Funktion braucht, über sie. Das Programm endet an der ersten leeren Zeile.
 
 ## Zeilen und Einrückung
 
-Globale Zeilen beginnen bei x=5: PROGRAM, INCLUDE, STRUCT, FUNCTION sowie globale VARIABLE- und CONSTANT-Zeilen. Zeilen in einem Codeblock stehen einen Block weiter östlich als sein BEGIN.
+Globale Zeilen beginnen bei x=5: PROGRAM, [INCLUDE](05-libraries.md#bibliotheken-einbinden), STRUCT, [FUNCTION](#funktionen) sowie globale VARIABLE- und CONSTANT-Zeilen. Zeilen in einem Codeblock stehen einen Block weiter östlich als sein BEGIN.
 
 Ein Codeblock beginnt mit BEGIN und endet mit END. Auf END folgt das Schlüsselwort, das den Block geöffnet hat, zum Beispiel `END FUNCTION` oder `END WHILE`. Ein Codeblock darf nicht leer sein.
 
@@ -20,7 +20,7 @@ Variablen und Konstanten, die in einem Codeblock angelegt werden, leben nur dari
 
 ## NOOP und COMMENT
 
-NOOP bedeutet „no operation“ (keine Operation). Eine NOOP-Zeile tut nichts. Verwende sie, um Teile deines Programms zu trennen. Eine NOOP-Zeile darf keinen anderen Block enthalten. Jede FUNCTION braucht direkt darüber eine NOOP-Zeile.
+NOOP bedeutet „no operation“ (keine Operation). Eine NOOP-Zeile tut nichts. Verwende sie, um Teile deines Programms zu trennen. Eine NOOP-Zeile darf keinen anderen Block enthalten. Jede [FUNCTION](#funktionen) braucht direkt darüber eine NOOP-Zeile.
 
 Ein COMMENT-Block enthält eine Notiz für Menschen. Setze ihn ans Ende einer Zeile. Der Cursor ignoriert ihn und jeden Block danach. Ein COMMENT vor Blöcken schaltet sie also ab.
 
@@ -46,7 +46,7 @@ Jeder Teil eines Index ist eine Zahl, ein Text in Anführungszeichen, ein Elemen
 
 ## Typen
 
-Ein Typblock folgt auf den Namen einer Variablen, einer Konstanten, eines Parameters oder eines Ergebnisses. Einfache Typen:
+Ein [Typblock](04-tools.md#typblöcke) folgt auf den Namen einer Variablen, einer Konstanten, eines Parameters oder eines Ergebnisses. Einfache Typen:
 
 - BOOLEAN: wahr oder falsch
 - INTEGER: ganze Zahlen
@@ -76,7 +76,7 @@ VARIABLE i INTEGER
 CONSTANT BASE INTEGER 42
 ```
 
-Listen, Hashes und Strukturen bekommen ihre Startwerte in einem Codeblock. Jede Zeile enthält Literale oder einen Schlüssel und einen Wert:
+Listen, Hashes und Strukturen bekommen ihre Startwerte in einem [Codeblock](#zeilen-und-einrückung). Jede Zeile enthält [Literale](#literale) oder einen Schlüssel und einen Wert:
 
 ```c0de
 VARIABLE list ARRAY INTEGER
@@ -91,7 +91,7 @@ END VARIABLE
 
 ## Strukturen
 
-Ein STRUCT deklariert deinen eigenen Typ. Jede Zeile in seinem Codeblock ist ein Element: ein Name und ein Typ.
+Ein STRUCT deklariert deinen eigenen Typ. Jede Zeile in seinem [Codeblock](#zeilen-und-einrückung) ist ein Element: ein Name und ein Typ.
 
 ```c0de
 STRUCT point
@@ -103,11 +103,11 @@ END STRUCT
 
 Eine Variable dieses Typs wird als `VARIABLE p STRUCT point` deklariert. Ihre Elemente erreichst du mit einem Index, zum Beispiel `p.x`.
 
-Jedes Programm hat außerdem ein paar Konstanten, die es nicht deklariert. `SHEET` beschreibt sein Blatt, z. B. `SHEET.number` und `SHEET.owner`. `PID` beschreibt den laufenden Prozess, z. B. `PID.pid`, `PID.activator` (der Spieler, der ihn gestartet hat, leer bei anderem Redstone und Zeitgeberblöcken) und `PID.x`, `PID.y`, `PID.z` (wo sein Auslöserblock steht). `CURSOR` beschreibt den Cursor im Moment: `CURSOR.line`, `CURSOR.function`, `CURSOR.depth` und wie viel von seinem Stack belegt ist, `CURSOR.stack_used` von `CURSOR.stack_size`. `C0DE_VERSION` enthält die Version von c0de, z. B. "0.4.0". Auch die Namen der Fehler und der Farben sind Konstanten.
+Jedes Programm hat außerdem ein paar Konstanten, die es nicht deklariert. `SHEET` beschreibt sein Blatt, z. B. `SHEET.number` und `SHEET.owner`. `PID` beschreibt den laufenden Prozess, z. B. `PID.pid`, `PID.activator` (der Spieler, der ihn gestartet hat, leer bei anderem Redstone und Zeitgeberblöcken) und `PID.x`, `PID.y`, `PID.z` (wo sein [Auslöserblock](03-running-programs.md#drei-auslöserblöcke) steht). `CURSOR` beschreibt den Cursor im Moment: `CURSOR.line`, `CURSOR.function`, `CURSOR.depth` und wie viel von seinem Stack belegt ist, `CURSOR.stack_used` von `CURSOR.stack_size`. `C0DE_VERSION` enthält die Version von c0de, z. B. "0.4.0". Auch die Namen der Fehler und der Farben sind Konstanten.
 
 ## Literale
 
-Ein LITERAL-Block enthält einen festen Wert. In seinem Dialog wählst du den Typ und gibst den Wert ein. Die Textschreibweise schreibt sie so:
+Ein LITERAL-Block enthält einen festen Wert. In seinem Dialog wählst du den Typ und gibst den Wert ein. Die [Textschreibweise](01-getting-started.md#die-beispiele-lesen) schreibt sie so:
 
 - `TRUE` und `FALSE`
 - `42` und `-7` für ganze Zahlen, `3.14` für Gleitkommazahlen
@@ -118,11 +118,11 @@ Im Dialog tippst du einen Text ohne Anführungszeichen. Ein `"` darin ist einfac
 
 ## Ausdrücke
 
-Ein Ausdruck berechnet einen Wert aus Literalen, Variablen, Konstanten und Operatoren. Er endet immer mit einem OPERATOR-Block, der `;` zeigt. Ein Ausdruck darf in der nächsten Zeile weitergehen, einen Block weiter östlich.
+Ein Ausdruck berechnet einen Wert aus Literalen, Variablen, Konstanten und [Operatoren](#operatoren). Er endet immer mit einem OPERATOR-Block, der `;` zeigt. Ein Ausdruck darf in der nächsten Zeile weitergehen, einen Block weiter östlich.
 
 Rechnungen folgen den üblichen Regeln: `*` vor `+`. Verwende `(` und `)` zum Gruppieren. Eine Division mit `/` ergibt immer ein FLOAT.
 
-Ein Minuszeichen vor einem Namen oder einer `(` dreht das Vorzeichen um: `- x * 2 ;`. Das Minuszeichen ist ein eigener OPERATOR-Block, deshalb schreibt die Textschreibweise `- x`, nicht `-x`. `-7` in einem Stück ist ein LITERAL mit einer negativen Zahl.
+Ein Minuszeichen vor einem Namen oder einer `(` dreht das Vorzeichen um: `- x * 2 ;`. Das Minuszeichen ist ein eigener OPERATOR-Block, deshalb schreibt die [Textschreibweise](01-getting-started.md#die-beispiele-lesen) `- x`, nicht `-x`. `-7` in einem Stück ist ein LITERAL mit einer negativen Zahl.
 
 Manche Regeln sind weniger üblich. `\` bindet schwächer als `*` und `/`: `7 \ 3 * 2` ist `7 \ 6`, also setze Klammern. `⊕` bindet schwächer als `+`, und AND bindet stärker als OR: `a OR b AND c` bedeutet `a OR ( b AND c )`.
 
@@ -136,15 +136,15 @@ Du kannst in einem Ausdruck keine Funktion aufrufen. Verwende stattdessen eine C
 - Text: `⊕` verbindet zwei Werte zu einem Text
 - Bits: `&` `|` `⊻` `¬` `←` `→`
 
-`=` vergleicht nur. Um einen Wert zu speichern, verwende ASSIGN. `⊕` macht aus Zahlen und Listen Text, also ergibt `'a' ⊕ 1 ⊕ "b"` den Wert `"a1b"`.
+`=` vergleicht nur. Um einen Wert zu speichern, verwende [ASSIGN](#assign). `⊕` macht aus Zahlen und Listen Text, also ergibt `'a' ⊕ 1 ⊕ "b"` den Wert `"a1b"`.
 
 `\` geht nur mit INTEGERs. Das Ergebnis behält das Vorzeichen der linken Zahl: `-7 \ 2` ist `-1`. Eine Division durch null löst DIVISION_BY_ZERO aus, mit `/` und `\`, auch bei FLOATs: `1.5 / 0.0` ergibt nicht unendlich.
 
-TIME-Werte kannst du mit `<`, `>` und den anderen vergleichen: Die frühere Zeit ist die kleinere. `⊕` schreibt eine TIME als ISO-Text in UTC mit Millisekunden, zum Beispiel `2026-10-19T12:05:09.250Z`. Für die Ortszeit verwende FORMAT aus c0de/strings.
+TIME-Werte kannst du mit `<`, `>` und den anderen vergleichen: Die frühere Zeit ist die kleinere. `⊕` schreibt eine TIME als ISO-Text in UTC mit Millisekunden, zum Beispiel `2026-10-19T12:05:09.250Z`. Für die Ortszeit verwende [FORMAT](05-libraries.md#format) aus [c0de/strings](05-libraries.md#c0destrings).
 
 ## ASSIGN
 
-ASSIGN speichert den Wert eines Ausdrucks in einer Variablen. Der Wert muss zum Typ der Variablen passen. Ein INTEGER darf in ein FLOAT und ein CHAR in einen STRING.
+ASSIGN speichert den Wert eines [Ausdrucks](#ausdrücke) in einer Variablen. Der Wert muss zum Typ der Variablen passen. Ein INTEGER darf in ein FLOAT und ein CHAR in einen STRING.
 
 ```c0de
 ASSIGN arithmetic 1 + 2 * ( 3 + 3 ) \ 10 * 2 + 10 ;
@@ -157,7 +157,7 @@ Eine Zuweisung an den Index direkt nach dem Ende einer Liste fügt ein neues Ele
 
 ## Funktionen
 
-Eine FUNCTION-Zeile beginnt bei x=5 mit dem Namen der Funktion. PARAMETER-Zeilen darunter benennen die Eingaben, RESULT-Zeilen die Ausgaben. Dann folgt der Codeblock.
+Eine FUNCTION-Zeile beginnt bei x=5 mit dem Namen der Funktion. PARAMETER-Zeilen darunter benennen die Eingaben, RESULT-Zeilen die Ausgaben. Dann folgt der [Codeblock](#zeilen-und-einrückung).
 
 Ein Parameter darf einen Standardwert haben. Ein Aufrufer kann einen solchen Parameter weglassen. Ergebnisse beginnen mit dem Standardwert ihres Typs.
 
@@ -173,7 +173,7 @@ END FUNCTION
 
 Wenn die Funktion endet, gehen die letzten Werte ihrer Ergebnisse an den Aufrufer zurück.
 
-Alle Parameter und Ergebnisse einer Funktion brauchen verschiedene Namen. Ein Parameter `value` und ein Ergebnis `value` ergeben SYNTAX_ERROR_FUNCTION. Nenne das Ergebnis zum Beispiel `result`. Der Aufrufer darf trotzdem eine Variable für beides verwenden, siehe CALL.
+Alle Parameter und Ergebnisse einer Funktion brauchen verschiedene Namen. Ein Parameter `value` und ein Ergebnis `value` ergeben SYNTAX_ERROR_FUNCTION. Nenne das Ergebnis zum Beispiel `result`. Der Aufrufer darf trotzdem eine Variable für beides verwenden, siehe [CALL](#call).
 
 ## CALL
 
@@ -213,7 +213,7 @@ Diese Funktion ruft sich selbst auf. Sie addiert alle Zahlen von 1 bis n.
 
 ## IF und ELSE
 
-IF führt seinen Codeblock nur aus, wenn sein Ausdruck wahr ist. Sonst läuft ein ELSE-Block. Mit einem ELSE steht das erste END allein. Auf das letzte END folgt IF.
+IF führt seinen [Codeblock](#zeilen-und-einrückung) nur aus, wenn sein [Ausdruck](#ausdrücke) wahr ist. Sonst läuft ein ELSE-Block. Mit einem ELSE steht das erste END allein. Auf das letzte END folgt IF.
 
 ```c0de
 IF prime ;
@@ -274,7 +274,7 @@ BREAK verlässt sofort die innerste Schleife. Es kann eine Bedingung haben: Dann
 
 ## EXIT
 
-EXIT beendet sofort den ganzen Prozess, egal wie tief der Cursor steckt. Es braucht eine Zahl von 0 bis 15: den **Exit-Code**. Ein Komparator neben dem Auslöserblock kann ihn lesen.
+EXIT beendet sofort den ganzen Prozess, egal wie tief der Cursor steckt. Es braucht eine Zahl von 0 bis 15: den **[Exit-Code](03-running-programs.md#exit-codes)**. Ein Komparator neben dem [Auslöserblock](03-running-programs.md#drei-auslöserblöcke) kann ihn lesen.
 
 ```c0de
 EXIT 3 ;
@@ -288,11 +288,11 @@ EXIT ist kein Absturz: Die Ergebnisse der Einstiegsfunktion kommen trotzdem hera
 
 Wenn etwas schiefgeht, zum Beispiel eine Division durch null, hält die Funktion an und **löst** einen Fehler **aus**. Der Fehler geht an den Aufrufer und dann weiter nach oben an dessen Aufrufer.
 
-Wenn der Fehler die Einstiegsfunktion erreicht, **stürzt** der Prozess **ab**. Fehler im Programm selbst, zum Beispiel eine falsche Einrückung, lassen ihn sofort abstürzen.
+Wenn der Fehler die Einstiegsfunktion erreicht, **stürzt** der Prozess **ab**. Fehler im Programm selbst, zum Beispiel eine falsche [Einrückung](#zeilen-und-einrückung), lassen ihn sofort abstürzen.
 
 Um einen Fehler abzufangen, füge der CALL-Zeile eine Variable vom Typ ERROR hinzu. Der Aufrufer macht dann weiter, und du kannst `code`, `message`, `context` und `line` des Fehlers prüfen.
 
-Jeder CALL mit einer solchen Variablen schreibt in sie, auch wenn nichts schiefging: Dann ist ihr `code` wieder 0 und ihre `message` leer. Prüfe sie also direkt nach dem CALL.
+Jeder [CALL](#call) mit einer solchen Variablen schreibt in sie, auch wenn nichts schiefging: Dann ist ihr `code` wieder 0 und ihre `message` leer. Prüfe sie also direkt nach dem CALL.
 
 Die Namen der Fehler sind Konstanten, zum Beispiel `DIVISION_BY_ZERO`. Dazu gehören die Fehler der Bibliotheken von c0de, wie PERMISSION_DENIED, CHUNK_NOT_LOADED, INVENTORY_FULL und ITEM_MISSING. Fehler von Bibliotheken anderer Mods sind nur Konstanten, wenn die Mod sie hinzufügt. Sonst vergleiche `code` mit der Zahl aus ihrem Handbuch.
 

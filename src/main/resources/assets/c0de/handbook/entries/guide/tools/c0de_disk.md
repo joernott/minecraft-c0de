@@ -13,7 +13,7 @@ To copy a program onto the disk, right-click the PROGRAM block with it. This als
 
 To build the program of a disk, right-click the floor at the start of an empty sheet (x=5, line 0). In survival mode, the blocks come from your inventory.
 
-Recipe: a data item, an iron ingot and black dye, in any shape.
+Recipe: a [data item](^tools/data_item), an iron ingot and black dye, in any shape.
 
 **Recipes**
 

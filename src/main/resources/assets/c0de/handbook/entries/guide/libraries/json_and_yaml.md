@@ -7,6 +7,6 @@
 }
 ```
 
-c0de/strings can also turn any value into JSON or YAML text with TO\_JSON and TO\_YAML. FROM\_JSON and FROM\_YAML read such text back into a variable.
+[c0de/strings](^libraries/c0de_strings) can also turn any value into JSON or YAML text with TO\_JSON and TO\_YAML. FROM\_JSON and FROM\_YAML read such text back into a variable.
 
-TAG blocks at the end of a VARIABLE line or a struct element set the key names used in JSON or YAML.
+TAG blocks at the end of a [VARIABLE](^language/variables_and_constants) line or a [struct](^language/structs) element set the key names used in JSON or YAML.

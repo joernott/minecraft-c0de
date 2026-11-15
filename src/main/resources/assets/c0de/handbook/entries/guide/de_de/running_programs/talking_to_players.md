@@ -7,13 +7,13 @@
 }
 ```
 
-Ein Prozess kann auch mit Spielern sprechen, während er läuft. Drei eingebaute Funktionen tun das, aufgerufen mit CALL wie jede andere Funktion:
+Ein Prozess kann auch mit Spielern sprechen, während er läuft. Drei [eingebaute Funktionen](^libraries/built_in_functions) tun das, aufgerufen mit [CALL](^language/call) wie jede andere Funktion:
 
 - **PRINT** schreibt Text auf Bildschirme.
 - **INPUT** liest einen Wert in eine Variable.
-- **WRITE** legt einen Wert als Variablenkarte in einen E/A-Block.
+- **WRITE** legt einen Wert als [Variablenkarte](^tools/variable_items) in einen E/A-Block.
 
-Die Geräte dafür sind Anzeigeblöcke, Laptops, Tablets und E/A-Blöcke. Verbinde jedes davon mit einem Programm und einer Funktion, wie einen Auslöserblock. Anzeigeblöcke nebeneinander bilden einen großen Bildschirm.
+Die Geräte dafür sind Anzeigeblöcke, Laptops, Tablets und E/A-Blöcke. Verbinde jedes davon mit einem Programm und einer Funktion, wie einen [Auslöserblock](^running_programs/three_trigger_blocks). Anzeigeblöcke nebeneinander bilden einen großen Bildschirm.
 
 COLOR ändert die Farben des Texts, der danach kommt. Die Konstanten COLOR\_BLACK bis COLOR\_WHITE benennen die 16 Farben:
 
@@ -35,7 +35,7 @@ BEGIN
 END FUNCTION
 ```
 
-INPUT nimmt zuerst eine passende Karte aus einem E/A-Block. Sonst wartet es, bis ein Spieler auf einem Laptop oder Tablet eine Zeile eintippt. Die getippte Zeile erscheint auf seinem Bildschirm, du siehst also deine Antwort. Die Handbücher Funktionen und Geräte beschreiben sie alle.
+INPUT nimmt zuerst eine passende Karte aus einem E/A-Block. Sonst wartet es, bis ein Spieler auf einem Laptop oder Tablet eine Zeile eintippt. Die getippte Zeile erscheint auf seinem Bildschirm, du siehst also deine Antwort. Die [Handbücher](^tools/handbooks) Funktionen und Geräte beschreiben sie alle.
 
 **Rezepte**
 

@@ -7,7 +7,7 @@
 }
 ```
 
-Ein LITERAL-Block enthält einen festen Wert. In seinem Dialog wählst du den Typ und gibst den Wert ein. Die Textschreibweise schreibt sie so:
+Ein LITERAL-Block enthält einen festen Wert. In seinem Dialog wählst du den Typ und gibst den Wert ein. Die [Textschreibweise](^getting_started/reading_the_examples) schreibt sie so:
 
 - `TRUE` und `FALSE`
 - `42` und `-7` für ganze Zahlen, `3.14` für Gleitkommazahlen

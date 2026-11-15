@@ -7,7 +7,7 @@
 }
 ```
 
-IF führt seinen Codeblock nur aus, wenn sein Ausdruck wahr ist. Sonst läuft ein ELSE-Block. Mit einem ELSE steht das erste END allein. Auf das letzte END folgt IF.
+IF führt seinen [Codeblock](^language/lines_and_indentation) nur aus, wenn sein [Ausdruck](^language/expressions) wahr ist. Sonst läuft ein ELSE-Block. Mit einem ELSE steht das erste END allein. Auf das letzte END folgt IF.
 
 ```c0de
 IF prime ;

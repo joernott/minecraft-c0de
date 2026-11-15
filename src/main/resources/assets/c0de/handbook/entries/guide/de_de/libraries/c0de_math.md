@@ -7,7 +7,7 @@
 }
 ```
 
-Zahlen und Zufallswerte. Sie hat auch die Konstante `c0de/math/PI`, die du in einem Ausdruck wie eine Variable verwendest, ohne CALL.
+Zahlen und Zufallswerte. Sie hat auch die Konstante `c0de/math/PI`, die du in einem Ausdruck wie eine Variable verwendest, ohne [CALL](^language/call).
 
 - ABS, SGN: Betrag und Vorzeichen einer Zahl
 - SQR, EXP, LOG: Quadratwurzel, e hoch, Logarithmus

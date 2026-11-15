@@ -7,7 +7,7 @@
 }
 ```
 
-IF runs its code block only when its expression is true. An ELSE block runs otherwise. With an ELSE, the first END stands alone. The last END is followed by IF.
+IF runs its [code block](^language/lines_and_indentation) only when its [expression](^language/expressions) is true. An ELSE block runs otherwise. With an ELSE, the first END stands alone. The last END is followed by IF.
 
 ```c0de
 IF prime ;

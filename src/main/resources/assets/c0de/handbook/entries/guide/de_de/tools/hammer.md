@@ -11,7 +11,7 @@ Linksklicke mit dem Hammer auf eine Zeile, um sie zu löschen. Klickst du in ein
 
 Rechtsklicke auf eine Zeile, um eine leere Zeile davor einzufügen. Die angeklickte Zeile und die Zeilen danach rücken nach Süden.
 
-Ein Klick auf den Boden einer Zeile wirkt wie ein Klick auf einen Block der Zeile. Das gilt für den Textmarker, den Schraubenschlüssel, den Hammer und die Zange.
+Ein Klick auf den Boden einer Zeile wirkt wie ein Klick auf einen Block der Zeile. Das gilt für den [Textmarker](^tools/text_marker), den [Schraubenschlüssel](^tools/wrench), den Hammer und die [Zange](^tools/pliers).
 
 Rezept: drei Eisenbarren in einer Reihe, ein Eisenbarren unter dem mittleren und darunter ein Block roter Wolle.
 

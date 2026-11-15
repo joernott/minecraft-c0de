@@ -7,7 +7,7 @@
 }
 ```
 
-Any boots help you find your way through long programs. Hold them in your main hand and left-click the FUNCTION block at the start of a function. You land next to its END FUNCTION line. Left-click the FUNCTION block behind END to go back to the start.
+Any boots help you find your way through long programs. Hold them in your main hand and left-click the [FUNCTION](^language/functions) block at the start of a function. You land next to its END FUNCTION line. Left-click the FUNCTION block behind END to go back to the start.
 
 Right-click any FUNCTION block with boots to go to the PROGRAM line at the top of the sheet.
 

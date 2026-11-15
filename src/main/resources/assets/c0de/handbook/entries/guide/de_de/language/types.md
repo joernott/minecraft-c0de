@@ -7,7 +7,7 @@
 }
 ```
 
-Ein Typblock folgt auf den Namen einer Variablen, einer Konstanten, eines Parameters oder eines Ergebnisses. Einfache Typen:
+Ein [Typblock](^tools/type_blocks) folgt auf den Namen einer Variablen, einer Konstanten, eines Parameters oder eines Ergebnisses. Einfache Typen:
 
 - BOOLEAN: wahr oder falsch
 - INTEGER: ganze Zahlen

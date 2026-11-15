@@ -7,7 +7,7 @@
 }
 ```
 
-All three trigger blocks share one pattern: copper ingots in the corners, glass on the edges and one item in the center.
+All three [trigger blocks](^running_programs/three_trigger_blocks) share one pattern: copper ingots in the corners, glass on the edges and one item in the center.
 
 - trigger block: gold ingot, gives 8
 - timer block: clock, gives 8

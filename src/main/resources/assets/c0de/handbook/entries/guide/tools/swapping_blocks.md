@@ -11,8 +11,8 @@ Some blocks can be turned into their partner. Put one alone into the crafting gr
 
 - BEGIN and END
 - PARAMETER and RESULT
-- VARIABLE and CONSTANT
-- IF and ELSE, FOR and EACH, WHILE and REPEAT
+- [VARIABLE](^language/variables_and_constants) and CONSTANT
+- [IF](^language/if_and_else) and ELSE, [FOR](^language/for_loops) and [EACH](^language/each_loops), [WHILE](^language/while_and_repeat) and REPEAT
 - INTEGER and FLOAT, with yellow or orange dye
 
 **Recipes**

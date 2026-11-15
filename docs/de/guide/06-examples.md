@@ -19,7 +19,7 @@ END FUNCTION
 
 Die Funktion fügt mit `⊕` drei Teile zu einem Text zusammen. Beide Parameter haben Standardwerte, deshalb darf ein Aufrufer sie weglassen. Mit dem Namen "c0de" aufgerufen, ist das Ergebnis "Hello, c0de!".
 
-Zum Ausprobieren stellst du den Auslöserblock auf `greet`. Leg eine STRING-Variablenkarte mit dem Namen `name` und deinem Namen als Wert hinein.
+Zum Ausprobieren stellst du den [Auslöserblock](03-running-programs.md#drei-auslöserblöcke) auf `greet`. Leg eine STRING-Variablenkarte mit dem Namen `name` und deinem Namen als Wert hinein.
 
 ## Zahlen addieren
 
@@ -74,7 +74,7 @@ BEGIN
 END FUNCTION
 ```
 
-Die äußere Schleife probiert jede Zahl von 2 bis 20 aus. Die innere Schleife prüft, ob eine kleinere Zahl sie ohne Rest (`\`) teilt. Wenn ja, ist sie keine Primzahl, und BREAK beendet die innere Schleife. Das Ergebnis ist "2 3 5 7 11 13 17 19 ".
+Die äußere Schleife probiert jede Zahl von 2 bis 20 aus. Die innere Schleife prüft, ob eine kleinere Zahl sie ohne Rest (`\`) teilt. Wenn ja, ist sie keine Primzahl, und [BREAK](02-language.md#break) beendet die innere Schleife. Das Ergebnis ist "2 3 5 7 11 13 17 19 ".
 
 ## Mathe-Bibliothek
 
@@ -107,7 +107,7 @@ BEGIN
 END FUNCTION
 ```
 
-Dieses Programm lädt zwei Bibliotheken. ROUND macht aus 12.5 die 12, DIV teilt -7 durch 2 und ergibt -3, und SQR ergibt 3.0. FORMAT zeigt PI mit zwei Nachkommastellen: "3.14". Die Funktion hat vier Ergebnisse, also legst du vier nicht initialisierte Variablenkarten hinein.
+Dieses Programm lädt zwei Bibliotheken. ROUND macht aus 12.5 die 12, DIV teilt -7 durch 2 und ergibt -3, und SQR ergibt 3.0. [FORMAT](05-libraries.md#format) zeigt PI mit zwei Nachkommastellen: "3.14". Die Funktion hat vier Ergebnisse, also legst du vier [nicht initialisierte Variablenkarten](03-running-programs.md#nicht-initialisierte-karten) hinein.
 
 ## Datum und Uhrzeit
 
@@ -141,7 +141,7 @@ BEGIN
 END FUNCTION
 ```
 
-NOW liest die Uhr, FORMAT macht daraus einen Text wie "2026-10-19 12:05:09". WEEK und WEEKDAY ergeben die Kalenderwoche und den Wochentag (1 ist Montag). Wenn du 1000 zu einer TIME addierst, kommt eine Sekunde dazu. SLEEP wartet vor dem Ende zwei Spielticks.
+NOW liest die Uhr, [FORMAT](05-libraries.md#format) macht daraus einen Text wie "2026-10-19 12:05:09". WEEK und WEEKDAY ergeben die Kalenderwoche und den Wochentag (1 ist Montag). Wenn du 1000 zu einer TIME addierst, kommt eine Sekunde dazu. SLEEP wartet vor dem Ende zwei Spielticks.
 
 ## Ein absichtlicher Absturz
 
@@ -166,4 +166,4 @@ BEGIN
 END FUNCTION
 ```
 
-Die Division durch null löst in `divide` den Fehler DIVISION_BY_ZERO aus. Der CALL in `main` hat keine ERROR-Variable, die ihn abfängt, also wandert der Fehler nach oben. In der Einstiegsfunktion lässt er den Prozess abstürzen. Der Auslöserdialog zeigt den Fehler und Zeile 9, und ein Komparator liest 15.
+Die Division durch null löst in `divide` den Fehler DIVISION_BY_ZERO aus. Der [CALL](02-language.md#call) in `main` hat keine ERROR-Variable, die ihn abfängt, also wandert der Fehler nach oben. In der Einstiegsfunktion lässt er den Prozess abstürzen. Der Auslöserdialog zeigt den Fehler und Zeile 9, und ein Komparator liest 15.

@@ -7,7 +7,7 @@
 }
 ```
 
-An **uninitialized** variable item has no name, no type and no value. A process writes a result into it.
+An **uninitialized** [variable item](^tools/variable_items) has no name, no type and no value. A process writes a result into it.
 
 You need one for each result that has no parameter item to take its place. A function with one result and no parameters needs one uninitialized item.
 

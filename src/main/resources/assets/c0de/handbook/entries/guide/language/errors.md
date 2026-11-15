@@ -9,9 +9,9 @@
 
 When something goes wrong, like a division by zero, the function stops and **raises** an error. The error goes to the caller, and then up to its caller.
 
-If the error reaches the entry function, the process **crashes**. Mistakes in the program itself, like a wrong indentation, crash it at once.
+If the error reaches the entry function, the process **crashes**. Mistakes in the program itself, like a wrong [indentation](^language/lines_and_indentation), crash it at once.
 
-To catch an error, add a variable of type ERROR to the CALL line. The caller then goes on, and you can check the error's `code`, `message`, `context` and `line`.
+To catch an error, add a variable of type ERROR to the [CALL](^language/call) line. The caller then goes on, and you can check the error's `code`, `message`, `context` and `line`.
 
 Every CALL with such a variable writes into it, also when nothing went wrong: then its `code` is 0 again and its `message` is empty. So check it right after the CALL.
 
