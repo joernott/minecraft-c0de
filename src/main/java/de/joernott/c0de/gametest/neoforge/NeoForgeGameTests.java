@@ -216,6 +216,16 @@ public class NeoForgeGameTests {
         ProcessTests.valueItemsAreHidden(helper);
     }
 
+    @GameTest(template = "empty", timeoutTicks = 400)
+    public static void secretsBelongToTheOwnerOfTheSheet(GameTestHelper helper) {
+        de.joernott.c0de.gametest.VaultTests.secretsBelongToTheOwnerOfTheSheet(helper);
+    }
+
+    @GameTest(template = "empty", timeoutTicks = 1200)
+    public static void persistentSecretsSurviveLeaving(GameTestHelper helper) {
+        de.joernott.c0de.gametest.VaultTests.persistentSecretsSurviveLeaving(helper);
+    }
+
     @GameTest(template = "empty")
     public static void debugCursorsArePausedAndStepped(GameTestHelper helper) {
         ToolTests.debugCursorsArePausedAndStepped(helper);

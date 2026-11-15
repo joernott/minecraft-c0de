@@ -135,7 +135,7 @@ The library `c0de/security` MUST be included with `INCLUDE c0de/security`. All i
 | HAS_VAULT | – | result BOOLEAN | TRUE if the player has a persistent vault. |
 | IS_VAULT_OPEN | – | result BOOLEAN | TRUE if the persistent vault of the player is open. |
 
-`name` MUST be a valid name (otherwise INVALID_ARGUMENT); `value` MUST NOT be longer than the limit of a STRING. A player can keep at most 256 secrets; a further one raises INVALID_ARGUMENT.
+`name` MUST be a valid name (otherwise INVALID_ARGUMENT), and the text of `value` MUST NOT be longer than 2000 characters (INVALID_ARGUMENT). A player can keep at most 128 secrets; a further one raises INVALID_ARGUMENT.
 
 The usual first program creates the persistent vault once; later programs open it and set secrets:
 

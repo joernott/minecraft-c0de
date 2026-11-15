@@ -1,6 +1,8 @@
 package de.joernott.c0de.library;
 
 import de.joernott.c0de.core.io.Console;
+import de.joernott.c0de.core.library.Vault;
+import de.joernott.c0de.vault.VaultService;
 import de.joernott.c0de.core.value.Type;
 import de.joernott.c0de.core.value.Value;
 import de.joernott.c0de.io.IoService;
@@ -28,10 +30,16 @@ public record ProcessHost(
         String function,
         int pid,
         UUID activator)
-        implements Console {
+        implements Console, Vault.Provider {
     /** The level of the trigger block, or null if it doesn't exist. */
     public ServerLevel level() {
         return server.getLevel(triggerLevel);
+    }
+
+    /** The vault of the activator, if they may use it (docs/concept/20-lib-security.md). */
+    @Override
+    public Vault vault() {
+        return VaultService.forProcess(this);
     }
 
     private Console devices() {

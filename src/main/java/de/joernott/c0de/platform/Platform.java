@@ -118,6 +118,9 @@ public sealed interface Platform {
     /** Calls the listener when a player joins the server. */
     void onPlayerJoin(java.util.function.Consumer<ServerPlayer> listener);
 
+    /** Calls the listener when a player leaves the server, also when it stops. */
+    void onPlayerLeave(java.util.function.Consumer<ServerPlayer> listener);
+
     /** Calls the listener on the server when a player right-clicks a block, before the block reacts. */
     void onUseBlock(UseBlockListener listener);
 
@@ -352,6 +355,12 @@ public sealed interface Platform {
         }
 
         @Override
+        public void onPlayerLeave(java.util.function.Consumer<ServerPlayer> listener) {
+            net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents.DISCONNECT.register(
+                    (connection, server) -> listener.accept(connection.getPlayer()));
+        }
+
+        @Override
         public void sendToPlayer(ServerPlayer player, CustomPacketPayload payload) {
             // Players without the mod (or GameTest mock players) can't receive the payloads of the mod
             if (net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking.canSend(player, payload.type())) {
@@ -559,6 +568,16 @@ public sealed interface Platform {
         public void onPlayerJoin(java.util.function.Consumer<ServerPlayer> listener) {
             net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
                     net.neoforged.neoforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent.class, event -> {
+                        if (event.getEntity() instanceof ServerPlayer player) {
+                            listener.accept(player);
+                        }
+                    });
+        }
+
+        @Override
+        public void onPlayerLeave(java.util.function.Consumer<ServerPlayer> listener) {
+            net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(
+                    net.neoforged.neoforge.event.entity.player.PlayerEvent.PlayerLoggedOutEvent.class, event -> {
                         if (event.getEntity() instanceof ServerPlayer player) {
                             listener.accept(player);
                         }

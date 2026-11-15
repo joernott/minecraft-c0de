@@ -40,6 +40,19 @@ dependencies {
             prefer("3.2")
         }
     }
+    // The persistent vault (task 16.7): KeePass files, read and written only by the client
+    implementation("de.soderer:kdbx:26.1.10")
+    jarJar("de.soderer:kdbx:[26.1.10,27.0)") {
+        version {
+            prefer("26.1.10")
+        }
+    }
+    implementation("org.bouncycastle:bcprov-jdk18on:1.86")
+    jarJar("org.bouncycastle:bcprov-jdk18on:[1.86,2.0)") {
+        version {
+            prefer("1.86")
+        }
+    }
 }
 
 // The interpreter is compiled into every node
@@ -107,6 +120,8 @@ neoForge {
 if (sc.current.parsed < "1.21.11") {
     dependencies {
         "additionalRuntimeClasspath"("org.snakeyaml:snakeyaml-engine:3.2")
+        "additionalRuntimeClasspath"("de.soderer:kdbx:26.1.10")
+        "additionalRuntimeClasspath"("org.bouncycastle:bcprov-jdk18on:1.86")
     }
 }
 

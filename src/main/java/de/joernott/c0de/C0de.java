@@ -52,6 +52,7 @@ public final class C0de {
         de.joernott.c0de.io.IoService.register();
         ToolActions.register();
         DiskService.register();
+        de.joernott.c0de.vault.VaultService.register();
         SheetValidation.register();
         de.joernott.c0de.compat.ChunkTickets.register();
         ProcessManager.register();

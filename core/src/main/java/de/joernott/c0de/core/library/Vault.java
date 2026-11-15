@@ -67,7 +67,7 @@ public interface Vault {
     };
 
     /** The most secrets a vault holds. */
-    int MAX_SECRETS = 256;
+    int MAX_SECRETS = 128;
 
     /** A secret: a name, a value (whose type is the type of the secret) and whether it is persistent. */
     record Secret(String name, Value value, boolean persistent) {}

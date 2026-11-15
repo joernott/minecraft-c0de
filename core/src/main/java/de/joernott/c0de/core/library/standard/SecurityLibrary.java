@@ -11,6 +11,7 @@ import de.joernott.c0de.core.library.Library;
 import de.joernott.c0de.core.library.NativeCall;
 import de.joernott.c0de.core.library.NativeFunction;
 import de.joernott.c0de.core.library.NativeResult;
+import de.joernott.c0de.core.library.SecretText;
 import de.joernott.c0de.core.library.Vault;
 import de.joernott.c0de.core.program.Names;
 import de.joernott.c0de.core.value.BooleanValue;
@@ -59,9 +60,12 @@ public final class SecurityLibrary implements Library {
                         if (vault.secret(name).isEmpty() && vault.size() >= Vault.MAX_SECRETS) {
                             throw invalid("A vault holds at most " + Vault.MAX_SECRETS + " secrets");
                         }
+                        Value value = call.argument("value");
+                        if (value.text().length() > SecretText.MAX_LENGTH) {
+                            throw invalid("A secret has at most " + SecretText.MAX_LENGTH + " characters");
+                        }
                         boolean persistent = ((BooleanValue) call.argument("persistent")).value();
-                        return outcome(vault.set(
-                                new Vault.Secret(name, call.argument("value").copy(), persistent)));
+                        return outcome(vault.set(new Vault.Secret(name, value.copy(), persistent)));
                     })
             .add("DELETE_SECRET", List.of(NAME_PARAMETER), List.of(), call -> {
                 Vault vault = vault(call);

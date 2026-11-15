@@ -215,6 +215,16 @@ public class FabricGameTests {
         ProcessTests.valueItemsAreHidden(helper);
     }
 
+    @GameTest(template = SmokeTests.EMPTY_STRUCTURE, timeoutTicks = 400)
+    public void secretsBelongToTheOwnerOfTheSheet(GameTestHelper helper) {
+        de.joernott.c0de.gametest.VaultTests.secretsBelongToTheOwnerOfTheSheet(helper);
+    }
+
+    @GameTest(template = SmokeTests.EMPTY_STRUCTURE, timeoutTicks = 1200)
+    public void persistentSecretsSurviveLeaving(GameTestHelper helper) {
+        de.joernott.c0de.gametest.VaultTests.persistentSecretsSurviveLeaving(helper);
+    }
+
     @GameTest(template = SmokeTests.EMPTY_STRUCTURE, timeoutTicks = 100)
     public void debugCursorsArePausedAndStepped(GameTestHelper helper) {
         ToolTests.debugCursorsArePausedAndStepped(helper);

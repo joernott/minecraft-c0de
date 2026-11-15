@@ -52,6 +52,8 @@ Dependabot proposes updates of the GitHub Actions and the Gradle plugins as pull
 
 YAML (for TO_YAML/FROM_YAML and the c0de disk) needs SnakeYAML Engine (YAML 1.2), which also parses JSON (see concept review §13). It is embedded in the mod jar with the jar-in-jar mechanisms of both loaders (`include` in Loom, `jarJar` in ModDevGradle), so players don't need to install anything else.
 
+The persistent vault (task 16.7) needs [kdbx](https://github.com/hudeany/kdbx) (`de.soderer:kdbx`, MIT) to read and write KeePass files and Bouncy Castle (`org.bouncycastle:bcprov-jdk18on`, MIT) for Argon2 and ChaCha20. Both are embedded the same way; only the client uses them, the server only stores the encrypted files.
+
 ## Windows workstation
 
 ### Software

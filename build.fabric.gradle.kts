@@ -73,6 +73,9 @@ dependencies {
     )
     // Used by core (TO_YAML, FROM_YAML, FROM_JSON), embedded in the mod jar
     include(implementation("org.snakeyaml:snakeyaml-engine:3.2")!!)
+    // The persistent vault (task 16.7): KeePass files, read and written only by the client
+    include(implementation("de.soderer:kdbx:26.1.10")!!)
+    include(implementation("org.bouncycastle:bcprov-jdk18on:1.86")!!)
 
     // Players install the complete Fabric API, which fabric.mod.json requires. Development runs need it too.
     modLocalRuntime("net.fabricmc.fabric-api:fabric-api:${sc.properties.get<String>("deps.fabric_api")}")
