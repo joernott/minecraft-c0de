@@ -32,7 +32,7 @@ The book opens on a two-page spread:
   - **A category**: its description and the list of its entries. The guide has one category per chapter, a handbook one per `## ` section.
   - **An entry**: its pages. Text that doesn't fit on a page flows onto the next one; a page break can also be set by hand.
 
-Arrows at the bottom corners turn the pages, a back arrow returns to the previous view (the category, then the landing page), and the title of an entry in a list opens it. The keyboard works too: the arrow keys and Page Up/Down turn pages, Backspace goes back, Escape closes the book. Turning a page plays the sound of a book page.
+The pages are numbered. Arrows at the bottom corners turn the pages, a back arrow returns to the previous view (the category, then the landing page), and the title of an entry in a list opens it. The keyboard works too: the arrow keys and Page Up/Down turn pages, Backspace goes back, Escape closes the book. Turning a page plays the sound of a book page.
 
 The book remembers where it was open while the game runs, separately for each book, and opens there the next time.
 
@@ -90,12 +90,12 @@ c0de adds:
 | `` `code` `` | code in the text (dark blue) |
 | ```` ```c0de ```` … ```` ``` ```` | a program example: dark blue, every line as written, with its indentation |
 | `<recipe;c0de:wrench>` | the crafting grid of a recipe, with the result |
-| `<item;minecraft:book>` | the icon of an item, with its name as a tooltip |
+| `<item;minecraft:book>` | a line with the icon and the name of an item (its tooltip under the mouse) |
 | `;;;;;` on a line of its own | page break |
 
 ## Recipes
 
-Since Minecraft 1.21.2, the client doesn't know the recipes of the server any more. Recipe pages therefore don't look recipes up: `scripts/generate_book.py` writes the grid of every recipe that a book shows into `assets/c0de/handbook/recipes.json` (the ingredients per slot, the result and its count). Ingredients that are tags (e.g. `#minecraft:planks`) cycle through the items of the tag once per second. A recipe the file doesn't have shows its ID in red.
+Since Minecraft 1.21.2, the client doesn't know the recipes of the server any more. Recipe pages therefore don't look recipes up: `scripts/generate_book.py` writes the grid of every recipe that a book shows into `assets/c0de/handbook/recipes.json` (the items of each of the nine slots, the result and its count). A slot that takes several items cycles through them once per second; recipes with tags as ingredients can't be shown, and the script refuses them. A recipe the file doesn't have shows its ID in red.
 
 ## Generated from the documentation
 

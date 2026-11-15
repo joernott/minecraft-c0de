@@ -201,7 +201,7 @@ public class ValueItemScreen extends PropertiesScreen {
         caption(graphics, Component.translatable("dialog.c0de.item.type"), type.getY());
         caption(graphics, Component.translatable("dialog.c0de.item.value"), value.getY());
         if (trash != null) {
-            graphics.blit(TRASH, trash.getX() + 2, trash.getY() + 2, 0, 0, 16, 16, 16, 16);
+            de.joernott.c0de.client.GuiDraw.blit(graphics, TRASH, trash.getX() + 2, trash.getY() + 2, 0, 0, 16, 16, 16, 16);
         }
     }
 

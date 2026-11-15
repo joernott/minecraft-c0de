@@ -37,6 +37,7 @@ public class FabricClientGameTests implements FabricClientGameTest {
             blocksHaveTheirTextures(context, world);
             triggerDialogOpens(context, world);
             terminalOpens(context, world);
+            handbooksOpen(context);
         }
     }
 
@@ -89,6 +90,46 @@ public class FabricClientGameTests implements FabricClientGameTest {
         context.waitTicks(5);
         screenshot(context, "c0de-terminal");
         context.setScreen(() -> null);
+    }
+
+    /^*
+     * The handbooks open on every version (task 16.21): the landing page of the guide, a category, an entry with a
+     * recipe and one with a program example, all without missing textures.
+     ^/
+    private static void handbooksOpen(ClientGameTestContext context) {
+        context.runOnClient(client -> de.joernott.c0de.client.handbook.HandbookScreen.open("guide"));
+        context.waitForScreen(de.joernott.c0de.client.handbook.HandbookScreen.class);
+        handbookPage(context, "c0de-handbook-guide");
+        context.runOnClient(client -> ((de.joernott.c0de.client.handbook.HandbookScreen) de.joernott.c0de.client.ClientCompat.screen())
+                .showCategory("getting_started"));
+        handbookPage(context, "c0de-handbook-category");
+        context.setScreen(() -> null);
+        context.runOnClient(client -> de.joernott.c0de.client.handbook.HandbookScreen.open("tools"));
+        context.waitForScreen(de.joernott.c0de.client.handbook.HandbookScreen.class);
+        context.runOnClient(client -> ((de.joernott.c0de.client.handbook.HandbookScreen) de.joernott.c0de.client.ClientCompat.screen())
+                .showEntry("editing_tools/wrench"));
+        handbookPage(context, "c0de-handbook-recipe");
+        context.setScreen(() -> null);
+        context.runOnClient(client -> de.joernott.c0de.client.handbook.HandbookScreen.open("functions"));
+        context.waitForScreen(de.joernott.c0de.client.handbook.HandbookScreen.class);
+        context.runOnClient(client -> ((de.joernott.c0de.client.handbook.HandbookScreen) de.joernott.c0de.client.ClientCompat.screen())
+                .showEntry("built_in_functions/len"));
+        handbookPage(context, "c0de-handbook-program");
+        context.setScreen(() -> null);
+    }
+
+    private static void handbookPage(ClientGameTestContext context, String name) {
+        context.waitTicks(5);
+        int pages = context.computeOnClient(client ->
+                ((de.joernott.c0de.client.handbook.HandbookScreen) de.joernott.c0de.client.ClientCompat.screen()).pageCount());
+        BufferedImage image = screenshot(context, name);
+        if (pages == 0) {
+            throw new AssertionError(name + ": the handbook has no pages");
+        }
+        int missing = countColor(image, MISSING_TEXTURE);
+        if (missing > 20) {
+            throw new AssertionError(name + ": " + missing + " pixels have the color of missing textures");
+        }
     }
 
     /^* Places a block in the overworld at eye height in front of the player and uses it. ^/
