@@ -207,7 +207,8 @@ publishMods {
     displayName = "c0de $modVersion for Fabric ${sc.current.version}"
     changelog = providers.fileContents(rootProject.layout.projectDirectory.file("CHANGELOG.md")).asText
         .map { changelogSection(it, modVersion) }
-    type = if (modVersion.startsWith("0.")) ALPHA else STABLE
+    // Beta since 0.6.0 (alpha before)
+    type = if (modVersion.startsWith("0.")) BETA else STABLE
     modLoaders.add("fabric")
     dryRun = token.zip(curseforgeToken) { modrinth, curseforge -> modrinth.isBlank() || curseforge.isBlank() }
         .map { it || projectId.isBlank() || curseforgeId.isBlank() }.orElse(true)

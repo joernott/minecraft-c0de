@@ -406,6 +406,7 @@ After sprint 12, every new Minecraft release is added as a new node in its own s
 | 16.16.1 | Version 0.6.0 in stonecutter.properties.toml, so the development clients and the VM test the version that will be released. | ✅ |
 | 16.16.2 | Found on the VM on 2026-11-15: the jar of the active node (1.21.1-fabric) reported C0DE_VERSION 0.1.0 in every release, because Stonecutter writes the swap `mod_version` only into the generated sources of the other nodes. C0de.java refreshed, `scripts/check-version.sh` in CI, a step in the release checklist. | ✅ |
 | 16.16.3 | Found in the in-game test on 2026-11-15: the language button of the TAG dialog shows only the language, without "Language:". | ✅ |
+| 16.16.4 | Requested on 2026-11-15: c0de is published as beta from 0.6.0 on (Modrinth and CurseForge; alpha before). | ✅ |
 | 16.17 | Concept: the chapter [Handbooks](concept/21-handbooks.md) and the references to it. Decided on 2026-11-15 (before the release, part of 0.6.0): the books are embedded instead of Patchouli, lavender-md is embedded too, and every book is a red binder of its own; the label colours as proposed. | ✅ |
 | 16.18 | lavender-md in c0de: the core of lavender-md (branch 26.1, MIT) in `de.joernott.c0de.client.handbook.md`, with its licence notice in every file and `NOTICE.md`; Stonecutter conditions for 1.21.1–26.3 (ResourceLocation and Identifier, click and hover events). | ✅ |
 | 16.19 | The c0de features and the book compiler: code, program examples, recipes, item icons, page breaks; a compiler that turns the Markdown into page elements (lines of text, images, recipe grids, item icons) and distributes them over pages. | ✅ |
@@ -419,6 +420,7 @@ After sprint 12, every new Minecraft release is added as a new node in its own s
 | 16.25.2 | Requested on 2026-11-15: the book takes about 80 % of the screen and lays out its pages for that size; it is drawn as an open ring binder with a small gap and four metal rings instead of the binding of Lavender's texture. | ✅ |
 | 16.25.3 | Requested on 2026-11-15: every entry of the guide ends with the recipes of the c0de items and blocks it names, and the guide's references to its other pages are links (in the documentation and in the book). | ✅ |
 | 16.25.4 | Requested on 2026-11-15: more links in the guide. `scripts/guide_links.py` links the first mention of a term in each section (tools, items, trigger blocks, keywords, libraries and others) to the section that explains it: 168 links in English, 135 in German. | ✅ |
+| 16.25.5 | Requested on 2026-11-15: crafting grids and program examples in the colours of the sheets (light brown lines, green and white rows and stripes). | ✅ |
 
 ## Risks
 

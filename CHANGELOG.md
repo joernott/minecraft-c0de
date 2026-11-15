@@ -18,6 +18,7 @@ Security: passwords and keys out of sight.
 - **MOVE_ITEMS** works for every owner who could open both inventories. `count` is optional (default 1, -1 for all), and instead of `id` it takes a `filter` (item IDs or a search like in JEI). It takes time: one stack per tick for each 128 blocks. The settings `enableMoveItems`, `moveItemsStacksPerTick` and `moveItemsBlocksPerTick` configure it.
 - **COMMAND**: a new function of c0de/minecraft runs a command like a command block, for administrators (setting `enableCommand`).
 - **Regular expressions**: REGEX_MATCH and REGEX_REPLACE in c0de/strings, with replacements and flags like sed.
+- **Beta**: from this version on, c0de is published as a beta instead of an alpha.
 - **Handbooks without Patchouli**: the guide and the six handbooks are part of c0de and work on every Minecraft version and both loaders. Each one is a red binder with a label of its own colour, crafted from a book and the same item as before, in English and German. The book screen and its Markdown are based on [Lavender](https://github.com/wisp-forest/lavender) and lavender-md (MIT, see NOTICE.md). Every player gets the guide binder once, also players who got the Patchouli guide before. c0de no longer uses Patchouli.
 - **Fixed**: the trash can icon of the item dialogs was drawn in the wrong place on Minecraft 1.21.11 and later.
 - **Tag dialog**: the language button shows only the language (`security` instead of `Language: security`).
