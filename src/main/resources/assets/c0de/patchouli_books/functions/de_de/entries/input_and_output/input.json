@@ -14,7 +14,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "$(li)$(1)variable$() Variable: die Variable, die den Wert bekommt$(li)keine Ergebnisse"
+      "text": "$(li)$(1)variable$() Variable: die Variable, die den Wert bekommt$(li)$(1)hide$() BOOLEAN: zeigt auf Laptops und Tablets $(1)*$() für das Getippte (optional, Standard FALSE)$(li)keine Ergebnisse"
     },
     {
       "type": "patchouli:text",

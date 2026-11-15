@@ -1,0 +1,24 @@
+{
+  "name": "Verborgene Karten",
+  "icon": "minecraft:book",
+  "category": "c0de:items",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Variablen-, Konstanten- und Literalkarten können ihren Wert endgültig verbergen."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Stelle im Dialog der Karte $(l)Wert verbergen$() auf „Ja, endgültig“, bevor du sie speicherst. Ab dann zeigen der Dialog und der Tooltip $(1)***$(). Eine Variablenkarte kannst du trotzdem umbenennen. Nur der Mülleimer-Knopf entfernt den Wert und damit auch das Verbergen. Verborgene Karten stapeln sich nicht mit Karten, die nicht verborgen sind."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Ein Prozess kann den Wert wie jeden anderen verwenden. Der Parameter, den er füllt, zeigt im Debugging-Werkzeug $(1)***$(). Verbergen schützt vor Leuten, die auf deinen Bildschirm schauen, nicht vor dem Server: Für Geheimnisse, die sicher bleiben müssen, nimm den Tresor von c0de/security."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)FUNCTION login$(br)  PARAMETER password STRING$(br)BEGIN$(br)  CALL PRINT$(br)    PARAMETER value \"Logged in\" ;$(br)END FUNCTION$()"
+    }
+  ]
+}

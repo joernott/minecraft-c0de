@@ -175,7 +175,7 @@ Legt einen Wert als Variablenkarte in die E/A-Blöcke.
 
 Jeder gebundene E/A-Block mit einer nicht initialisierten Variablenkarte in seiner Eingabe bekommt den Wert. Die Karte wandert in die Ausgabe. Sie wird nach `name` benannt. Ohne `name` wird sie nach der Variablen benannt, z. B. `count` bei `PARAMETER value count ;`. Sonst heißt sie `output`.
 
-Wenn kein gebundener E/A-Block eine nicht initialisierte Variablenkarte hat, wartet der Cursor, bis ein Spieler eine hineinlegt. Laptops und Tablets nehmen an WRITE nicht teil.
+Wenn kein gebundener E/A-Block eine nicht initialisierte Variablenkarte hat, wartet der Cursor, bis ein Spieler eine hineinlegt. Laptops und Tablets nehmen an WRITE nicht teil. Eine Variable mit dem Tag `security: "sensitive"` oder ein SECRET wird zu einer verborgenen Karte.
 
 **Parameter und Ergebnisse**
 
@@ -199,6 +199,7 @@ Liest einen Wert in eine Variable ein.
 **Parameter und Ergebnisse**
 
 - `variable` Variable: die Variable, die den Wert bekommt
+- `hide` BOOLEAN: zeigt auf Laptops und Tablets `*` für das Getippte (optional, Standard FALSE)
 - keine Ergebnisse
 
 **Beispiel**
@@ -1770,4 +1771,131 @@ Das Objekt darf in jeder Dimension sein, und `position` darf in einer anderen li
 CALL c0de/minecraft/TELEPORT
     PARAMETER uuid pigId ;
     PARAMETER position barn ;
+```
+
+## c0de/security
+
+Die Sicherheits-Bibliothek bewahrt Geheimnisse in deinem Tresor auf und braucht INCLUDE c0de/security.
+
+Jeder Spieler hat einen Tresor, solange er online ist. Er verschwindet, wenn der Spieler geht. Ein Programm verwendet den Tresor des Spielers, der es gestartet hat, und nur, wenn diesem Spieler das Blatt gehört. Sonst lösen ihre Funktionen VAULT_UNAVAILABLE aus. Programme lesen Geheimnisse mit SECRET-Zeilen. Ein dauerhafter Tresor bewahrt Geheimnisse in einer KeePass-Datei auf, die nur dein Spiel mit deinem Passwort öffnen kann.
+
+### SET_SECRET
+
+Legt ein Geheimnis in deinen Tresor.
+
+Ein Geheimnis mit demselben Namen wird ersetzt. Der Typ des Geheimnisses ist der Typ von `value`. Ein Tresor fasst bis zu 128 Geheimnisse mit bis zu 2000 Zeichen. Mit `persistent` TRUE wird das Geheimnis auch in deinem dauerhaften Tresor gespeichert, der offen sein muss (sonst VAULT_NOT_OPEN). Der Cursor wartet, während dein Spiel die Datei verschlüsselt.
+
+**Parameter und Ergebnisse**
+
+- `name` STRING: der Name des Geheimnisses
+- `value` BOOLEAN, INTEGER, FLOAT, CHAR, STRING oder TIME: der Wert
+- `persistent` BOOLEAN: auch im dauerhaften Tresor speichern (optional, Standard FALSE)
+- keine Ergebnisse
+
+**Beispiel**
+
+```c0de
+CALL c0de/security/SET_SECRET
+    PARAMETER name "apiKey" ;
+    PARAMETER value key ;
+    PARAMETER persistent TRUE ;
+```
+
+### DELETE_SECRET
+
+Entfernt ein Geheimnis aus deinem Tresor.
+
+Ein dauerhaftes Geheimnis wird auch aus der Datei deines dauerhaften Tresors entfernt, der offen sein muss. Ein Geheimnis, das es nicht gibt, löst SECRET_NOT_FOUND aus.
+
+**Parameter und Ergebnisse**
+
+- `name` STRING: der Name des Geheimnisses
+- keine Ergebnisse
+
+**Beispiel**
+
+```c0de
+CALL c0de/security/DELETE_SECRET
+    PARAMETER name "apiKey" ;
+```
+
+### HAS_SECRET
+
+Prüft, ob dein Tresor ein Geheimnis hat.
+
+**Parameter und Ergebnisse**
+
+- `name` STRING: der Name des Geheimnisses
+- Ergebnis `result` BOOLEAN: wahr, wenn es das Geheimnis gibt
+
+**Beispiel**
+
+```c0de
+CALL c0de/security/HAS_SECRET
+    PARAMETER name "apiKey" ;
+    RESULT result found
+```
+
+### CREATE_VAULT
+
+Erzeugt deinen dauerhaften Tresor und öffnet ihn.
+
+Der Tresor ist eine KeePass-Datei auf dem Server, die nur dein Spiel öffnen kann. Ohne `password` fragt dich dein Spiel nach einem Passwort und lässt es dich wiederholen. Das Passwort verlässt dein Spiel dann nie. Wenn du schon einen dauerhaften Tresor hast, löst die Funktion VAULT_ALREADY_EXISTS aus. Schließt du den Dialog, wird VAULT_CANCELLED ausgelöst.
+
+**Parameter und Ergebnisse**
+
+- `password` STRING: das Passwort (optional, Standard: den Spieler fragen)
+- keine Ergebnisse
+
+**Beispiel**
+
+```c0de
+CALL c0de/security/CREATE_VAULT
+```
+
+### OPEN_VAULT
+
+Öffnet deinen dauerhaften Tresor und fügt seine Geheimnisse zu deinem Tresor hinzu.
+
+Ohne `password` fragt dich dein Spiel danach; nach einem falschen kannst du es noch einmal versuchen. Ein falsches `password` löst WRONG_PASSWORD aus. Ohne dauerhaften Tresor löst die Funktion VAULT_NOT_FOUND aus. Ein offener Tresor bleibt offen, bis du gehst.
+
+**Parameter und Ergebnisse**
+
+- `password` STRING: das Passwort (optional, Standard: den Spieler fragen)
+- keine Ergebnisse
+
+**Beispiel**
+
+```c0de
+CALL c0de/security/OPEN_VAULT
+```
+
+### HAS_VAULT
+
+Prüft, ob du einen dauerhaften Tresor hast.
+
+**Parameter und Ergebnisse**
+
+- Ergebnis `result` BOOLEAN: wahr, wenn es die Datei des dauerhaften Tresors gibt
+
+**Beispiel**
+
+```c0de
+CALL c0de/security/HAS_VAULT
+    RESULT result exists
+```
+
+### IS_VAULT_OPEN
+
+Prüft, ob dein dauerhafter Tresor offen ist.
+
+**Parameter und Ergebnisse**
+
+- Ergebnis `result` BOOLEAN: wahr, wenn der dauerhafte Tresor offen ist
+
+**Beispiel**
+
+```c0de
+CALL c0de/security/IS_VAULT_OPEN
+    RESULT result open
 ```

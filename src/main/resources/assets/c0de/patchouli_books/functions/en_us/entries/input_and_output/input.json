@@ -14,7 +14,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "$(li)$(1)variable$() variable: the variable that receives the value$(li)no results"
+      "text": "$(li)$(1)variable$() variable: the variable that receives the value$(li)$(1)hide$() BOOLEAN: show $(1)*$() for what is typed on laptops and tablets (optional, default FALSE)$(li)no results"
     },
     {
       "type": "patchouli:text",

@@ -2,7 +2,7 @@
   "name": "Constant item",
   "icon": "c0de:constant_item",
   "category": "c0de:items",
-  "sortnum": 3,
+  "sortnum": 4,
   "pages": [
     {
       "type": "patchouli:text",

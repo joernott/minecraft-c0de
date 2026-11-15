@@ -1,0 +1,20 @@
+{
+  "name": "Verborgene Eingabe",
+  "icon": "minecraft:book",
+  "category": "c0de:screens",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Ein Laptop oder Tablet kann verbergen, was ein Spieler tippt."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Wenn ein Programm INPUT mit $(1)PARAMETER hide TRUE ;$() aufruft, zeigt die Eingabezeile für jedes Zeichen einen $(1)*$(). Die getippte Zeile erscheint auf dem Bildschirm als $(1)***$(). Verwende das für Passwörter und Schlüssel. Der Wert kommt so beim Programm an, wie er getippt wurde."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)VARIABLE password STRING$(br)CALL INPUT$(br)  PARAMETER variable password ;$(br)  PARAMETER hide TRUE ;$()"
+    }
+  ]
+}

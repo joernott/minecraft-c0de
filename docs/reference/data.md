@@ -347,13 +347,39 @@ BEGIN
 END CONSTANT
 ```
 
+### SECRET
+
+A SECRET line names a secret from your vault: a password or key that a program needs, but nobody should see.
+
+It looks like a CONSTANT line without a value: `SECRET apiKey STRING`. The type is BOOLEAN, INTEGER, FLOAT, CHAR, STRING or TIME. When the cursor reaches the line, it takes the value of the secret with that name from the vault of the player who started the program. You use it like a constant. The debugging tool shows `***` instead of its value.
+
+The vault only works for the owner of the sheet who starts the program, e.g. with a button. Without a vault, the line raises VAULT_UNAVAILABLE. If the vault has no secret of that name, it raises SECRET_NOT_FOUND. The functions of c0de/security put secrets into the vault.
+
+**Recipe**
+
+![SECRET recipe](images/secret_block.png)
+
+![CONSTANT from SECRET](images/constant_block_from_secret_block.png)
+
+Craft a CONSTANT block and an iron ingot, or turn a SECRET block back into a CONSTANT block.
+
+**Example**
+
+```c0de
+SECRET apiKey STRING
+VARIABLE url STRING TAG(security: "sensitive")
+ASSIGN url "https://example.org/weather?key=" ⊕ apiKey ;
+```
+
 ### TAG
 
-A TAG block sets the name of a value in JSON or YAML text.
+A TAG block sets the name of a value in JSON or YAML text, or hides a value from the debugging tool.
 
-Right-click it with an empty hand. Pick the language, `json` or `yaml`, and enter the name. Tags go at the end of a struct element line or a VARIABLE or CONSTANT line. Only one tag per language fits in a line.
+Right-click it with an empty hand. Pick the language, `json`, `yaml` or `security`, and enter the name. Tags go at the end of a struct element line or a VARIABLE or CONSTANT line. Only one tag per language fits in a line.
 
 On a struct element, the tag replaces the element name. The name `-` skips the element. On a variable, the name is a path with dots, like `server.port`.
+
+The tag `security: "sensitive"` has only this one name, which the dialog fills in. The debugging tool shows `***` instead of the value of the variable, constant or struct element. Your program can still use the value.
 
 **Recipe**
 

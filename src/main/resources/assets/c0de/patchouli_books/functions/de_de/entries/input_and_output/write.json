@@ -14,7 +14,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "Wenn kein gebundener E/A-Block eine nicht initialisierte Variablenkarte hat, wartet der Cursor, bis ein Spieler eine hineinlegt. Laptops und Tablets nehmen an WRITE nicht teil."
+      "text": "Wenn kein gebundener E/A-Block eine nicht initialisierte Variablenkarte hat, wartet der Cursor, bis ein Spieler eine hineinlegt. Laptops und Tablets nehmen an WRITE nicht teil. Eine Variable mit dem Tag $(1)security: \"sensitive\"$() oder ein SECRET wird zu einer verborgenen Karte."
     },
     {
       "type": "patchouli:text",

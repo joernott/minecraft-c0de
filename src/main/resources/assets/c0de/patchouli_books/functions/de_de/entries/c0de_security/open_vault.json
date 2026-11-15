@@ -1,0 +1,24 @@
+{
+  "name": "OPEN_VAULT",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_security",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Öffnet deinen dauerhaften Tresor und fügt seine Geheimnisse zu deinem Tresor hinzu."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Ohne $(1)password$() fragt dich dein Spiel danach; nach einem falschen kannst du es noch einmal versuchen. Ein falsches $(1)password$() löst WRONG_PASSWORD aus. Ohne dauerhaften Tresor löst die Funktion VAULT_NOT_FOUND aus. Ein offener Tresor bleibt offen, bis du gehst."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)$(1)password$() STRING: das Passwort (optional, Standard: den Spieler fragen)$(li)keine Ergebnisse"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/security/OPEN_VAULT$()"
+    }
+  ]
+}

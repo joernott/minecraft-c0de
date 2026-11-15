@@ -1,0 +1,20 @@
+{
+  "name": "c0de/security",
+  "icon": "c0de:include_block",
+  "category": "c0de:libraries",
+  "sortnum": 14,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Programme brauchen manchmal ein Passwort oder einen Schlüssel, zum Beispiel für einen Webdienst. c0de hält sie auf drei Arten verborgen:"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)INPUT mit $(1)PARAMETER hide TRUE ;$() zeigt auf dem Laptop $(1)*$(), während du tippst.$(li)Variablen-, Konstanten- und Literalkarten können ihren Wert endgültig verbergen ($(l)Wert verbergen$() in ihrem Dialog).$(li)Der Tag $(1)security: \"sensitive\"$() an einer Variable oder Konstante zeigt im Debugging-Werkzeug $(1)***$()."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Verbergen schützt vor Leuten, die auf deinen Bildschirm schauen. Echte Geheimnisse gehören in deinen Tresor."
+    }
+  ]
+}

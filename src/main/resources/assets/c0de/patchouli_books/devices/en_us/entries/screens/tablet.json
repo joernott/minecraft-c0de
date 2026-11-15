@@ -2,7 +2,7 @@
   "name": "Tablet",
   "icon": "c0de:tablet",
   "category": "c0de:screens",
-  "sortnum": 2,
+  "sortnum": 3,
   "pages": [
     {
       "type": "patchouli:text",

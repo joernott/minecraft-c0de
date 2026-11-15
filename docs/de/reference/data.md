@@ -347,13 +347,39 @@ BEGIN
 END CONSTANT
 ```
 
+### SECRET
+
+Eine SECRET-Zeile nennt ein Geheimnis aus deinem Tresor: ein Passwort oder einen Schlüssel, den ein Programm braucht, den aber niemand sehen soll.
+
+Sie sieht aus wie eine CONSTANT-Zeile ohne Wert: `SECRET apiKey STRING`. Der Typ ist BOOLEAN, INTEGER, FLOAT, CHAR, STRING oder TIME. Wenn der Cursor die Zeile erreicht, nimmt sie den Wert des Geheimnisses mit diesem Namen aus dem Tresor des Spielers, der das Programm gestartet hat. Du verwendest sie wie eine Konstante. Das Debugging-Werkzeug zeigt `***` statt ihres Werts.
+
+Der Tresor funktioniert nur für den Besitzer des Blatts, der das Programm startet, zum Beispiel mit einem Knopf. Ohne Tresor löst die Zeile VAULT_UNAVAILABLE aus. Hat der Tresor kein Geheimnis mit diesem Namen, löst sie SECRET_NOT_FOUND aus. Die Funktionen von c0de/security legen Geheimnisse in den Tresor.
+
+**Rezept**
+
+![Rezept des SECRET-Blocks](../../reference/images/secret_block.png)
+
+![CONSTANT aus SECRET](../../reference/images/constant_block_from_secret_block.png)
+
+Stelle einen CONSTANT-Block und einen Eisenbarren zusammen her, oder verwandle einen SECRET-Block zurück in einen CONSTANT-Block.
+
+**Beispiel**
+
+```c0de
+SECRET apiKey STRING
+VARIABLE url STRING TAG(security: "sensitive")
+ASSIGN url "https://example.org/weather?key=" ⊕ apiKey ;
+```
+
 ### TAG
 
-Ein TAG-Block legt den Namen eines Werts in JSON- oder YAML-Text fest.
+Ein TAG-Block legt den Namen eines Werts in JSON- oder YAML-Text fest oder verbirgt einen Wert vor dem Debugging-Werkzeug.
 
-Klicke ihn mit leerer Hand mit rechts an. Wähle die Sprache, `json` oder `yaml`, und gib den Namen ein. Tags kommen ans Ende einer Zeile mit einem Strukturelement oder einer VARIABLE- oder CONSTANT-Zeile. Pro Sprache passt nur ein Tag in eine Zeile.
+Klicke ihn mit leerer Hand mit rechts an. Wähle die Sprache, `json`, `yaml` oder `security`, und gib den Namen ein. Tags kommen ans Ende einer Zeile mit einem Strukturelement oder einer VARIABLE- oder CONSTANT-Zeile. Pro Sprache passt nur ein Tag in eine Zeile.
 
 Bei einem Strukturelement ersetzt der Tag den Namen des Elements. Der Name `-` überspringt das Element. Bei einer Variable ist der Name ein Pfad mit Punkten, zum Beispiel `server.port`.
+
+Der Tag `security: "sensitive"` hat nur diesen einen Namen, den der Dialog einträgt. Das Debugging-Werkzeug zeigt `***` statt des Werts der Variable, der Konstante oder des Strukturelements. Dein Programm kann den Wert trotzdem verwenden.
 
 **Rezept**
 

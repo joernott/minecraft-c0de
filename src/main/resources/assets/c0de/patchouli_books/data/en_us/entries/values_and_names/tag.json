@@ -2,19 +2,23 @@
   "name": "TAG",
   "icon": "c0de:tag_block",
   "category": "c0de:values_and_names",
-  "sortnum": 4,
+  "sortnum": 5,
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "A TAG block sets the name of a value in JSON or YAML text."
+      "text": "A TAG block sets the name of a value in JSON or YAML text, or hides a value from the debugging tool."
     },
     {
       "type": "patchouli:text",
-      "text": "Right-click it with an empty hand. Pick the language, $(1)json$() or $(1)yaml$(), and enter the name. Tags go at the end of a struct element line or a VARIABLE or CONSTANT line. Only one tag per language fits in a line."
+      "text": "Right-click it with an empty hand. Pick the language, $(1)json$(), $(1)yaml$() or $(1)security$(), and enter the name. Tags go at the end of a struct element line or a VARIABLE or CONSTANT line. Only one tag per language fits in a line."
     },
     {
       "type": "patchouli:text",
       "text": "On a struct element, the tag replaces the element name. The name $(1)-$() skips the element. On a variable, the name is a path with dots, like $(1)server.port$()."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "The tag $(1)security: \"sensitive\"$() has only this one name, which the dialog fills in. The debugging tool shows $(1)***$() instead of the value of the variable, constant or struct element. Your program can still use the value."
     },
     {
       "type": "patchouli:crafting",

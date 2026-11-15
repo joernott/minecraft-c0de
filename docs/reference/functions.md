@@ -175,7 +175,7 @@ Puts a value into the I/O blocks as a variable item.
 
 Each bound I/O block with an uninitialized variable item in its input gets the value. The item moves to the output. It is named after `name`. Without `name`, it is named after the variable, like `count` for `PARAMETER value count ;`. Otherwise it is named `output`.
 
-If no bound I/O block has an uninitialized variable item, the cursor waits until a player puts one in. Laptops and tablets don't take part in WRITE.
+If no bound I/O block has an uninitialized variable item, the cursor waits until a player puts one in. Laptops and tablets don't take part in WRITE. A variable with the tag `security: "sensitive"` or a SECRET becomes a hidden item.
 
 **Parameters and results**
 
@@ -199,6 +199,7 @@ Reads a value into a variable.
 **Parameters and results**
 
 - `variable` variable: the variable that receives the value
+- `hide` BOOLEAN: show `*` for what is typed on laptops and tablets (optional, default FALSE)
 - no results
 
 **Example**
@@ -1770,4 +1771,131 @@ The entity may be in any dimension, and `position` may be in another one: it goe
 CALL c0de/minecraft/TELEPORT
     PARAMETER uuid pigId ;
     PARAMETER position barn ;
+```
+
+## c0de/security
+
+The security library keeps secrets in your vault and needs INCLUDE c0de/security.
+
+Every player has a vault while they are online. It vanishes when they leave. A program uses the vault of the player who started it, and only if that player owns the sheet. Otherwise its functions raise VAULT_UNAVAILABLE. Programs read secrets with SECRET lines. A persistent vault keeps secrets in a KeePass file that only your game can open with your password.
+
+### SET_SECRET
+
+Puts a secret into your vault.
+
+A secret with the same name is replaced. The type of the secret is the type of `value`. A vault holds up to 128 secrets of up to 2000 characters. With `persistent` TRUE, the secret is also stored in your persistent vault, which must be open (VAULT_NOT_OPEN otherwise). The cursor waits while your game encrypts the file.
+
+**Parameters and results**
+
+- `name` STRING: the name of the secret
+- `value` BOOLEAN, INTEGER, FLOAT, CHAR, STRING or TIME: the value
+- `persistent` BOOLEAN: also store it in the persistent vault (optional, default FALSE)
+- no results
+
+**Example**
+
+```c0de
+CALL c0de/security/SET_SECRET
+    PARAMETER name "apiKey" ;
+    PARAMETER value key ;
+    PARAMETER persistent TRUE ;
+```
+
+### DELETE_SECRET
+
+Removes a secret from your vault.
+
+A persistent secret is also removed from the file of your persistent vault, which must be open. A secret that doesn't exist raises SECRET_NOT_FOUND.
+
+**Parameters and results**
+
+- `name` STRING: the name of the secret
+- no results
+
+**Example**
+
+```c0de
+CALL c0de/security/DELETE_SECRET
+    PARAMETER name "apiKey" ;
+```
+
+### HAS_SECRET
+
+Checks whether your vault has a secret.
+
+**Parameters and results**
+
+- `name` STRING: the name of the secret
+- result `result` BOOLEAN: TRUE if the secret exists
+
+**Example**
+
+```c0de
+CALL c0de/security/HAS_SECRET
+    PARAMETER name "apiKey" ;
+    RESULT result found
+```
+
+### CREATE_VAULT
+
+Creates your persistent vault and opens it.
+
+The vault is a KeePass file on the server, which only your game can open. Without `password`, your game asks you for a password and to repeat it. The password never leaves your game then. If you already have a persistent vault, the function raises VAULT_ALREADY_EXISTS. Closing the dialog raises VAULT_CANCELLED.
+
+**Parameters and results**
+
+- `password` STRING: the password (optional, default: ask the player)
+- no results
+
+**Example**
+
+```c0de
+CALL c0de/security/CREATE_VAULT
+```
+
+### OPEN_VAULT
+
+Opens your persistent vault and adds its secrets to your vault.
+
+Without `password`, your game asks you for it; after a wrong one, you can try again. A wrong `password` raises WRONG_PASSWORD. Without a persistent vault, the function raises VAULT_NOT_FOUND. An open vault stays open until you leave.
+
+**Parameters and results**
+
+- `password` STRING: the password (optional, default: ask the player)
+- no results
+
+**Example**
+
+```c0de
+CALL c0de/security/OPEN_VAULT
+```
+
+### HAS_VAULT
+
+Checks whether you have a persistent vault.
+
+**Parameters and results**
+
+- result `result` BOOLEAN: TRUE if the file of the persistent vault exists
+
+**Example**
+
+```c0de
+CALL c0de/security/HAS_VAULT
+    RESULT result exists
+```
+
+### IS_VAULT_OPEN
+
+Checks whether your persistent vault is open.
+
+**Parameters and results**
+
+- result `result` BOOLEAN: TRUE if the persistent vault is open
+
+**Example**
+
+```c0de
+CALL c0de/security/IS_VAULT_OPEN
+    RESULT result open
 ```

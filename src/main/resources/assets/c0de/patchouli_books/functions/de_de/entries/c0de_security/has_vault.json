@@ -1,0 +1,20 @@
+{
+  "name": "HAS_VAULT",
+  "icon": "minecraft:book",
+  "category": "c0de:c0de_security",
+  "sortnum": 5,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Prüft, ob du einen dauerhaften Tresor hast."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)Ergebnis $(1)result$() BOOLEAN: wahr, wenn es die Datei des dauerhaften Tresors gibt"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(1)CALL c0de/security/HAS_VAULT$(br)  RESULT result exists$()"
+    }
+  ]
+}

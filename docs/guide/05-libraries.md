@@ -180,3 +180,50 @@ CALL c0de/minecraft/SOUND
 ```
 
 `note` goes from 0 to 24, like the clicks on a note block. Without `instrument`, SOUND uses the harp.
+
+## c0de/security
+
+Programs sometimes need a password or a key, e.g. for a web service. c0de keeps them out of sight in three ways:
+
+- INPUT with `PARAMETER hide TRUE ;` shows `*` on the laptop while you type.
+- Variable, constant and literal items can hide their value for good (**Hide the value** in their dialog).
+- The tag `security: "sensitive"` on a variable or constant shows `***` in the debugging tool.
+
+Hiding protects against people who look at your screen. Real secrets belong into your vault.
+
+## Secrets in the vault
+
+Every player has a vault while they are online. SET_SECRET puts a secret into it, and a SECRET line reads it, like a constant. Only the owner of the sheet can use the vault, and only when they start the program themselves, e.g. with a button.
+
+A persistent vault keeps secrets when you leave. CREATE_VAULT makes one, OPEN_VAULT opens it. Your game asks for the password, and only your game can open the file; the server keeps it, but can't read it.
+
+```c0de
+PROGRAM keys
+NOOP
+INCLUDE c0de/security
+NOOP
+FUNCTION setup
+BEGIN
+    VARIABLE exists BOOLEAN
+    VARIABLE key STRING
+    CALL c0de/security/HAS_VAULT
+        RESULT result exists
+    IF exists ;
+    BEGIN
+        CALL c0de/security/OPEN_VAULT
+    END
+    ELSE
+    BEGIN
+        CALL c0de/security/CREATE_VAULT
+    END IF
+    CALL INPUT
+        PARAMETER variable key ;
+        PARAMETER hide TRUE ;
+    CALL c0de/security/SET_SECRET
+        PARAMETER name "apiKey" ;
+        PARAMETER value key ;
+        PARAMETER persistent TRUE ;
+END FUNCTION
+```
+
+Another program then reads the key with `SECRET apiKey STRING`, after OPEN_VAULT.

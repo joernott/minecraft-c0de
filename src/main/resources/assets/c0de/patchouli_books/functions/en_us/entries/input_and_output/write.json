@@ -14,7 +14,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "If no bound I/O block has an uninitialized variable item, the cursor waits until a player puts one in. Laptops and tablets don't take part in WRITE."
+      "text": "If no bound I/O block has an uninitialized variable item, the cursor waits until a player puts one in. Laptops and tablets don't take part in WRITE. A variable with the tag $(1)security: \"sensitive\"$() or a SECRET becomes a hidden item."
     },
     {
       "type": "patchouli:text",

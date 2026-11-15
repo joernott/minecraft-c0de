@@ -2,6 +2,19 @@
 
 All notable changes of the c0de mod. The section of a version is also its changelog on Modrinth.
 
+## 0.6.0
+
+Security: passwords and keys out of sight.
+
+- **Hidden input**: INPUT has the new parameter `hide`; laptops and tablets then show `*` for what is typed and `***` for the typed line.
+- **Hidden items**: variable, constant and literal items can hide their value for good ("Hide the value" in their dialog). Only the trash can removes it. A parameter filled by a hidden item, and WRITE of a sensitive value, stay hidden.
+- **Sensitive values**: the tag `security: "sensitive"` on variables, constants and struct elements makes the debugging tool and the program runner show `***` instead of the value.
+- **The vault**: every player has a vault of secrets while they are online. The new SECRET block reads a secret like a constant. A program can only use the vault of the player who started it, and only if that player owns its sheet.
+- **c0de/security**: a new library with SET_SECRET, DELETE_SECRET, HAS_SECRET, CREATE_VAULT, OPEN_VAULT, HAS_VAULT and IS_VAULT_OPEN.
+- **Persistent vault**: secrets can be kept in a KeePass file (KDBX 4) per player. The server stores it, but only the game of the player opens it, with a password that is typed in a dialog and never leaves the game. The files open in KeePass and KeePassXC.
+- **Error codes**: VAULT_UNAVAILABLE (314) to VAULT_FAILED (321).
+- **Program runner**: the options file can give the program a vault (see docs/runner.md).
+
 ## 0.5.0
 
 Feedback from the tutorials of c0de.at.
