@@ -38,11 +38,11 @@ The book remembers where it was open while the game runs, separately for each bo
 
 ## The content
 
-The content is a resource of the client, so resource packs can change and translate it. A book consists of:
+The content is a resource of the client, so resource packs can change and translate it. A book belongs to a namespace, usually that of the mod it describes; its ID is `<namespace>:<book>`, e.g. `c0de:guide` (since 0.6.1, see [Handbooks of other mods](#handbooks-of-other-mods)). A book consists of:
 
-  - `assets/c0de/handbook/books/<book>.json`: the name and the landing text (translation keys of the language files) and the texture of the book.
-  - `assets/c0de/handbook/categories/<book>/<category>.md`: a category.
-  - `assets/c0de/handbook/entries/<book>/<category>/<entry>.md`: an entry.
+  - `assets/<namespace>/handbook/books/<book>.json`: the name and the landing text (translation keys of the language files), the texture of the book and the colour of the label of its binder.
+  - `assets/<namespace>/handbook/categories/<book>/<category>.md`: a category.
+  - `assets/<namespace>/handbook/entries/<book>/<category>/<entry>.md`: an entry.
 
 A category or entry starts with a JSON block of metadata, as in Lavender:
 
@@ -79,6 +79,7 @@ The pages are Markdown, processed by lavender-md:
 | `---` | horizontal line |
 | `[text](https://…)` | link to a web page (opens after confirmation, like links in the chat) |
 | `[text](^entry)`, `[text](^category/entry)`, `[text](^category)` | link to an entry or a category of the same book |
+| `[text](^namespace:book)`, `[text](^namespace:book/category/entry)` | link to another book (its landing page, a category or an entry), also of another mod (since 0.6.1) |
 | `![description](c0de:textures/…png)` | image |
 | `<keybind;key.use>` | the key bound to an action |
 | `%{book.c0de.guide.name}%` | a text from the language files |
@@ -97,11 +98,24 @@ c0de adds:
 
 A recipe is a crafting grid in the colours of the sheets: light brown lines around and between the slots, the first and third row green and the middle row white, then an arrow and the result on white.
 
-Since Minecraft 1.21.2, the client doesn't know the recipes of the server any more. Recipe pages therefore don't look recipes up: `scripts/generate_book.py` writes the grid of every recipe that a book shows into `assets/c0de/handbook/recipes.json` (the items of each of the nine slots, the result and its count). A slot that takes several items cycles through them once per second; recipes with tags as ingredients can't be shown, and the script refuses them. A recipe the file doesn't have shows its ID in red.
+Since Minecraft 1.21.2, the client doesn't know the recipes of the server any more. Recipe pages therefore don't look recipes up: `scripts/generate_book.py` writes the grid of every recipe that a book shows into `assets/c0de/handbook/recipes.json` (other mods into `assets/<namespace>/handbook/recipes.json`; the books read the files of all namespaces, so every mod's recipes can be shown in every book) (the items of each of the nine slots, the result and its count). A slot that takes several items cycles through them once per second; recipes with tags as ingredients can't be shown, and the script refuses them. A recipe the file doesn't have shows its ID in red.
+
+## Handbooks of other mods
+
+Since 0.6.1, other mods ship handbooks of their own without anything in c0de being changed for them. Everything a book needs is a resource or data of the other mod:
+
+  - **The book**: `assets/<namespace>/handbook/books/<book>.json` with `name`, `landing_text` and `color`, its categories and entries, translations in folders named after the language, as above. c0de reads the books of all namespaces.
+  - **Crafting grids**: `assets/<namespace>/handbook/recipes.json` of the mod, merged with those of all other mods. A grid can show items of any mod; a result can name a book (`"book": "<namespace>:<book>"`) to show the binder of that book.
+  - **The binder**: one item of c0de, `c0de:handbook`, serves all books of other mods. Which book it opens is part of the item, in its custom data (`minecraft:custom_data` with `book`, the ID of the book, and `color`, the colour of the label as a number). Its name is the translation `book.<namespace>.<book>.name`. The label has the colour of `color`: on 1.21.1 through the item colour of c0de, since 1.21.4 through the tint of its item model, which reads the first colour of `minecraft:custom_model_data`; a recipe for 1.21.2 and later sets both. The seven binders of c0de stay items of their own.
+  - **The recipe of the binder**: an ordinary crafting recipe of the other mod whose result is `c0de:handbook` with these components, e.g. a book and an item of the mod.
+  - **The creative tab**: the tab of c0de lists the binders of all books the client knows, after the seven of c0de.
+  - **Links**: entries link to entries of other books with `^namespace:book/category/entry`; a link to a book that isn't installed does nothing.
+
+Only the guide of c0de is given to players when they join; other books are crafted. The chapter "Handbooks" of the [library development guide](../library-development.md) describes the files for mod developers, and `scripts/generate_book.py` of c0de can serve as a template for generating a book from Markdown documentation.
 
 ## Generated from the documentation
 
-The landing page of the guide links to the recipes of the other handbooks (chapter Tools, section Handbooks). As before, `scripts/generate_book.py` generates the books from `docs/guide`, `docs/reference` and their German translation in `docs/de`. The generated files are committed, and CI fails if they differ from what the script writes. The rules for categories and entries don't change: a guide chapter becomes a category and every `## ` section an entry; a handbook section becomes a category and every `### ` element an entry with its description, recipes and example. What changes is the output: Markdown files instead of Patchouli JSON. The Markdown of the documentation is kept as far as the books support it (bold, lists, code, program examples); links between documentation files become links between entries where the target is in the same book, and plain text otherwise. The guide refers to its other pages with links (e.g. `[Wrench](04-tools.md#wrench)`), which become links in the book; recipe images become crafting grids.
+The landing page of the guide links to the recipes of the other handbooks (chapter Tools, section Handbooks). As before, `scripts/generate_book.py` generates the books from `docs/guide`, `docs/reference` and their German translation in `docs/de`. The generated files are committed, and CI fails if they differ from what the script writes. The rules for categories and entries don't change: a guide chapter becomes a category and every `## ` section an entry; a handbook section becomes a category and every `### ` element an entry with its description, recipes and example. What changes is the output: Markdown files instead of Patchouli JSON. The Markdown of the documentation is kept as far as the books support it (bold, lists, code, program examples); links between documentation files become links between entries, also into other books of c0de (e.g. from the guide into a handbook), and plain text where the target is no entry. The guide refers to its other pages with links (e.g. `[Wrench](04-tools.md#wrench)`), which become links in the book; recipe images become crafting grids.
 
 Every entry of the guide ends with the recipes of the c0de items and blocks its text names (**Recipes**: the icon and name of each item and its crafting grid), unless the entry shows the recipe already. The script finds them by their names (e.g. "trigger block", "wrench", also in the plural) and the language and type blocks by their keyword in capitals (IF, STRING); in a section about type items, the type names stand for the type items, and the chapter on libraries leaves out the keywords, which are function names and types of parameters there. Program examples and code don't count. A translation shows the recipes of the English section at the same position. Items with several recipes show their basic one (an uninitialized variable or constant item); items of Minecraft have no recipes in the books.
 
