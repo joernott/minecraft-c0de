@@ -20,19 +20,9 @@ val runSuffix = if (sc.current.version == "1.21.1") "" else "-${sc.current.versi
 
 repositories {
     mavenCentral()
-    maven("https://maven.blamejared.com") { name = "BlameJared" }
-}
-
-// The jar of Patchouli for the mods folder of the first development client
-val patchouliMod: Configuration by configurations.creating {
-    isTransitive = false
 }
 
 dependencies {
-    // Patchouli is optional: with it, the guide book of the mod can be crafted and read. It only goes into the mods folder of the first client (task 11.11.4): on NeoForge, it requires its
-    // channels on both sides, so the second client runs without it and can join servers without it
-    // Not every Minecraft version has a Patchouli release
-    sc.properties.getOrNull<String>("deps.patchouli")?.let { patchouliMod("vazkii.patchouli:Patchouli:$it-NEOFORGE") }
     // Used by core (TO_YAML, FROM_YAML, FROM_JSON), embedded in the mod jar
     implementation("org.snakeyaml:snakeyaml-engine:3.2")
     jarJar("org.snakeyaml:snakeyaml-engine:[3.2,4.0)") {
@@ -160,28 +150,16 @@ tasks {
         exclude("fabric.mod.json", "c0de-fabric.mixins.json")
     }
 
-    val copyPatchouli = register<Sync>("copyPatchouli") {
-        group = "c0de"
-        description = "Puts Patchouli into the mods folder of the first development client (run/neoforge/mods)"
-        from(patchouliMod)
-        into(rootProject.file("run/neoforge$runSuffix/mods"))
-        // Other mods the player put into the folder stay
-        preserve { include("**/*") }
-    }
-
-    named("runClient") {
-        dependsOn(copyPatchouli)
-    }
-
     named("createMinecraftArtifacts") {
         dependsOn("stonecutterGenerate")
     }
 
-    // Includes the license file in the built mod
+    // Includes the license file and the notices of the code taken from other projects in the built mod
     withType<Jar> {
         val id = project.property("mod.id") as String
         inputs.property("mod_id", id)
         from(rootProject.file("LICENSE")) { rename { "${it}_$id" } }
+        from(rootProject.file("NOTICE.md")) { rename { "NOTICE_$id.md" } }
     }
 
     register<Copy>("buildAndCollect") {
@@ -227,8 +205,6 @@ publishMods {
         // c0de must be installed on clients and servers
         environment = CLIENT_AND_SERVER
         minecraftVersions.addAll(sc.properties.get<String>("mod.mc_releases").split(",").map { it.trim() })
-        // Patchouli only where the mod was tested with it (deps.patchouli)
-        if (sc.properties.getOrNull<String>("deps.patchouli") != null) optional("patchouli")
     }
     curseforge {
         this.projectId = curseforgeId
@@ -236,7 +212,6 @@ publishMods {
         clientRequired = true
         serverRequired = true
         minecraftVersions.addAll(sc.properties.get<String>("mod.mc_releases").split(",").map { it.trim() })
-        if (sc.properties.getOrNull<String>("deps.patchouli") != null) optional("patchouli")
     }
 }
 

@@ -21,8 +21,6 @@ loomx.loom_version = "1.18-SNAPSHOT"
 # Releases the mod is marked compatible with on Modrinth, separated by commas
 mod.mc_releases = "1.21.1"
 deps.parchment = "2024.11.17"
-# Optional: the in-game guide book; only loaded in the development runs
-deps.patchouli = "1.21.1-93"
 
 [fabric."1.21.1"]
 # Compatibility range in fabric.mod.json
@@ -37,7 +35,6 @@ deps.neo_loader = "21.1.264"
 ["1.21.11"]
 mod.mc_releases = "1.21.11"
 deps.parchment = "2025.12.20"
-# No Patchouli for 1.21.11
 
 [fabric."1.21.11"]
 mod.mc_compat = "~1.21.11"
@@ -51,7 +48,6 @@ deps.neo_loader = "21.11.48"
 mod.mc_releases = "26.1.2"
 # Unobfuscated: no Parchment mappings needed
 deps.fabric_loader = "0.20.1"
-# No Patchouli: 26.1 builds are only on Modrinth, not on its Maven
 
 [fabric."26.1.2"]
 mod.mc_compat = "~26.1.2"

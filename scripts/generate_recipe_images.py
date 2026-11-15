@@ -126,10 +126,6 @@ def icon(item: str):
     namespace, name = item.split(":")
     if namespace == "c0de" and name in SPECIAL_ICONS:
         return SPECIAL_ICONS[name]()
-    if namespace == "patchouli":
-        # The guide books of the mod are red books
-        book = jar_texture("item/book")
-        return [[(min(255, r + 60), g // 2, b // 2, a) for r, g, b, a in row] for row in book]
     if namespace == "minecraft":
         for path in ("item/" + name, "block/" + name, "block/" + name + "_top", "block/" + name + "_front",
                      "block/" + name + "_side", "item/" + name + "_00"):

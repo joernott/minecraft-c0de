@@ -1,0 +1,11 @@
+```json
+{
+  "title": "c0de/security",
+  "icon": "c0de:function_block",
+  "ordinal": 28
+}
+```
+
+The security library keeps secrets in your vault and needs INCLUDE c0de/security.
+
+Every player has a vault while they are online. It vanishes when they leave. A program uses the vault of the player who started it, and only if that player owns the sheet. Otherwise its functions raise VAULT\_UNAVAILABLE. Programs read secrets with SECRET lines. A persistent vault keeps secrets in a KeePass file that only your game can open with your password.

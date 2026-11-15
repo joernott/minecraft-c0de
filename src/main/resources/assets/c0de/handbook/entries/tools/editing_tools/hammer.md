@@ -1,0 +1,22 @@
+```json
+{
+  "title": "Hammer",
+  "icon": "c0de:hammer",
+  "category": "editing_tools",
+  "ordinal": 2
+}
+```
+
+The hammer deletes lines and inserts empty lines.
+
+Left-click a marked area to delete it. Left-click a single line to delete just that line. Left-click an empty line to remove it. The lines below move up to close the gap. In survival mode, the blocks go to your inventory.
+
+Right-click a line to insert an empty line in front of it. The clicked line and the lines after it move south. The marks move with their lines.
+
+<recipe;c0de:hammer>
+
+Three iron ingots in a row, one iron ingot below the middle and a red wool block below that.
+
+You need room for a new statement in the middle of a function. Right-click the line where it should go with the hammer. An empty line appears in front of it, ready for your blocks.
+
+Clicking the floor of a line works like clicking a block of the line. The hammer does not work while the program runs.

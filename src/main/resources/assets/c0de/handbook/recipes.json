@@ -1,0 +1,1702 @@
+{
+  "c0de:assign_block": {
+    "slots": [
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "minecraft:cyan_wool"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ]
+    ],
+    "result": "c0de:assign_block",
+    "count": 8
+  },
+  "c0de:begin_block": {
+    "slots": [
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "minecraft:yellow_wool"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ]
+    ],
+    "result": "c0de:begin_block",
+    "count": 8
+  },
+  "c0de:begin_block_from_end_block": {
+    "slots": [
+      [
+        "c0de:end_block"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:begin_block",
+    "count": 1
+  },
+  "c0de:break_block": {
+    "slots": [
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "minecraft:stick"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:break_block",
+    "count": 1
+  },
+  "c0de:c0de_disk": {
+    "slots": [
+      [
+        "c0de:data_item"
+      ],
+      [
+        "minecraft:iron_ingot"
+      ],
+      [
+        "minecraft:black_dye"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:c0de_disk",
+    "count": 1
+  },
+  "c0de:call_block": {
+    "slots": [
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "minecraft:smooth_stone"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:call_block",
+    "count": 1
+  },
+  "c0de:comment_block": {
+    "slots": [
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "minecraft:glass"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ]
+    ],
+    "result": "c0de:comment_block",
+    "count": 8
+  },
+  "c0de:constant_block": {
+    "slots": [
+      [
+        "c0de:type_base"
+      ],
+      [
+        "minecraft:bone"
+      ],
+      [
+        "minecraft:bone"
+      ],
+      [
+        "minecraft:bone"
+      ],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:constant_block",
+    "count": 1
+  },
+  "c0de:constant_block_from_secret_block": {
+    "slots": [
+      [
+        "c0de:secret_block"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:constant_block",
+    "count": 1
+  },
+  "c0de:constant_block_from_variable_block": {
+    "slots": [
+      [
+        "c0de:variable_block"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:constant_block",
+    "count": 1
+  },
+  "c0de:constant_item_boolean": {
+    "slots": [
+      [
+        "c0de:data_item"
+      ],
+      [
+        "c0de:type_boolean_item"
+      ],
+      [
+        "minecraft:pink_dye"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:constant_item",
+    "count": 2
+  },
+  "c0de:constant_item_uninitialized": {
+    "slots": [
+      [
+        "c0de:data_item"
+      ],
+      [
+        "minecraft:pink_dye"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:constant_item",
+    "count": 1
+  },
+  "c0de:data_item": {
+    "slots": [
+      [
+        "minecraft:paper"
+      ],
+      [
+        "minecraft:white_dye"
+      ],
+      [
+        "minecraft:yellow_dye"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:data_item",
+    "count": 4
+  },
+  "c0de:debug_tool": {
+    "slots": [
+      [],
+      [],
+      [
+        "minecraft:leather"
+      ],
+      [],
+      [
+        "minecraft:stick"
+      ],
+      [],
+      [
+        "minecraft:red_wool"
+      ],
+      [],
+      []
+    ],
+    "result": "c0de:debug_tool",
+    "count": 1
+  },
+  "c0de:debug_trigger_block": {
+    "slots": [
+      [
+        "minecraft:copper_ingot"
+      ],
+      [
+        "minecraft:glass"
+      ],
+      [
+        "minecraft:copper_ingot"
+      ],
+      [
+        "minecraft:glass"
+      ],
+      [
+        "minecraft:redstone_block"
+      ],
+      [
+        "minecraft:glass"
+      ],
+      [
+        "minecraft:copper_ingot"
+      ],
+      [
+        "minecraft:glass"
+      ],
+      [
+        "minecraft:copper_ingot"
+      ]
+    ],
+    "result": "c0de:debug_trigger_block",
+    "count": 1
+  },
+  "c0de:disk_drive": {
+    "slots": [
+      [
+        "minecraft:iron_ingot"
+      ],
+      [
+        "minecraft:iron_ingot"
+      ],
+      [
+        "minecraft:iron_ingot"
+      ],
+      [
+        "minecraft:smooth_stone_slab"
+      ],
+      [
+        "minecraft:redstone"
+      ],
+      [
+        "minecraft:smooth_stone_slab"
+      ],
+      [
+        "minecraft:iron_ingot"
+      ],
+      [
+        "minecraft:iron_ingot"
+      ],
+      [
+        "minecraft:iron_ingot"
+      ]
+    ],
+    "result": "c0de:disk_drive",
+    "count": 1
+  },
+  "c0de:display_block": {
+    "slots": [
+      [
+        "minecraft:iron_nugget"
+      ],
+      [
+        "minecraft:iron_nugget"
+      ],
+      [
+        "minecraft:iron_nugget"
+      ],
+      [
+        "minecraft:redstone"
+      ],
+      [
+        "minecraft:glowstone_dust"
+      ],
+      [
+        "minecraft:iron_nugget"
+      ],
+      [
+        "minecraft:iron_nugget"
+      ],
+      [
+        "minecraft:iron_nugget"
+      ],
+      [
+        "minecraft:iron_nugget"
+      ]
+    ],
+    "result": "c0de:display_block",
+    "count": 8
+  },
+  "c0de:each_block": {
+    "slots": [
+      [
+        "c0de:structural_base"
+      ],
+      [
+        "minecraft:cobblestone"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:each_block",
+    "count": 1
+  },
+  "c0de:each_block_from_for_block": {
+    "slots": [
+      [
+        "c0de:for_block"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:each_block",
+    "count": 1
+  },
+  "c0de:else_block": {
+    "slots": [
+      [
+        "c0de:structural_base"
+      ],
+      [
+        "minecraft:wheat"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:else_block",
+    "count": 1
+  },
+  "c0de:else_block_from_if_block": {
+    "slots": [
+      [
+        "c0de:if_block"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:else_block",
+    "count": 1
+  },
+  "c0de:end_block": {
+    "slots": [
+      [
+        "c0de:begin_block"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:end_block",
+    "count": 1
+  },
+  "c0de:exit_block": {
+    "slots": [
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "minecraft:iron_door"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ]
+    ],
+    "result": "c0de:exit_block",
+    "count": 8
+  },
+  "c0de:for_block": {
+    "slots": [
+      [
+        "c0de:structural_base"
+      ],
+      [
+        "minecraft:dirt"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:for_block",
+    "count": 1
+  },
+  "c0de:for_block_from_each_block": {
+    "slots": [
+      [
+        "c0de:each_block"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:for_block",
+    "count": 1
+  },
+  "c0de:function_block": {
+    "slots": [
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "minecraft:stone"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:function_block",
+    "count": 1
+  },
+  "c0de:guide_book": {
+    "slots": [
+      [
+        "minecraft:book"
+      ],
+      [
+        "c0de:program_block"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:guide_book",
+    "count": 1
+  },
+  "c0de:hammer": {
+    "slots": [
+      [
+        "minecraft:iron_ingot"
+      ],
+      [
+        "minecraft:iron_ingot"
+      ],
+      [
+        "minecraft:iron_ingot"
+      ],
+      [],
+      [
+        "minecraft:iron_ingot"
+      ],
+      [],
+      [],
+      [
+        "minecraft:red_wool"
+      ],
+      []
+    ],
+    "result": "c0de:hammer",
+    "count": 1
+  },
+  "c0de:if_block": {
+    "slots": [
+      [
+        "c0de:structural_base"
+      ],
+      [
+        "minecraft:wheat_seeds"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:if_block",
+    "count": 1
+  },
+  "c0de:if_block_from_else_block": {
+    "slots": [
+      [
+        "c0de:else_block"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:if_block",
+    "count": 1
+  },
+  "c0de:include_block": {
+    "slots": [
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "minecraft:map"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:include_block",
+    "count": 1
+  },
+  "c0de:io_block": {
+    "slots": [
+      [
+        "c0de:data_item"
+      ],
+      [
+        "minecraft:hopper"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:io_block",
+    "count": 1
+  },
+  "c0de:label_block": {
+    "slots": [
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "minecraft:paper"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:label_block",
+    "count": 1
+  },
+  "c0de:laptop": {
+    "slots": [
+      [
+        "c0de:display_block"
+      ],
+      [
+        "c0de:io_block"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:laptop",
+    "count": 1
+  },
+  "c0de:laptop_from_tablet": {
+    "slots": [
+      [
+        "c0de:tablet"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:laptop",
+    "count": 1
+  },
+  "c0de:literal_block": {
+    "slots": [
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "minecraft:white_wool"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ]
+    ],
+    "result": "c0de:literal_block",
+    "count": 8
+  },
+  "c0de:literal_item": {
+    "slots": [
+      [
+        "c0de:data_item"
+      ],
+      [
+        "minecraft:light_gray_dye"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:literal_item",
+    "count": 2
+  },
+  "c0de:marker": {
+    "slots": [
+      [
+        "minecraft:feather"
+      ],
+      [
+        "minecraft:yellow_dye"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:marker",
+    "count": 1
+  },
+  "c0de:noop_block": {
+    "slots": [
+      [
+        "minecraft:iron_ingot"
+      ],
+      [
+        "minecraft:stick"
+      ],
+      [
+        "minecraft:iron_ingot"
+      ],
+      [
+        "minecraft:stick"
+      ],
+      [],
+      [
+        "minecraft:stick"
+      ],
+      [
+        "minecraft:iron_ingot"
+      ],
+      [
+        "minecraft:stick"
+      ],
+      [
+        "minecraft:iron_ingot"
+      ]
+    ],
+    "result": "c0de:noop_block",
+    "count": 64
+  },
+  "c0de:operator_block": {
+    "slots": [
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "minecraft:red_wool"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ]
+    ],
+    "result": "c0de:operator_block",
+    "count": 8
+  },
+  "c0de:parameter_block": {
+    "slots": [
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "minecraft:hopper"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ]
+    ],
+    "result": "c0de:parameter_block",
+    "count": 8
+  },
+  "c0de:parameter_block_from_result_block": {
+    "slots": [
+      [
+        "c0de:result_block"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:parameter_block",
+    "count": 1
+  },
+  "c0de:pliers": {
+    "slots": [
+      [
+        "minecraft:shears"
+      ],
+      [
+        "minecraft:stick"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:pliers",
+    "count": 1
+  },
+  "c0de:program_block": {
+    "slots": [
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "minecraft:book"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:program_block",
+    "count": 1
+  },
+  "c0de:repeat_block": {
+    "slots": [
+      [
+        "c0de:structural_base"
+      ],
+      [
+        "minecraft:granite"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:repeat_block",
+    "count": 1
+  },
+  "c0de:repeat_block_from_while_block": {
+    "slots": [
+      [
+        "c0de:while_block"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:repeat_block",
+    "count": 1
+  },
+  "c0de:result_block": {
+    "slots": [
+      [
+        "c0de:parameter_block"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:result_block",
+    "count": 1
+  },
+  "c0de:return_block": {
+    "slots": [
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "minecraft:spruce_door"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ]
+    ],
+    "result": "c0de:return_block",
+    "count": 8
+  },
+  "c0de:secret_block": {
+    "slots": [
+      [
+        "c0de:constant_block"
+      ],
+      [
+        "minecraft:iron_ingot"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:secret_block",
+    "count": 1
+  },
+  "c0de:structural_base": {
+    "slots": [
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "minecraft:green_wool"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ]
+    ],
+    "result": "c0de:structural_base",
+    "count": 8
+  },
+  "c0de:tablet": {
+    "slots": [
+      [
+        "c0de:laptop"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:tablet",
+    "count": 1
+  },
+  "c0de:tag_block": {
+    "slots": [
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "minecraft:brown_wool"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ]
+    ],
+    "result": "c0de:tag_block",
+    "count": 8
+  },
+  "c0de:timer_block": {
+    "slots": [
+      [
+        "minecraft:copper_ingot"
+      ],
+      [
+        "minecraft:glass"
+      ],
+      [
+        "minecraft:copper_ingot"
+      ],
+      [
+        "minecraft:glass"
+      ],
+      [
+        "minecraft:clock"
+      ],
+      [
+        "minecraft:glass"
+      ],
+      [
+        "minecraft:copper_ingot"
+      ],
+      [
+        "minecraft:glass"
+      ],
+      [
+        "minecraft:copper_ingot"
+      ]
+    ],
+    "result": "c0de:timer_block",
+    "count": 8
+  },
+  "c0de:trigger_block": {
+    "slots": [
+      [
+        "minecraft:copper_ingot"
+      ],
+      [
+        "minecraft:glass"
+      ],
+      [
+        "minecraft:copper_ingot"
+      ],
+      [
+        "minecraft:glass"
+      ],
+      [
+        "minecraft:gold_ingot"
+      ],
+      [
+        "minecraft:glass"
+      ],
+      [
+        "minecraft:copper_ingot"
+      ],
+      [
+        "minecraft:glass"
+      ],
+      [
+        "minecraft:copper_ingot"
+      ]
+    ],
+    "result": "c0de:trigger_block",
+    "count": 8
+  },
+  "c0de:type_array_block": {
+    "slots": [
+      [
+        "c0de:type_base"
+      ],
+      [
+        "minecraft:barrel"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:type_array_block",
+    "count": 1
+  },
+  "c0de:type_base": {
+    "slots": [
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "minecraft:red_carpet"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ],
+      [
+        "c0de:noop_block"
+      ]
+    ],
+    "result": "c0de:type_base",
+    "count": 8
+  },
+  "c0de:type_boolean_block": {
+    "slots": [
+      [
+        "c0de:type_base"
+      ],
+      [
+        "minecraft:redstone_torch"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:type_boolean_block",
+    "count": 1
+  },
+  "c0de:type_boolean_item": {
+    "slots": [
+      [
+        "c0de:data_item"
+      ],
+      [
+        "minecraft:red_dye"
+      ],
+      [
+        "minecraft:redstone_torch"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:type_boolean_item",
+    "count": 1
+  },
+  "c0de:type_char_block": {
+    "slots": [
+      [
+        "c0de:type_base"
+      ],
+      [
+        "minecraft:oak_planks"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:type_char_block",
+    "count": 1
+  },
+  "c0de:type_error_block": {
+    "slots": [
+      [
+        "c0de:type_base"
+      ],
+      [
+        "minecraft:campfire"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:type_error_block",
+    "count": 1
+  },
+  "c0de:type_float_block": {
+    "slots": [
+      [
+        "c0de:type_base"
+      ],
+      [
+        "minecraft:red_sand"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:type_float_block",
+    "count": 1
+  },
+  "c0de:type_float_block_from_type_integer_block": {
+    "slots": [
+      [
+        "c0de:type_integer_block"
+      ],
+      [
+        "minecraft:orange_dye"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:type_float_block",
+    "count": 1
+  },
+  "c0de:type_hash_block": {
+    "slots": [
+      [
+        "c0de:type_base"
+      ],
+      [
+        "minecraft:chest",
+        "minecraft:trapped_chest"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:type_hash_block",
+    "count": 1
+  },
+  "c0de:type_integer_block": {
+    "slots": [
+      [
+        "c0de:type_base"
+      ],
+      [
+        "minecraft:sand"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:type_integer_block",
+    "count": 1
+  },
+  "c0de:type_integer_block_from_type_float_block": {
+    "slots": [
+      [
+        "c0de:type_float_block"
+      ],
+      [
+        "minecraft:yellow_dye"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:type_integer_block",
+    "count": 1
+  },
+  "c0de:type_integer_item": {
+    "slots": [
+      [
+        "c0de:data_item"
+      ],
+      [
+        "minecraft:red_dye"
+      ],
+      [
+        "minecraft:sand"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:type_integer_item",
+    "count": 1
+  },
+  "c0de:type_string_block": {
+    "slots": [
+      [
+        "c0de:type_base"
+      ],
+      [
+        "minecraft:string"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:type_string_block",
+    "count": 1
+  },
+  "c0de:type_string_item": {
+    "slots": [
+      [
+        "c0de:data_item"
+      ],
+      [
+        "minecraft:red_dye"
+      ],
+      [
+        "minecraft:string"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:type_string_item",
+    "count": 1
+  },
+  "c0de:type_struct_block": {
+    "slots": [
+      [
+        "c0de:type_base"
+      ],
+      [
+        "minecraft:scaffolding"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:type_struct_block",
+    "count": 1
+  },
+  "c0de:type_time_block": {
+    "slots": [
+      [
+        "c0de:type_base"
+      ],
+      [
+        "minecraft:clock"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:type_time_block",
+    "count": 1
+  },
+  "c0de:variable_block": {
+    "slots": [
+      [
+        "c0de:type_base"
+      ],
+      [
+        "minecraft:bone_block"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:variable_block",
+    "count": 1
+  },
+  "c0de:variable_block_from_constant_block": {
+    "slots": [
+      [
+        "c0de:constant_block"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:variable_block",
+    "count": 1
+  },
+  "c0de:variable_item_boolean": {
+    "slots": [
+      [
+        "c0de:data_item"
+      ],
+      [
+        "c0de:type_boolean_item"
+      ],
+      [
+        "minecraft:light_blue_dye"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:variable_item",
+    "count": 2
+  },
+  "c0de:variable_item_uninitialized": {
+    "slots": [
+      [
+        "c0de:data_item"
+      ],
+      [
+        "minecraft:light_blue_dye"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:variable_item",
+    "count": 1
+  },
+  "c0de:while_block": {
+    "slots": [
+      [
+        "c0de:structural_base"
+      ],
+      [
+        "minecraft:diorite"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:while_block",
+    "count": 1
+  },
+  "c0de:while_block_from_repeat_block": {
+    "slots": [
+      [
+        "c0de:repeat_block"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:while_block",
+    "count": 1
+  },
+  "c0de:wrench": {
+    "slots": [
+      [
+        "minecraft:iron_ingot"
+      ],
+      [],
+      [
+        "minecraft:iron_ingot"
+      ],
+      [],
+      [
+        "minecraft:iron_ingot"
+      ],
+      [],
+      [],
+      [
+        "minecraft:red_wool"
+      ],
+      []
+    ],
+    "result": "c0de:wrench",
+    "count": 1
+  }
+}

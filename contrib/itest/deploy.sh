@@ -20,7 +20,7 @@ source "$(dirname "$0")/backup.sh"
 
 services=()
 for node in "${NODES[@]}"; do
-    # Variants of a server (1.21.1-neoforge-plain) use the jar of their node
+    # Variants of a server (e.g. 1.21.1-neoforge-test) use the jar of their node
     build="$(cut -d- -f1,2 <<<"$node")"
     jar=""
     for candidate in versions/"$build"/build/libs/c0de-*.jar; do

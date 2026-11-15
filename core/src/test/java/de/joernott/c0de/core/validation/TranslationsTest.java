@@ -21,7 +21,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 /**
  * The translations of the guide and the handbooks (docs/de, tasks 14.3 to 14.5) have the structure of the English
- * files, which the Patchouli books and the website c0de.at rely on: the same headings in the same order and levels
+ * files, which the handbooks in the game and the website c0de.at rely on: the same headings in the same order and levels
  * (names like {@code ### MID} unchanged), the same programs (only the text of comments is translated), and links
  * whose files and anchors exist.
  */

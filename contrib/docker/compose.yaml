@@ -33,8 +33,7 @@ services:
       <<: *environment
       TYPE: FABRIC
       FABRIC_LOADER_VERSION: "0.19.5"
-      # Patchouli like in the development clients (the in-game books)
-      MODRINTH_PROJECTS: "fabric-api:0.116.17+1.21.1,patchouli:1.21.1-93-fabric"
+      MODRINTH_PROJECTS: "fabric-api:0.116.17+1.21.1"
     ports:
       - "25565:25565"
     volumes:
@@ -47,30 +46,13 @@ services:
       <<: *environment
       TYPE: NEOFORGE
       NEOFORGE_VERSION: "21.1.264"
-      # NeoForge clients with Patchouli (all development clients) can only join servers that have it too
-      MODRINTH_PROJECTS: "patchouli:1.21.1-93-neoforge"
     ports:
       - "25566:25565"
     volumes:
       - ./mods/1.21.1-neoforge:/mods:ro
       - neoforge-1.21.1:/data
 
-  # NeoForge without Patchouli (task 11.11.4): for clients started with -Ppatchouli=false; Patchouli on NeoForge
-  # requires its channels on both sides. Not started by the smoke test:
-  #   docker compose -f contrib/docker/compose.yaml up -d c0de-1.21.1-neoforge-plain
-  c0de-1.21.1-neoforge-plain:
-    <<: *server
-    environment:
-      <<: *environment
-      TYPE: NEOFORGE
-      NEOFORGE_VERSION: "21.1.264"
-    ports:
-      - "25567:25565"
-    volumes:
-      - ./mods/1.21.1-neoforge:/mods:ro
-      - neoforge-plain-1.21.1:/data
-
-  # The newer Minecraft versions (task 12.3); no Patchouli, which has no builds for them on its Maven repository.
+  # The newer Minecraft versions (task 12.3).
   # 26.x needs Java 25. The ports follow on from the 1.21.1 servers: Fabric, then NeoForge.
   c0de-1.21.11-fabric:
     <<: *server
@@ -191,7 +173,6 @@ services:
 volumes:
   fabric-1.21.1:
   neoforge-1.21.1:
-  neoforge-plain-1.21.1:
   fabric-1.21.11:
   neoforge-1.21.11:
   fabric-26.1.2:

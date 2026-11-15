@@ -1,0 +1,12 @@
+```json
+{
+  "title": "JSON and YAML",
+  "icon": "c0de:include_block",
+  "category": "libraries",
+  "ordinal": 15
+}
+```
+
+c0de/strings can also turn any value into JSON or YAML text with TO\_JSON and TO\_YAML. FROM\_JSON and FROM\_YAML read such text back into a variable.
+
+TAG blocks at the end of a VARIABLE line or a struct element set the key names used in JSON or YAML.

@@ -653,6 +653,7 @@ def main() -> None:
     for name, recipe in recipes().items():
         write(RECIPES / (name + ".json"), recipe)
     modern_recipes()
+    generate_book.write_recipes()
 
     for language, column in (("en_us", 1), ("de_de", 2)):
         entries = {key: texts[column - 1] for key, *texts in MESSAGES}
@@ -667,7 +668,8 @@ def main() -> None:
                 type_name + (" Type Item" if column == 1 else "-Typkarte"))
         for operator, english, german in OPERATORS:
             entries["dialog.c0de.operator." + operator.lower()] = english if column == 1 else german
-        # The names and landing texts of the Patchouli books; untranslated books keep their English texts
+        # The names and landing texts of the handbooks and the names of their binders; untranslated books keep
+        # their English texts
         entries.update(generate_book.TRANSLATIONS["en_us"])
         entries.update(generate_book.TRANSLATIONS[language])
         write(ASSETS / "lang" / (language + ".json"), entries)

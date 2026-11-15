@@ -1,17 +1,17 @@
 # Reference
 
-The handbooks of c0de: one page per block, item and function, each with a description, its recipe and an example. The [guide](../guide/01-getting-started.md) explains how to write and run programs. With the mod Patchouli, every handbook is also a red book in the game (crafted from a book and the item named below).
+The handbooks of c0de: one page per block, item and function, each with a description, its recipe and an example. The [guide](../guide/01-getting-started.md) explains how to write and run programs. Every handbook is also a red binder in the game (crafted from a book and the item named below).
 
 ## [Data](data.md)
 
-Book: crafted from a book and type base.
+Binder: crafted from a book and type base.
 
 - **Types**: [Type base](data.md#type-base), [TYPE_BOOLEAN](data.md#type_boolean), [TYPE_INTEGER](data.md#type_integer), [TYPE_FLOAT](data.md#type_float), [TYPE_CHAR](data.md#type_char), [TYPE_STRING](data.md#type_string), [TYPE_ARRAY](data.md#type_array), [TYPE_HASH](data.md#type_hash), [TYPE_STRUCT](data.md#type_struct), [TYPE_TIME](data.md#type_time), [TYPE_ERROR](data.md#type_error)
 - **Values and names**: [LABEL](data.md#label), [LITERAL](data.md#literal), [VARIABLE](data.md#variable), [CONSTANT](data.md#constant), [SECRET](data.md#secret), [TAG](data.md#tag)
 
 ## [Statements](statements.md)
 
-Book: crafted from a book and structural base.
+Binder: crafted from a book and structural base.
 
 - **Program structure**: [NOOP](statements.md#noop), [COMMENT](statements.md#comment), [PROGRAM](statements.md#program), [INCLUDE](statements.md#include), [EXIT](statements.md#exit)
 - **Code blocks**: [BEGIN](statements.md#begin), [END](statements.md#end)
@@ -22,7 +22,7 @@ Book: crafted from a book and structural base.
 
 ## [Tools](tools.md)
 
-Book: crafted from a book and wrench.
+Binder: crafted from a book and wrench.
 
 - **Editing tools**: [Wrench](tools.md#wrench), [Text marker](tools.md#text-marker), [Hammer](tools.md#hammer), [Pliers](tools.md#pliers), [Boots](tools.md#boots), [Debugging tool](tools.md#debugging-tool), [c0de disk](tools.md#c0de-disk), [Disk drive](tools.md#disk-drive)
 - **Items**: [Data item](tools.md#data-item), [Type items](tools.md#type-items), [Variable item](tools.md#variable-item), [Hidden items](tools.md#hidden-items), [Constant item](tools.md#constant-item)
@@ -30,21 +30,21 @@ Book: crafted from a book and wrench.
 
 ## [Triggers](triggers.md)
 
-Book: crafted from a book and trigger block.
+Binder: crafted from a book and trigger block.
 
 - **Starting programs**: [Trigger block](triggers.md#trigger-block), [Timer block](triggers.md#timer-block), [Debug trigger block](triggers.md#debug-trigger-block)
 - **Running programs**: [PID block](triggers.md#pid-block)
 
 ## [Devices](devices.md)
 
-Book: crafted from a book and display block.
+Binder: crafted from a book and display block.
 
 - **Screens**: [Display block](devices.md#display-block), [Laptop](devices.md#laptop), [Hidden input](devices.md#hidden-input), [Tablet](devices.md#tablet)
 - **Items**: [I/O block](devices.md#io-block), [Literal item](devices.md#literal-item)
 
 ## [Functions](functions.md)
 
-Book: crafted from a book and function block.
+Binder: crafted from a book and function block.
 
 - **Built-in functions**: [LEN](functions.md#len), [HAS_KEY](functions.md#has_key), [REMOVE](functions.md#remove), [INSERT](functions.md#insert), [CLEAR](functions.md#clear), [SWAP](functions.md#swap), [RAISE](functions.md#raise)
 - **Input and output**: [PRINT](functions.md#print), [WRITE](functions.md#write), [INPUT](functions.md#input), [CLS](functions.md#cls), [LOCATE](functions.md#locate), [CSRLIN](functions.md#csrlin), [POS](functions.md#pos), [COLOR](functions.md#color), [INKEY](functions.md#inkey)

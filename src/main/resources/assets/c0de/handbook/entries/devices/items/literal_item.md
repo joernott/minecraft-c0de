@@ -1,0 +1,20 @@
+```json
+{
+  "title": "Literal item",
+  "icon": "c0de:literal_item",
+  "category": "items",
+  "ordinal": 1
+}
+```
+
+A literal item holds a type and a value, but no name.
+
+It is a card with a gray border. Right-click with it to set its type and its value. INPUT takes the first literal item of the right type from an I/O block, no matter what the variable is called.
+
+After INPUT, the literal item lands in the output without its value. It keeps its type, so you can fill it again.
+
+<recipe;c0de:literal_item>
+
+A data item and light gray dye give two literal items.
+
+Put three INTEGER literal items with 1, 2 and 3 into an I/O block. Each INPUT of an INTEGER variable takes the next one, from the first slot on.

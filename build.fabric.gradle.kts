@@ -19,7 +19,6 @@ val runSuffix = if (sc.current.version == "1.21.1") "" else "-${sc.current.versi
 
 repositories {
     maven("https://maven.parchmentmc.org") { name = "ParchmentMC" }
-    maven("https://maven.blamejared.com") { name = "BlameJared" }
 }
 
 // The interpreter is compiled into every node
@@ -79,12 +78,6 @@ dependencies {
 
     // Players install the complete Fabric API, which fabric.mod.json requires. Development runs need it too.
     modLocalRuntime("net.fabricmc.fabric-api:fabric-api:${sc.properties.get<String>("deps.fabric_api")}")
-    // Patchouli is optional: with it, the guide book of the mod can be crafted and read
-    // Development runs without Patchouli: -Ppatchouli=false (task 11.11.4)
-    if (providers.gradleProperty("patchouli").orNull != "false") {
-        // Not every Minecraft version has a Patchouli release
-        sc.properties.getOrNull<String>("deps.patchouli")?.let { modLocalRuntime("vazkii.patchouli:Patchouli:$it-FABRIC") }
-    }
 }
 
 loom {
@@ -172,11 +165,12 @@ tasks {
         exclude("META-INF/neoforge.mods.toml")
     }
 
-    // Includes the license file in the built mod
+    // Includes the license file and the notices of the code taken from other projects in the built mod
     withType<Jar> {
         val name = project.property("mod.id")
         inputs.property("mod_id", name)
         from(rootProject.file("LICENSE")) { rename { "${it}_$name" } }
+        from(rootProject.file("NOTICE.md")) { rename { "NOTICE_$name.md" } }
     }
 
     register<Copy>("buildAndCollect") {
@@ -224,8 +218,6 @@ publishMods {
         environment = CLIENT_AND_SERVER
         minecraftVersions.addAll(sc.properties.get<String>("mod.mc_releases").split(",").map { it.trim() })
         requires("fabric-api")
-        // Patchouli only where the mod was tested with it (deps.patchouli)
-        if (sc.properties.getOrNull<String>("deps.patchouli") != null) optional("patchouli")
     }
     curseforge {
         this.projectId = curseforgeId
@@ -234,7 +226,6 @@ publishMods {
         serverRequired = true
         minecraftVersions.addAll(sc.properties.get<String>("mod.mc_releases").split(",").map { it.trim() })
         requires("fabric-api")
-        if (sc.properties.getOrNull<String>("deps.patchouli") != null) optional("patchouli")
     }
 }
 

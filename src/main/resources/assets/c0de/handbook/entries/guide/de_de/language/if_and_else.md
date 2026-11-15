@@ -1,0 +1,23 @@
+```json
+{
+  "title": "IF und ELSE",
+  "icon": "c0de:program_block",
+  "category": "language",
+  "ordinal": 14
+}
+```
+
+IF führt seinen Codeblock nur aus, wenn sein Ausdruck wahr ist. Sonst läuft ein ELSE-Block. Mit einem ELSE steht das erste END allein. Auf das letzte END folgt IF.
+
+```c0de
+IF prime ;
+BEGIN
+  ASSIGN primes primes ⊕ candidate ⊕ " " ;
+END
+ELSE
+BEGIN
+  NOOP
+END IF
+```
+
+Es gibt kein ELSE IF. Setze stattdessen ein weiteres IF in den ELSE-Block.
