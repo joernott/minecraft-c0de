@@ -21,6 +21,7 @@ import de.joernott.c0de.core.library.NativeCall;
 import de.joernott.c0de.core.library.NativeFunction;
 import de.joernott.c0de.core.library.NativeResult;
 import de.joernott.c0de.core.library.ProcessContext;
+import de.joernott.c0de.core.library.Vault;
 import de.joernott.c0de.core.library.standard.BuiltinConstants;
 import de.joernott.c0de.core.program.Expression;
 import de.joernott.c0de.core.program.LabelRef;
@@ -40,10 +41,12 @@ import java.time.Clock;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.random.RandomGenerator;
 
 /**
@@ -74,6 +77,7 @@ public final class Cursor {
     private StructValue error;
     private Map<String, Value> results = Map.of();
     private C0deRandom random;
+    private boolean secretsLost;
 
     /**
      * Creates a cursor. It starts in the line after the PROGRAM line.
@@ -210,6 +214,14 @@ public final class Cursor {
         if (state == CursorState.WAITING) {
             state = CursorState.RUNNING;
         }
+        if (secretsLost) {
+            secretsLost = false;
+            crash(C0deException.at(
+                    line,
+                    ErrorCode.VAULT_UNAVAILABLE,
+                    "The secrets of the process were not saved when the server stopped"));
+            return;
+        }
         if (waitSteps > 0) {
             waitSteps--;
             return;
@@ -271,6 +283,11 @@ public final class Cursor {
         return settings.host() instanceof Console console ? console : Console.NONE;
     }
 
+    /** The vault of the process: the one of the host if it has one, otherwise none. */
+    private Vault vault() {
+        return settings.host() instanceof Vault.Provider provider ? provider.vault() : Vault.NONE;
+    }
+
     /** Continues after the given line. */
     private void continueAfter(int z) {
         line = z + 1;
@@ -326,9 +343,38 @@ public final class Cursor {
     private void declaration(Statement.Declaration declaration) {
         ErrorCode error = declaration.constant() ? ErrorCode.SYNTAX_ERROR_CONSTANT : ErrorCode.SYNTAX_ERROR_VARIABLE;
         requireUnique(declaration.name(), error);
-        Variable variable = Declarations.declare(declaration, types).inLine(declaration.line());
+        Variable variable = declaration.secret()
+                ? secret(declaration)
+                : Declarations.declare(declaration, types).inLine(declaration.line());
         stack.push(new VariableItem(variable, stack.currentFrame() == null));
         continueAfter(declaration.endLine());
+    }
+
+    /**
+     * The constant of a SECRET line with the value of the secret in the vault (docs/concept/20-lib-security.md).
+     */
+    private Variable secret(Statement.Declaration declaration) {
+        Type type = types.resolve(declaration.type());
+        Vault.Secret secret = vault().secret(declaration.name())
+                .orElseThrow(() ->
+                        C0deException.of(ErrorCode.SECRET_NOT_FOUND, "The vault has no secret " + declaration.name()));
+        Type actual = secret.value().type();
+        if (type instanceof Type.Str ? !(actual instanceof Type.Str) : !actual.equals(type)) {
+            throw C0deException.of(
+                    ErrorCode.TYPE_MISMATCH,
+                    "The secret " + declaration.name() + " is a "
+                            + secret.value().type() + ", not a " + type);
+        }
+        return new Variable(
+                declaration.name(),
+                type,
+                Values.convert(secret.value(), type),
+                true,
+                Map.of(),
+                declaration.line(),
+                false,
+                true,
+                true);
     }
 
     private void function(Statement.FunctionDeclaration declaration) {
@@ -701,6 +747,7 @@ public final class Cursor {
         Map<String, Map<String, String>> tags = new HashMap<>();
         Map<String, String> labels = new HashMap<>();
         Map<String, Variable> references = new HashMap<>();
+        Set<String> sensitive = new HashSet<>();
         for (Statement.Call.CallParameter parameter : call.parameters()) {
             NativeFunction.Parameter declared = function.parameter(parameter.name())
                     .orElseThrow(() -> C0deException.crash(
@@ -729,7 +776,12 @@ public final class Cursor {
             arguments.put(declared.name(), value);
             label.filter(l -> l.index().isEmpty())
                     .flatMap(l -> stack.find(l.name()))
-                    .ifPresent(variable -> tags.put(declared.name(), variable.tags()));
+                    .ifPresent(variable -> {
+                        tags.put(declared.name(), variable.tags());
+                        if (variable.sensitive()) {
+                            sensitive.add(declared.name());
+                        }
+                    });
         }
         for (NativeFunction.Parameter declared : function.parameters()) {
             if (!arguments.containsKey(declared.name()) && !declared.optional()) {
@@ -740,7 +792,7 @@ public final class Cursor {
         }
         NativeResult result;
         try {
-            result = function.implementation().call(new Call(function, arguments, tags, labels, references));
+            result = function.implementation().call(new Call(function, arguments, tags, labels, references, sensitive));
         } catch (C0deException e) {
             if (e.crash()) {
                 throw e;
@@ -901,14 +953,17 @@ public final class Cursor {
         private final Map<String, Map<String, String>> tags;
         private final Map<String, String> labels;
         private final Map<String, Variable> references;
+        private final Set<String> sensitive;
 
         Call(
                 NativeFunction function,
                 Map<String, Value> arguments,
                 Map<String, Map<String, String>> tags,
                 Map<String, String> labels,
-                Map<String, Variable> references) {
+                Map<String, Variable> references,
+                Set<String> sensitive) {
             this.function = function;
+            this.sensitive = sensitive;
             this.arguments = arguments;
             this.tags = tags;
             this.labels = labels;
@@ -939,6 +994,11 @@ public final class Cursor {
         @Override
         public Optional<String> label(String name) {
             return Optional.ofNullable(labels.get(name));
+        }
+
+        @Override
+        public boolean sensitive(String name) {
+            return sensitive.contains(name);
         }
 
         @Override
@@ -981,6 +1041,11 @@ public final class Cursor {
         @Override
         public Console console() {
             return Cursor.this.console();
+        }
+
+        @Override
+        public Vault vault() {
+            return Cursor.this.vault();
         }
     }
 
@@ -1055,6 +1120,14 @@ public final class Cursor {
         this.error = restoredError;
         this.results = restoredResults;
         this.random = new C0deRandom(randomState);
+    }
+
+    /**
+     * Marks a restored cursor whose stack held the values of SECRETs, which are not saved: it crashes with
+     * VAULT_UNAVAILABLE in its next step.
+     */
+    void loseSecrets() {
+        secretsLost = true;
     }
 
     /** Re-adds an included library when a cursor is restored. */

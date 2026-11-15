@@ -389,4 +389,25 @@ class ProgramParserTest {
                 Initializer.KeyedNested.class, m.initializer().entries().get(1));
         assertInstanceOf(Initializer.Nested.class, second.content().entries().get(0));
     }
+
+    @Test
+    void secretsAreConstantsOfSimpleTypesWithoutValue() {
+        Program program = parse(HEADER + "SECRET apiKey STRING // from the vault\nSECRET pin INTEGER\n");
+        assertEquals(List.of(), program.errors());
+        Statement.Declaration secret =
+                (Statement.Declaration) program.statements().get(0);
+        assertTrue(secret.secret() && secret.constant() && secret.sensitive());
+        assertError(ErrorCode.SYNTAX_ERROR_CONSTANT, 2, HEADER + "SECRET apiKey STRING \"abc\"\n");
+        assertError(ErrorCode.SYNTAX_ERROR_CONSTANT, 2, HEADER + "SECRET keys ARRAY STRING\n");
+        assertError(ErrorCode.SYNTAX_ERROR_CONSTANT, 2, HEADER + "SECRET apiKey STRING TAG(json: \"key\")\n");
+    }
+
+    @Test
+    void theSecurityTagHasOnlyTheNameSensitive() {
+        Program program = parse(HEADER + "VARIABLE token STRING TAG(json: \"token\") TAG(security: \"sensitive\")\n");
+        assertEquals(List.of(), program.errors());
+        assertTrue(((Statement.Declaration) program.statements().get(0)).sensitive());
+        assertError(ErrorCode.SYNTAX_ERROR_VARIABLE, 2, HEADER + "VARIABLE token STRING TAG(security: \"secret\")\n");
+        assertError(ErrorCode.SYNTAX_ERROR_VARIABLE, 2, HEADER + "VARIABLE token STRING TAG(xml: \"token\")\n");
+    }
 }

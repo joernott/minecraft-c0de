@@ -165,7 +165,7 @@ final class YamlLayout {
                 }
                 line(indent, List.of("END", "STRUCT"));
             }
-            case "VARIABLE", "CONSTANT" -> declaration(entry, keyword, indent, comment);
+            case "VARIABLE", "CONSTANT", "SECRET" -> declaration(entry, keyword, indent, comment);
             case "FUNCTION" -> {
                 line(indent, with(List.of("FUNCTION", name(entry.get("name"), "name")), comment));
                 for (String kind : List.of("parameters", "results")) {

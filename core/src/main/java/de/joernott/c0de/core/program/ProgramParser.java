@@ -197,6 +197,7 @@ public final class ProgramParser {
         return switch (keyword) {
             case STRUCT -> parseStruct(row);
             case VARIABLE, CONSTANT -> parseDeclaration(row);
+            case SECRET -> parseSecret(row);
             case FUNCTION -> parseFunction(row);
             case CALL, ASSIGN, IF, ELSE, FOR, EACH, WHILE, REPEAT, BREAK, RETURN, EXIT ->
                 throw C0deException.at(
@@ -368,6 +369,7 @@ public final class ProgramParser {
         }
         return switch (keyword) {
             case VARIABLE, CONSTANT -> parseDeclaration(row);
+            case SECRET -> parseSecret(row);
             case ASSIGN -> parseAssign(row);
             case CALL -> parseCall(row);
             case IF -> parseIf(row, context);
@@ -498,6 +500,30 @@ public final class ProgramParser {
                     : C0deException.at(row.z(), error, message);
         }
         return new Statement.Declaration(row.z(), constant, name, type, literal, tags, initializer);
+    }
+
+    /**
+     * A SECRET line: the name and a simple type or STRING, optionally followed by a comment
+     * (docs/concept/20-lib-security.md). Errors are SYNTAX_ERROR_CONSTANT, as a secret is a constant.
+     */
+    private Statement parseSecret(Row row) {
+        ErrorCode error = ErrorCode.SYNTAX_ERROR_CONSTANT;
+        position++;
+        Cells cells = new Cells(row);
+        cells.next();
+        String name = cells.name(error, "the name");
+        TypeSpec type = parseType(cells, error, 1);
+        if (type.isComplex()) {
+            throw C0deException.at(row.z(), error, "A secret is a BOOLEAN, INTEGER, FLOAT, CHAR, STRING or TIME");
+        }
+        if (cells.peek() instanceof LiteralBlock) {
+            throw C0deException.at(row.z(), error, "A secret gets its value from the vault, not from a literal");
+        }
+        if (cells.peek() instanceof TagBlock) {
+            throw C0deException.at(row.z(), error, "A secret has no tags");
+        }
+        cells.end(error);
+        return Statement.Declaration.secret(row.z(), name, type);
     }
 
     private Initializer parseInitializer(int x, int depth, ErrorCode error, Keyword closing) {
@@ -898,13 +924,17 @@ public final class ProgramParser {
             cells.next();
             String language = tag.language();
             String name = tag.name();
-            if (language == null || !(language.equals("json") || language.equals("yaml"))) {
-                throw C0deException.at(cells.z(), error, "The language of a TAG must be json or yaml");
+            if (language == null || !Tags.LANGUAGES.contains(language)) {
+                throw C0deException.at(cells.z(), error, "The language of a TAG must be json, yaml or security");
             }
             if (name == null || name.isEmpty()) {
                 throw C0deException.at(cells.z(), error, "A TAG must have a name");
             }
-            if (paths ? List.of(name.split("\\.", -1)).contains("") : name.contains(".")) {
+            if (language.equals(Tags.SECURITY)) {
+                if (!name.equals(Tags.SENSITIVE)) {
+                    throw C0deException.at(cells.z(), error, "The only name of a security TAG is sensitive");
+                }
+            } else if (paths ? List.of(name.split("\\.", -1)).contains("") : name.contains(".")) {
                 throw C0deException.at(cells.z(), error, "Invalid name of a TAG: " + name);
             }
             if (tags.put(language, name) != null) {

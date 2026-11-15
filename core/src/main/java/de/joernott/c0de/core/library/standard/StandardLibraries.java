@@ -11,7 +11,7 @@ public final class StandardLibraries {
     public static final String VERSION_CONSTANT = "C0DE_VERSION";
 
     /**
-     * A registry with the built-in functions, the libraries c0de/math, c0de/strings and c0de/time and the constant
+     * A registry with the built-in functions, the libraries c0de/math, c0de/strings, c0de/time and c0de/security and the constant
      * C0DE_VERSION. The mod adds c0de/minecraft and sets C0DE_VERSION to the version of the mod.
      */
     public static LibraryRegistry registry() {
@@ -20,7 +20,8 @@ public final class StandardLibraries {
                 .add(new Builtins())
                 .add(new MathLibrary())
                 .add(new StringsLibrary())
-                .add(new TimeLibrary());
+                .add(new TimeLibrary())
+                .add(new SecurityLibrary());
     }
 
     /**

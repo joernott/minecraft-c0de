@@ -29,7 +29,7 @@ public final class PropertyRules {
     public static final List<String> LITERAL_TYPES = List.of("BOOLEAN", "INTEGER", "FLOAT", "CHAR", "STRING", "TIME");
 
     /** The languages of TAG blocks. */
-    public static final List<String> TAG_LANGUAGES = List.of("json", "yaml");
+    public static final List<String> TAG_LANGUAGES = de.joernott.c0de.core.program.Tags.LANGUAGES;
 
     private PropertyRules() {}
 
@@ -149,7 +149,7 @@ public final class PropertyRules {
      */
     public static boolean isPathTag(SheetView sheet, int x, int z) {
         return sheet.firstBlock(z) instanceof Block.KeywordBlock(Keyword keyword)
-                && (keyword == Keyword.VARIABLE || keyword == Keyword.CONSTANT);
+                && (keyword == Keyword.VARIABLE || keyword == Keyword.CONSTANT || keyword == Keyword.SECRET);
     }
 
     /**
@@ -157,24 +157,6 @@ public final class PropertyRules {
      * dots; the tag of a struct element is a single key without a dot, or {@code -} to skip the element.
      */
     public static Optional<String> tag(String language, String name, boolean path) {
-        if (!TAG_LANGUAGES.contains(language)) {
-            return Optional.of("The language of a tag is json or yaml");
-        }
-        if (name == null || name.isEmpty()) {
-            return Optional.of("The name is missing");
-        }
-        if (name.length() > MAX_TEXT_LENGTH) {
-            return Optional.of("The name is too long");
-        }
-        if (path) {
-            for (String key : name.split("\\.", -1)) {
-                if (key.isEmpty()) {
-                    return Optional.of("A key of the path is empty");
-                }
-            }
-        } else if (name.contains(".")) {
-            return Optional.of("The tag of a struct element contains no dot");
-        }
-        return Optional.empty();
+        return de.joernott.c0de.core.program.Tags.check(language, name, path, MAX_TEXT_LENGTH);
     }
 }

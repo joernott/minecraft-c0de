@@ -139,4 +139,18 @@ class ProgramYamlTest {
                 assertThrows(IllegalArgumentException.class, () -> ProgramYaml.layout(nested.toString()));
         assertTrue(e.getMessage().contains("doesn't fit"), e.getMessage());
     }
+
+    @Test
+    void secretsAndSecurityTagsSurviveExportAndImport() {
+        Sheet sheet = Notation.parse("""
+                PROGRAM keys
+                NOOP
+                SECRET apiKey STRING // from the vault
+                VARIABLE token STRING TAG(security: "sensitive")
+                """);
+        String yaml = ProgramYaml.export(sheet);
+        assertTrue(yaml.contains("keyword: SECRET"), yaml);
+        assertTrue(yaml.contains("security: sensitive"), yaml);
+        assertEquals(yaml, ProgramYaml.export(ProgramYaml.layout(yaml)));
+    }
 }

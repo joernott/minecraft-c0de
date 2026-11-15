@@ -28,4 +28,9 @@ public interface ProcessContext {
     default de.joernott.c0de.core.io.Console console() {
         return de.joernott.c0de.core.io.Console.NONE;
     }
+
+    /** The vault of the process (docs/concept/20-lib-security.md). */
+    default Vault vault() {
+        return Vault.NONE;
+    }
 }

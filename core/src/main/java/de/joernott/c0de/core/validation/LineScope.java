@@ -55,13 +55,13 @@ final class LineScope {
             int x = row.cells().get(0).x();
             switch (keyword) {
                 case END -> declared.removeIf(d -> d.indentation() > x);
-                case VARIABLE, CONSTANT ->
+                case VARIABLE, CONSTANT, SECRET ->
                     name(row, 1)
                             .ifPresent(name -> declared.add(new Declared(
                                     x,
                                     new Symbol(
                                             name,
-                                            keyword == Keyword.CONSTANT ? Symbol.Kind.CONSTANT : Symbol.Kind.VARIABLE,
+                                            keyword == Keyword.VARIABLE ? Symbol.Kind.VARIABLE : Symbol.Kind.CONSTANT,
                                             null))));
                 case FOR, EACH ->
                     // The loop variable is visible in the body, which is indented by one block

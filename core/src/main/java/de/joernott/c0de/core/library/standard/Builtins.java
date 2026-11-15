@@ -2,6 +2,7 @@ package de.joernott.c0de.core.library.standard;
 
 import static de.joernott.c0de.core.library.standard.Functions.ANY;
 import static de.joernott.c0de.core.library.standard.Functions.ARRAY;
+import static de.joernott.c0de.core.library.standard.Functions.BOOLEAN;
 import static de.joernott.c0de.core.library.standard.Functions.HASH;
 import static de.joernott.c0de.core.library.standard.Functions.INTEGER;
 import static de.joernott.c0de.core.library.standard.Functions.TEXT;
@@ -78,7 +79,9 @@ public final class Builtins implements Library {
                     Builtins::write)
             .add(
                     "INPUT",
-                    List.of(NativeFunction.Parameter.reference("variable", "a variable")),
+                    List.of(
+                            NativeFunction.Parameter.reference("variable", "a variable"),
+                            optional("hide", "BOOLEAN", BOOLEAN, BooleanValue.FALSE)),
                     List.of(),
                     Builtins::input)
             // The screen functions of AmigaBASIC
@@ -148,7 +151,7 @@ public final class Builtins implements Library {
     private static NativeResult write(NativeCall call) {
         String name =
                 call.provided("name") ? text(call, "name") : call.label("value").orElse("output");
-        return call.process().console().write(name, call.argument("value"))
+        return call.process().console().write(name, call.argument("value"), call.sensitive("value"))
                 ? NativeResult.none()
                 : NativeResult.waitForValue();
     }
@@ -156,7 +159,8 @@ public final class Builtins implements Library {
     /** INPUT waits until an I/O block or a terminal has a value for the variable. */
     private static NativeResult input(NativeCall call) {
         Variable variable = call.reference("variable").orElseThrow();
-        Optional<Value> value = call.process().console().input(variable.name(), variable.type());
+        boolean hide = ((BooleanValue) call.argument("hide")).value();
+        Optional<Value> value = call.process().console().input(variable.name(), variable.type(), hide);
         if (value.isEmpty()) {
             return NativeResult.waitForValue();
         }

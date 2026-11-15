@@ -89,8 +89,11 @@ public final class CursorSnapshot {
                     data.put("kind", "variable");
                     data.put("name", v.name());
                     data.put("type", type(v.type()));
-                    data.put("value", value(v.value()));
+                    // The value of a SECRET is not saved (docs/concept/20-lib-security.md)
+                    data.put("value", value(v.secret() ? v.type().defaultValue() : v.value()));
                     data.put("constant", v.constant());
+                    data.put("sensitive", v.sensitive());
+                    data.put("secret", v.secret());
                     data.put("tags", new LinkedHashMap<String, Object>(v.tags()));
                     data.put("line", (long) v.line());
                     data.put("loop", v.loopVariable());
@@ -259,7 +262,11 @@ public final class CursorSnapshot {
         for (Object entry : list(data.get("stack"))) {
             Map<String, Object> item = map(entry);
             switch ((String) item.get("kind")) {
-                case "variable" ->
+                case "variable" -> {
+                    boolean secret = Boolean.TRUE.equals(item.get("secret"));
+                    if (secret) {
+                        cursor.loseSecrets();
+                    }
                     items.add(new VariableItem(
                             new Variable(
                                     (String) item.get("name"),
@@ -268,8 +275,11 @@ public final class CursorSnapshot {
                                     (Boolean) item.get("constant"),
                                     strings(map(item.get("tags"))),
                                     (int) number(item.get("line")),
-                                    (Boolean) item.get("loop")),
+                                    (Boolean) item.get("loop"),
+                                    Boolean.TRUE.equals(item.get("sensitive")),
+                                    secret),
                             (Boolean) item.get("global")));
+                }
                 case "frame" -> {
                     int callLine = (int) number(item.get("callLine"));
                     Statement.Call call = null;

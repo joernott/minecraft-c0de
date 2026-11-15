@@ -1,5 +1,6 @@
 package de.joernott.c0de.core.eval;
 
+import de.joernott.c0de.core.program.Tags;
 import de.joernott.c0de.core.value.Type;
 import de.joernott.c0de.core.value.Value;
 import de.joernott.c0de.core.value.Values;
@@ -19,6 +20,8 @@ public final class Variable {
     private final Map<String, String> tags;
     private final int line;
     private final boolean loopVariable;
+    private final boolean sensitive;
+    private final boolean secret;
     private Value value;
 
     public Variable(String name, Type type, Value value, boolean constant, Map<String, String> tags) {
@@ -37,6 +40,24 @@ public final class Variable {
             Map<String, String> tags,
             int line,
             boolean loopVariable) {
+        this(name, type, value, constant, tags, line, loopVariable, Tags.sensitive(tags), false);
+    }
+
+    /**
+     * @param sensitive true if the debug output shows *** instead of the value: the tag security: sensitive, a
+     *     SECRET or a parameter from a hidden item (docs/concept/20-lib-security.md)
+     * @param secret true for the value of a SECRET, which is not saved with the cursor
+     */
+    public Variable(
+            String name,
+            Type type,
+            Value value,
+            boolean constant,
+            Map<String, String> tags,
+            int line,
+            boolean loopVariable,
+            boolean sensitive,
+            boolean secret) {
         this.name = name;
         this.type = type;
         this.value = value;
@@ -44,6 +65,8 @@ public final class Variable {
         this.tags = Map.copyOf(tags);
         this.line = line;
         this.loopVariable = loopVariable;
+        this.sensitive = sensitive || secret || Tags.sensitive(tags);
+        this.secret = secret;
     }
 
     /** A variable with the default value of its type and no tags. */
@@ -53,7 +76,7 @@ public final class Variable {
 
     /** The same variable, declared in a line. */
     public Variable inLine(int declarationLine) {
-        return new Variable(name, type, value, constant, tags, declarationLine, loopVariable);
+        return new Variable(name, type, value, constant, tags, declarationLine, loopVariable, sensitive, secret);
     }
 
     public String name() {
@@ -81,6 +104,16 @@ public final class Variable {
     /** True for the variables of FOR and EACH loops. */
     public boolean loopVariable() {
         return loopVariable;
+    }
+
+    /** True if the debug output shows *** instead of the value. */
+    public boolean sensitive() {
+        return sensitive;
+    }
+
+    /** True for the value of a SECRET. */
+    public boolean secret() {
+        return secret;
     }
 
     /** The current value. Arrays, hashes and structs are returned without copying. */

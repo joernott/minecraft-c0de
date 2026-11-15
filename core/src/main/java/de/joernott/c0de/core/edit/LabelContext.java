@@ -42,7 +42,7 @@ public record LabelContext(LabelKind kind, LabelMode mode, String parent) {
                         ? newName(LabelKind.TYPE)
                         : new LabelContext(LabelKind.TYPE, LabelMode.STRUCT_TYPE, null);
             case VARIABLE, FOR, EACH -> newName(LabelKind.VARIABLE);
-            case CONSTANT -> newName(LabelKind.CONSTANT);
+            case CONSTANT, SECRET -> newName(LabelKind.CONSTANT);
             case FUNCTION ->
                 new LabelContext(
                         LabelKind.FUNCTION,

@@ -43,7 +43,8 @@ public sealed interface Statement {
     }
 
     /**
-     * VARIABLE or CONSTANT declaration.
+     * VARIABLE, CONSTANT or SECRET declaration. A SECRET is a constant without literal, tags or initializer,
+     * whose value comes from the vault of the process (docs/concept/20-lib-security.md).
      *
      * @param literal the initial value of a simple type or STRING, or null
      * @param tags the tags: language to path, e.g. json to "server.port"
@@ -56,10 +57,33 @@ public sealed interface Statement {
             TypeSpec type,
             Value literal,
             Map<String, String> tags,
-            Initializer initializer)
+            Initializer initializer,
+            boolean secret)
             implements Statement {
         public Declaration {
             tags = Map.copyOf(tags);
+        }
+
+        /** A VARIABLE or CONSTANT declaration. */
+        public Declaration(
+                int line,
+                boolean constant,
+                String name,
+                TypeSpec type,
+                Value literal,
+                Map<String, String> tags,
+                Initializer initializer) {
+            this(line, constant, name, type, literal, tags, initializer, false);
+        }
+
+        /** A SECRET declaration. */
+        public static Declaration secret(int line, String name, TypeSpec type) {
+            return new Declaration(line, true, name, type, null, Map.of(), null, true);
+        }
+
+        /** True if the value is sensitive: a SECRET, or a declaration with the tag security: sensitive. */
+        public boolean sensitive() {
+            return secret || Tags.sensitive(tags);
         }
 
         /** z coordinate of the last line of the statement. */

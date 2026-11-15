@@ -27,6 +27,14 @@ public interface NativeCall {
         return Optional.empty();
     }
 
+    /**
+     * True if the parameter was provided by a single LABEL without index whose variable or constant is sensitive
+     * (docs/concept/20-lib-security.md): WRITE makes a hidden item of it.
+     */
+    default boolean sensitive(String name) {
+        return false;
+    }
+
     /** The variable passed to a by-reference parameter. */
     Optional<Variable> reference(String name);
 

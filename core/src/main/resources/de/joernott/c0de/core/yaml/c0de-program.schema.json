@@ -42,6 +42,7 @@
           "BREAK",
           "VARIABLE",
           "CONSTANT",
+          "SECRET",
           "ASSIGN",
           "FUNCTION",
           "PARAMETER",
@@ -134,7 +135,7 @@
       "pattern": "^[A-Z]+( [A-Z0-9]+)*$"
     },
     "tags": {
-      "description": "The tags by language, e.g. {json: server.port}.",
+      "description": "The tags by language, e.g. {json: server.port} or {security: sensitive}.",
       "type": "object",
       "additionalProperties": {
         "type": "string"
@@ -159,6 +160,7 @@
             "STRUCT",
             "VARIABLE",
             "CONSTANT",
+            "SECRET",
             "FUNCTION",
             "ASSIGN",
             "CALL",
@@ -235,6 +237,18 @@
           },
           "then": {
             "$ref": "#/$defs/declaration"
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "keyword": {
+                "const": "SECRET"
+              }
+            }
+          },
+          "then": {
+            "$ref": "#/$defs/secret"
           }
         },
         {
@@ -515,6 +529,43 @@
         },
         "tags": {
           "$ref": "#/$defs/tags"
+        },
+        "comment": {
+          "$ref": "#/$defs/comment"
+        },
+        "disabled": {
+          "$ref": "#/$defs/disabled"
+        }
+      },
+      "required": [
+        "keyword",
+        "name",
+        "type"
+      ],
+      "additionalProperties": false
+    },
+    "secret": {
+      "description": "A SECRET: a constant whose value comes from the vault of the player (20-lib-security.md).",
+      "type": "object",
+      "properties": {
+        "keyword": {
+          "const": "SECRET"
+        },
+        "name": {
+          "$ref": "#/$defs/name"
+        },
+        "type": {
+          "enum": [
+            "BOOLEAN",
+            "INTEGER",
+            "FLOAT",
+            "CHAR",
+            "TIME",
+            "STRING"
+          ]
+        },
+        "length": {
+          "$ref": "#/$defs/length"
         },
         "comment": {
           "$ref": "#/$defs/comment"

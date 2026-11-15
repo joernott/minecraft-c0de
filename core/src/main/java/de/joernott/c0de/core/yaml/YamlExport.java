@@ -154,7 +154,7 @@ final class YamlExport {
                 entry.put("code", elements);
             }
             case Statement.Declaration declaration -> {
-                entry = entry(declaration.constant() ? "CONSTANT" : "VARIABLE");
+                entry = entry(declaration.secret() ? "SECRET" : declaration.constant() ? "CONSTANT" : "VARIABLE");
                 entry.put("name", declaration.name());
                 type(entry, declaration.type());
                 if (declaration.literal() != null) {

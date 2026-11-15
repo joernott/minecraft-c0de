@@ -28,6 +28,14 @@ public interface Console {
     }
 
     /**
+     * WRITE of a value that may be sensitive: a sensitive value goes into a hidden variable item
+     * (docs/concept/20-lib-security.md). The default ignores {@code hidden}.
+     */
+    default boolean write(String name, Value value, boolean hidden) {
+        return write(name, value);
+    }
+
+    /**
      * INPUT: a value for a variable from an I/O block or a terminal.
      *
      * @param name the name of the variable, without index
@@ -36,6 +44,14 @@ public interface Console {
      */
     default Optional<Value> input(String name, Type type) {
         return Optional.empty();
+    }
+
+    /**
+     * INPUT with the parameter {@code hide}: laptops and tablets show * for the typed characters and print the
+     * typed line as *** (docs/concept/20-lib-security.md). The default ignores {@code hide}.
+     */
+    default Optional<Value> input(String name, Type type, boolean hide) {
+        return input(name, type);
     }
 
     /** CLS: clears the screens. */

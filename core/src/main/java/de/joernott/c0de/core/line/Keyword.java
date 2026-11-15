@@ -14,6 +14,7 @@ public enum Keyword {
     BREAK,
     VARIABLE,
     CONSTANT,
+    SECRET,
     ASSIGN,
     FUNCTION,
     PARAMETER,

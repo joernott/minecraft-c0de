@@ -165,7 +165,7 @@ final class ProgramAnalyzer {
         }
     }
 
-    /** Checks a VARIABLE or CONSTANT declaration and returns its symbol. */
+    /** Checks a VARIABLE, CONSTANT or SECRET declaration and returns its symbol; a SECRET has its default value. */
     private Symbol declare(Statement.Declaration declaration) {
         Symbol.Kind kind = declaration.constant() ? Symbol.Kind.CONSTANT : Symbol.Kind.VARIABLE;
         unique(

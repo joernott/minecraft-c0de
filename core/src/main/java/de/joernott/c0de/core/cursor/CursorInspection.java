@@ -1,6 +1,7 @@
 package de.joernott.c0de.core.cursor;
 
 import de.joernott.c0de.core.eval.Variable;
+import de.joernott.c0de.core.value.DebugText;
 import de.joernott.c0de.core.value.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +36,7 @@ public final class CursorInspection {
 
     private static String variable(Variable variable, boolean global) {
         String kind = variable.loopVariable() ? "loop variable" : variable.constant() ? "CONSTANT" : "VARIABLE";
-        String value = variable.value().text();
+        String value = DebugText.of(variable.value(), variable.sensitive());
         if (value.length() > MAX_VALUE_LENGTH) {
             value = value.substring(0, MAX_VALUE_LENGTH - 3) + "...";
         }

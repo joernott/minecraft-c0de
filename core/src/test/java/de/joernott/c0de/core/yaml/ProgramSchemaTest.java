@@ -81,7 +81,7 @@ class ProgramSchemaTest {
         assertEquals(Optional.of("code must be a list"), check("PROGRAM: test\ncode: NOOP\n"));
         assertEquals(
                 Optional.of("code[1].keyword \"GOTO\" is not allowed, it must be one of NOOP, COMMENT, STRUCT, "
-                        + "VARIABLE, CONSTANT, FUNCTION, ASSIGN, CALL, RETURN, EXIT, BREAK, IF, FOR, EACH, WHILE, "
+                        + "VARIABLE, CONSTANT, SECRET, FUNCTION, ASSIGN, CALL, RETURN, EXIT, BREAK, IF, FOR, EACH, WHILE, "
                         + "REPEAT"),
                 check("PROGRAM: test\ncode:\n- keyword: NOOP\n- keyword: GOTO\n"));
         assertEquals(Optional.of("code[0].code[0] has no expression"), check("""
