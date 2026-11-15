@@ -100,9 +100,11 @@ public class FabricClientGameTests implements FabricClientGameTest {
         context.runOnClient(client -> de.joernott.c0de.client.handbook.HandbookScreen.open("guide"));
         context.waitForScreen(de.joernott.c0de.client.handbook.HandbookScreen.class);
         handbookPage(context, "c0de-handbook-guide");
+        handbookLinks(context, "the landing page of the guide");
         context.runOnClient(client -> ((de.joernott.c0de.client.handbook.HandbookScreen) de.joernott.c0de.client.ClientCompat.screen())
                 .showCategory("getting_started"));
         handbookPage(context, "c0de-handbook-category");
+        handbookLinks(context, "the category getting_started");
         context.setScreen(() -> null);
         context.runOnClient(client -> de.joernott.c0de.client.handbook.HandbookScreen.open("tools"));
         context.waitForScreen(de.joernott.c0de.client.handbook.HandbookScreen.class);
@@ -116,6 +118,15 @@ public class FabricClientGameTests implements FabricClientGameTest {
                 .showEntry("built_in_functions/len"));
         handbookPage(context, "c0de-handbook-program");
         context.setScreen(() -> null);
+    }
+
+    /^* The right page lists the categories or entries (the text of the left page fits on one page). ^/
+    private static void handbookLinks(ClientGameTestContext context, String what) {
+        boolean links = context.computeOnClient(client -> ((de.joernott.c0de.client.handbook.HandbookScreen)
+                de.joernott.c0de.client.ClientCompat.screen()).hasLinks(1));
+        if (!links) {
+            throw new AssertionError("The right page of " + what + " has no links");
+        }
     }
 
     private static void handbookPage(ClientGameTestContext context, String name) {

@@ -38,7 +38,8 @@ import net.minecraft.world.item.ItemStack;
  */
 public class HandbookScreen extends Screen {
     public static final int PAGE_WIDTH = 112;
-    public static final int PAGE_HEIGHT = 153;
+    /** The height of the content of a page; the page number is below it. */
+    public static final int PAGE_HEIGHT = 142;
     private static final int BOOK_WIDTH = 267;
     private static final int BOOK_HEIGHT = 180;
     private static final int LEFT_PAGE = 15;
@@ -196,6 +197,11 @@ public class HandbookScreen extends Screen {
     /** The number of pages of the current view. */
     public int pageCount() {
         return pages.size();
+    }
+
+    /** True if a page of the current view has links to categories or entries. */
+    public boolean hasLinks(int page) {
+        return page < pages.size() && pages.get(page).stream().anyMatch(element -> element instanceof Element.Link);
     }
 
     /** Opens another view and remembers the current one for the back arrow. */

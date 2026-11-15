@@ -169,13 +169,18 @@ public final class PageCompiler implements MarkdownCompiler<List<List<Element>>>
         gapPending = false;
     }
 
+    /**
+     * The pages so far. The Markdown processor calls this after every piece of Markdown, and more elements can
+     * follow, so the pages are copied and the current page stays open.
+     */
     @Override
     public List<List<Element>> compile() {
         flush();
-        if (!page.isEmpty() || pages.isEmpty()) {
-            pages.add(page);
+        List<List<Element>> result = new ArrayList<>(pages);
+        if (!page.isEmpty() || result.isEmpty()) {
+            result.add(List.copyOf(page));
         }
-        return pages;
+        return result;
     }
 
     @Override
