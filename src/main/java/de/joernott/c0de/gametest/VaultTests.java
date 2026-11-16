@@ -29,8 +29,11 @@ import net.minecraft.world.item.ItemStack;
  * the same library.
  */
 public final class VaultTests {
-    /** Ticks to wait for a process that encrypts a vault: Argon2 takes a while on the runners of CI. */
-    private static final int VAULT_WAIT = 1000;
+    /**
+     * Seconds to wait for a process that encrypts a vault: Argon2 takes a while on the runners of CI. Measured in
+     * seconds, not ticks, because the GameTest server of newer versions runs its ticks faster (task 17.7).
+     */
+    private static final int VAULT_WAIT = 60;
 
     private VaultTests() {}
 
@@ -196,7 +199,7 @@ public final class VaultTests {
         trigger.input().setItem(0, empty());
         trigger.start(Activator.player(owner));
         helper.assertTrue(trigger.isRunning(), "The process didn't start: " + trigger.status());
-        TestCompat.await(helper, () -> !trigger.isRunning(), () -> {
+        TestCompat.awaitSeconds(helper, () -> !trigger.isRunning(), () -> {
             String stored = results(trigger);
             helper.assertTrue(
                     stored.equals("exists=true"),
@@ -218,7 +221,7 @@ public final class VaultTests {
             trigger.input().setItem(0, empty());
             trigger.start(Activator.player(owner));
             helper.assertTrue(trigger.isRunning(), "The second process didn't start: " + trigger.status());
-            TestCompat.await(helper, () -> !trigger.isRunning(), () -> {
+            TestCompat.awaitSeconds(helper, () -> !trigger.isRunning(), () -> {
                 try {
                     String loaded = results(trigger);
                     helper.assertTrue(

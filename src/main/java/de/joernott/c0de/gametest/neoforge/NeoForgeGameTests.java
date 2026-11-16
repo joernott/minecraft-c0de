@@ -221,7 +221,9 @@ public class NeoForgeGameTests {
         de.joernott.c0de.gametest.VaultTests.secretsBelongToTheOwnerOfTheSheet(helper);
     }
 
-    @GameTest(template = "empty", timeoutTicks = 2400)
+    // Waits up to 2 x 60 seconds (VaultTests.VAULT_WAIT); the GameTest server of newer versions runs much more than
+    // 20 ticks per second
+    @GameTest(template = "empty", timeoutTicks = 30000)
     public static void persistentSecretsSurviveLeaving(GameTestHelper helper) {
         de.joernott.c0de.gametest.VaultTests.persistentSecretsSurviveLeaving(helper);
     }

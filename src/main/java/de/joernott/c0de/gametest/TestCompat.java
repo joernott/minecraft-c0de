@@ -43,6 +43,20 @@ final class TestCompat {
         }
     }
 
+    /**
+     * Like {@link #await(GameTestHelper, java.util.function.BooleanSupplier, Runnable)}, but waits up to a number of
+     * seconds instead of ticks: for work outside the server thread, like Argon2, whose time doesn't depend on the
+     * ticks. The GameTest server of newer versions runs its ticks much faster than 20 per second (task 17.7: 1000
+     * ticks took 8 seconds in CI). The timeout of the test must allow the seconds at that speed.
+     */
+    static void awaitSeconds(
+            GameTestHelper helper, java.util.function.BooleanSupplier condition, Runnable checks, int seconds) {
+        long deadline = System.currentTimeMillis() + seconds * 1000L;
+        java.util.function.BooleanSupplier doneOrLate =
+                () -> condition.getAsBoolean() || System.currentTimeMillis() > deadline;
+        await(helper, doneOrLate, checks, Integer.MAX_VALUE);
+    }
+
     /** The block entity at a position relative to the test. */
     static BlockEntity blockEntity(GameTestHelper helper, BlockPos pos) {
         //? if >=1.21.5 {
