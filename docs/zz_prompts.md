@@ -847,3 +847,7 @@ where I left the dimension last time, the first sheet only if I never entered be
 start with sprint 18
 
 Old vaults of 0.6.0 and 0.6.1 (asked with a question): No repair
+
+recreate the server now, I'm done with screenshots for today
+
+there is an open Dependabot PR in c0de. Please integrate that in sprint 18 as well before releasing 0.6.2

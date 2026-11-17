@@ -41,7 +41,7 @@ dependencies {
     }
 
     minecraft("com.mojang:minecraft:${sc.current.version}")
-    val parchment = sc.properties.getOrNull<String>("deps.parchment")
+    val parchment = sc.properties.getOrNull("deps.parchment")
     if (parchment != null) {
         mappings(loom.layered {
             officialMojangMappings()
@@ -53,10 +53,10 @@ dependencies {
     }
 
     // Use `mod{dependency type}` even on 26.1+ - loom-back-compat converts them
-    modImplementation("net.fabricmc:fabric-loader:${sc.properties.get<String>("deps.fabric_loader")}")
+    modImplementation("net.fabricmc:fabric-loader:${sc.properties.get("deps.fabric_loader")}")
     if (sc.current.parsed > "1.21.1") {
         // Fabric API renamed and merged modules after 1.21.1; newer nodes compile against all of it
-        modImplementation("net.fabricmc.fabric-api:fabric-api:${sc.properties.get<String>("deps.fabric_api")}")
+        modImplementation("net.fabricmc.fabric-api:fabric-api:${sc.properties.get("deps.fabric_api")}")
     } else fapi(
         "fabric-api-base",
         "fabric-lifecycle-events-v1",
@@ -77,7 +77,7 @@ dependencies {
     include(implementation("org.bouncycastle:bcprov-jdk18on:1.86")!!)
 
     // Players install the complete Fabric API, which fabric.mod.json requires. Development runs need it too.
-    modLocalRuntime("net.fabricmc.fabric-api:fabric-api:${sc.properties.get<String>("deps.fabric_api")}")
+    modLocalRuntime("net.fabricmc.fabric-api:fabric-api:${sc.properties.get("deps.fabric_api")}")
 }
 
 loom {
@@ -157,7 +157,7 @@ tasks {
             register("sources", sc.properties["mod.sources_url"])
             register("issues", sc.properties["mod.issues_url"])
             register("minecraft", sc.properties["mod.mc_compat"])
-            register("loader", Regex("\\d+\\.\\d+").find(sc.properties.get<String>("deps.fabric_loader"))!!.value)
+            register("loader", Regex("\\d+\\.\\d+").find(sc.properties.get("deps.fabric_loader"))!!.value)
         }
 
         filesMatching("fabric.mod.json") { expand(props) }
@@ -188,9 +188,9 @@ tasks {
 // CURSEFORGE_TOKEN and both project IDs are set
 publishMods {
     val modVersion = property("mod.version") as String
-    val projectId = sc.properties.get<String>("publish.modrinth_id")
+    val projectId = sc.properties.get("publish.modrinth_id")
     val token = providers.environmentVariable("MODRINTH_TOKEN")
-    val curseforgeId = sc.properties.get<String>("publish.curseforge_id")
+    val curseforgeId = sc.properties.get("publish.curseforge_id")
     val curseforgeToken = providers.environmentVariable("CURSEFORGE_TOKEN")
     // A version that is already released on GitHub is published from the jars of its release
     // (-Ppublish.released_jars=<folder>, .github/workflows/curseforge.yml, task 15.11)
@@ -217,7 +217,7 @@ publishMods {
         accessToken = token
         // c0de must be installed on clients and servers
         environment = CLIENT_AND_SERVER
-        minecraftVersions.addAll(sc.properties.get<String>("mod.mc_releases").split(",").map { it.trim() })
+        minecraftVersions.addAll(sc.properties.get("mod.mc_releases").split(",").map { it.trim() })
         requires("fabric-api")
     }
     curseforge {
@@ -225,7 +225,7 @@ publishMods {
         accessToken = curseforgeToken
         clientRequired = true
         serverRequired = true
-        minecraftVersions.addAll(sc.properties.get<String>("mod.mc_releases").split(",").map { it.trim() })
+        minecraftVersions.addAll(sc.properties.get("mod.mc_releases").split(",").map { it.trim() })
         requires("fabric-api")
     }
 }

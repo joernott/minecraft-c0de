@@ -18,7 +18,7 @@ stonecutter parameters {
         match(loader, "fabric", "neoforge")
     }
 
-    swaps["mod_version"] = "\"${properties.get<String>("mod.version")}\";"
+    swaps["mod_version"] = "\"${properties.get("mod.version")}\";"
     swaps["minecraft"] = "\"${node.metadata.version}\";"
 
     replacements {

@@ -58,7 +58,7 @@ sourceSets.main {
 neoForge {
     version = property("deps.neo_loader") as String
 
-    sc.properties.getOrNull<String>("deps.parchment")?.let {
+    sc.properties.getOrNull("deps.parchment")?.let {
         parchment {
             minecraftVersion = sc.current.version
             mappingsVersion = it
@@ -176,9 +176,9 @@ tasks {
 // CURSEFORGE_TOKEN and both project IDs are set
 publishMods {
     val modVersion = property("mod.version") as String
-    val projectId = sc.properties.get<String>("publish.modrinth_id")
+    val projectId = sc.properties.get("publish.modrinth_id")
     val token = providers.environmentVariable("MODRINTH_TOKEN")
-    val curseforgeId = sc.properties.get<String>("publish.curseforge_id")
+    val curseforgeId = sc.properties.get("publish.curseforge_id")
     val curseforgeToken = providers.environmentVariable("CURSEFORGE_TOKEN")
     // A version that is already released on GitHub is published from the jars of its release
     // (-Ppublish.released_jars=<folder>, .github/workflows/curseforge.yml, task 15.11)
@@ -205,14 +205,14 @@ publishMods {
         accessToken = token
         // c0de must be installed on clients and servers
         environment = CLIENT_AND_SERVER
-        minecraftVersions.addAll(sc.properties.get<String>("mod.mc_releases").split(",").map { it.trim() })
+        minecraftVersions.addAll(sc.properties.get("mod.mc_releases").split(",").map { it.trim() })
     }
     curseforge {
         this.projectId = curseforgeId
         accessToken = curseforgeToken
         clientRequired = true
         serverRequired = true
-        minecraftVersions.addAll(sc.properties.get<String>("mod.mc_releases").split(",").map { it.trim() })
+        minecraftVersions.addAll(sc.properties.get("mod.mc_releases").split(",").map { it.trim() })
     }
 }
 
