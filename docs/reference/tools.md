@@ -12,7 +12,7 @@ These tools change, check and save the code on a sheet.
 
 The wrench takes you into the c0de dimension and moves or copies marked lines.
 
-Right-click any trigger block with the wrench. You land in front of the program of that trigger block, or in front of the first free sheet. To leave, right-click the black floor with an empty hand.
+Right-click any trigger block with the wrench. You land in front of the program of that trigger block. Without a program, you land where you left the dimension the last time, and the first time in front of the first free sheet. To leave, right-click the black floor with an empty hand.
 
 On a sheet, left-click a line that is not marked: the marked lines move in front of it. Right-click a line to copy the marked lines in front of it. In survival mode, the copied blocks come from your inventory.
 

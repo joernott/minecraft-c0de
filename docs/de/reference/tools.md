@@ -12,7 +12,7 @@ Diese Werkzeuge ändern, prüfen und speichern den Code auf einem Blatt.
 
 Der Schraubenschlüssel bringt dich in die c0de-Dimension und verschiebt oder kopiert markierte Zeilen.
 
-Klicke einen beliebigen Auslöserblock mit dem Schraubenschlüssel mit rechts an. Du landest vor dem Programm dieses Auslöserblocks oder vor dem ersten freien Blatt. Zum Verlassen klickst du den schwarzen Boden mit leerer Hand mit rechts an.
+Klicke einen beliebigen Auslöserblock mit dem Schraubenschlüssel mit rechts an. Du landest vor dem Programm dieses Auslöserblocks. Ohne Programm landest du dort, wo du die Dimension zuletzt verlassen hast, beim ersten Mal vor dem ersten freien Blatt. Zum Verlassen klickst du den schwarzen Boden mit leerer Hand mit rechts an.
 
 Klicke auf einem Blatt mit links auf eine Zeile, die nicht markiert ist: Die markierten Zeilen werden vor sie verschoben. Klicke eine Zeile mit rechts an, um die markierten Zeilen davor zu kopieren. Im Überlebensmodus kommen die kopierten Blöcke aus deinem Inventar.
 

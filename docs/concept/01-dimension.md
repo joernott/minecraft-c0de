@@ -51,8 +51,9 @@ Together with the rule for restricted functions ([Owner and permissions](12-lib-
 ## Entering and leaving the dimension
 
 A player enters the c0de dimension by right-clicking a [trigger block](13-running-programs.md#trigger-blocks) (of any kind) with a [wrench](14-items-and-tools.md#wrench). The player is teleported
-  - to the sheet of the program the trigger block is configured with, or
-  - to the first sheet that does not contain a program yet, if the trigger block is not configured or its program no longer exists.
+  - to the sheet of the program the trigger block is configured with,
+  - to the place where the player left the dimension the last time, if the trigger block is not configured or its program is on no sheet (task 18.1), or
+  - to the first sheet that does not contain a program yet, if the player has never left the dimension.
 
 The player arrives on the black floor directly north of the sheet, at the relative x coordinate 5 and z=-2, standing on the floor (y=-3) and facing south, so that the PROGRAM line is right in front of them. This also works with trigger blocks in the c0de dimension itself, to jump from one program to another.
 

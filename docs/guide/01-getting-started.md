@@ -14,7 +14,7 @@ All c0de blocks and items are crafted from vanilla materials. You don't need to 
 
 Craft a **trigger block** and a **wrench** (see [Trigger blocks](04-tools.md#trigger-blocks) and [Wrench](04-tools.md#wrench) in the chapter on tools). Place the trigger block somewhere. Then right-click it with the wrench.
 
-You are teleported into the c0de dimension. If the trigger block is not set up yet, you land in front of the first free sheet. Otherwise you land in front of the program it runs.
+You are teleported into the c0de dimension. If the trigger block is set up, you land in front of the program it runs. Otherwise you land where you left the dimension the last time, and the first time in front of the first free sheet.
 
 The dimension has no mobs, no weather and no night. The sky is always blue. To leave, right-click the black floor with an empty hand. You return to the place where you entered.
 

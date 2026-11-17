@@ -1,10 +1,13 @@
 package de.joernott.c0de.dimension;
 
 import de.joernott.c0de.C0de;
+import de.joernott.c0de.blockentity.TriggerBlockEntity;
 import de.joernott.c0de.compat.Compat;
 import de.joernott.c0de.core.sheet.SheetGeometry;
 import de.joernott.c0de.platform.Platform;
+import de.joernott.c0de.sheet.ProgramRegistry;
 import java.util.Optional;
+import java.util.OptionalInt;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -29,8 +32,9 @@ public final class C0deDimension {
     }
 
     /**
-     * Teleports the player into the c0de dimension, in front of the sheet of the program of the trigger
-     * block or of the first free sheet. The current position is stored if the player comes from another
+     * Teleports the player into the c0de dimension (task 18.1): in front of the sheet of the program of the trigger
+     * block; without a program, or if no sheet has it, to where the player left the dimension the last time; and to
+     * the first free sheet if they never left it. The current position is stored if the player comes from another
      * dimension.
      */
     public static void enter(ServerPlayer player, BlockPos triggerBlock) {
@@ -40,12 +44,29 @@ public final class C0deDimension {
             player.sendSystemMessage(Component.translatable("message.c0de.no_dimension"));
             return;
         }
+        String program = player.level().getBlockEntity(triggerBlock) instanceof TriggerBlockEntity trigger
+                ? trigger.program()
+                : "";
+        OptionalInt programSheet =
+                program.isEmpty() ? OptionalInt.empty() : ProgramRegistry.get(level).sheetOf(program);
+        ReturnPositions positions = ReturnPositions.get(Compat.server(player));
+        Optional<ReturnPositions.Position> left = positions.left(player.getUUID());
         if (!player.level().dimension().equals(LEVEL)) {
-            ReturnPositions.get(Compat.server(player)).store(player);
+            positions.store(player);
         }
-        // Trigger blocks can't be configured with a program yet (sprint 8), so the player always goes to
-        // the first free sheet.
-        int sheet = firstFreeSheet(level);
+        if (programSheet.isEmpty() && left.isPresent()) {
+            ReturnPositions.Position position = left.get();
+            Compat.teleport(
+                    player,
+                    level,
+                    position.position().x,
+                    position.position().y,
+                    position.position().z,
+                    position.yaw(),
+                    position.pitch());
+            return;
+        }
+        int sheet = programSheet.isPresent() ? programSheet.getAsInt() : firstFreeSheet(level);
         Compat.teleport(
                 player,
                 level,
@@ -61,7 +82,11 @@ public final class C0deDimension {
      * respawn point if there is none.
      */
     public static void leave(ServerPlayer player) {
-        Optional<ReturnPositions.Position> stored = ReturnPositions.get(Compat.server(player)).take(player.getUUID());
+        ReturnPositions positions = ReturnPositions.get(Compat.server(player));
+        if (player.level().dimension().equals(LEVEL)) {
+            positions.storeLeft(player);
+        }
+        Optional<ReturnPositions.Position> stored = positions.take(player.getUUID());
         if (stored.isPresent()) {
             ReturnPositions.Position position = stored.get();
             ServerLevel level = Compat.server(player).getLevel(position.dimension());

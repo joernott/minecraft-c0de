@@ -51,6 +51,16 @@ public class FabricGameTests {
     }
 
     @GameTest(template = SmokeTests.EMPTY_STRUCTURE, timeoutTicks = 100)
+    public void playerReturnsToWhereTheyLeft(GameTestHelper helper) {
+        DimensionTests.playerReturnsToWhereTheyLeft(helper);
+    }
+
+    @GameTest(template = SmokeTests.EMPTY_STRUCTURE, timeoutTicks = 100)
+    public void playerArrivesAtTheSheetOfTheProgram(GameTestHelper helper) {
+        DimensionTests.playerArrivesAtTheSheetOfTheProgram(helper);
+    }
+
+    @GameTest(template = SmokeTests.EMPTY_STRUCTURE, timeoutTicks = 100)
     public void allBlocksHaveItemsLootTablesAndRecipes(GameTestHelper helper) {
         CodeBlockTests.allBlocksHaveItemsLootTablesAndRecipes(helper);
     }

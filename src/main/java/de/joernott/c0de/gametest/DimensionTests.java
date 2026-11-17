@@ -124,4 +124,55 @@ public final class DimensionTests {
                 "The player returned to " + player.position() + " instead of " + start);
         helper.succeed();
     }
+
+    /** Task 18.1: a trigger block without a program leads to where the player left the dimension the last time. */
+    public static void playerReturnsToWhereTheyLeft(GameTestHelper helper) {
+        ServerPlayer player = helper.makeMockServerPlayerInLevel();
+        BlockPos trigger = helper.absolutePos(BlockPos.ZERO);
+        ServerLevel c0de = helper.getLevel().getServer().getLevel(C0deDimension.LEVEL);
+
+        C0deDimension.enter(player, trigger);
+        Vec3 spot = new Vec3(SheetGeometry.absoluteX(7, SheetGeometry.CODE_MIN_X) + 3.5, SheetGeometry.CODE_Y, 12.5);
+        Compat.teleport(player, c0de, spot.x, spot.y, spot.z, 90.0F, 10.0F);
+        C0deDimension.leave(player);
+
+        C0deDimension.enter(player, trigger);
+        helper.assertTrue(player.level().dimension().equals(C0deDimension.LEVEL), "The player is not in the c0de dimension");
+        helper.assertTrue(
+                player.position().distanceTo(spot) < 0.01,
+                "The player arrived at " + player.position() + " instead of where they left, " + spot);
+        helper.assertTrue(Math.abs(player.getYRot() - 90.0F) < 0.01, "The player looks to " + player.getYRot());
+        C0deDimension.leave(player);
+        helper.succeed();
+    }
+
+    /** Task 18.1: the wrench at a trigger block with a program leads to the sheet of that program. */
+    public static void playerArrivesAtTheSheetOfTheProgram(GameTestHelper helper) {
+        ServerPlayer player = helper.makeMockServerPlayerInLevel();
+        ServerLevel c0de = helper.getLevel().getServer().getLevel(C0deDimension.LEVEL);
+        int sheet = 333;
+        de.joernott.c0de.sheet.ProgramRegistry registry = de.joernott.c0de.sheet.ProgramRegistry.get(c0de);
+        registry.update(sheet, "wrenchtarget", java.util.List.of());
+        try {
+            helper.setBlock(BlockPos.ZERO, C0deBlocks.TRIGGER_BLOCK.get());
+            de.joernott.c0de.blockentity.TriggerBlockEntity trigger =
+                    (de.joernott.c0de.blockentity.TriggerBlockEntity) TestCompat.blockEntity(helper, BlockPos.ZERO);
+            trigger.configure(player, "wrenchtarget", "", 20)
+                    .ifPresent(reason -> helper.fail("The trigger block wasn't configured: " + reason));
+
+            // Also after the player left the dimension elsewhere, the program wins
+            C0deDimension.enter(player, helper.absolutePos(BlockPos.ZERO));
+            Compat.teleport(player, c0de, SheetGeometry.absoluteX(5, SheetGeometry.CODE_MIN_X) + 0.5, SheetGeometry.CODE_Y, 9.5, 0.0F, 0.0F);
+            C0deDimension.leave(player);
+            C0deDimension.enter(player, helper.absolutePos(BlockPos.ZERO));
+            Vec3 arrival = new Vec3(SheetGeometry.absoluteX(sheet, SheetGeometry.CODE_MIN_X) + 0.5, SheetGeometry.CODE_Y, -1.5);
+            helper.assertTrue(
+                    player.position().distanceTo(arrival) < 0.01,
+                    "The player arrived at " + player.position() + " instead of in front of sheet " + sheet + ", " + arrival);
+            C0deDimension.leave(player);
+        } finally {
+            registry.update(sheet, null, java.util.List.of());
+        }
+        helper.succeed();
+    }
 }

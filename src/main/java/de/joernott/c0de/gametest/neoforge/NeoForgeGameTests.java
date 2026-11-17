@@ -52,6 +52,16 @@ public class NeoForgeGameTests {
     }
 
     @GameTest(template = "empty")
+    public static void playerReturnsToWhereTheyLeft(GameTestHelper helper) {
+        DimensionTests.playerReturnsToWhereTheyLeft(helper);
+    }
+
+    @GameTest(template = "empty")
+    public static void playerArrivesAtTheSheetOfTheProgram(GameTestHelper helper) {
+        DimensionTests.playerArrivesAtTheSheetOfTheProgram(helper);
+    }
+
+    @GameTest(template = "empty")
     public static void allBlocksHaveItemsLootTablesAndRecipes(GameTestHelper helper) {
         CodeBlockTests.allBlocksHaveItemsLootTablesAndRecipes(helper);
     }

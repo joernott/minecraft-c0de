@@ -4,7 +4,7 @@ c0de comes with a few tools for writing and testing programs, and with items tha
 
 ## Wrench
 
-Right-click a [trigger block](03-running-programs.md#three-trigger-blocks) with the wrench to enter the c0de dimension. You arrive in front of the program of that trigger block, or of the first free sheet.
+Right-click a [trigger block](03-running-programs.md#three-trigger-blocks) with the wrench to enter the c0de dimension. You arrive in front of the program of that trigger block. A trigger block without a program takes you back to where you left the dimension the last time, or, the first time, to the first free sheet.
 
 On a sheet, the wrench moves and copies lines you marked with the [text marker](#text-marker). Left-click a line that is not marked: the marked lines move in front of it. The gaps close by themselves.
 

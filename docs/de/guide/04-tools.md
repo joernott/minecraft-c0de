@@ -4,7 +4,7 @@ c0de bringt ein paar Werkzeuge zum Schreiben und Testen von Programmen mit, und 
 
 ## Schraubenschlüssel
 
-Rechtsklicke mit dem Schraubenschlüssel auf einen [Auslöserblock](03-running-programs.md#drei-auslöserblöcke), um die c0de-Dimension zu betreten. Du landest vor dem Programm dieses Auslöserblocks oder vor dem ersten freien Blatt.
+Rechtsklicke mit dem Schraubenschlüssel auf einen [Auslöserblock](03-running-programs.md#drei-auslöserblöcke), um die c0de-Dimension zu betreten. Du landest vor dem Programm dieses Auslöserblocks. Ein Auslöserblock ohne Programm bringt dich dorthin zurück, wo du die Dimension zuletzt verlassen hast, beim ersten Mal vor das erste freie Blatt.
 
 Auf einem Blatt verschiebt und kopiert der Schraubenschlüssel Zeilen, die du mit dem [Textmarker](#textmarker) markiert hast. Linksklicke auf eine Zeile, die nicht markiert ist: Die markierten Zeilen wandern vor sie. Die Lücken schließen sich von selbst.
 
