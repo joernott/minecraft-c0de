@@ -841,3 +841,5 @@ OK, I triggered the rerun for c0de now.
 ## 2026-11-17 – Sprint 18
 
 yes, plan them as sprint 18
+
+where I left the dimension last time, the first sheet only if I never entered before
