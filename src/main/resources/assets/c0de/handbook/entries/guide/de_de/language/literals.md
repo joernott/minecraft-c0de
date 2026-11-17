@@ -14,7 +14,7 @@ Ein LITERAL-Block enthält einen festen Wert. In seinem Dialog wählst du den Ty
 - `'a'` für ein CHAR, `"Hello"` für einen STRING
 - `@2026-10-19T12:05:09Z` für eine TIME
 
-Im Dialog tippst du einen Text ohne Anführungszeichen. Ein `"` darin ist einfach ein Zeichen. Die Textschreibweise der Beispiele setzt einen Backslash davor: `"He said \"hi\""`. `\\` ist ein Backslash und `\n` eine neue Zeile.
+Im Dialog tippst du einen Text ohne Anführungszeichen. Ein `"` darin ist einfach ein Zeichen. Die Textschreibweise der Beispiele setzt einen Backslash davor: `"He said \"hi\""`. `\\` ist ein Backslash und `\n` eine neue Zeile. Der Dialog nimmt einen Text so, wie du ihn tippst, deshalb lässt sich kein Zeilenumbruch hineintippen: Ein Programm, das einen braucht, holt ihn sich mit [CHR](^c0de:functions/c0de_strings/chr) aus c0de/strings mit dem Code 10 und hängt ihn mit `⊕` an.
 
 **Rezepte**
 

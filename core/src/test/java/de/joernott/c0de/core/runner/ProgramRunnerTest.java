@@ -140,6 +140,32 @@ class ProgramRunnerTest {
     }
 
     @Test
+    void reportsLinesWiderThanASheet() {
+        // 26 blocks from x=6 on reach x=31; a sheet ends at x=28 (task 18.4)
+        String program = """
+                PROGRAM wide
+                NOOP
+                NOOP
+                FUNCTION main
+                    RESULT text STRING
+                BEGIN
+                    ASSIGN text "a" ⊕ "b" ⊕ "c" ⊕ "d" ⊕ "e" ⊕ "f" ⊕ "g" ⊕ "h" ⊕ "i" ⊕ "j" ⊕ "k" ⊕ "l" ;
+                END FUNCTION
+                """;
+        Map<String, Object> report = run(program, "");
+        assertEquals(false, report.get("valid"), "report: " + report);
+        List<?> problems = (List<?>) report.get("problems");
+        assertEquals(1, problems.size(), "problems: " + problems);
+        Map<?, ?> problem = (Map<?, ?>) problems.get(0);
+        assertEquals(6, problem.get("line"));
+        assertEquals("SYNTAX_ERROR_PLACEMENT", problem.get("code"));
+        assertTrue(String.valueOf(problem.get("message")).contains("x=28"), "message: " + problem.get("message"));
+
+        String fits = program.replace(" ⊕ \"k\" ⊕ \"l\"", "");
+        assertEquals(true, run(fits, "").get("valid"), "a line up to x=28 fits");
+    }
+
+    @Test
     void reportsCrashesWithTheError() {
         Map<String, Object> report = run("""
                 PROGRAM errors

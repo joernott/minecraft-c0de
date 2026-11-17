@@ -76,7 +76,7 @@ The runner prints a report as YAML:
 program: doubler
 function: twice
 valid: true
-problems: []                  # line, code and message of every problem, each once and sorted by line
+problems: []                  # line, code and message of every problem, each once and sorted by line; also lines wider than a sheet (x=28)
 run: true                     # false if the program is invalid and was only validated
 state: FINISHED               # FINISHED, CRASHED or STOPPED
 steps: 3

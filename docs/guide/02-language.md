@@ -114,7 +114,7 @@ A LITERAL block holds a fixed value. In its dialog you pick the type and enter t
 - `'a'` for a CHAR, `"Hello"` for a STRING
 - `@2026-10-19T12:05:09Z` for a TIME
 
-In the dialog, you type a text without quotes. A `"` in it is just a character. The text notation of the examples puts a backslash in front of it: `"He said \"hi\""`. `\\` is a backslash and `\n` a new line.
+In the dialog, you type a text without quotes. A `"` in it is just a character. The text notation of the examples puts a backslash in front of it: `"He said \"hi\""`. `\\` is a backslash and `\n` a new line. The dialog takes a text as you type it, so a line break can't be typed into it: a program that needs one gets it from [CHR](../reference/functions.md#chr) of c0de/strings with the code 10 and joins it in with `⊕`.
 
 ## Expressions
 

@@ -22,6 +22,7 @@ import de.joernott.c0de.core.line.Keyword;
 import de.joernott.c0de.core.line.Line;
 import de.joernott.c0de.core.line.Notation;
 import de.joernott.c0de.core.line.Sheet;
+import de.joernott.c0de.core.sheet.SheetGeometry;
 import de.joernott.c0de.core.program.Program;
 import de.joernott.c0de.core.program.ProgramParser;
 import de.joernott.c0de.core.program.Statement;
@@ -247,7 +248,10 @@ public final class ProgramRunner {
         report.put("function", options.function());
         List<Map<String, Object>> problems = new ArrayList<>();
         Validation validation = Validator.validate(sheet, withMinecraft(libraries));
-        for (Problem problem : problems(validation)) {
+        List<Problem> found = new ArrayList<>(problems(validation));
+        found.addAll(tooWide(sheet));
+        found.sort(Comparator.comparingInt(Problem::line));
+        for (Problem problem : found) {
             Map<String, Object> entry = new LinkedHashMap<>();
             entry.put("line", problem.line());
             entry.put("code", problem.code().name());
@@ -447,6 +451,27 @@ public final class ProgramRunner {
                 .forEach(problem ->
                         distinct.putIfAbsent(List.of(problem.line(), problem.code(), problem.message()), problem));
         return List.copyOf(distinct.values());
+    }
+
+    /**
+     * The lines that don't fit on a sheet (task 18.4): the game only reads the blocks from x=5 to x=28, so a longer
+     * line can't be built. The text notation has no such limit; a long expression continues on a continuation line.
+     */
+    static List<Problem> tooWide(Sheet sheet) {
+        List<Problem> problems = new ArrayList<>();
+        for (Line line : sheet.lines()) {
+            int last = line.cells().stream().mapToInt(Line.Cell::x).max().orElse(SheetGeometry.CODE_MIN_X);
+            if (last > SheetGeometry.CODE_MAX_X) {
+                problems.add(new Problem(
+                        line.z(),
+                        ErrorCode.SYNTAX_ERROR_PLACEMENT,
+                        "The line is wider than a sheet: it ends at x=" + last + ", but a sheet ends at x="
+                                + SheetGeometry.CODE_MAX_X + " (" + SheetGeometry.LINE_LENGTH
+                                + " blocks). Continue the expression on a continuation line, or split the statement",
+                        false));
+            }
+        }
+        return problems;
     }
 
     /** The libraries with c0de/minecraft without the game, unless they have it already. */
