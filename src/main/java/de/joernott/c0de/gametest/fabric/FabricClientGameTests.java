@@ -108,7 +108,15 @@ public class FabricClientGameTests implements FabricClientGameTest {
                             new de.joernott.c0de.vault.VaultMessages.Request(java.util.List.of(""), new byte[0]).bytes())));
             context.waitForScreen(de.joernott.c0de.client.PasswordScreen.class);
             context.getInput().typeChars("abc12345");
-            context.getInput().pressKey(258); // Tab (GLFW_KEY_TAB; LWJGL is not on the class path of 26.3)
+            // The field "Repeat" gets the focus directly: the key codes differ between the versions (GLFW, SDL on 26.3)
+            context.runOnClient(client -> {
+                net.minecraft.client.gui.screens.Screen screen = de.joernott.c0de.client.ClientCompat.screen();
+                java.util.List<? extends net.minecraft.client.gui.components.events.GuiEventListener> boxes =
+                        screen.children().stream()
+                                .filter(child -> child instanceof net.minecraft.client.gui.components.EditBox)
+                                .toList();
+                screen.setFocused(boxes.get(1));
+            });
             context.getInput().typeChars("abc12345");
             context.clickScreenButton("gui.ok");
             context.waitFor(client -> answers.containsKey(9001), 1200);
