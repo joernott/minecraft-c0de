@@ -130,6 +130,7 @@ The script `contrib/setup_dev_vm.sh` (task 1.8) defines the VM environment, like
 
   - `EULA=TRUE`, `TYPE=FABRIC` or `TYPE=NEOFORGE`, `VERSION=1.21.1`, loader versions pinned like in the build.
   - `contrib/itest/smoke.sh` copies the built mod jars to `contrib/docker/mods/<node>/`, which is mounted into `/mods`, and starts the servers.
+  - The VM sometimes gets no CPU from its Windows host for minutes, e.g. when Windows runs out of memory (the kernel of the VM then logs a soft lockup or RCU stalls). The Minecraft watchdog would stop the servers after such a pause, so they run with `MAX_TICK_TIME: -1` (task 18.3). Keep enough memory free on the host, and check `sudo journalctl -k | grep -i -e lockup -e rcu` on the VM when a server stopped by itself.
   - RCON is only used inside the containers: `docker compose -f contrib/docker/compose.yaml exec c0de-1.21.1-fabric rcon-cli <command>`.
   - `ONLINE_MODE=false`, so development clients from Windows can connect without a Microsoft account check; the ports are only reachable in the local network.
   - Server data is stored in volumes that the integration tests can reset.

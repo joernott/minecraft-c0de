@@ -23,6 +23,9 @@ x-server: &server
     ENABLE_COMMAND_BLOCK: "TRUE"
     # The mods directory is the only source of mods; removes jars of earlier runs
     REMOVE_OLD_MODS: "TRUE"
+    # No watchdog: the VM sometimes gets no CPU from its host for minutes (kernel: soft lockup, RCU stalls), and
+    # the watchdog then stops the server as if a tick took that long (task 18.3)
+    MAX_TICK_TIME: "-1"
   tty: true
   stdin_open: true
 
