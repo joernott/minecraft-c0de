@@ -141,7 +141,7 @@ public class FabricClientGameTests implements FabricClientGameTest {
             if (answers.containsKey(9002)) {
                 throw new AssertionError("A wrong password of the same length answered " + answers.get(9002).status());
             }
-            if (!context.computeOnClient(client -> client.screen instanceof de.joernott.c0de.client.PasswordScreen)) {
+            if (!context.computeOnClient(client -> de.joernott.c0de.client.ClientCompat.screen() instanceof de.joernott.c0de.client.PasswordScreen)) {
                 throw new AssertionError("The dialog closed after a wrong password");
             }
             screenshot(context, "c0de-vault-wrong-password");
@@ -151,7 +151,7 @@ public class FabricClientGameTests implements FabricClientGameTest {
             if (!de.joernott.c0de.vault.VaultMessages.OK.equals(answers.get(9002).status())) {
                 throw new AssertionError("The right password answered " + answers.get(9002).status());
             }
-            context.waitFor(client -> !(client.screen instanceof de.joernott.c0de.client.PasswordScreen), 100);
+            context.waitFor(client -> !(de.joernott.c0de.client.ClientCompat.screen() instanceof de.joernott.c0de.client.PasswordScreen), 100);
         } finally {
             de.joernott.c0de.client.VaultClient.listenForTests(null);
             context.runOnClient(client -> de.joernott.c0de.client.VaultClient.forget());
