@@ -2,6 +2,14 @@
 
 All notable changes of the c0de mod. The section of a version is also its changelog on Modrinth.
 
+## 0.6.2
+
+Fixes found while the screenshots of c0de.at were taken.
+
+- **Persistent vault – please read**: the password dialog cleared the typed password before the game had encrypted the vault with it. A persistent vault created through the dialog in 0.6.0 or 0.6.1 is therefore not protected by the password you typed, and since this version it can't be opened any more. If OPEN_VAULT says that your password is wrong although it is right, ask an administrator to delete your vault, the file `world/data/c0de_vaults/<your UUID>.kdbx` on the server, and create it again with CREATE_VAULT. Its secrets are lost; keep keys you need somewhere else until then. Vaults created with the parameter `password` are not affected.
+- **Wrong passwords**: after a wrong password, the dialog of OPEN_VAULT stays open and says so.
+- **The wrench**: right-clicking a trigger block with the wrench leads in front of the sheet of its program again. A trigger block without a program leads to where you left the dimension the last time, and to the first free sheet only the first time.
+
 ## 0.6.1
 
 Handbooks for every mod, and corrections of the documentation.

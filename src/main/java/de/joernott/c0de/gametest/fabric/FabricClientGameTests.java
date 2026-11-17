@@ -37,6 +37,7 @@ public class FabricClientGameTests implements FabricClientGameTest {
             blocksHaveTheirTextures(context, world);
             triggerDialogOpens(context, world);
             terminalOpens(context, world);
+            vaultPasswordDialog(context);
             handbooksOpen(context);
         }
     }
@@ -90,6 +91,71 @@ public class FabricClientGameTests implements FabricClientGameTest {
         context.waitTicks(5);
         screenshot(context, "c0de-terminal");
         context.setScreen(() -> null);
+    }
+
+    /^*
+     * The password dialog of the persistent vault (task 18.2): a vault created through the dialog opens with the typed
+     * password and not with a cleared one, and a wrong password of the same length keeps the dialog open; the right one
+     * opens the vault. The requests come as from the server; the answers are seen through the test listener.
+     ^/
+    private static void vaultPasswordDialog(ClientGameTestContext context) {
+        java.util.Map<Integer, de.joernott.c0de.vault.VaultMessages.Answer> answers =
+                new java.util.concurrent.ConcurrentHashMap<>();
+        de.joernott.c0de.client.VaultClient.listenForTests(answers::put);
+        try {
+            context.runOnClient(client -> de.joernott.c0de.client.VaultClient.receive(
+                    new de.joernott.c0de.network.VaultRequestPayload(9001, "create",
+                            new de.joernott.c0de.vault.VaultMessages.Request(java.util.List.of(""), new byte[0]).bytes())));
+            context.waitForScreen(de.joernott.c0de.client.PasswordScreen.class);
+            context.getInput().typeChars("abc12345");
+            context.getInput().pressKey(org.lwjgl.glfw.GLFW.GLFW_KEY_TAB);
+            context.getInput().typeChars("abc12345");
+            context.clickScreenButton("gui.ok");
+            context.waitFor(client -> answers.containsKey(9001), 1200);
+            de.joernott.c0de.vault.VaultMessages.Answer created = answers.get(9001);
+            if (!de.joernott.c0de.vault.VaultMessages.OK.equals(created.status())) {
+                throw new AssertionError("Creating the vault: " + created.status() + " " + created.message());
+            }
+            try {
+                de.joernott.c0de.vault.VaultFile.open(created.file(), "abc12345".toCharArray()).close();
+            } catch (Exception e) {
+                throw new AssertionError("The new vault doesn't open with the typed password: " + e.getMessage(), e);
+            }
+            try {
+                de.joernott.c0de.vault.VaultFile.open(created.file(), new char[8]).close();
+                throw new AssertionError("The new vault opens with a cleared password");
+            } catch (de.joernott.c0de.vault.VaultFile.WrongPasswordException expected) {
+                // as it should be
+            } catch (Exception e) {
+                throw new AssertionError("Opening with a cleared password: " + e.getMessage(), e);
+            }
+
+            context.runOnClient(client -> de.joernott.c0de.client.VaultClient.receive(
+                    new de.joernott.c0de.network.VaultRequestPayload(9002, "open",
+                            new de.joernott.c0de.vault.VaultMessages.Request(java.util.List.of(""), created.file()).bytes())));
+            context.waitForScreen(de.joernott.c0de.client.PasswordScreen.class);
+            context.getInput().typeChars("wrong123");
+            context.clickScreenButton("gui.ok");
+            // Argon2 takes a moment; the dialog must stay open and say that the password is wrong
+            context.waitTicks(200);
+            if (answers.containsKey(9002)) {
+                throw new AssertionError("A wrong password of the same length answered " + answers.get(9002).status());
+            }
+            if (!context.computeOnClient(client -> client.screen instanceof de.joernott.c0de.client.PasswordScreen)) {
+                throw new AssertionError("The dialog closed after a wrong password");
+            }
+            screenshot(context, "c0de-vault-wrong-password");
+            context.getInput().typeChars("abc12345");
+            context.clickScreenButton("gui.ok");
+            context.waitFor(client -> answers.containsKey(9002), 1200);
+            if (!de.joernott.c0de.vault.VaultMessages.OK.equals(answers.get(9002).status())) {
+                throw new AssertionError("The right password answered " + answers.get(9002).status());
+            }
+            context.waitFor(client -> !(client.screen instanceof de.joernott.c0de.client.PasswordScreen), 100);
+        } finally {
+            de.joernott.c0de.client.VaultClient.listenForTests(null);
+            context.runOnClient(client -> de.joernott.c0de.client.VaultClient.forget());
+        }
     }
 
     /^*

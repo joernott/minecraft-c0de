@@ -5,6 +5,7 @@ import de.joernott.c0de.network.VaultResponsePayload;
 import de.joernott.c0de.platform.Platform;
 import de.joernott.c0de.vault.VaultFile;
 import de.joernott.c0de.vault.VaultMessages;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
@@ -73,6 +74,9 @@ public final class VaultClient {
                         return new Created(file, file.bytes());
                     } catch (Exception e) {
                         return new Created(null, null);
+                    } finally {
+                        // The vault keeps its own copy; the dialog handed this one over (task 18.2)
+                        Arrays.fill(password, '\0');
                     }
                 }, VaultFile.EXECUTOR)
                 .thenAcceptAsync(
@@ -126,6 +130,9 @@ public final class VaultClient {
                         return Boolean.FALSE;
                     } catch (Exception e) {
                         return String.valueOf(e.getMessage());
+                    } finally {
+                        // The vault keeps its own copy; the dialog handed this one over (task 18.2)
+                        Arrays.fill(password, '\0');
                     }
                 }, VaultFile.EXECUTOR)
                 .thenAcceptAsync(
@@ -171,7 +178,18 @@ public final class VaultClient {
                         Minecraft.getInstance());
     }
 
+    /** The client GameTests see the answers (task 18.2); null in the game. */
+    private static java.util.function.BiConsumer<Integer, VaultMessages.Answer> testListener;
+
+    /** For the client GameTests: gets every answer of the client, or null to stop. */
+    public static void listenForTests(java.util.function.BiConsumer<Integer, VaultMessages.Answer> listener) {
+        testListener = listener;
+    }
+
     private static void answer(int request, VaultMessages.Answer answer) {
+        if (testListener != null) {
+            testListener.accept(request, answer);
+        }
         for (VaultResponsePayload part : answer.payloads(request)) {
             Platform.INSTANCE.sendToServer(part);
         }

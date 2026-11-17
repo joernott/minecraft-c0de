@@ -845,3 +845,5 @@ yes, plan them as sprint 18
 where I left the dimension last time, the first sheet only if I never entered before
 
 start with sprint 18
+
+Old vaults of 0.6.0 and 0.6.1 (asked with a question): No repair

@@ -1,6 +1,5 @@
 package de.joernott.c0de.client;
 
-import java.util.Arrays;
 import java.util.function.Consumer;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
@@ -111,9 +110,9 @@ public class PasswordScreen extends Screen {
         working = true;
         message = Component.translatable("dialog.c0de.vault.working");
         updateOk();
-        char[] chars = password.text.toCharArray();
-        onPassword.accept(chars);
-        Arrays.fill(chars, '\0');
+        // The receiver owns the array and clears it when it is done: the vault is encrypted and decrypted on another
+        // thread, which would otherwise read a cleared password (task 18.2)
+        onPassword.accept(password.text.toCharArray());
     }
 
     private void cancel() {
