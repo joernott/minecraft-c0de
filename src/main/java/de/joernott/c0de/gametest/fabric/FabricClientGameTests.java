@@ -108,7 +108,7 @@ public class FabricClientGameTests implements FabricClientGameTest {
                             new de.joernott.c0de.vault.VaultMessages.Request(java.util.List.of(""), new byte[0]).bytes())));
             context.waitForScreen(de.joernott.c0de.client.PasswordScreen.class);
             context.getInput().typeChars("abc12345");
-            context.getInput().pressKey(org.lwjgl.glfw.GLFW.GLFW_KEY_TAB);
+            context.getInput().pressKey(258); // Tab (GLFW_KEY_TAB; LWJGL is not on the class path of 26.3)
             context.getInput().typeChars("abc12345");
             context.clickScreenButton("gui.ok");
             context.waitFor(client -> answers.containsKey(9001), 1200);
