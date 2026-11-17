@@ -9,6 +9,8 @@ Fixes found while the screenshots of c0de.at were taken.
 - **Persistent vault – please read**: the password dialog cleared the typed password before the game had encrypted the vault with it. A persistent vault created through the dialog in 0.6.0 or 0.6.1 is therefore not protected by the password you typed, and since this version it can't be opened any more. If OPEN_VAULT says that your password is wrong although it is right, ask an administrator to delete your vault, the file `world/data/c0de_vaults/<your UUID>.kdbx` on the server, and create it again with CREATE_VAULT. Its secrets are lost; keep keys you need somewhere else until then. Vaults created with the parameter `password` are not affected.
 - **Wrong passwords**: after a wrong password, the dialog of OPEN_VAULT stays open and says so.
 - **The wrench**: right-clicking a trigger block with the wrench leads in front of the sheet of its program again. A trigger block without a program leads to where you left the dimension the last time, and to the first free sheet only the first time.
+- **Line breaks**: a text typed in the dialog of a literal can't hold a line break; the guide and the reference show how to get one with CHR 10.
+- **Program runner**: it reports lines that are wider than a sheet (they end at x=28), which the game can't build.
 
 ## 0.6.1
 
