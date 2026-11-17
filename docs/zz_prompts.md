@@ -837,3 +837,7 @@ I pushed 0.6.1 yesterday night. Please start with the sprint in c0de-net. As I w
 ## 2026-11-16 – Rerun of the release of 0.6.1
 
 OK, I triggered the rerun for c0de now.
+
+## 2026-11-17 – Sprint 18
+
+yes, plan them as sprint 18
