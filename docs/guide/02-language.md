@@ -61,8 +61,11 @@ Complex types:
 - HASH: values stored under text keys
 - [STRUCT](#structs): your own type with named elements
 - ERROR: an error with code, message, context and line
+- TYPE: a type of a library of another mod, like the canvas of c0de paint
 
-ARRAY and HASH are followed by the type of their content, like `ARRAY INTEGER`. A STRUCT type is followed by a LABEL with the struct name. Arrays and hashes grow and shrink by themselves.
+ARRAY and HASH are followed by the type of their content, like `ARRAY INTEGER`. A STRUCT type is followed by a LABEL with the struct name, a TYPE by a LABEL with the full name of the library type, like `TYPE c0de_paint/cpaint/CANVAS`. Arrays and hashes grow and shrink by themselves.
+
+A value of a library type can't be looked into. You keep it in variables and hand it to the functions of its library. It has no literal, and there are no constants of it.
 
 ## Variables and constants
 

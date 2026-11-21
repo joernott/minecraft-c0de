@@ -120,12 +120,20 @@ SPECIAL_ICONS = {
     "disk_drive": lambda: mod_texture("c0de:block/disk_drive_front"),
 }
 
+# Items of Minecraft without an item texture: the decorated pot is an entity model, so the drawn pot of the TYPE
+# block stands for it
+MINECRAFT_ICONS = {
+    "decorated_pot": lambda: mod_texture("c0de:block/type_library_block_symbol"),
+}
+
 
 def icon(item: str):
     """The icon of an item: its item texture, or the top and the symbol of its block."""
     namespace, name = item.split(":")
     if namespace == "c0de" and name in SPECIAL_ICONS:
         return SPECIAL_ICONS[name]()
+    if namespace == "minecraft" and name in MINECRAFT_ICONS:
+        return MINECRAFT_ICONS[name]()
     if namespace == "minecraft":
         for path in ("item/" + name, "block/" + name, "block/" + name + "_top", "block/" + name + "_front",
                      "block/" + name + "_side", "item/" + name + "_00"):

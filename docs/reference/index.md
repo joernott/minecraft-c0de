@@ -6,7 +6,7 @@ The handbooks of c0de: one page per block, item and function, each with a descri
 
 Binder: crafted from a book and type base.
 
-- **Types**: [Type base](data.md#type-base), [TYPE_BOOLEAN](data.md#type_boolean), [TYPE_INTEGER](data.md#type_integer), [TYPE_FLOAT](data.md#type_float), [TYPE_CHAR](data.md#type_char), [TYPE_STRING](data.md#type_string), [TYPE_ARRAY](data.md#type_array), [TYPE_HASH](data.md#type_hash), [TYPE_STRUCT](data.md#type_struct), [TYPE_TIME](data.md#type_time), [TYPE_ERROR](data.md#type_error)
+- **Types**: [Type base](data.md#type-base), [TYPE_BOOLEAN](data.md#type_boolean), [TYPE_INTEGER](data.md#type_integer), [TYPE_FLOAT](data.md#type_float), [TYPE_CHAR](data.md#type_char), [TYPE_STRING](data.md#type_string), [TYPE_ARRAY](data.md#type_array), [TYPE_HASH](data.md#type_hash), [TYPE_STRUCT](data.md#type_struct), [TYPE_TIME](data.md#type_time), [TYPE_ERROR](data.md#type_error), [TYPE_LIBRARY](data.md#type_library)
 - **Values and names**: [LABEL](data.md#label), [LITERAL](data.md#literal), [VARIABLE](data.md#variable), [CONSTANT](data.md#constant), [SECRET](data.md#secret), [TAG](data.md#tag)
 
 ## [Statements](statements.md)

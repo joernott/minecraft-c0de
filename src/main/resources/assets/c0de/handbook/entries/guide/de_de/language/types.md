@@ -22,8 +22,11 @@ Komplexe Typen:
 - HASH: Werte, die unter Textschlüsseln gespeichert sind
 - STRUCT: dein eigener Typ mit benannten Elementen
 - ERROR: ein Fehler mit Code, Meldung, Kontext und Zeile
+- TYPE: ein Typ einer Bibliothek einer anderen Mod, wie die Leinwand von c0de paint
 
-Auf ARRAY und HASH folgt der Typ ihres Inhalts, zum Beispiel `ARRAY INTEGER`. Auf einen STRUCT-Typ folgt ein LABEL mit dem Namen der Struktur. Arrays und Hashes wachsen und schrumpfen von selbst.
+Auf ARRAY und HASH folgt der Typ ihres Inhalts, zum Beispiel `ARRAY INTEGER`. Auf einen STRUCT-Typ folgt ein LABEL mit dem Namen der Struktur, auf TYPE ein LABEL mit dem vollen Namen des Bibliothekstyps, zum Beispiel `TYPE c0de_paint/cpaint/CANVAS`. Arrays und Hashes wachsen und schrumpfen von selbst.
+
+In einen Wert eines Bibliothekstyps kannst du nicht hineinsehen. Du bewahrst ihn in Variablen auf und gibst ihn den Funktionen seiner Bibliothek. Es gibt kein Literal und keine Konstanten von ihm.
 
 **Rezepte**
 

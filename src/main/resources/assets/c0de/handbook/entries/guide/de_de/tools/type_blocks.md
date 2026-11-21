@@ -19,6 +19,7 @@ Typblöcke sind rote Stufen. Jeder wird aus einer Typbasis und einem Gegenstand 
 - STRUCT: Gerüst
 - TIME: Uhr
 - ERROR: Lagerfeuer
+- [TYPE](^language/types) (Bibliothekstypen): verzierter Krug
 
 [VARIABLE](^language/variables_and_constants) ist eine Typbasis und ein Knochenblock. CONSTANT ist eine Typbasis und drei Knochen.
 

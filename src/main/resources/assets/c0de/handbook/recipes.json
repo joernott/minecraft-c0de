@@ -1706,6 +1706,25 @@
     "result": "c0de:type_integer_item",
     "count": 1
   },
+  "c0de:type_library_block": {
+    "slots": [
+      [
+        "c0de:type_base"
+      ],
+      [
+        "minecraft:decorated_pot"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "result": "c0de:type_library_block",
+    "count": 1
+  },
   "c0de:type_string_block": {
     "slots": [
       [

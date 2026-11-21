@@ -161,6 +161,7 @@ Type blocks are red slabs. Each is crafted from a type base and an item, in any 
 - [STRUCT](02-language.md#structs): scaffolding
 - TIME: clock
 - ERROR: campfire
+- [TYPE](02-language.md#types) (library types): decorated pot
 
 [VARIABLE](02-language.md#variables-and-constants) is a type base and a bone block. CONSTANT is a type base and three bones.
 
