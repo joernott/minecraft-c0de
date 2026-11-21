@@ -105,7 +105,17 @@ class CursorLibraryTypeTest {
                             List.of("result"),
                             call -> NativeResult.of(integer(((Counter) call.argument("counter")).count()))),
                     "WAIT",
-                    new NativeFunction("WAIT", List.of(), List.of(), call -> NativeResult.waitSteps(3)));
+                    new NativeFunction("WAIT", List.of(), List.of(), call -> NativeResult.waitSteps(3)),
+                    "PARTS",
+                    new NativeFunction("PARTS", List.of(), List.of("result"), call -> {
+                        // Three parts, one per step; the result is the number of the last part
+                        int part = call.state() == null ? 1 : (Integer) call.state() + 1;
+                        if (part < 3) {
+                            call.setState(part);
+                            return NativeResult.waitForValue();
+                        }
+                        return NativeResult.of(integer(part));
+                    }));
         }
     };
 
@@ -270,6 +280,20 @@ class CursorLibraryTypeTest {
                 () -> CursorSnapshot.restore(
                         data, program, CursorTestSupport.settings(new LibraryRegistry().add(new StringsLibrary()))));
         assertSame(ErrorCode.UNKNOWN_LIBRARY, missing.code());
+    }
+
+    @Test
+    void functionsKeepTheirProgressWhileTheCursorStaysOnTheCall() {
+        Map<String, Value> results = finished(runMain("""
+                    FOR i INTEGER 1 ; 2 ; 1 ;
+                    BEGIN
+                        VARIABLE parts INTEGER
+                        CALL test/memo/PARTS
+                            RESULT result parts
+                        ASSIGN log log ⊕ parts ;
+                    END FOR
+                """, "    RESULT log STRING\n"));
+        assertEquals(string("33"), results.get("log"), "the second call starts again with the first part");
     }
 
     @Test

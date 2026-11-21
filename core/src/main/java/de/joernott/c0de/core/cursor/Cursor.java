@@ -827,14 +827,22 @@ public final class Cursor {
                         "The parameter " + declared.name() + " of " + entry.name() + " is missing");
             }
         }
+        if (callStateLine != call.line()) {
+            callState = null;
+        }
+        callStateLine = call.line();
         NativeResult result;
         try {
             result = function.implementation().call(new Call(function, arguments, tags, labels, references, sensitive));
         } catch (C0deException e) {
+            callState = null;
             if (e.crash()) {
                 throw e;
             }
             result = NativeResult.error(e.code().code(), e.getMessage());
+        }
+        if (!result.retry()) {
+            callState = null;
         }
         if (result.retry()) {
             line = call.line();
@@ -984,6 +992,11 @@ public final class Cursor {
 
     // -------------------------------------------------------------------------------- native functions
 
+    /** The progress of a native function that works in parts, kept while the cursor stays on its CALL line. */
+    private Object callState;
+
+    private int callStateLine = -1;
+
     private final class Call implements NativeCall {
         private final NativeFunction function;
         private final Map<String, Value> arguments;
@@ -1046,6 +1059,16 @@ public final class Cursor {
         @Override
         public ProcessContext process() {
             return process;
+        }
+
+        @Override
+        public Object state() {
+            return callState;
+        }
+
+        @Override
+        public void setState(Object state) {
+            callState = state;
         }
     }
 

@@ -40,4 +40,17 @@ public interface NativeCall {
 
     /** The process that calls the function. */
     ProcessContext process();
+
+    /**
+     * The progress of a function that does its work in parts (since c0de 0.7.0): the object last given to
+     * {@link #setState} while the cursor stayed on this CALL line, returning {@link NativeResult#waitForValue()}.
+     * Null on the first call, after the function returned anything else, and after a restart of the server, as
+     * the state isn't saved.
+     */
+    default Object state() {
+        return null;
+    }
+
+    /** Keeps the progress of the function for its next call on the same CALL line (see {@link #state()}). */
+    default void setState(Object state) {}
 }
