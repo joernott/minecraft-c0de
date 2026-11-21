@@ -21,13 +21,13 @@ Every statement is an object with the property `keyword`. Statements that have a
 | NOOP | – |
 | COMMENT | A comment line: `text`, `disabled` (optional) |
 | STRUCT | `name`, `code`: one ELEMENT object per element |
-| VARIABLE, CONSTANT | `name`, `type`, `subtype` (ARRAY and HASH), `struct` (struct name, if the type or subtype is STRUCT), `length` (STRING length limit), `value` (simple types and STRING), `code` (initializer of an ARRAY, HASH or STRUCT), `tags` (e.g. `{json: server.port}` or `{security: sensitive}`) |
+| VARIABLE, CONSTANT | `name`, `type`, `subtype` (ARRAY and HASH), `struct` (struct name, if the type or subtype is STRUCT), `typename` (the full name of a library type, if the type or subtype is TYPE), `length` (STRING length limit), `value` (simple types and STRING), `code` (initializer of an ARRAY, HASH or STRUCT), `tags` (e.g. `{json: server.port}` or `{security: sensitive}`) |
 | SECRET | `name`, `type` (a simple type or STRING), `length` (STRING length limit); the value comes from the vault ([Secrets in programs](20-lib-security.md#secrets-in-programs)) |
-| ELEMENT | Element of a struct declaration: `name`, `type`, `subtype`, `struct`, `tags`. Element of a hash or struct initializer: `name` (key or element name) and `value` or a nested `code` |
+| ELEMENT | Element of a struct declaration: `name`, `type`, `subtype`, `struct`, `typename`, `tags`. Element of a hash or struct initializer: `name` (key or element name) and `value` or a nested `code` |
 | LITERAL | Line of an array initializer: `values` (an array of values) or a nested `code` for a nested initializer |
 | FUNCTION | `name`, `parameters`, `results`, `code` |
-| PARAMETER | In a FUNCTION: `name`, `type`, `subtype`, `struct`, `value` (default value). In a CALL: `name`, `expression` |
-| RESULT | In a FUNCTION: `name`, `type`, `subtype`, `struct`. In a CALL: `name`, `target` |
+| PARAMETER | In a FUNCTION: `name`, `type`, `subtype`, `struct`, `typename`, `value` (default value). In a CALL: `name`, `expression` |
+| RESULT | In a FUNCTION: `name`, `type`, `subtype`, `struct`, `typename`. In a CALL: `name`, `target` |
 | CALL | `name` (function name), `error` (error label, optional), `parameters`, `results` |
 | RETURN | `name` (error label, optional) |
 | ASSIGN | `name` (target, with index), `expression` |

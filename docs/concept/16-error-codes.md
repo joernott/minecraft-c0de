@@ -20,7 +20,7 @@
 | 112 | SYNTAX_ERROR_LOOP | crash | A part of a FOR, EACH, WHILE or REPEAT statement is wrong. |
 | 113 | SYNTAX_ERROR_EXPRESSION | crash | An expression is malformed. |
 | 114 | SYNTAX_ERROR_EXIT | crash | An EXIT statement has no expression. |
-| 200 | UNKNOWN_LIBRARY | crash | An included library does not exist. |
+| 200 | UNKNOWN_LIBRARY | crash | An included library does not exist, or a cursor saved with a value of a library type is loaded without the mod of that library. |
 | 201 | BROKEN_LIBRARY | crash | A library could not be read or does not contain the required elements. |
 | 202 | UNKNOWN_FUNCTION | crash | A called function or the entry function is not known (yet). |
 | 203 | STACK_OVERFLOW | crash | The stack of the cursor is full and a new item was pushed onto it. |
@@ -28,7 +28,7 @@
 | 205 | INVALID_EXIT_CODE | crash | The value of an EXIT expression is not an INTEGER between 0 and 15. |
 | 206 | PROCESS_ABORTED | crash | A player aborted the process with the debugging tool (shift-right-click on its PID block). |
 | 300 | UNKNOWN_NAME | raise | A label refers to a variable or constant that is not in scope. |
-| 301 | UNKNOWN_STRUCT_ENTITY | raise | A declaration references a struct that has not been declared (yet), or an index references an element the struct does not have. Raised when it occurs at run time, crash when it occurs in a declaration. |
+| 301 | UNKNOWN_STRUCT_ENTITY | raise | A declaration references a struct that has not been declared (yet) or a library type that no included library defines, or an index references an element the struct does not have. Raised when it occurs at run time, crash when it occurs in a declaration. |
 | 302 | TYPE_MISMATCH | raise | A value does not have the type required at this place. |
 | 303 | DIVISION_BY_ZERO | raise | A division or modulus by 0. |
 | 304 | NUMERIC_OVERFLOW | raise | An INTEGER result does not fit into 64 bits, e.g. ABS of the smallest INTEGER, DIV of the smallest INTEGER by -1, or INT, FIX or ROUND of a number too big for an INTEGER. |

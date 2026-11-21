@@ -1,6 +1,6 @@
 # Writing c0de libraries in other mods
 
-c0de programs use libraries with `INCLUDE mod/library`, e.g. `INCLUDE c0de/minecraft`. Other mods can add their own libraries: functions written in Java that c0de programs call with `CALL mymod/robots/COUNT`, constants they can read and struct types they can use. This page shows how to write such a library and register it with c0de.
+c0de programs use libraries with `INCLUDE mod/library`, e.g. `INCLUDE c0de/minecraft`. Other mods can add their own libraries: functions written in Java that c0de programs call with `CALL mymod/robots/COUNT`, constants they can read, and struct types and library types they can use. This page shows how to write such a library and register it with c0de.
 
 ## Overview
 
@@ -175,6 +175,33 @@ The values of c0de are in `de.joernott.c0de.core.value`: `BooleanValue` (`Boolea
 
 Struct types of a library are `StructDefinition`s named with the library, e.g. `mymod/robots/ROBOT`. Programs declare variables of them with `VARIABLE robot STRUCT mymod/robots/ROBOT`.
 
+## Library types
+
+Since c0de 0.7.0, a library can also define **library types**: values that programs keep in variables and pass to your functions, but can't look into, like the canvases of c0de paint. Programs declare them with the TYPE block: `VARIABLE memory TYPE mymod/robots/MEMORY` ([Library type](concept/04-data.md#library-type)).
+
+A library type consists of two parts:
+
+- **The type,** a `de.joernott.c0de.core.value.LibraryType`:
+  - `name()`: the full name, e.g. `mymod/robots/MEMORY`.
+  - `defaultValue()`: the value of a new variable.
+  - `save(value)` and `load(text)`: turn a value into a compact text and back, e.g. Base64 of compressed bytes. c0de saves the values with the cursor, so that a process keeps them over a restart of the server.
+- **The values,** classes that implement `de.joernott.c0de.core.value.LibraryValue`:
+  - `libraryType()`: their type.
+  - `copy()`: c0de copies values on every assignment. Make the copy cheap with copy on write, so that a large value is only copied when one of the copies changes.
+  - `text()`: a short description for SAY, displays and the debugger, e.g. `MEMORY 12 entries`.
+  - `equals` and `hashCode`: the comparison of `=` and `<>`.
+
+The library returns its types from `libraryTypes()`, next to its struct types from `types()`:
+
+```java
+@Override
+public Map<String, LibraryType> libraryTypes() {
+    return Map.of("MEMORY", Memory.TYPE);
+}
+```
+
+Functions name the type in their parameter types, e.g. `"TYPE mymod/robots/MEMORY"`, and check it with `value instanceof Memory`. A function that changes a value takes it as a reference parameter (`NativeFunction.Parameter.reference`) and sets the changed value through `call.reference(name)`.
+
 ## Errors
 
 A function reports an error by throwing `C0deException.of(code, message)` with an `ErrorCode`, e.g. `ErrorCode.INVALID_ARGUMENT` or `ErrorCode.PERMISSION_DENIED`. The error is raised at the CALL statement: a program catches it with an error label (`CALL mymod/robots/COUNT problem`), otherwise the function that contains the CALL ends with it. Use the codes of c0de where they fit ([error codes](concept/16-error-codes.md)); for errors of your own, use codes from 1000 on.
@@ -184,6 +211,8 @@ A function reports an error by throwing `C0deException.of(code, message)` with a
 A function must not block the server. If it starts something that takes time, it returns `NativeResult.waitSteps(n)`: the cursor waits `n` steps (one step per tick) and then continues with the next line. To check later whether the work is done, offer a second function that the program calls in a loop.
 
 If the function waits for something it can't predict, it returns `NativeResult.waitForValue()`: no results are delivered, the cursor stays on the CALL line and calls the function again in the next step, with the PARAMETER expressions evaluated again, until it returns something else. INPUT uses this while it waits for a value, WRITE while no I/O block has an uninitialized variable item. Each call must still return quickly.
+
+Work that takes many ticks, like rotating a large canvas, is split into parts: the function does one part per call and returns `waitForValue()` until the last part is done. It keeps its progress with `call.state()` and `call.setState(object)`: an object that c0de keeps while the cursor stays on the CALL line and drops when the cursor continues. The state is not saved; after a restart of the server, the function starts the work again from the beginning, so a function should only change its reference parameters with the last part.
 
 ## The world and permissions
 

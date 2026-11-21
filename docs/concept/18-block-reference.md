@@ -25,6 +25,7 @@ The language blocks are as high as a slab. Most of them are slabs with their sym
 | TYPE_ARRAY | red | a barrel lies on the top, the item it is crafted from | type base + barrel |
 | TYPE_HASH | red | a chest lies on the top, the item it is crafted from | type base + chest or trapped chest |
 | TYPE_STRUCT | red | a scaffolding block lies on the top, the item it is crafted from | type base + scaffolding |
+| TYPE_LIBRARY | red | a decorated pot lies on the top, the item it is crafted from | type base + decorated pot |
 | TYPE_TIME | red | a clock lies on the top, the item it is crafted from | type base + clock |
 | TYPE_ERROR | red | a campfire lies on the top, the item it is crafted from | type base + campfire |
 | VARIABLE | blue | shape: a blue chest, as high as a slab | type base + bone block; CONSTANT |

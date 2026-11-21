@@ -866,3 +866,9 @@ Review of the concept of the new repository minecraft-c0de-paint, which needs li
 2: Yes
 3: This should be a configurable number. The default should be to use the players mining speed (1), but higher numbers allow for greater speed. Setting this to 0 would be as fast as a player breaks blocks in creative.
 4: That sounds fine. Make sure to also add a task for update the documentation for c0de in www-code for both c0de and paint
+
+## 2026-11-21 – Sprint 19: library types
+
+push both and start c0de sprint 19, please test task 17.7. A Windows update on my machine drastically slowed down the VM and some other operations, so the performance of the VM should be better. If the test is only flaky on Github, please disregard that as github runners frequently have performance problems when their servers are crowded.
+
+Answer to the question about the type block of library types: a new TYPE block (instead of reusing TYPE_STRUCT).

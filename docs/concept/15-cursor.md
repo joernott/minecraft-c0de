@@ -129,7 +129,7 @@ When a cursor reaches a line starting with a VARIABLE block, it creates a new va
 
 The LABEL MUST be directly followed by a type block, which sets the type property of the variable item. If the type is missing, the cursor crashes with SYNTAX_ERROR_VARIABLE.
 
-If the type is ARRAY or HASH, another type block MUST directly follow the first one. It sets the subtype of the array or hash. If the subtype is missing, the cursor crashes with SYNTAX_ERROR_VARIABLE. If the type or subtype is STRUCT, a LABEL with the name of a known struct MUST directly follow; if it is missing, the cursor crashes with SYNTAX_ERROR_VARIABLE, if the struct is unknown, with UNKNOWN_STRUCT_ENTITY.
+If the type is ARRAY or HASH, another type block MUST directly follow the first one. It sets the subtype of the array or hash. If the subtype is missing, the cursor crashes with SYNTAX_ERROR_VARIABLE. If the type or subtype is STRUCT, a LABEL with the name of a known struct MUST directly follow; if it is missing, the cursor crashes with SYNTAX_ERROR_VARIABLE, if the struct is unknown, with UNKNOWN_STRUCT_ENTITY. The same applies to the TYPE block of a [library type](04-data.md#library-type) and the name of the type; a library type can't be initialized, so a LITERAL or initializer after it crashes the cursor with SYNTAX_ERROR_VARIABLE.
 
 If the type of the variable is STRING, an INTEGER LITERAL MAY directly follow the type block to limit its length.
 

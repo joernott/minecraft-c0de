@@ -124,6 +124,24 @@ Elements of a struct value are accessed by the index of a label, e.g. `position.
 
 A TYPE_STRUCT block is a red slab; lying on its top, as if in an invisible item frame, is a scaffolding block. It can be crafted shapelessly from a type base and a scaffolding block.
 
+#### Library type
+
+A library can define types of its own besides structs, e.g. the canvases of c0de paint (`c0de_paint/cpaint/CANVAS`). A value of a library type is opaque: it has no elements and no index, and a program works with it only through the functions of its library. The TYPE keyword is used like STRUCT when a struct type is used: in a VARIABLE, PARAMETER, RESULT or element declaration and as subtype of an ARRAY or HASH, the TYPE block MUST be directly followed by a LABEL containing the full name of a library type of an included library, e.g. `VARIABLE canvas TYPE c0de_paint/cpaint/CANVAS`. An unknown name raises UNKNOWN_STRUCT_ENTITY.
+
+A library type works like every other type:
+  - Its values are copied on every assignment, as parameters and as results. The library makes the copies cheap (copy on write).
+  - Its default value is defined by the library, e.g. an empty canvas. A variable of a library type can't be initialized with a literal or an initializer code block, and there are no constants of library types (SYNTAX_ERROR_VARIABLE, SYNTAX_ERROR_CONSTANT).
+  - Two values of the same library type can be compared with `=` and `<>`. All other operators raise TYPE_MISMATCH, as does a value of another type where the library type is required.
+  - Where c0de shows a value as text (SAY, displays, the debugger, the text of a value in a STRING expression), the library provides a short description, e.g. `CANVAS 20×10×8, 1600 voxels`.
+  - A value of a library type can't be converted to JSON or YAML (TYPE_MISMATCH); a variable of a library type with a JSON or YAML tag is ignored by those conversions.
+  - It is saved with the cursor and survives a restart of the server, as long as the mod of the library is installed. If the mod is missing when the cursor is loaded, the process crashes with UNKNOWN_LIBRARY.
+
+c0de itself defines no library types; they come from other mods.
+
+##### Minecraft block
+
+A TYPE_LIBRARY block is a red slab; lying on its top, as if in an invisible item frame, is a decorated pot, a closed vessel whose content can't be seen. It can be crafted shapelessly from a type base and a decorated pot.
+
 ### Special data types
 
 Currently, there is only one special data type: ERROR. Every function implicitly returns an error. An error is a predefined struct that contains the following elements:
