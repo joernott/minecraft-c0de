@@ -133,12 +133,14 @@ public final class LibraryTypeTests {
                 END FUNCTION
                 """);
         try {
-            SheetValidation.validate(level, SHEET);
-            BlockState variable = level.getBlockState(sheet.pos(1, 6));
+            var validation = SheetValidation.validate(level, SHEET).orElseThrow();
+            helper.assertTrue(validation.isValid(), "The program is invalid: " + validation.problems());
+            // Programs start at x=5; the VARIABLE line is indented by one block
+            BlockState variable = level.getBlockState(sheet.pos(6, 6));
             helper.assertTrue(
                     variable.hasProperty(ValidatedCodeBlock.VALID) && variable.getValue(ValidatedCodeBlock.VALID),
                     "The VARIABLE line with a library type is not valid");
-            CompoundTag label = ((LabelBlockEntity) level.getBlockEntity(sheet.pos(4, 6))).dialogData(level);
+            CompoundTag label = ((LabelBlockEntity) level.getBlockEntity(sheet.pos(9, 6))).dialogData(level);
             helper.assertTrue(
                     Nbt.string(label, "mode").equals(LabelMode.LIBRARY_TYPE.name()),
                     "The label after TYPE doesn't list library types: " + label);
