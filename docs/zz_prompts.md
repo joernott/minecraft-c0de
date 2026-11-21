@@ -884,3 +884,7 @@ The tag has been pushed
 I set the default environment on modrinth to "client and server", so all 0.7.0 versions inherited that
 
 push c0de net when the tests pass
+
+## 2026-11-21 – Sprint 19 choices confirmed, c0de paint goes ahead
+
+I confirm the choices you made in c0de sprint 19. As long as there is no content change in c0de-net, don't release a new version. Please go ahead with as many sprints/tasks of c0de-paint as you can
