@@ -7,6 +7,7 @@ import de.joernott.c0de.gametest.DiskTests;
 import de.joernott.c0de.gametest.IoTests;
 import de.joernott.c0de.gametest.LibraryTests;
 import de.joernott.c0de.gametest.PerformanceTests;
+import de.joernott.c0de.gametest.LibraryTypeTests;
 import de.joernott.c0de.gametest.ProcessTests;
 import de.joernott.c0de.gametest.SmokeTests;
 import de.joernott.c0de.gametest.ToolTests;
