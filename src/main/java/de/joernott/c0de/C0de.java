@@ -27,7 +27,7 @@ import org.slf4j.LoggerFactory;
 /** Loader-independent entry point of the mod. The loader-specific entry points call {@link #init()}. */
 public final class C0de {
     public static final String MOD_ID = "c0de";
-    public static final String VERSION = /*$ mod_version*/ "0.6.2";
+    public static final String VERSION = /*$ mod_version*/ "0.7.0";
     public static final String MINECRAFT = /*$ minecraft*/ "1.21.1";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 

@@ -2,6 +2,16 @@
 
 All notable changes of the c0de mod. The section of a version is also its changelog on Modrinth.
 
+## 0.7.0
+
+Library types: other mods can give c0de types of their own, like the canvases of the coming mod c0de paint.
+
+- **The TYPE block**: a new type block, crafted from a type base and a decorated pot. A LABEL with the full name of a library type follows it, e.g. `VARIABLE picture TYPE c0de_paint/cpaint/CANVAS`; the LABEL dialog lists the types of the included libraries. TYPE also works in parameters, results, struct elements and as the content of arrays and hashes.
+- **Library values**: you can't look into them; only the functions of their library work with them. They are copied like all values, `=` and `<>` compare them, and `⊕` writes a short description. They have no literals and no constants, and TO_JSON and TO_YAML can't write them. A process keeps them over a restart of the server.
+- **Results as items**: a result of a library type comes out of the trigger block as an item that shows its description; it can't go into another process.
+- **TYPE is reserved**: a program that used the name `TYPE` (in capitals) for a variable, constant or function has to rename it.
+- **For mod developers**: `Library.libraryTypes()` with `LibraryType` and `LibraryValue`, and `NativeCall.state()` for functions that do their work in parts over several ticks; see the library development guide. Existing libraries, like c0de net, keep working unchanged.
+
 ## 0.6.2
 
 Fixes found while the screenshots of c0de.at were taken.
