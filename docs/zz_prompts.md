@@ -872,3 +872,7 @@ Review of the concept of the new repository minecraft-c0de-paint, which needs li
 push both and start c0de sprint 19, please test task 17.7. A Windows update on my machine drastically slowed down the VM and some other operations, so the performance of the VM should be better. If the test is only flaky on Github, please disregard that as github runners frequently have performance problems when their servers are crowded.
 
 Answer to the question about the type block of library types: a new TYPE block (instead of reusing TYPE_STRUCT).
+
+## 2026-11-21 – Push sprint 19 and prepare 0.7.0
+
+yes, push and prepare the release
