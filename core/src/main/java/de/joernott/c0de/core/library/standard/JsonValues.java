@@ -19,6 +19,14 @@ public final class JsonValues {
     }
 
     /**
+     * The JSON of the value of a variable item: like {@link #write}, but a value of a library type becomes its text,
+     * e.g. {@code "CANVAS 20×10×8, 1600 voxels"}. Such an item shows the value but can't pass it to another process.
+     */
+    public static String writeItem(Value value) {
+        return DataFormats.writeJson(DataFormats.toTree(value, DataFormats.ITEMS), 0);
+    }
+
+    /**
      * Parses JSON into maps, lists, strings, numbers, booleans and null.
      *
      * @throws de.joernott.c0de.core.error.C0deException INVALID_ARGUMENT for invalid JSON

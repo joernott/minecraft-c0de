@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "ingredients": [
+    "c0de:type_base",
+    "minecraft:decorated_pot"
+  ],
+  "result": {
+    "id": "c0de:type_library_block",
+    "count": 1
+  }
+}

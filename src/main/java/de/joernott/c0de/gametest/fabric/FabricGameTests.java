@@ -216,6 +216,16 @@ public class FabricGameTests {
     }
 
     @GameTest(template = SmokeTests.EMPTY_STRUCTURE, timeoutTicks = 100)
+    public void libraryTypesAreValidatedAndListed(GameTestHelper helper) {
+        LibraryTypeTests.libraryTypesAreValidatedAndListed(helper);
+    }
+
+    @GameTest(template = SmokeTests.EMPTY_STRUCTURE, timeoutTicks = 100)
+    public void libraryValuesSurviveSavingAsNbt(GameTestHelper helper) {
+        LibraryTypeTests.libraryValuesSurviveSavingAsNbt(helper);
+    }
+
+    @GameTest(template = SmokeTests.EMPTY_STRUCTURE, timeoutTicks = 100)
     public void valueItemsAreEdited(GameTestHelper helper) {
         ProcessTests.valueItemsAreEdited(helper);
     }

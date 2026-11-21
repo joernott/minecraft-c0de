@@ -14,6 +14,8 @@ public enum LabelMode {
     CALL_RESULT,
     /** A list of the known struct types (after a STRUCT type block). */
     STRUCT_TYPE,
+    /** A list of the library types of the included libraries (after a TYPE block). */
+    LIBRARY_TYPE,
     /** A list of the variables and constants in scope, with an editor for the index. */
     REFERENCE,
     /**

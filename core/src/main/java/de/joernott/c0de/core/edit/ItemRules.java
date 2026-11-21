@@ -138,6 +138,9 @@ public final class ItemRules {
                     JsonValues.read(json, simple.type()).text();
                 case TypeSpec.Str str ->
                     JsonValues.read(json, Type.Str.UNLIMITED).text();
+                // The text of the value (JsonValues.writeItem)
+                case TypeSpec.Library library ->
+                    JsonValues.read(json, Type.Str.UNLIMITED).text();
                 default -> json;
             };
         } catch (IllegalArgumentException | C0deException e) {

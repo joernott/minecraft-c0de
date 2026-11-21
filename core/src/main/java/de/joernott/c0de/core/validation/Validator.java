@@ -61,7 +61,7 @@ public final class Validator {
                         signature.parameters(),
                         signature.mandatory(),
                         signature.results())));
-        return new Visible(symbols, functions, context.structTypes());
+        return new Visible(symbols, functions, context.structTypes(), context.libraryTypes());
     }
 
     private static List<Validation.Function> functions(Program program) {
@@ -92,12 +92,18 @@ public final class Validator {
      * @param symbols the variables and constants, including the constants of libraries and the built-in ones
      * @param functions the functions that can be called (built-in, included and of the program)
      * @param structTypes the names of the struct types
+     * @param libraryTypes the full names of the library types of the included libraries
      */
-    public record Visible(List<Symbol> symbols, List<Validation.Function> functions, List<String> structTypes) {
+    public record Visible(
+            List<Symbol> symbols,
+            List<Validation.Function> functions,
+            List<String> structTypes,
+            List<String> libraryTypes) {
         public Visible {
             symbols = List.copyOf(symbols);
             functions = List.copyOf(functions);
             structTypes = List.copyOf(structTypes);
+            libraryTypes = List.copyOf(libraryTypes);
         }
 
         /** The function with this name, if it can be called. */

@@ -139,6 +139,7 @@
   "block.c0de.type_struct_block": "STRUCT-Typblock",
   "block.c0de.type_time_block": "TIME-Typblock",
   "block.c0de.type_error_block": "ERROR-Typblock",
+  "block.c0de.type_library_block": "TYPE-Typblock (Bibliothekstypen)",
   "block.c0de.variable_block": "VARIABLE-Block",
   "block.c0de.constant_block": "CONSTANT-Block",
   "block.c0de.secret_block": "SECRET-Block",

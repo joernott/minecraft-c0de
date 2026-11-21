@@ -41,6 +41,11 @@ import org.snakeyaml.engine.v2.exceptions.YamlEngineException;
 final class DataFormats {
     static final String JSON = "json";
     static final String YAML = "yaml";
+    /**
+     * The JSON of variable items (results of processes, WRITE): like JSON without tags, but values of library types
+     * become their text, as they can't be written otherwise (docs/concept/04-data.md, "Library type").
+     */
+    static final String ITEMS = "c0de items";
 
     private DataFormats() {}
 
@@ -52,6 +57,7 @@ final class DataFormats {
      */
     static Object toTree(Value value, String language) {
         return switch (value) {
+            case LibraryValue library when language.equals(ITEMS) -> library.text();
             case LibraryValue library ->
                 throw C0deException.of(
                         ErrorCode.TYPE_MISMATCH,

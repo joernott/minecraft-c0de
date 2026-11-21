@@ -41,6 +41,7 @@ public record LabelContext(LabelKind kind, LabelMode mode, String parent) {
                 keywordStartsLine
                         ? newName(LabelKind.TYPE)
                         : new LabelContext(LabelKind.TYPE, LabelMode.STRUCT_TYPE, null);
+            case TYPE -> new LabelContext(LabelKind.TYPE, LabelMode.LIBRARY_TYPE, null);
             case VARIABLE, FOR, EACH -> newName(LabelKind.VARIABLE);
             case CONSTANT, SECRET -> newName(LabelKind.CONSTANT);
             case FUNCTION ->

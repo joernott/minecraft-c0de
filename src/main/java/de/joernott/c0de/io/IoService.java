@@ -188,7 +188,7 @@ public final class IoService {
                             && !item.isConstant()
                             && ValueItem.Contents.of(stack).isEmpty()) {
                         ItemStack result = stack.copyWithCount(1);
-                        new ValueItem.Contents(name, value.type().toString(), JsonValues.write(value), hidden)
+                        new ValueItem.Contents(name, value.type().toString(), JsonValues.writeItem(value), hidden)
                                 .writeTo(result);
                         if (!block.output().canAddItem(result)) {
                             break;

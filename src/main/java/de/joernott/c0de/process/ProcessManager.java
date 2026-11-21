@@ -475,15 +475,18 @@ public class ProcessManager extends C0deSavedData {
         return Optional.empty();
     }
 
-    /** The struct types of the included libraries and of the program, for the values of parameters. */
+    /** The struct and library types of the included libraries and of the program, for the values of parameters. */
     private static TypeRegistry structTypes(Program program) {
         TypeRegistry types = new TypeRegistry();
         for (Statement statement : program.statements()) {
             if (statement instanceof Statement.Include include) {
                 ModLibraries.registry()
                         .find(include.library())
-                        .ifPresent(library -> library.types()
-                                .forEach((name, definition) -> types.add(library.name() + "/" + name, definition)));
+                        .ifPresent(library -> {
+                            library.types()
+                                    .forEach((name, definition) -> types.add(library.name() + "/" + name, definition));
+                            library.libraryTypes().values().forEach(types::addLibraryType);
+                        });
             }
         }
         for (Statement statement : program.statements()) {
@@ -791,7 +794,7 @@ public class ProcessManager extends C0deSavedData {
             new ValueItem.Contents(
                             result.name(),
                             TypeText.format(result.type()),
-                            value == null ? "" : JsonValues.write(value))
+                            value == null ? "" : JsonValues.writeItem(value))
                     .writeTo(item);
             outputs.add(item);
         }

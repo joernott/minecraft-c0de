@@ -217,6 +217,16 @@ public class NeoForgeGameTests {
     }
 
     @GameTest(template = "empty")
+    public static void libraryTypesAreValidatedAndListed(GameTestHelper helper) {
+        LibraryTypeTests.libraryTypesAreValidatedAndListed(helper);
+    }
+
+    @GameTest(template = "empty")
+    public static void libraryValuesSurviveSavingAsNbt(GameTestHelper helper) {
+        LibraryTypeTests.libraryValuesSurviveSavingAsNbt(helper);
+    }
+
+    @GameTest(template = "empty")
     public static void valueItemsAreEdited(GameTestHelper helper) {
         ProcessTests.valueItemsAreEdited(helper);
     }

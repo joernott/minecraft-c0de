@@ -55,6 +55,7 @@ public final class DialogOptions {
                                 mode == LabelMode.CALL_PARAMETER ? function.parameters() : function.results())
                         .orElse(List.of());
             case STRUCT_TYPE -> visible.structTypes();
+            case LIBRARY_TYPE -> visible.libraryTypes();
             case REFERENCE, TARGET -> {
                 // The innermost names first, the built-in constants last; targets only list what can be changed
                 List<String> names = new ArrayList<>(visible.symbols().stream()

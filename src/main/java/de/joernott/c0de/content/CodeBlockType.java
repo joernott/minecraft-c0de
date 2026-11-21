@@ -28,6 +28,7 @@ public enum CodeBlockType {
     TYPE_STRUCT(Keyword.STRUCT, Shape.SOLID, false),
     TYPE_TIME(Keyword.TIME, Shape.SOLID, false),
     TYPE_ERROR(Keyword.ERROR, Shape.SOLID, false),
+    TYPE_LIBRARY(Keyword.TYPE, Shape.SOLID, false),
     VARIABLE(Keyword.VARIABLE),
     CONSTANT(Keyword.CONSTANT),
     SECRET(Keyword.SECRET),

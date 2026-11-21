@@ -350,6 +350,15 @@ ICONS: dict[str, tuple[list[str], dict[str, int]]] = {
         "cwwwwwwc",
         "cccccccc",
     ], {"c": 0x5A3D1E, "w": 0xA77A3C, "g": 0xE0C040}),
+    # The decorated pot of the TYPE block (library types): a closed vessel whose content can't be seen
+    "pot": ([
+        "..rrrr..",
+        "...nn...",
+        ".pppppp.",
+        "ppdppdpp",
+        "pppppppp",
+        ".pppppp.",
+    ], {"r": 0x8A4A33, "n": 0x7A402C, "p": 0xB8674A, "d": 0x5E3022}),
     "scaffolding": ([
         "yyyyyyyy",
         "yy....yy",
@@ -448,6 +457,7 @@ TYPE_BLOCKS = [
     ("type_struct_block", "scaffolding", None),
     ("type_time_block", "clock", None),
     ("type_error_block", "campfire", None),
+    ("type_library_block", "pot", None),
 ]
 
 
@@ -791,6 +801,9 @@ def code_block_textures(blocks: Path) -> None:
     chest = blank()
     icon(chest, "chest")
     write_png(blocks / "type_hash_block_symbol.png", chest)
+    pot = blank()
+    icon(pot, "pot")
+    write_png(blocks / "type_library_block_symbol.png", pot)
     # BEGIN and END: the top is cut along the diagonals, so it has no border
     for block in ("begin_block", "end_block"):
         image = concrete(0xFFAA00, block, 3)
