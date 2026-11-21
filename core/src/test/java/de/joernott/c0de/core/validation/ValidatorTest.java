@@ -24,8 +24,9 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 /** Static validation of programs (task 7.2). */
 class ValidatorTest {
-    private static final LibraryRegistry LIBRARIES =
-            StandardLibraries.registry().add(CursorLibraryTest.TEST);
+    private static final LibraryRegistry LIBRARIES = StandardLibraries.registry()
+            .add(CursorLibraryTest.TEST)
+            .add(de.joernott.c0de.core.cursor.CursorLibraryTypeTest.MEMO);
 
     private static Validation validate(String program) {
         return Validator.validate(Notation.parse(program), LIBRARIES);
@@ -290,5 +291,24 @@ class ValidatorTest {
                 .findFirst()
                 .orElseThrow();
         assertTrue(total.isWritable());
+    }
+
+    @Test
+    void libraryTypesAreValidAndVisible() {
+        String program = """
+                PROGRAM librarytypes
+                NOOP
+                INCLUDE test/memo
+                NOOP
+                FUNCTION main
+                BEGIN
+                    VARIABLE c TYPE test/memo/COUNTER
+                END FUNCTION
+                """;
+        Validation validation = validate(program);
+        assertTrue(validation.isValid(), () -> validation.problems().toString());
+        assertEquals(
+                List.of("test/memo/COUNTER"),
+                Validator.visibleAt(Notation.parse(program), LIBRARIES, 6).libraryTypes());
     }
 }

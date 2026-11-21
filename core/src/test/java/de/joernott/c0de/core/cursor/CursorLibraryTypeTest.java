@@ -28,7 +28,7 @@ import java.util.Map;
 import org.junit.jupiter.api.Test;
 
 /** Types defined by libraries (task 19.2, docs/concept/04-data.md "Library type"). */
-class CursorLibraryTypeTest {
+public class CursorLibraryTypeTest {
     /** A counter: an immutable value, so its copies are trivially cheap. */
     record Counter(long count) implements LibraryValue {
         @Override
@@ -69,7 +69,7 @@ class CursorLibraryTypeTest {
         }
     };
 
-    static final Library MEMO = new Library() {
+    public static final Library MEMO = new Library() {
         @Override
         public String name() {
             return "test/memo";
