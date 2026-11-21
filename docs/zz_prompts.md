@@ -876,3 +876,11 @@ Answer to the question about the type block of library types: a new TYPE block (
 ## 2026-11-21 – Push sprint 19 and prepare 0.7.0
 
 yes, push and prepare the release
+
+## 2026-11-21 – Release 0.7.0
+
+The tag has been pushed
+
+I set the default environment on modrinth to "client and server", so all 0.7.0 versions inherited that
+
+push c0de net when the tests pass
