@@ -31,6 +31,7 @@ import de.joernott.c0de.core.value.ArrayValue;
 import de.joernott.c0de.core.value.FloatValue;
 import de.joernott.c0de.core.value.HashValue;
 import de.joernott.c0de.core.value.IntegerValue;
+import de.joernott.c0de.core.value.LibraryType;
 import de.joernott.c0de.core.value.StringValue;
 import de.joernott.c0de.core.value.StructDefinition;
 import de.joernott.c0de.core.value.StructValue;
@@ -329,20 +330,30 @@ public final class Cursor {
 
     private void addLibrary(Library library) {
         Map<String, StructDefinition> libraryTypes;
+        Map<String, LibraryType> libraryOwnTypes;
         Map<String, Value> libraryConstants;
         Map<String, NativeFunction> libraryFunctions;
         try {
             libraryTypes = library.types();
+            libraryOwnTypes = library.libraryTypes();
             libraryConstants = library.constants();
             libraryFunctions = library.functions();
         } catch (RuntimeException e) {
             throw C0deException.of(ErrorCode.BROKEN_LIBRARY, "The library " + library.name() + " can't be read: " + e);
         }
-        if (libraryTypes == null || libraryConstants == null || libraryFunctions == null) {
+        if (libraryTypes == null || libraryOwnTypes == null || libraryConstants == null || libraryFunctions == null) {
             throw C0deException.of(ErrorCode.BROKEN_LIBRARY, "The library " + library.name() + " is incomplete");
         }
         String prefix = library.name() + "/";
         libraryTypes.forEach((name, definition) -> types.add(prefix + name, definition));
+        libraryOwnTypes.forEach((name, type) -> {
+            if (type == null || !(prefix + name).equals(type.name())) {
+                throw C0deException.of(
+                        ErrorCode.BROKEN_LIBRARY,
+                        "The library type " + name + " of " + library.name() + " must be named " + prefix + name);
+            }
+            types.addLibraryType(type);
+        });
         libraryConstants.forEach((name, value) -> constants.put(prefix + name, value));
         libraryFunctions.forEach(
                 (name, function) -> functions.put(prefix + name, new LibraryFunction(prefix + name, function)));

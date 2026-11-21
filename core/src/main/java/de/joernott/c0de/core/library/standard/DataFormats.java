@@ -10,6 +10,7 @@ import de.joernott.c0de.core.value.CharValue;
 import de.joernott.c0de.core.value.FloatValue;
 import de.joernott.c0de.core.value.HashValue;
 import de.joernott.c0de.core.value.IntegerValue;
+import de.joernott.c0de.core.value.LibraryValue;
 import de.joernott.c0de.core.value.Literals;
 import de.joernott.c0de.core.value.StringValue;
 import de.joernott.c0de.core.value.StructDefinition;
@@ -51,6 +52,11 @@ final class DataFormats {
      */
     static Object toTree(Value value, String language) {
         return switch (value) {
+            case LibraryValue library ->
+                throw C0deException.of(
+                        ErrorCode.TYPE_MISMATCH,
+                        "A value of the library type " + library.libraryType().name() + " can't be written as "
+                                + language.toUpperCase(java.util.Locale.ROOT));
             case BooleanValue b -> b.value();
             case IntegerValue i -> i.value();
             case FloatValue f -> {
@@ -267,6 +273,11 @@ final class DataFormats {
             return current;
         }
         return switch (type) {
+            case Type.Library library ->
+                throw C0deException.of(
+                        ErrorCode.TYPE_MISMATCH,
+                        "A value of the library type " + library.definition().name() + " can't be read from "
+                                + language.toUpperCase(java.util.Locale.ROOT));
             case Type.Simple simple -> simple(node, simple);
             case Type.Str str -> {
                 if (!(node instanceof String s)) {

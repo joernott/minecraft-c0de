@@ -4,8 +4,11 @@ import de.joernott.c0de.core.cursor.StackItem.BlockMarker;
 import de.joernott.c0de.core.cursor.StackItem.FunctionFrame;
 import de.joernott.c0de.core.cursor.StackItem.LoopItem;
 import de.joernott.c0de.core.cursor.StackItem.VariableItem;
+import de.joernott.c0de.core.error.C0deException;
+import de.joernott.c0de.core.error.ErrorCode;
 import de.joernott.c0de.core.eval.TypeRegistry;
 import de.joernott.c0de.core.eval.Variable;
+import de.joernott.c0de.core.library.Library;
 import de.joernott.c0de.core.program.Program;
 import de.joernott.c0de.core.program.Statement;
 import de.joernott.c0de.core.value.ArrayValue;
@@ -14,6 +17,8 @@ import de.joernott.c0de.core.value.CharValue;
 import de.joernott.c0de.core.value.FloatValue;
 import de.joernott.c0de.core.value.HashValue;
 import de.joernott.c0de.core.value.IntegerValue;
+import de.joernott.c0de.core.value.LibraryType;
+import de.joernott.c0de.core.value.LibraryValue;
 import de.joernott.c0de.core.value.StringValue;
 import de.joernott.c0de.core.value.StructDefinition;
 import de.joernott.c0de.core.value.StructValue;
@@ -162,6 +167,8 @@ public final class CursorSnapshot {
                     struct.definition() == StructDefinition.ERROR
                             ? "ERROR"
                             : Map.of("struct", structName(struct.definition()));
+                case Type.Library library ->
+                    Map.of("library", library.definition().name());
             };
         }
 
@@ -216,6 +223,10 @@ public final class CursorSnapshot {
                             "struct",
                             struct.definition() == StructDefinition.ERROR ? "ERROR" : structName(struct.definition()));
                 }
+                case LibraryValue library -> {
+                    put(data, "LIBRARY", library.libraryType().save(library));
+                    data.put("library", library.libraryType().name());
+                }
             }
             return data;
         }
@@ -241,7 +252,9 @@ public final class CursorSnapshot {
             throw new IllegalArgumentException("Unknown version of the cursor data: " + data.get("version"));
         }
         TypeRegistry types = new TypeRegistry();
-        Decoder decoder = new Decoder(types);
+        Map<String, LibraryType> libraryTypes = new LinkedHashMap<>();
+        settings.libraries().all().forEach(library -> libraryTypes.putAll(libraryTypes(library)));
+        Decoder decoder = new Decoder(types, libraryTypes);
         // Library types must be known before the inputs are decoded
         for (Object entry : list(data.get("types"))) {
             Map<String, Object> type = map(entry);
@@ -353,7 +366,18 @@ public final class CursorSnapshot {
         return cursor;
     }
 
-    private record Decoder(TypeRegistry types) {
+    /** The library types of a library by their full names; none if the library can't be read. */
+    private static Map<String, LibraryType> libraryTypes(Library library) {
+        Map<String, LibraryType> types = new LinkedHashMap<>();
+        try {
+            library.libraryTypes().values().forEach(type -> types.put(type.name(), type));
+        } catch (RuntimeException e) {
+            // A broken library is reported when the cursor includes it again
+        }
+        return types;
+    }
+
+    private record Decoder(TypeRegistry types, Map<String, LibraryType> libraryTypes) {
         StructDefinition definition(Map<String, Object> data) {
             List<StructDefinition.Element> elements = new ArrayList<>();
             for (Object entry : list(data.get("elements"))) {
@@ -379,7 +403,26 @@ public final class CursorSnapshot {
             if (type.containsKey("hash")) {
                 return new Type.Hash(type(type.get("hash")));
             }
+            if (type.containsKey("library")) {
+                return new Type.Library(libraryType((String) type.get("library")));
+            }
             return new Type.Struct(struct((String) type.get("struct")));
+        }
+
+        /**
+         * The library type with this full name.
+         *
+         * @throws C0deException UNKNOWN_LIBRARY (crash) if no installed library defines it, e.g. because the mod of
+         *     the library was removed
+         */
+        private LibraryType libraryType(String name) {
+            LibraryType type = libraryTypes.get(name);
+            if (type == null) {
+                throw C0deException.crash(
+                        ErrorCode.UNKNOWN_LIBRARY,
+                        "The process keeps a value of the type " + name + ", but no installed library defines it");
+            }
+            return type;
         }
 
         private StructDefinition struct(String name) {
@@ -416,6 +459,7 @@ public final class CursorSnapshot {
                     map(value).forEach((element, elementValue) -> struct.set(element, value(map(elementValue))));
                     yield struct;
                 }
+                case "LIBRARY" -> libraryType((String) data.get("library")).load((String) value);
                 default -> throw new IllegalArgumentException("Unknown value type " + data.get("type"));
             };
         }

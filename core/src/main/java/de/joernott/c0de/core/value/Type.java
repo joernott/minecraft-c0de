@@ -4,7 +4,7 @@ package de.joernott.c0de.core.value;
  * A data type of the language (see docs/concept/04-data.md). ERROR is a predefined struct type
  * ({@link StructDefinition#ERROR}).
  */
-public sealed interface Type permits Type.Simple, Type.Str, Type.Array, Type.Hash, Type.Struct {
+public sealed interface Type permits Type.Simple, Type.Str, Type.Array, Type.Hash, Type.Struct, Type.Library {
     /** The default value of the type. */
     Value defaultValue();
 
@@ -83,6 +83,19 @@ public sealed interface Type permits Type.Simple, Type.Str, Type.Array, Type.Has
         @Override
         public String toString() {
             return definition == StructDefinition.ERROR ? "ERROR" : "STRUCT " + definition.name();
+        }
+    }
+
+    /** A type defined by a library (TYPE), e.g. {@code c0de_paint/cpaint/CANVAS}. */
+    record Library(LibraryType definition) implements Type {
+        @Override
+        public Value defaultValue() {
+            return definition.defaultValue();
+        }
+
+        @Override
+        public String toString() {
+            return "TYPE " + definition.name();
         }
     }
 }

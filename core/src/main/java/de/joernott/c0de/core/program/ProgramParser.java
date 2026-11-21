@@ -481,10 +481,16 @@ public final class ProgramParser {
                 throw C0deException.at(
                         row.z(), error, "A " + type + " is initialized with a code block, not a literal");
             }
+            if (type.isLibrary()) {
+                throw C0deException.at(row.z(), error, "A value of a library type can't be initialized");
+            }
             literal = value;
         }
         Map<String, String> tags = parseTags(cells, error, true);
         cells.end(error);
+        if (constant && type.isLibrary()) {
+            throw C0deException.at(row.z(), error, "There are no constants of library types");
+        }
         Initializer initializer = null;
         Row next = current();
         if (type.isComplex() && next != null && next.startsWith(Keyword.BEGIN) && next.x() == row.x()) {
@@ -513,7 +519,7 @@ public final class ProgramParser {
         cells.next();
         String name = cells.name(error, "the name");
         TypeSpec type = parseType(cells, error, 1);
-        if (type.isComplex()) {
+        if (type.isComplex() || type.isLibrary()) {
             throw C0deException.at(row.z(), error, "A secret is a BOOLEAN, INTEGER, FLOAT, CHAR, STRING or TIME");
         }
         if (cells.peek() instanceof LiteralBlock) {
@@ -644,7 +650,7 @@ public final class ProgramParser {
                 Value defaultValue = null;
                 if (lineCells.peek() instanceof LiteralBlock(Value value)) {
                     lineCells.next();
-                    if (value == null || type.isComplex()) {
+                    if (value == null || type.isComplex() || type.isLibrary()) {
                         throw C0deException.at(line.z(), ErrorCode.SYNTAX_ERROR_TYPE_MISMATCH, "Invalid default value");
                     }
                     defaultValue = value;
@@ -910,6 +916,7 @@ public final class ProgramParser {
             }
             case STRUCT -> new TypeSpec.Struct(cells.qualifiedLabel(error, "the name of the struct"));
             case ERROR -> new TypeSpec.Error();
+            case TYPE -> new TypeSpec.Library(cells.qualifiedLabel(error, "the name of the library type"));
             default -> throw C0deException.at(cells.z(), error, keyword + " is not a type");
         };
     }

@@ -126,6 +126,7 @@ final class ProgramAnalyzer {
         String prefix = library.name() + "/";
         addFunctions(prefix, library);
         library.types().forEach((name, definition) -> types.add(prefix + name, definition));
+        library.libraryTypes().values().forEach(types::addLibraryType);
         library.constants().forEach((name, value) -> addConstant(prefix + name, value));
     }
 

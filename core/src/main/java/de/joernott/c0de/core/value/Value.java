@@ -2,7 +2,8 @@ package de.joernott.c0de.core.value;
 
 /**
  * A value of the language. Values of simple types and strings are immutable; arrays, hashes and structs
- * are mutable and copied when they are assigned ({@link #copy()}).
+ * are mutable and copied when they are assigned ({@link #copy()}). Values of library types
+ * ({@link LibraryValue}) come from other mods.
  */
 public sealed interface Value
         permits BooleanValue,
@@ -13,7 +14,8 @@ public sealed interface Value
                 StringValue,
                 ArrayValue,
                 HashValue,
-                StructValue {
+                StructValue,
+                LibraryValue {
     /** The type of the value. Strings have the type STRING without length limit. */
     Type type();
 

@@ -54,6 +54,7 @@ public final class CursorInspection {
                 struct == Type.Struct.ERROR
                         ? "ERROR"
                         : "STRUCT " + struct.definition().name();
+            case Type.Library library -> "TYPE " + library.definition().name();
         };
     }
 }

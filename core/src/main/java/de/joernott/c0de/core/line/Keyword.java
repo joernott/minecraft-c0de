@@ -37,7 +37,9 @@ public enum Keyword {
     ARRAY,
     HASH,
     STRUCT,
-    ERROR;
+    ERROR,
+    // The type of a library (since 0.7.0); added last, so the numbers of the other keywords stay the same.
+    TYPE;
 
     /** True for the type keywords. */
     public boolean isType() {

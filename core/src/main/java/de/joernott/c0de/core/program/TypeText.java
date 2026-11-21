@@ -54,6 +54,12 @@ public final class TypeText {
                 }
                 yield new TypeSpec.Struct(words[position[0]++]);
             }
+            case "TYPE" -> {
+                if (position[0] >= words.length || !Names.isValidQualified(words[position[0]])) {
+                    throw new IllegalArgumentException("A TYPE needs the name of the library type");
+                }
+                yield new TypeSpec.Library(words[position[0]++]);
+            }
             default -> throw new IllegalArgumentException("Not a type: " + word);
         };
     }
@@ -67,6 +73,7 @@ public final class TypeText {
             case TypeSpec.Hash hash -> "HASH " + format(hash.element());
             case TypeSpec.Struct struct -> "STRUCT " + struct.name();
             case TypeSpec.Error error -> "ERROR";
+            case TypeSpec.Library library -> "TYPE " + library.name();
         };
     }
 }

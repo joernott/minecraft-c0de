@@ -319,16 +319,22 @@ final class YamlExport {
 
     /**
      * The type of a declaration: {@code type} (the first type block), {@code length} (STRING length limit),
-     * {@code subtype} (the type of the elements of an ARRAY or HASH, without a struct name) and {@code struct}
-     * (the name of the struct the type ends with).
+     * {@code subtype} (the type of the elements of an ARRAY or HASH, without a struct name), {@code struct} (the
+     * name of the struct the type ends with) and {@code typename} (the name of the library type it ends with).
      */
     static void type(Map<String, Object> entry, TypeSpec type) {
         String text = TypeText.format(type);
         String struct = null;
+        String typename = null;
         int position = text.indexOf("STRUCT ");
         if (position >= 0) {
             struct = text.substring(position + "STRUCT ".length());
             text = text.substring(0, position + "STRUCT".length());
+        }
+        position = text.indexOf("TYPE ");
+        if (position >= 0) {
+            typename = text.substring(position + "TYPE ".length());
+            text = text.substring(0, position + "TYPE".length());
         }
         String[] words = text.split(" ", 2);
         entry.put("type", words[0]);
@@ -341,6 +347,9 @@ final class YamlExport {
         }
         if (struct != null) {
             entry.put("struct", struct);
+        }
+        if (typename != null) {
+            entry.put("typename", typename);
         }
     }
 

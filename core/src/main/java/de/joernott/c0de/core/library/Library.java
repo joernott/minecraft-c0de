@@ -1,5 +1,6 @@
 package de.joernott.c0de.core.library;
 
+import de.joernott.c0de.core.value.LibraryType;
 import de.joernott.c0de.core.value.StructDefinition;
 import de.joernott.c0de.core.value.Value;
 import java.util.Map;
@@ -15,6 +16,14 @@ public interface Library {
 
     /** The struct types of the library by name. */
     default Map<String, StructDefinition> types() {
+        return Map.of();
+    }
+
+    /**
+     * The library types by name, e.g. {@code CANVAS}; their {@link LibraryType#name()} is the full name, e.g.
+     * {@code c0de_paint/cpaint/CANVAS} (since c0de 0.7.0).
+     */
+    default Map<String, LibraryType> libraryTypes() {
         return Map.of();
     }
 

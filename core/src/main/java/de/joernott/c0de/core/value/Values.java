@@ -48,6 +48,13 @@ public final class Values {
                 }
                 yield source.copy();
             }
+            case Type.Library library -> {
+                if (!(value instanceof LibraryValue source)
+                        || !source.libraryType().equals(library.definition())) {
+                    throw mismatch(value, target);
+                }
+                yield source.copy();
+            }
         };
     }
 

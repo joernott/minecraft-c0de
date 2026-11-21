@@ -22,6 +22,14 @@ public sealed interface TypeSpec {
     /** The predefined type ERROR. */
     record Error() implements TypeSpec {}
 
+    /** A type of a library (TYPE) by its full name, e.g. {@code c0de_paint/cpaint/CANVAS}. */
+    record Library(String name) implements TypeSpec {}
+
+    /** True for a library type, whose values can't be initialized (no literal, no code block, no constant). */
+    default boolean isLibrary() {
+        return this instanceof Library;
+    }
+
     /** True for ARRAY, HASH, STRUCT and ERROR, whose values are initialized with a code block. */
     default boolean isComplex() {
         return this instanceof Array || this instanceof Hash || this instanceof Struct || this instanceof Error;

@@ -369,6 +369,9 @@ final class YamlLayout {
         if (entry.get("struct") != null) {
             tokens.add(String.valueOf(entry.get("struct")));
         }
+        if (entry.get("typename") != null) {
+            tokens.add(String.valueOf(entry.get("typename")));
+        }
         return tokens;
     }
 

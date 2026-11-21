@@ -527,10 +527,10 @@ public final class ProgramRunner {
         TypeRegistry types = new TypeRegistry();
         for (Statement statement : program.statements()) {
             if (statement instanceof Statement.Include include) {
-                libraries
-                        .find(include.library())
-                        .ifPresent(library -> library.types()
-                                .forEach((name, definition) -> types.add(library.name() + "/" + name, definition)));
+                libraries.find(include.library()).ifPresent(library -> {
+                    library.types().forEach((name, definition) -> types.add(library.name() + "/" + name, definition));
+                    library.libraryTypes().values().forEach(types::addLibraryType);
+                });
             }
         }
         for (Statement statement : program.statements()) {
