@@ -59,6 +59,8 @@ A task is done when
 | 15 | Feedback from the tutorials | Deviations from the concept that the tutorials of c0de.at found | ✅ |
 | 16 | Security (0.6.0) | Hidden input and items, sensitive values in the debug output, a vault of secrets per player with SECRET and the library c0de/security, persistent in a KeePass file | ✅ |
 | 17 | Handbooks of other mods (0.6.1) | Other mods ship full handbooks (binders, crafting grids, links, translations) as resources and data, without code in c0de; the documentation errors found by the recipes of c0de.at are fixed |  |
+| 18 | Findings from the screenshot world (0.6.2) | The wrench leads to the program of a trigger block or to where the player left the dimension, the password dialog of the vault keeps the password, lines wider than a sheet are reported | ✅ |
+| 19 | Library types (0.7.0) | Libraries of other mods define types of their own besides structs, for the canvases and styles of c0de paint |  |
 
 ## Sprint 0: Concept and plan
 
@@ -451,6 +453,21 @@ After sprint 12, every new Minecraft release is added as a new node in its own s
 | 18.5 | Release 0.6.2 for all Minecraft versions.  Released on 2026-11-17 (pre-release on GitHub with 23 assets, Modrinth and CurseForge). | ✅ |
 | 18.5.2 | Version 0.6.2 in `stonecutter.properties.toml` and the changelog, the active node refreshed (C0de.VERSION). CI of sprint-18 was green before (2026-11-17). | ✅ |
 | 18.5.1 | Requested on 2026-11-17: the open Dependabot PR #3 (Gradle 9.8.2 to 9.9.1, Stonecutter 0.9.8 to 0.10) is part of 0.6.2. Its CI failed: Stonecutter 0.10 returns the properties as strings, so `get` and `getOrNull` take no type argument any more, and loom-back-compat 0.4.2 doesn't find the Loom plugin with it (0.4.3 does), as in c0de net task 8.4. The commit of Dependabot is taken over, the build scripts follow. Built with the GameTests of 1.21.1-fabric on 2026-11-17. | ✅ |
+
+## Sprint 19: Library types
+
+**Goal:** a library can define types of its own besides structs, as c0de paint needs them for its canvases and styles ([c0de paint concept](https://github.com/joernott/minecraft-c0de-paint/blob/main/docs/concept.md), "Changes to c0de"). The interface of the libraries only gets additions, so c0de net keeps working unchanged. Planned on 2026-11-21; not started yet. Version 0.7.0.
+
+| Task | Description | Done |
+|---|---|:---:|
+| 19.1 | **Concept:**<ul><li>Library types in the concept of the language and of the libraries.</li><li>What a library type defines: name, default value, copy-on-write copies, comparison, text for PRINT and the debugger, saving and loading, memory size.</li><li>What the language allows with them: DIM, parameters (also reference parameters), results, arrays and hashes of them, `=` and `<>`.</li><li>What raises an error: conversion to YAML, JSON and STRING, arithmetic.</li></ul> |  |
+| 19.2 | **`core`:**<ul><li>`Library.types()` also returns library types, as a new default method; a new value class carries them.</li><li>The type registry, DIM, parameter and result checks, arrays and hashes, comparisons and the errors.</li><li>Unit tests with a test library that defines a type.</li></ul> |  |
+| 19.3 | **Memory:** the values of library types count against the memory limits of a process with the size they report. |  |
+| 19.4 | **Saving with the cursor:**<ul><li>Values of library types are saved with the cursor in the compact form of their library, and loaded again.</li><li>If the mod of a saved type is missing when the cursor is loaded, the process ends with an error that names the type.</li><li>GameTests: a process survives a restart.</li></ul> |  |
+| 19.5 | **Blocks, dialogs and tools:** the dialog of DIM, the validation of the blocks, the labels after AS, the debugger, the program runner and c0de disk (programs exported as YAML) know the types of the included libraries. |  |
+| 19.6 | **Waiting functions of other mods:**<ul><li>Check that a library function of another mod can work over several ticks with the waiting results of `NativeResult`, keeping its progress between the ticks (e.g. a rotation of a large canvas).</li><li>Extend the interface only where that isn't possible.</li></ul> |  |
+| 19.7 | **Documentation:**<ul><li>`docs/library-development.md`: how a mod defines a library type.</li><li>The guide and the reference, in English and German, explain types from libraries for players.</li></ul> |  |
+| 19.8 | Release 0.7.0 for all Minecraft versions. c0de net is tested against it; its dependency range already allows 0.7.0. The documentation of c0de.at for 0.7.0 follows with c0de paint (task 8.4 of c0de paint). |  |
 
 ## Risks
 

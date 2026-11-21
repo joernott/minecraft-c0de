@@ -857,3 +857,12 @@ The tag has been pushed
 in the meantime, delete the vault on the server in the vm and I'll delete the one on the client
 
 hmm, I didn't find any kdbx file in the run folder in miencraft-c0de-net
+
+## 2026-11-21 – Library types for c0de paint (sprint 19 planned)
+
+Review of the concept of the new repository minecraft-c0de-paint, which needs library types in c0de. Answers to the second review:
+
+1: c0de_paint/cpaint would be a subtle wink towards the famous Deluxe Paint (usually called dpaint)
+2: Yes
+3: This should be a configurable number. The default should be to use the players mining speed (1), but higher numbers allow for greater speed. Setting this to 0 would be as fast as a player breaks blocks in creative.
+4: That sounds fine. Make sure to also add a task for update the documentation for c0de in www-code for both c0de and paint
