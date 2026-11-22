@@ -900,3 +900,10 @@ c0de-related:
 - I created a program and could not right click with a disk to its "PROGRAM" block as the schema does not recognize TYPE
 - I fed the trigger block two constants as input. After running, I got two uninitialized variables in the output. Constants should remain as they are, when they appear in the output, they're constant.
 - I fed some wrong data types to function parameters by accident which was only discovered at runtime. I would expect a red line number if I do that.
+
+
+## 2026-11-22 – Push, release 0.7.1 and the VM
+
+1. You can push the sprints
+2. c0de 0.7.1 can come out now
+3. the vm lost its network and I had to turn it off and on again. Please deploy c0de 0.7.1 there and make it available in the local test VM
