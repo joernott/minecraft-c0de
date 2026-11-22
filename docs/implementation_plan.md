@@ -61,6 +61,7 @@ A task is done when
 | 17 | Handbooks of other mods (0.6.1) | Other mods ship full handbooks (binders, crafting grids, links, translations) as resources and data, without code in c0de; the documentation errors found by the recipes of c0de.at are fixed | ✅ |
 | 18 | Findings from the screenshot world (0.6.2) | The wrench leads to the program of a trigger block or to where the player left the dimension, the password dialog of the vault keeps the password, lines wider than a sheet are reported | ✅ |
 | 19 | Library types (0.7.0) | Libraries of other mods define types of their own besides structs, for the canvases and styles of c0de paint |✅ |
+| 20 | Findings from the first test of c0de paint (0.7.1) | Programs with TYPE go onto disks, constant items stay constants in trigger blocks, arguments of a certain wrong type are red | ✅ |
 
 ## Sprint 0: Concept and plan
 
@@ -472,14 +473,14 @@ After sprint 12, every new Minecraft release is added as a new node in its own s
 
 ## Sprint 20: Findings from the first test of c0de paint
 
-**Goal:** fix what the user found in the game while testing c0de paint with c0de 0.7.0. Started on 2026-11-22. Proposed version 0.7.1.
+**Goal:** fix what the user found in the game while testing c0de paint with c0de 0.7.0. Started on 2026-11-22. Version 0.7.1.
 
 | Task | Description | Done |
 |---|---|:---:|
 | 20.1 | **Programs with TYPE on a disk:** right-clicking a PROGRAM block with a disk failed for a program with a library type, because the schema of the YAML format didn't know the block TYPE and the field `typename` (task 19.5 had added them to the export and the layout, but not to the schema).   Done on 2026-11-22: TYPE in the type names and the reserved names of `c0de-program.schema.json`, `typename` for variables, constants, struct elements, parameters and results; unit test `libraryTypesSurviveExportAndImport`. | ✅ |
 | 20.2 | **Constants stay constants:** the trigger block used up the constant items of parameters and returned an empty variable item for each. Now they come back unchanged, as from the I/O blocks; only variable items of parameters are used up, and only they take the place of a result.   Done on 2026-11-22: `ProcessManager` (start, free slots, outputs); the concept (13, 15) and the guide in English and German; GameTest `constantsStayConstant`. | ✅ |
 | 20.3 | **Wrong types are red:** an argument of a CALL whose type is certain (a literal, or a variable, constant, parameter or result without index) is checked while the program is written, for native and program functions, with the check of the cursor applied to the default value of its type: SYNTAX_ERROR_TYPE_MISMATCH and a red line number. Other expressions are still checked only at runtime.   Done on 2026-11-22: `ProgramAnalyzer` (the signatures keep what each parameter accepts); unit test `argumentsOfTheWrongTypeAreMarked`; the concept (03, 16) and the guide in English and German. | ✅ |
-| 20.4 | Tests on all nodes; release 0.7.1 with the consent of the user (given on 2026-11-22), who pushes the tag. |  |
+| 20.4 | Tests on all nodes; release 0.7.1 with the consent of the user (given on 2026-11-22), who pushes the tag.   Done on 2026-11-22: GameTests on all 10 nodes on the VM (after moving the new test to sheet 560; 546 belongs to the vault tests); tag v0.7.1 (pushed by the user); the release workflow published to GitHub, Modrinth and CurseForge. The test server 1.21.1-fabric on the VM runs 0.7.1 with c0de net and c0de paint. | ✅ |
 | 20.4.1 | Version 0.7.1 in `stonecutter.properties.toml`, `C0de.VERSION` and the changelog. | ✅ |
 
 ## Risks
