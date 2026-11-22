@@ -2,6 +2,10 @@
 
 All notable changes of the c0de mod. The section of a version is also its changelog on Modrinth.
 
+## Unreleased
+
+- The program runner names the block of TYPE `c0de:type_library_block` in `--layout` (it said `c0de:type_type_block`).
+
 ## 0.7.1
 
 Findings from the first test of c0de paint.

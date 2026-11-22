@@ -402,6 +402,20 @@ class ProgramRunnerTest {
         assertEquals("c0de:type_integer_block", ((Map<?, ?>) variable.get(2)).get("block"));
     }
 
+    @Test
+    void theBlockOfTypeIsTheLibraryTypeBlock() {
+        Map<String, Object> layout = ProgramRunner.layout("""
+                PROGRAM painter
+                NOOP
+                FUNCTION draw
+                BEGIN
+                    VARIABLE c TYPE some/library/CANVAS
+                END FUNCTION
+                """, StandardLibraries.registry(), java.time.ZoneOffset.UTC);
+        List<?> variable = (List<?>) ((Map<?, ?>) ((List<?>) layout.get("lines")).get(4)).get("blocks");
+        assertEquals("c0de:type_library_block", ((Map<?, ?>) variable.get(2)).get("block"));
+    }
+
     private static String[] concat(String[] base, String... more) {
         String[] all = new String[base.length + more.length];
         System.arraycopy(base, 0, all, 0, base.length);

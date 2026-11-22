@@ -491,6 +491,7 @@ After sprint 12, every new Minecraft release is added as a new node in its own s
 | Task | Description | Done |
 |---|---|:---:|
 | 21.1 | **Long programs and disks:** right-clicking the PROGRAM block of a long program with a disk failed with "A part of the sheet is not loaded", and so did building the program from the disk on a sheet of the server. Flying along the sheet helped in single player but not on the server, whose view distance is smaller than the program. `DiskService.copyToDisk` and `DiskService.build` check `LevelSheet.isLoaded` for every line. Idea: load the chunks of the sheet for the operation (as `LevelSheet.loadingView` does for the tools, or with a temporary chunk ticket), up to the limit of the lines of a sheet; a GameTest with a program longer than the view distance. |  |
+| 21.2 | **The layout of TYPE:** `--layout` of the program runner named the block of TYPE `c0de:type_type_block`, a block that doesn't exist, so c0de.at had no 3D view of programs with library types (found in c0de.at task 15.5). It is `c0de:type_library_block`.   Done on 2026-11-22: `ProgramRunner.blockId`; unit test `theBlockOfTypeIsTheLibraryTypeBlock`. | ✅ |
 
 ## Risks
 

@@ -376,6 +376,8 @@ public final class ProgramRunner {
     /** The ID of the block of the mod that holds a block of the line model (CodeBlockType#id). */
     private static String blockId(Block block) {
         return switch (block) {
+            // The block of TYPE is the library type block (CodeBlockType.TYPE_LIBRARY)
+            case Block.KeywordBlock keyword when keyword.keyword() == Keyword.TYPE -> "type_library_block";
             case Block.KeywordBlock keyword ->
                 (keyword.keyword().isType() ? "type_" : "")
                         + keyword.keyword().name().toLowerCase(Locale.ROOT) + "_block";
