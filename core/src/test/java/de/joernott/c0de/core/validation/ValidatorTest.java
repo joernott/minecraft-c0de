@@ -107,6 +107,66 @@ class ValidatorTest {
         assertEquals(Map.of(10, ErrorCode.SYNTAX_ERROR_CALL), codes(validation));
     }
 
+    /**
+     * Arguments whose type is certain (literals and variables without index) are checked against the parameters of
+     * native and program functions (task 20.3); arguments of other types are only checked at runtime.
+     */
+    @Test
+    void argumentsOfTheWrongTypeAreMarked() {
+        Validation validation = validate("""
+                PROGRAM typing
+                NOOP
+                INCLUDE c0de/strings
+                CONSTANT NAME STRING "c0de"
+                NOOP
+                FUNCTION half
+                    PARAMETER value FLOAT
+                    RESULT result FLOAT
+                BEGIN
+                    ASSIGN result value / 2 ;
+                END FUNCTION
+                NOOP
+                FUNCTION main
+                BEGIN
+                    VARIABLE count INTEGER
+                    VARIABLE text STRING
+                    VARIABLE values ARRAY INTEGER
+                    VARIABLE x FLOAT
+                    CALL c0de/strings/MID
+                        PARAMETER text NAME ;
+                        PARAMETER start count ;
+                        RESULT result text
+                    CALL c0de/strings/MID
+                        PARAMETER text count ;
+                        PARAMETER start "1" ;
+                        RESULT result text
+                    CALL half
+                        PARAMETER value count ;
+                        RESULT result x
+                    CALL half
+                        PARAMETER value text ;
+                        RESULT result x
+                    CALL half
+                        PARAMETER value values[1] ;
+                        RESULT result x
+                    CALL c0de/strings/MID
+                        PARAMETER text text + count ;
+                        PARAMETER start 1 ;
+                        RESULT result text
+                END FUNCTION
+                """);
+        assertEquals(
+                Map.of(
+                        23, ErrorCode.SYNTAX_ERROR_TYPE_MISMATCH,
+                        24, ErrorCode.SYNTAX_ERROR_TYPE_MISMATCH,
+                        30, ErrorCode.SYNTAX_ERROR_TYPE_MISMATCH),
+                codes(validation),
+                () -> validation.problems().toString());
+        assertTrue(
+                validation.problems().get(30).message().contains("must be FLOAT, not STRING"),
+                () -> validation.problems().get(30).message());
+    }
+
     /** The examples crash only at runtime, if at all, so they are statically valid. */
     @ParameterizedTest
     @MethodSource("examples")

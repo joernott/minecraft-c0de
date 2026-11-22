@@ -17,6 +17,7 @@ import de.joernott.c0de.core.program.Program;
 import de.joernott.c0de.core.program.Statement;
 import de.joernott.c0de.core.value.Type;
 import de.joernott.c0de.core.value.Value;
+import de.joernott.c0de.core.value.Values;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
@@ -25,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.function.Predicate;
 
 /**
  * Walks a parsed program like a cursor would, without running it, and collects the problems the cursor would
@@ -48,7 +50,16 @@ final class ProgramAnalyzer {
             List<String> parameters,
             List<String> mandatory,
             List<String> results,
-            Set<String> byReference) {}
+            Set<String> byReference,
+            Map<String, Parameter> types) {}
+
+    /**
+     * What a parameter accepts: the check of the function and its description for messages (task 20.3).
+     *
+     * @param accepts the check of a native function, or {@link Values#fits} for the type of a program function
+     * @param description the accepted types, e.g. "INTEGER" or "FLOAT|INTEGER"
+     */
+    record Parameter(Predicate<Value> accepts, String description) {}
 
     /**
      * The names that are visible in a line.
@@ -139,8 +150,10 @@ final class ProgramAnalyzer {
             List<String> parameters = new ArrayList<>();
             List<String> mandatory = new ArrayList<>();
             List<String> byReference = new ArrayList<>();
+            Map<String, Parameter> accepted = new LinkedHashMap<>();
             for (NativeFunction.Parameter parameter : function.parameters()) {
                 parameters.add(parameter.name());
+                accepted.put(parameter.name(), new Parameter(parameter.accepts(), parameter.types()));
                 if (!parameter.optional()) {
                     mandatory.add(parameter.name());
                 }
@@ -150,7 +163,9 @@ final class ProgramAnalyzer {
             }
             String name = prefix + function.name();
             functions.put(
-                    name, new Signature(name, -1, parameters, mandatory, function.results(), Set.copyOf(byReference)));
+                    name,
+                    new Signature(
+                            name, -1, parameters, mandatory, function.results(), Set.copyOf(byReference), accepted));
         }
     }
 
@@ -200,8 +215,11 @@ final class ProgramAnalyzer {
             ProgramFunction function = ProgramFunction.resolve(declaration, types);
             List<String> parameters = new ArrayList<>();
             List<String> mandatory = new ArrayList<>();
+            Map<String, Parameter> accepted = new LinkedHashMap<>();
             for (ProgramFunction.Parameter parameter : function.parameters()) {
                 parameters.add(parameter.name());
+                Type type = parameter.type();
+                accepted.put(parameter.name(), new Parameter(value -> Values.fits(value, type), String.valueOf(type)));
                 if (parameter.defaultValue() == null) {
                     mandatory.add(parameter.name());
                 }
@@ -214,7 +232,8 @@ final class ProgramAnalyzer {
                             parameters,
                             mandatory,
                             function.resultNames(),
-                            Set.of()));
+                            Set.of(),
+                            accepted));
             return true;
         } catch (C0deException e) {
             problem(e, declaration.line());
@@ -370,6 +389,9 @@ final class ProgramAnalyzer {
                 }
             }
             expression(parameter.value(), parameter.line());
+            if (function != null && !function.byReference().contains(parameter.name())) {
+                argumentType(call, function, parameter);
+            }
         }
         if (function != null) {
             for (String mandatory : function.mandatory()) {
@@ -390,6 +412,48 @@ final class ProgramAnalyzer {
             }
             writable(result.target(), result.line(), ErrorCode.SYNTAX_ERROR_CALL);
         }
+    }
+
+    /**
+     * Checks the type of an argument whose type is certain: a literal or a variable, constant, parameter or result
+     * without index (task 20.3). The check is the one of the cursor, applied to the default value of the type, so an
+     * argument is only marked if every value of its type would be refused.
+     */
+    private void argumentType(Statement.Call call, Signature function, Statement.Call.CallParameter parameter) {
+        Parameter declared = function.types().get(parameter.name());
+        Type type = knownType(parameter.value());
+        if (declared == null || type == null) {
+            return;
+        }
+        boolean accepted;
+        try {
+            accepted = declared.accepts().test(type.defaultValue());
+        } catch (RuntimeException e) {
+            // A check that can't handle the default value says nothing about the type
+            return;
+        }
+        if (!accepted) {
+            problem(
+                    parameter.line(),
+                    ErrorCode.SYNTAX_ERROR_TYPE_MISMATCH,
+                    "The parameter " + parameter.name() + " of " + call.function() + " must be "
+                            + declared.description() + ", not " + type);
+        }
+    }
+
+    /** The type of an expression if it is certain, otherwise null. */
+    private Type knownType(Expression expression) {
+        return switch (expression) {
+            case Expression.Literal literal -> literal.value().type();
+            case Expression.Reference reference -> {
+                if (!reference.label().index().isEmpty()) {
+                    yield null;
+                }
+                Symbol symbol = resolve(reference.label().name());
+                yield symbol == null ? null : symbol.type();
+            }
+            default -> null;
+        };
     }
 
     // ----------------------------------------------------------------------------------------------- names

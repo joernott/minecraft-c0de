@@ -41,7 +41,7 @@ At x=2, the floor shows the number of every line that has blocks. Its color tell
 - dark yellow: correct so far, but the statement is not finished yet
 - dark red: something is wrong
 
-Dark yellow is normal while you build. A BEGIN without its END shows dark yellow until you place the END. The [debugging tool](04-tools.md#debugging-tool) tells you what is wrong with a red line.
+Dark yellow is normal while you build. A BEGIN without its END shows dark yellow until you place the END. The [debugging tool](04-tools.md#debugging-tool) tells you what is wrong with a red line. A line turns red too if a CALL passes a literal or a variable of the wrong type to a function. Other mistakes in types show only when the program runs.
 
 ## Placing blocks
 

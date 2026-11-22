@@ -14,7 +14,7 @@ Bei x=2 zeigt der Boden die Nummer jeder Zeile, die Blöcke enthält. Ihre Farbe
 - dunkelgelb: bis hierher korrekt, aber die Anweisung ist noch nicht fertig
 - dunkelrot: etwas stimmt nicht
 
-Dunkelgelb ist beim Bauen normal. Ein BEGIN ohne sein END bleibt dunkelgelb, bis du das END platzierst. Das [Debugging-Werkzeug](^tools/debugging_tool) sagt dir, was mit einer roten Zeile nicht stimmt.
+Dunkelgelb ist beim Bauen normal. Ein BEGIN ohne sein END bleibt dunkelgelb, bis du das END platzierst. Das [Debugging-Werkzeug](^tools/debugging_tool) sagt dir, was mit einer roten Zeile nicht stimmt. Eine Zeile wird auch rot, wenn ein CALL einer Funktion ein Literal oder eine Variable vom falschen Typ übergibt. Andere Fehler bei Typen zeigen sich erst, wenn das Programm läuft.
 
 **Rezepte**
 
@@ -37,3 +37,7 @@ Dunkelgelb ist beim Bauen normal. Ein BEGIN ohne sein END bleibt dunkelgelb, bis
 <item;c0de:debug_tool>
 
 <recipe;c0de:debug_tool>
+
+<item;c0de:call_block>
+
+<recipe;c0de:call_block>

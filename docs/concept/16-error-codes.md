@@ -12,7 +12,7 @@
 | 104 | SYNTAX_ERROR_STRUCT | crash | A part of a struct declaration is wrong. |
 | 105 | SYNTAX_ERROR_VARIABLE | crash | A part of a variable declaration is wrong. |
 | 106 | SYNTAX_ERROR_CONSTANT | crash | A part of a constant declaration is wrong. |
-| 107 | SYNTAX_ERROR_TYPE_MISMATCH | crash | A constant, variable or parameter is initialized with a literal that does not match its type. |
+| 107 | SYNTAX_ERROR_TYPE_MISMATCH | crash | A constant, variable or parameter is initialized with a literal that does not match its type. While a program is written, also an argument of a CALL whose type is certain and does not match the parameter. |
 | 108 | SYNTAX_ERROR_FUNCTION | crash | A part of a function declaration or a RETURN statement is wrong. |
 | 109 | SYNTAX_ERROR_CALL | crash | A part of a CALL statement is wrong. |
 | 110 | SYNTAX_ERROR_ASSIGN | crash | A part of an ASSIGN statement is wrong, or it assigns to a constant or loop variable. |
