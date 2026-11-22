@@ -62,6 +62,7 @@ A task is done when
 | 18 | Findings from the screenshot world (0.6.2) | The wrench leads to the program of a trigger block or to where the player left the dimension, the password dialog of the vault keeps the password, lines wider than a sheet are reported | ✅ |
 | 19 | Library types (0.7.0) | Libraries of other mods define types of their own besides structs, for the canvases and styles of c0de paint |✅ |
 | 20 | Findings from the first test of c0de paint (0.7.1) | Programs with TYPE go onto disks, constant items stay constants in trigger blocks, arguments of a certain wrong type are red | ✅ |
+| 21 | Findings from the test of c0de paint, part 2 (next release) | Long programs go onto disks and from disks onto sheets, also on servers |  |
 
 ## Sprint 0: Concept and plan
 
@@ -482,6 +483,14 @@ After sprint 12, every new Minecraft release is added as a new node in its own s
 | 20.3 | **Wrong types are red:** an argument of a CALL whose type is certain (a literal, or a variable, constant, parameter or result without index) is checked while the program is written, for native and program functions, with the check of the cursor applied to the default value of its type: SYNTAX_ERROR_TYPE_MISMATCH and a red line number. Other expressions are still checked only at runtime.   Done on 2026-11-22: `ProgramAnalyzer` (the signatures keep what each parameter accepts); unit test `argumentsOfTheWrongTypeAreMarked`; the concept (03, 16) and the guide in English and German. | ✅ |
 | 20.4 | Tests on all nodes; release 0.7.1 with the consent of the user (given on 2026-11-22), who pushes the tag.   Done on 2026-11-22: GameTests on all 10 nodes on the VM (after moving the new test to sheet 560; 546 belongs to the vault tests); tag v0.7.1 (pushed by the user); the release workflow published to GitHub, Modrinth and CurseForge. The test server 1.21.1-fabric on the VM runs 0.7.1 with c0de net and c0de paint. | ✅ |
 | 20.4.1 | Version 0.7.1 in `stonecutter.properties.toml`, `C0de.VERSION` and the changelog. | ✅ |
+
+## Sprint 21: Findings from the test of c0de paint, part 2
+
+**Goal:** fix what the user found in the second test of c0de paint with c0de 0.7.1. Started on 2026-11-22; planned for the next release.
+
+| Task | Description | Done |
+|---|---|:---:|
+| 21.1 | **Long programs and disks:** right-clicking the PROGRAM block of a long program with a disk failed with "A part of the sheet is not loaded", and so did building the program from the disk on a sheet of the server. Flying along the sheet helped in single player but not on the server, whose view distance is smaller than the program. `DiskService.copyToDisk` and `DiskService.build` check `LevelSheet.isLoaded` for every line. Idea: load the chunks of the sheet for the operation (as `LevelSheet.loadingView` does for the tools, or with a temporary chunk ticket), up to the limit of the lines of a sheet; a GameTest with a program longer than the view distance. |  |
 
 ## Risks
 
