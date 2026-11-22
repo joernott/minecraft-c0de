@@ -2,6 +2,14 @@
 
 All notable changes of the c0de mod. The section of a version is also its changelog on Modrinth.
 
+## 0.7.1
+
+Findings from the first test of c0de paint.
+
+- **Disks and library types**: a program with a TYPE block can be copied onto a disk again; the format of the program files knows TYPE and `typename`.
+- **Constants stay constants**: constant items given to a trigger block come back unchanged when the process ends, instead of as empty variable items. Only variable items of parameters are used up.
+- **Wrong types are red**: a CALL that passes a literal or a variable of the wrong type to a function marks its line red while you write the program, instead of failing only when it runs.
+
 ## 0.7.0
 
 Library types: other mods can give c0de types of their own, like the canvases of the coming mod c0de paint.

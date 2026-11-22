@@ -470,6 +470,17 @@ After sprint 12, every new Minecraft release is added as a new node in its own s
 | 19.8 | Release 0.7.0 for all Minecraft versions. c0de net is tested against it; its dependency range already allows 0.7.0. The documentation of c0de.at for 0.7.0 follows with c0de paint (task 8.4 of c0de paint).   Done on 2026-11-21: tag v0.7.0 (pushed by the user); the release workflow published to GitHub, Modrinth (environment "client and server") and CurseForge. c0de net is tested against 0.7.0 (its task 9.4): all GameTests pass on the VM. | ✅ |
 | 19.8.1 | Version 0.7.0 in `stonecutter.properties.toml`, `C0de.VERSION` and the changelog. | ✅ |
 
+## Sprint 20: Findings from the first test of c0de paint
+
+**Goal:** fix what the user found in the game while testing c0de paint with c0de 0.7.0. Started on 2026-11-22. Proposed version 0.7.1.
+
+| Task | Description | Done |
+|---|---|:---:|
+| 20.1 | **Programs with TYPE on a disk:** right-clicking a PROGRAM block with a disk failed for a program with a library type, because the schema of the YAML format didn't know the block TYPE and the field `typename` (task 19.5 had added them to the export and the layout, but not to the schema).   Done on 2026-11-22: TYPE in the type names and the reserved names of `c0de-program.schema.json`, `typename` for variables, constants, struct elements, parameters and results; unit test `libraryTypesSurviveExportAndImport`. | ✅ |
+| 20.2 | **Constants stay constants:** the trigger block used up the constant items of parameters and returned an empty variable item for each. Now they come back unchanged, as from the I/O blocks; only variable items of parameters are used up, and only they take the place of a result.   Done on 2026-11-22: `ProcessManager` (start, free slots, outputs); the concept (13, 15) and the guide in English and German; GameTest `constantsStayConstant`. | ✅ |
+| 20.3 | **Wrong types are red:** an argument of a CALL whose type is certain (a literal, or a variable, constant, parameter or result without index) is checked while the program is written, for native and program functions, with the check of the cursor applied to the default value of its type: SYNTAX_ERROR_TYPE_MISMATCH and a red line number. Other expressions are still checked only at runtime.   Done on 2026-11-22: `ProgramAnalyzer` (the signatures keep what each parameter accepts); unit test `argumentsOfTheWrongTypeAreMarked`; the concept (03, 16) and the guide in English and German. | ✅ |
+| 20.4 | Tests on all nodes; release 0.7.1 with the consent of the user, who pushes the tag. |  |
+
 ## Risks
 
 | Risk | Mitigation |
