@@ -64,6 +64,7 @@
           "ARRAY",
           "HASH",
           "STRUCT",
+          "TYPE",
           "ERROR",
           "LABEL",
           "LITERAL",
@@ -90,6 +91,10 @@
       "pattern": "^[A-Za-z][A-Za-z0-9_]*(/[A-Za-z][A-Za-z0-9_]*)*$"
     },
     "structName": {
+      "$ref": "#/$defs/qualifiedName"
+    },
+    "libraryTypeName": {
+      "description": "The name of a library type, e.g. c0de_paint/cpaint/CANVAS.",
       "$ref": "#/$defs/qualifiedName"
     },
     "label": {
@@ -122,6 +127,7 @@
         "ARRAY",
         "HASH",
         "STRUCT",
+        "TYPE",
         "ERROR"
       ]
     },
@@ -476,6 +482,9 @@
         "struct": {
           "$ref": "#/$defs/structName"
         },
+        "typename": {
+          "$ref": "#/$defs/libraryTypeName"
+        },
         "tags": {
           "$ref": "#/$defs/tags"
         },
@@ -517,6 +526,9 @@
         },
         "struct": {
           "$ref": "#/$defs/structName"
+        },
+        "typename": {
+          "$ref": "#/$defs/libraryTypeName"
         },
         "value": {
           "$ref": "#/$defs/literal"
@@ -750,6 +762,9 @@
         "struct": {
           "$ref": "#/$defs/structName"
         },
+        "typename": {
+          "$ref": "#/$defs/libraryTypeName"
+        },
         "value": {
           "$ref": "#/$defs/literal"
         },
@@ -788,6 +803,9 @@
         },
         "struct": {
           "$ref": "#/$defs/structName"
+        },
+        "typename": {
+          "$ref": "#/$defs/libraryTypeName"
         },
         "comment": {
           "$ref": "#/$defs/comment"

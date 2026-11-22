@@ -153,4 +153,26 @@ class ProgramYamlTest {
         assertTrue(yaml.contains("security: sensitive"), yaml);
         assertEquals(yaml, ProgramYaml.export(ProgramYaml.layout(yaml)));
     }
+
+    /** Library types (task 19.2) pass the schema: a program with TYPE could not be written to a disk (task 20.1). */
+    @Test
+    void libraryTypesSurviveExportAndImport() {
+        Sheet sheet = Notation.parse("""
+                PROGRAM counting
+                NOOP
+                INCLUDE test/memo
+                VARIABLE total TYPE test/memo/COUNTER
+                NOOP
+                FUNCTION count
+                    PARAMETER counter TYPE test/memo/COUNTER
+                    RESULT copy TYPE test/memo/COUNTER
+                BEGIN
+                    VARIABLE all ARRAY TYPE test/memo/COUNTER
+                    NOOP
+                END FUNCTION
+                """);
+        String yaml = ProgramYaml.export(sheet);
+        assertTrue(yaml.contains("typename: test/memo/COUNTER"), yaml);
+        assertEquals(yaml, ProgramYaml.export(ProgramYaml.layout(yaml)));
+    }
 }
