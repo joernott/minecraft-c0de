@@ -44,7 +44,7 @@ To edit a variable item, hold it in your main hand and right-click. The dialog l
 
 An **uninitialized** [variable item](04-tools.md#variable-items) has no name, no type and no value. A process writes a result into it.
 
-You need one for each result that has no parameter item to take its place. A function with one result and no parameters needs one uninitialized item.
+You need one for each result that has no variable item of a parameter to take its place. A function with one result and no parameters needs one uninitialized item. [Constant items](04-tools.md#constant-items) don't take the place of a result: they stay constants.
 
 Spare uninitialized items stay in the input inventory. So you can stack several of them there for many runs.
 
@@ -62,7 +62,7 @@ Those other items are not used. They are passed through unchanged to the output 
 
 When a process ends normally, the output inventory gets one [variable item](04-tools.md#variable-items) per result of the entry function. Each item carries the name, type and value of its result. An [EXIT](02-language.md#exit) counts as a normal end: the results get the values they have when EXIT runs.
 
-If the function has fewer results than parameters, you also get empty variable items back. So the number of items going in and out is the same.
+Constant items of parameters come back unchanged: a constant stays a constant. If the function has fewer results than parameters with variable items, you also get empty variable items back. So the number of items going in and out is the same.
 
 ## When it won't start
 

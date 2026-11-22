@@ -177,6 +177,11 @@ public class FabricGameTests {
     }
 
     @GameTest(template = SmokeTests.EMPTY_STRUCTURE, timeoutTicks = 100)
+    public void constantsStayConstant(GameTestHelper helper) {
+        ProcessTests.constantsStayConstant(helper);
+    }
+
+    @GameTest(template = SmokeTests.EMPTY_STRUCTURE, timeoutTicks = 100)
     public void processesKnowTheirSheetAndPid(GameTestHelper helper) {
         ProcessTests.processesKnowTheirSheetAndPid(helper);
     }

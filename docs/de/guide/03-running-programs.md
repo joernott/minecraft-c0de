@@ -44,7 +44,7 @@ Um eine Variablenkarte zu bearbeiten, halte sie in deiner Haupthand und klicke m
 
 Eine **nicht initialisierte** [Variablenkarte](04-tools.md#variablenkarten) hat keinen Namen, keinen Typ und keinen Wert. Ein Prozess schreibt ein Ergebnis hinein.
 
-Du brauchst eine für jedes Ergebnis, das keine Parameterkarte hat, die seinen Platz einnimmt. Eine Funktion mit einem Ergebnis und ohne Parameter braucht eine nicht initialisierte Karte.
+Du brauchst eine für jedes Ergebnis, das keine Variablenkarte eines Parameters hat, die seinen Platz einnimmt. Eine Funktion mit einem Ergebnis und ohne Parameter braucht eine nicht initialisierte Karte. [Konstantenkarten](04-tools.md#konstantenkarten) nehmen nicht den Platz eines Ergebnisses ein: Sie bleiben Konstanten.
 
 Übrige nicht initialisierte Karten bleiben im Eingabeinventar. So kannst du dort mehrere davon für viele Durchläufe stapeln.
 
@@ -62,7 +62,7 @@ Diese anderen Karten werden nicht verwendet. Sie werden unverändert in das Ausg
 
 Wenn ein Prozess normal endet, bekommt das Ausgabeinventar eine [Variablenkarte](04-tools.md#variablenkarten) pro Ergebnis der Einstiegsfunktion. Jede Karte trägt den Namen, den Typ und den Wert ihres Ergebnisses. Ein [EXIT](02-language.md#exit) zählt als normales Ende: Die Ergebnisse bekommen die Werte, die sie haben, wenn EXIT läuft.
 
-Wenn die Funktion weniger Ergebnisse als Parameter hat, bekommst du auch leere Variablenkarten zurück. So ist die Zahl der Karten, die hinein- und herausgehen, gleich.
+Konstantenkarten von Parametern kommen unverändert zurück: Eine Konstante bleibt eine Konstante. Wenn die Funktion weniger Ergebnisse als Parameter mit Variablenkarten hat, bekommst du auch leere Variablenkarten zurück. So ist die Zahl der Karten, die hinein- und herausgehen, gleich.
 
 ## Wenn er nicht startet
 

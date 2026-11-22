@@ -178,6 +178,11 @@ public class NeoForgeGameTests {
     }
 
     @GameTest(template = "empty")
+    public static void constantsStayConstant(GameTestHelper helper) {
+        ProcessTests.constantsStayConstant(helper);
+    }
+
+    @GameTest(template = "empty")
     public static void processesKnowTheirSheetAndPid(GameTestHelper helper) {
         ProcessTests.processesKnowTheirSheetAndPid(helper);
     }

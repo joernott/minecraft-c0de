@@ -15,8 +15,8 @@ A trigger block can't start a process if
   - a process it started is still running,
   - no process ID is available for the program, i.e. all y coordinates between 0 and the maximum build height above the PID position of the program are occupied,
   - the input inventory does not contain an item for every parameter of the function that has no default value,
-  - the function has more results than parameters and the input inventory does not contain enough empty variable items to make up the difference,
-  - its output inventory has not enough empty slots for the items the process returns (one per result, one empty variable item per parameter item without result, and the initialized items it passes through), or
+  - the function has more results than parameters with variable items and the input inventory does not contain enough empty variable items to make up the difference,
+  - its output inventory has not enough empty slots for the items the process returns (one per result, one empty variable item per variable item of a parameter without result, the constant items of parameters, and the initialized items it passes through), or
   - (timer block only) it receives a redstone signal. A redstone signal pauses a timer block. A trigger or timer block placed next to a signal that is already on counts as powered from the start (a trigger block waits for the next rising edge). The dialog of a paused timer block says so.
 
 Each trigger block has an owner (the player who configured it last, see [Owner and permissions](12-lib-minecraft.md#owner-and-permissions)), a property that contains the PID while a process is running, two properties that specify the program and the function to run, and a property that contains the exit code and the error of the last process. A timer block also has a property specifying the interval between activations. The user can set these properties in a dialog that opens when the block is right-clicked; once a trigger block has an owner, only the owner and administrators can change its configuration. The dialog has the following elements:
@@ -49,7 +49,7 @@ The text marker and boots can still be used, as they do not change the program. 
 
 Data is passed into a process as variable and constant items in the input inventory of the trigger block. Each item is assigned to the parameter of the entry function whose name matches the name property of the item. Its type MUST match the type of the parameter.
 
-When a process ends normally (including an EXIT statement with any exit code), one initialized variable item per result of the entry function is moved from the stack of the cursor to the output inventory. After an EXIT, the results have the values they had when EXIT was executed. If the function has fewer results than parameters, empty variable items are added to make up the difference, so the number of items going into and out of a process is the same.
+When a process ends normally (including an EXIT statement with any exit code), one initialized variable item per result of the entry function is moved from the stack of the cursor to the output inventory. After an EXIT, the results have the values they had when EXIT was executed. The constant items of parameters are returned unchanged, as by the I/O blocks: a constant stays a constant. If the function has fewer results than parameters with variable items, empty variable items are added to make up the difference, so the number of items going into and out of a process is the same.
 
 When a process starts, it takes out of the input inventory
   - one item per parameter with an item,

@@ -118,7 +118,7 @@ public class ProcessManager extends C0deSavedData {
     /**
      * A running process.
      *
-     * @param parameterItems the number of items that were passed as parameters
+     * @param parameterItems the number of variable items that were passed as parameters (constant items are returned)
      */
     private record Process(
             UUID id,
@@ -215,10 +215,14 @@ public class ProcessManager extends C0deSavedData {
             release(c0de, chunks);
             return problem;
         }
-        // The process returns one item per result, an empty variable item per parameter item without result, and
-        // the initialized items it passes through
-        int empty = declaration.results().size() - inputs.size();
-        int returned = Math.max(declaration.results().size(), inputs.size())
+        // The process returns one item per result, an empty variable item per variable item of a parameter without
+        // result, and the initialized items it passes through, including the constant items of parameters, which
+        // stay as they are (task 20.2)
+        int constants = constantParameters(trigger.input(), inputs.keySet());
+        int variables = inputs.size() - constants;
+        int empty = declaration.results().size() - variables;
+        int returned = Math.max(declaration.results().size(), variables)
+                + constants
                 + passedThrough(trigger.input(), inputs.keySet(), empty);
         if (freeSlots(trigger.output()) < returned) {
             release(c0de, chunks);
@@ -271,7 +275,7 @@ public class ProcessManager extends C0deSavedData {
                         cursor,
                         declaration,
                         List.copyOf(inputs.keySet()),
-                        inputs.size(),
+                        variables,
                         chunks,
                         entity,
                         debug));
@@ -322,6 +326,27 @@ public class ProcessManager extends C0deSavedData {
         }
         input.setChanged();
         return taken;
+    }
+
+    /** The number of parameters whose item, the one {@link #takeUsed} takes, is a constant item. */
+    private static int constantParameters(Container input, Collection<String> parameters) {
+        int constants = 0;
+        for (String name : parameters) {
+            for (int i = 0; i < input.getContainerSize(); i++) {
+                ItemStack item = input.getItem(i);
+                if (!item.isEmpty() && ValueItem.Contents.of(item).name().equals(name)) {
+                    if (isConstant(item)) {
+                        constants++;
+                    }
+                    break;
+                }
+            }
+        }
+        return constants;
+    }
+
+    private static boolean isConstant(ItemStack item) {
+        return item.getItem() instanceof ValueItem value && value.isConstant();
     }
 
     private static boolean isInitialized(ItemStack item) {
@@ -763,16 +788,19 @@ public class ProcessManager extends C0deSavedData {
     }
 
     /**
-     * The items a process returns: one variable item per result, empty variable items for parameters without a
-     * result, and the initialized items that were passed through.
+     * The items a process returns: one variable item per result, empty variable items for the variable items of
+     * parameters without a result, and the initialized items that were passed through. The constant items of
+     * parameters are returned unchanged, as by the I/O blocks.
      */
     private static List<ItemStack> outputs(Process process, List<ItemStack> held) {
         List<ItemStack> remaining = new ArrayList<>(copies(held));
-        // The parameter items are used up
+        // The variable items of parameters are used up; constant items stay as they are
         for (String name : process.parameterNames()) {
             for (ItemStack item : remaining) {
-                if (ValueItem.Contents.of(item).name().equals(name)) {
-                    item.shrink(1);
+                if (!item.isEmpty() && ValueItem.Contents.of(item).name().equals(name)) {
+                    if (!isConstant(item)) {
+                        item.shrink(1);
+                    }
                     break;
                 }
             }

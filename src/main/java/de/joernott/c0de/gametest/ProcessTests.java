@@ -164,6 +164,58 @@ public final class ProcessTests {
     }
 
     /**
+     * Constant items of parameters come back unchanged, as from the I/O blocks; only variable items of parameters
+     * are used up (task 20.2). Two constants and one empty variable for the result give the result and the two
+     * constants, no empty variable items.
+     */
+    public static void constantsStayConstant(GameTestHelper helper) {
+        ServerLevel level = c0de(helper);
+        SheetBuilder sheet = new SheetBuilder(level, 546).place("""
+                PROGRAM adding
+                NOOP
+                FUNCTION add
+                    PARAMETER a INTEGER
+                    PARAMETER b INTEGER
+                    RESULT total INTEGER
+                BEGIN
+                    ASSIGN total a + b ;
+                END FUNCTION
+                """);
+        SheetValidation.validate(level, 546);
+        helper.setBlock(BlockPos.ZERO, C0deBlocks.TRIGGER_BLOCK.get());
+        TriggerBlockEntity trigger = (TriggerBlockEntity) TestCompat.blockEntity(helper, BlockPos.ZERO);
+        trigger.configure(helper.makeMockServerPlayerInLevel(), "adding", "add", 20);
+        for (String[] constant : new String[][] {{"a", "2"}, {"b", "3"}}) {
+            ItemStack item = new ItemStack(C0deItems.CONSTANT_ITEM.get());
+            new ValueItem.Contents(constant[0], "INTEGER", constant[1]).writeTo(item);
+            trigger.input().addItem(item);
+        }
+        trigger.input().addItem(new ItemStack(C0deItems.VARIABLE_ITEM.get()));
+        trigger.start();
+        helper.assertTrue(trigger.isRunning(), "The process didn't start: " + trigger.status());
+        TestCompat.await(helper, () -> !trigger.isRunning(), () -> {
+            try {
+                helper.assertTrue(!trigger.isRunning(), "The process is still running");
+                String items = "";
+                for (int i = 0; i < trigger.output().getContainerSize(); i++) {
+                    ItemStack item = trigger.output().getItem(i);
+                    if (!item.isEmpty()) {
+                        ValueItem.Contents contents = ValueItem.Contents.of(item);
+                        items += (((ValueItem) item.getItem()).isConstant() ? "constant " : "variable ")
+                                + contents.name() + "=" + contents.value() + " ";
+                    }
+                }
+                helper.assertTrue(
+                        items.equals("variable total=5 constant a=2 constant b=3 "), "The output contains " + items);
+            } finally {
+                sheet.clear();
+                SheetValidation.validate(level, 546);
+            }
+            helper.succeed();
+        });
+    }
+
+    /**
      * A timer block placed next to a redstone signal is paused and starts no process; it starts again when the
      * signal goes off (task 13.1).
      */
