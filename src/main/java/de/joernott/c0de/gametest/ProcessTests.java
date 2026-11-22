@@ -170,7 +170,7 @@ public final class ProcessTests {
      */
     public static void constantsStayConstant(GameTestHelper helper) {
         ServerLevel level = c0de(helper);
-        SheetBuilder sheet = new SheetBuilder(level, 546).place("""
+        SheetBuilder sheet = new SheetBuilder(level, 560).place("""
                 PROGRAM adding
                 NOOP
                 FUNCTION add
@@ -181,7 +181,7 @@ public final class ProcessTests {
                     ASSIGN total a + b ;
                 END FUNCTION
                 """);
-        SheetValidation.validate(level, 546);
+        SheetValidation.validate(level, 560);
         helper.setBlock(BlockPos.ZERO, C0deBlocks.TRIGGER_BLOCK.get());
         TriggerBlockEntity trigger = (TriggerBlockEntity) TestCompat.blockEntity(helper, BlockPos.ZERO);
         trigger.configure(helper.makeMockServerPlayerInLevel(), "adding", "add", 20);
@@ -209,7 +209,7 @@ public final class ProcessTests {
                         items.equals("variable total=5 constant a=2 constant b=3 "), "The output contains " + items);
             } finally {
                 sheet.clear();
-                SheetValidation.validate(level, 546);
+                SheetValidation.validate(level, 560);
             }
             helper.succeed();
         });
