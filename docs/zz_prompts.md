@@ -907,3 +907,8 @@ c0de-related:
 1. You can push the sprints
 2. c0de 0.7.1 can come out now
 3. the vm lost its network and I had to turn it off and on again. Please deploy c0de 0.7.1 there and make it available in the local test VM
+
+
+## 2026-11-22 – Tag v0.7.1 pushed
+
+The tag has been pushed
