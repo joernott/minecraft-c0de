@@ -920,3 +920,22 @@ my tests were successful except for one thing to put on the agenda for the next 
 - If I have a very long program, right clicking on the program block with a disk failed as the sheet was not fully loaded. I compensated for that by flying back and forth. The sheet stayed loaded long enough for me to click and then later save it. Then I loaded the program on the server but could not place it due to the same problem. On the server, flying down the sheet and back didn't solve the problem. We need to find another solution for that.
 
 Concerning minecraft-c0de-paint, we can go ahead with releasing it and starting the work on the web page
+
+
+## 2026-11-22 – Results of the test and release
+
+my tests were successful except for one thing to put on the agenda for the next c0de release:
+- If I have a very long program, right clicking on the program block with a disk failed as the sheet was not fully loaded. I compensated for that by flying back and forth. The sheet stayed loaded long enough for me to click and then later save it. Then I loaded the program on the server but could not place it due to the same problem. On the server, flying down the sheet and back didn't solve the problem. We need to find another solution for that.
+
+Concerning minecraft-c0de-paint, we can go ahead with releasing it and starting the work on the web page
+
+There were a couple of dependabot merge requests that I processed. Please start with the implementation of c0de v0.7.2 to handle long programs.
+
+for the next minor version of c0de-paint, apart from fixing the issues, I would like to add a new include, called schematics. It contains functions to handle schematics written by litematica (https://github.com/sakura-ryoko/litematica) and Create (https://github.com/Creators-of-Create/Create). It should contain the following functions:
+- a function to import them from the schematics folder into a canvas. The import function should have a parameter to replace all occurrences of a block with a given alternative.
+- a function to generate a list of needed blocks to build a schematic
+- a function that lists all blocks in a schematic, that are not available on the server
+
+I would also like you to review the block object, we currently use. It might not be able to cover all the needs by the above include and may need reworking.
+
+For the www-c0de project, wait until the c0de-paint changes are done and incorporate their documentation as well.

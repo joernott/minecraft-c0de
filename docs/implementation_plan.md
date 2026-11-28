@@ -62,7 +62,7 @@ A task is done when
 | 18 | Findings from the screenshot world (0.6.2) | The wrench leads to the program of a trigger block or to where the player left the dimension, the password dialog of the vault keeps the password, lines wider than a sheet are reported | ✅ |
 | 19 | Library types (0.7.0) | Libraries of other mods define types of their own besides structs, for the canvases and styles of c0de paint |✅ |
 | 20 | Findings from the first test of c0de paint (0.7.1) | Programs with TYPE go onto disks, constant items stay constants in trigger blocks, arguments of a certain wrong type are red | ✅ |
-| 21 | Findings from the test of c0de paint, part 2 (next release) | Long programs go onto disks and from disks onto sheets, also on servers |  |
+| 21 | Findings from the test of c0de paint, part 2 (0.7.2) | Long programs go onto disks and from disks onto sheets, also on servers |  |
 
 ## Sprint 0: Concept and plan
 
@@ -486,12 +486,13 @@ After sprint 12, every new Minecraft release is added as a new node in its own s
 
 ## Sprint 21: Findings from the test of c0de paint, part 2
 
-**Goal:** fix what the user found in the second test of c0de paint with c0de 0.7.1. Started on 2026-11-22; planned for the next release.
+**Goal:** fix what the user found in the second test of c0de paint with c0de 0.7.1. Started on 2026-11-22; released as 0.7.2 (requested by the user on 2026-11-28).
 
 | Task | Description | Done |
 |---|---|:---:|
 | 21.1 | **Long programs and disks:** right-clicking the PROGRAM block of a long program with a disk failed with "A part of the sheet is not loaded", and so did building the program from the disk on a sheet of the server. Flying along the sheet helped in single player but not on the server, whose view distance is smaller than the program. `DiskService.copyToDisk` and `DiskService.build` check `LevelSheet.isLoaded` for every line. Idea: load the chunks of the sheet for the operation (as `LevelSheet.loadingView` does for the tools, or with a temporary chunk ticket), up to the limit of the lines of a sheet; a GameTest with a program longer than the view distance. |  |
 | 21.2 | **The layout of TYPE:** `--layout` of the program runner named the block of TYPE `c0de:type_type_block`, a block that doesn't exist, so c0de.at had no 3D view of programs with library types (found in c0de.at task 15.5). It is `c0de:type_library_block`.   Done on 2026-11-22: `ProgramRunner.blockId`; unit test `theBlockOfTypeIsTheLibraryTypeBlock`. | ✅ |
+| 21.3 | Tests on all nodes; release 0.7.2 when the user agrees, who pushes the tag. |  |
 
 ## Risks
 

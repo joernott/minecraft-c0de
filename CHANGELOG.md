@@ -4,6 +4,7 @@ All notable changes of the c0de mod. The section of a version is also its change
 
 ## Unreleased
 
+- **Long programs**: programs longer than the view distance can be copied onto a disk and built from a disk, also on servers; they are validated while you write them, even when their end is far away. The server loads the parts of the sheet it needs for a while.
 - The program runner names the block of TYPE `c0de:type_library_block` in `--layout` (it said `c0de:type_type_block`).
 
 ## 0.7.1
