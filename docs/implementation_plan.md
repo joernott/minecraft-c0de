@@ -62,7 +62,7 @@ A task is done when
 | 18 | Findings from the screenshot world (0.6.2) | The wrench leads to the program of a trigger block or to where the player left the dimension, the password dialog of the vault keeps the password, lines wider than a sheet are reported | ✅ |
 | 19 | Library types (0.7.0) | Libraries of other mods define types of their own besides structs, for the canvases and styles of c0de paint |✅ |
 | 20 | Findings from the first test of c0de paint (0.7.1) | Programs with TYPE go onto disks, constant items stay constants in trigger blocks, arguments of a certain wrong type are red | ✅ |
-| 21 | Findings from the test of c0de paint, part 2 (0.7.2) | Long programs go onto disks and from disks onto sheets, also on servers |  |
+| 21 | Findings from the test of c0de paint, part 2 (0.7.2) | Long programs go onto disks and from disks onto sheets, also on servers | ✅ |
 
 ## Sprint 0: Concept and plan
 
@@ -492,7 +492,7 @@ After sprint 12, every new Minecraft release is added as a new node in its own s
 |---|---|:---:|
 | 21.1 | **Long programs and disks:** right-clicking the PROGRAM block of a long program with a disk failed with "A part of the sheet is not loaded", and so did building the program from the disk on a sheet of the server. Flying along the sheet helped in single player but not on the server, whose view distance is smaller than the program. `DiskService.copyToDisk` and `DiskService.build` check `LevelSheet.isLoaded` for every line. Idea: load the chunks of the sheet for the operation (as `LevelSheet.loadingView` does for the tools, or with a temporary chunk ticket), up to the limit of the lines of a sheet; a GameTest with a program longer than the view distance.    Done on 2026-11-28: `LevelSheet.ensureLoaded` loads the two chunks of a line on the server thread and keeps them with a temporary ticket (200 ticks; the ticket of the GameTests, now named `temporary`); reading a sheet (validation, copying onto a disk, dialogs) and building from a disk use it, so long programs are also validated while they are edited far from their end. GameTest `longProgramsGoOntoDisksAndBack` (300 lines, built on a sheet that wasn't loaded, copied after its chunks were unloaded); GameTests on all 10 nodes on the VM and in CI. | ✅ |
 | 21.2 | **The layout of TYPE:** `--layout` of the program runner named the block of TYPE `c0de:type_type_block`, a block that doesn't exist, so c0de.at had no 3D view of programs with library types (found in c0de.at task 15.5). It is `c0de:type_library_block`.   Done on 2026-11-22: `ProgramRunner.blockId`; unit test `theBlockOfTypeIsTheLibraryTypeBlock`. | ✅ |
-| 21.3 | Tests on all nodes; release 0.7.2 when the user agrees, who pushes the tag.    Prepared on 2026-11-28: version 0.7.2, CHANGELOG; tag v0.7.2 created locally on the tip of `main`, to be pushed by the user. |  |
+| 21.3 | Tests on all nodes; release 0.7.2 when the user agrees, who pushes the tag.    Prepared on 2026-11-28: version 0.7.2, CHANGELOG; tag v0.7.2 created locally on the tip of `main`, to be pushed by the user.   Done on 2026-11-28: the user pushed the tag; the release workflow published 0.7.2 to GitHub, Modrinth and CurseForge (a Build on `main` failed on a 429 of Maven Central and passed when its job was run again). | ✅ |
 
 ## Risks
 

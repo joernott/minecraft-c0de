@@ -939,3 +939,5 @@ for the next minor version of c0de-paint, apart from fixing the issues, I would 
 I would also like you to review the block object, we currently use. It might not be able to cover all the needs by the above include and may need reworking.
 
 For the www-c0de project, wait until the c0de-paint changes are done and incorporate their documentation as well.
+
+The tag has been pushed, continue with c0de-paint
