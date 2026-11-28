@@ -322,5 +322,10 @@ public class FabricGameTests {
     public void disksExportAndImportPrograms(GameTestHelper helper) {
         DiskTests.disksExportAndImportPrograms(helper);
     }
+
+    @GameTest(template = SmokeTests.EMPTY_STRUCTURE, timeoutTicks = 600)
+    public void longProgramsGoOntoDisksAndBack(GameTestHelper helper) {
+        DiskTests.longProgramsGoOntoDisksAndBack(helper);
+    }
 }
 //?}

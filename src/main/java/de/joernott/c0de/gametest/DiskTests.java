@@ -1,7 +1,9 @@
 package de.joernott.c0de.gametest;
 
+import de.joernott.c0de.C0de;
 import de.joernott.c0de.content.C0deBlocks;
 import de.joernott.c0de.content.C0deItems;
+import de.joernott.c0de.core.line.Notation;
 import de.joernott.c0de.core.sheet.SheetGeometry;
 import de.joernott.c0de.core.yaml.ProgramYaml;
 import de.joernott.c0de.dimension.C0deDimension;
@@ -101,5 +103,54 @@ public final class DiskTests {
             SheetValidation.validate(c0de, TARGET);
         }
         helper.succeed();
+    }
+
+    /** The sheet of the long program; the lines beyond the first chunks are loaded by nobody else. */
+    private static final int LONG = 561;
+
+    private static final int LONG_LINES = 300;
+
+    /**
+     * A program longer than the view distance is built from a disk on a sheet whose chunks aren't loaded, validated,
+     * and copied onto a disk again after its chunks were unloaded (task 21.1).
+     */
+    public static void longProgramsGoOntoDisksAndBack(GameTestHelper helper) {
+        ServerLevel c0de = helper.getLevel().getServer().getLevel(C0deDimension.LEVEL);
+        StringBuilder text = new StringBuilder("PROGRAM longdisk\nNOOP\nFUNCTION count\n    RESULT result INTEGER\nBEGIN\n");
+        for (int i = 0; i < LONG_LINES; i++) {
+            text.append("    ASSIGN result result + 1 ;\n");
+        }
+        text.append("END FUNCTION\n");
+        String yaml = ProgramYaml.export(Notation.parse(text.toString()));
+        int last = LONG_LINES + 4;
+        helper.assertTrue(
+                !LevelSheet.isLoaded(c0de, LONG, last), "The end of the sheet is loaded before the test");
+        SheetBuilder sheet = new SheetBuilder(c0de, LONG);
+        ServerPlayer player = helper.makeMockServerPlayerInLevel();
+        BlockPos floor =
+                new BlockPos(SheetGeometry.absoluteX(LONG, SheetGeometry.CODE_MIN_X), SheetGeometry.FLOOR_Y, 0);
+        Optional<String> problem = DiskService.build(player, c0de, floor, DiskService.contents(yaml));
+        helper.assertTrue(problem.isEmpty(), "The long program wasn't built: " + problem.orElse(""));
+        OptionalInt registered = ProgramRegistry.get(c0de).sheetOf("longdisk");
+        helper.assertTrue(
+                registered.isPresent() && registered.getAsInt() == LONG, "The long program is not registered");
+        // The temporary tickets expire after 200 ticks; then the chunks of the end of the program are unloaded
+        helper.runAfterDelay(400, () -> {
+            try {
+                C0de.LOGGER.info(
+                        "Long program: its last line is {} before it is copied",
+                        LevelSheet.isLoaded(c0de, LONG, last) ? "loaded" : "not loaded");
+                ItemStack disk = new ItemStack(C0deItems.DISK.get());
+                Optional<String> copied = DiskService.copyToDisk(
+                        player, c0de, LevelSheet.codePos(LONG, SheetGeometry.CODE_MIN_X, 0), disk);
+                helper.assertTrue(copied.isEmpty(), "The long program wasn't copied: " + copied.orElse(""));
+                String copy = DiskItem.Contents.of(disk).yaml();
+                helper.assertTrue(copy.equals(yaml), "The copy of the long program differs:\n" + copy);
+            } finally {
+                sheet.clearLines(last + 1);
+                SheetValidation.validate(c0de, LONG);
+            }
+            helper.succeed();
+        });
     }
 }

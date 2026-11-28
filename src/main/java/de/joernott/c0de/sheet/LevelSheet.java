@@ -2,6 +2,7 @@ package de.joernott.c0de.sheet;
 
 import de.joernott.c0de.block.CodeBlock;
 import de.joernott.c0de.blockentity.PropertiesBlockEntity;
+import de.joernott.c0de.compat.ChunkTickets;
 import de.joernott.c0de.core.edit.SheetView;
 import de.joernott.c0de.core.line.Block;
 import de.joernott.c0de.core.line.Line;
@@ -13,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -74,7 +77,7 @@ public final class LevelSheet {
     public static Optional<List<Line>> readGroup(Level level, int sheet, int fromZ) {
         List<Line> lines = new ArrayList<>();
         for (int z = fromZ; z < fromZ + MAX_LINES; z++) {
-            if (!isLoaded(level, sheet, z)) {
+            if (!ensureLoaded(level, sheet, z)) {
                 return Optional.empty();
             }
             Line line = readLine(level, sheet, z);
@@ -84,6 +87,31 @@ public final class LevelSheet {
             lines.add(line);
         }
         return Optional.of(lines);
+    }
+
+    /**
+     * Makes sure that the code area of a line is loaded. On the server thread, the chunks of the line are loaded and
+     * kept for a while with a temporary ticket, so that programs longer than the view distance can be validated,
+     * copied onto a disk and built from one (task 21.1); elsewhere, only loaded chunks count.
+     *
+     * @return true if the line is loaded
+     */
+    public static boolean ensureLoaded(Level level, int sheet, int z) {
+        if (isLoaded(level, sheet, z)) {
+            return true;
+        }
+        if (!(level instanceof ServerLevel server)
+                || !server.getServer().isSameThread()
+                || z < 0) {
+            return false;
+        }
+        for (int x : new int[] {SheetGeometry.CODE_MIN_X, SheetGeometry.CODE_MAX_X}) {
+            BlockPos pos = codePos(sheet, x, z);
+            ChunkPos chunk = new ChunkPos(pos.getX() >> 4, pos.getZ() >> 4);
+            ChunkTickets.addTemporary(server, chunk);
+            server.getChunk(chunk.x, chunk.z);
+        }
+        return isLoaded(level, sheet, z);
     }
 
     /** True if the code area of a line is in loaded chunks. */

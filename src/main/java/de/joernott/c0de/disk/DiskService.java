@@ -161,7 +161,7 @@ public final class DiskService {
             return show(player, pos, List.of("A program with the name " + name + " already exists"));
         }
         for (int z = 0; z < lines.size(); z++) {
-            if (!LevelSheet.isLoaded(level, sheet, z)) {
+            if (!LevelSheet.ensureLoaded(level, sheet, z)) {
                 return show(player, pos, List.of("A part of the sheet is not loaded"));
             }
             if (!LevelSheet.readLine(level, sheet, z).isEmpty()) {

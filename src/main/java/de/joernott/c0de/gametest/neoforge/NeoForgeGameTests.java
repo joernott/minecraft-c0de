@@ -323,5 +323,10 @@ public class NeoForgeGameTests {
     public static void disksExportAndImportPrograms(GameTestHelper helper) {
         DiskTests.disksExportAndImportPrograms(helper);
     }
+
+    @GameTest(template = "empty", timeoutTicks = 600)
+    public static void longProgramsGoOntoDisksAndBack(GameTestHelper helper) {
+        DiskTests.longProgramsGoOntoDisksAndBack(helper);
+    }
 }
 *///?}

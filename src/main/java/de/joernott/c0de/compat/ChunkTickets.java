@@ -20,7 +20,7 @@ public final class ChunkTickets {
     private static final TicketType<ChunkPos> TICKET =
             TicketType.create("c0de_process", java.util.Comparator.comparingLong(ChunkPos::toLong));
     private static final TicketType<ChunkPos> TEMPORARY =
-            TicketType.create("c0de_gametest", java.util.Comparator.comparingLong(ChunkPos::toLong), TIMEOUT);
+            TicketType.create("c0de_temporary", java.util.Comparator.comparingLong(ChunkPos::toLong), TIMEOUT);
     //?}
 
 
@@ -35,7 +35,7 @@ public final class ChunkTickets {
                 () -> new TicketType(TicketType.NO_TIMEOUT, TicketType.FLAG_LOADING | TicketType.FLAG_SIMULATION));
         temporary = de.joernott.c0de.platform.Platform.INSTANCE.register(
                 net.minecraft.core.registries.BuiltInRegistries.TICKET_TYPE,
-                "gametest",
+                "temporary",
                 () -> new TicketType(TIMEOUT, TicketType.FLAG_LOADING | TicketType.FLAG_SIMULATION));
         *///?}
     }
@@ -50,8 +50,9 @@ public final class ChunkTickets {
     }
 
     /**
-     * Keeps a chunk loaded for a while. The GameTests use it: forced chunks made the NeoForge GameTest server hang
-     * when it stopped.
+     * Keeps a chunk loaded for a while (200 ticks): the parts of long programs that are read or written beyond the
+     * chunks the players load (task 21.1), and the sheets of the GameTests, where forced chunks made the NeoForge
+     * GameTest server hang when it stopped.
      */
     public static void addTemporary(ServerLevel level, ChunkPos chunk) {
         //? if >=1.21.5 {
