@@ -122,7 +122,8 @@ public final class DiskTests {
         }
         text.append("END FUNCTION\n");
         String yaml = ProgramYaml.export(Notation.parse(text.toString()));
-        int last = LONG_LINES + 4;
+        // PROGRAM, NOOP, FUNCTION, RESULT and BEGIN, the lines of ASSIGN, then END FUNCTION
+        int last = LONG_LINES + 5;
         helper.assertTrue(
                 !LevelSheet.isLoaded(c0de, LONG, last), "The end of the sheet is loaded before the test");
         SheetBuilder sheet = new SheetBuilder(c0de, LONG);
